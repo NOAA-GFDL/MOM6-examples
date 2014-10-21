@@ -57,6 +57,12 @@ NSTEPS_DYN = 72                 ! default = 432
                                 ! slow time step.
 
 ! === module SIS_tracer_advect ===
+SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme for tracers:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM    - Directionally split peicewise constant
+                                !   PLM    - Piecewise Linear Method
+                                !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
 
 ! === module SIS_tracer_registry ===
 
