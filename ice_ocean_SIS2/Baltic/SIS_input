@@ -1,82 +1,74 @@
-!********+*********+*********+*********+*********+*********+*********+*
-!*   This file determines the adjustable run-time parameters for the  *
-!* Sea Ice Simulator (SIS), versions 2 and later.  Where              *
-!* appropriate, MKS units are used.                                   *
-!********+*********+*********+*********+*********+*********+*********+*
-! >>> Global coupled ice-ocean SIS2 5 layer ice, 63 layer ocean test case.
-
-!  Specify properties of the physical domain.
-OMEGA = 7.2921e-5               !   The rotation rate of the earth in s-1.
-ROTATION = "2omegasinlat"       !   Rotation approximation (2omegasinlat,
-                                !  betaplane or USER).
-G_EARTH = 9.80                  !    G_EARTH is the Earth's gravitational
-                                !  acceleration, in m s-2.
-GRID_CONFIG = "mosaic"          !    Method for defining horizontal grid
-                                !  = file|cartesian|spherical|mercator
-                                !  file - read grid from file "GRID_FILE"
-                                !  cartesian - a Cartesian grid
-                                !  spherical - a spherical grid
-                                !  mercator  - a Mercator grid
-GRID_FILE = "ocean_hgrid.nc"
-                                !    Name of file to read horizontal grid data
 INPUTDIR = "INPUT"
-                                !    INPUTDIR is a directory in which NetCDF
-                                !  input files might be found.
+ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
+                                ! The fixed bulk salinity of sea ice.
+ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
+                                ! The interval in units of TIMEUNIT between writes of the
+                                ! globally summed ice statistics and conservation checks.
+REENTRANT_X = False             !   [Boolean] default = True
+                                ! If true, the domain is zonally reentrant.
+!SYMMETRIC_MEMORY_ = False      !   [Boolean]
+                                ! If defined, the velocity point data domain includes
+                                ! every face of the thickness points. In other words,
+                                ! some arrays are larger than others, depending on where
+                                ! they are on the staggered grid.  Also, the starting
+                                ! index of the velocity-point arrays is usually 0, not 1.
+                                ! This can only be set at compile time.
+!STATIC_MEMORY_ = False         !   [Boolean]
+                                ! If STATIC_MEMORY_ is defined, the principle variables
+                                ! will have sizes that are statically determined at
+                                ! compile time.  Otherwise the sizes are not determined
+                                ! until run time. The STATIC option is substantially
+                                ! faster, but does not allow the PE count to be changed
+                                ! at run time.  This can only be set at compile time.
+NIHALO = 1                      ! default = 2
+                                ! The number of halo points on each side in the
+                                ! x-direction.  With STATIC_MEMORY_ this is set as NIHALO_
+                                ! in SIS2_memory.h at compile time; without STATIC_MEMORY_
+                                ! the default is NIHALO_ in SIS2_memory.h (if defined) or 2.
+NJHALO = 1                      ! default = 2
+                                ! The number of halo points on each side in the
+                                ! y-direction.  With STATIC_MEMORY_ this is set as NJHALO_
+                                ! in SIS2_memory.h at compile time; without STATIC_MEMORY_
+                                ! the default is NJHALO_ in SIS2_memory.h (if defined) or 2.
+NIGLOBAL = 23                   !
+                                ! The total number of thickness grid points in the
+                                ! x-direction in the physical domain. With STATIC_MEMORY_
+                                ! this is set in SIS2_memory.h at compile time.
+NJGLOBAL = 14                   !
+                                ! The total number of thickness grid points in the
+                                ! y-direction in the physical domain. With STATIC_MEMORY_
+                                ! this is set in SIS2_memory.h at compile time.
+!NIPROC = 2                     !
+                                ! The number of processors in the x-direction. With
+                                ! STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
+!NJPROC = 1                     !
+                                ! The number of processors in the x-direction. With
+                                ! STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
+!LAYOUT = 2, 1                  !
+                                ! The processor layout that was acutally used.
+IO_LAYOUT = 1, 1                ! default = 0
+                                ! The processor layout to be used, or 0,0 to automatically
+                                ! set the io_layout to be the same as the layout.
+GRID_FILE = "ocean_hgrid.nc"    !
+                                ! Name of the file from which to read horizontal grid data.
+GRID_CONFIG = "mosaic"          !
+                                ! The method for defining the horizontal grid.  Valid
+                                ! entries include:
+                                !    file - read the grid from GRID_FILE
+                                !    mosaic - read the grid from a mosaic grid file
+                                !    cartesian - a Cartesian grid
+                                !    spherical - a spherical grid
+                                !    mercator  - a Mercator grid
+NSTEPS_DYN = 72                 ! default = 432
+                                ! The number of iterations in the EVP dynamics for each
+                                ! slow time step.
 
-!  Specify the numerical domain.
-NIGLOBAL = 23                   !    NIGLOBAL and NJGLOBAL are the number of thickness
-NJGLOBAL = 14                   !  grid points in the zonal and meridional
-                                !  directions of the physical domain.
-NK = 63                         !    The number of layers.
-NCAT_ICE = 5                    !    The number of sea ice thickness categories.
-NIHALO = 1                      !    NIHALO and NJHALO are the number of halo
-NJHALO = 1                      !  points on each side in the x- and y-directions.
-                                !  If static memory allocation is used, these
-                                !  must match the values of NIHALO_ and NJHALO_
-                                !  in MOM_memory.h.
-NIPROC_IO = 1                   !    The number of processors used for I/O in the
-                                !  x-direction, or 0 to equal NIPROC.  NIPROC_IO
-                                !  must be a factor of NIPROC.
-NJPROC_IO = 1                   !    The number of processors used for I/O in the
-                                !  y-direction, or 0 to equal NJPROC.  NJPROC_IO
-                                !  must be a factor of NJPROC.
+! === module SIS_tracer_advect ===
 
-REENTRANT_X = False             !    If defined, the domain is zonally reentrant.
-REENTRANT_Y = False             !    If defined, the domain is meridionally
-                                !  reentrant.
+! === module SIS_tracer_registry ===
 
-DEBUG = False                   !    If true, write out verbose debugging data.
-DEBUG_TRUNCATIONS = False       !    If true, calculate all diagnostics that are
-                                !  useful for debugging truncations.
-SEND_LOG_TO_STDOUT = False      !    If true write out log information to stdout.
-ICE_STATS_INTERVAL = 0.25       !    The interval in units of TIMEUNIT between
-                                ! writes of the globally summed ice statistics
-                                ! and conservation checks.
-
-!  Specify the time integration scheme.
-NSTEPS_DYN = 72                 !   The number of iterations in the EVP dynamics
-                                ! for each slow time step.
-
-!  Specify the ice properties.
-ICE_STRENGTH_PSTAR = 2.75e4     !    ICE_STRENGTH_PSTAR is a constant in the
-                                !  expression for the ice strength, P* in
-                                !  Hunke & Dukowics '97, in Pa.
-RHO_OCEAN = 1030.0              !    RHO_OCEAN is used in the Boussinesq
-                                !  approximation to calculations of pressure and
-                                !  pressure gradients, in units of kg m-3.
-RHO_ICE = 905.0                 !    RHO_ICE is the nominal density of sea ice
-                                !  used in SIS, in units of kg m-3.
-RHO_SNOW = 330.0                !    RHO_SNOW is the nominal density of snow
-                                !  used in SIS, in units of kg m-3.
-C_P_ICE = 2100.0                !    C_P_ICE is the heat capacity of fresh ice
-                                !  in J kg-1 K-1, approximated as a constant.
-C_P = 3925.0                    !    C_P is the heat capacity of sea water in
-                                !  J kg-1 K-1, approximated as a constant.
-SNOW_ALBEDO = 0.88              !    The albedo of dry snow atop sea ice, ND.
-ICE_ALBEDO  = 0.68              !    The albedo of dry bare sea ice, ND.
-ICE_BULK_SALINITY = 5.0         !    The fixed bulk salinity of sea ice, in g/kg.
-
-!  Specify the properties of the surface forcing.
-WIND_STAGGER = "B"              !  "A", "B", or "C" to indicate the
-                                !  staggering of the wind stresses between the
-                                !  sea ice and ocean.
+! === module SIS_sum_output ===
+DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
+                                ! The basename for files where run-time parameters, their
+                                ! settings, units and defaults are documented. Blank will
+                                ! disable all parameter documentation.
