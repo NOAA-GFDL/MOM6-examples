@@ -574,6 +574,11 @@ ML_KHTR_SCALE = 0.0             !   [nondim] default = 1.0
                                 ! epipycnal diffusivity.  The valid range is 0 to 1.
 
 ! === module ocean_model_init ===
+OCEAN_SURFACE_STAGGER = "C"     ! default = "B"
+                                ! A case-insensitive character string to indicate the
+                                ! staggering of the surface velocity field that is
+                                ! returned to the coupler.  Valid values include
+                                ! 'A', 'B', or 'C'.
 ENERGYSAVEDAYS = 0.25           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
@@ -598,7 +603,7 @@ USE_LIMITED_PATM_SSH = False    !   [Boolean] default = True
                                 ! correction for the atmospheric (and sea-ice) pressure
                                 ! limited by max_p_surf instead of the full atmospheric
                                 ! pressure.
-WIND_STAGGER = "B"              ! default = "C"
+WIND_STAGGER = "C"              ! default = "C"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the input wind stress field.  Valid
                                 ! values are 'A', 'B', or 'C'.

@@ -1,6 +1,6 @@
 SPECIFIED_ICE = False           !   [Boolean] default = False
                                 ! If true, the ice is specified and there is no dynamics.
-CGRID_ICE_DYNAMICS = False      !   [Boolean] default = False
+CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
 USE_SLAB_ICE = False            !   [Boolean] default = False
@@ -8,7 +8,7 @@ USE_SLAB_ICE = False            !   [Boolean] default = False
 SIS1_5L_THERMODYNAMICS = False  !   [Boolean] default = False
                                 ! If true, use the thermodynamic calculations inhereted
                                 ! from the SIS1 5 layer. Otherwise, use the newer SIS2 version.
-ICE_OCEAN_STRESS_STAGGER = "B"  ! default = "B"
+ICE_OCEAN_STRESS_STAGGER = "C"  ! default = "C"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the stress field on the ocean that is
                                 ! returned to the coupler.  Valid values include
@@ -104,12 +104,12 @@ NONBLOCKING_UPDATES = False     !   [Boolean] default = False
                                 ! until run time. The STATIC option is substantially
                                 ! faster, but does not allow the PE count to be changed
                                 ! at run time.  This can only be set at compile time.
-NIHALO = 1                      ! default = 2
+NIHALO = 2                      ! default = 2
                                 ! The number of halo points on each side in the
                                 ! x-direction.  With STATIC_MEMORY_ this is set as NIHALO_
                                 ! in SIS2_memory.h at compile time; without STATIC_MEMORY_
                                 ! the default is NIHALO_ in SIS2_memory.h (if defined) or 2.
-NJHALO = 1                      ! default = 2
+NJHALO = 2                      ! default = 2
                                 ! The number of halo points on each side in the
                                 ! y-direction.  With STATIC_MEMORY_ this is set as NJHALO_
                                 ! in SIS2_memory.h at compile time; without STATIC_MEMORY_
@@ -237,6 +237,17 @@ ICE_DELTA_EDD_R_POND = 0.0      !   [perhaps nondimensional?] default = 0.0
 NSTEPS_DYN = 72                 ! default = 432
                                 ! The number of iterations in the EVP dynamics for each
                                 ! slow time step.
+ICE_TDAMP_ELASTIC = 0.0         !   [s] default = 0.0
+                                ! The damping timescale associated with the elastic terms
+                                ! in the sea-ice dynamics equations.
+WEAK_LOW_SHEAR_ICE = False      !   [Boolean] default = False
+                                ! If true, the divergent stresses go toward 0 in the C-grid
+                                ! dynamics when the shear magnitudes are very weak.
+                                ! Otherwise they go to -P_ice.  This setting is temporary.
+ICE_YEILD_ELLIPTICITY = 2.0     !   [Nondim] default = 2.0
+                                ! The ellipticity coefficient for the plastic yeild curve
+                                ! in the sea-ice rheology.  For an infinite ellipticity
+                                ! (i.e., a cavitating fluid rheology), use 0.
 ICE_STRENGTH_PSTAR = 2.75E+04   !   [Pa] default = 2.75E+04
                                 ! A constant in the expression for the ice strength,
                                 ! P* in Hunke & Dukowicz 1997.
@@ -245,11 +256,12 @@ ICE_STRENGTH_CSTAR = 20.0       !   [nondim] default = 20.0
                                 ! ice strength, c* in Hunke & Dukowicz 1997.
 ICE_CDRAG_WATER = 0.00324       !   [nondim] default = 0.00324
                                 ! The drag coefficient between the sea ice and water.
+ICE_DEL_SH_MIN_SCALE = 2.0      !   [nondim] default = 2.0
+                                ! A scaling factor for the lower bound on the shear rates
+                                ! used in the denominator of the stress calculation. This
+                                ! probably needs to be greater than 1.
 DEBUG_REDUNDANT = False         !   [Boolean] default = False
                                 ! If true, debug redundant data points.
-AIR_WATER_STRESS_TURN_ANGLE = 0.0 !   [degrees] default = 0.0
-                                ! An angle by which to rotate the velocities at the air-
-                                ! water boundary in calculating stresses.
 NSTEPS_ADV = 1                  ! default = 1
                                 ! The number of advective iterations for each slow time
                                 ! step.

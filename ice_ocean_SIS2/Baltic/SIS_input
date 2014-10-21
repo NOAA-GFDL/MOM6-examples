@@ -1,4 +1,7 @@
 INPUTDIR = "INPUT"
+CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
+                                ! If true, use a C-grid discretization of the sea-ice
+                                ! dynamics; if false use a B-grid discretization.
 ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
                                 ! The fixed bulk salinity of sea ice.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
@@ -20,16 +23,6 @@ REENTRANT_X = False             !   [Boolean] default = True
                                 ! until run time. The STATIC option is substantially
                                 ! faster, but does not allow the PE count to be changed
                                 ! at run time.  This can only be set at compile time.
-NIHALO = 1                      ! default = 2
-                                ! The number of halo points on each side in the
-                                ! x-direction.  With STATIC_MEMORY_ this is set as NIHALO_
-                                ! in SIS2_memory.h at compile time; without STATIC_MEMORY_
-                                ! the default is NIHALO_ in SIS2_memory.h (if defined) or 2.
-NJHALO = 1                      ! default = 2
-                                ! The number of halo points on each side in the
-                                ! y-direction.  With STATIC_MEMORY_ this is set as NJHALO_
-                                ! in SIS2_memory.h at compile time; without STATIC_MEMORY_
-                                ! the default is NJHALO_ in SIS2_memory.h (if defined) or 2.
 NIGLOBAL = 23                   !
                                 ! The total number of thickness grid points in the
                                 ! x-direction in the physical domain. With STATIC_MEMORY_
