@@ -70,34 +70,38 @@ set target
 if ($#argv) set argu = ($argv:q)
 
 
-set freanalysismodule = fre-analysis/test
+#set freanalysismodule = fre-analysis/test
 
 # make sure valid platform and required modules are loaded
 if (`gfdl_platform` == "hpcs-csc") then
    source $MODULESHOME/init/csh
    module use -a /home/fms/local/modulefiles #/usr/local/paida/Modules
    module purge
-   module load $fremodule
-   module load $freanalysismodule
-   module load gcc
+#   module load $fremodule
+#   module load $freanalysismodule
+#   module load gcc
    module load netcdf/4.2
    module load python/2.7.3
+   module load intel_compilers
 else
    echo "ERROR: invalid platform"
    exit 1
 endif
 
 # check again?
-if (! $?FRE_ANALYSIS_HOME) then
-   echo "ERROR: environment variable FRE_ANALYSIS_HOME not set."
-   exit 1
-endif
+#if (! $?FRE_ANALYSIS_HOME) then
+#   echo "ERROR: environment variable FRE_ANALYSIS_HOME not set."
+#   exit 1
+#endif
+
+# Build MIDAS libs and set PYTHONPATH
+(cd ${out_dir}/mom6/tools/python/025gridGeneration ; make local )
+setenv PYTHONPATH ${out_dir}/mom6/tools/python/025gridGeneration/local/lib/python
 
 # Run script
 set src_dir = ${out_dir}/mom6/tools/analysis
 set script_bash = ${src_dir}/MOM6_ts_annual.bash
 set script_dir = ${out_dir}/mom6/tools/analysis
-setenv PYTHONPATH ${out_dir}/mom6/tools/python/025gridGeneration/local/lib/python
 set woa05=/archive/gold/datasets/OM4_025/obs/WOA05_ptemp_salt_annual.v20141006.nc
 set mosaicDir=/archive/gold/datasets/OM4_025/mosaic.v20140610.unpacked
 
