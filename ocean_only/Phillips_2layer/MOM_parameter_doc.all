@@ -435,6 +435,10 @@ KHTH_SLOPE_CFF = 0.0            !   [nondim] default = 0.0
 KHTR_SLOPE_CFF = 0.0            !   [nondim] default = 0.0
                                 ! The nondimensional coefficient in the Visbeck formula
                                 ! for the epipycnal tracer diffusivity
+USE_STORED_SLOPES = False       !   [Boolean] default = False
+                                ! If true, the isopycnal slopes are calculated once and
+                                ! stored for re-use. This uses more memory but avoids calling
+                                ! the equation of state more times than should be necessary.
 
 ! === module MOM_wave_speed ===
 KH_RES_SCALE_COEF = 0.707106781 !   [nondim] default = 1.0

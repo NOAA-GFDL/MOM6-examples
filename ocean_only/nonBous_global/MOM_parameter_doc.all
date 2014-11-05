@@ -514,6 +514,10 @@ KHTH_SLOPE_CFF = 0.25           !   [nondim] default = 0.0
 KHTR_SLOPE_CFF = 0.25           !   [nondim] default = 0.0
                                 ! The nondimensional coefficient in the Visbeck formula
                                 ! for the epipycnal tracer diffusivity
+USE_STORED_SLOPES = False       !   [Boolean] default = False
+                                ! If true, the isopycnal slopes are calculated once and
+                                ! stored for re-use. This uses more memory but avoids calling
+                                ! the equation of state more times than should be necessary.
 VARMIX_KTOP = 6                 !   [nondim] default = 2
                                 ! The layer number at which to start vertical integration
                                 ! of S*N for purposes of finding the Eady growth rate.
