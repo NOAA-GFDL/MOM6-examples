@@ -8,6 +8,13 @@ USE_SLAB_ICE = False            !   [Boolean] default = False
 SIS1_5L_THERMODYNAMICS = True   !   [Boolean] default = False
                                 ! If true, use the thermodynamic calculations inhereted
                                 ! from the SIS1 5 layer. Otherwise, use the newer SIS2 version.
+INTERSPERSED_ICE_THERMO = True  !   [Boolean] default = True
+                                ! If true, the sea ice thermodynamic updates are applied
+                                ! after the new velocities are determined, but before the
+                                ! transport occurs.  Otherwise, the ice thermodynamic
+                                ! updates occur at the start of the slow ice update and
+                                ! dynamics and continuity can occur together.
+                                ! The default should be changed to false.
 ICE_OCEAN_STRESS_STAGGER = "B"  ! default = "B"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the stress field on the ocean that is
