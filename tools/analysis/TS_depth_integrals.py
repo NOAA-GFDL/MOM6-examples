@@ -6,6 +6,9 @@
 
 from midas.rectgrid import *
 from midas.rectgrid_gen import *
+import matplotlib
+# Force matplotlib to not use any Xwindows backend.
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import netCDF4 as nc
