@@ -25,11 +25,12 @@ x = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['x'][::2,:
 y = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['y'][::2,::2]
 msk = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_mask.nc').variables['mask'][:]
 area = msk*netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['area'][:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
-msk = numpy.ma.array(msk, mask=(msk==0))
+#msk = numpy.ma.array(msk, mask=(msk==0))
 
 #[t,z,y,x] corresponds to axis [0,1,2,3] which can be indexed by [-4,-3,-2,-1]
 
 ssu = rootGroup.variables['ssu']
+
 ssu_mean = ssu[:].mean(axis=0)
 eke_u = (0.5*(ssu-ssu_mean)**2).mean(axis=0)
 eke = (eke_u + numpy.roll(eke_u,1,axis=-1))/2 # U-point to T-point transform
@@ -39,10 +40,23 @@ ssv_mean = ssv[:].mean(axis=0)
 eke_v = (0.5*(ssv-ssv_mean)**2).mean(axis=0)
 eke = eke + (eke_v + numpy.roll(eke_v,1,axis=-2))/2 
 
-ci=m6plot.pmCI(0.0,0.5,0.1)
+#factor of 10000 to convert to (cm/s)^2
+eke = 10000*eke
 
-m6plot.xyplot( 10000*eke, x, y, area=area,
-      suptitle=rootGroup.title+' '+cmdLineArgs.label, title='Eddy Kinetic Energy annual mean [(cm/s)^2]',
-      clim=ci, logscale=True,
+#clip the extreme small values that cause log to blow up
+eke = eke.clip(min=1.0e-8)
+
+#Plot with logscale=True
+#ci=m6plot.pmCI(0.0,10.0,0.1)
+#plot_title = 'Eddy Kinetic Energy annual mean [(cm/s)^2]'
+
+#The logscale=True of matplotlib.pyplot does not work!
+#So, pass the log to be plotted instead
+eke = numpy.log(eke)
+plot_title = 'Log of Eddy Kinetic Energy annual mean [(cm/s)^2]'
+
+m6plot.xyplot( eke, x, y, area=area,
+      suptitle=rootGroup.title+' '+cmdLineArgs.label, title=plot_title,
+#      clim=ci, logscale=True,
       save=cmdLineArgs.outdir+'/EKE_mean.png')
 
