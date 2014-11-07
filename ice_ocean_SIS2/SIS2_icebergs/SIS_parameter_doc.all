@@ -15,6 +15,11 @@ INTERSPERSED_ICE_THERMO = True  !   [Boolean] default = True
                                 ! updates occur at the start of the slow ice update and
                                 ! dynamics and continuity can occur together.
                                 ! The default should be changed to false.
+AREA_WEIGHTED_STRESSES = True   !   [Boolean] default = True
+                                ! If true, use wind stresses that are weighted by the ice
+                                ! areas in the neighboring cells.  The default (true) is
+                                ! probably the right behavior, and this option will be
+                                ! obsoleted as soon as it is verified to work properly.
 ICE_OCEAN_STRESS_STAGGER = "B"  ! default = "B"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the stress field on the ocean that is
