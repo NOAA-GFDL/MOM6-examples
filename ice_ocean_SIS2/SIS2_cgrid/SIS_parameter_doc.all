@@ -301,26 +301,12 @@ CHECK_ICE_TRANSPORT_CONSERVATION = False !   [Boolean] default = False
                                 ! is expensive and should be used sparingly.
 USE_SIS_CONTINUITY = True       !   [Boolean] default = True
                                 ! If true, uses a continuity solver from SIS that has more options.
-UPWIND_2D_CONTINUITY = True     !   [Boolean] default = True
-                                ! If true, use the non-directionally split upwind continuity
-                                ! scheme that was used in SIS1.
-MONOTONIC_CONTINUITY = False    !   [Boolean] default = False
-                                ! If true, SIS_continuity uses the Colella and Woodward
-                                ! monotonic limiter.  The default (false) is to use a
-                                ! simple positive definite limiter.
-SIMPLE_2ND_PPM_CONTINUITY = False !   [Boolean] default = False
-                                ! If true, SIS_continuity uses a simple 2nd order
-                                ! (arithmetic mean) interpolation of the edge values.
-                                ! This may give better PV conservation propterties. While
-                                ! it formally reduces the accuracy of the continuity
-                                ! solver itself in the strongly advective limit, it does
-                                ! not reduce the overall order of accuracy of the dynamic
-                                ! core.
-UPWIND_1ST_CONTINUITY = False   !   [Boolean] default = False
-                                ! If true, SIS_continuity becomes a 1st-order upwind
-                                ! continuity solver.  This scheme is highly diffusive
-                                ! but may be useful for debugging or in single-column
-                                ! mode where its minimal stensil is useful.
+SIS_CONTINUITY_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme used in continuity:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM       - Directionally split peicewise constant
+                                !   PPM:C2PD  - Positive definite PPM with 2nd order edge values
+                                !   PPM:C2MO  - Monotonic PPM with 2nd order edge values
 CONT_PPM_VOLUME_BASED_CFL = False !   [Boolean] default = False
                                 ! If true, use the ratio of the open face lengths to the
                                 ! tracer cell areas when estimating CFL numbers.
