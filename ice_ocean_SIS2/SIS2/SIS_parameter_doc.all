@@ -320,6 +320,12 @@ WRITE_STOCKS = True             !   [Boolean] default = True
 STDOUT_HEARTBEAT = True         !   [Boolean] default = True
                                 ! If true, periodically write sea ice statistics to
                                 ! stdout to allow the progress to be seen.
+MAXTRUNC = 0                    !   [truncations save_interval-1] default = 0
+                                ! The run will be stopped, and the day set to a very
+                                ! large value if the velocity is truncated more than
+                                ! MAXTRUNC times between  writing ice statistics.
+                                ! Set MAXTRUNC to 0 to stop if there is any truncation
+                                ! of sea ice velocities.
 STATISTICS_FILE = "seaice.stats" ! default = "seaice.stats"
                                 ! The file to use to write the globally integrated
                                 ! statistics.

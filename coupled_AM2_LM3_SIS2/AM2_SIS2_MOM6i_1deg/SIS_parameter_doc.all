@@ -279,6 +279,13 @@ ICE_DEL_SH_MIN_SCALE = 2.0      !   [nondim] default = 2.0
                                 ! A scaling factor for the lower bound on the shear rates
                                 ! used in the denominator of the stress calculation. This
                                 ! probably needs to be greater than 1.
+CFL_TRUNCATE = 0.5              !   [nondim] default = 0.5
+                                ! The value of the CFL number that will cause ice velocity
+                                ! components to be truncated; instability can occur past 0.5.
+CFL_TRUNC_DYN_ITS = False       !   [Boolean] default = False
+                                ! If true, check the CFL number for every iteration of the
+                                ! rheology solver; otherwise only the final velocities that
+                                ! are used for transport are checked.
 DEBUG_REDUNDANT = False         !   [Boolean] default = False
                                 ! If true, debug redundant data points.
 NSTEPS_ADV = 1                  ! default = 1
@@ -337,6 +344,12 @@ WRITE_STOCKS = True             !   [Boolean] default = True
 STDOUT_HEARTBEAT = True         !   [Boolean] default = True
                                 ! If true, periodically write sea ice statistics to
                                 ! stdout to allow the progress to be seen.
+MAXTRUNC = 0                    !   [truncations save_interval-1] default = 0
+                                ! The run will be stopped, and the day set to a very
+                                ! large value if the velocity is truncated more than
+                                ! MAXTRUNC times between  writing ice statistics.
+                                ! Set MAXTRUNC to 0 to stop if there is any truncation
+                                ! of sea ice velocities.
 STATISTICS_FILE = "seaice.stats" ! default = "seaice.stats"
                                 ! The file to use to write the globally integrated
                                 ! statistics.
