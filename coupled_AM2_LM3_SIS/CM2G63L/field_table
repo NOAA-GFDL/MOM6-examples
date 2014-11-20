@@ -1,0 +1,49 @@
+# specific humidity for moist runs
+ "TRACER", "atmos_mod", "sphum" 
+           "longname",     "specific humidity"
+           "units",        "kg/kg" 
+	   "profile_type", "fixed", "surface_value=3.e-6" /
+# prognostic cloud scheme tracers
+  "TRACER", "atmos_mod", "liq_wat"
+            "longname",     "cloud liquid specific humidity"
+            "units",        "kg/kg" /
+  "TRACER", "atmos_mod", "ice_wat"
+            "longname",     "cloud ice water specific humidity"
+            "units",        "kg/kg" /
+  "TRACER", "atmos_mod", "cld_amt"
+            "longname",     "cloud fraction"
+            "units",        "none" /
+# CO2 tracer
+## Note: atm transport and land model expect moist mmr. 
+##       set co2 units: kg/kg  (mass mixing ratio) for both atm and lnd field table entries.
+##       convert atm IC field table entry from dry vmr value to **dry** mmr
+## Note: for atm cold start from constant co2 value, instead of using field table to initialize co2,
+##       create atmos_tracers.res.nc with co2 moist mmr values
+##
+ "TRACER", "atmos_mod",    "co2"
+           "longname",     "carbon dioxide"
+           "units",        "kg/kg"
+           "convection",   "all"
+           "profile_type","fixed","surface_value = 434.5626E-06"/
+ "TRACER", "land_mod",     "co2"
+           "longname",     "carbon dioxide"
+           "units",        "kg/kg" /
+# sphum must be present on land as well
+ "TRACER", "land_mod",     "sphum"
+           "longname",     "specific humidity"
+           "units",        "kg/kg" /
+# test tracer for radon
+#
+# "TRACER", "atmos_mod", "radon"
+#           "longname",     "radon test tracer"
+#           "units",        "kg/kg" /      
+###.................................................
+"namelists","ocean_mod","generic_topaz/*global*"
+/
+"namelists","ocean_mod","generic_topaz"
+init = f
+do_extra_diag_calcs = t
+reproduce_esm2 = t
+/
+#"namelists","ocean_mod","generic_cfc"
+#/
