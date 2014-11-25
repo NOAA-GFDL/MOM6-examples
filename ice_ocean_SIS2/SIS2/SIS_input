@@ -57,8 +57,10 @@ ICE_STATS_INTERVAL = 0.25       !    The interval in units of TIMEUNIT between
                                 ! and conservation checks.
 
 !  Specify the time integration scheme.
-NSTEPS_DYN = 72                 !   The number of iterations in the EVP dynamics
-                                ! for each slow time step.
+DT_RHEOLOGY = 100.0             ! The sub-cycling time step, in s, for iterating
+                                ! the rheology and ice momentum equations. If
+                                ! DT_RHEOLOGY is negative, the time step is set
+                                ! via NSTEPS_DYN.
 
 !  Specify the ice properties.
 SIS1_5L_THERMODYNAMICS = True   !    If true, use the thermodynamic calculations

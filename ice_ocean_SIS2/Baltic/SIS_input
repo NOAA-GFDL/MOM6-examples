@@ -52,9 +52,10 @@ GRID_CONFIG = "mosaic"          !
                                 !    cartesian - a Cartesian grid
                                 !    spherical - a spherical grid
                                 !    mercator  - a Mercator grid
-NSTEPS_DYN = 72                 ! default = 432
-                                ! The number of iterations in the EVP dynamics for each
-                                ! slow time step.
+DT_RHEOLOGY = 100.0             ! The sub-cycling time step, in s, for iterating
+                                ! the rheology and ice momentum equations. If
+                                ! DT_RHEOLOGY is negative, the time step is set
+                                ! via NSTEPS_DYN.
 
 ! === module SIS_tracer_advect ===
 SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
