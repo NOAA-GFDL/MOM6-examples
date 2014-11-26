@@ -512,11 +512,11 @@ MEKE_K4 = -1.0                  !   [m4 s-1] default = -1.0
 MEKE_DTSCALE = 1.0              !   [nondim] default = 1.0
                                 ! A scaling factor to accelerate the time evolution of MEKE.
 MEKE_KHCOEFF = -1.0             !   [nondim] default = -1.0
-                                ! A scaling factor which is combined with the square root
-                                ! of MEKE times the grid-cell area to give MEKE%Kh, or a
-                                ! negative value not to calculate MEKE%Kh.
-                                ! This factor must be >0 for MEKE to contribute to the
-                                ! thickness/tracer mixing in the rest of the model.
+                                ! A scaling factor in the expression for eddy diffusivity
+                                ! which is otherwise proportional to the MEKE velocity-
+                                ! scale times an eddy mixing-length. This factor
+                                ! must be >0 for MEKE to contribute to the thickness/
+                                ! and tracer diffusivity in the rest of the model.
 MEKE_USCALE = 0.0               !   [m s-1] default = 0.0
                                 ! The background velocity that is combined with MEKE to
                                 ! calculate the bottom drag.
@@ -529,14 +529,36 @@ MEKE_KHTR_FAC = 1.0             !   [nondim] default = 1.0
                                 ! A factor that maps MEKE%Kh to KhTr.
 MEKE_KHMEKE_FAC = 0.0           !   [nondim] default = 0.0
                                 ! A factor that maps MEKE%Kh to Kh for MEKE itself.
-MEKE_RD_MAX_SCALE = True        !   [nondim] default = True
-                                ! If true, the maximum length scale used by MEKE is
-                                ! the deformation radius.
+MEKE_OLD_LSCALE = True          !   [nondim] default = True
+                                ! If true, use the old formula for length scale which is
+                                ! a function of grid spacing and deformation radius.
+MEKE_RD_MAX_SCALE = False       !   [nondim] default = False
+                                ! If true, the length scale used by MEKE is the minimum of
+                                ! the deformation radius or grid-spacing. Only used if
+                                ! MEKE_OLD_LSCALE=True
 MEKE_VISCOSITY_COEFF = 0.0      !   [nondim] default = 0.0
                                 ! If non-zero, is the scaling coefficient in the expression for
                                 ! viscosity used to parameterize lateral momentum mixing by
                                 ! unresolved eddies represented by MEKE. Can be negative to
                                 ! represent backscatter from the unresolved eddies.
+MEKE_FIXED_MIXING_LENGTH = 0.0  !   [m] default = 0.0
+                                ! If positive, is a fixed length contribution to the expression
+                                ! for mixing length used in MEKE-derived diffusiviity.
+MEKE_ALPHA_DEFORM = 0.0         !   [nondim] default = 0.0
+                                ! If positive, is a coefficient weighting the deformation scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+MEKE_ALPHA_RHINES = 0.0         !   [nondim] default = 0.0
+                                ! If positive, is a coefficient weighting the Rhines scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+MEKE_ALPHA_EADY = 0.0           !   [nondim] default = 0.0
+                                ! If positive, is a coefficient weighting the Eady length scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+MEKE_ALPHA_FRICT = 0.0          !   [nondim] default = 0.0
+                                ! If positive, is a coefficient weighting the frictional arrest scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+MEKE_ALPHA_GRID = 0.0           !   [nondim] default = 0.0
+                                ! If positive, is a coefficient weighting the grid-spacing as a scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
 CDRAG = 0.003                   !   [nondim] default = 0.003
                                 ! CDRAG is the drag coefficient relating the magnitude of
                                 ! the velocity field to the bottom stress.
