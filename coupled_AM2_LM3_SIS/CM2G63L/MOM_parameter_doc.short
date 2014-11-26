@@ -375,6 +375,12 @@ BT_THICK_SCHEME = "HYBRID"      ! default = "FROM_BT_CONT"
                                 !       layers that straddle that depth
                                 !    FROM_BT_CONT - use the average thicknesses kept
                                 !       in the h_u and h_v fields of the BT_cont_type
+BT_STRONG_DRAG = False          !   [Boolean] default = True
+                                ! If true, use a stronger estimate of the retarding
+                                ! effects of strong bottom drag, by making it implicit
+                                ! with the barotropic time-step instead of implicit with
+                                ! the baroclinic time-step and dividing by the number of
+                                ! barotropic steps.
 DT_BT_FILTER = 0.0              !   [sec or nondim] default = -0.25
                                 ! A time-scale over which the barotropic mode solutions
                                 ! are filtered, in seconds if positive, or as a fraction
