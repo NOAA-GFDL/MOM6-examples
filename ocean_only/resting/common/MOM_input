@@ -328,6 +328,12 @@ DT_BT_FILTER = 0.0              !   [sec or nondim] default = -0.25
                                 ! are filtered, in seconds if positive, or as a fraction
                                 ! of DT if negative. When used this can never be taken to
                                 ! be longer than 2*dt.  Set this to 0 to apply no filtering.
+BT_STRONG_DRAG = False          !   [Boolean] default = True
+                                ! If true, use a stronger estimate of the retarding
+                                ! effects of strong bottom drag, by making it implicit
+                                ! with the barotropic time-step instead of implicit with
+                                ! the baroclinic time-step and dividing by the number of
+                                ! barotropic steps.
 BEBT = 0.2                      !   [nondim] default = 0.1
                                 ! BEBT determines whether the barotropic time stepping
                                 ! uses the forward-backward time-stepping scheme or a

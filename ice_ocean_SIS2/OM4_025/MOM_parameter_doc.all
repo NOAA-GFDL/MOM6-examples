@@ -955,7 +955,7 @@ SADOURNY = True                 !   [Boolean] default = True
                                 ! the Arakawa & Hsu scheme is used.  If the internal
                                 ! deformation radius is not resolved, the Sadourny scheme
                                 ! should probably be used.
-BT_THICK_SCHEME = "FROM_BT_CONT" ! default = "HYBRID"
+BT_THICK_SCHEME = "FROM_BT_CONT" ! default = "FROM_BT_CONT"
                                 ! A string describing the scheme that is used to set the
                                 ! open face areas used for barotropic transport and the
                                 ! relative weights of the accelerations. Valid values are:
@@ -967,7 +967,7 @@ BT_THICK_SCHEME = "FROM_BT_CONT" ! default = "HYBRID"
                                 !       layers that straddle that depth
                                 !    FROM_BT_CONT - use the average thicknesses kept
                                 !       in the h_u and h_v fields of the BT_cont_type
-BT_STRONG_DRAG = False          !   [Boolean] default = False
+BT_STRONG_DRAG = False          !   [Boolean] default = True
                                 ! If true, use a stronger estimate of the retarding
                                 ! effects of strong bottom drag, by making it implicit
                                 ! with the barotropic time-step instead of implicit with
@@ -1475,6 +1475,9 @@ MAX_P_SURF = 0.0                !   [Pa] default = -1.0
 ADJUST_NET_FRESH_WATER_TO_ZERO = True !   [Boolean] default = False
                                 ! If true, adjusts the net fresh-water forcing seen
                                 ! by the ocean (including restoring) to zero.
+ADJUST_NET_FWF_BY_SCALING = False !   [Boolean] default = False
+                                ! If true, adjusts the net fresh-water forcing without
+                                ! moving the zero contour.
 ICE_SALT_CONCENTRATION = 0.005  !   [kg/kg] default = 0.005
                                 ! The assumed sea-ice salinity needed to reverse engineer the
                                 ! melt flux (or ice-ocean fresh-water flux).
