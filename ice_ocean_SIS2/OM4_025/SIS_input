@@ -30,12 +30,12 @@ CGRID_ICE_DYNAMICS = True       !   If true, use a C-grid discretization of the
                                 ! discretization.
 
 !  Specify the numerical domain.
-!LAYOUT = 0,1                    !    LAYOUT specifies the grid layout for the
+!LAYOUT = 0,1                   !    LAYOUT specifies the grid layout for the
                                 !  sea-ice, with 0 indicating a PE count in one
                                 !  or both directions that is automatically
                                 !  generated.
-NIGLOBAL = 1440                  !    NIGLOBAL and NJGLOBAL are the number of thickness
-NJGLOBAL = 1080                  !  grid points in the zonal and meridional
+NIGLOBAL = 1440                 !    NIGLOBAL and NJGLOBAL are the number of thickness
+NJGLOBAL = 1080                 !  grid points in the zonal and meridional
                                 !  directions of the physical domain.
 NK = 63                         !    The number of layers.
 NCAT_ICE = 5                    !    The number of sea ice thickness categories.
@@ -44,10 +44,10 @@ NJHALO = 2                      !  points on each side in the x- and y-direction
                                 !  If static memory allocation is used, these
                                 !  must match the values of NIHALO_ and NJHALO_
                                 !  in MOM_memory.h.
-!NIPROC_IO = 1                   !    The number of processors used for I/O in the
+!NIPROC_IO = 1                  !    The number of processors used for I/O in the
                                 !  x-direction, or 0 to equal NIPROC.  NIPROC_IO
                                 !  must be a factor of NIPROC.
-!NJPROC_IO = 1                   !    The number of processors used for I/O in the
+!NJPROC_IO = 1                  !    The number of processors used for I/O in the
                                 !  y-direction, or 0 to equal NJPROC.  NJPROC_IO
                                 !  must be a factor of NJPROC.
 
@@ -67,14 +67,25 @@ ICE_STATS_INTERVAL = 0.25       !    The interval in units of TIMEUNIT between
                                 ! and conservation checks.
 
 !  Specify the time integration scheme for the ice dynamics.
-DT_ICE_DYNAMICS = 3600.0        ! The time step used for the slow ice dynamics, 
+DT_ICE_DYNAMICS = 1800.0        ! The time step used for the slow ice dynamics, 
                                 ! including stepping the continuity equation and
                                 ! interactions between the ice mass field and 
                                 ! velocities, in s.
+INTERSPERSED_ICE_THERMO = False ! If true, the sea ice thermodynamic updates are applied
+                                ! after the new velocities are determined, but before the
+                                ! transport occurs.  Otherwise, the ice thermodynamic
+                                ! updates occur at the start of the slow ice update and
+                                ! dynamics and continuity can occur together.
+                                ! The default should be changed to false.
+
 DT_RHEOLOGY = 50.0              ! The sub-cycling time step, in s, for iterating
                                 ! the rheology and ice momentum equations. If
                                 ! DT_RHEOLOGY is negative, the time step is set
                                 ! via NSTEPS_DYN.
+PROJECT_ICE_DRAG_VEL = True     ! If true, project forward the ice velocity used in the
+                                ! drag calculation to avoid an instability that can occur
+                                ! when an finite stress is applied to thin ice moving with
+                                ! the velocity of the ocean.
 ICE_TDAMP_ELASTIC = 1000.0      !   The damping timescale associated with the
                                 ! elastic terms in the sea-ice dynamics.
 
@@ -95,7 +106,10 @@ C_P = 3925.0                    !    C_P is the heat capacity of sea water in
                                 !  J kg-1 K-1, approximated as a constant.
 SNOW_ALBEDO = 0.88              !    The albedo of dry snow atop sea ice, ND.
 ICE_ALBEDO  = 0.68              !    The albedo of dry bare sea ice, ND.
-ICE_BULK_SALINITY = 5.0         !    The fixed bulk salinity of sea ice, in g/kg.
+ICE_BULK_SALINITY = 0.0         !    The fixed bulk salinity of sea ice, in g/kg.
+ICE_RELATIVE_SALINITY = 0.10    !    The initial salinity of sea ice as a
+                                ! fraction of the salinity of the seawater from
+                                ! which it formed.
 
 !  Specify the properties of the surface forcing.
 WIND_STAGGER = "B"              !  "A", "B", or "C" to indicate the

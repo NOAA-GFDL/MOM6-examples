@@ -1,13 +1,23 @@
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
-DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
+INTERSPERSED_ICE_THERMO = False !   [Boolean] default = True
+                                ! If true, the sea ice thermodynamic updates are applied
+                                ! after the new velocities are determined, but before the
+                                ! transport occurs.  Otherwise, the ice thermodynamic
+                                ! updates occur at the start of the slow ice update and
+                                ! dynamics and continuity can occur together.
+                                ! The default should be changed to false.
+DT_ICE_DYNAMICS = 1800.0        !   [seconds] default = -1.0
                                 ! The time step used for the slow ice dynamics, including
                                 ! stepping the continuity equation and interactions
                                 ! between the ice mass field and velocities.  If 0 or
                                 ! negative the coupling time step will be used.
-ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
+ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
                                 ! The fixed bulk salinity of sea ice.
+ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
+                                ! The initial salinity of sea ice as a fraction of the
+                                ! salinity of the seawater from which it formed.
 DO_ICEBERGS = True              !   [Boolean] default = False
                                 ! If true, call the iceberg module.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
@@ -38,35 +48,14 @@ NJGLOBAL = 1080                 !
                                 ! The total number of thickness grid points in the
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in SIS2_memory.h at compile time.
-MASKTABLE = "mask_table.96.32x18" ! default = "MOM_mask_table"
-                                ! A text file to specify n_mask, layout and mask_list.
-                                ! This feature masks out processors that contain only land points.
-                                ! The first line of mask_table is the number of regions to be masked out.
-                                ! The second line is the layout of the model and must be
-                                ! consistent with the actual model layout.
-                                ! The following (n_mask) lines give the logical positions
-                                ! of the processors that are masked out. The mask_table
-                                ! can be created by tools like check_mask. The
-                                ! following example of mask_table masks out 2 processors,
-                                ! (1,2) and (3,6), out of the 24 in a 4x6 layout:
-                                !  2
-                                !  4,6
-                                !  1,2
-                                !  3,6
-LAYOUT = 32, 18                 ! default = 0
-                                ! The processor layout to be used, or 0, 0 to automatically
-                                ! set the layout based on the number of processors.
-!NIPROC = 32                    !
+!NIPROC = 24                    !
                                 ! The number of processors in the x-direction. With
                                 ! STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
-!NJPROC = 18                    !
+!NJPROC = 24                    !
                                 ! The number of processors in the x-direction. With
                                 ! STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
-!LAYOUT = 32, 18                !
+!LAYOUT = 24, 24                !
                                 ! The processor layout that was acutally used.
-IO_LAYOUT = 2, 2                ! default = 0
-                                ! The processor layout to be used, or 0,0 to automatically
-                                ! set the io_layout to be the same as the layout.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
 INPUTDIR = "INPUT"              ! default = "."
@@ -86,6 +75,11 @@ DT_RHEOLOGY = 50.0              !   [seconds] default = -1.0
 ICE_TDAMP_ELASTIC = 1000.0      !   [s] default = 0.0
                                 ! The damping timescale associated with the elastic terms
                                 ! in the sea-ice dynamics equations.
+PROJECT_ICE_DRAG_VEL = True     !   [Boolean] default = False
+                                ! If true, project forward the ice velocity used in the
+                                ! drag calculation to avoid an instability that can occur
+                                ! when an finite stress is applied to thin ice moving with
+                                ! the velocity of the ocean.
 
 ! === module SIS_tracer_advect ===
 
