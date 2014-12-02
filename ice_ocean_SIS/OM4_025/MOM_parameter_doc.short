@@ -85,6 +85,12 @@ BULKMIXEDLAYER = False          !   [Boolean] default = True
 USE_REGRIDDING = True           !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping).
                                 ! If False, use the layered isopycnal algorithm.
+THICKNESSDIFFUSE = True         !   [Boolean] default = False
+                                ! If true, interfaces or isopycnal surfaces are diffused,
+                                ! depending on the value of FULL_THICKNESSDIFFUSE.
+THICKNESSDIFFUSE_FIRST = True   !   [Boolean] default = False
+                                ! If true, do thickness diffusion before dynamics.
+                                ! This is only used if THICKNESSDIFFUSE is true.
 DT = 1200.0                     !   [s]
                                 ! The (baroclinic) dynamics time step.  The time-step that
                                 ! is actually used will be an integer fraction of the
