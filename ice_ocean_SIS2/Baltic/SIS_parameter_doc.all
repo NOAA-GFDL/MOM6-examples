@@ -8,7 +8,7 @@ USE_SLAB_ICE = False            !   [Boolean] default = False
 SIS1_5L_THERMODYNAMICS = False  !   [Boolean] default = False
                                 ! If true, use the thermodynamic calculations inhereted
                                 ! from the SIS1 5 layer. Otherwise, use the newer SIS2 version.
-INTERSPERSED_ICE_THERMO = True  !   [Boolean] default = True
+INTERSPERSED_ICE_THERMO = False !   [Boolean] default = True
                                 ! If true, the sea ice thermodynamic updates are applied
                                 ! after the new velocities are determined, but before the
                                 ! transport occurs.  Otherwise, the ice thermodynamic
@@ -264,7 +264,7 @@ WEAK_LOW_SHEAR_ICE = False      !   [Boolean] default = False
                                 ! If true, the divergent stresses go toward 0 in the C-grid
                                 ! dynamics when the shear magnitudes are very weak.
                                 ! Otherwise they go to -P_ice.  This setting is temporary.
-PROJECT_ICE_DRAG_VEL = False    !   [Boolean] default = False
+PROJECT_ICE_DRAG_VEL = True     !   [Boolean] default = False
                                 ! If true, project forward the ice velocity used in the
                                 ! drag calculation to avoid an instability that can occur
                                 ! when an finite stress is applied to thin ice moving with

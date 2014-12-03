@@ -65,7 +65,7 @@ DT_ICE_DYNAMICS = 7200.0        ! The time step used for the slow ice dynamics,
                                 ! including stepping the continuity equation and
                                 ! interactions between the ice mass field and 
                                 ! velocities, in s.
-INTERSPERSED_ICE_THERMO = True  ! If true, the sea ice thermodynamic updates are applied
+INTERSPERSED_ICE_THERMO = False ! If true, the sea ice thermodynamic updates are applied
                                 ! after the new velocities are determined, but before the
                                 ! transport occurs.  Otherwise, the ice thermodynamic
                                 ! updates occur at the start of the slow ice update and
@@ -76,7 +76,7 @@ DT_RHEOLOGY = 100.0             ! The sub-cycling time step, in s, for iterating
                                 ! the rheology and ice momentum equations. If
                                 ! DT_RHEOLOGY is negative, the time step is set
                                 ! via NSTEPS_DYN.
-PROJECT_ICE_DRAG_VEL = False    ! If true, project forward the ice velocity used in the
+PROJECT_ICE_DRAG_VEL = True     ! If true, project forward the ice velocity used in the
                                 ! drag calculation to avoid an instability that can occur
                                 ! when an finite stress is applied to thin ice moving with
                                 ! the velocity of the ocean.

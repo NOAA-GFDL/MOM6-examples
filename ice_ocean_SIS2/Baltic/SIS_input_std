@@ -1,18 +1,7 @@
+INPUTDIR = "INPUT"
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
-INTERSPERSED_ICE_THERMO = False !   [Boolean] default = True
-                                ! If true, the sea ice thermodynamic updates are applied
-                                ! after the new velocities are determined, but before the
-                                ! transport occurs.  Otherwise, the ice thermodynamic
-                                ! updates occur at the start of the slow ice update and
-                                ! dynamics and continuity can occur together.
-                                ! The default should be changed to false.
-DT_ICE_DYNAMICS = 7200.0        !   [seconds] default = -1.0
-                                ! The time step used for the slow ice dynamics, including
-                                ! stepping the continuity equation and interactions
-                                ! between the ice mass field and velocities.  If 0 or
-                                ! negative the coupling time step will be used.
 ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
                                 ! The fixed bulk salinity of sea ice.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
@@ -55,8 +44,6 @@ IO_LAYOUT = 1, 1                ! default = 0
                                 ! set the io_layout to be the same as the layout.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
-INPUTDIR = "INPUT"              ! default = "."
-                                ! The directory in which input files are found.
 GRID_CONFIG = "mosaic"          !
                                 ! The method for defining the horizontal grid.  Valid
                                 ! entries include:
@@ -65,15 +52,14 @@ GRID_CONFIG = "mosaic"          !
                                 !    cartesian - a Cartesian grid
                                 !    spherical - a spherical grid
                                 !    mercator  - a Mercator grid
-DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
-                                ! The sub-cycling time step for iterating the rheology
-                                ! and ice momentum equations. If DT_RHEOLOGY is negative,
-                                ! the time step is set via NSTEPS_DYN.
-PROJECT_ICE_DRAG_VEL = True     !   [Boolean] default = False
-                                ! If true, project forward the ice velocity used in the
-                                ! drag calculation to avoid an instability that can occur
-                                ! when an finite stress is applied to thin ice moving with
-                                ! the velocity of the ocean.
+DT_ICE_DYNAMICS = 7200.0        ! The time step used for the slow ice dynamics, 
+                                ! including stepping the continuity equation and
+                                ! interactions between the ice mass field and 
+                                ! velocities, in s.
+DT_RHEOLOGY = 100.0             ! The sub-cycling time step, in s, for iterating
+                                ! the rheology and ice momentum equations. If
+                                ! DT_RHEOLOGY is negative, the time step is set
+                                ! via NSTEPS_DYN.
 
 ! === module SIS_tracer_advect ===
 SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
