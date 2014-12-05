@@ -65,7 +65,7 @@ LAYOUT = 0, 0                   ! default = 0
                                 ! STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
 !LAYOUT = 10, 6                 !
                                 ! The processor layout that was acutally used.
-IO_LAYOUT = 2, 2                ! default = 0
+IO_LAYOUT = 1, 1                ! default = 0
                                 ! The processor layout to be used, or 0,0 to automatically
                                 ! set the io_layout to be the same as the layout.
 
@@ -1656,10 +1656,11 @@ SRESTORE_AS_SFLUX = False       !   [Boolean] default = False
 MAX_DELTA_SRESTORE = 999.0      !   [PSU or g kg-1] default = 999.0
                                 ! The maximum salinity difference used in restoring terms.
 MASK_SRESTORE_UNDER_ICE = False !   [Boolean] default = False
-                                !  If true, use an ice mask defined by frazil criteria to
-                                ! determine where to apply salinity restoring.
+                                ! If true, disables SSS restoring under sea-ice based on a frazil
+                                ! criteria (SST<=Tf). Only used when RESTORE_SALINITY is True.
 MASK_SRESTORE_MARGINAL_SEAS = False !   [Boolean] default = False
-                                ! If true, mask sss restoring in marginal seas.
+                                ! If true, disable SSS restoring in marginal seas. Only used when
+                                ! RESTORE_SALINITY is True.
 BASIN_FILE = "basin.nc"         ! default = "basin.nc"
                                 ! A file in which to find the basin masks, in variable 'basin'.
 CD_TIDES = 0.0025               !   [nondim] default = 1.0E-04

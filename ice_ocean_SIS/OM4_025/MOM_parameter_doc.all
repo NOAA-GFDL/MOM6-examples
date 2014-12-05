@@ -1504,10 +1504,11 @@ SRESTORE_AS_SFLUX = True        !   [Boolean] default = False
 MAX_DELTA_SRESTORE = 5.0        !   [PSU or g kg-1] default = 999.0
                                 ! The maximum salinity difference used in restoring terms.
 MASK_SRESTORE_UNDER_ICE = False !   [Boolean] default = False
-                                !  If true, use an ice mask defined by frazil criteria to
-                                ! determine where to apply salinity restoring.
+                                ! If true, disables SSS restoring under sea-ice based on a frazil
+                                ! criteria (SST<=Tf). Only used when RESTORE_SALINITY is True.
 MASK_SRESTORE_MARGINAL_SEAS = False !   [Boolean] default = False
-                                ! If true, mask sss restoring in marginal seas.
+                                ! If true, disable SSS restoring in marginal seas. Only used when
+                                ! RESTORE_SALINITY is True.
 BASIN_FILE = "basin.nc"         ! default = "basin.nc"
                                 ! A file in which to find the basin masks, in variable 'basin'.
 CD_TIDES = 0.0018               !   [nondim] default = 1.0E-04
