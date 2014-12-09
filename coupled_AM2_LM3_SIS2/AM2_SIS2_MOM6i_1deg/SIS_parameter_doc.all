@@ -317,13 +317,13 @@ CHECK_ICE_TRANSPORT_CONSERVATION = False !   [Boolean] default = False
                                 ! If true, use add multiple diagnostics of ice and snow
                                 ! mass conservation in the sea-ice transport code.  This
                                 ! is expensive and should be used sparingly.
-SIS_THICKNESS_ADVECTION_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
-                                ! The horizontal transport scheme for tracers:
+SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind
                                 !   PCM    - Directionally split peicewise constant
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
-SIS_CONTINUITY_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
+SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme used in continuity:
                                 !   UPWIND_2D - Non-directionally split upwind
                                 !   PCM       - Directionally split peicewise constant
@@ -334,7 +334,7 @@ CONT_PPM_VOLUME_BASED_CFL = False !   [Boolean] default = False
                                 ! tracer cell areas when estimating CFL numbers.
 
 ! === module SIS_tracer_advect ===
-SIS_TRACER_ADVECTION_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
+SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for tracers:
                                 !   UPWIND_2D - Non-directionally split upwind
                                 !   PCM    - Directionally split peicewise constant
