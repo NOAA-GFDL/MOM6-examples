@@ -39,6 +39,9 @@ grid.wet=np.zeros(grid.D.shape)
 grid.wet[grid.D>0.]=1.
 
 S=state(path_ann,grid=grid,fields=['temp','salt'],interfaces='e',verbose=False)
+S.var_dict['temp']['Zdir']=-1
+S.var_dict['salt']['Zdir']=-1
+
 O=state(path_obs,grid=grid,fields=['ptemp','salt'],interfaces='eta',verbose=False)
 
 O.rename_field('ptemp','temp')
@@ -69,10 +72,14 @@ zb[-1,:]=zi[0,-1,:]
 zb[1,:]=numpy.maximum(zi[0,-1,:],-300.)
 
 S.remap_ALE(['temp','salt'],z_bounds=zb,zbax_data=-zbax,method='pcm')
-S.adjust_thickness('temp_remap')
-S.adjust_thickness('salt_remap')
 S.rename_field('temp_remap','temp')
 S.rename_field('salt_remap','salt')
+S.var_dict['temp']['Ztype']='Fixed'
+S.var_dict['salt']['Ztype']='Fixed'
+dz=S.var_dict['temp']['dz'][0,:]
+
+S.adjust_thickness('temp')
+S.adjust_thickness('salt')
 
 O.remap_ALE(['temp','salt'],z_bounds=zb,zbax_data=-zbax,method='pcm')
 O.adjust_thickness('temp_remap')
