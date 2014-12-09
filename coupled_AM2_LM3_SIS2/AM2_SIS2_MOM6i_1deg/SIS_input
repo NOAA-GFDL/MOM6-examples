@@ -83,6 +83,24 @@ PROJECT_ICE_DRAG_VEL = True     ! If true, project forward the ice velocity used
 ICE_TDAMP_ELASTIC = 1000.0      !   The damping timescale associated with the
                                 ! elastic terms in the sea-ice dynamics.
 
+SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! The horizontal transport scheme for
+                                ! tracers.  Valid options include:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM    - Directionally split peicewise constant
+                                !   PLM    - Piecewise Linear Method
+                                !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
+SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme for thickness:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM    - Directionally split peicewise constant
+                                !   PLM    - Piecewise Linear Method
+                                !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
+SIS_CONTINUITY_SCHEME = "PCM"   ! The horizontal transport scheme used in continuity:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM       - Directionally split peicewise constant
+                                !   PPM:C2PD  - Positive definite PPM with 2nd order edge values
+                                !   PPM:C2MO  - Monotonic PPM with 2nd order edge values
+
 !  Specify the ice properties.
 ICE_STRENGTH_PSTAR = 2.75e4     !    ICE_STRENGTH_PSTAR is a constant in the
                                 !  expression for the ice strength, P* in

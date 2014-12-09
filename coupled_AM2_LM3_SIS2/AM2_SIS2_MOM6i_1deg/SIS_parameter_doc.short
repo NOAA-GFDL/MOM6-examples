@@ -81,8 +81,26 @@ PROJECT_ICE_DRAG_VEL = True     !   [Boolean] default = False
                                 ! drag calculation to avoid an instability that can occur
                                 ! when an finite stress is applied to thin ice moving with
                                 ! the velocity of the ocean.
+SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme for thickness:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM    - Directionally split peicewise constant
+                                !   PLM    - Piecewise Linear Method
+                                !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
+SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme used in continuity:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM       - Directionally split peicewise constant
+                                !   PPM:C2PD  - Positive definite PPM with 2nd order edge values
+                                !   PPM:C2MO  - Monotonic PPM with 2nd order edge values
 
 ! === module SIS_tracer_advect ===
+SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme for tracers:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM    - Directionally split peicewise constant
+                                !   PLM    - Piecewise Linear Method
+                                !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
 
 ! === module SIS_tracer_registry ===
 
