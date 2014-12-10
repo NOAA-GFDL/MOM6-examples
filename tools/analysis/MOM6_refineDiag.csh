@@ -93,10 +93,13 @@ set script_dir=${out_dir}/mom6/tools/analysis
 
 echo '==Run some example annual scripts. These are not reviewed by scientists.' 
 
+#log the experiment to the MDBI database
+fredb -x $rtsxml -p $platform -t $target -q cobweb -d curator $name
+
 echo '====annual mean Eddy Kinetic Energy======'
 mkdir -p $out_dir/ocean_${yr1}/EddyKineticEnergy
 
-$script_dir/EddyKineticEnergy.py  -g /archive/gold/datasets/OM4_025/mosaic.v20140610.unpacked -o $out_dir/ocean_${yr1}/EddyKineticEnergy -l ${yr1} $yr1.ocean_daily.nc
+$script_dir/EddyKineticEnergy.py  -g $yr1.ocean_static.nc -o $out_dir/ocean_${yr1}/EddyKineticEnergy -l ${yr1} $yr1.ocean_daily.nc
 
 echo "  ---------- end yearly analysis ----------  "
 

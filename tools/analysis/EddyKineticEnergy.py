@@ -8,24 +8,22 @@ import math
 try: import argparse
 except: raise Exception('This version of python is not new enough. python 2.7 or newer is required.')
 
-parser = argparse.ArgumentParser(description='''Script for plotting annual-average SST bias.''')
-parser.add_argument('annual_file', type=str, help='''Annually-averaged file contained 3D temp.''')
+parser = argparse.ArgumentParser(description='''Script for plotting annual-average eddy kinetic energy.''')
+parser.add_argument('annual_file', type=str, help='''Daily file containing ssu,ssv.''')
 parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
 parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
 parser.add_argument('-g','--gridspec', type=str,
-  default='/archive/gold/datasets/MOM6z_SIS_025/siena/mosaic.unpacked',
-  help='''Directory containing mosaic/grid-spec files (ocean_hgrid.nc and ocean_mask.nc).''')
+  help='''File containing variables geolon,geolat,wet,area_t. Usually the ocean_static.nc from diag_table.''')
 cmdLineArgs = parser.parse_args()
 
 rootGroup = netCDF4.Dataset( cmdLineArgs.annual_file )
 if 'ssu' not in rootGroup.variables: raise Exception('Could not find "ssu" in file "%s"'%(cmdLineArgs.annual_file))
 if 'ssv' not in rootGroup.variables: raise Exception('Could not find "ssv" in file "%s"'%(cmdLineArgs.annual_file))
 
-x = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['x'][::2,::2]
-y = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['y'][::2,::2]
-msk = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_mask.nc').variables['mask'][:]
-area = msk*netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['area'][:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
-#msk = numpy.ma.array(msk, mask=(msk==0))
+x = netCDF4.Dataset(cmdLineArgs.gridspec).variables['geolon'][:,:]
+y = netCDF4.Dataset(cmdLineArgs.gridspec).variables['geolat'][:,:]
+msk = netCDF4.Dataset(cmdLineArgs.gridspec).variables['wet'][:,:]
+area = msk*netCDF4.Dataset(cmdLineArgs.gridspec).variables['area_t'][:,:]
 
 #[t,z,y,x] corresponds to axis [0,1,2,3] which can be indexed by [-4,-3,-2,-1]
 
