@@ -193,6 +193,7 @@ TOPO_CONFIG = "file"            !
                                 !     DOME2D - use a shelf and slope configuration for the
                                 !       DOME2D gravity current/overflow test case.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     USER - call a user modified routine.
 TOPO_FILE = "ocean_topog.nc"    ! default = "topog.nc"
                                 ! The file from which the bathymetry is read.
@@ -272,6 +273,16 @@ REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! PQM_IH6IH5  (5th-order accurate)
 
 ! === module MOM_MEKE ===
+USE_MEKE = True                 !   [Boolean] default = False
+                                ! If true, turns on the MEKE scheme which calculates
+                                ! a sub-grid mesoscale eddy kinetic energy budget.
+MEKE_GMCOEFF = 1.0              !   [nondim] default = -1.0
+                                ! The efficiency of the conversion of potential energy
+                                ! into MEKE by the thickness mixing parameterization.
+                                ! If MEKE_GMCOEFF is negative, this conversion is not
+                                ! used or calculated.
+MEKE_BGSRC = 1.0E-13            !   [W kg-1] default = 0.0
+                                ! A background energy source for MEKE.
 
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
@@ -291,6 +302,10 @@ RESOLN_SCALED_KHTH = True       !   [Boolean] default = False
 KHTR_SLOPE_CFF = 0.25           !   [nondim] default = 0.0
                                 ! The nondimensional coefficient in the Visbeck formula
                                 ! for the epipycnal tracer diffusivity
+USE_STORED_SLOPES = True        !   [Boolean] default = False
+                                ! If true, the isopycnal slopes are calculated once and
+                                ! stored for re-use. This uses more memory but avoids calling
+                                ! the equation of state more times than should be necessary.
 
 ! === module MOM_wave_speed ===
 ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.75E-09

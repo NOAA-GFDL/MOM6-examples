@@ -140,10 +140,10 @@ BULKMIXEDLAYER = False          !   [Boolean] default = True
 USE_REGRIDDING = True           !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping).
                                 ! If False, use the layered isopycnal algorithm.
-THICKNESSDIFFUSE = False        !   [Boolean] default = False
+THICKNESSDIFFUSE = True         !   [Boolean] default = False
                                 ! If true, interfaces or isopycnal surfaces are diffused,
                                 ! depending on the value of FULL_THICKNESSDIFFUSE.
-THICKNESSDIFFUSE_FIRST = False  !   [Boolean] default = False
+THICKNESSDIFFUSE_FIRST = True   !   [Boolean] default = False
                                 ! If true, do thickness diffusion before dynamics.
                                 ! This is only used if THICKNESSDIFFUSE is true.
 DEBUG = False                   !   [Boolean] default = False
@@ -537,9 +537,91 @@ REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! PQM_IH6IH5  (5th-order accurate)
 
 ! === module MOM_MEKE ===
-USE_MEKE = False                !   [Boolean] default = False
+USE_MEKE = True                 !   [Boolean] default = False
                                 ! If true, turns on the MEKE scheme which calculates
                                 ! a sub-grid mesoscale eddy kinetic energy budget.
+MEKE_DAMPING = 0.0              !   [s-1] default = 0.0
+                                ! The local depth-indepented MEKE dissipation rate.
+MEKE_CD_SCALE = 0.0             !   [nondim] default = 0.0
+                                ! The ratio of the bottom eddy velocity to the column mean
+                                ! eddy velocity, i.e. sqrt(2*MEKE). This should be less than 1
+                                ! to account for the surface intensification of MEKE.
+MEKE_CB = 25.0                  !   [nondim] default = 25.0
+                                ! A coefficient in the expression for the ratio of bottom projected
+                                ! eddy energy and mean column energy (see Jansen et al. 2015).
+MEKE_CT = 50.0                  !   [nondim] default = 50.0
+                                ! A coefficient in the expression for the ratio of barotropic
+                                ! eddy energy and mean column energy (see Jansen et al. 2015).
+MEKE_GMCOEFF = 1.0              !   [nondim] default = -1.0
+                                ! The efficiency of the conversion of potential energy
+                                ! into MEKE by the thickness mixing parameterization.
+                                ! If MEKE_GMCOEFF is negative, this conversion is not
+                                ! used or calculated.
+MEKE_FRCOEFF = -1.0             !   [nondim] default = -1.0
+                                ! The efficiency of the conversion of mean energy into
+                                ! MEKE.  If MEKE_FRCOEFF is negative, this conversion
+                                ! is not used or calculated.
+MEKE_BGSRC = 1.0E-13            !   [W kg-1] default = 0.0
+                                ! A background energy source for MEKE.
+MEKE_KH = -1.0                  !   [m2 s-1] default = -1.0
+                                ! A background lateral diffusivity of MEKE.
+                                ! Use a negative value to not apply lateral diffusion to MEKE.
+MEKE_K4 = -1.0                  !   [m4 s-1] default = -1.0
+                                ! A lateral bi-harmonic diffusivity of MEKE.
+                                ! Use a negative value to not apply bi-harmonic diffusion to MEKE.
+MEKE_DTSCALE = 1.0              !   [nondim] default = 1.0
+                                ! A scaling factor to accelerate the time evolution of MEKE.
+MEKE_KHCOEFF = 1.0              !   [nondim] default = 1.0
+                                ! A scaling factor in the expression for eddy diffusivity
+                                ! which is otherwise proportional to the MEKE velocity-
+                                ! scale times an eddy mixing-length. This factor
+                                ! must be >0 for MEKE to contribute to the thickness/
+                                ! and tracer diffusivity in the rest of the model.
+MEKE_USCALE = 0.0               !   [m s-1] default = 0.0
+                                ! The background velocity that is combined with MEKE to
+                                ! calculate the bottom drag.
+MEKE_VISC_DRAG = True           !   [Boolean] default = True
+                                ! If true, use the vertvisc_type to calculate the bottom
+                                ! drag acting on MEKE.
+MEKE_KHTH_FAC = 0.0             !   [nondim] default = 0.0
+                                ! A factor that maps MEKE%Kh to KhTh.
+MEKE_KHTR_FAC = 0.0             !   [nondim] default = 0.0
+                                ! A factor that maps MEKE%Kh to KhTr.
+MEKE_KHMEKE_FAC = 0.0           !   [nondim] default = 0.0
+                                ! A factor that maps MEKE%Kh to Kh for MEKE itself.
+MEKE_OLD_LSCALE = False         !   [nondim] default = False
+                                ! If true, use the old formula for length scale which is
+                                ! a function of grid spacing and deformation radius.
+MEKE_RD_MAX_SCALE = False       !   [nondim] default = False
+                                ! If true, the length scale used by MEKE is the minimum of
+                                ! the deformation radius or grid-spacing. Only used if
+                                ! MEKE_OLD_LSCALE=True
+MEKE_VISCOSITY_COEFF = 0.0      !   [nondim] default = 0.0
+                                ! If non-zero, is the scaling coefficient in the expression for
+                                ! viscosity used to parameterize lateral momentum mixing by
+                                ! unresolved eddies represented by MEKE. Can be negative to
+                                ! represent backscatter from the unresolved eddies.
+MEKE_FIXED_MIXING_LENGTH = 0.0  !   [m] default = 0.0
+                                ! If positive, is a fixed length contribution to the expression
+                                ! for mixing length used in MEKE-derived diffusiviity.
+MEKE_ALPHA_DEFORM = 0.0         !   [nondim] default = 0.0
+                                ! If positive, is a coefficient weighting the deformation scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+MEKE_ALPHA_RHINES = 0.5         !   [nondim] default = 0.5
+                                ! If positive, is a coefficient weighting the Rhines scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+MEKE_ALPHA_EADY = 2.0           !   [nondim] default = 2.0
+                                ! If positive, is a coefficient weighting the Eady length scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+MEKE_ALPHA_FRICT = 0.0          !   [nondim] default = 0.0
+                                ! If positive, is a coefficient weighting the frictional arrest scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+MEKE_ALPHA_GRID = 0.0           !   [nondim] default = 0.0
+                                ! If positive, is a coefficient weighting the grid-spacing as a scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+CDRAG = 0.003                   !   [nondim] default = 0.003
+                                ! CDRAG is the drag coefficient relating the magnitude of
+                                ! the velocity field to the bottom stress.
 
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
@@ -566,7 +648,7 @@ KHTH_SLOPE_CFF = 0.0            !   [nondim] default = 0.0
 KHTR_SLOPE_CFF = 0.25           !   [nondim] default = 0.0
                                 ! The nondimensional coefficient in the Visbeck formula
                                 ! for the epipycnal tracer diffusivity
-USE_STORED_SLOPES = False       !   [Boolean] default = False
+USE_STORED_SLOPES = True        !   [Boolean] default = False
                                 ! If true, the isopycnal slopes are calculated once and
                                 ! stored for re-use. This uses more memory but avoids calling
                                 ! the equation of state more times than should be necessary.
@@ -574,6 +656,9 @@ VISBECK_MAX_SLOPE = 0.0         !   [nondim] default = 0.0
                                 ! If non-zero, is an upper bound on slopes used in the
                                 ! Visbeck formula for diffusivity. This does not affect the
                                 ! isopycnal slope calculation used within thickness diffusion.
+KD_SMOOTH = 1.0E-06             !   [not defined] default = 1.0E-06
+                                ! A diapycnal diffusivity that is used to interpolate
+                                ! more sensible values of T & S into thin layers.
 VARMIX_KTOP = 2                 !   [nondim] default = 2
                                 ! The layer number at which to start vertical integration
                                 ! of S*N for purposes of finding the Eady growth rate.
@@ -865,10 +950,6 @@ DOUBLE_DIFFUSION = False        !   [Boolean] default = False
 PRANDTL_TURB = 1.0              !   [nondim] default = 0.0
                                 ! The turbulent Prandtl number applied to shear
                                 ! instability.
-CDRAG = 0.003                   !   [nondim] default = 0.003
-                                ! CDRAG is the drag coefficient relating the magnitude of
-                                ! the velocity field to the bottom stress. CDRAG is only
-                                ! used if BOTTOMDRAGLAW is defined.
 DRAG_BG_VEL = 0.1               !   [m s-1] default = 0.0
                                 ! DRAG_BG_VEL is either the assumed bottom velocity (with
                                 ! LINEAR_DRAG) or an unresolved  velocity that is
@@ -1027,9 +1108,6 @@ KHTH_SLOPE_MAX = 0.01           !   [nondim] default = 0.01
                                 ! A slope beyond which the calculated isopycnal slope is
                                 ! not reliable and is scaled away. This is used with
                                 ! FULL_THICKNESSDIFFUSE.
-KD_SMOOTH = 1.0E-06             !   [not defined] default = 1.0E-06
-                                ! A diapycnal diffusivity that is used to interpolate
-                                ! more sensible values of T & S into thin layers.
 
 ! === module MOM_mixed_layer_restrat ===
 MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
