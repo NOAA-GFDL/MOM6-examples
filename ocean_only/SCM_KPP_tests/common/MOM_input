@@ -386,14 +386,14 @@ KHTR = 600.0                    !   [m2 s-1] default = 0.0
 ! === module MOM_surface_forcing ===
 VARIABLE_WINDS = False          !   [Boolean] default = True
                                 ! If true, the winds vary in time after the initialization.
-BUOY_CONFIG = "linear"          !
-                                ! The character string that indicates how buoyancy forcing
-                                ! is specified. Valid options include (file), (zero),
-                                ! (linear), (USER), and (NONE).
 WIND_CONFIG = "const"           !
                                 ! The character string that indicates how wind forcing
                                 ! is specified. Valid options include (file), (2gyre),
                                 ! (1gyre), (gyres), (zero), and (USER).
+FLUXCONST = 0.5                 !   [m day-1]
+                                ! The constant that relates the restoring surface fluxes
+                                ! to the relative surface anomalies (akin to a piston
+                                ! velocity).  Note the non-MKS units.
 GUST_CONST = 0.0                !   [Pa] default = 0.02
                                 ! The background gustiness in the winds.
 CONST_WIND_TAUX = 0.1           !   [Pa]
