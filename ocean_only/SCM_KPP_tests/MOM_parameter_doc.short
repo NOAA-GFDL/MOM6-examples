@@ -394,25 +394,9 @@ WIND_CONFIG = "const"           !
                                 ! The character string that indicates how wind forcing
                                 ! is specified. Valid options include (file), (2gyre),
                                 ! (1gyre), (gyres), (zero), and (USER).
-RESTOREBUOY = True              !   [Boolean] default = False
-                                ! If true, the buoyancy fluxes drive the model back
-                                ! toward some specified surface state with a rate
-                                ! given by FLUXCONST.
-FLUXCONST = 0.5                 !   [m day-1]
-                                ! The constant that relates the restoring surface fluxes
-                                ! to the relative surface anomalies (akin to a piston
-                                ! velocity).  Note the non-MKS units.
-SST_NORTH = 25.0                !   [deg C] default = 0.0
-                                ! With buoy_config linear, the sea surface temperature
-                                ! at the northern end of the domain toward which to
-                                ! to restore.
-SST_SOUTH = 25.0                !   [deg C] default = 0.0
-                                ! With buoy_config linear, the sea surface temperature
-                                ! at the southern end of the domain toward which to
-                                ! to restore.
 GUST_CONST = 0.0                !   [Pa] default = 0.02
                                 ! The background gustiness in the winds.
-CONST_WIND_TAUX = 1.0           !   [Pa]
+CONST_WIND_TAUX = 0.1           !   [Pa]
                                 ! With wind_config const, this is the constant zonal
                                 ! wind-stress
 CONST_WIND_TAUY = 0.0           !   [Pa]
