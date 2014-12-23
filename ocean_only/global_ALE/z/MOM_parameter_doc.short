@@ -262,6 +262,38 @@ VISBECK_L_SCALE = 3.0E+04       !   [m] default = 0.0
                                 ! The fixed length scale in the Visbeck formula.
 
 ! === module MOM_wave_speed ===
+
+! === module MOM_set_visc ===
+CHANNEL_DRAG = True             !   [Boolean] default = False
+                                ! If true, the bottom stress is calculated with a drag
+                                ! law of the form c_drag*|u|*u. The velocity magnitude
+                                ! may be an assumed value or it may be based on the
+                                ! actual velocity in the bottommost HBBL, depending on
+                                ! LINEAR_DRAG.
+DYNAMIC_VISCOUS_ML = True       !   [Boolean] default = False
+                                ! If true, use a bulk Richardson number criterion to
+                                ! determine the mixed layer thickness for viscosity.
+ML_USE_OMEGA = True             !   [Boolean] default = False
+                                ! If true, use the absolute rotation rate instead of the
+                                ! vertical component of rotation when setting the decay
+                                ! scale for turbulence.
+HBBL = 10.0                     !   [m]
+                                ! The thickness of a bottom boundary layer with a
+                                ! viscosity of KVBBL if BOTTOMDRAGLAW is not defined, or
+                                ! the thickness over which near-bottom velocities are
+                                ! averaged for the drag law if BOTTOMDRAGLAW is defined
+                                ! but LINEAR_DRAG is not.
+DRAG_BG_VEL = 0.1               !   [m s-1] default = 0.0
+                                ! DRAG_BG_VEL is either the assumed bottom velocity (with
+                                ! LINEAR_DRAG) or an unresolved  velocity that is
+                                ! combined with the resolved velocity to estimate the
+                                ! velocity magnitude.  DRAG_BG_VEL is only used when
+                                ! BOTTOMDRAGLAW is defined.
+BBL_THICK_MIN = 0.1             !   [m] default = 0.0
+                                ! The minimum bottom boundary layer thickness that can be
+                                ! used with BOTTOMDRAGLAW. This might be
+                                ! Kv / (cdrag * drag_bg_vel) to give Kv as the minimum
+                                ! near-bottom viscosity.
 TIDES = True                    !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 ETA_TOLERANCE = 1.0E-06         !   [m] default = 2.5E-09
@@ -316,13 +348,6 @@ SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
                                 ! typically 0.015 - 0.06.
 
 ! === module MOM_vert_friction ===
-CHANNEL_DRAG = True             !   [Boolean] default = False
-                                ! If true, the bottom drag is exerted directly on each
-                                ! layer proportional to the fraction of the bottom it
-                                ! overlies.
-DYNAMIC_VISCOUS_ML = True       !   [Boolean] default = False
-                                ! If true, use a bulk Richardson number criterion to
-                                ! determine the mixed layer thickness for viscosity.
 U_TRUNC_FILE = "U_velocity_truncations" ! default = ""
                                 ! The absolute path to a file into which the accelerations
                                 ! leading to zonal velocity truncations are written.
@@ -340,12 +365,6 @@ HMIX_FIXED = 0.5                !   [m]
 KV = 1.0E-04                    !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior.
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
-HBBL = 10.0                     !   [m]
-                                ! The thickness of a bottom boundary layer with a
-                                ! viscosity of KVBBL if BOTTOMDRAGLAW is not defined, or
-                                ! the thickness over which near-bottom velocities are
-                                ! averaged for the drag law if BOTTOMDRAGLAW is defined
-                                ! but LINEAR_DRAG is not.
 MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity
                                 ! components are truncated.
@@ -354,23 +373,6 @@ CFL_TRUNCATE_RAMP_TIME = 7200.0 !   [s] default = 0.0
                                 ! up at the beginning of the run.
 
 ! === module MOM_PointAccel ===
-
-! === module MOM_set_visc ===
-ML_USE_OMEGA = True             !   [Boolean] default = False
-                                ! If true, use the absolute rotation rate instead of the
-                                ! vertical component of rotation when setting the decay
-                                ! scale for turbulence.
-DRAG_BG_VEL = 0.1               !   [m s-1] default = 0.0
-                                ! DRAG_BG_VEL is either the assumed bottom velocity (with
-                                ! LINEAR_DRAG) or an unresolved  velocity that is
-                                ! combined with the resolved velocity to estimate the
-                                ! velocity magnitude.  DRAG_BG_VEL is only used when
-                                ! BOTTOMDRAGLAW is defined.
-BBL_THICK_MIN = 0.1             !   [m] default = 0.0
-                                ! The minimum bottom boundary layer thickness that can be
-                                ! used with BOTTOMDRAGLAW. This might be
-                                ! Kv / (cdrag * drag_bg_vel) to give Kv as the minimum
-                                ! near-bottom viscosity.
 
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
