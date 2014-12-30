@@ -819,9 +819,6 @@ MASS_WEIGHT_IN_PRESSURE_GRADIENT = False !   [Boolean] default = False
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
                                 ! If true, use a Laplacian horizontal viscosity.
-BIHARMONIC = True               !   [Boolean] default = True
-                                ! If true, se a biharmonic horizontal viscosity.
-                                ! BIHARMONIC may be used with LAPLACIAN.
 KH = 0.0                        !   [m2 s-1] default = 0.0
                                 ! The background Laplacian horizontal viscosity.
 KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
@@ -837,11 +834,14 @@ BOUND_KH = True                 !   [Boolean] default = True
 BETTER_BOUND_KH = True          !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited
                                 ! to be stable with a better bounding than just BOUND_KH.
+BIHARMONIC = True               !   [Boolean] default = True
+                                ! If true, use a biharmonic horizontal viscosity.
+                                ! BIHARMONIC may be used with LAPLACIAN.
 AH = 0.0                        !   [m4 s-1] default = 0.0
                                 ! The background biharmonic horizontal viscosity.
 AH_VEL_SCALE = 0.05             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the cube of
-                                ! the grid spacing to calculate the Laplacian viscosity.
+                                ! the grid spacing to calculate the biharmonic viscosity.
                                 ! The final viscosity is the largest of this scaled
                                 ! viscosity, the Smagorinsky viscosity and AH.
 SMAGORINSKY_AH = True           !   [Boolean] default = False
