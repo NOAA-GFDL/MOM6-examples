@@ -258,14 +258,14 @@ KE_SCHEME = "KE_GUDONOV"        ! default = "KE_ARAKAWA"
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
                                 ! If true, use a Laplacian horizontal viscosity.
-BIHARMONIC = False              !   [Boolean] default = True
-                                ! If true, se a biharmonic horizontal viscosity.
-                                ! BIHARMONIC may be used with LAPLACIAN.
 KH = 0.01                       !   [m2 s-1] default = 0.0
                                 ! The background Laplacian horizontal viscosity.
 BOUND_KH = False                !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited
                                 ! to be stable.
+BIHARMONIC = False              !   [Boolean] default = True
+                                ! If true, use a biharmonic horizontal viscosity.
+                                ! BIHARMONIC may be used with LAPLACIAN.
 
 ! === module MOM_vert_friction ===
 U_TRUNC_FILE = "U_velocity_truncations" ! default = ""

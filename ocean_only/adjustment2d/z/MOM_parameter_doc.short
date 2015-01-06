@@ -318,14 +318,14 @@ KE_SCHEME = "KE_GUDONOV"        ! default = "KE_ARAKAWA"
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
                                 ! If true, use a Laplacian horizontal viscosity.
-BIHARMONIC = False              !   [Boolean] default = True
-                                ! If true, se a biharmonic horizontal viscosity.
-                                ! BIHARMONIC may be used with LAPLACIAN.
 SMAGORINSKY_KH = True           !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
 SMAG_LAP_CONST = 0.15           !   [nondim] default = 0.0
                                 ! The nondimensional Laplacian Smagorinsky constant,
                                 ! often 0.15.
+BIHARMONIC = False              !   [Boolean] default = True
+                                ! If true, use a biharmonic horizontal viscosity.
+                                ! BIHARMONIC may be used with LAPLACIAN.
 
 ! === module MOM_vert_friction ===
 DIRECT_STRESS = True            !   [Boolean] default = False
