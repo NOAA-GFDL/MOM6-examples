@@ -931,6 +931,11 @@ PRESSURE_DEPENDENT_FRAZIL = False !   [Boolean] default = False
                                 ! If true, use a pressure dependent freezing temperature
                                 ! when making frazil. The default is false, which will be
                                 ! faster but is inappropriate with ice-shelf cavities.
+AGGREGATE_FW_FORCING = True     !   [Boolean] default = True
+                                ! If true, the net incoming and outgoing fresh water fluxes are combined
+                                ! and applied as either incoming or outgoing depending on the sign of the net.
+                                ! If false, the net incoming fresh water flux is added to the model and
+                                ! thereafter the net outgoing is removed from the updated state.into the first non-vanished layer for which the column remains stable
 DEBUG_CONSERVATION = False      !   [Boolean] default = False
                                 ! If true, monitor conservation and extrema.
 MIX_BOUNDARY_TRACERS = True     !   [Boolean] default = True
