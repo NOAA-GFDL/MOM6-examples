@@ -278,26 +278,6 @@ USE_generic_tracer = False      !   [Boolean] default = False
                                 ! preprocessor macro, use the MOM_generic_tracer packages.
 INPUTDIR = "INPUT/"             ! default = "."
                                 ! The directory in which input files are found.
-COORD_CONFIG = "linear"         !
-                                ! This specifies how layers are to be defined:
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layesrs.
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
-LIGHTEST_DENSITY = 1034.0       !   [kg m-3] default = 1035.0
-                                ! The reference potential density used for layer 1.
-DENSITY_RANGE = 2.0             !   [kg m-3] default = 2.0
-                                ! The range of reference potential densities in the layers.
-GFS = 0.98                      !   [m s-2] default = 9.8
-                                ! The reduced gravity at the free surface.
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
@@ -351,6 +331,26 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! MINIMUM_DEPTH is assumed to be land and all fluxes are masked out.
                                 ! If MASKING_DEPTH is specified, then all depths shallower than
                                 ! MINIMUM_DEPTH but depper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
+COORD_CONFIG = "linear"         !
+                                ! This specifies how layers are to be defined:
+                                !     file - read coordinate information from the file
+                                !       specified by (COORD_FILE).
+                                !     linear - linear based on interfaces not layesrs.
+                                !     ts_ref - use reference temperature and salinity
+                                !     ts_range - use range of temperature and salinity
+                                !       (T_REF and S_REF) to determine surface density
+                                !       and GINT calculate internal densities.
+                                !     gprime - use reference density (RHO_0) for surface
+                                !       density and GINT calculate internal densities.
+                                !     ts_profile - use temperature and salinity profiles
+                                !       (read from COORD_FILE) to set layer densities.
+                                !     USER - call a user modified routine.
+LIGHTEST_DENSITY = 1034.0       !   [kg m-3] default = 1035.0
+                                ! The reference potential density used for layer 1.
+DENSITY_RANGE = 2.0             !   [kg m-3] default = 2.0
+                                ! The range of reference potential densities in the layers.
+GFS = 0.98                      !   [m s-2] default = 9.8
+                                ! The reduced gravity at the free surface.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
@@ -394,84 +394,6 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =1, write the geometry and vertical grid files only for
                                 ! a new simulation. If =2, always write the geometry and
                                 ! vertical grid files. Other values are invalid.
-INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
-                                ! If true, intialize the layer thicknesses, temperatures,
-                                ! and salnities from a Z-space file on a latitude-
-                                ! longitude grid.
-THICKNESS_CONFIG = "sloshing"   !
-                                ! A string that determines how the initial layer
-                                ! thicknesses are specified for a new run:
-                                !     file - read interface heights from the file specified
-                                !     thickness_file - read thicknesses from the file specified
-                                !       by (THICKNESS_FILE).
-                                !     uniform - uniform thickness layers evenly distributed
-                                !       between the surface and MAXIMUM_DEPTH.
-                                !     DOME - use a slope and channel configuration for the
-                                !       DOME sill-overflow test case.
-                                !     benchmark - use the benchmark test case thicknesses.
-                                !     search - search a density profile for the interface
-                                !       densities. This is not yet implemented.
-                                !     circle_obcs - the circle_obcs test case is used.
-                                !     DOME2D - 2D version of DOME initialization.
-                                !     adjustment2d - TBD AJA.
-                                !     sloshing - TBD AJA.
-                                !     seamount - TBD AJA.
-                                !     rossby_front - a mixed layer front in thermal wind balance.
-                                !     USER - call a user modified routine.
-TS_CONFIG = "sloshing"          !
-                                ! A string that determines how the initial tempertures
-                                ! and salinities are specified for a new run:
-                                !     file - read velocities from the file specified
-                                !       by (TS_FILE).
-                                !     fit - find the temperatures that are consistent with
-                                !       the layer densities and salinity S_REF.
-                                !     TS_profile - use temperature and salinity profiles
-                                !       (read from TS_FILE) to set layer densities.
-                                !     benchmark - use the benchmark test case T & S.
-                                !     linear - linear in logical layer space.
-                                !     DOME2D - 2D DOME initialization.
-                                !     adjustment2d - TBD AJA.
-                                !     sloshing - TBD AJA.
-                                !     seamount - TBD AJA.
-                                !     rossby_front - a mixed layer front in thermal wind balance.
-                                !     SCM_ideal_hurr - used in the SCM idealized hurricane test.
-                                !     USER - call a user modified routine.
-S_REF = 34.0                    !   [1e-3]
-                                ! Reference value for salinity
-T_REF = 0.0                     !   [C]
-                                ! Refernce value for temperature
-S_RANGE = 2.0                   !   [1e-3] default = 2.0
-                                ! Initial salinity range.
-T_RANGE = 0.0                   !   [C] default = 0.0
-                                ! Initial temperature range
-VELOCITY_CONFIG = "zero"        ! default = "zero"
-                                ! A string that determines how the initial velocities
-                                ! are specified for a new run:
-                                !     file - read velocities from the file specified
-                                !       by (VELOCITY_FILE).
-                                !     zero - the fluid is initially at rest.
-                                !     uniform - the flow is uniform (determined by
-                                !       parameters TORUS_U and TORUS_V).
-                                !     rossby_front - a mixed layer front in thermal wind balance.
-                                !     USER - call a user modified routine.
-CONVERT_THICKNESS_UNITS = False !   [Boolean] default = False
-                                ! If true,  convert the thickness initial conditions from
-                                ! units of m to kg m-2 or vice versa, depending on whether
-                                ! BOUSSINESQ is defined. This does not apply if a restart
-                                ! file is read.
-DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
-                                ! If true,  depress the initial surface to avoid huge
-                                ! tsunamis when a large surface pressure is applied.
-SPONGE = False                  !   [Boolean] default = False
-                                ! If true, sponges may be applied anywhere in the domain.
-                                ! The exact location and properties of those sponges are
-                                ! specified via SPONGE_CONFIG.
-APPLY_OBC_U = False             !   [Boolean] default = False
-                                ! If true, open boundary conditions may be set at some
-                                ! u-points, with the configuration controlled by OBC_CONFIG
-APPLY_OBC_V = False             !   [Boolean] default = False
-                                ! If true, open boundary conditions may be set at some
-                                ! v-points, with the configuration controlled by OBC_CONFIG
 BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! When defined, the reconstruction is extrapolated
                                 ! within boundary cells rather than assume PCM for the.
@@ -545,6 +467,85 @@ REMAPPING_SCHEME = "PQM_IH4IH3" ! default = "PLM"
                                 ! PPM_IH4     (3rd-order accurate)
                                 ! PQM_IH4IH3  (4th-order accurate)
                                 ! PQM_IH6IH5  (5th-order accurate)
+INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
+                                ! If true, intialize the layer thicknesses, temperatures,
+                                ! and salnities from a Z-space file on a latitude-
+                                ! longitude grid.
+THICKNESS_CONFIG = "sloshing"   !
+                                ! A string that determines how the initial layer
+                                ! thicknesses are specified for a new run:
+                                !     file - read interface heights from the file specified
+                                !     thickness_file - read thicknesses from the file specified
+                                !       by (THICKNESS_FILE).
+                                !     coord - determined by ALE coordinate.
+                                !     uniform - uniform thickness layers evenly distributed
+                                !       between the surface and MAXIMUM_DEPTH.
+                                !     DOME - use a slope and channel configuration for the
+                                !       DOME sill-overflow test case.
+                                !     benchmark - use the benchmark test case thicknesses.
+                                !     search - search a density profile for the interface
+                                !       densities. This is not yet implemented.
+                                !     circle_obcs - the circle_obcs test case is used.
+                                !     DOME2D - 2D version of DOME initialization.
+                                !     adjustment2d - TBD AJA.
+                                !     sloshing - TBD AJA.
+                                !     seamount - TBD AJA.
+                                !     rossby_front - a mixed layer front in thermal wind balance.
+                                !     USER - call a user modified routine.
+TS_CONFIG = "sloshing"          !
+                                ! A string that determines how the initial tempertures
+                                ! and salinities are specified for a new run:
+                                !     file - read velocities from the file specified
+                                !       by (TS_FILE).
+                                !     fit - find the temperatures that are consistent with
+                                !       the layer densities and salinity S_REF.
+                                !     TS_profile - use temperature and salinity profiles
+                                !       (read from TS_FILE) to set layer densities.
+                                !     benchmark - use the benchmark test case T & S.
+                                !     linear - linear in logical layer space.
+                                !     DOME2D - 2D DOME initialization.
+                                !     adjustment2d - TBD AJA.
+                                !     sloshing - TBD AJA.
+                                !     seamount - TBD AJA.
+                                !     rossby_front - a mixed layer front in thermal wind balance.
+                                !     SCM_ideal_hurr - used in the SCM idealized hurricane test.
+                                !     USER - call a user modified routine.
+S_REF = 34.0                    !   [1e-3]
+                                ! Reference value for salinity
+T_REF = 0.0                     !   [C]
+                                ! Refernce value for temperature
+S_RANGE = 2.0                   !   [1e-3] default = 2.0
+                                ! Initial salinity range.
+T_RANGE = 0.0                   !   [C] default = 0.0
+                                ! Initial temperature range
+VELOCITY_CONFIG = "zero"        ! default = "zero"
+                                ! A string that determines how the initial velocities
+                                ! are specified for a new run:
+                                !     file - read velocities from the file specified
+                                !       by (VELOCITY_FILE).
+                                !     zero - the fluid is initially at rest.
+                                !     uniform - the flow is uniform (determined by
+                                !       parameters TORUS_U and TORUS_V).
+                                !     rossby_front - a mixed layer front in thermal wind balance.
+                                !     USER - call a user modified routine.
+CONVERT_THICKNESS_UNITS = False !   [Boolean] default = False
+                                ! If true,  convert the thickness initial conditions from
+                                ! units of m to kg m-2 or vice versa, depending on whether
+                                ! BOUSSINESQ is defined. This does not apply if a restart
+                                ! file is read.
+DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
+                                ! If true,  depress the initial surface to avoid huge
+                                ! tsunamis when a large surface pressure is applied.
+SPONGE = False                  !   [Boolean] default = False
+                                ! If true, sponges may be applied anywhere in the domain.
+                                ! The exact location and properties of those sponges are
+                                ! specified via SPONGE_CONFIG.
+APPLY_OBC_U = False             !   [Boolean] default = False
+                                ! If true, open boundary conditions may be set at some
+                                ! u-points, with the configuration controlled by OBC_CONFIG
+APPLY_OBC_V = False             !   [Boolean] default = False
+                                ! If true, open boundary conditions may be set at some
+                                ! v-points, with the configuration controlled by OBC_CONFIG
 
 ! === module MOM_MEKE ===
 USE_MEKE = False                !   [Boolean] default = False

@@ -112,22 +112,6 @@ DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
 ! === module MOM_tracer_flow_control ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
-COORD_CONFIG = "linear"         !
-                                ! This specifies how layers are to be defined:
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layesrs.
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
-DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
-                                ! The range of reference potential densities in the layers.
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
@@ -173,18 +157,83 @@ MINIMUM_DEPTH = 0.1             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 20.0            !   [m]
                                 ! The maximum depth of the ocean.
+COORD_CONFIG = "linear"         !
+                                ! This specifies how layers are to be defined:
+                                !     file - read coordinate information from the file
+                                !       specified by (COORD_FILE).
+                                !     linear - linear based on interfaces not layesrs.
+                                !     ts_ref - use reference temperature and salinity
+                                !     ts_range - use range of temperature and salinity
+                                !       (T_REF and S_REF) to determine surface density
+                                !       and GINT calculate internal densities.
+                                !     gprime - use reference density (RHO_0) for surface
+                                !       density and GINT calculate internal densities.
+                                !     ts_profile - use temperature and salinity profiles
+                                !       (read from COORD_FILE) to set layer densities.
+                                !     USER - call a user modified routine.
+DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
+                                ! The range of reference potential densities in the layers.
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
                                 !       times the sine of latitude.
                                 !     betaplane - Use a beta-plane or f-plane.
                                 !     USER - call a user modified routine.
+REGRIDDING_COORDINATE_MODE = "RHO" ! default = "LAYER"
+                                ! Coordinate mode for vertical regridding.
+                                ! Choose among the following possibilities:
+                                !  LAYER - Isopycnal or stacked shallow water layers
+                                !  Z*    - stetched geopotential z*
+                                !  SIGMA - terrain following coordinates
+                                !  RHO   - continuous isopycnal
+INTERPOLATION_SCHEME = "P3M_IH4IH3" ! default = "P1M_H2"
+                                ! This sets the interpolation scheme to use to
+                                ! determine the new grid. These parameters are
+                                ! only relevant when REGRIDDING_COORDINATE_MODE is
+                                ! set to a function of state. Otherwise, it is not
+                                ! used. It can be one of the following schemes:
+                                !  P1M_H2     (2nd-order accurate)
+                                !  P1M_H4     (2nd-order accurate)
+                                !  P1M_IH4    (2nd-order accurate)
+                                !  PLM        (2nd-order accurate)
+                                !  PPM_H4     (3rd-order accurate)
+                                !  PPM_IH4    (3rd-order accurate)
+                                !  P3M_IH4IH3 (4th-order accurate)
+                                !  P3M_IH6IH5 (4th-order accurate)
+                                !  PQM_IH4IH3 (4th-order accurate)
+                                !  PQM_IH6IH5 (5th-order accurate)
+!ALE_RESOLUTION = 25*0.2        !   [kg m^-3]
+                                ! The distribution of vertical resolution for the target
+                                ! grid used for Eulerian-like coordinates. For example,
+                                ! in z-coordinate mode, the parameter is a list of level
+                                ! thicknesses (in m). In sigma-coordinate mode, the list
+                                ! is of non-dimensional fractions of the water column.
+MIN_THICKNESS = 1.0E-04         !   [m] default = 0.001
+                                ! When regridding, this is the minimum layer
+                                ! thickness allowed.
+BOUNDARY_EXTRAPOLATION = True   !   [Boolean] default = False
+                                ! When defined, a proper high-order reconstruction
+                                ! scheme is used within boundary cells rather
+                                ! than PCM. E.g., if PPM is used for remapping, a
+                                ! PPM reconstruction will also be used within
+                                ! boundary cells.
+REMAPPING_SCHEME = "PPM_IH4"    ! default = "PLM"
+                                ! This sets the reconstruction scheme used
+                                ! for vertical remapping for all variables.
+                                ! It can be one of the following schemes:
+                                ! PCM         (1st-order accurate)
+                                ! PLM         (2nd-order accurate)
+                                ! PPM_H4      (3rd-order accurate)
+                                ! PPM_IH4     (3rd-order accurate)
+                                ! PQM_IH4IH3  (4th-order accurate)
+                                ! PQM_IH6IH5  (5th-order accurate)
 THICKNESS_CONFIG = "adjustment2d" !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
                                 !     file - read interface heights from the file specified
                                 !     thickness_file - read thicknesses from the file specified
                                 !       by (THICKNESS_FILE).
+                                !     coord - determined by ALE coordinate.
                                 !     uniform - uniform thickness layers evenly distributed
                                 !       between the surface and MAXIMUM_DEPTH.
                                 !     DOME - use a slope and channel configuration for the
@@ -199,8 +248,6 @@ THICKNESS_CONFIG = "adjustment2d" !
                                 !     seamount - TBD AJA.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
-MIN_THICKNESS = 1.0E-04         !   [m] default = 0.001
-                                ! Minimum layer thickness
 ADJUSTMENT_WIDTH = 0.01         !   [same as x,y]
                                 ! Width of frontal zone
 DELTA_S_STRAT = 0.0             !   [1e-3]
@@ -231,51 +278,6 @@ T_REF = 0.0                     !   [C]
                                 ! Reference temperature
 S_RANGE = 5.0                   !   [1e-3] default = 2.0
                                 ! Initial salinity range
-REGRIDDING_COORDINATE_MODE = "RHO" ! default = "LAYER"
-                                ! Coordinate mode for vertical regridding.
-                                ! Choose among the following possibilities:
-                                !  LAYER - Isopycnal or stacked shallow water layers
-                                !  Z*    - stetched geopotential z*
-                                !  SIGMA - terrain following coordinates
-                                !  RHO   - continuous isopycnal
-INTERPOLATION_SCHEME = "P3M_IH4IH3" ! default = "P1M_H2"
-                                ! This sets the interpolation scheme to use to
-                                ! determine the new grid. These parameters are
-                                ! only relevant when REGRIDDING_COORDINATE_MODE is
-                                ! set to a function of state. Otherwise, it is not
-                                ! used. It can be one of the following schemes:
-                                !  P1M_H2     (2nd-order accurate)
-                                !  P1M_H4     (2nd-order accurate)
-                                !  P1M_IH4    (2nd-order accurate)
-                                !  PLM        (2nd-order accurate)
-                                !  PPM_H4     (3rd-order accurate)
-                                !  PPM_IH4    (3rd-order accurate)
-                                !  P3M_IH4IH3 (4th-order accurate)
-                                !  P3M_IH6IH5 (4th-order accurate)
-                                !  PQM_IH4IH3 (4th-order accurate)
-                                !  PQM_IH6IH5 (5th-order accurate)
-!ALE_RESOLUTION = 25*0.2        !   [kg m^-3]
-                                ! The distribution of vertical resolution for the target
-                                ! grid used for Eulerian-like coordinates. For example,
-                                ! in z-coordinate mode, the parameter is a list of level
-                                ! thicknesses (in m). In sigma-coordinate mode, the list
-                                ! is of non-dimensional fractions of the water column.
-BOUNDARY_EXTRAPOLATION = True   !   [Boolean] default = False
-                                ! When defined, a proper high-order reconstruction
-                                ! scheme is used within boundary cells rather
-                                ! than PCM. E.g., if PPM is used for remapping, a
-                                ! PPM reconstruction will also be used within
-                                ! boundary cells.
-REMAPPING_SCHEME = "PPM_IH4"    ! default = "PLM"
-                                ! This sets the reconstruction scheme used
-                                ! for vertical remapping for all variables.
-                                ! It can be one of the following schemes:
-                                ! PCM         (1st-order accurate)
-                                ! PLM         (2nd-order accurate)
-                                ! PPM_H4      (3rd-order accurate)
-                                ! PPM_IH4     (3rd-order accurate)
-                                ! PQM_IH4IH3  (4th-order accurate)
-                                ! PQM_IH6IH5  (5th-order accurate)
 
 ! === module MOM_MEKE ===
 

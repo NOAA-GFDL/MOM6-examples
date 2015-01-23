@@ -94,20 +94,6 @@ DRHO_DS = 0.0                   !   [kg m-3 PSU-1] default = 0.8
                                 ! salinity.
 
 ! === module MOM_tracer_flow_control ===
-COORD_CONFIG = "none"           !
-                                ! This specifies how layers are to be defined:
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layesrs.
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
@@ -148,6 +134,20 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 300.0           !   [m]
                                 ! The maximum depth of the ocean.
+COORD_CONFIG = "none"           !
+                                ! This specifies how layers are to be defined:
+                                !     file - read coordinate information from the file
+                                !       specified by (COORD_FILE).
+                                !     linear - linear based on interfaces not layesrs.
+                                !     ts_ref - use reference temperature and salinity
+                                !     ts_range - use range of temperature and salinity
+                                !       (T_REF and S_REF) to determine surface density
+                                !       and GINT calculate internal densities.
+                                !     gprime - use reference density (RHO_0) for surface
+                                !       density and GINT calculate internal densities.
+                                !     ts_profile - use temperature and salinity profiles
+                                !       (read from COORD_FILE) to set layer densities.
+                                !     USER - call a user modified routine.
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -157,12 +157,26 @@ ROTATION = "betaplane"          ! default = "2omegasinlat"
 F_0 = 6.8103E-05                !   [s-1] default = 0.0
                                 ! The reference value of the Coriolis parameter with the
                                 ! betaplane option.
+REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
+                                ! Coordinate mode for vertical regridding.
+                                ! Choose among the following possibilities:
+                                !  LAYER - Isopycnal or stacked shallow water layers
+                                !  Z*    - stetched geopotential z*
+                                !  SIGMA - terrain following coordinates
+                                !  RHO   - continuous isopycnal
+!ALE_RESOLUTION = 600*0.5       !   [m]
+                                ! The distribution of vertical resolution for the target
+                                ! grid used for Eulerian-like coordinates. For example,
+                                ! in z-coordinate mode, the parameter is a list of level
+                                ! thicknesses (in m). In sigma-coordinate mode, the list
+                                ! is of non-dimensional fractions of the water column.
 THICKNESS_CONFIG = "uniform"    !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
                                 !     file - read interface heights from the file specified
                                 !     thickness_file - read thicknesses from the file specified
                                 !       by (THICKNESS_FILE).
+                                !     coord - determined by ALE coordinate.
                                 !     uniform - uniform thickness layers evenly distributed
                                 !       between the surface and MAXIMUM_DEPTH.
                                 !     DOME - use a slope and channel configuration for the
@@ -201,19 +215,6 @@ SCM_DTDZ = 0.04                 !   [C/m]
                                 ! Initial temperature stratification below mixed layer
 SCM_MLD = 32.0                  !   [m]
                                 ! Initial mixed layer depth
-REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
-                                ! Coordinate mode for vertical regridding.
-                                ! Choose among the following possibilities:
-                                !  LAYER - Isopycnal or stacked shallow water layers
-                                !  Z*    - stetched geopotential z*
-                                !  SIGMA - terrain following coordinates
-                                !  RHO   - continuous isopycnal
-!ALE_RESOLUTION = 600*0.5       !   [m]
-                                ! The distribution of vertical resolution for the target
-                                ! grid used for Eulerian-like coordinates. For example,
-                                ! in z-coordinate mode, the parameter is a list of level
-                                ! thicknesses (in m). In sigma-coordinate mode, the list
-                                ! is of non-dimensional fractions of the water column.
 
 ! === module MOM_MEKE ===
 

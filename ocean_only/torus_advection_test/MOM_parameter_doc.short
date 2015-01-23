@@ -111,24 +111,6 @@ ADVECTION_TEST_Y_WIDTH = 21.6   !   [not defined] default = 0.0
                                 ! The y-width of the test-functions.
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
-COORD_CONFIG = "ts_ref"         !
-                                ! This specifies how layers are to be defined:
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layesrs.
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
-T_REF = 20.0                    !   [degC]
-                                ! The initial temperature of the lightest layer.
-GINT = 7.89E-04                 !   [m s-2]
-                                ! The reduced gravity across internal interfaces.
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
@@ -174,6 +156,24 @@ MINIMUM_DEPTH = 0.01            !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 200.0           !   [m]
                                 ! The maximum depth of the ocean.
+COORD_CONFIG = "ts_ref"         !
+                                ! This specifies how layers are to be defined:
+                                !     file - read coordinate information from the file
+                                !       specified by (COORD_FILE).
+                                !     linear - linear based on interfaces not layesrs.
+                                !     ts_ref - use reference temperature and salinity
+                                !     ts_range - use range of temperature and salinity
+                                !       (T_REF and S_REF) to determine surface density
+                                !       and GINT calculate internal densities.
+                                !     gprime - use reference density (RHO_0) for surface
+                                !       density and GINT calculate internal densities.
+                                !     ts_profile - use temperature and salinity profiles
+                                !       (read from COORD_FILE) to set layer densities.
+                                !     USER - call a user modified routine.
+T_REF = 20.0                    !   [degC]
+                                ! The initial temperature of the lightest layer.
+GINT = 7.89E-04                 !   [m s-2]
+                                ! The reduced gravity across internal interfaces.
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -186,6 +186,7 @@ THICKNESS_CONFIG = "uniform"    !
                                 !     file - read interface heights from the file specified
                                 !     thickness_file - read thicknesses from the file specified
                                 !       by (THICKNESS_FILE).
+                                !     coord - determined by ALE coordinate.
                                 !     uniform - uniform thickness layers evenly distributed
                                 !       between the surface and MAXIMUM_DEPTH.
                                 !     DOME - use a slope and channel configuration for the

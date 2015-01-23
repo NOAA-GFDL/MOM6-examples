@@ -99,31 +99,6 @@ USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
 ! === module ideal_age_example ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
-COORD_CONFIG = "ts_range"       !
-                                ! This specifies how layers are to be defined:
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layesrs.
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
-TS_RANGE_T_LIGHT = 25.0         !   [degC] default = 10.0
-                                ! The initial temperature of the lightest layer when
-                                ! COORD_CONFIG is set to ts_range.
-TS_RANGE_T_DENSE = 3.0          !   [degC] default = 10.0
-                                ! The initial temperature of the densest layer when
-                                ! COORD_CONFIG is set to ts_range.
-TS_RANGE_RESOLN_RATIO = 5.0     !   [nondim] default = 1.0
-                                ! The ratio of density space resolution in the densest
-                                ! part of the range to that in the lightest part of the
-                                ! range when COORD_CONFIG is set to ts_range. Values
-                                ! greater than 1 increase the resolution of the denser water.
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "mercator"        !
@@ -173,12 +148,38 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 5500.0          !   [m]
                                 ! The maximum depth of the ocean.
+COORD_CONFIG = "ts_range"       !
+                                ! This specifies how layers are to be defined:
+                                !     file - read coordinate information from the file
+                                !       specified by (COORD_FILE).
+                                !     linear - linear based on interfaces not layesrs.
+                                !     ts_ref - use reference temperature and salinity
+                                !     ts_range - use range of temperature and salinity
+                                !       (T_REF and S_REF) to determine surface density
+                                !       and GINT calculate internal densities.
+                                !     gprime - use reference density (RHO_0) for surface
+                                !       density and GINT calculate internal densities.
+                                !     ts_profile - use temperature and salinity profiles
+                                !       (read from COORD_FILE) to set layer densities.
+                                !     USER - call a user modified routine.
+TS_RANGE_T_LIGHT = 25.0         !   [degC] default = 10.0
+                                ! The initial temperature of the lightest layer when
+                                ! COORD_CONFIG is set to ts_range.
+TS_RANGE_T_DENSE = 3.0          !   [degC] default = 10.0
+                                ! The initial temperature of the densest layer when
+                                ! COORD_CONFIG is set to ts_range.
+TS_RANGE_RESOLN_RATIO = 5.0     !   [nondim] default = 1.0
+                                ! The ratio of density space resolution in the densest
+                                ! part of the range to that in the lightest part of the
+                                ! range when COORD_CONFIG is set to ts_range. Values
+                                ! greater than 1 increase the resolution of the denser water.
 THICKNESS_CONFIG = "benchmark"  !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
                                 !     file - read interface heights from the file specified
                                 !     thickness_file - read thicknesses from the file specified
                                 !       by (THICKNESS_FILE).
+                                !     coord - determined by ALE coordinate.
                                 !     uniform - uniform thickness layers evenly distributed
                                 !       between the surface and MAXIMUM_DEPTH.
                                 !     DOME - use a slope and channel configuration for the

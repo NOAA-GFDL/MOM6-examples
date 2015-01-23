@@ -99,24 +99,6 @@ EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
 ! === module MOM_tracer_flow_control ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
-COORD_CONFIG = "layer_ref"      !
-                                ! This specifies how layers are to be defined:
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layesrs.
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
-LIGHTEST_DENSITY = 1022.0       !   [kg m-3] default = 1000.0
-                                ! The reference potential density used for layer 1.
-DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
-                                ! The range of reference potential densities in the layers.
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
@@ -165,6 +147,24 @@ MINIMUM_DEPTH = 0.01            !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 20.0            !   [m]
                                 ! The maximum depth of the ocean.
+COORD_CONFIG = "layer_ref"      !
+                                ! This specifies how layers are to be defined:
+                                !     file - read coordinate information from the file
+                                !       specified by (COORD_FILE).
+                                !     linear - linear based on interfaces not layesrs.
+                                !     ts_ref - use reference temperature and salinity
+                                !     ts_range - use range of temperature and salinity
+                                !       (T_REF and S_REF) to determine surface density
+                                !       and GINT calculate internal densities.
+                                !     gprime - use reference density (RHO_0) for surface
+                                !       density and GINT calculate internal densities.
+                                !     ts_profile - use temperature and salinity profiles
+                                !       (read from COORD_FILE) to set layer densities.
+                                !     USER - call a user modified routine.
+LIGHTEST_DENSITY = 1022.0       !   [kg m-3] default = 1000.0
+                                ! The reference potential density used for layer 1.
+DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
+                                ! The range of reference potential densities in the layers.
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -177,6 +177,7 @@ THICKNESS_CONFIG = "external_gwave" !
                                 !     file - read interface heights from the file specified
                                 !     thickness_file - read thicknesses from the file specified
                                 !       by (THICKNESS_FILE).
+                                !     coord - determined by ALE coordinate.
                                 !     uniform - uniform thickness layers evenly distributed
                                 !       between the surface and MAXIMUM_DEPTH.
                                 !     DOME - use a slope and channel configuration for the

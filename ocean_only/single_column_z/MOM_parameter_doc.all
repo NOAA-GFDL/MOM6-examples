@@ -259,20 +259,6 @@ USE_generic_tracer = False      !   [Boolean] default = False
                                 ! preprocessor macro, use the MOM_generic_tracer packages.
 INPUTDIR = "INPUT/BATS"         ! default = "."
                                 ! The directory in which input files are found.
-COORD_CONFIG = "none"           !
-                                ! This specifies how layers are to be defined:
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layesrs.
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
@@ -323,6 +309,20 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 6000.0          !   [m]
                                 ! The maximum depth of the ocean.
+COORD_CONFIG = "none"           !
+                                ! This specifies how layers are to be defined:
+                                !     file - read coordinate information from the file
+                                !       specified by (COORD_FILE).
+                                !     linear - linear based on interfaces not layesrs.
+                                !     ts_ref - use reference temperature and salinity
+                                !     ts_range - use range of temperature and salinity
+                                !       (T_REF and S_REF) to determine surface density
+                                !       and GINT calculate internal densities.
+                                !     gprime - use reference density (RHO_0) for surface
+                                !       density and GINT calculate internal densities.
+                                !     ts_profile - use temperature and salinity profiles
+                                !       (read from COORD_FILE) to set layer densities.
+                                !     USER - call a user modified routine.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
@@ -366,27 +366,21 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =1, write the geometry and vertical grid files only for
                                 ! a new simulation. If =2, always write the geometry and
                                 ! vertical grid files. Other values are invalid.
-INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
-                                ! If true, intialize the layer thicknesses, temperatures,
-                                ! and salnities from a Z-space file on a latitude-
-                                ! longitude grid.
-TEMP_SALT_Z_INIT_FILE = "WOA_column.nc" ! default = "temp_salt_z.nc"
-                                ! The name of the z-space input file used to initialize
-                                ! the layer thicknesses, temperatures and salinities.
-Z_INIT_FILE_PTEMP_VAR = "PTEMP" ! default = "ptemp"
-                                ! The name of the potential temperature variable in
-                                ! TEMP_SALT_Z_INIT_FILE.
-Z_INIT_FILE_SALT_VAR = "SALT"   ! default = "salt"
-                                ! The name of the salinity variable in
-                                ! TEMP_SALT_Z_INIT_FILE.
-Z_INIT_HOMOGENIZE = True        !   [Boolean] default = False
-                                ! If True, then horizontally homogenize the interpolated
-                                ! initial conditions.
-Z_INIT_ALE_REMAPPING = True     !   [Boolean] default = False
-                                ! If True, then remap straight to model coordinate from file.
-Z_INIT_REMAPPING_SCHEME = "PPM_IH4" ! default = "PPM_IH4"
-                                ! The remapping scheme to use if using Z_INIT_ALE_REMAPPING
-                                ! is True.
+BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
+                                ! When defined, the reconstruction is extrapolated
+                                ! within boundary cells rather than assume PCM for the.
+                                ! calculation of pressure. e.g. if PPM is used, a
+                                ! PPM reconstruction will also be used within
+                                ! boundary cells.
+RECONSTRUCT_FOR_PRESSURE = True !   [Boolean] default = True
+                                ! If True, use vertical reconstruction of T/S within
+                                ! the integrals of teh FV pressure gradient calculation.
+                                ! If False, use the constant-by-layer algorithm.
+                                ! By default, this is True when using ALE and False otherwise.
+PRESSURE_RECONSTRUCTION_SCHEME = 1 ! default = 1
+                                ! Type of vertical reconstruction of T/S to use in integrals
+                                ! within the FV pressure gradient calculation. 1: PLM reconstruction.
+                                !  2: PPM reconstruction.
 REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding.
                                 ! Choose among the following possibilities:
@@ -435,6 +429,37 @@ BOUNDARY_EXTRAPOLATION = False  !   [Boolean] default = False
                                 ! than PCM. E.g., if PPM is used for remapping, a
                                 ! PPM reconstruction will also be used within
                                 ! boundary cells.
+REMAPPING_SCHEME = "PLM"        ! default = "PLM"
+                                ! This sets the reconstruction scheme used
+                                ! for vertical remapping for all variables.
+                                ! It can be one of the following schemes:
+                                ! PCM         (1st-order accurate)
+                                ! PLM         (2nd-order accurate)
+                                ! PPM_H4      (3rd-order accurate)
+                                ! PPM_IH4     (3rd-order accurate)
+                                ! PQM_IH4IH3  (4th-order accurate)
+                                ! PQM_IH6IH5  (5th-order accurate)
+INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
+                                ! If true, intialize the layer thicknesses, temperatures,
+                                ! and salnities from a Z-space file on a latitude-
+                                ! longitude grid.
+TEMP_SALT_Z_INIT_FILE = "WOA_column.nc" ! default = "temp_salt_z.nc"
+                                ! The name of the z-space input file used to initialize
+                                ! the layer thicknesses, temperatures and salinities.
+Z_INIT_FILE_PTEMP_VAR = "PTEMP" ! default = "ptemp"
+                                ! The name of the potential temperature variable in
+                                ! TEMP_SALT_Z_INIT_FILE.
+Z_INIT_FILE_SALT_VAR = "SALT"   ! default = "salt"
+                                ! The name of the salinity variable in
+                                ! TEMP_SALT_Z_INIT_FILE.
+Z_INIT_HOMOGENIZE = True        !   [Boolean] default = False
+                                ! If True, then horizontally homogenize the interpolated
+                                ! initial conditions.
+Z_INIT_ALE_REMAPPING = True     !   [Boolean] default = False
+                                ! If True, then remap straight to model coordinate from file.
+Z_INIT_REMAPPING_SCHEME = "PPM_IH4" ! default = "PPM_IH4"
+                                ! The remapping scheme to use if using Z_INIT_ALE_REMAPPING
+                                ! is True.
 VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 ! A string that determines how the initial velocities
                                 ! are specified for a new run:
@@ -463,31 +488,6 @@ APPLY_OBC_U = False             !   [Boolean] default = False
 APPLY_OBC_V = False             !   [Boolean] default = False
                                 ! If true, open boundary conditions may be set at some
                                 ! v-points, with the configuration controlled by OBC_CONFIG
-BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
-                                ! When defined, the reconstruction is extrapolated
-                                ! within boundary cells rather than assume PCM for the.
-                                ! calculation of pressure. e.g. if PPM is used, a
-                                ! PPM reconstruction will also be used within
-                                ! boundary cells.
-RECONSTRUCT_FOR_PRESSURE = True !   [Boolean] default = True
-                                ! If True, use vertical reconstruction of T/S within
-                                ! the integrals of teh FV pressure gradient calculation.
-                                ! If False, use the constant-by-layer algorithm.
-                                ! By default, this is True when using ALE and False otherwise.
-PRESSURE_RECONSTRUCTION_SCHEME = 1 ! default = 1
-                                ! Type of vertical reconstruction of T/S to use in integrals
-                                ! within the FV pressure gradient calculation. 1: PLM reconstruction.
-                                !  2: PPM reconstruction.
-REMAPPING_SCHEME = "PLM"        ! default = "PLM"
-                                ! This sets the reconstruction scheme used
-                                ! for vertical remapping for all variables.
-                                ! It can be one of the following schemes:
-                                ! PCM         (1st-order accurate)
-                                ! PLM         (2nd-order accurate)
-                                ! PPM_H4      (3rd-order accurate)
-                                ! PPM_IH4     (3rd-order accurate)
-                                ! PQM_IH4IH3  (4th-order accurate)
-                                ! PQM_IH6IH5  (5th-order accurate)
 
 ! === module MOM_MEKE ===
 USE_MEKE = False                !   [Boolean] default = False
