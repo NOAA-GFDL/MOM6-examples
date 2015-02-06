@@ -348,10 +348,16 @@ USE_KPP = True                  !   [Boolean] default = False
 KPP%
 KPP_IS_ADDITIVE = True          !   [Boolean] default = False
                                 ! If true, adds KPP diffusivity to the existing diffusivity. If false, replaces exisiting diffusivity with KPP diffusivity wherever the latter is non-zero.
-INTERP_TYPE = "cubic"           ! default = "quadratic"
-                                ! Type of interpolation to use to determine the OBL depth.
-                                ! Allowed types are: linear, quadratic, cubic.
-%KPP
+NLT_SHAPE = "PARABOLIC"         ! default = "CVMIX"
+                                ! The shape of the nonlocal transport (or redistribution of surface
+                                ! forcina. Allowed values are:
+                                !    CVMIX     - Uses the profile from CVmix
+                                !    LINEAR    - A linear profile, 1-sigma
+                                !    PARABOLIC - A paroblic profile, (1-sigma)^2
+                                !    CUBIC     - A cubic profile, (1-sigma)^2(1+2*sigma)
+                                !    CUBIC_LMD - The original KPP profile
+KPP_IS_ADDITIVE = True          !   [Boolean] default = False
+ %KPP
 
 ! === module MOM_diffConvection ===
 ! This module implements enhanced diffusivity as a

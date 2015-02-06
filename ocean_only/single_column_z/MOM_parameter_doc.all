@@ -1061,7 +1061,7 @@ RI_CRIT = 0.3                   !   [nondim] default = 0.3
                                 ! Oceab Boundary Layer (OBL).
 VON_KARMAN = 0.4                !   [nondim] default = 0.4
                                 ! von Karman constant.
-INTERP_TYPE = "cubic"           ! default = "quadratic"
+INTERP_TYPE = "cubic"           ! default = "cubic"
                                 ! Type of interpolation to use to determine the OBL depth.
                                 ! Allowed types are: linear, quadratic, cubic.
 COMPUTE_EKMAN = False           !   [Boolean] default = False
@@ -1085,7 +1085,7 @@ FIRST_GUESS_SURFACE_LAYER_DEPTH = 0.0 !   [m] default = 0.0
                                 ! the surface layer properties. If =0, the top model level properties
                                 ! will be used for the surface layer. If CORRECT_SURFACE_LAYER_AVERAGE=True, a
                                 ! subsequent correction is applied.
-NLT_SHAPE = "CVMIX"             ! default = "CVMIX"
+NLT_SHAPE = "PARABOLIC"         ! default = "CVMIX"
                                 ! The shape of the nonlocal transport (or redistribution of surface
                                 ! forcina. Allowed values are:
                                 !    CVMIX     - Uses the profile from CVmix
