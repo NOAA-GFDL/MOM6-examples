@@ -406,7 +406,7 @@ INTERPOLATION_SCHEME = "P1M_H2" ! default = "P1M_H2"
                                 !  P3M_IH6IH5 (4th-order accurate)
                                 !  PQM_IH4IH3 (4th-order accurate)
                                 !  PQM_IH6IH5 (5th-order accurate)
-ALE_COORDINATE_CONFIG = "FILE:INPUT/vgrid_cm4_10.nc,dz" ! default = "UNIFORM"
+ALE_COORDINATE_CONFIG = "FILE:INPUT/vgrid_cm4.nc,dz" ! default = "UNIFORM"
                                 ! Determines how to specify the coordinate
                                 ! resolution. Valid options are:
                                 !  PARAM       - use the vector-parameter ALE_RESOLUTION
@@ -414,7 +414,7 @@ ALE_COORDINATE_CONFIG = "FILE:INPUT/vgrid_cm4_10.nc,dz" ! default = "UNIFORM"
                                 !  FILE:string - read from a file. The string specifies
                                 !                the filename and variable name, separated
                                 !                by a comma or space, e.g. FILE:lev.nc,Z
-!ALE_RESOLUTION = 3*10.0, 10.01, 10.02, 10.03, 10.05, 10.09, 10.13, 10.2, 10.29, 10.39, 10.53, 10.71, 10.91, 11.15, 11.46, 11.8, 12.22, 12.69, 13.24, 13.88, 14.62, 15.45, 16.4, 17.5, 18.72, 20.13, 21.7, 23.48, 25.47, 27.71, 30.22, 33.0, 36.08, 39.51, 43.26, 47.38, 51.86, 56.72, 61.95, 67.53, 73.47, 79.72, 86.25, 93.0, 99.95, 106.99, 114.09, 121.13, 128.08, 134.83, 141.32, 147.47, 153.23, 158.55, 163.4, 167.73, 171.57, 174.87, 177.7, 180.06, 181.97, 183.49, 184.66, 185.55, 186.17, 186.6, 186.87, 187.04, 187.11, 187.15, 2*187.16, 187.17 !   [m]
+!ALE_RESOLUTION = 4*2.0, 2*2.01, 2*2.02, 2.05, 2.07, 2.09, 2.13, 2.18, 2.24, 2.3, 2.4, 2.5, 2.62, 2.78, 2.95, 3.17, 3.42, 3.71, 4.07, 4.48, 4.97, 5.55, 6.23, 7.04, 7.99, 9.11, 10.43, 11.98, 13.8, 15.94, 18.42, 21.32, 24.66, 28.51, 32.91, 37.92, 43.56, 49.87, 56.88, 64.55, 72.91, 81.87, 91.4, 101.39, 111.73, 122.29, 132.93, 143.47, 153.78, 163.7, 173.07, 181.78, 189.76, 196.89, 203.17, 208.58, 213.14, 216.87, 219.87, 222.19, 223.94, 225.18, 226.04, 226.59, 226.9, 227.07, 227.14, 2*227.16, 227.17 !   [m]
                                 ! The distribution of vertical resolution for the target
                                 ! grid used for Eulerian-like coordinates. For example,
                                 ! in z-coordinate mode, the parameter is a list of level

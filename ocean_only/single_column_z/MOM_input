@@ -173,7 +173,7 @@ REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 !  Z*    - stetched geopotential z*
                                 !  SIGMA - terrain following coordinates
                                 !  RHO   - continuous isopycnal
-ALE_COORDINATE_CONFIG = "FILE:INPUT/vgrid_cm4_10.nc,dz" ! default = "UNIFORM"
+ALE_COORDINATE_CONFIG = "FILE:INPUT/vgrid_cm4.nc,dz" ! default = "UNIFORM"
                                 ! Determines how to specify the coordinate
                                 ! resolution. Valid options are:
                                 !  PARAM       - use the vector-parameter ALE_RESOLUTION
@@ -348,6 +348,9 @@ USE_KPP = True                  !   [Boolean] default = False
 KPP%
 KPP_IS_ADDITIVE = True          !   [Boolean] default = False
                                 ! If true, adds KPP diffusivity to the existing diffusivity. If false, replaces exisiting diffusivity with KPP diffusivity wherever the latter is non-zero.
+INTERP_TYPE = "cubic"           ! default = "quadratic"
+                                ! Type of interpolation to use to determine the OBL depth.
+                                ! Allowed types are: linear, quadratic, cubic.
 %KPP
 
 ! === module MOM_diffConvection ===
