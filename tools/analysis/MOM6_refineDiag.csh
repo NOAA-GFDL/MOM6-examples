@@ -97,9 +97,9 @@ echo '==Run some example annual scripts. These are not reviewed by scientists.'
 fredb -x $rtsxml -p $platform -t $target -q cobweb -d curator $name
 
 echo '====annual mean Eddy Kinetic Energy======'
-mkdir -p $out_dir/ocean_${yr1}/EddyKineticEnergy
+mkdir -p $out_dir/refineDiag_ocean_annual/ocean_${yr1}/EddyKineticEnergy
 
-$script_dir/EddyKineticEnergy.py  -g $yr1.ocean_static.nc -o $out_dir/ocean_${yr1}/EddyKineticEnergy -l ${yr1} $yr1.ocean_daily.nc
+$script_dir/EddyKineticEnergy.py  -g $yr1.ocean_static.nc -o $out_dir/refineDiag_ocean_annual/ocean_${yr1}/EddyKineticEnergy -l ${yr1} $yr1.ocean_daily.nc
 
 echo "  ---------- end yearly analysis ----------  "
 
