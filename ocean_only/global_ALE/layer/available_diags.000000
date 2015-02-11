@@ -679,12 +679,18 @@
 "ocean_model", "KPP_NLtransport_salt"  [Used]
     ! long_name: Non-local tranpsort (Cs*G(sigma)) for scalars, as calculated by [CVmix] KPP
     ! units: nondim
-"ocean_model", "KPP_dTdt"  [Unused]
+"ocean_model", "KPP_NLT_dTdt"  [Unused]
     ! long_name: Temperature tendency due to non-local transport of heat, as calculated by [CVmix] KPP
     ! units: K/s
-"ocean_model", "KPP_dSdt"  [Unused]
-    ! long_name: Salinity tendency due to non-local transport of heat, as calculated by [CVmix] KPP
+"ocean_model", "KPP_NLT_dSdt"  [Unused]
+    ! long_name: Salinity tendency due to non-local transport of salt, as calculated by [CVmix] KPP
     ! units: ppt/s
+"ocean_model", "KPP_NLT_temp_budget"  [Unused]
+    ! long_name: Heat content change due to non-local transport, as calculated by [CVmix] KPP
+    ! units: W/m^2
+"ocean_model", "KPP_NLT_saln_budget"  [Unused]
+    ! long_name: Salt content change due to non-local transport, as calculated by [CVmix] KPP
+    ! units: kg/(sec*m^2)
 "ocean_model", "KPP_Tsurf"  [Unused]
     ! long_name: Temperature of surface layer (10% of OBL depth) as passed to [CVmix] KPP
     ! units: C
