@@ -557,15 +557,15 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
 ! This is the MOM wrapper to CVmix:KPP
 ! See http://code.google.com/p/cvmix/
 USE_KPP = True                  !   [Boolean] default = False
-                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1984,
+                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
                                 ! to calculate diffusivities and non-local transport in the OBL.
 KPP%
 NLT_SHAPE = "PARABOLIC"         ! default = "CVMIX"
-                                ! The shape of the nonlocal transport (or redistribution of surface
-                                ! forcina. Allowed values are:
-                                !    CVMIX     - Uses the profile from CVmix
+                                ! MOM6 method to set nonlocal transport profile.
+                                ! Over-rides the result from CVMix.  Allowed values are:
+                                !    CVMIX     - Uses the profiles from CVmix specified by MATCH_TECHNIQUE
                                 !    LINEAR    - A linear profile, 1-sigma
-                                !    PARABOLIC - A paroblic profile, (1-sigma)^2
+                                !    PARABOLIC - A parablic profile, (1-sigma)^2
                                 !    CUBIC     - A cubic profile, (1-sigma)^2(1+2*sigma)
                                 !    CUBIC_LMD - The original KPP profile
 KPP_IS_ADDITIVE = True          !   [Boolean] default = False

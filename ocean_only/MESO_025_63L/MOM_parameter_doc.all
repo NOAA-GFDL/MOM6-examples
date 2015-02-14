@@ -1194,7 +1194,7 @@ KAPPA_SHEAR_MERGE_ML = True     !   [Boolean] default = True
 ! This is the MOM wrapper to CVmix:KPP
 ! See http://code.google.com/p/cvmix/
 USE_KPP = False                 !   [Boolean] default = False
-                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1984,
+                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
                                 ! to calculate diffusivities and non-local transport in the OBL.
 KPP%
 PASSIVE = False                 !   [Boolean] default = False
@@ -1205,16 +1205,16 @@ APPLY_NONLOCAL_TRANSPORT = True !   [Boolean] default = True
                                 ! purely for diagnostic purposes.
 RI_CRIT = 0.3                   !   [nondim] default = 0.3
                                 ! Critical bulk Richardson number used to define depth of the
-                                ! Oceab Boundary Layer (OBL).
+                                ! surface Ocean Boundary Layer (OBL).
 VON_KARMAN = 0.4                !   [nondim] default = 0.4
                                 ! von Karman constant.
 INTERP_TYPE = "cubic"           ! default = "cubic"
-                                ! Type of interpolation to use to determine the OBL depth.
+                                ! Type of interpolation to determine the OBL depth.
                                 ! Allowed types are: linear, quadratic, cubic.
 COMPUTE_EKMAN = False           !   [Boolean] default = False
-                                ! If True, limit the OBL depth to be shallower than the Ekman depth.
+                                ! If True, limit OBL depth to be no deeper than Ekman depth.
 COMPUTE_MONIN_OBUKHOV = False   !   [Boolean] default = False
-                                ! If True, limit the OBL depth to be shallower than the
+                                ! If True, limit the OBL depth to be no deeper than
                                 ! Monin-Obukhov depth.
 CS = 98.96                      !   [nondim] default = 98.96
                                 ! Parameter for computing velocity scale function.
@@ -1226,20 +1226,27 @@ MINIMUM_OBL_DEPTH = 0.0         !   [m] default = 0.0
                                 ! this parameter, the OBL depth is always at least as deep as the first layer.
 CORRECT_SURFACE_LAYER_AVERAGE = False !   [Boolean] default = False
                                 ! If true, applies a correction step to the averaging of surface layer
-                                ! properties.
+                                ! properties. This option is obsolete.
 FIRST_GUESS_SURFACE_LAYER_DEPTH = 0.0 !   [m] default = 0.0
                                 ! The first guess at the depth of the surface layer used for averaging
                                 ! the surface layer properties. If =0, the top model level properties
                                 ! will be used for the surface layer. If CORRECT_SURFACE_LAYER_AVERAGE=True, a
-                                ! subsequent correction is applied.
+                                ! subsequent correction is applied. This parameter is obsolete
 NLT_SHAPE = "CVMIX"             ! default = "CVMIX"
-                                ! The shape of the nonlocal transport (or redistribution of surface
-                                ! forcina. Allowed values are:
-                                !    CVMIX     - Uses the profile from CVmix
+                                ! MOM6 method to set nonlocal transport profile.
+                                ! Over-rides the result from CVMix.  Allowed values are:
+                                !    CVMIX     - Uses the profiles from CVmix specified by MATCH_TECHNIQUE
                                 !    LINEAR    - A linear profile, 1-sigma
-                                !    PARABOLIC - A paroblic profile, (1-sigma)^2
+                                !    PARABOLIC - A parablic profile, (1-sigma)^2
                                 !    CUBIC     - A cubic profile, (1-sigma)^2(1+2*sigma)
                                 !    CUBIC_LMD - The original KPP profile
+MATCH_TECHNIQUE = "SimpleShapes" ! default = "SimpleShapes"
+                                ! CVMix method to set profile function for diffusivity and NLT,
+                                ! as well as matching across OBL base. Allowed values are:
+                                !    SimpleShapes      = sigma*(1-sigma)^2 for both diffusivity and NLT
+                                !    MatchGradient     = sigma*(1-sigma)^2 for NLT; diffusivity profile from matching
+                                !    MatchBoth         = match gradoemt for both diffusivity and NLT
+                                !    ParabolicNonLocal = sigma*(1-sigma)^2 for diffusivity; (1-sigma)^2 for NLT
 KPP_ZERO_DIFFUSIVITY = False    !   [Boolean] default = False
                                 ! If true, sets both the diffusivity and viscosity from KPP to zero; for testing.
 KPP_IS_ADDITIVE = False         !   [Boolean] default = False
