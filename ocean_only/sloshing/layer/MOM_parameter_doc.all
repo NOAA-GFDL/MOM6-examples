@@ -57,13 +57,13 @@ MASKTABLE = "MOM_mask_table"    ! default = "MOM_mask_table"
 LAYOUT = 0, 0                   ! default = 0
                                 ! The processor layout to be used, or 0, 0 to automatically
                                 ! set the layout based on the number of processors.
-!NIPROC = 2                     !
+!NIPROC = 4                     !
                                 ! The number of processors in the x-direction. With
                                 ! STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
 !NJPROC = 1                     !
                                 ! The number of processors in the x-direction. With
                                 ! STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-!LAYOUT = 2, 1                  !
+!LAYOUT = 4, 1                  !
                                 ! The processor layout that was acutally used.
 IO_LAYOUT = 1, 1                ! default = 0
                                 ! The processor layout to be used, or 0,0 to automatically
@@ -785,7 +785,12 @@ MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the
                                 ! barotropic solver are limited to values that require
-                                ! less than 0.1*MAXVEL to be accommodated.
+                                ! less than maxCFL_BT_cont to be accommodated.
+BT_CONT_CORR_BOUNDS = True      !   [Boolean] default = True
+                                ! If true, and BOUND_BT_CORRECTION is true, use the
+                                ! BT_cont_type variables to set limits determined by
+                                ! MAXCFL_BT_CONT on the CFL number of the velocites
+                                ! that are likely to be driven by the corrective mass fluxes.
 GRADUAL_BT_ICS = False          !   [Boolean] default = False
                                 ! If true, adjust the initial conditions for the
                                 ! barotropic solver to the values from the layered
@@ -853,9 +858,9 @@ BT_STRONG_DRAG = False          !   [Boolean] default = True
                                 ! barotropic steps.
 CLIP_BT_VELOCITY = False        !   [Boolean] default = False
                                 ! If true, limit any velocity components that exceed
-                                ! MAXVEL.  This should only be used as a desperate
+                                ! CFL_TRUNCATE.  This should only be used as a desperate
                                 ! debugging measure.
-MAXCFL_BT_CONT = 0.1            !   [nondim] default = 0.1
+MAXCFL_BT_CONT = 0.25           !   [nondim] default = 0.25
                                 ! The maximum permitted CFL number associated with the
                                 ! barotropic accelerations from the summed velocities
                                 ! times the time-derivatives of thicknesses.
@@ -1336,11 +1341,11 @@ DT_FORCING = 3600.0             !   [s] default = 900.0
                                 ! The time step for changing forcing, coupling with other
                                 ! components, or potentially writing certain diagnostics.
                                 ! The default value is given by DT.
-DAYMAX = 5.0                    !   [days]
+DAYMAX = 5.0                    !   [days] default = 5.0
                                 ! The final time of the whole simulation, in units of
                                 ! TIMEUNIT seconds.  This also sets the potential end
                                 ! time of the present run segment if the end time is
-                                ! not set via ocean_solo_nml in input.nml.
+                                ! not set (as it was here) via ocean_solo_nml in input.nml.
 RESTART_CONTROL = -1            ! default = 1
                                 ! An integer whose bits encode which restart files are
                                 ! written. Add 2 (bit 1) for a time-stamped file, and odd
