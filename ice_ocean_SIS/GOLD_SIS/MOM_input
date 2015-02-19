@@ -65,9 +65,6 @@ NK = 63                         !   [nondim]
 ! Parameters providing information about the vertical grid.
 
 ! === module MOM ===
-USE_LEGACY_SPLIT = True         !   [Boolean] default = False
-                                ! If true, use the full range of options available from
-                                ! the older GOLD-derived split time stepping code.
 THICKNESSDIFFUSE = True         !   [Boolean] default = False
                                 ! If true, interfaces or isopycnal surfaces are diffused,
                                 ! depending on the value of FULL_THICKNESSDIFFUSE.
@@ -93,6 +90,13 @@ MIN_Z_DIAG_INTERVAL = 2.16E+04  !   [s] default = 0.0
                                 ! calculations of depth-space diagnostics. Making this
                                 ! larger than DT_THERM reduces the  performance penalty
                                 ! of regridding to depth online.
+DTBT_RESET_PERIOD = 0.0         !   [s] default = 7200.0
+                                ! The period between recalculations of DTBT (if DTBT <= 0).
+                                ! If DTBT_RESET_PERIOD is negative, DTBT is set based
+                                ! only on information available at initialization.  If
+                                ! dynamic, DTBT will be set at least every forcing time
+                                ! step, and if 0, every dynamics time step.  The default is
+                                ! set by DT_THERM.  This is only used if SPLIT is true.
 FRAZIL = True                   !   [Boolean] default = False
                                 ! If true, water freezes if it gets too cold, and the
                                 ! the accumulated heat deficit is returned in the
@@ -109,6 +113,12 @@ C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! constant. This is only used if ENABLE_THERMODYNAMICS is
                                 ! true. The default value is from the TEOS-10 definition
                                 ! of conservative temperature.
+NKML = 2                        !   [nondim] default = 2
+                                ! The number of sublayers within the mixed layer if
+                                ! BULKMIXEDLAYER is true.
+NKBL = 2                        !   [nondim] default = 2
+                                ! The number of layers that are used as variable density
+                                ! buffer layers if BULKMIXEDLAYER is true.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given
                                 ! by IC_OUTPUT_FILE.
@@ -173,6 +183,7 @@ TOPO_CONFIG = "file"            !
                                 !     DOME2D - use a shelf and slope configuration for the
                                 !       DOME2D gravity current/overflow test case.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     USER - call a user modified routine.
 MAXIMUM_DEPTH = 6000.0          !   [m]
                                 ! The maximum depth of the ocean.
@@ -198,6 +209,7 @@ THICKNESS_CONFIG = "file"       !
                                 !     file - read interface heights from the file specified
                                 !     thickness_file - read thicknesses from the file specified
                                 !       by (THICKNESS_FILE).
+                                !     coord - determined by ALE coordinate.
                                 !     uniform - uniform thickness layers evenly distributed
                                 !       between the surface and MAXIMUM_DEPTH.
                                 !     DOME - use a slope and channel configuration for the
@@ -210,6 +222,7 @@ THICKNESS_CONFIG = "file"       !
                                 !     adjustment2d - TBD AJA.
                                 !     sloshing - TBD AJA.
                                 !     seamount - TBD AJA.
+                                !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
 THICKNESS_FILE = "GOLD_IC.2010.11.15.nc" !
                                 ! The name of the thickness file.
@@ -232,6 +245,8 @@ TS_CONFIG = "file"              !
                                 !     adjustment2d - TBD AJA.
                                 !     sloshing - TBD AJA.
                                 !     seamount - TBD AJA.
+                                !     rossby_front - a mixed layer front in thermal wind balance.
+                                !     SCM_ideal_hurr - used in the SCM idealized hurricane test.
                                 !     USER - call a user modified routine.
 TS_FILE = "GOLD_IC.2010.11.15.nc" !
                                 ! The initial condition file for temperature.
@@ -265,22 +280,6 @@ VARMIX_KTOP = 6                 !   [nondim] default = 2
 VISBECK_L_SCALE = 3.0E+04       !   [m] default = 0.0
                                 ! The fixed length scale in the Visbeck formula.
 
-! === module MOM_wave_speed ===
-FLUX_BT_COUPLING = True         !   [Boolean] default = False
-                                ! If true, use mass fluxes to ensure consistency between
-                                ! the baroclinic and barotropic modes. This is only used
-                                ! if SPLIT is true.
-READJUST_BT_TRANS = True        !   [Boolean] default = False
-                                ! If true, make a barotropic adjustment to the layer
-                                ! velocities after the thermodynamic part of the step
-                                ! to ensure that the interaction between the thermodynamics
-                                ! and the continuity solver do not change the barotropic
-                                ! transport.  This is only used if FLUX_BT_COUPLING and
-                                ! SPLIT are true.
-MONOTONIC_CONTINUITY = True     !   [Boolean] default = False
-                                ! If true, CONTINUITY_PPM uses the Colella and Woodward
-                                ! monotonic limiter.  The default (false) is to use a
-                                ! simple positive definite limiter.
 ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.15E-09
                                 ! The tolerance for the differences between the
                                 ! barotropic and baroclinic estimates of the sea surface
@@ -313,7 +312,7 @@ KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! viscosity, the Smagorinsky viscosity and KH.
 AH_VEL_SCALE = 0.05             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the cube of
-                                ! the grid spacing to calculate the Laplacian viscosity.
+                                ! the grid spacing to calculate the biharmonic viscosity.
                                 ! The final viscosity is the largest of this scaled
                                 ! viscosity, the Smagorinsky viscosity and AH.
 SMAGORINSKY_AH = True           !   [Boolean] default = False
@@ -354,8 +353,6 @@ MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity
                                 ! components are truncated.
 
-! === module MOM_PointAccel ===
-
 ! === module MOM_set_visc ===
 USE_JACKSON_PARAM = True        !   [Boolean] default = False
                                 ! If true, use the Jackson-Hallberg-Legg (JPO 2008)
@@ -385,29 +382,26 @@ BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! The barotropic x-halo size that is actually used.
 !BT y-halo = 0                  !
                                 ! The barotropic y-halo size that is actually used.
-BT_STRONG_DRAG = True           !   [Boolean] default = False
-                                ! If true, use a stronger estimate of the retarding
-                                ! effects of strong bottom drag, by making it implicit
-                                ! with the barotropic time-step instead of implicit with
-                                ! the baroclinic time-step and dividing by the number of
-                                ! barotropic steps.
-BT_THICK_SCHEME = "HYBRID" ! default = "FROM_BT_CONT"
+BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
+                                ! If true, step the barotropic velocity first and project
+                                ! out the velocity tendancy by 1+BEBT when calculating the
+                                ! transport.  The default (false) is to use a predictor
+                                ! continuity step to find the pressure field, and then
+                                ! to do a corrector continuity step using a weighted
+                                ! average of the old and new velocities, with weights
+                                ! of (1-BEBT) and BEBT.
+BT_THICK_SCHEME = "FROM_BT_CONT" ! default = "FROM_BT_CONT"
                                 ! A string describing the scheme that is used to set the
                                 ! open face areas used for barotropic transport and the
                                 ! relative weights of the accelerations. Valid values are:
                                 !    ARITHMETIC - arithmetic mean layer thicknesses
                                 !    HARMONIC - harmonic mean layer thicknesses
-                                !    HYBRID (the default) - use arithmetic means for
-                                !       layers above the shallowest bottom, the harmonic
-                                !       mean for layers below, and a weighted average for
-                                !       layers that straddle that depth
+                                !    HYBRID - use arithmetic means for layers above the
+                                !       shallowest bottom, the harmonic mean for layers
+                                !       below, and a weighted average for layers that
+                                !       straddle that depth
                                 !    FROM_BT_CONT - use the average thicknesses kept
                                 !       in the h_u and h_v fields of the BT_cont_type
-DT_BT_FILTER = 0.0              !   [sec or nondim] default = -0.25
-                                ! A time-scale over which the barotropic mode solutions
-                                ! are filtered, in seconds if positive, or as a fraction
-                                ! of DT if negative. When used this can never be taken to
-                                ! be longer than 2*dt.  Set this to 0 to apply no filtering.
 BEBT = 0.2                      !   [nondim] default = 0.1
                                 ! BEBT determines whether the barotropic time stepping
                                 ! uses the forward-backward time-stepping scheme or a
@@ -415,7 +409,7 @@ BEBT = 0.2                      !   [nondim] default = 0.1
                                 ! 0 (for a forward-backward treatment of nonrotating
                                 ! gravity waves) to 1 (for a backward Euler treatment).
                                 ! In practice, BEBT must be greater than about 0.05.
-DTBT = 60.0                     !   [s or nondim] default = -0.98
+DTBT = -0.95                    !   [s or nondim] default = -0.98
                                 ! The barotropic time step, in s. DTBT is only used with
                                 ! the split explicit time stepping. To set the time step
                                 ! automatically based the maximum stable value use 0, or
@@ -579,6 +573,10 @@ RIVERMIX_DEPTH = 40.0           !   [m] default = 0.0
                                 ! defined.
 
 ! === module MOM_regularize_layers ===
+REGULARIZE_SURFACE_LAYERS = True !   [Boolean] default = False
+                                ! If defined, vertically restructure the near-surface
+                                ! layers when they have too much lateral variations to
+                                ! allow for sensible lateral barotropic transports.
 
 ! === module MOM_opacity ===
 VAR_PEN_SW = True               !   [Boolean] default = False
@@ -657,7 +655,7 @@ GUST_2D_FILE = "gustiness_qscat.nc" !
                                 ! variable gustiness.
 
 ! === module MOM_sum_output ===
-MAXTRUNC = 1000000              !   [truncations save_interval-1] default = 0
+MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very
                                 ! large value if the velocity is truncated more than
                                 ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0

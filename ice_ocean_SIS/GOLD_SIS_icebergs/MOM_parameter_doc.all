@@ -14,7 +14,7 @@ TRIPOLAR_N = True               !   [Boolean] default = False
                                 ! This can only be set at compile time.
 NONBLOCKING_UPDATES = False     !   [Boolean] default = False
                                 ! If true, non-blocking halo updates may be used.
-!STATIC_MEMORY_ = False         !   [Boolean]
+!STATIC_MEMORY_ = True          !   [Boolean]
                                 ! If STATIC_MEMORY_ is defined, the principle variables
                                 ! will have sizes that are statically determined at
                                 ! compile time.  Otherwise the sizes are not determined
@@ -54,9 +54,6 @@ MASKTABLE = "MOM_mask_table"    ! default = "MOM_mask_table"
                                 !  4,6
                                 !  1,2
                                 !  3,6
-LAYOUT = 0, 0                   ! default = 0
-                                ! The processor layout to be used, or 0, 0 to automatically
-                                ! set the layout based on the number of processors.
 !NIPROC = 10                    !
                                 ! The number of processors in the x-direction. With
                                 ! STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
@@ -65,7 +62,7 @@ LAYOUT = 0, 0                   ! default = 0
                                 ! STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
 !LAYOUT = 10, 6                 !
                                 ! The processor layout that was acutally used.
-IO_LAYOUT = 2, 2                ! default = 0
+IO_LAYOUT = 1, 1                ! default = 0
                                 ! The processor layout to be used, or 0,0 to automatically
                                 ! set the io_layout to be the same as the layout.
 
@@ -93,10 +90,6 @@ BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
                                 ! topography are entirely determined from thickness points.
 NK = 63                         !   [nondim]
                                 ! The number of model layers.
-NIBLOCK = 1                     ! default = 1
-                                ! The number of blocks in the x-direction on each processor (for openmp).
-NJBLOCK = 1                     ! default = 1
-                                ! The number of blocks in the y-direction on each processor (for openmp).
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
@@ -112,7 +105,7 @@ VERBOSITY = 2                   ! default = 2
                                 !   9 = All)
 SPLIT = True                    !   [Boolean] default = True
                                 ! Use the split time stepping if true.
-USE_LEGACY_SPLIT = True         !   [Boolean] default = False
+USE_LEGACY_SPLIT = False        !   [Boolean] default = False
                                 ! If true, use the full range of options available from
                                 ! the older GOLD-derived split time stepping code.
 ENABLE_THERMODYNAMICS = True    !   [Boolean] default = True
@@ -173,7 +166,7 @@ INTERPOLATE_P_SURF = False      !   [Boolean] default = False
 SSH_SMOOTHING_PASSES = 0.0      !   [nondim] default = 0.0
                                 ! The number of Laplacian smoothing passes to apply to the
                                 ! the sea surface height that is reported to the sea-ice.
-DTBT_RESET_PERIOD = -1.0        !   [s] default = -1.0
+DTBT_RESET_PERIOD = 0.0         !   [s] default = 7200.0
                                 ! The period between recalculations of DTBT (if DTBT <= 0).
                                 ! If DTBT_RESET_PERIOD is negative, DTBT is set based
                                 ! only on information available at initialization.  If
@@ -701,17 +694,6 @@ BEGW = 0.0                      !   [nondim] default = 0.0
                                 ! Euler (1).  0 is almost always used.
                                 ! If SPLIT is false and USE_RK2 is true, BEGW can be
                                 ! between 0 and 0.5 to damp gravity waves.
-FLUX_BT_COUPLING = True         !   [Boolean] default = False
-                                ! If true, use mass fluxes to ensure consistency between
-                                ! the baroclinic and barotropic modes. This is only used
-                                ! if SPLIT is true.
-READJUST_BT_TRANS = True        !   [Boolean] default = False
-                                ! If true, make a barotropic adjustment to the layer
-                                ! velocities after the thermodynamic part of the step
-                                ! to ensure that the interaction between the thermodynamics
-                                ! and the continuity solver do not change the barotropic
-                                ! transport.  This is only used if FLUX_BT_COUPLING and
-                                ! SPLIT are true.
 SPLIT_BOTTOM_STRESS = False     !   [Boolean] default = False
                                 ! If true, provide the bottom stress calculated by the
                                 ! vertical viscosity to the barotropic solver.
@@ -724,7 +706,7 @@ CONTINUITY_SCHEME = "PPM"       ! default = "PPM"
                                 ! continuity solver. The only valid value currently is:
                                 !    PPM - use a positive-definite (or monotonic)
                                 !          piecewise parabolic reconstruction solver.
-MONOTONIC_CONTINUITY = True     !   [Boolean] default = False
+MONOTONIC_CONTINUITY = False    !   [Boolean] default = False
                                 ! If true, CONTINUITY_PPM uses the Colella and Woodward
                                 ! monotonic limiter.  The default (false) is to use a
                                 ! simple positive definite limiter.
@@ -924,7 +906,12 @@ MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the
                                 ! barotropic solver are limited to values that require
-                                ! less than 0.1*MAXVEL to be accommodated.
+                                ! less than maxCFL_BT_cont to be accommodated.
+BT_CONT_CORR_BOUNDS = True      !   [Boolean] default = True
+                                ! If true, and BOUND_BT_CORRECTION is true, use the
+                                ! BT_cont_type variables to set limits determined by
+                                ! MAXCFL_BT_CONT on the CFL number of the velocites
+                                ! that are likely to be driven by the corrective mass fluxes.
 GRADUAL_BT_ICS = False          !   [Boolean] default = False
                                 ! If true, adjust the initial conditions for the
                                 ! barotropic solver to the values from the layered
@@ -936,9 +923,9 @@ BT_USE_WIDE_HALOS = True        !   [Boolean] default = True
                                 ! barotropic time stepping for efficiency.
 BTHALO = 0                      ! default = 0
                                 ! The minimum halo size for the barotropic solver.
-!BT x-halo = 0                  !
+!BT x-halo = 10                 !
                                 ! The barotropic x-halo size that is actually used.
-!BT y-halo = 0                  !
+!BT y-halo = 10                 !
                                 ! The barotropic y-halo size that is actually used.
 USE_BT_CONT_TYPE = True         !   [Boolean] default = True
                                 ! If true, use a structure with elements that describe
@@ -950,18 +937,12 @@ NONLINEAR_BT_CONTINUITY = False !   [Boolean] default = False
                                 ! If true, use nonlinear transports in the barotropic
                                 ! continuity equation.  This does not apply if
                                 ! USE_BT_CONT_TYPE is true.
-RESCALE_BT_FACE_AREAS = False   !   [Boolean] default = False
-                                ! If true, the face areas used by the barotropic solver
-                                ! are rescaled to approximately reflect the open face
-                                ! areas of the interior layers.  This probably requires
-                                ! FLUX_BT_COUPLING to work, and should not be used with
-                                ! USE_BT_CONT_TYPE.
 BT_MASS_SOURCE_LIMIT = 0.0      !   [nondim] default = 0.0
                                 ! The fraction of the initial depth of the ocean that can
                                 ! be added to or removed from the bartropic solution
                                 ! within a thermodynamic time step.  By default this is 0
                                 ! for no correction.
-BT_PROJECT_VELOCITY = False     !   [Boolean] default = False
+BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project
                                 ! out the velocity tendancy by 1+BEBT when calculating the
                                 ! transport.  The default (false) is to use a predictor
@@ -978,7 +959,7 @@ SADOURNY = True                 !   [Boolean] default = True
                                 ! the Arakawa & Hsu scheme is used.  If the internal
                                 ! deformation radius is not resolved, the Sadourny scheme
                                 ! should probably be used.
-BT_THICK_SCHEME = "HYBRID"      ! default = "FROM_BT_CONT"
+BT_THICK_SCHEME = "FROM_BT_CONT" ! default = "FROM_BT_CONT"
                                 ! A string describing the scheme that is used to set the
                                 ! open face areas used for barotropic transport and the
                                 ! relative weights of the accelerations. Valid values are:
@@ -990,9 +971,6 @@ BT_THICK_SCHEME = "HYBRID"      ! default = "FROM_BT_CONT"
                                 !       layers that straddle that depth
                                 !    FROM_BT_CONT - use the average thicknesses kept
                                 !       in the h_u and h_v fields of the BT_cont_type
-APPLY_BT_DRAG = True            !   [Boolean] default = True
-                                ! If defined, bottom drag is applied within the
-                                ! barotropic solver.
 BT_STRONG_DRAG = True           !   [Boolean] default = True
                                 ! If true, use a stronger estimate of the retarding
                                 ! effects of strong bottom drag, by making it implicit
@@ -1001,13 +979,13 @@ BT_STRONG_DRAG = True           !   [Boolean] default = True
                                 ! barotropic steps.
 CLIP_BT_VELOCITY = False        !   [Boolean] default = False
                                 ! If true, limit any velocity components that exceed
-                                ! MAXVEL.  This should only be used as a desperate
+                                ! CFL_TRUNCATE.  This should only be used as a desperate
                                 ! debugging measure.
-MAXCFL_BT_CONT = 0.1            !   [nondim] default = 0.1
+MAXCFL_BT_CONT = 0.25           !   [nondim] default = 0.25
                                 ! The maximum permitted CFL number associated with the
                                 ! barotropic accelerations from the summed velocities
                                 ! times the time-derivatives of thicknesses.
-DT_BT_FILTER = 0.0              !   [sec or nondim] default = -0.25
+DT_BT_FILTER = -0.25            !   [sec or nondim] default = -0.25
                                 ! A time-scale over which the barotropic mode solutions
                                 ! are filtered, in seconds if positive, or as a fraction
                                 ! of DT if negative. When used this can never be taken to
@@ -1029,7 +1007,7 @@ BEBT = 0.2                      !   [nondim] default = 0.1
                                 ! 0 (for a forward-backward treatment of nonrotating
                                 ! gravity waves) to 1 (for a backward Euler treatment).
                                 ! In practice, BEBT must be greater than about 0.05.
-DTBT = 60.0                     !   [s or nondim] default = -0.98
+DTBT = -0.95                    !   [s or nondim] default = -0.98
                                 ! The barotropic time step, in s. DTBT is only used with
                                 ! the split explicit time stepping. To set the time step
                                 ! automatically based the maximum stable value use 0, or
@@ -1535,10 +1513,14 @@ LIMIT_BUFFER_DET_DH_BATHY = 0.2 !   [nondim] default = 0.2
                                 ! to change between grid points.
 
 ! === module MOM_regularize_layers ===
-REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False
+REGULARIZE_SURFACE_LAYERS = True !   [Boolean] default = False
                                 ! If defined, vertically restructure the near-surface
                                 ! layers when they have too much lateral variations to
                                 ! allow for sensible lateral barotropic transports.
+REGULARIZE_SURFACE_DETRAIN = True !   [Boolean] default = True
+                                ! If true, allow the buffer layers to detrain into the
+                                ! interior as a part of the restructuring when
+                                ! REGULARIZE_SURFACE_LAYERS is true.
 REG_SFC_DEFICIT_TOLERANCE = 0.5 !   [nondim] default = 0.5
                                 ! The value of the relative thickness deficit at which
                                 ! to start modifying the layer structure when
@@ -1707,7 +1689,7 @@ CALCULATE_APE = True            !   [Boolean] default = True
 WRITE_STOCKS = True             !   [Boolean] default = True
                                 ! If true, write the integrated tracer amounts to stdout
                                 ! when the energy files are written.
-MAXTRUNC = 1000000              !   [truncations save_interval-1] default = 0
+MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very
                                 ! large value if the velocity is truncated more than
                                 ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
