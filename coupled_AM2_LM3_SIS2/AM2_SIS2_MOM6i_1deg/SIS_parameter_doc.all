@@ -293,6 +293,19 @@ CFL_TRUNC_DYN_ITS = False       !   [Boolean] default = False
                                 ! are used for transport are checked.
 DEBUG_REDUNDANT = False         !   [Boolean] default = False
                                 ! If true, debug redundant data points.
+U_TRUNC_FILE = ""               ! default = ""
+                                ! The absolute path to the file where the accelerations
+                                ! leading to zonal velocity truncations are written.
+                                ! Leave this empty for efficiency if this diagnostic is
+                                ! not needed.
+V_TRUNC_FILE = ""               ! default = ""
+                                ! The absolute path to the file where the accelerations
+                                ! leading to meridional velocity truncations are written.
+                                ! Leave this empty for efficiency if this diagnostic is
+                                ! not needed.
+MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
+                                ! The maximum number of colums of truncations that any PE
+                                ! will write out during a run.
 NSTEPS_ADV = 1                  ! default = 1
                                 ! The number of advective iterations for each slow time
                                 ! step.
