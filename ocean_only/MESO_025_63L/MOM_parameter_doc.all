@@ -14,7 +14,7 @@ TRIPOLAR_N = False              !   [Boolean] default = False
                                 ! This can only be set at compile time.
 NONBLOCKING_UPDATES = False     !   [Boolean] default = False
                                 ! If true, non-blocking halo updates may be used.
-!STATIC_MEMORY_ = True          !   [Boolean]
+!STATIC_MEMORY_ = False         !   [Boolean]
                                 ! If STATIC_MEMORY_ is defined, the principle variables
                                 ! will have sizes that are statically determined at
                                 ! compile time.  Otherwise the sizes are not determined
@@ -54,13 +54,16 @@ MASKTABLE = "MOM_mask_table"    ! default = "MOM_mask_table"
                                 !  4,6
                                 !  1,2
                                 !  3,6
-!NIPROC = 16                    !
+LAYOUT = 0, 0                   ! default = 0
+                                ! The processor layout to be used, or 0, 0 to automatically
+                                ! set the layout based on the number of processors.
+!NIPROC = 24                    !
                                 ! The number of processors in the x-direction. With
                                 ! STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-!NJPROC = 18                    !
+!NJPROC = 12                    !
                                 ! The number of processors in the x-direction. With
                                 ! STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-!LAYOUT = 16, 18                !
+!LAYOUT = 24, 12                !
                                 ! The processor layout that was acutally used.
 IO_LAYOUT = 4, 3                ! default = 0
                                 ! The processor layout to be used, or 0,0 to automatically
@@ -90,6 +93,10 @@ BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
                                 ! topography are entirely determined from thickness points.
 NK = 63                         !   [nondim]
                                 ! The number of model layers.
+NIBLOCK = 1                     ! default = 1
+                                ! The number of blocks in the x-direction on each processor (for openmp).
+NJBLOCK = 1                     ! default = 1
+                                ! The number of blocks in the y-direction on each processor (for openmp).
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
@@ -846,9 +853,9 @@ BT_USE_WIDE_HALOS = True        !   [Boolean] default = True
                                 ! barotropic time stepping for efficiency.
 BTHALO = 0                      ! default = 0
                                 ! The minimum halo size for the barotropic solver.
-!BT x-halo = 10                 !
+!BT x-halo = 0                  !
                                 ! The barotropic x-halo size that is actually used.
-!BT y-halo = 10                 !
+!BT y-halo = 0                  !
                                 ! The barotropic y-halo size that is actually used.
 USE_BT_CONT_TYPE = True         !   [Boolean] default = True
                                 ! If true, use a structure with elements that describe
@@ -1540,11 +1547,11 @@ DT_FORCING = 3600.0             !   [s] default = 600.0
                                 ! The time step for changing forcing, coupling with other
                                 ! components, or potentially writing certain diagnostics.
                                 ! The default value is given by DT.
-DAYMAX = 6.0                    !   [hours] default = 6.0
+DAYMAX = 6.0                    !   [hours]
                                 ! The final time of the whole simulation, in units of
                                 ! TIMEUNIT seconds.  This also sets the potential end
                                 ! time of the present run segment if the end time is
-                                ! not set (as it was here) via ocean_solo_nml in input.nml.
+                                ! not set via ocean_solo_nml in input.nml.
 RESTART_CONTROL = 3             ! default = 1
                                 ! An integer whose bits encode which restart files are
                                 ! written. Add 2 (bit 1) for a time-stamped file, and odd
