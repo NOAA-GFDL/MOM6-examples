@@ -1153,6 +1153,14 @@ CS = 98.96                      !   [nondim] default = 98.96
 DEEP_OBL_OFFSET = 0.0           !   [m] default = 0.0
                                 ! If non-zero, the distance above the bottom to which the OBL is clipped
                                 ! if it would otherwise reach the bottom. The smaller of this and 0.1D is used.
+FIXED_OBLDEPTH = False          !   [Boolean] default = False
+                                ! If True, fix the OBL depth to FIXED_OBLDEPTH_VALUE
+                                ! rather than using the OBL depth from CVMix.
+                                ! This option is just for testing purposes.
+FIXED_OBLDEPTH_VALUE = 30.0     !   [m] default = 30.0
+                                ! Value for the fixed OBL depth when fixedOBLdepth==True.
+                                ! This parameter is for just for testing purposes.
+                                ! It will over-ride the OBLdepth computed from CVMix.
 MINIMUM_OBL_DEPTH = 0.0         !   [m] default = 0.0
                                 ! If non-zero, a minimum depth to use for KPP OBL depth. Independent of
                                 ! this parameter, the OBL depth is always at least as deep as the first layer.
@@ -1180,9 +1188,9 @@ MATCH_TECHNIQUE = "SimpleShapes" ! default = "SimpleShapes"
                                 !    MatchBoth         = match gradoemt for both diffusivity and NLT
                                 !    ParabolicNonLocal = sigma*(1-sigma)^2 for diffusivity; (1-sigma)^2 for NLT
 KPP_ZERO_DIFFUSIVITY = False    !   [Boolean] default = False
-                                ! If true, sets both the diffusivity and viscosity from KPP to zero; for testing.
-KPP_IS_ADDITIVE = False         !   [Boolean] default = False
-                                ! If true, adds KPP diffusivity to the existing diffusivity. If false, replaces exisiting diffusivity with KPP diffusivity wherever the latter is non-zero.
+                                ! If True, zeroes the KPP diffusivity and viscosity; for testing purpose.
+KPP_IS_ADDITIVE = True          !   [Boolean] default = True
+                                ! If true, adds KPP diffusivity to diffusivity from other schemes.If false, KPP is the only diffusivity wherever KPP is non-zero.
 %KPP
 SALT_REJECT_BELOW_ML = False    !   [Boolean] default = False
                                 ! If true, place salt from brine rejection below the mixed layer,
