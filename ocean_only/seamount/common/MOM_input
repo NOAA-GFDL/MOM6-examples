@@ -312,6 +312,11 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! used with BOTTOMDRAGLAW. This might be
                                 ! Kv / (cdrag * drag_bg_vel) to give Kv as the minimum
                                 ! near-bottom viscosity.
+BBL_USE_EOS = True              !   [Boolean] default = False
+                                ! If true, use the equation of state in determining the
+                                ! properties of the bottom boundary layer.  Otherwise use
+                                ! the layer target potential densities.
+
 
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
