@@ -17,6 +17,8 @@ parser.add_argument('-w','--woa', type=str, required=True,
   help='''File containing WOA (or obs) data to compare against.''')
 cmdLineArgs = parser.parse_args()
 
+numpy.seterr(divide='ignore', invalid='ignore', over='ignore') # To avoid warnings
+
 x = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['x'][::2,::2]
 y = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['y'][::2,::2]
 msk = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_mask.nc').variables['mask'][:]
