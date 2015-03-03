@@ -484,10 +484,10 @@ def chooseColorMap(sMin, sMax):
   """
   Based on the min/max extremes of the data, choose a colormap that fits the data.
   """
-  if sMin<0 and sMax>0: return 'seismic'
-  elif sMax>0 and sMin<0.1*sMax: return 'hot'
-  elif sMin<0 and sMax>0.1*sMin: return 'hot_r'
-  else: return 'spectral'
+  if sMin<0 and sMax>0: return 'dunnePM'
+  #elif sMax>0 and sMin<0.1*sMax: return 'hot'
+  #elif sMin<0 and sMax>0.1*sMin: return 'hot_r'
+  else: return 'dunneRainbow'
 
 
 def chooseColorLevels(sMin, sMax, colorMapName, clim=None, nbins=None, steps=[1,2,2.5,5,10], extend=None, logscale=False):
