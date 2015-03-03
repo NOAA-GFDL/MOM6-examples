@@ -78,8 +78,8 @@ ci=m6plot.pmCI(0.05,1.,.1)
 tPlot = depthAverageT(Tmod, Zmod, depth, lDepth, uDepth)
 tRefPlot = depthAverageT(Tref, Zref, depth, lDepth, uDepth)
 m6plot.xyplot( tPlot - tRefPlot , x, y, area=area,
-      suptitle=rootGroup.title+' '+cmdLineArgs.label,
-      title=r'%i-%im depth-average $\theta$ difference [$\degree$C]'%(uDepth,lDepth),
+      suptitle=title1+' - '+title2,
+      title=r'%i-%im depth-average $\theta$ difference [$\degree$C]'%(uDepth,lDepth)+cmdLineArgs.label,
       clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
       save=cmdLineArgs.outdir+'/T_%i-%im_zave_difference.png'%(uDepth,lDepth))
 
