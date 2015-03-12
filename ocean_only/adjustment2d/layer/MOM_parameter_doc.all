@@ -161,6 +161,12 @@ DT_THERM = 300.0                !   [s] default = 150.0
                                 ! Ideally DT_THERM should be an integer multiple of DT
                                 ! and less than the forcing or coupling time-step.
                                 ! By default DT_THERM is set to DT.
+THERMO_SPANS_COUPLING = False   !   [Boolean] default = False
+                                ! If true, the MOM will take thermodynamic and tracer
+                                ! timesteps that can be longer than the coupling timestep.
+                                ! The actual thermodynamic timestep that is used in this
+                                ! case is the largest integer multiple of the coupling
+                                ! timestep that is less than or equal to DT_THERM.
 HMIX_SFC_PROP = 1.0             !   [m] default = 1.0
                                 ! If BULKMIXEDLAYER is false, HMIX_SFC_PROP is the depth
                                 ! over which to average to find surface properties like
