@@ -1234,11 +1234,14 @@ FIXED_OBLDEPTH_VALUE = 30.0     !   [m] default = 30.0
                                 ! Value for the fixed OBL depth when fixedOBLdepth==True.
                                 ! This parameter is for just for testing purposes.
                                 ! It will over-ride the OBLdepth computed from CVMix.
-RIB_DEPTH_RATIO = 0.95          !   [nondim] default = 0.95
-                                ! Value between 0 and 1 for scaling depth in Rib calculation.
+SURF_LAYER_EXTENT = 0.1         !   [nondim] default = 0.1
+                                ! Fraction of OBL depth considered in the surface layer.
 MINIMUM_OBL_DEPTH = 0.0         !   [m] default = 0.0
                                 ! If non-zero, a minimum depth to use for KPP OBL depth. Independent of
                                 ! this parameter, the OBL depth is always at least as deep as the first layer.
+MINIMUM_VT2 = 1.0E-10           !   [m2/s2] default = 1.0E-10
+                                ! Min of the unresolved velocity Vt2 used in Rib CVMix calculation.
+                                ! Scaling: MINIMUM_VT2 = const1*d*N*ws, with d=1m, N=1e-5/s, ws=1e-6 m/s.
 CORRECT_SURFACE_LAYER_AVERAGE = False !   [Boolean] default = False
                                 ! If true, applies a correction step to the averaging of surface layer
                                 ! properties. This option is obsolete.
