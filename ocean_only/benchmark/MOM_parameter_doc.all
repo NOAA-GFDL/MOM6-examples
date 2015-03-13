@@ -558,14 +558,25 @@ VISBECK_L_SCALE = 3.0E+04       !   [m] default = 0.0
 
 ! === module MOM_wave_speed ===
 KH_RES_SCALE_COEF = 1.0         !   [nondim] default = 1.0
-                                ! A coefficient that determines how Kh is scaled away if
+                                ! A coefficient that determines how KhTh is scaled away if
                                 ! RESOLN_SCALED_... is true, as
                                 ! F = 1 / (1 + (KH_RES_SCALE_COEF*Rd/dx)^KH_RES_FN_POWER).
 KH_RES_FN_POWER = 2             !   [nondim] default = 2
-                                ! The power of dx/Ld in the resolution function.  Any
+                                ! The power of dx/Ld in the Kh resolution function.  Any
                                 ! positive integer may be used, although even integers
                                 ! are more efficient to calculate.  Setting this greater
                                 ! than 100 results in a step-function being used.
+VISC_RES_SCALE_COEF = 1.0       !   [nondim] default = 1.0
+                                ! A coefficient that determines how Kh is scaled away if
+                                ! RESOLN_SCALED_... is true, as
+                                ! F = 1 / (1 + (KH_RES_SCALE_COEF*Rd/dx)^KH_RES_FN_POWER).
+                                ! This function affects lateral viscosity, Kh, and not KhTh.
+VISC_RES_FN_POWER = 2           !   [nondim] default = 2
+                                ! The power of dx/Ld in the Kh resolution function.  Any
+                                ! positive integer may be used, although even integers
+                                ! are more efficient to calculate.  Setting this greater
+                                ! than 100 results in a step-function being used.
+                                ! This function affects lateral viscosity, Kh, and not KhTh.
 INTERPOLATE_RES_FN = True       !   [Boolean] default = True
                                 ! If true, interpolate the resolution function to the
                                 ! velocity points from the thickness points; otherwise
