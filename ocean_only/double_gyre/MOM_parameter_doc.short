@@ -7,7 +7,7 @@ REENTRANT_X = False             !   [Boolean] default = True
                                 ! they are on the staggered grid.  Also, the starting
                                 ! index of the velocity-point arrays is usually 0, not 1.
                                 ! This can only be set at compile time.
-!STATIC_MEMORY_ = False         !   [Boolean]
+!STATIC_MEMORY_ = True          !   [Boolean]
                                 ! If STATIC_MEMORY_ is defined, the principle variables
                                 ! will have sizes that are statically determined at
                                 ! compile time.  Otherwise the sizes are not determined
@@ -69,8 +69,10 @@ DT = 1200.0                     !   [s]
 DT_THERM = 2400.0               !   [s] default = 1200.0
                                 ! The thermodynamic and tracer advection time step.
                                 ! Ideally DT_THERM should be an integer multiple of DT
-                                ! and less than the forcing or coupling time-step.
-                                ! By default DT_THERM is set to DT.
+                                ! and less than the forcing or coupling time-step, unless
+                                ! THERMO_SPANS_COUPLING is true, in which case DT_THERM
+                                ! can be an integer multiple of the coupling timestep.  By
+                                ! default DT_THERM is set to DT.
 DTBT_RESET_PERIOD = -1.0        !   [s] default = 2400.0
                                 ! The period between recalculations of DTBT (if DTBT <= 0).
                                 ! If DTBT_RESET_PERIOD is negative, DTBT is set based
@@ -249,9 +251,9 @@ BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the
                                 ! barotropic solver are limited to values that require
                                 ! less than maxCFL_BT_cont to be accommodated.
-!BT x-halo = 0                  !
+!BT x-halo = 10                 !
                                 ! The barotropic x-halo size that is actually used.
-!BT y-halo = 0                  !
+!BT y-halo = 10                 !
                                 ! The barotropic y-halo size that is actually used.
 BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project
