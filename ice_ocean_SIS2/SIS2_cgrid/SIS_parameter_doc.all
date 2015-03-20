@@ -284,6 +284,13 @@ ICE_DEL_SH_MIN_SCALE = 2.0      !   [nondim] default = 2.0
                                 ! A scaling factor for the lower bound on the shear rates
                                 ! used in the denominator of the stress calculation. This
                                 ! probably needs to be greater than 1.
+PROJECT_ICE_CONCENTRATION = False !   [Boolean] default = False
+                                ! If true, project the evolution of the ice concentration
+                                ! due to the convergence or divergence of the ice flow.
+PROJECT_ICE_CONC_STR_LIM = -1.0 !   [nondim] default = -1.0
+                                ! A factor that determines how strictly the ice stresses
+                                ! are limited when the ice strength is allowed to vary
+                                ! within the dynamics, or negative number for no limiting.
 CFL_TRUNCATE = 0.5              !   [nondim] default = 0.5
                                 ! The value of the CFL number that will cause ice velocity
                                 ! components to be truncated; instability can occur past 0.5.
