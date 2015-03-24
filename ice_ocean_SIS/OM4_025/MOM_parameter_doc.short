@@ -99,8 +99,10 @@ DT = 1200.0                     !   [s]
 DT_THERM = 3600.0               !   [s] default = 1200.0
                                 ! The thermodynamic and tracer advection time step.
                                 ! Ideally DT_THERM should be an integer multiple of DT
-                                ! and less than the forcing or coupling time-step.
-                                ! By default DT_THERM is set to DT.
+                                ! and less than the forcing or coupling time-step, unless
+                                ! THERMO_SPANS_COUPLING is true, in which case DT_THERM
+                                ! can be an integer multiple of the coupling timestep.  By
+                                ! default DT_THERM is set to DT.
 MIN_Z_DIAG_INTERVAL = 2.16E+04  !   [s] default = 0.0
                                 ! The minimum amount of time in seconds between
                                 ! calculations of depth-space diagnostics. Making this

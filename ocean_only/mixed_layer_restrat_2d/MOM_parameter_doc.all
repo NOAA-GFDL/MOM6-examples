@@ -159,8 +159,10 @@ DT = 3600.0                     !   [s]
 DT_THERM = 3600.0               !   [s] default = 3600.0
                                 ! The thermodynamic and tracer advection time step.
                                 ! Ideally DT_THERM should be an integer multiple of DT
-                                ! and less than the forcing or coupling time-step.
-                                ! By default DT_THERM is set to DT.
+                                ! and less than the forcing or coupling time-step, unless
+                                ! THERMO_SPANS_COUPLING is true, in which case DT_THERM
+                                ! can be an integer multiple of the coupling timestep.  By
+                                ! default DT_THERM is set to DT.
 THERMO_SPANS_COUPLING = False   !   [Boolean] default = False
                                 ! If true, the MOM will take thermodynamic and tracer
                                 ! timesteps that can be longer than the coupling timestep.
