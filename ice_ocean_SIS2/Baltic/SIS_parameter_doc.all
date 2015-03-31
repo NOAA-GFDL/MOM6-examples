@@ -256,9 +256,10 @@ DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
                                 ! the time step is set via NSTEPS_DYN.
-ICE_TDAMP_ELASTIC = 0.0         !   [s] default = 0.0
+ICE_TDAMP_ELASTIC = 0.0         !   [s or nondim] default = 0.0
                                 ! The damping timescale associated with the elastic terms
-                                ! in the sea-ice dynamics equations.
+                                ! in the sea-ice dynamics equations (if positive) or the
+                                ! fraction of DT_ICE_DYNAMICS (if negative).
 WEAK_LOW_SHEAR_ICE = False      !   [Boolean] default = False
                                 ! If true, the divergent stresses go toward 0 in the C-grid
                                 ! dynamics when the shear magnitudes are very weak.
@@ -287,10 +288,6 @@ ICE_DEL_SH_MIN_SCALE = 2.0      !   [nondim] default = 2.0
 PROJECT_ICE_CONCENTRATION = False !   [Boolean] default = False
                                 ! If true, project the evolution of the ice concentration
                                 ! due to the convergence or divergence of the ice flow.
-PROJECT_ICE_CONC_STR_LIM = -1.0 !   [nondim] default = -1.0
-                                ! A factor that determines how strictly the ice stresses
-                                ! are limited when the ice strength is allowed to vary
-                                ! within the dynamics, or negative number for no limiting.
 CFL_TRUNCATE = 0.5              !   [nondim] default = 0.5
                                 ! The value of the CFL number that will cause ice velocity
                                 ! components to be truncated; instability can occur past 0.5.
