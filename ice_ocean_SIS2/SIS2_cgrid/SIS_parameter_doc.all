@@ -256,7 +256,7 @@ DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
                                 ! the time step is set via NSTEPS_DYN.
-ICE_TDAMP_ELASTIC = 1000.0      !   [s or nondim] default = 0.0
+ICE_TDAMP_ELASTIC = 1000.0      !   [s or nondim] default = -0.2
                                 ! The damping timescale associated with the elastic terms
                                 ! in the sea-ice dynamics equations (if positive) or the
                                 ! fraction of DT_ICE_DYNAMICS (if negative).
@@ -264,7 +264,7 @@ WEAK_LOW_SHEAR_ICE = False      !   [Boolean] default = False
                                 ! If true, the divergent stresses go toward 0 in the C-grid
                                 ! dynamics when the shear magnitudes are very weak.
                                 ! Otherwise they go to -P_ice.  This setting is temporary.
-PROJECT_ICE_DRAG_VEL = True     !   [Boolean] default = False
+PROJECT_ICE_DRAG_VEL = True     !   [Boolean] default = True
                                 ! If true, project forward the ice velocity used in the
                                 ! drag calculation to avoid an instability that can occur
                                 ! when an finite stress is applied to thin ice moving with
@@ -285,7 +285,7 @@ ICE_DEL_SH_MIN_SCALE = 2.0      !   [nondim] default = 2.0
                                 ! A scaling factor for the lower bound on the shear rates
                                 ! used in the denominator of the stress calculation. This
                                 ! probably needs to be greater than 1.
-PROJECT_ICE_CONCENTRATION = False !   [Boolean] default = False
+PROJECT_ICE_CONCENTRATION = True !   [Boolean] default = True
                                 ! If true, project the evolution of the ice concentration
                                 ! due to the convergence or divergence of the ice flow.
 CFL_TRUNCATE = 0.5              !   [nondim] default = 0.5

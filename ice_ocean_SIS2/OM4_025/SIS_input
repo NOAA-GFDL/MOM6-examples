@@ -86,8 +86,9 @@ PROJECT_ICE_DRAG_VEL = True     ! If true, project forward the ice velocity used
                                 ! drag calculation to avoid an instability that can occur
                                 ! when an finite stress is applied to thin ice moving with
                                 ! the velocity of the ocean.
-ICE_TDAMP_ELASTIC = 1000.0      !   The damping timescale associated with the
-                                ! elastic terms in the sea-ice dynamics.
+ICE_TDAMP_ELASTIC = -0.2        ! The damping timescale associated with the elastic terms
+                                ! in the sea-ice dynamics equations (if positive) or the
+                                ! fraction of DT_ICE_DYNAMICS (if negative).
 
 SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! The horizontal transport scheme for
                                 ! tracers.  Valid options include:

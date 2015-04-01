@@ -73,15 +73,10 @@ DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
                                 ! the time step is set via NSTEPS_DYN.
-ICE_TDAMP_ELASTIC = 1000.0      !   [s or nondim] default = 0.0
+ICE_TDAMP_ELASTIC = 1000.0      !   [s or nondim] default = -0.2
                                 ! The damping timescale associated with the elastic terms
                                 ! in the sea-ice dynamics equations (if positive) or the
                                 ! fraction of DT_ICE_DYNAMICS (if negative).
-PROJECT_ICE_DRAG_VEL = True     !   [Boolean] default = False
-                                ! If true, project forward the ice velocity used in the
-                                ! drag calculation to avoid an instability that can occur
-                                ! when an finite stress is applied to thin ice moving with
-                                ! the velocity of the ocean.
 
 ! === module SIS_tracer_advect ===
 
