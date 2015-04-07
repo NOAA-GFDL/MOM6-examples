@@ -1,4 +1,4 @@
-"GOLD Experiment"
+"Global ALE Experiment"
 1 1 1 0 0 0
 "scalar",   1,"days",1,"days","Time",
 "layer",    1,"days",1,"days","Time",
@@ -15,19 +15,12 @@
 "sfc_ave",  12,"hours",1,"days","Time",
 "ocean_static",       -1,"days",1,"days","time",
 
-"cmor",     1,"days",1,"days","Time",
-"cmor_z",   1,"days",1,"days","Time",
-"scalar_cmor",   1,"days",1,"days","Time",
-"ocean_static_cmor",     -1,"days",1,"days","time",
+"cmor",               1,"days",1,"days","Time",
+"cmor_z",             1,"days",1,"days","Time",
+"cmor_scalar",        1,"days",1,"days","Time",
+"ocean_static_cmor", -1,"days",1,"days","time",
 
 #This is the field section of the diag_table.
-
-# Scalar Diagnostics:
-#====================
-"ocean_model","SST_global","SST_global","scalar","all",.true.,"none",2
-"ocean_model","SSS_global","SSS_global","scalar","all",.true.,"none",2
-"ocean_model","temp_global","temp_global","scalar","all",.true.,"none",2
-"ocean_model","salt_global","salt_global","scalar","all",.true.,"none",2
 
 # Layer-Average Diagnostics:
 #===========================
@@ -239,31 +232,43 @@
 "ocean_model","heat_content_surfwater","heat_content_surfwater","forcing","all",.true.,"none",2
 "ocean_model","heat_content_massout","heat_content_massout",    "forcing","all",.true.,"none",2
 
-# Fields Provided to CMIP5 (CMOR Names):
-#=======================================
-"ocean_model","tauuo","tauuo","cmor","all",.true.,"none",2
-"ocean_model","tauvo","tauvo","cmor","all",.true.,"none",2
-"ocean_model","wfo","wfo","cmor","all",.true.,"none",2  			# GFDL Name: PRCmE
-"ocean_model","rsntds","rsntds","cmor","all",.true.,"none",2               	# GFDL Name: SW
-"ocean_model","hfibthermds","hfibthermds","cmor","all",.true.,"none",2          # GFDL Name: heat_content_frunoff
-"ocean_model","hfrunoffds","hfrunoffds","cmor","all",.true.,"none",2            # GFDL Name: runoff_heat_content
-"ocean_model","hfsifrazil","hfsifrazil","cmor","all",.true.,"none",2            # GFDL Name: frazil
-"ocean_model","evs","evs","cmor","all",.true.,"none",2            	   	# GFDL Name: evap
-"ocean_model","prsn","prsn","cmor","all",.true.,"none",2               		# GFDL Name: fprec
-"ocean_model","hfls","hfls","cmor","all",.true.,"none",2       	        	# GFDL Name: latent
-"ocean_model","friver","friver","cmor","all",.true.,"none",2               	# GFDL Name: lrunoff
-"ocean_model","rlds","rlds","cmor","all",.true.,"none",2        	       	# GFDL Name: LW
-"ocean_model","hfss","hfss","cmor","all",.true.,"none",2               		# GFDL Name: sensible
-"ocean_model","sfdsi","sfdsi","cmor","all",.true.,"none",2               	# GFDL Name: salt_flux
-"ocean_model","uo","uo","cmor","all",.true.,"none",2				# GFDL Name: u
-"ocean_model","vo","vo","cmor","all",.true.,"none",2				# GFDL Name: v
-"ocean_model","so","so","cmor","all",.true.,"none",2				# GFDL Name: salt
 
-# Z-Space Fields Provided to CMIP5 (CMOR Names):
+# Fields for CMIP6 (CMOR Names):
+#=======================================
+"ocean_model","tauuo","tauuo"             ,"cmor","all",.true.,"none",2
+"ocean_model","tauvo","tauvo"             ,"cmor","all",.true.,"none",2
+"ocean_model","wfo","wfo"                 ,"cmor","all",.true.,"none",2  # GFDL Name: PRCmE
+"ocean_model","rsntds","rsntds"           ,"cmor","all",.true.,"none",2  # GFDL Name: SW
+"ocean_model","hfibthermds","hfibthermds" ,"cmor","all",.true.,"none",2  # GFDL Name: heat_content_frunoff
+"ocean_model","hfrunoffds","hfrunoffds"   ,"cmor","all",.true.,"none",2  # GFDL Name: runoff_heat_content
+"ocean_model","hfsifrazil","hfsifrazil"   ,"cmor","all",.true.,"none",2  # GFDL Name: frazil
+"ocean_model","evs","evs"                 ,"cmor","all",.true.,"none",2  # GFDL Name: evap
+"ocean_model","prsn","prsn"               ,"cmor","all",.true.,"none",2  # GFDL Name: fprec
+"ocean_model","hfls","hfls"               ,"cmor","all",.true.,"none",2  # GFDL Name: latent
+"ocean_model","friver","friver"           ,"cmor","all",.true.,"none",2  # GFDL Name: lrunoff
+"ocean_model","rlds","rlds"               ,"cmor","all",.true.,"none",2  # GFDL Name: LW
+"ocean_model","hfss","hfss"               ,"cmor","all",.true.,"none",2  # GFDL Name: sensible
+"ocean_model","sfdsi","sfdsi"             ,"cmor","all",.true.,"none",2  # GFDL Name: salt_flux
+"ocean_model","uo","uo"                   ,"cmor","all",.true.,"none",2	 # GFDL Name: u
+"ocean_model","vo","vo"                   ,"cmor","all",.true.,"none",2	 # GFDL Name: v
+"ocean_model","so","so"                   ,"cmor","all",.true.,"none",2	 # GFDL Name: salt
+#"ocean_model","masscello","masscello"    ,"cmor","all",.true.,"none",2	 # mass of ocean cells
+
+
+# Z-Space Fields Provided for CMIP6 (CMOR Names):
 #===============================================
 "ocean_model","uo_z","uo","cmor_z","all",.true.,"none",2			#GFDL Name: u_z
 "ocean_model","vo_z","vo","cmor_z","all",.true.,"none",2			#GFDL Name: v_z
 "ocean_model","so_z","so","cmor_z","all",.true.,"none",2			#GFDL Name: salt_z
+
+# Scalar ocean fields for CMIP6 (CMOR Names):
+#=====================
+"ocean_model", "masso",       "masso",       "cmor_scalar",  "all", .true.,  "none",2  # global mean masscello
+"ocean_model", "thetaoga",    "thetaoga",    "cmor_scalar",  "all", .true.,  "none",2  # global mean theta
+"ocean_model", "soga",        "soga",        "cmor_scalar",  "all", .true.,  "none",2  # global mean saln
+"ocean_model", "tosga",       "tosga",       "cmor_scalar",  "all", .true.,  "none",2  # area mean SST
+"ocean_model", "sosga",       "sosga",       "cmor_scalar",  "all", .true.,  "none",2  # area mean SSS
+
 
 # Static ocean fields:
 #=====================
@@ -286,10 +291,6 @@
 # Static ocean fields:
 #=====================
 "ocean_model", "areacello",      "areacello",      "ocean_static_cmor", "all", .false., "none", 2
-
-# Scalar ocean fields (CMOR Names):
-#=====================
-"ocean_model", "tosga",       "tosga",       "scalar_cmor",  "all", .true.,  "none",2		#GFDL Name:  SST_global
 
 #=============================================================================================
 #
