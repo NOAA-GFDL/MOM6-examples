@@ -6,18 +6,6 @@ REENTRANT_Y = False             !   [Boolean] default = False
 TRIPOLAR_N = False              !   [Boolean] default = False
                                 ! Use tripolar connectivity at the northern edge of the
                                 ! domain.  With TRIPOLAR_N, NIGLOBAL must be even.
-NONBLOCKING_UPDATES = False     !   [Boolean] default = False
-                                ! If true, non-blocking halo updates may be used.
-NIHALO = 3                      ! default = 2
-                                ! The number of halo points on each side in the
-                                ! x-direction.  With STATIC_MEMORY_ this is set as NIHALO_
-                                ! in MOM_memory.h at compile time; without STATIC_MEMORY_
-                                ! the default is NIHALO_ in MOM_memory.h (if defined) or 2.
-NJHALO = 3                      ! default = 2
-                                ! The number of halo points on each side in the
-                                ! y-direction.  With STATIC_MEMORY_ this is set as NJHALO_
-                                ! in MOM_memory.h at compile time; without STATIC_MEMORY_
-                                ! the default is NJHALO_ in MOM_memory.h (if defined) or 2.
 NIGLOBAL = 40                   !
                                 ! The total number of thickness grid points in the
                                 ! x-direction in the physical domain. With STATIC_MEMORY_
@@ -26,21 +14,6 @@ NJGLOBAL = 2                    !
                                 ! The total number of thickness grid points in the
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
-MASKTABLE = "MOM_mask_table"    ! default = "MOM_mask_table"
-                                ! A text file to specify n_mask, layout and mask_list.
-                                ! This feature masks out processors that contain only land points.
-                                ! The first line of mask_table is the number of regions to be masked out.
-                                ! The second line is the layout of the model and must be
-                                ! consistent with the actual model layout.
-                                ! The following (n_mask) lines give the logical positions
-                                ! of the processors that are masked out. The mask_table
-                                ! can be created by tools like check_mask. The
-                                ! following example of mask_table masks out 2 processors,
-                                ! (1,2) and (3,6), out of the 24 in a 4x6 layout:
-                                !  2
-                                !  4,6
-                                !  1,2
-                                !  3,6
 
 ! === module MOM_grid ===
 ! Parameters providing information about the vertical grid.
@@ -66,10 +39,6 @@ BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
                                 ! topography are entirely determined from thickness points.
 NK = 20                         !   [nondim]
                                 ! The number of model layers.
-NIBLOCK = 1                     ! default = 1
-                                ! The number of blocks in the x-direction on each processor (for openmp).
-NJBLOCK = 1                     ! default = 1
-                                ! The number of blocks in the y-direction on each processor (for openmp).
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
@@ -844,15 +813,6 @@ GRADUAL_BT_ICS = False          !   [Boolean] default = False
                                 ! solution over a whole timestep instead of instantly.
                                 ! This is a decent approximation to the inclusion of
                                 ! sum(u dh_dt) while also correcting for truncation errors.
-BT_USE_WIDE_HALOS = True        !   [Boolean] default = True
-                                ! If true, use wide halos and march in during the
-                                ! barotropic time stepping for efficiency.
-BTHALO = 0                      ! default = 0
-                                ! The minimum halo size for the barotropic solver.
-!BT x-halo = 0                  !
-                                ! The barotropic x-halo size that is actually used.
-!BT y-halo = 0                  !
-                                ! The barotropic y-halo size that is actually used.
 USE_BT_CONT_TYPE = True         !   [Boolean] default = True
                                 ! If true, use a structure with elements that describe
                                 ! effective face areas from the summed continuity solver

@@ -6,6 +6,8 @@
                                 ! they are on the staggered grid.  Also, the starting
                                 ! index of the velocity-point arrays is usually 0, not 1.
                                 ! This can only be set at compile time.
+NONBLOCKING_UPDATES = False     !   [Boolean] default = False
+                                ! If true, non-blocking halo updates may be used.
 !STATIC_MEMORY_ = False         !   [Boolean]
                                 ! If STATIC_MEMORY_ is defined, the principle variables
                                 ! will have sizes that are statically determined at
@@ -13,6 +15,31 @@
                                 ! until run time. The STATIC option is substantially
                                 ! faster, but does not allow the PE count to be changed
                                 ! at run time.  This can only be set at compile time.
+NIHALO = 4                      ! default = 2
+                                ! The number of halo points on each side in the
+                                ! x-direction.  With STATIC_MEMORY_ this is set as NIHALO_
+                                ! in MOM_memory.h at compile time; without STATIC_MEMORY_
+                                ! the default is NIHALO_ in MOM_memory.h (if defined) or 2.
+NJHALO = 4                      ! default = 2
+                                ! The number of halo points on each side in the
+                                ! y-direction.  With STATIC_MEMORY_ this is set as NJHALO_
+                                ! in MOM_memory.h at compile time; without STATIC_MEMORY_
+                                ! the default is NJHALO_ in MOM_memory.h (if defined) or 2.
+MASKTABLE = "MOM_mask_table"    ! default = "MOM_mask_table"
+                                ! A text file to specify n_mask, layout and mask_list.
+                                ! This feature masks out processors that contain only land points.
+                                ! The first line of mask_table is the number of regions to be masked out.
+                                ! The second line is the layout of the model and must be
+                                ! consistent with the actual model layout.
+                                ! The following (n_mask) lines give the logical positions
+                                ! of the processors that are masked out. The mask_table
+                                ! can be created by tools like check_mask. The
+                                ! following example of mask_table masks out 2 processors,
+                                ! (1,2) and (3,6), out of the 24 in a 4x6 layout:
+                                !  2
+                                !  4,6
+                                !  1,2
+                                !  3,6
 NIPROC = 24                     !
                                 ! The number of processors in the x-direction. With
                                 ! STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
@@ -24,3 +51,16 @@ LAYOUT = 24, 12                 !
 IO_LAYOUT = 4, 3                ! default = 0
                                 ! The processor layout to be used, or 0,0 to automatically
                                 ! set the io_layout to be the same as the layout.
+NIBLOCK = 1                     ! default = 1
+                                ! The number of blocks in the x-direction on each processor (for openmp).
+NJBLOCK = 1                     ! default = 1
+                                ! The number of blocks in the y-direction on each processor (for openmp).
+BT_USE_WIDE_HALOS = True        !   [Boolean] default = True
+                                ! If true, use wide halos and march in during the
+                                ! barotropic time stepping for efficiency.
+BTHALO = 0                      ! default = 0
+                                ! The minimum halo size for the barotropic solver.
+!BT x-halo = 0                  !
+                                ! The barotropic x-halo size that is actually used.
+!BT y-halo = 0                  !
+                                ! The barotropic y-halo size that is actually used.
