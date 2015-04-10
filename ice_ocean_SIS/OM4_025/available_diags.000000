@@ -494,6 +494,10 @@
 "ocean_model", "col_height"  [Unused]
     ! long_name: The height of the water column
     ! units: m
+"ocean_model", "pbo"  [Unused]
+    ! long_name: Sea Water Pressure at Sea Floor
+    ! units: Pa
+    ! standard_name: sea_water_pressure_at_sea_floor
 "ocean_model_z", "u"  [Unused]
     ! long_name: Zonal Velocity in Depth Space
     ! units: meter second-1
@@ -795,6 +799,14 @@
     ! long_name: Sea Water Salinity
     ! units: psu
     ! standard_name: sea_water_salinity
+"ocean_model", "tob"  [Unused]
+    ! long_name: Sea Water Potential Temperature at Sea Floor
+    ! units: degC
+    ! standard_name: sea_water_potential_temperature_at_sea_floor
+"ocean_model", "sob"  [Unused]
+    ! long_name: Sea Water Salinity at Sea Floor
+    ! units: psu
+    ! standard_name: sea_water_salinity_at_sea_floor
 "ocean_model", "SST"  [Unused]
     ! long_name: Sea Surface Temperature
     ! units: Celsius
@@ -952,8 +964,18 @@
 "ocean_model", "ustar"  [Unused]
     ! long_name: Surface friction velocity = [(gustiness + tau_magnitude)/rho0]^(1/2)
     ! units: meter second-1
+"ocean_model", "p_surf"  [Unused]
+    ! long_name: Pressure at ice-ocean or atmosphere-ocean interface
+    ! units: Pascal
+"ocean_model", "pso"  [Unused]
+    ! long_name: Sea Water Pressure at Sea Water Surface
+    ! units: Pa
+    ! standard_name: sea_water_pressure_at_sea_water_surface
+"ocean_model", "TKE_tidal"  [Unused]
+    ! long_name: Tidal source of BBL mixing
+    ! units: Watt/m^2
 "ocean_model", "PRCmE"  [Unused]
-    ! long_name: Net surface water flux (precip+liq runoff+ice calving-evap)
+    ! long_name: Net surface water flux (precip+melt+lrunoff+ice calving-evap)
     ! units: kilogram meter-2 second-1
     ! standard_name: water_flux_into_sea_water
 "ocean_model", "wfo"  [Unused]
@@ -972,6 +994,10 @@
     ! long_name: water flux to ocean from sea ice melt(> 0) or form(< 0)
     ! units: kilogram/(meter^2 * second)
     ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics
+"ocean_model", "fsitherm"  [Unused]
+    ! long_name: water flux to ocean from sea ice melt(> 0) or form(< 0)
+    ! units: kg m-2 s-1
+    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics
 "ocean_model", "precip"  [Unused]
     ! long_name: Liquid + frozen precipitation into ocean
     ! units: kilogram/(meter^2 * second)
@@ -987,12 +1013,20 @@
     ! long_name: Liquid precipitation into ocean
     ! units: kilogram/(meter^2 * second)
     ! standard_name: rainfall_flux
+"ocean_model", "pr"  [Unused]
+    ! long_name: Rainfall Flux where Ice Free Ocean over Sea
+    ! units: kg m-2 s-1
+    ! standard_name: rainfall_flux
 "ocean_model", "vprec"  [Unused]
-    ! long_name: Virtual liquid precip into ocean (due to saln restoring)
+    ! long_name: Virtual liquid precip into ocean due to SSS restoring
     ! units: kilogram/(meter^2 second)
 "ocean_model", "frunoff"  [Unused]
-    ! long_name: Frozen runoff (calving) into ocean
+    ! long_name: Frozen runoff (calving) and iceberg melt into ocean
     ! units: kilogram/(meter^2 second)
+    ! standard_name: water_flux_into_sea_water_from_icebergs
+"ocean_model", "ficeberg"  [Unused]
+    ! long_name: Water Flux into seawater from icebergs
+    ! units: kg m-2 s-1
     ! standard_name: water_flux_into_sea_water_from_icebergs
 "ocean_model", "lrunoff"  [Unused]
     ! long_name: Liquid runoff (rivers) into ocean
@@ -1003,21 +1037,59 @@
     ! units: kg m-2 s-1
     ! standard_name: water_flux_into_sea_water_from_rivers
 "ocean_model", "net_massout"  [Unused]
-    ! long_name: Net mass leaving the ocean due to evaporation, ice formation
+    ! long_name: Net mass leaving the ocean due to evaporation, seaice formation
     ! units: kilogram meter-2 second-1
 "ocean_model", "net_massin"  [Unused]
     ! long_name: Net mass entering ocean due to precip, runoff, ice melt
     ! units: kilogram meter-2 second-1
+"ocean_model", "total_PRCmE"  [Unused]
+    ! long_name: Area integrated net surface water flux (precip+melt+liq runoff+ice calving-evap)
+    ! units: kg/s
+    ! standard_name: water_flux_into_sea_water_area_integrated
+"ocean_model", "total_evap"  [Unused]
+    ! long_name: Area integrated evap/condense at ocean surface
+    ! units: kg/s
+    ! standard_name: water_evaporation_flux_area_integrated
+"ocean_model", "total_seaice_melt"  [Unused]
+    ! long_name: Area integrated sea ice melt (>0) or form (<0)
+    ! units: kg/s
+    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics_area_integrated
+"ocean_model", "total_precip"  [Unused]
+    ! long_name: Area integrated liquid+frozen precip into ocean
+    ! units: kg/s
+"ocean_model", "total_fprec"  [Unused]
+    ! long_name: Area integrated frozen precip into ocean
+    ! units: kg/s
+    ! standard_name: snowfall_flux_area_integrated
+"ocean_model", "total_lprec"  [Unused]
+    ! long_name: Area integrated liquid precip into ocean
+    ! units: kg/s
+    ! standard_name: rainfall_flux_area_integrated
+"ocean_model", "total_vprec"  [Unused]
+    ! long_name: Area integrated virtual liquid precip due to SSS restoring)
+    ! units: kg/s
+"ocean_model", "total_frunoff"  [Unused]
+    ! long_name: Area integrated frozen runoff (calving) & iceberg melt into ocean
+    ! units: kg/s
+"ocean_model", "total_lrunoff"  [Unused]
+    ! long_name: Area integrated liquid runoff into ocean
+    ! units: kg/s
+"ocean_model", "total_net_massout"  [Unused]
+    ! long_name: Area integrated mass leaving ocean due to evap and seaice form
+    ! units: kg/s
+"ocean_model", "total_net_massin"  [Unused]
+    ! long_name: Area integrated mass entering ocean due to predip, runoff, ice melt
+    ! units: kg/s
 "ocean_model", "heat_content_frunoff"  [Unused]
-    ! long_name: Heat content of frozen runoff (calving) into ocean
+    ! long_name: Heat content (relative to 0C) of solid runoff into ocean
     ! units: Watt meter-2
-    ! standard_name: temperature_flux_due_to_icebergs_expressed_as_heat_flux_into_sea_water
-"ocean_model", "hfibthermds"  [Unused]
-    ! long_name: Heat Flux into Sea Water due to Iceberg Thermodynamics
+    ! standard_name: temperature_flux_due_to_solid_runoff_expressed_as_heat_flux_into_sea_water
+"ocean_model", "hfsolidrunoffds"  [Unused]
+    ! long_name: Temperature Flux due to Solid Runoff Expressed as Heat Flux into Sea Water
     ! units: W m-2
-    ! standard_name: heat_flux_into_sea_water_due_to_iceberg_thermodynamics
+    ! standard_name: temperature_flux_due_to_solid_runoff_expressed_as_heat_flux_into_sea_water
 "ocean_model", "heat_content_lrunoff"  [Unused]
-    ! long_name: Heat content of liquid river runoff into ocean
+    ! long_name: Heat content (relative to 0C) of liquid runoff into ocean
     ! units: Watt meter-2
     ! standard_name: temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water
 "ocean_model", "hfrunoffds"  [Unused]
@@ -1025,8 +1097,12 @@
     ! units: W m-2
     ! standard_name: temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water
 "ocean_model", "heat_content_lprec"  [Unused]
-    ! long_name: Heat content (relative to 0degC) of liquid prec entering ocean
-    ! units: Watt/m^2
+    ! long_name: Heat content (relative to 0degC) of liquid precip entering ocean
+    ! units: W/m^2
+    ! standard_name: temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water
+"ocean_model", "hfrainds"  [Unused]
+    ! long_name: Heat Flux into Sea Water due to Liquid Precipitation
+    ! units: W m-2
     ! standard_name: temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water
 "ocean_model", "heat_content_fprec"  [Unused]
     ! long_name: Heat content (relative to 0degC) of frozen prec entering ocean
@@ -1043,6 +1119,10 @@
 "ocean_model", "heat_content_massout"  [Unused]
     ! long_name: Heat content (relative to 0degC)of net mass leaving ocean ocean
     ! units: Watt/m^2
+"ocean_model", "hfevapds"  [Unused]
+    ! long_name: Heat flux out of sea water due to evaporating water
+    ! units: W m-2
+    ! standard_name: temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water
 "ocean_model", "heat_content_massin"  [Unused]
     ! long_name: Heat content (relative to 0degC)of net mass entering ocean ocean
     ! units: Watt/m^2
@@ -1061,7 +1141,7 @@
     ! units: W m-2
     ! standard_name: net_downward_shortwave_flux_at_sea_water_surface
 "ocean_model", "LwLatSens"  [Unused]
-    ! long_name: Combined longwave, latent, and sensible heating
+    ! long_name: Combined longwave, latent, and sensible heating at ocean surface
     ! units: Watt/m^2
 "ocean_model", "LW"  [Unused]
     ! long_name: Longwave radiation flux into ocean
@@ -1078,33 +1158,94 @@
     ! long_name: Surface Downward Latent Heat Flux
     ! units: W m-2
     ! standard_name: surface_downward_latent_heat_flux
-"ocean_model", "latent_evap_diag"  [Unused]
+"ocean_model", "latent_evap"  [Unused]
     ! long_name: Latent heat flux into ocean due to evaporation/condensation
     ! units: Watt/m^2
 "ocean_model", "latent_fprec_diag"  [Unused]
     ! long_name: Latent heat flux into ocean due to melting of frozen precipitation
+    ! units: Watt meter-2
+"ocean_model", "hfsnthermds"  [Unused]
+    ! long_name: Latent heat to melt frozen precipitation
+    ! units: W m-2
+    ! standard_name: heat_flux_into_sea_water_due_to_snow_thermodynamics
+"ocean_model", "latent_frunoff"  [Unused]
+    ! long_name: Latent heat flux into ocean due to melting of icebergs
     ! units: Watt/m^2
-"ocean_model", "latent_frunoff_diag"  [Unused]
-    ! long_name: Latent heat flux into ocean due to melting of frozen ice calving
-    ! units: Watt/m^2
+"ocean_model", "hfibthermds"  [Unused]
+    ! long_name: Heat flux into sea water due to iceberg thermodynamics
+    ! units: W m-2
+    ! standard_name: heat_flux_into_sea_water_due_to_iceberg_thermodynamics
 "ocean_model", "sensible"  [Unused]
     ! long_name: Sensible heat flux into ocean
     ! units: Watt meter-2
     ! standard_name: surface_downward_sensible_heat_flux
 "ocean_model", "hfss"  [Unused]
-    ! long_name: Surface Downward Sensible Heat Flux
+    ! long_name: Surface downward sensible heat flux
     ! units: W m-2
     ! standard_name: surface_downward_sensible_heat_flux
 "ocean_model", "heat_restore"  [Unused]
     ! long_name: Restoring surface heat flux into ocean
     ! units: Watt/m^2
-"ocean_model", "p_surf"  [Unused]
-    ! long_name: Pressure at ice-ocean or atmosphere-ocean interface
-    ! units: Pascal
-"ocean_model", "pso"  [Unused]
-    ! long_name: Sea Water Pressure at Sea Water Surface
-    ! units: Pa
-    ! standard_name: sea_water_pressure_at_sea_water_surface
+"ocean_model", "total_heat_content_frunoff"  [Unused]
+    ! long_name: Area integrated heat content (relative to 0C) of solid runoff
+    ! units: Watt
+"ocean_model", "total_heat_content_lrunoff"  [Unused]
+    ! long_name: Area integrated heat content (relative to 0C) of liquid runoff
+    ! units: Watt
+"ocean_model", "total_heat_content_lprec"  [Unused]
+    ! long_name: Area integrated heat content (relative to 0C) of liquid precip
+    ! units: Watt
+"ocean_model", "total_heat_content_fprec"  [Unused]
+    ! long_name: Area integrated heat content (relative to 0C) of frozen precip
+    ! units: Watt
+"ocean_model", "total_heat_content_vprec"  [Unused]
+    ! long_name: Area integrated heat content (relative to 0C) of virtual precip
+    ! units: Watt
+"ocean_model", "total_heat_content_cond"  [Unused]
+    ! long_name: Area integrated heat content (relative to 0C) of condensate
+    ! units: Watt
+"ocean_model", "total_heat_content_surfwater"  [Unused]
+    ! long_name: Area integrated heat content (relative to 0C) of water crossing surface
+    ! units: Watt
+"ocean_model", "total_heat_content_massout"  [Unused]
+    ! long_name: Area integrated heat content (relative to 0C) of water leaving ocean
+    ! units: Watt
+"ocean_model", "total_heat_content_massin"  [Unused]
+    ! long_name: Area integrated heat content (relative to 0C) of water entering ocean
+    ! units: Watt
+"ocean_model", "total_net_heat_coupler"  [Unused]
+    ! long_name: Area integrated surface heat flux from SW+LW+latent+sensible (via the coupler)
+    ! units: Watt
+"ocean_model", "total_net_heat_surface"  [Unused]
+    ! long_name: Area integrated surface heat flux from SW+LW+latent+sensible+mass
+    ! units: Watt
+"ocean_model", "total_sw"  [Unused]
+    ! long_name: Area integrated net downward shortwave at sea water surface
+    ! units: Watt
+"ocean_model", "total_LwLatSens"  [Unused]
+    ! long_name: Area integrated longwave+latent+sensible heating
+    ! units: Watt
+"ocean_model", "total_lw"  [Unused]
+    ! long_name: Area integrated net downward longwave at sea water surface
+    ! units: Watt
+"ocean_model", "total_lat"  [Unused]
+    ! long_name: Area integrated surface downward latent heat flux
+    ! units: Watt
+"ocean_model", "total_lat_evap"  [Unused]
+    ! long_name: Area integrated latent heat flux due to evap/condense
+    ! units: Watt
+"ocean_model", "total_lat_fprec"  [Unused]
+    ! long_name: Area integrated latent heat flux due to melting frozen precip
+    ! units: Watt
+"ocean_model", "total_lat_frunoff"  [Unused]
+    ! long_name: Area integrated latent heat flux due to melting icebergs
+    ! units: Watt
+"ocean_model", "total_sens"  [Unused]
+    ! long_name: Area integrated downward sensible heat flux
+    ! units: Watt
+"ocean_model", "total_heat_restore"  [Unused]
+    ! long_name: Area integrated surface heat flux from restoring
+    ! units: Watt
 "ocean_model", "salt_flux"  [Unused]
     ! long_name: Salt flux into ocean at surface
     ! units: kilogram meter-2 second-1
@@ -1136,6 +1277,12 @@
 "ocean_model", "net_fresh_water_global_scaling"  [Unused]
     ! long_name: Scaling applied to adjust net fresh water into ocean to zero
     ! units: (nondim)
-"ocean_model", "TKE_tidal"  [Unused]
-    ! long_name: Tidal source of BBL mixing
-    ! units: Watt/m^2
+"ocean_model", "total_salt_flux"  [Unused]
+    ! long_name: Area integrated surface salt flux
+    ! units: kg
+"ocean_model", "total_salt_Flux_In"  [Unused]
+    ! long_name: Area integrated surface salt flux at surface from coupler
+    ! units: kg
+"ocean_model", "total_salt_Flux_Restore"  [Unused]
+    ! long_name: Area integrated surface salt flux due to restoring
+    ! units: kg
