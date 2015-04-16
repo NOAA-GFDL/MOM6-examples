@@ -272,8 +272,9 @@
 #
 # Fields for CMIP6 (CMOR Names):
 #=======================================
-"ocean_model","tauuo","tauuo"             ,"cmor","all",.true.,"none",2
-"ocean_model","tauvo","tauvo"             ,"cmor","all",.true.,"none",2
+"ocean_model","pso","pso"                 ,"cmor","all",.true.,"none",2  # GFDL Name: p_surf
+"ocean_model","tauuo","tauuo"             ,"cmor","all",.true.,"none",2  # surface i-stress
+"ocean_model","tauvo","tauvo"             ,"cmor","all",.true.,"none",2  # surface j-stress
 "ocean_model","wfo","wfo"                 ,"cmor","all",.true.,"none",2  # GFDL Name: PRCmE
 "ocean_model","rsntds","rsntds"           ,"cmor","all",.true.,"none",2  # GFDL Name: SW
 "ocean_model","hfibthermds","hfibthermds" ,"cmor","all",.true.,"none",2  # GFDL Name: heat_content_frunoff
@@ -289,18 +290,21 @@
 "ocean_model","uo","uo"                   ,"cmor","all",.true.,"none",2	 # GFDL Name: u
 "ocean_model","vo","vo"                   ,"cmor","all",.true.,"none",2	 # GFDL Name: v
 "ocean_model","so","so"                   ,"cmor","all",.true.,"none",2	 # GFDL Name: salt
-#"ocean_model","masscello","masscello"    ,"cmor","all",.true.,"none",2	 # mass of ocean cells
+"ocean_model","masscello","masscello"     ,"cmor","all",.true.,"none",2	 # mass of ocean cells
 "ocean_model","pbo","pbo"                 ,"cmor","all",.true.,"none",2  # GFDL Name: n/a
 "ocean_model","mlotst","mlotst"           ,"cmor","all",.true.,"none",2  # GFDL Name: MLD_003
 "ocean_model","mlotstsq","mlotstsq"       ,"cmor","all",.true.,"none",2  # GFDL Name: n/a
-
-
+"ocean_model","zos","zos"                 ,"cmor","all",.true.,"none",2	 # dynamic sealevel
+"ocean_model","zossq","zossq"             ,"cmor","all",.true.,"none",2	 # squared zos 
+"ocean_model","hfgeou","hfgeou"           ,"cmor","all",.false.,"none",2 # GFDL name: geo_heat 
+#
+#
 # Z-Space Fields Provided for CMIP6 (CMOR Names):
 #===============================================
 "ocean_model","uo_z","uo","cmor_z","all",.true.,"none",2			#GFDL Name: u_z
 "ocean_model","vo_z","vo","cmor_z","all",.true.,"none",2			#GFDL Name: v_z
 "ocean_model","so_z","so","cmor_z","all",.true.,"none",2			#GFDL Name: salt_z
-
+#
 # Scalar ocean fields for CMIP6 (CMOR Names):
 #=====================
 "ocean_model", "masso",       "masso",       "cmor_scalar",  "all", .true.,  "none",2  # global mean masscello
