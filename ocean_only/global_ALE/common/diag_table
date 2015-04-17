@@ -297,13 +297,16 @@
 "ocean_model","zos","zos"                 ,"cmor","all",.true.,"none",2	 # dynamic sealevel
 "ocean_model","zossq","zossq"             ,"cmor","all",.true.,"none",2	 # squared zos 
 "ocean_model","hfgeou","hfgeou"           ,"cmor","all",.false.,"none",2 # GFDL name: geo_heat 
+"ocean_model","thkcello","thkcello"       ,"cmor","all",.true.,"none",2  # GFDL name: h
 #
 #
 # Z-Space Fields Provided for CMIP6 (CMOR Names):
 #===============================================
-"ocean_model","uo_z","uo","cmor_z","all",.true.,"none",2			#GFDL Name: u_z
-"ocean_model","vo_z","vo","cmor_z","all",.true.,"none",2			#GFDL Name: v_z
-"ocean_model","so_z","so","cmor_z","all",.true.,"none",2			#GFDL Name: salt_z
+"ocean_model_z","uo","uo"    ,"cmor_z","all",.true.,"none",2			#GFDL Name: u_z
+"ocean_model_z","vo","vo"    ,"cmor_z","all",.true.,"none",2			#GFDL Name: v_z
+"ocean_model_z","so","so"    ,"cmor_z","all",.true.,"none",2			#GFDL Name: salt_z
+"ocean_model_z","umo" ,"umo" ,"cmor_z","all",.true.,"none",2			#GFDL Name: uh_z
+"ocean_model_z","vmo" ,"vmo" ,"cmor_z","all",.true.,"none",2			#GFDL Name: vh_z
 #
 # Scalar ocean fields for CMIP6 (CMOR Names):
 #=====================
@@ -312,6 +315,7 @@
 "ocean_model", "soga",        "soga",        "cmor_scalar",  "all", .true.,  "none",2  # global mean saln
 "ocean_model", "tosga",       "tosga",       "cmor_scalar",  "all", .true.,  "none",2  # area mean SST
 "ocean_model", "sosga",       "sosga",       "cmor_scalar",  "all", .true.,  "none",2  # area mean SSS
+"ocean_model", "volo",        "volo",        "cmor_scalar",  "all", .true.,  "none",2  # ocean volume 
 
 
 # Static ocean fields:

@@ -510,23 +510,31 @@
 "ocean_model_z", "u"  [Unused]
     ! long_name: Zonal Velocity in Depth Space
     ! units: meter second-1
-"ocean_model_z", "uo"  [Unused]
+"ocean_model_z", "uo"  [Used]
     ! long_name: Sea Water X Velocity
     ! units: m s-1
     ! standard_name: sea_water_x_velocity
 "ocean_model_z", "v"  [Unused]
     ! long_name: Meridional Velocity in Depth Space
     ! units: meter second-1
-"ocean_model_z", "vo"  [Unused]
+"ocean_model_z", "vo"  [Used]
     ! long_name: Sea Water Y Velocity
     ! units: m s-1
     ! standard_name: sea_water_y_velocity
 "ocean_model_z", "uh"  [Unused]
-    ! long_name: Zonal Volume Transport in Depth Space
+    ! long_name: Zonal Mass Transport in Depth Space
     ! units: meter3 second-1
+"ocean_model_z", "umo"  [Used]
+    ! long_name: Ocean Mass X Transport
+    ! units: kg/s
+    ! standard_name: ocean_mass_x_transport
 "ocean_model_z", "vh"  [Unused]
-    ! long_name: Meridional Volume Transport in Depth Space
+    ! long_name: Meridional Mass Transport in Depth Space
     ! units: meter3 second-1
+"ocean_model_z", "vmo"  [Used]
+    ! long_name: Ocean Mass Y Transport
+    ! units: kg/s
+    ! standard_name: ocean_mass_y_transport
 "ocean_model", "ea"  [Unused]
     ! long_name: Layer entrainment from above per timestep
     ! units: meter
@@ -832,6 +840,14 @@
 "ocean_model", "h"  [Used]
     ! long_name: Layer Thickness
     ! units: meter
+"ocean_model", "thkcello"  [Used]
+    ! long_name: Cell Thickness
+    ! units: m
+    ! standard_name: cell_thickness
+"ocean_model", "volo"  [Used]
+    ! long_name: Total volume of liquid ocean
+    ! units: m3
+    ! standard_name: sea_water_volume
 "ocean_model", "zos"  [Used]
     ! long_name: Sea surface height above geoid
     ! units: meter
@@ -860,10 +876,10 @@
     ! units: Celsius
 "ocean_model", "salt"  [Used]
     ! long_name: Salinity
-    ! units: PSU
+    ! units: PPT
 "ocean_model", "so"  [Used]
     ! long_name: Sea Water Salinity
-    ! units: psu
+    ! units: ppt
     ! standard_name: sea_water_salinity
 "ocean_model", "tob"  [Unused]
     ! long_name: Sea Water Potential Temperature at Sea Floor
@@ -871,7 +887,7 @@
     ! standard_name: sea_water_potential_temperature_at_sea_floor
 "ocean_model", "sob"  [Unused]
     ! long_name: Sea Water Salinity at Sea Floor
-    ! units: psu
+    ! units: ppt
     ! standard_name: sea_water_salinity_at_sea_floor
 "ocean_model", "SST"  [Used]
     ! long_name: Sea Surface Temperature
@@ -889,10 +905,10 @@
     ! standard_name: square_of_sea_surface_temperature
 "ocean_model", "SSS"  [Used]
     ! long_name: Sea Surface Salinity
-    ! units: PSU
+    ! units: PPT
 "ocean_model", "sos"  [Unused]
     ! long_name: Sea Surface Salinity
-    ! units: psu
+    ! units: ppt
     ! standard_name: sea_surface_salinity
 "ocean_model", "frazil"  [Used]
     ! long_name: Heat sink from frazil formation
@@ -924,16 +940,16 @@
     ! units: Celsius meter3 second-1
 "ocean_model", "S_adx"  [Unused]
     ! long_name: Advective Zonal Flux of Salinity
-    ! units: PSU meter3 second-1
+    ! units: PPT meter3 second-1
 "ocean_model", "S_ady"  [Unused]
     ! long_name: Advective Meridional Flux of Salinity
-    ! units: PSU meter3 second-1
+    ! units: PPT meter3 second-1
 "ocean_model", "S_diffx"  [Unused]
     ! long_name: Diffusive Zonal Flux of Salinity
-    ! units: PSU meter3 second-1
+    ! units: PPT meter3 second-1
 "ocean_model", "S_diffy"  [Unused]
     ! long_name: Diffusive Meridional Flux of Salinity
-    ! units: PSU meter3 second-1
+    ! units: PPT meter3 second-1
 "ocean_model", "T_adx_2d"  [Unused]
     ! long_name: Vertically Integrated Advective Zonal Flux of Potential Temperature
     ! units: Celsius meter3 second-1
@@ -948,16 +964,16 @@
     ! units: Celsius meter3 second-1
 "ocean_model", "S_adx_2d"  [Unused]
     ! long_name: Vertically Integrated Advective Zonal Flux of Salinity
-    ! units: PSU meter3 second-1
+    ! units: PPT meter3 second-1
 "ocean_model", "S_ady_2d"  [Unused]
     ! long_name: Vertically Integrated Advective Meridional Flux of Salinity
-    ! units: PSU meter3 second-1
+    ! units: PPT meter3 second-1
 "ocean_model", "S_diffx_2d"  [Unused]
     ! long_name: Vertically Integrated Diffusive Zonal Flux of Salinity
-    ! units: PSU meter3 second-1
+    ! units: PPT meter3 second-1
 "ocean_model", "S_diffy_2d"  [Unused]
     ! long_name: Vertically Integrated Diffusive Meridional Flux of Salinity
-    ! units: PSU meter3 second-1
+    ! units: PPT meter3 second-1
 "ocean_model", "u_predia"  [Unused]
     ! long_name: Zonal velocity
     ! units: meter second-1
@@ -975,7 +991,7 @@
     ! units: Celsius
 "ocean_model", "salt_predia"  [Unused]
     ! long_name: Salinity
-    ! units: PSU
+    ! units: PPT
 "ocean_model_z", "temp"  [Unused]
     ! long_name: Potential Temperature
     ! units: degC
@@ -986,11 +1002,11 @@
     ! standard_name: sea_water_potential_temperature
 "ocean_model_z", "salt"  [Unused]
     ! long_name: Salinity
-    ! units: PSU
+    ! units: PPT
     ! standard_name: not provided
-"ocean_model_z", "so"  [Unused]
+"ocean_model_z", "so"  [Used]
     ! long_name: Sea Water Salinity
-    ! units: psu
+    ! units: ppt
     ! standard_name: sea_water_salinity
 "ocean_model", "age"  [Used]
     ! long_name: Ideal Age Tracer
