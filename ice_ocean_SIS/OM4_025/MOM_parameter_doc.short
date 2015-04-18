@@ -56,13 +56,6 @@ MIN_Z_DIAG_INTERVAL = 2.16E+04  !   [s] default = 0.0
                                 ! calculations of depth-space diagnostics. Making this
                                 ! larger than DT_THERM reduces the  performance penalty
                                 ! of regridding to depth online.
-DTBT_RESET_PERIOD = -1.0        !   [s] default = 3600.0
-                                ! The period between recalculations of DTBT (if DTBT <= 0).
-                                ! If DTBT_RESET_PERIOD is negative, DTBT is set based
-                                ! only on information available at initialization.  If
-                                ! dynamic, DTBT will be set at least every forcing time
-                                ! step, and if 0, every dynamics time step.  The default is
-                                ! set by DT_THERM.  This is only used if SPLIT is true.
 FRAZIL = True                   !   [Boolean] default = False
                                 ! If true, water freezes if it gets too cold, and the
                                 ! the accumulated heat deficit is returned in the
