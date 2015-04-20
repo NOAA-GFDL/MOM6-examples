@@ -430,19 +430,19 @@
     ! long_name: The column mass for calculating mass-weighted average properties
     ! units: kg m-2
 "ocean_model", "temp_int"  [Unused]
-    ! long_name: The mass weighted column integrated temperature
+    ! long_name: Density weighted column integrated potential temperature
     ! units: degC kg m-2
-"ocean_model", "tomint"  [Used]
-    ! long_name: sea_water_prognostic_temperature_mass_integrated
+"ocean_model", "opottempmint"  [Unused]
+    ! long_name: integral_wrt_depth_of_product_of_sea_water_density_and_potential_temperature
     ! units: degC kg m-2
-    ! standard_name: Sea Water Prognostic Temperature Mass Integrated
+    ! standard_name: Depth integrated density times potential temperature
 "ocean_model", "salt_int"  [Unused]
-    ! long_name: The mass weighted column integrated salinity
+    ! long_name: Density weighted column integrated salinity
     ! units: ppt kg m-2
 "ocean_model", "somint"  [Used]
-    ! long_name: sea_water_salinity_mass_integrated
+    ! long_name: integral_wrt_depth_of_product_of_sea_water_density_and_salinity
     ! units: ppt kg m-2
-    ! standard_name: Sea Water Salinity Mass Integrated
+    ! standard_name: Depth integrated density times salinity
 "ocean_model", "col_mass"  [Unused]
     ! long_name: The column integrated in situ density
     ! units: kg m-2
@@ -775,12 +775,12 @@
     ! units: ppt
     ! standard_name: sea_surface_salinity
 "ocean_model", "frazil"  [Used]
-    ! long_name: Heat sink from frazil formation
+    ! long_name: Heat from frazil formation
     ! units: Watt meter-2
 "ocean_model", "hfsifrazil"  [Unused]
     ! long_name: Heat Flux into Sea Water due to Frazil Ice Formation
     ! units: W m-2
-    ! standard_name: heat_flux_into_sea_water_due_to_freezing_of_frazil_ice
+    ! standard_name: heat_flux_into_sea_water_due_to_frazil_ice_formation
 "ocean_model", "salt_deficit"  [Unused]
     ! long_name: Salt sink in ocean due to ice flux
     ! units: g Salt meter-2 s-1
