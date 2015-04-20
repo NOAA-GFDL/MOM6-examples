@@ -281,6 +281,16 @@ USE_STORED_SLOPES = True        !   [Boolean] default = False
                                 ! the equation of state more times than should be necessary.
 
 ! === module MOM_wave_speed ===
+INTERPOLATE_RES_FN = False      !   [Boolean] default = True
+                                ! If true, interpolate the resolution function to the
+                                ! velocity points from the thickness points; otherwise
+                                ! interpolate the wave speed and calculate the resolution
+                                ! function independently at each point.
+GILL_EQUATORIAL_LD = True       !   [Boolean] default = False
+                                ! If true, uses Gill's definition of the baroclinic
+                                ! equatorial deformation radius, otherwise, if false, use
+                                ! Pedlosky's definition. These definitions differ by a factor
+                                ! of 2 infront of the beta term in the denominator. Gill'sis the more appropriate definition.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
