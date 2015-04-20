@@ -513,6 +513,9 @@ USE_KPP = True                  !   [Boolean] default = False
                                 ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
                                 ! to calculate diffusivities and non-local transport in the OBL.
 KPP%
+MINIMUM_OBL_DEPTH = 6.0         !   [m] default = 0.0
+                                ! If non-zero, a minimum depth to use for KPP OBL depth. Independent of
+                                ! this parameter, the OBL depth is always at least as deep as the first layer.
 NLT_SHAPE = "PARABOLIC"         ! default = "CVMIX"
                                 ! MOM6 method to set nonlocal transport profile.
                                 ! Over-rides the result from CVMix.  Allowed values are:
