@@ -129,6 +129,11 @@ NK_SNOW = 1                     !   [nondim] default = 1
 H_TO_KG_M2 = 1.0                !   [kg m-2 H-1] default = 1.0
                                 ! A constant that translates thicknesses from the model's
                                 ! internal units of thickness to kg m-2.
+FIRST_DIRECTION = 0             ! default = 0
+                                ! An integer that indicates which direction goes first
+                                ! in parts of the code that use directionally split
+                                ! updates, with even numbers (or 0) used for x- first
+                                ! and odd numbers used for y-first.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
 INPUTDIR = "INPUT"              ! default = "."
