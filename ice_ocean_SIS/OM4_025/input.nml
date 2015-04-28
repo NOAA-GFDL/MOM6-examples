@@ -25,7 +25,6 @@
             do_land = .false.,
             do_ice = .true.,
             do_ocean = .true.,
-            do_flux = .true.,
             atmos_npes = 0, 
             concurrent = .false.     
             use_lag_fluxes=.false.    
@@ -74,19 +73,17 @@
            num_part = 6
            wd_turn = 0.0
            spec_ice=.false.
-           ice_bulk_salin = 0.005
+           ice_bulk_salin = 0.0
            alb_sno = 0.85                    ! keep CM2 setting
            alb_ice = 0.65                    ! keep CM2 setting
            t_range_melt = 1.0                ! NOTE: CM2 uses 1.0
            heat_rough_ice = 5.0e-4           
            cm2_bugs = .false.
            do_icebergs = .false.             
-           atmos_winds=.true.  
            add_diurnal_sw = .true.        
            do_ice_limit=.false.
            max_ice_limit=4.0
-           channel_viscosity=5.e5
-           chan_cfl_limit=0.001
+           channel_viscosity=0.
            h_lo_lim = 1.e-10
 /
 
