@@ -526,14 +526,14 @@
     ! units: m s-1
     ! standard_name: sea_water_y_velocity
 "ocean_model_z", "uh"  [Unused]
-    ! long_name: Zonal Mass Transport in Depth Space
+    ! long_name: Zonal Mass Transport (including SGS param) in Depth Space
     ! units: meter3 second-1
 "ocean_model_z", "umo"  [Used]
     ! long_name: Ocean Mass X Transport
     ! units: kg/s
     ! standard_name: ocean_mass_x_transport
 "ocean_model_z", "vh"  [Unused]
-    ! long_name: Meridional Mass Transport in Depth Space
+    ! long_name: Meridional Mass Transport (including SGS param) in Depth Space
     ! units: meter3 second-1
 "ocean_model_z", "vmo"  [Used]
     ! long_name: Ocean Mass Y Transport
@@ -652,6 +652,10 @@
 "ocean_model", "N2"  [Unused]
     ! long_name: Buoyancy frequency squared
     ! units: sec-2
+"ocean_model", "obvfsq"  [Used]
+    ! long_name: Square of seawater buoyancy frequency
+    ! units: s-2
+    ! standard_name: square_of_brunt_vaisala_frequency_in_sea_water
 "ocean_model_z", "N2"  [Unused]
     ! long_name: Buoyancy frequency, interpolated to z
     ! units: second-2
