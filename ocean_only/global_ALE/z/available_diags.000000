@@ -1144,8 +1144,13 @@
     ! long_name: Surface ocean heat flux from SW+LW+latent+sensible (via the coupler)
     ! units: Watt/m^2
 "ocean_model", "net_heat_surface"  [Used]
-    ! long_name: Surface ocean heat flux from SW+LW+latent+sensible+mass transfer+frazil
+    ! long_name: Surface ocean heat flux from SW+LW+lat+sens+mass transfer+frazil+restore
     ! units: Watt/m^2
+    ! standard_name: surface_downward_heat_flux_in_sea_water
+"ocean_model", "hfds"  [Used]
+    ! long_name: Surface ocean heat flux from SW+LW+latent+sensible+mass transfer+frazil
+    ! units: W m-2
+    ! standard_name: surface_downard_heat_flux_in_sea_water
 "ocean_model", "SW"  [Used]
     ! long_name: Shortwave radiation flux into ocean
     ! units: Watt meter-2
@@ -1197,7 +1202,7 @@
     ! long_name: Surface downward sensible heat flux
     ! units: W m-2
     ! standard_name: surface_downward_sensible_heat_flux
-"ocean_model", "heat_restore"  [Unused]
+"ocean_model", "heat_restore"  [Used]
     ! long_name: Restoring surface heat flux into ocean
     ! units: Watt/m^2
 "ocean_model", "total_heat_content_frunoff"  [Used]
@@ -1231,7 +1236,7 @@
     ! long_name: Area integrated surface heat flux from SW+LW+latent+sensible (via the coupler)
     ! units: Watt
 "ocean_model", "total_net_heat_surface"  [Used]
-    ! long_name: Area integrated surface heat flux from SW+LW+latent+sensible+mass
+    ! long_name: Area integrated surface heat flux from SW+LW+lat+sens+mass+frazil+restore
     ! units: Watt
 "ocean_model", "total_sw"  [Used]
     ! long_name: Area integrated net downward shortwave at sea water surface
