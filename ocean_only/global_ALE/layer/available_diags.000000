@@ -671,6 +671,20 @@
 "ocean_model", "Kd_interface"  [Used]
     ! long_name: Total diapycnal diffusivity at interfaces
     ! units: meter2 second-1
+"ocean_model", "Kd_heat"  [Unused]
+    ! long_name: Total diapycnal diffusivity for heat at interfaces
+    ! units: meter2 second-1
+"ocean_model", "difvho"  [Used]
+    ! long_name: Net diapycnal diffusivity for ocean heat
+    ! units: m2 s-1
+    ! standard_name: ocean_vertical_heat_diffusivity
+"ocean_model", "Kd_salt"  [Unused]
+    ! long_name: Total diapycnal diffusivity for salt at interfaces
+    ! units: meter2 second-1
+"ocean_model", "difvso"  [Used]
+    ! long_name: Net diapycnal diffusivity for ocean salt
+    ! units: m2 s-1
+    ! standard_name: ocean_vertical_salt_diffusivity
 "ocean_model", "KPP_OBLdepth"  [Used]
     ! long_name: Thickness of the surface Ocean Boundary Layer calculated by [CVmix] KPP
     ! units: meter
@@ -1277,7 +1291,7 @@
     ! long_name: Surface downward sensible heat flux
     ! units: W m-2
     ! standard_name: surface_downward_sensible_heat_flux
-"ocean_model", "heat_restore"  [Unused]
+"ocean_model", "heat_restore"  [Used]
     ! long_name: Restoring surface heat flux into ocean
     ! units: Watt/m^2
 "ocean_model", "total_heat_content_frunoff"  [Used]
