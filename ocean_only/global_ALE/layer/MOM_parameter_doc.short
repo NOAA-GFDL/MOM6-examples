@@ -386,6 +386,10 @@ BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the
                                 ! BBL mixing and the other diffusivities. Otherwise,
                                 ! diffusiviy from the BBL_mixing is simply added.
+USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
+                                ! If true, uses a simple, imprecise but non-coordinate dependent, model
+                                ! of BBL mixing diffusivity based on Law of the Wall. Otherwise, uses
+                                ! the original BBL scheme.
 HENYEY_IGW_BACKGROUND = True    !   [Boolean] default = False
                                 ! If true, use a latitude-dependent scaling for the near
                                 ! surface background diffusivity, as described in
@@ -400,6 +404,10 @@ KD = 2.0E-05                    !   [m2 s-1]
                                 ! may be used.
 KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
                                 ! The minimum diapycnal diffusivity.
+KD_MAX = 0.1                    !   [m2 s-1] default = -1.0
+                                ! The maximum permitted increment for the diapycnal
+                                ! diffusivity from TKE-based parameterizations, or a
+                                ! negative value for no limit.
 INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
                                 ! If true, use an internal tidal dissipation scheme to
                                 ! drive diapycnal mixing, along the lines of St. Laurent
