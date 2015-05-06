@@ -19,7 +19,7 @@ RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
                                 ! calculate accelerations and the mass for conservation
                                 ! properties, or with BOUSSINSEQ false to convert some
                                 ! parameters from vertical units of m to kg m-2.
-NK = 400                        !   [nondim]
+NK = 63                         !   [nondim]
                                 ! The number of model layers.
 
 ! === module MOM_verticalGrid ===
@@ -28,15 +28,6 @@ NK = 400                        !   [nondim]
 ! === module MOM ===
 SPLIT = False                   !   [Boolean] default = True
                                 ! Use the split time stepping if true.
-BULKMIXEDLAYER = False          !   [Boolean] default = True
-                                ! If true, use a Kraus-Turner-like bulk mixed layer
-                                ! with transitional buffer layers.  Layers 1 through
-                                ! NKML+NKBL have variable densities. There must be at
-                                ! least NKML+NKBL+1 layers if BULKMIXEDLAYER is true.
-                                ! The default is the same setting as ENABLE_THERMODYNAMICS.
-USE_REGRIDDING = True           !   [Boolean] default = False
-                                ! If True, use the ALE algorithm (regridding/remapping).
-                                ! If False, use the layered isopycnal algorithm.
 DT = 1200.0                     !   [s]
                                 ! The (baroclinic) dynamics time step.  The time-step that
                                 ! is actually used will be an integer fraction of the
@@ -107,7 +98,7 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 400.0           !   [m]
                                 ! The maximum depth of the ocean.
-COORD_CONFIG = "none"           !
+COORD_CONFIG = "file"           !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
@@ -121,6 +112,8 @@ COORD_CONFIG = "none"           !
                                 !     ts_profile - use temperature and salinity profiles
                                 !       (read from COORD_FILE) to set layer densities.
                                 !     USER - call a user modified routine.
+COORD_FILE = "isopyc_coords.nc" !
+                                ! The file from which the coordinate densities are read.
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -130,20 +123,7 @@ ROTATION = "betaplane"          ! default = "2omegasinlat"
 F_0 = 1.0E-04                   !   [s-1] default = 0.0
                                 ! The reference value of the Coriolis parameter with the
                                 ! betaplane option.
-REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
-                                ! Coordinate mode for vertical regridding.
-                                ! Choose among the following possibilities:
-                                !  LAYER - Isopycnal or stacked shallow water layers
-                                !  Z*    - stetched geopotential z*
-                                !  SIGMA - terrain following coordinates
-                                !  RHO   - continuous isopycnal
-!ALE_RESOLUTION = 400*1.0       !   [m]
-                                ! The distribution of vertical resolution for the target
-                                ! grid used for Eulerian-like coordinates. For example,
-                                ! in z-coordinate mode, the parameter is a list of level
-                                ! thicknesses (in m). In sigma-coordinate mode, the list
-                                ! is of non-dimensional fractions of the water column.
-THICKNESS_CONFIG = "coord"      !
+THICKNESS_CONFIG = "uniform"    !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
                                 !     file - read interface heights from the file specified
@@ -220,7 +200,7 @@ UPWIND_1ST_CONTINUITY = True    !   [Boolean] default = False
                                 ! continuity solver.  This scheme is highly diffusive
                                 ! but may be useful for debugging or in single-column
                                 ! mode where its minimal stensil is useful.
-ETA_TOLERANCE = 1.0E-06         !   [m] default = 2.0E-08
+ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.15E-09
                                 ! The tolerance for the differences between the
                                 ! barotropic and baroclinic estimates of the sea surface
                                 ! height due to the fluxes through each face.  The total
@@ -263,10 +243,6 @@ V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
 HARMONIC_VISC = True            !   [Boolean] default = False
                                 ! If true, use the harmonic mean thicknesses for
                                 ! calculating the vertical viscosity.
-HMIX_FIXED = 0.01               !   [m]
-                                ! The prescribed depth over which the near-surface
-                                ! viscosity and diffusivity are elevated when the bulk
-                                ! mixed layer is not used.
 KV = 0.0                        !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior.
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
@@ -305,11 +281,6 @@ KD = 0.0                        !   [m2 s-1]
 ! === module MOM_KPP ===
 ! This is the MOM wrapper to CVmix:KPP
 ! See http://code.google.com/p/cvmix/
-USE_KPP = True                  !   [Boolean] default = False
-                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
-                                ! to calculate diffusivities and non-local transport in the OBL.
-KPP%
-%KPP
 
 ! === module MOM_diffConvection ===
 ! This module implements enhanced diffusivity as a
@@ -324,10 +295,16 @@ MAX_ENT_IT = 20                 ! default = 5
 TOLERANCE_ENT = 1.0E-05         !   [m] default = 1.0E-08
                                 ! The tolerance with which to solve for entrainment values.
 
-! === module MOM_regularize_layers ===
+! === module MOM_mixed_layer ===
+BULK_RI_ML = 0.05               !   [nondim]
+                                ! The efficiency with which mean kinetic energy released
+                                ! by mechanically forced entrainment of the mixed layer
+                                ! is converted to turbulent kinetic energy.
 HMIX_MIN = 2.0                  !   [m] default = 0.0
                                 ! The minimum mixed layer depth if the mixed layer depth
                                 ! is determined dynamically.
+
+! === module MOM_regularize_layers ===
 
 ! === module MOM_opacity ===
 PEN_SW_NBANDS = 3               ! default = 1
