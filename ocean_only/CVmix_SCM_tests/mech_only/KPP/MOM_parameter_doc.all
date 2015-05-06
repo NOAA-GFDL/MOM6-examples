@@ -114,7 +114,7 @@ HMIX_SFC_PROP = 1.0             !   [m] default = 1.0
                                 ! If BULKMIXEDLAYER is false, HMIX_SFC_PROP is the depth
                                 ! over which to average to find surface properties like
                                 ! SST and SSS or density (but not surface velocities).
-MIN_Z_DIAG_INTERVAL = 2.16E+04  !   [s] default = 0.0
+MIN_Z_DIAG_INTERVAL = 0.0       !   [s] default = 0.0
                                 ! The minimum amount of time in seconds between
                                 ! calculations of depth-space diagnostics. Making this
                                 ! larger than DT_THERM reduces the  performance penalty
@@ -758,10 +758,13 @@ MIXEDLAYER_RESTRAT = False      !   [Boolean] default = False
                                 ! If true, a density-gradient dependent re-stratifying
                                 ! flow is imposed in the mixed layer.
                                 ! This is only used if BULKMIXEDLAYER is true.
-Z_OUTPUT_GRID_FILE = ""         ! default = ""
+Z_OUTPUT_GRID_FILE = "zgrid.nc" ! default = ""
                                 ! The file that specifies the vertical grid for
                                 ! depth-space diagnostics, or blank to disable
                                 ! depth-space output.
+!NK_ZSPACE (from file) = 35     !   [nondim]
+                                ! The number of depth-space levels.  This is determined
+                                ! from the size of the variable zw in the output grid file.
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.

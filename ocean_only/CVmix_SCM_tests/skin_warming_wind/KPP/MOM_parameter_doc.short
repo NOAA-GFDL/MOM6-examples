@@ -42,11 +42,6 @@ DT = 1200.0                     !   [s]
                                 ! is actually used will be an integer fraction of the
                                 ! forcing time-step (DT_FORCING in ocean-only mode or the
                                 ! coupling timestep in coupled mode.)
-MIN_Z_DIAG_INTERVAL = 2.16E+04  !   [s] default = 0.0
-                                ! The minimum amount of time in seconds between
-                                ! calculations of depth-space diagnostics. Making this
-                                ! larger than DT_THERM reduces the  performance penalty
-                                ! of regridding to depth online.
 C_P = 3992.10322329649          !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a
                                 ! constant. This is only used if ENABLE_THERMODYNAMICS is
@@ -284,6 +279,13 @@ MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
 ! === module MOM_thickness_diffuse ===
 
 ! === module MOM_mixed_layer_restrat ===
+Z_OUTPUT_GRID_FILE = "zgrid.nc" ! default = ""
+                                ! The file that specifies the vertical grid for
+                                ! depth-space diagnostics, or blank to disable
+                                ! depth-space output.
+!NK_ZSPACE (from file) = 35     !   [nondim]
+                                ! The number of depth-space levels.  This is determined
+                                ! from the size of the variable zw in the output grid file.
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.

@@ -1,14 +1,10 @@
-"SCM Experiment"
+"CVmix SCM experiment"
 1 1 1 0 0 0
 "prog",                20,"minutes",1,"days","Time"
-#"prog_z",              1,"days",1,"days","Time"
+"prog_z",              20,"minutes",1,"days","Time"
 "surffluxes",          20,"minutes",1,"days","Time"
-#"ave_prog",            1,"days",1,"days","Time",
-#"mom",                 5,"days",1,"days","Time",
-#"bt_mom",              5,"days",1,"days","Time",
 "visc",                20,"minutes",1,"days","Time",
 #"energy",              5,"days",1,"days","Time",
-
 
 #This is the field section of the diag_table.
 
@@ -21,72 +17,13 @@
 "ocean_model","e","e","prog","all",.false.,"none",2
 "ocean_model","temp","temp","prog","all",.false.,"none",2
 "ocean_model","salt","salt","prog","all",.false.,"none",2
-#"ocean_model","Rml","Rml","prog","all",.false.,"none",2
-#"ocean_model","h_ML","h_ML","prog","all",.false.,"none",2
-
-#"ocean_model","RV","RV","prog","all",.false.,"none",2
-#"ocean_model","PV","PV","prog","all",.false.,"none",2
-#"ocean_model","e_D","e_D","prog","all",.false.,"none",2
-
-#"ocean_model","u","u","ave_prog","all",.true.,"none",2
-#"ocean_model","v","v","ave_prog","all",.true.,"none",2
-#"ocean_model","h","h","ave_prog","all",.true.,"none",1
-#"ocean_model","e","e","ave_prog","all",.true.,"none",2
-#"ocean_model","temp","temp","ave_prog","all",.true.,"none",2
-#"ocean_model","salt","salt","ave_prog","all",.true.,"none",2
-#"ocean_model","Rml","Rml","ave_prog","all",.true.,"none",2
 
 # Z level output
 #================
-#"ocean_model_z","u","u","prog_z","all",.false.,"none",2
-#"ocean_model_z","v","v","prog_z","all",.false.,"none",2
-#"ocean_model_z","temp","temp","prog_z","all",.false.,"none",2
-#"ocean_model_z","salt","salt","prog_z","all",.false.,"none",2
-
-# Auxilary Tracers:
-#==================
-#"ocean_model","vintage","vintage","prog","all",.false.,"none",2
-#"ocean_model","age","age","prog","all",.false.,"none",2
-
-# Continuity Equation Terms:
-#===========================
-#"ocean_model","dhdt","dhdt","cont","all",.true.,"none",2
-"ocean_model","wd","wd","prog","all",.false.,"none",2
-#"ocean_model","uh","uh","cont","all",.true.,"none",2
-#"ocean_model","vh","vh","cont","all",.true.,"none",2
-#"ocean_model","uhGM","uhGM","cont","all",.true.,"none",2
-#"ocean_model","vhGM","vhGM","cont","all",.true.,"none",2
-#"ocean_model","uhbt","uhbt","cont","all",.true.,"none",2
-#"ocean_model","vhbt","vhbt","cont","all",.true.,"none",2
-#"ocean_model","h_rho","h_rho","cont","all",.true.,"none",2
-#"ocean_model","uh_rho","uh_rho","cont","all",.true.,"none",2
-#"ocean_model","vh_rho","vh_rho","cont","all",.true.,"none",2
-#"ocean_model","uhGM_rho","uhGM_rho","cont","all",.true.,"none",2
-#"ocean_model","vhGM_rho","vhGM_rho","cont","all",.true.,"none",2
-#"ocean_model","KH_u","KH_u","cont","all",.true.,"none",2
-#"ocean_model","KH_v","KH_v","cont","all",.true.,"none",2
-#"ocean_model","GMwork","GMwork","cont","all",.true.,"none",2
-
-# Continuity Equation Terms In Pure Potential Density Coordiantes:
-#=================================================================
-#"ocean_model","h_rho","h_rho","cont","all",.true.,"none",2
-#"ocean_model","uh_rho","uh_rho","cont","all",.true.,"none",2
-#"ocean_model","vh_rho","vh_rho","cont","all",.true.,"none",2
-#"ocean_model","uhGM_rho","uhGM_rho","cont","all",.true.,"none",2
-#"ocean_model","vhGM_rho","vhGM_rho","cont","all",.true.,"none",2
-
-#
-# Tracer Fluxes:
-#==================
-#"ocean_model","T_adx",  "T_adx",  "ave_prog","all",.true.,"none",2
-#"ocean_model","T_ady",  "T_ady",  "ave_prog","all",.true.,"none",2
-#"ocean_model","T_diffx","T_diffx","ave_prog","all",.true.,"none",2
-#"ocean_model","T_diffy","T_diffy","ave_prog","all",.true.,"none",2
-#"ocean_model","S_adx",  "S_adx",  "ave_prog","all",.true.,"none",2
-#"ocean_model","S_ady",  "S_ady",  "ave_prog","all",.true.,"none",2
-#"ocean_model","S_diffx","S_diffx","ave_prog","all",.true.,"none",2
-#"ocean_model","S_diffy","S_diffy","ave_prog","all",.true.,"none",2
-
+"ocean_model_z","u","u","prog_z","all",.false.,"none",2
+"ocean_model_z","v","v","prog_z","all",.false.,"none",2
+"ocean_model_z","temp","temp","prog_z","all",.false.,"none",2
+"ocean_model_z","salt","salt","prog_z","all",.false.,"none",2
 
 # Momentum Balance Terms:
 #=======================
@@ -110,18 +47,6 @@
 #"ocean_model","PFu_bc","PFu_bc","mom","all",.true.,"none",2
 #"ocean_model","PFv_bc","PFv_bc","mom","all",.true.,"none",2
 
-# Barotropic Momentum Balance Terms:
-# (only available with split time stepping.)
-#===========================================
-#"ocean_model","PFuBT","PFuBT","bt_mom","all",.true.,"none",2
-#"ocean_model","PFvBT","PFvBT","bt_mom","all",.true.,"none",2
-#"ocean_model","CoruBT","CoruBT","bt_mom","all",.true.,"none",2
-#"ocean_model","CorvBT","CorvBT","bt_mom","all",.true.,"none",2
-#"ocean_model","ubtforce","ubtforce","bt_mom","all",.true.,"none",2
-#"ocean_model","vbtforce","vbtforce","bt_mom","all",.true.,"none",2
-#"ocean_model","u_accel_bt","u_accel_bt","bt_mom","all",.true.,"none",2
-#"ocean_model","v_accel_bt","v_accel_bt","bt_mom","all",.true.,"none",2
-#
 # Viscosities and diffusivities:
 #===============================
 #"ocean_model","Kd_effective","Kd_effective","visc","all",.true.,"none",2
@@ -137,6 +62,9 @@
 #"ocean_model","av_visc","av_visc","visc","all",.true.,"none",2
 #"ocean_model","au_visc","au_visc","visc","all",.true.,"none",2
 #"ocean_model","FrictWork","FrictWork","visc","all",.true.,"none",2
+
+# KPP diagnostics
+#================
 "ocean_model","KPP_uStar","KPP_uStar","visc","all",.true.,"none",2
 "ocean_model","KPP_buoyFlux","KPP_buoyFlux","visc","all",.true.,"none",2
 "ocean_model","KPP_QminusSW","KPP_QminusSW","visc","all",.true.,"none",2
@@ -164,7 +92,6 @@
 "ocean_model","KPP_Vsurf","KPP_Vsurf","visc","all",.true.,"none",2
 "ocean_model","MLD_003","MLD_003","visc","all",.true.,"none",2
 
-#
 # Kinetic Energy Balance Terms:
 #=============================
 #"ocean_model","KE","KE","energy","all",.true.,"none",2
