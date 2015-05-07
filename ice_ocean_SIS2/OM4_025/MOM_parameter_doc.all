@@ -1092,8 +1092,12 @@ Z_OUTPUT_GRID_FILE = "vgrid_75_2m.nc" ! default = ""
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
+ENERGETICS_SFC_PBL = False      !   [Boolean] default = False
+                                ! If true, use an implied energetics planetary boundary
+                                ! layer scheme to determine the diffusivity and viscosity
+                                ! in the surface boundary layer.
 INTERNAL_TIDES = False          !   [Boolean] default = False
-                                ! If true, use the code that advances as separate set of
+                                ! If true, use the code that advances a separate set of
                                 ! equations for the internal tide energy density.
 MASSLESS_MATCH_TARGETS = True   !   [Boolean] default = True
                                 ! If true, the temperature and salinity of massless layers
