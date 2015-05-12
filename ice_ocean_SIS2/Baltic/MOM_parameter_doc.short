@@ -465,9 +465,10 @@ ML_PRESORT_NK_CONV_ADJ = 4      !   [nondim] default = 0
                                 ! Convectively mix the first ML_PRESORT_NK_CONV_ADJ
                                 ! layers before sorting when ML_RESORT is true.
 CORRECT_ABSORPTION_DEPTH = True !   [Boolean] default = False
-                                ! If true, the depth at which penetrating shortwave
-                                ! radiation is absorbed is corrected by moving some of
-                                ! the heating upward in the water column.
+                                ! If true, the average depth at which penetrating shortwave
+                                ! radiation is absorbed is adjusted to match the average
+                                ! heating depth of an exponential profile by moving some
+                                ! of the heating upward in the water column.
 DO_RIVERMIX = True              !   [Boolean] default = False
                                 ! If true, apply additional mixing whereever there is
                                 ! runoff, so that it is mixed down to RIVERMIX_DEPTH,

@@ -953,10 +953,6 @@ TKE_DECAY = 2.5                 !   [nondim] default = 2.5
                                 ! TKE_DECAY relates the vertical rate of decay of the
                                 ! TKE available for mechanical entrainment to the natural
                                 ! Ekman depth.
-CONV_DECAY = 0.5                !   [nondim] default = 0.5
-                                ! CONV_DECAY relates the vertical rate of decay of the
-                                ! convectively released TKE available for penetrating
-                                ! entrainment to the natural Ekman length.
 NSTAR2 = 0.15                   !   [nondim] default = 0.15
                                 ! The portion of any potential energy released by
                                 ! convective adjustment that is available to drive
@@ -1009,9 +1005,10 @@ RESOLVE_EKMAN = False           !   [Boolean] default = False
                                 ! the sublayers are distributed uniformly through the
                                 ! mixed layer.
 CORRECT_ABSORPTION_DEPTH = False !   [Boolean] default = False
-                                ! If true, the depth at which penetrating shortwave
-                                ! radiation is absorbed is corrected by moving some of
-                                ! the heating upward in the water column.
+                                ! If true, the average depth at which penetrating shortwave
+                                ! radiation is absorbed is adjusted to match the average
+                                ! heating depth of an exponential profile by moving some
+                                ! of the heating upward in the water column.
 DO_RIVERMIX = False             !   [Boolean] default = False
                                 ! If true, apply additional mixing whereever there is
                                 ! runoff, so that it is mixed down to RIVERMIX_DEPTH,

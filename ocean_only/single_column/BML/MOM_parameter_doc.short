@@ -315,9 +315,10 @@ DEPTH_LIMIT_FLUXES = 0.1        !   [m] default = 0.2
                                 ! The surface fluxes are scaled away when the total ocean
                                 ! depth is less than DEPTH_LIMIT_FLUXES.
 CORRECT_ABSORPTION_DEPTH = True !   [Boolean] default = False
-                                ! If true, the depth at which penetrating shortwave
-                                ! radiation is absorbed is corrected by moving some of
-                                ! the heating upward in the water column.
+                                ! If true, the average depth at which penetrating shortwave
+                                ! radiation is absorbed is adjusted to match the average
+                                ! heating depth of an exponential profile by moving some
+                                ! of the heating upward in the water column.
 
 ! === module MOM_regularize_layers ===
 
