@@ -5,6 +5,7 @@ from __future__ import print_function
 import sys, os
 import argparse
 from experiment import Experiment
+from experiment import exp_id_from_path
 
 """
 This script is used to run an experiment/test case and dump all available
@@ -42,11 +43,18 @@ def main():
 
     description = "Run an experiment and dump all it's available diagnostics."
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument('experiment_path',
-                        help='path to experiment to run.')
+    parser.add_argument('exp_path',
+                        help='path to experiment whose diagnostics will be dumped.')
 
     args = parser.parse_args()
-    exp = Experiment(path=os.path.abspath(args.experiment_path))
+    if not os.path.exists(args.exp_path):
+      print('Experiment {} is not a valid path!'.format(args.exp_path),
+             file=sys.stderr)
+      parser.print_help()
+      return 1
+
+    exp_id = exp_id_from_path(args.exp_path)
+    exp = Experiment(exp_id)
     diags = exp.get_available_diags()
     return dump_diags(exp, diags)
 

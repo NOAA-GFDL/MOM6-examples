@@ -53,7 +53,7 @@ class TestDiagnosticOutput:
         checksum_file = os.path.join(exp.path, 'diag_checksums.txt')
         tmp_file = os.path.join(exp.path, 'tmp_diag_checksums.txt')
         new_checksums = ''
-        for d in sorted(exp.get_available_diags(), key=lambda d: d.full_name):
+        for d in exp.get_available_diags():
             with open(d.output, 'rb') as f:
                 checksum = hashlib.md5(f.read()).hexdigest()
             new_checksums += '{}:{}\n'.format(os.path.basename(d.output),

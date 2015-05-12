@@ -4,7 +4,12 @@ from __future__ import print_function
 import sys
 import os
 import re
+import shlex
 import subprocess as sp
+import platform_config as pc
+
+# Only support Python version >= 2.7
+assert(not(sys.version_info[0] == 2) or sys.version_info[1] >= 7)
 
 _file_dir = os.path.dirname(os.path.abspath(__file__))
 _mom_examples_path = os.path.normpath(os.path.join(_file_dir, '../../'))
@@ -53,7 +58,7 @@ def exp_id_from_path(path):
     full path.
     """
     path = os.path.normpath(path)
-    return path.replace(_mom_examples_path, '')[1:]
+    return path.replace(_mom_examples_path, '')
 
 
 class Experiment:
@@ -79,8 +84,9 @@ class Experiment:
             self.path = os.path.join(self.path, self.variation)
 
         # Path to executable, may not exist yet.
-        self.exec_path = os.path.join(_mom_examples_path,
-                                      'build/{}/{}/repro/MOM6'.format(self.platform, self.model))
+        rel_path = 'build/{}/{}/repro/MOM6'.format(self.platform, self.model)
+        self.exec_path = os.path.join(_mom_examples_path, rel_path)
+                                      
         # Lists of available and unfinished diagnostics.
         self.available_diags = self._parse_available_diags()
         self.unfinished_diags = [Diagnostic(m, d, self.path) \
@@ -89,6 +95,8 @@ class Experiment:
         # diags.
         self.available_diags = list(set(self.available_diags) - \
                                     set(self.unfinished_diags))
+        # It helps with testing and human readability if this is sorted.
+        self.available_diags.sort(key=lambda d: d.full_name)
 
         # Whether this experiment has been run/built. Want to try to avoid
         # repeating this if possible.
@@ -142,7 +150,6 @@ class Experiment:
         Run the experiment.
         """
 
-        print('Experiment: running {}'.format(self.exec_path))
         assert(os.path.exists(self.exec_path))
 
         ret = 0
@@ -150,7 +157,9 @@ class Experiment:
 
         os.chdir(self.path)
         try:
-            output = sp.check_output([self.exec_path], stderr=sp.STDOUT)
+            exe = pc.exec_prefix + self.exec_path
+            print('Executing ' + exe)
+            output = sp.check_output(shlex.split(exe), stderr=sp.STDOUT)
             self.has_run = True
         except sp.CalledProcessError as e:
             ret = e.returncode
