@@ -482,6 +482,8 @@ USE_MEKE = False                !   [Boolean] default = False
                                 ! If true, turns on the MEKE scheme which calculates
                                 ! a sub-grid mesoscale eddy kinetic energy budget.
 
+! === module MOM_wave_speed ===
+
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = False     !   [Boolean] default = False
                                 ! If true, the variable mixing code will be called.  This
@@ -1018,13 +1020,6 @@ TKE_DECAY = 2.5                 !   [nondim] default = 2.5
                                 ! TKE_DECAY relates the vertical rate of decay of the
                                 ! TKE available for mechanical entrainment to the natural
                                 ! Ekman depth.
-CONV_DECAY = 0.5                !   [nondim] default = 0.5
-                                ! CONV_DECAY relates the vertical rate of decay of the
-                                ! convectively released TKE available for penetrating
-                                ! entrainment to the natural Ekman length.
-HMIX_MIN = 2.0                  !   [m] default = 0.0
-                                ! The minimum mixed layer depth if the mixed layer depth
-                                ! is determined dynamically.
 ML_USE_OMEGA = False            !   [Boolean] default = False
                                 ! If true, use the absolute rotation rate instead of the
                                 ! vertical component of rotation when setting the decay
@@ -1039,6 +1034,9 @@ REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False
                                 ! If defined, vertically restructure the near-surface
                                 ! layers when they have too much lateral variations to
                                 ! allow for sensible lateral barotropic transports.
+HMIX_MIN = 2.0                  !   [m] default = 0.0
+                                ! The minimum mixed layer depth if the mixed layer depth
+                                ! is determined dynamically.
 REG_SFC_DEFICIT_TOLERANCE = 0.5 !   [nondim] default = 0.5
                                 ! The value of the relative thickness deficit at which
                                 ! to start modifying the layer structure when

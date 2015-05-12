@@ -359,6 +359,8 @@ USE_MEKE = False                !   [Boolean] default = False
                                 ! If true, turns on the MEKE scheme which calculates
                                 ! a sub-grid mesoscale eddy kinetic energy budget.
 
+! === module MOM_wave_speed ===
+
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = False     !   [Boolean] default = False
                                 ! If true, the variable mixing code will be called.  This
@@ -388,8 +390,6 @@ USE_STORED_SLOPES = False       !   [Boolean] default = False
                                 ! If true, the isopycnal slopes are calculated once and
                                 ! stored for re-use. This uses more memory but avoids calling
                                 ! the equation of state more times than should be necessary.
-
-! === module MOM_wave_speed ===
 KH_RES_SCALE_COEF = 0.707106781 !   [nondim] default = 1.0
                                 ! A coefficient that determines how KhTh is scaled away if
                                 ! RESOLN_SCALED_... is true, as
@@ -823,8 +823,6 @@ MIXEDLAYER_RESTRAT = False      !   [Boolean] default = False
                                 ! If true, a density-gradient dependent re-stratifying
                                 ! flow is imposed in the mixed layer.
                                 ! This is only used if BULKMIXEDLAYER is true.
-
-! === module MOM_wave_speed ===
 Z_OUTPUT_GRID_FILE = ""         ! default = ""
                                 ! The file that specifies the vertical grid for
                                 ! depth-space diagnostics, or blank to disable

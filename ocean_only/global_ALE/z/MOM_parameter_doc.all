@@ -558,6 +558,8 @@ CDRAG = 0.003                   !   [nondim] default = 0.003
                                 ! CDRAG is the drag coefficient relating the magnitude of
                                 ! the velocity field to the bottom stress.
 
+! === module MOM_wave_speed ===
+
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
                                 ! If true, the variable mixing code will be called.  This
@@ -596,8 +598,6 @@ VARMIX_KTOP = 6                 !   [nondim] default = 2
                                 ! of S*N for purposes of finding the Eady growth rate.
 VISBECK_L_SCALE = 3.0E+04       !   [m] default = 0.0
                                 ! The fixed length scale in the Visbeck formula.
-
-! === module MOM_wave_speed ===
 KH_RES_SCALE_COEF = 1.0         !   [nondim] default = 1.0
                                 ! A coefficient that determines how KhTh is scaled away if
                                 ! RESOLN_SCALED_... is true, as

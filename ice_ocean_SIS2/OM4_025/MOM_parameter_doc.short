@@ -237,6 +237,8 @@ MEKE_GMCOEFF = 1.0              !   [nondim] default = -1.0
 MEKE_BGSRC = 1.0E-13            !   [W kg-1] default = 0.0
                                 ! A background energy source for MEKE.
 
+! === module MOM_wave_speed ===
+
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
                                 ! If true, the variable mixing code will be called.  This
@@ -259,8 +261,6 @@ USE_STORED_SLOPES = True        !   [Boolean] default = False
                                 ! If true, the isopycnal slopes are calculated once and
                                 ! stored for re-use. This uses more memory but avoids calling
                                 ! the equation of state more times than should be necessary.
-
-! === module MOM_wave_speed ===
 INTERPOLATE_RES_FN = False      !   [Boolean] default = True
                                 ! If true, interpolate the resolution function to the
                                 ! velocity points from the thickness points; otherwise

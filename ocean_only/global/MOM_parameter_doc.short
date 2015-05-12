@@ -204,6 +204,8 @@ MEKE_GMCOEFF = 1.0              !   [nondim] default = -1.0
                                 ! If MEKE_GMCOEFF is negative, this conversion is not
                                 ! used or calculated.
 
+! === module MOM_wave_speed ===
+
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
                                 ! If true, the variable mixing code will be called.  This
@@ -230,8 +232,6 @@ VARMIX_KTOP = 6                 !   [nondim] default = 2
                                 ! of S*N for purposes of finding the Eady growth rate.
 VISBECK_L_SCALE = 3.0E+04       !   [m] default = 0.0
                                 ! The fixed length scale in the Visbeck formula.
-
-! === module MOM_wave_speed ===
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -381,8 +381,6 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! geostrophic kinetic energy or 1 plus the square of the
                                 ! grid spacing over the deformation radius, as detailed
                                 ! by Fox-Kemper et al. (2010)
-
-! === module MOM_wave_speed ===
 Z_OUTPUT_GRID_FILE = "OM3_zgrid.nc" ! default = ""
                                 ! The file that specifies the vertical grid for
                                 ! depth-space diagnostics, or blank to disable

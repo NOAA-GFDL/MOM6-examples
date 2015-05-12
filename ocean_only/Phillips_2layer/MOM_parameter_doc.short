@@ -187,6 +187,8 @@ SPONGE_RATE = 1.157407407407407E-06 !   [s-1] default = 1.157407407407407E-06
 
 ! === module MOM_MEKE ===
 
+! === module MOM_wave_speed ===
+
 ! === module MOM_lateral_mixing_coeffs ===
 RESOLN_SCALED_KH = True         !   [Boolean] default = False
                                 ! If true, the Laplacian lateral viscosity is scaled away
@@ -196,8 +198,6 @@ RESOLN_SCALED_KHTH = True       !   [Boolean] default = False
                                 ! If true, the interface depth diffusivity is scaled away
                                 ! when the first baroclinic deformation radius is well
                                 ! resolved.
-
-! === module MOM_wave_speed ===
 KH_RES_SCALE_COEF = 0.707106781 !   [nondim] default = 1.0
                                 ! A coefficient that determines how KhTh is scaled away if
                                 ! RESOLN_SCALED_... is true, as
@@ -329,8 +329,6 @@ KHTH = 8000.0                   !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
 
 ! === module MOM_mixed_layer_restrat ===
-
-! === module MOM_wave_speed ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
