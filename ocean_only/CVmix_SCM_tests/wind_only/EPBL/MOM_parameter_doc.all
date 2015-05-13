@@ -797,6 +797,10 @@ AGGREGATE_FW_FORCING = True     !   [Boolean] default = True
                                 ! and applied as either incoming or outgoing depending on the sign of the net.
                                 ! If false, the net incoming fresh water flux is added to the model and
                                 ! thereafter the net outgoing is removed from the updated state.into the first non-vanished layer for which the column remains stable
+DO_RIVERMIX = False             !   [Boolean] default = False
+                                ! If true, apply additional mixing whereever there is
+                                ! runoff, so that it is mixed down to RIVERMIX_DEPTH
+                                ! if the ocean is that deep.
 DEBUG_CONSERVATION = False      !   [Boolean] default = False
                                 ! If true, monitor conservation and extrema.
 MIX_BOUNDARY_TRACERS = True     !   [Boolean] default = True
@@ -1025,10 +1029,6 @@ ML_USE_OMEGA = False            !   [Boolean] default = False
                                 ! If true, use the absolute rotation rate instead of the
                                 ! vertical component of rotation when setting the decay
                                 ! scale for turbulence.
-DO_RIVERMIX = False             !   [Boolean] default = False
-                                ! If true, apply additional mixing whereever there is
-                                ! runoff, so that it is mixed down to RIVERMIX_DEPTH,
-                                ! if the ocean is that deep.
 
 ! === module MOM_regularize_layers ===
 REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False
