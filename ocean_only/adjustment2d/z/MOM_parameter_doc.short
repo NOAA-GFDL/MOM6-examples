@@ -129,7 +129,8 @@ COORD_CONFIG = "linear"         !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layesrs.
+                                !     linear - linear based on interfaces not layers
+                                !     layer_ref - linear based on layer densities
                                 !     ts_ref - use reference temperature and salinity
                                 !     ts_range - use range of temperature and salinity
                                 !       (T_REF and S_REF) to determine surface density
@@ -140,7 +141,8 @@ COORD_CONFIG = "linear"         !
                                 !       (read from COORD_FILE) to set layer densities.
                                 !     USER - call a user modified routine.
 DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
-                                ! The range of reference potential densities in the layers.
+                                ! The range of reference potential densities across
+                                ! all interfaces.
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
