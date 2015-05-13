@@ -5,8 +5,9 @@ import sys
 import os
 import re
 import shlex
+import string
 import subprocess as sp
-import platform_config as pc
+import run_config as rc
 
 # Only support Python version >= 2.7
 assert(not(sys.version_info[0] == 2) or sys.version_info[1] >= 7)
@@ -58,8 +59,9 @@ def exp_id_from_path(path):
     full path.
     """
     path = os.path.normpath(path)
-    return path.replace(_mom_examples_path, '')
-
+    path = path.replace(_mom_examples_path, '')
+    # Remove possible '/' from front and back.
+    return string.strip(path, '/')
 
 class Experiment:
 
@@ -86,7 +88,7 @@ class Experiment:
         # Path to executable, may not exist yet.
         rel_path = 'build/{}/{}/repro/MOM6'.format(self.platform, self.model)
         self.exec_path = os.path.join(_mom_examples_path, rel_path)
-                                      
+
         # Lists of available and unfinished diagnostics.
         self.available_diags = self._parse_available_diags()
         self.unfinished_diags = [Diagnostic(m, d, self.path) \
@@ -141,7 +143,6 @@ class Experiment:
         """
         Run the experiment if it hasn't already.
         """
-
         if not self.has_run:
             self.force_run()
 
@@ -157,7 +158,8 @@ class Experiment:
 
         os.chdir(self.path)
         try:
-            exe = pc.exec_prefix + self.exec_path
+            exe = rc.get_exec_prefix(self.model, self.name, self.variation) + \
+                  ' ' + self.exec_path
             print('Executing ' + exe)
             output = sp.check_output(shlex.split(exe), stderr=sp.STDOUT)
             self.has_run = True
