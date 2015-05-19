@@ -942,6 +942,10 @@ USE_LOTW_BBL_DIFFUSIVITY = False !   [Boolean] default = False
                                 ! If true, uses a simple, imprecise but non-coordinate dependent, model
                                 ! of BBL mixing diffusivity based on Law of the Wall. Otherwise, uses
                                 ! the original BBL scheme.
+SIMPLE_TKE_TO_KD = False        !   [Boolean] default = False
+                                ! If true, uses a simple estimate of Kd/TKE that will
+                                ! work for arbitrary vertical coordinates. If false,
+                                ! calculates Kd/TKE and bounds based on exact energetics/nfor an isopycnal layer-formulation.
 BRYAN_LEWIS_DIFFUSIVITY = False !   [Boolean] default = False
                                 ! If true, use a Bryan & Lewis (JGR 1979) like tanh
                                 ! profile of background diapycnal diffusivity with depth.
