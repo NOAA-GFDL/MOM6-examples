@@ -603,6 +603,10 @@ CONT_PPM_BETTER_ITER = True     !   [Boolean] default = True
 CONT_PPM_USE_VISC_REM_MAX = True !   [Boolean] default = True
                                 ! If true, use more appropriate limiting bounds for
                                 ! corrections in strongly viscous columns.
+CONT_PPM_MARGINAL_FACE_AREAS = True !   [Boolean] default = True
+                                ! If true, use the marginal face areas from the continuity
+                                ! solver for use as the weights in the barotropic solver.
+                                ! Otherwise use the transport averaged areas.
 NOSLIP = False                  !   [Boolean] default = False
                                 ! If true, no slip boundary conditions are used; otherwise
                                 ! free slip boundary conditions are assumed. The
@@ -740,12 +744,20 @@ BT_CONT_CORR_BOUNDS = True      !   [Boolean] default = True
                                 ! BT_cont_type variables to set limits determined by
                                 ! MAXCFL_BT_CONT on the CFL number of the velocites
                                 ! that are likely to be driven by the corrective mass fluxes.
+ADJUST_BT_CONT = False          !   [Boolean] default = False
+                                ! If true, adjust the curve fit to the BT_cont type
+                                ! that is used by the barotropic solver to match the
+                                ! transport about which the flow is being linearized.
 GRADUAL_BT_ICS = False          !   [Boolean] default = False
                                 ! If true, adjust the initial conditions for the
                                 ! barotropic solver to the values from the layered
                                 ! solution over a whole timestep instead of instantly.
                                 ! This is a decent approximation to the inclusion of
                                 ! sum(u dh_dt) while also correcting for truncation errors.
+BT_USE_VISC_REM_U_UH0 = True    !   [Boolean] default = True
+                                ! If true, use the viscous remnants when estimating the
+                                ! barotropic velocities that were used to calculate uh0
+                                ! and vh0.  False is probably the better choice.
 USE_BT_CONT_TYPE = True         !   [Boolean] default = True
                                 ! If true, use a structure with elements that describe
                                 ! effective face areas from the summed continuity solver

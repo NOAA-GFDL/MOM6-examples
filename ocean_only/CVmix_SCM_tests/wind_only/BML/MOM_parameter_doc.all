@@ -569,6 +569,10 @@ CONT_PPM_BETTER_ITER = True     !   [Boolean] default = True
 CONT_PPM_USE_VISC_REM_MAX = True !   [Boolean] default = True
                                 ! If true, use more appropriate limiting bounds for
                                 ! corrections in strongly viscous columns.
+CONT_PPM_MARGINAL_FACE_AREAS = True !   [Boolean] default = True
+                                ! If true, use the marginal face areas from the continuity
+                                ! solver for use as the weights in the barotropic solver.
+                                ! Otherwise use the transport averaged areas.
 NOSLIP = False                  !   [Boolean] default = False
                                 ! If true, no slip boundary conditions are used; otherwise
                                 ! free slip boundary conditions are assumed. The
