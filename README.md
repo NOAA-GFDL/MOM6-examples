@@ -1,18 +1,18 @@
 # MOM6-examples
 
 This repository provides the configurations (input parameters and data) and their corresponding
-regression data (for testing), of models that involve [MOM6](https://github.com/CommerceGov/NOAA-GFDL-MOM6)
-and [SIS2](https://github.com/CommerceGov/NOAA-GFDL-SIS2). The repository also contains tools
+regression data (for testing), of models that involve [MOM6](https://github.com/NOAA-GFDL/MOM6)
+and [SIS2](https://github.com/NOAA-GFDL/SIS2). The repository also contains tools
 for analysis and preprocessing.
 
 # Where to find information
 
-To find information, start at the [MOM6-examples wiki](https://github.com/CommerceGov/NOAA-GFDL-MOM6-examples/wiki).
+To find information, start at the [MOM6-examples wiki](https://github.com/NOAA-GFDL/MOM6-examples/wiki).
 
 Requests for help and other issues associated with the tools or configurations should be registered at
-[MOM6-examples issues](https://github.com/CommerceGov/NOAA-GFDL-MOM6-examples/issues).
-Issues specific to the MOM6 source code should be registered at [MOM6 issues](https://github.com/CommerceGov/NOAA-GFDL-MOM6/issues).
-Issues specific to the SIS2 source code should be registered at [SIS2 issues](https://github.com/CommerceGov/NOAA-GFDL-SIS2/issues).
+[MOM6-examples issues](https://github.com/NOAA-GFDL/MOM6-examples/issues).
+Issues specific to the MOM6 source code should be registered at [MOM6 issues](https://github.com/NOAA-GFDL/MOM6/issues).
+Issues specific to the SIS2 source code should be registered at [SIS2 issues](https://github.com/NOAA-GFDL/SIS2/issues).
 
 # What files are what
 
@@ -41,4 +41,22 @@ The top level directory structure groups source code and input files as follow:
 # Policies
 
 The repository policies (repository access, branches, procedures, ...) are the same as the
-[MOM6 source code policies](https://github.com/CommerceGov/NOAA-GFDL-MOM6/wiki/MOM6-repository-policies).
+[MOM6 source code policies](https://github.com/NOAA-GFDL/MOM6/wiki/MOM6-repository-policies).
+
+# Disclaimer
+
+The United States Department of Commerce (DOC) GitHub project code is provided 
+on an ‘as is’ basis and the user assumes responsibility for its use. DOC has
+relinquished control of the information and no longer has responsibility to
+protect the integrity, confidentiality, or availability of the information. Any
+claims against the Department of Commerce stemming from the use of its GitHub
+project will be governed by all applicable Federal law. Any reference to
+specific commercial products, processes, or services by service mark,
+trademark, manufacturer, or otherwise, does not constitute or imply their
+endorsement, recommendation or favoring by the Department of Commerce. The
+Department of Commerce seal and logo, or the seal and logo of a DOC bureau,
+shall not be used in any manner to imply endorsement of any commercial product
+or activity by DOC or the United States Government.
+
+This project code is made available through GitHub but is managed by NOAA-GFDL
+at https://gitlab.gfdl.noaa.gov.

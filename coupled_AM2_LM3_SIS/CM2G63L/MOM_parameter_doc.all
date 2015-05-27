@@ -704,6 +704,10 @@ CONT_PPM_BETTER_ITER = False    !   [Boolean] default = True
 CONT_PPM_USE_VISC_REM_MAX = False !   [Boolean] default = True
                                 ! If true, use more appropriate limiting bounds for
                                 ! corrections in strongly viscous columns.
+CONT_PPM_MARGINAL_FACE_AREAS = True !   [Boolean] default = True
+                                ! If true, use the marginal face areas from the continuity
+                                ! solver for use as the weights in the barotropic solver.
+                                ! Otherwise use the transport averaged areas.
 NOSLIP = False                  !   [Boolean] default = False
                                 ! If true, no slip boundary conditions are used; otherwise
                                 ! free slip boundary conditions are assumed. The
@@ -1081,7 +1085,7 @@ ML_RAD_APPLY_TKE_DECAY = True   !   [Boolean] default = True
                                 ! If true, apply the same exponential decay to ML_rad as
                                 ! is applied to the other surface sources of TKE in the
                                 ! mixed layer code. This is only used if ML_RADIATION is true.
-MSTAR = 0.3                     !   [units=nondim] default = 0.3
+MSTAR = 0.3                     !   [units=nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE
                                 ! input to the mixed layer.
 TKE_DECAY = 10.0                !   [nondim] default = 2.5

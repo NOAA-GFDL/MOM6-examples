@@ -592,6 +592,10 @@ CONT_PPM_BETTER_ITER = True     !   [Boolean] default = True
 CONT_PPM_USE_VISC_REM_MAX = True !   [Boolean] default = True
                                 ! If true, use more appropriate limiting bounds for
                                 ! corrections in strongly viscous columns.
+CONT_PPM_MARGINAL_FACE_AREAS = True !   [Boolean] default = True
+                                ! If true, use the marginal face areas from the continuity
+                                ! solver for use as the weights in the barotropic solver.
+                                ! Otherwise use the transport averaged areas.
 NOSLIP = False                  !   [Boolean] default = False
                                 ! If true, no slip boundary conditions are used; otherwise
                                 ! free slip boundary conditions are assumed. The
@@ -773,7 +777,7 @@ Z_OUTPUT_GRID_FILE = "../zgrid.nc" ! default = ""
                                 ! The file that specifies the vertical grid for
                                 ! depth-space diagnostics, or blank to disable
                                 ! depth-space output.
-!NK_ZSPACE (from file) = 50     !   [nondim]
+!NK_ZSPACE (from file) = 60     !   [nondim]
                                 ! The number of depth-space levels.  This is determined
                                 ! from the size of the variable zw in the output grid file.
 
@@ -858,7 +862,7 @@ ML_RAD_APPLY_TKE_DECAY = True   !   [Boolean] default = True
                                 ! If true, apply the same exponential decay to ML_rad as
                                 ! is applied to the other surface sources of TKE in the
                                 ! mixed layer code. This is only used if ML_RADIATION is true.
-MSTAR = 0.3                     !   [units=nondim] default = 0.3
+MSTAR = 1.2                     !   [units=nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE
                                 ! input to the mixed layer.
 TKE_DECAY = 10.0                !   [nondim] default = 2.5
