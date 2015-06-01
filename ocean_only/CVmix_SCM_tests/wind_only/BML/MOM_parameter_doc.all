@@ -82,8 +82,8 @@ USE_REGRIDDING = False          !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping).
                                 ! If False, use the layered isopycnal algorithm.
 THICKNESSDIFFUSE = False        !   [Boolean] default = False
-                                ! If true, interfaces or isopycnal surfaces are diffused,
-                                ! depending on the value of FULL_THICKNESSDIFFUSE.
+                                ! If true, interface heights are diffused with a
+                                ! coefficient of KHTH.
 THICKNESSDIFFUSE_FIRST = False  !   [Boolean] default = False
                                 ! If true, do thickness diffusion before dynamics.
                                 ! This is only used if THICKNESSDIFFUSE is true.
@@ -682,8 +682,7 @@ DETANGLE_INTERFACES = False     !   [Boolean] default = False
                                 ! diffusivities to horizonally smooth jagged layers.
 KHTH_SLOPE_MAX = 0.01           !   [nondim] default = 0.01
                                 ! A slope beyond which the calculated isopycnal slope is
-                                ! not reliable and is scaled away. This is used with
-                                ! FULL_THICKNESSDIFFUSE.
+                                ! not reliable and is scaled away.
 KD_SMOOTH = 1.0E-06             !   [not defined] default = 1.0E-06
                                 ! A diapycnal diffusivity that is used to interpolate
                                 ! more sensible values of T & S into thin layers.
