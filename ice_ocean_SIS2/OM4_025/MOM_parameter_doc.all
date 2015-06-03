@@ -1094,6 +1094,14 @@ FOX_KEMPER_ML_RESTRAT_COEF = 10.0 !   [nondim] default = 0.0
                                 ! geostrophic kinetic energy or 1 plus the square of the
                                 ! grid spacing over the deformation radius, as detailed
                                 ! by Fox-Kemper et al. (2010)
+MLE_DENSITY_DIFF = 0.03         !   [kg/m3] default = 0.03
+                                ! Density difference used to detect the mixed-layer
+                                ! depth used for the mixed-layer eddy parameterization
+                                ! by Fox-Kemper et al. (2010)
+MLE_TAIL_DH = 0.0               !   [nondim] default = 0.0
+                                ! Fraction by which to extend the mixed-layer restratification
+                                ! depth used for a smoother stream function at the base of
+                                ! the mixed-layer.
 Z_OUTPUT_GRID_FILE = "vgrid_75_2m.nc" ! default = ""
                                 ! The file that specifies the vertical grid for
                                 ! depth-space diagnostics, or blank to disable
