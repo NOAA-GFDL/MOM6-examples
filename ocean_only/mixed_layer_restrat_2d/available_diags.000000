@@ -41,10 +41,16 @@
     ! long_name: Ocean lateral Laplacian viscosity
     ! units: m2 s-1
     ! standard_name: ocean_momentum_xy_laplacian_diffusivity
+"ocean_model_z_new", "Khh"  [Unused]
+    ! long_name: Laplacian Horizontal Viscosity at h Points
+    ! units: meter2 second-1
 "ocean_model", "Khq"  [Unused]
     ! long_name: Laplacian Horizontal Viscosity at q Points
     ! units: meter2 second-1
 "ocean_model", "FrictWork"  [Unused]
+    ! long_name: Integral work done by lateral friction terms
+    ! units: Watt meter-2
+"ocean_model_z_new", "FrictWork"  [Unused]
     ! long_name: Integral work done by lateral friction terms
     ! units: Watt meter-2
 "ocean_model", "FrictWorkIntz"  [Unused]
@@ -328,11 +334,19 @@
     ! long_name: Mass per unit area of liquid ocean grid cell
     ! units: kg m-2
     ! standard_name: sea_water_mass_per_unit_area
+"ocean_model_z_new", "masscello"  [Unused]
+    ! long_name: Mass per unit area of liquid ocean grid cell
+    ! units: kg m-2
+    ! standard_name: sea_water_mass_per_unit_area
 "ocean_model", "masso"  [Unused]
     ! long_name: Mass of liquid ocean
     ! units: kg
     ! standard_name: sea_water_mass
 "ocean_model", "thkcello"  [Unused]
+    ! long_name: Cell Thickness
+    ! units: m
+    ! standard_name: cell_thickness
+"ocean_model_z_new", "thkcello"  [Unused]
     ! long_name: Cell Thickness
     ! units: m
     ! standard_name: cell_thickness
@@ -369,7 +383,13 @@
 "ocean_model", "Rml"  [Unused]
     ! long_name: Mixed Layer Coordinate Potential Density
     ! units: kg meter-3
+"ocean_model_z_new", "Rml"  [Unused]
+    ! long_name: Mixed Layer Coordinate Potential Density
+    ! units: kg meter-3
 "ocean_model", "Rho_cv"  [Unused]
+    ! long_name: Coordinate Potential Density
+    ! units: kg meter-3
+"ocean_model_z_new", "Rho_cv"  [Unused]
     ! long_name: Coordinate Potential Density
     ! units: kg meter-3
 "ocean_model", "dudt"  [Unused]
@@ -381,7 +401,13 @@
 "ocean_model", "dhdt"  [Unused]
     ! long_name: Thickness tendency
     ! units: meter second-1
+"ocean_model_z_new", "dhdt"  [Unused]
+    ! long_name: Thickness tendency
+    ! units: meter second-1
 "ocean_model", "h_rho"  [Unused]
+    ! long_name: Layer thicknesses in pure potential density coordinates
+    ! units: meter
+"ocean_model_z_new", "h_rho"  [Unused]
     ! long_name: Layer thicknesses in pure potential density coordinates
     ! units: meter
 "ocean_model", "uh_rho"  [Unused]
@@ -399,25 +425,49 @@
 "ocean_model", "KE"  [Unused]
     ! long_name: Layer kinetic energy per unit mass
     ! units: meter2 second-2
+"ocean_model_z_new", "KE"  [Unused]
+    ! long_name: Layer kinetic energy per unit mass
+    ! units: meter2 second-2
 "ocean_model", "dKE_dt"  [Unused]
+    ! long_name: Kinetic Energy Tendency of Layer
+    ! units: meter3 second-3
+"ocean_model_z_new", "dKE_dt"  [Unused]
     ! long_name: Kinetic Energy Tendency of Layer
     ! units: meter3 second-3
 "ocean_model", "PE_to_KE"  [Unused]
     ! long_name: Potential to Kinetic Energy Conversion of Layer
     ! units: meter3 second-3
+"ocean_model_z_new", "PE_to_KE"  [Unused]
+    ! long_name: Potential to Kinetic Energy Conversion of Layer
+    ! units: meter3 second-3
 "ocean_model", "KE_Coradv"  [Unused]
+    ! long_name: Kinetic Energy Source from Coriolis and Advection
+    ! units: meter3 second-3
+"ocean_model_z_new", "KE_Coradv"  [Unused]
     ! long_name: Kinetic Energy Source from Coriolis and Advection
     ! units: meter3 second-3
 "ocean_model", "KE_adv"  [Unused]
     ! long_name: Kinetic Energy Source from Advection
     ! units: meter3 second-3
+"ocean_model_z_new", "KE_adv"  [Unused]
+    ! long_name: Kinetic Energy Source from Advection
+    ! units: meter3 second-3
 "ocean_model", "KE_visc"  [Unused]
+    ! long_name: Kinetic Energy Source from Vertical Viscosity and Stresses
+    ! units: meter3 second-3
+"ocean_model_z_new", "KE_visc"  [Unused]
     ! long_name: Kinetic Energy Source from Vertical Viscosity and Stresses
     ! units: meter3 second-3
 "ocean_model", "KE_horvisc"  [Unused]
     ! long_name: Kinetic Energy Source from Horizontal Viscosity
     ! units: meter3 second-3
+"ocean_model_z_new", "KE_horvisc"  [Unused]
+    ! long_name: Kinetic Energy Source from Horizontal Viscosity
+    ! units: meter3 second-3
 "ocean_model", "KE_dia"  [Unused]
+    ! long_name: Kinetic Energy Source from Diapycnal Diffusion
+    ! units: meter3 second-3
+"ocean_model_z_new", "KE_dia"  [Unused]
     ! long_name: Kinetic Energy Source from Diapycnal Diffusion
     ! units: meter3 second-3
 "ocean_model", "cg1"  [Unused]
@@ -477,7 +527,13 @@
 "ocean_model", "ea"  [Unused]
     ! long_name: Layer entrainment from above per timestep
     ! units: meter
+"ocean_model_z_new", "ea"  [Unused]
+    ! long_name: Layer entrainment from above per timestep
+    ! units: meter
 "ocean_model", "eb"  [Unused]
+    ! long_name: Layer entrainment from below per timestep
+    ! units: meter
+"ocean_model_z_new", "eb"  [Unused]
     ! long_name: Layer entrainment from below per timestep
     ! units: meter
 "ocean_model", "dudt_dia"  [Unused]
@@ -530,13 +586,22 @@
 "ocean_model", "Kd_layer"  [Unused]
     ! long_name: Diapycnal diffusivity of layers (as set)
     ! units: meter2 second-1
+"ocean_model_z_new", "Kd_layer"  [Unused]
+    ! long_name: Diapycnal diffusivity of layers (as set)
+    ! units: meter2 second-1
 "ocean_model", "TKE_itidal"  [Unused]
     ! long_name: Internal Tide Driven Turbulent Kinetic Energy
     ! units: Watt meter-2
 "ocean_model", "maxTKE"  [Unused]
     ! long_name: Maximum layer TKE
     ! units: meter3 second-3
+"ocean_model_z_new", "maxTKE"  [Unused]
+    ! long_name: Maximum layer TKE
+    ! units: meter3 second-3
 "ocean_model", "TKE_to_Kd"  [Unused]
+    ! long_name: Convert TKE to Kd
+    ! units: second2 meter
+"ocean_model_z_new", "TKE_to_Kd"  [Unused]
     ! long_name: Convert TKE to Kd
     ! units: second2 meter
 "ocean_model", "Nb"  [Unused]
@@ -563,10 +628,19 @@
 "ocean_model", "Kd_Work"  [Unused]
     ! long_name: Work done by Diapycnal Mixing
     ! units: Watts m-2
+"ocean_model_z_new", "Kd_Work"  [Unused]
+    ! long_name: Work done by Diapycnal Mixing
+    ! units: Watts m-2
 "ocean_model", "Kd_Itidal_Work"  [Unused]
     ! long_name: Work done by Internal Tide Diapycnal Mixing
     ! units: Watts m-2
+"ocean_model_z_new", "Kd_Itidal_Work"  [Unused]
+    ! long_name: Work done by Internal Tide Diapycnal Mixing
+    ! units: Watts m-2
 "ocean_model", "Kd_Nikurashin_Work"  [Unused]
+    ! long_name: Work done by Nikurashin Lee Wave Drag Scheme
+    ! units: Watts m-2
+"ocean_model_z_new", "Kd_Nikurashin_Work"  [Unused]
     ! long_name: Work done by Nikurashin Lee Wave Drag Scheme
     ! units: Watts m-2
 "ocean_model", "N2"  [Unused]
@@ -596,6 +670,9 @@
 "ocean_model", "Kd_effective"  [Unused]
     ! long_name: Diapycnal diffusivity as applied
     ! units: meter2 second-1
+"ocean_model_z_new", "Kd_effective"  [Unused]
+    ! long_name: Diapycnal diffusivity as applied
+    ! units: meter2 second-1
 "ocean_model", "diff_work"  [Unused]
     ! long_name: Work actually done by diapycnal diffusion across each interface
     ! units: W m-2
@@ -609,6 +686,9 @@
     ! long_name: Visible penetrating shortwave radiation flux into ocean
     ! units: Watt meter-2
 "ocean_model", "opac_1"  [Unused]
+    ! long_name: Opacity for shortwave radiation in band 1
+    ! units: meter-1
+"ocean_model_z_new", "opac_1"  [Unused]
     ! long_name: Opacity for shortwave radiation in band 1
     ! units: meter-1
 "ocean_model", "KHTR_u"  [Unused]
@@ -632,6 +712,9 @@
     ! units: m s-1
     ! standard_name: sea_water_y_velocity
 "ocean_model", "h"  [Used]
+    ! long_name: Layer Thickness
+    ! units: meter
+"ocean_model_z_new", "h"  [Unused]
     ! long_name: Layer Thickness
     ! units: meter
 "ocean_model", "volo"  [Unused]
@@ -664,6 +747,9 @@
 "ocean_model", "temp"  [Used]
     ! long_name: Potential Temperature
     ! units: Celsius
+"ocean_model_z_new", "temp"  [Unused]
+    ! long_name: Potential Temperature
+    ! units: Celsius
 "ocean_model", "salt"  [Used]
     ! long_name: Salinity
     ! units: PPT
@@ -671,6 +757,9 @@
     ! long_name: Sea Water Salinity
     ! units: ppt
     ! standard_name: sea_water_salinity
+"ocean_model_z_new", "salt"  [Unused]
+    ! long_name: Salinity
+    ! units: PPT
 "ocean_model", "tob"  [Unused]
     ! long_name: Sea Water Potential Temperature at Sea Floor
     ! units: degC
@@ -766,13 +855,22 @@
 "ocean_model", "h_predia"  [Unused]
     ! long_name: Layer Thickness before diabatic forcing
     ! units: meter
+"ocean_model_z_new", "h_predia"  [Unused]
+    ! long_name: Layer Thickness before diabatic forcing
+    ! units: meter
 "ocean_model", "e_predia"  [Unused]
     ! long_name: Interface Heights before diabatic forcing
     ! units: meter
 "ocean_model", "temp_predia"  [Unused]
     ! long_name: Potential Temperature
     ! units: Celsius
+"ocean_model_z_new", "temp_predia"  [Unused]
+    ! long_name: Potential Temperature
+    ! units: Celsius
 "ocean_model", "salt_predia"  [Unused]
+    ! long_name: Salinity
+    ! units: PPT
+"ocean_model_z_new", "salt_predia"  [Unused]
     ! long_name: Salinity
     ! units: PPT
 "ocean_model_z", "temp"  [Unused]
