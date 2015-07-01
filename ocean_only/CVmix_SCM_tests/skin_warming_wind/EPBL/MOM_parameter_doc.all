@@ -1044,6 +1044,18 @@ ML_USE_OMEGA = False            !   [Boolean] default = False
                                 ! If true, use the absolute rotation rate instead of the
                                 ! vertical component of rotation when setting the decay
                                 ! scale for turbulence.
+WSTAR_USTAR_COEF = 1.0          !   [units=nondim] default = 1.0
+                                ! A ratio relating the efficiency with which convectively
+                                ! released energy is converted to a turbulent velocity,
+                                ! relative to mechanically forced TKE. Making this larger
+                                ! increases the BL diffusivity
+VSTAR_SCALE_COEF = 1.0          !   [units=nondim] default = 1.0
+                                ! An overall nondimensional scaling factor for v*.
+                                ! Making this larger decreases the PBL diffusivity.
+EKMAN_SCALE_COEF = 1.0          !   [units=nondim] default = 1.0
+                                ! A nondimensional scaling factor controlling the inhibition
+                                ! of the diffusive length scale by rotation. Making this larger
+                                ! increases the PBL diffusivity.
 
 ! === module MOM_regularize_layers ===
 REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False
