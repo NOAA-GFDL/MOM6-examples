@@ -763,7 +763,7 @@ GRADUAL_BT_ICS = False          !   [Boolean] default = False
                                 ! solution over a whole timestep instead of instantly.
                                 ! This is a decent approximation to the inclusion of
                                 ! sum(u dh_dt) while also correcting for truncation errors.
-BT_USE_VISC_REM_U_UH0 = True    !   [Boolean] default = True
+BT_USE_VISC_REM_U_UH0 = False   !   [Boolean] default = False
                                 ! If true, use the viscous remnants when estimating the
                                 ! barotropic velocities that were used to calculate uh0
                                 ! and vh0.  False is probably the better choice.
@@ -811,7 +811,7 @@ BT_THICK_SCHEME = "HYBRID"      ! default = "FROM_BT_CONT"
                                 !       layers that straddle that depth
                                 !    FROM_BT_CONT - use the average thicknesses kept
                                 !       in the h_u and h_v fields of the BT_cont_type
-BT_STRONG_DRAG = False          !   [Boolean] default = True
+BT_STRONG_DRAG = False          !   [Boolean] default = False
                                 ! If true, use a stronger estimate of the retarding
                                 ! effects of strong bottom drag, by making it implicit
                                 ! with the barotropic time-step instead of implicit with
