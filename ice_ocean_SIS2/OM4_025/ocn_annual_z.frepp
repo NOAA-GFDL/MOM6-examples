@@ -116,3 +116,6 @@ $script_dir/depth_average_T_bias.py -w $woa05 -g $mosaicDir -zt 2000 -zb 4000 -o
 mkdir -p $out_dir/ocean_${yr1}-${yr2}/salinity
 $script_dir/SSS_bias_WOA05.py -w $woa05 -g $mosaicDir -o $out_dir/ocean_${yr1}-${yr2}/salinity -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
 $script_dir/zonal_S_bias_WOA05.py -w $woa05 -g $mosaicDir -o $out_dir/ocean_${yr1}-${yr2}/salinity -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
+
+mkdir -p $out_dir/ocean_${yr1}-${yr2}/sections
+$script_dir/vertical_sections_annual_bias_WOA05.py -g $mosaicDir -o $out_dir/ocean_${yr1}-${yr2}/sections -w $woa05 -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
