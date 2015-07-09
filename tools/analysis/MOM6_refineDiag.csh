@@ -49,7 +49,7 @@ set src_dir=$NBROOT/mom6/tools/analysis
 # The following variables are set by frepp, but frepp is not called yet at refineDiag stage of FRE workflow,
 #  so we need to explicitly set them here
 set descriptor = $name   
-set out_dir = $NBROOT                  #Niki: How can we set this to frepp analysisdir /nbhome/...
+set out_dir = $NBROOT                  #Niki: How can we set this to frepp analysisdir /nbhome
 set yr1 = $oname 
 set yr2 = $oname 
 set databegyr = $oname 
@@ -97,6 +97,7 @@ echo '====annual mean Eddy Kinetic Energy======'
 mkdir -p $out_dir/refineDiag_ocean_annual/ocean_${yr1}/EddyKineticEnergy
 
 $script_dir/EddyKineticEnergy.py  -g $yr1.ocean_static.nc -o $out_dir/refineDiag_ocean_annual/ocean_${yr1}/EddyKineticEnergy -l ${yr1} $yr1.ocean_daily.nc
+$script_dir/calc_variance.py ssh $$yr1.ocean_daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
 
 echo "  ---------- end yearly analysis ----------  "
 

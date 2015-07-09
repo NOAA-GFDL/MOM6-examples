@@ -23,7 +23,7 @@ nt = shape[0];
 nxy = shape[1:]
 
 if args.verbose: print 'Creating',args.annual_file
-nc_out = netCDF4.Dataset( args.annual_file, 'w', format='NETCDF4_CLASSIC' )
+nc_out = netCDF4.Dataset( args.annual_file, 'w', format='NETCDF3_64BIT' )
 
 if nt==365: days_in_month =   [31,28,31,30,31,30,31,31,30,31,30,31]
 elif nt==366: days_in_month = [31,29,31,30,31,30,31,31,30,31,30,31]

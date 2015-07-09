@@ -156,28 +156,28 @@ if __name__ == '__main__':
   x=np.arange(5)
   z=np.array([[0,0.2,0.3,-.1],[1,1.5,.7,.4],[2,2,1.5,2],[3,2.3,1.5,2.1]])*-1
   q=np.matlib.rand(3,4)
-  print 'x=',x
-  print 'z=',z
-  print 'q=',q
+  print('x=',x)
+  print('z=',z)
+  print('q=',q)
 
   X, Z, Q = section2quadmesh(x, z, q)
-  print 'X=',X
-  print 'Z=',Z
-  print 'Q=',Q
+  print('X=',X)
+  print('Z=',Z)
+  print('Q=',Q)
   plt.subplot(3,1,1)
   plt.pcolormesh(X, Z, Q)
 
   X, Z, Q = section2quadmesh(x, z, q, representation='linear')
-  print 'X=',X
-  print 'Z=',Z
-  print 'Q=',Q
+  print('X=',X)
+  print('Z=',Z)
+  print('Q=',Q)
   plt.subplot(3,1,2)
   plt.pcolormesh(X, Z, Q)
 
   X, Z, Q = section2quadmesh(x, z, q, representation='plm')
-  print 'X=',X
-  print 'Z=',Z
-  print 'Q=',Q
+  print('X=',X)
+  print('Z=',Z)
+  print('Q=',Q)
   plt.subplot(3,1,3)
   plt.pcolormesh(X, Z, Q)
 
