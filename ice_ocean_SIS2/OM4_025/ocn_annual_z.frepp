@@ -65,7 +65,7 @@ set analysis_options
 set platform
 set target
 # ============== END OF VARIABLES SET BY FREPP =============
-# Invoke script with arguments tcsh ocn_monthly.frepp in_data_dir yr1 yr2 out_dir
+# Invoke script with arguments tcsh ocn_annual_z.frepp in_data_dir yr1 yr2 out_dir 
 if ($#argv == "4") then
   if ($in_data_dir == "") set in_data_dir = $1
   if ($yr1 == "") set yr1 = $2
@@ -97,10 +97,25 @@ if (! $?FRE_ANALYSIS_HOME) then
 endif
 
 # Run script
+set src_dir = ${out_dir}/mom6/tools/analysis
 set script_dir = ${out_dir}/mom6/tools/analysis
+set woa05=/archive/gold/datasets/OM4_025/obs/WOA05_ptemp_salt_annual.v20141007.nc
 set mosaicDir=/archive/gold/datasets/OM4_025/mosaic.v20140610.unpacked
 
 echo The following command is going to be invoked
 
-mkdir -p $out_dir/ocean_${yr1}-${yr2}/Hosoda_MLD
-$script_dir/MLD_003.py -g $mosaicDir -o $out_dir/ocean_${yr1}-${yr2}/Hosoda_MLD -l ${yr1}-${yr2} $in_data_dir/ocean_monthly.${yr1}01-${yr2}12.MLD_003.nc
+mkdir -p $out_dir/ocean_${yr1}-${yr2}/ptemp
+$script_dir/SST_bias_WOA05.py -w $woa05 -g $mosaicDir -o $out_dir/ocean_${yr1}-${yr2}/ptemp -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
+$script_dir/zonal_T_bias_WOA05.py -w $woa05 -g $mosaicDir -o $out_dir/ocean_${yr1}-${yr2}/ptemp -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
+$script_dir/depth_average_T_bias.py -w $woa05 -g $mosaicDir -zb 100 -o $out_dir/ocean_${yr1}-${yr2}/ptemp -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
+$script_dir/depth_average_T_bias.py -w $woa05 -g $mosaicDir -zb 300 -o $out_dir/ocean_${yr1}-${yr2}/ptemp -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
+$script_dir/depth_average_T_bias.py -w $woa05 -g $mosaicDir -zb 700 -o $out_dir/ocean_${yr1}-${yr2}/ptemp -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
+$script_dir/depth_average_T_bias.py -w $woa05 -g $mosaicDir -zb 2000 -o $out_dir/ocean_${yr1}-${yr2}/ptemp -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
+$script_dir/depth_average_T_bias.py -w $woa05 -g $mosaicDir -zt 2000 -zb 4000 -o $out_dir/ocean_${yr1}-${yr2}/ptemp -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
+
+mkdir -p $out_dir/ocean_${yr1}-${yr2}/salinity
+$script_dir/SSS_bias_WOA05.py -w $woa05 -g $mosaicDir -o $out_dir/ocean_${yr1}-${yr2}/salinity -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
+$script_dir/zonal_S_bias_WOA05.py -w $woa05 -g $mosaicDir -o $out_dir/ocean_${yr1}-${yr2}/salinity -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
+
+mkdir -p $out_dir/ocean_${yr1}-${yr2}/sections
+$script_dir/vertical_sections_annual_bias_WOA05.py -g $mosaicDir -o $out_dir/ocean_${yr1}-${yr2}/sections -w $woa05 -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc

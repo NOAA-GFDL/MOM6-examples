@@ -9,7 +9,7 @@ try: import argparse
 except: raise Exception('This version of python is not new enough. python 2.7 or newer is required.')
 
 parser = argparse.ArgumentParser(description='''Script for plotting meridional overturning.''')
-parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'temp' and 'e'.''')
+parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'vh' and 'e'.''')
 parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
 parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
 parser.add_argument('-g','--gridspecdir', type=str, required=True,
@@ -72,7 +72,7 @@ yy = y[1:,:].max(axis=-1)+0*z
 ci=m6plot.pmCI(0.,40.,5.)
 plotPsi(yy, z, psiPlot, ci, 'Global MOC')
 plt.xlabel(r'Latitude [$\degree$N]')
-plt.suptitle(rootGroup.title)
+plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
 findExtrema(yy, z, psiPlot, max_lat=-30.)
 findExtrema(yy, z, psiPlot, min_lat=25.)
 findExtrema(yy, z, psiPlot, min_depth=2000., mult=-1.)
@@ -86,8 +86,9 @@ z = (m*Zmod).min(axis=-1); psiPlot = MOCpsi(VHmod, vmsk=m*numpy.roll(m,1,axis=1)
 yy = y[1:,:].max(axis=-1)+0*z
 plotPsi(yy, z, psiPlot, ci, 'Atlantic MOC')
 plt.xlabel(r'Latitude [$\degree$N]')
-plt.suptitle(rootGroup.title)
-findExtrema(yy, z, psiPlot, min_lat=26.5, max_lat=27.)
+plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
+findExtrema(yy, z, psiPlot, min_lat=26.5, max_lat=27.) # RAPID
 findExtrema(yy, z, psiPlot, max_lat=-33.)
 findExtrema(yy, z, psiPlot)
+findExtrema(yy, z, psiPlot, min_lat=5.)
 plt.savefig(cmdLineArgs.outdir+'/MOC_Atlantic.png')
