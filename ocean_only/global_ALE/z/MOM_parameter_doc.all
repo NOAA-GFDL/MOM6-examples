@@ -1250,6 +1250,9 @@ USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
                                 ! If true, uses a simple, imprecise but non-coordinate dependent, model
                                 ! of BBL mixing diffusivity based on Law of the Wall. Otherwise, uses
                                 ! the original BBL scheme.
+LOTW_BBL_USE_OMEGA = True       !   [Boolean] default = True
+                                ! If true, use the maximum of Omega and N for the TKE to diffusion
+                                ! calculation. Otherwise, N is N.
 SIMPLE_TKE_TO_KD = False        !   [Boolean] default = False
                                 ! If true, uses a simple estimate of Kd/TKE that will
                                 ! work for arbitrary vertical coordinates. If false,
