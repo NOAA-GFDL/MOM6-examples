@@ -1,5 +1,6 @@
 # Ocean diagnostics files
 "ocean_daily",            1, "days",   1, "days", "time"
+"ocean_5daily",           5, "days",   1, "days", "time"
 "ocean_month",            1, "months", 1, "days", "time"
 "ocean_month_snap",       1, "months", 1, "days", "time"
 "ocean_annual",          12, "months", 1, "days", "time"
@@ -14,7 +15,7 @@
 "ocean_Bering_Strait",    1, "days",   1, "days", "time"
 "ocean_Agulhas_section",  1, "days",   1, "days", "time"
 
-# High-frequency 2d
+# High-frequency 1d
  "ocean_model", "SSH",          "ssh",              "ocean_daily", "all", "mean", "none",2
  "ocean_model", "SSU",          "ssu",              "ocean_daily", "all", "mean", "none",2
  "ocean_model", "SSV",          "ssv",              "ocean_daily", "all", "mean", "none",2
@@ -22,6 +23,9 @@
  "ocean_model", "SSS",          "sss",              "ocean_daily", "all", "mean", "none",2
 #"ocean_model", "SST",          "sst_max",          "ocean_daily", "all", "max",  "none",2
 #"ocean_model", "SST",          "sst_min",          "ocean_daily", "all", "min",  "none",2
+
+# High-frequency 5d
+ "ocean_model", "SSH",          "ssh",              "ocean_5daily", "all", "mean", "none",2
 
 # Monthly averages
  "ocean_model", "SSH",          "ssh",              "ocean_month", "all", "mean", "none",2
@@ -34,6 +38,7 @@
  "ocean_model", "KPP_OBLdepth", "KPP_OBLdepth_min", "ocean_month", "all", "min",  "none",2
  "ocean_model", "MLD_003",      "MLD_003",          "ocean_month", "all", "mean", "none",2
  "ocean_model", "subML_N2",     "subML_N2",         "ocean_month", "all", "mean", "none",2
+ "ocean_model", "e",            "e",                "ocean_month", "all", "mean", "none",2
  "ocean_model", "temp",         "temp",             "ocean_month", "all", "mean", "none",2
  "ocean_model", "salt",         "salt",             "ocean_month", "all", "mean", "none",2
  "ocean_model", "u",            "u",                "ocean_month", "all", "mean", "none",2
@@ -47,6 +52,7 @@
 #"ocean_model", "pso",          "pso",              "ocean_month", "all", "mean", "none",2
  "ocean_model", "speed",        "speed",            "ocean_month", "all", "mean", "none",2
 #"ocean_model", "speed",        "speed_pow2",       "ocean_month", "all", "pow2", "none",2
+ "ocean_model", "KE",           "KE",               "ocean_month", "all", "mean", "none",2
 
 # Monthly surface forcing (mechanical)
  "ocean_model", "taux",   "taux",   "ocean_month", "all", "mean", "none",2
