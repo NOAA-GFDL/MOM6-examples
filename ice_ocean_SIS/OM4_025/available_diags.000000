@@ -94,7 +94,13 @@
 "ocean_model", "Rayleigh_u"  [Unused]
     ! long_name: Rayleigh drag velocity at u points
     ! units: meter second-1
+"ocean_model_z_new", "Rayleigh_u"  [Unused]
+    ! long_name: Rayleigh drag velocity at u points
+    ! units: meter second-1
 "ocean_model", "Rayleigh_v"  [Unused]
+    ! long_name: Rayleigh drag velocity at v points
+    ! units: meter second-1
+"ocean_model_z_new", "Rayleigh_v"  [Unused]
     ! long_name: Rayleigh drag velocity at v points
     ! units: meter second-1
 "ocean_model", "RV"  [Unused]
@@ -106,19 +112,37 @@
 "ocean_model", "gKEu"  [Unused]
     ! long_name: Zonal Acceleration from Grad. Kinetic Energy
     ! units: meter-1 second-2
+"ocean_model_z_new", "gKEu"  [Unused]
+    ! long_name: Zonal Acceleration from Grad. Kinetic Energy
+    ! units: meter-1 second-2
 "ocean_model", "gKEv"  [Unused]
+    ! long_name: Meridional Acceleration from Grad. Kinetic Energy
+    ! units: meter-1 second-2
+"ocean_model_z_new", "gKEv"  [Unused]
     ! long_name: Meridional Acceleration from Grad. Kinetic Energy
     ! units: meter-1 second-2
 "ocean_model", "rvxu"  [Unused]
     ! long_name: Meridional Acceleration from Relative Vorticity
     ! units: meter-1 second-2
+"ocean_model_z_new", "rvxu"  [Unused]
+    ! long_name: Meridional Acceleration from Relative Vorticity
+    ! units: meter-1 second-2
 "ocean_model", "rvxv"  [Unused]
+    ! long_name: Zonal Acceleration from Relative Vorticity
+    ! units: meter-1 second-2
+"ocean_model_z_new", "rvxv"  [Unused]
     ! long_name: Zonal Acceleration from Relative Vorticity
     ! units: meter-1 second-2
 "ocean_model", "diffu"  [Unused]
     ! long_name: Zonal Acceleration from Horizontal Viscosity
     ! units: meter second-2
+"ocean_model_z_new", "diffu"  [Unused]
+    ! long_name: Zonal Acceleration from Horizontal Viscosity
+    ! units: meter second-2
 "ocean_model", "diffv"  [Unused]
+    ! long_name: Meridional Acceleration from Horizontal Viscosity
+    ! units: meter second-2
+"ocean_model_z_new", "diffv"  [Unused]
     ! long_name: Meridional Acceleration from Horizontal Viscosity
     ! units: meter second-2
 "ocean_model", "Ahh"  [Unused]
@@ -169,7 +193,13 @@
 "ocean_model", "Hu_visc"  [Unused]
     ! long_name: Thickness at Zonal Velocity Points for Viscosity
     ! units: meters or kg m-2
+"ocean_model_z_new", "Hu_visc"  [Unused]
+    ! long_name: Thickness at Zonal Velocity Points for Viscosity
+    ! units: meters or kg m-2
 "ocean_model", "Hv_visc"  [Unused]
+    ! long_name: Thickness at Meridional Velocity Points for Viscosity
+    ! units: meters or kg m-2
+"ocean_model_z_new", "Hv_visc"  [Unused]
     ! long_name: Thickness at Meridional Velocity Points for Viscosity
     ! units: meters or kg m-2
 "ocean_model", "HMLu_visc"  [Unused]
@@ -181,7 +211,13 @@
 "ocean_model", "du_dt_visc"  [Unused]
     ! long_name: Zonal Acceleration from Vertical Viscosity
     ! units: meter second-2
+"ocean_model_z_new", "du_dt_visc"  [Unused]
+    ! long_name: Zonal Acceleration from Vertical Viscosity
+    ! units: meter second-2
 "ocean_model", "dv_dt_visc"  [Unused]
+    ! long_name: Meridional Acceleration from Vertical Viscosity
+    ! units: meter second-2
+"ocean_model_z_new", "dv_dt_visc"  [Unused]
     ! long_name: Meridional Acceleration from Vertical Viscosity
     ! units: meter second-2
 "ocean_model", "taux_bot"  [Unused]
@@ -244,7 +280,13 @@
 "ocean_model", "visc_rem_u"  [Unused]
     ! long_name: Viscous remnant at u
     ! units: Nondim
+"ocean_model_z_new", "visc_rem_u"  [Unused]
+    ! long_name: Viscous remnant at u
+    ! units: Nondim
 "ocean_model", "visc_rem_v"  [Unused]
+    ! long_name: Viscous remnant at v
+    ! units: Nondim
+"ocean_model_z_new", "visc_rem_v"  [Unused]
     ! long_name: Viscous remnant at v
     ! units: Nondim
 "ocean_model", "gtot_n"  [Unused]
@@ -280,13 +322,25 @@
 "ocean_model", "frhatu"  [Unused]
     ! long_name: Fractional thickness of layers in u-columns
     ! units: Nondim
+"ocean_model_z_new", "frhatu"  [Unused]
+    ! long_name: Fractional thickness of layers in u-columns
+    ! units: Nondim
 "ocean_model", "frhatv"  [Unused]
+    ! long_name: Fractional thickness of layers in v-columns
+    ! units: Nondim
+"ocean_model_z_new", "frhatv"  [Unused]
     ! long_name: Fractional thickness of layers in v-columns
     ! units: Nondim
 "ocean_model", "frhatu1"  [Unused]
     ! long_name: Predictor Fractional thickness of layers in u-columns
     ! units: Nondim
+"ocean_model_z_new", "frhatu1"  [Unused]
+    ! long_name: Predictor Fractional thickness of layers in u-columns
+    ! units: Nondim
 "ocean_model", "frhatv1"  [Unused]
+    ! long_name: Predictor Fractional thickness of layers in v-columns
+    ! units: Nondim
+"ocean_model_z_new", "frhatv1"  [Unused]
     ! long_name: Predictor Fractional thickness of layers in v-columns
     ! units: Nondim
 "ocean_model", "uhbt"  [Unused]
@@ -340,37 +394,73 @@
 "ocean_model", "uh"  [Unused]
     ! long_name: Zonal Thickness Flux
     ! units: meter3 second-1
+"ocean_model_z_new", "uh"  [Unused]
+    ! long_name: Zonal Thickness Flux
+    ! units: meter3 second-1
 "ocean_model", "vh"  [Unused]
+    ! long_name: Meridional Thickness Flux
+    ! units: meter3 second-1
+"ocean_model_z_new", "vh"  [Unused]
     ! long_name: Meridional Thickness Flux
     ! units: meter3 second-1
 "ocean_model", "CAu"  [Unused]
     ! long_name: Zonal Coriolis and Advective Acceleration
     ! units: meter second-2
+"ocean_model_z_new", "CAu"  [Unused]
+    ! long_name: Zonal Coriolis and Advective Acceleration
+    ! units: meter second-2
 "ocean_model", "CAv"  [Unused]
+    ! long_name: Meridional Coriolis and Advective Acceleration
+    ! units: meter second-2
+"ocean_model_z_new", "CAv"  [Unused]
     ! long_name: Meridional Coriolis and Advective Acceleration
     ! units: meter second-2
 "ocean_model", "PFu"  [Unused]
     ! long_name: Zonal Pressure Force Acceleration
     ! units: meter second-2
+"ocean_model_z_new", "PFu"  [Unused]
+    ! long_name: Zonal Pressure Force Acceleration
+    ! units: meter second-2
 "ocean_model", "PFv"  [Unused]
+    ! long_name: Meridional Pressure Force Acceleration
+    ! units: meter second-2
+"ocean_model_z_new", "PFv"  [Unused]
     ! long_name: Meridional Pressure Force Acceleration
     ! units: meter second-2
 "ocean_model", "uav"  [Unused]
     ! long_name: Barotropic-step Averaged Zonal Velocity
     ! units: meter second-1
+"ocean_model_z_new", "uav"  [Unused]
+    ! long_name: Barotropic-step Averaged Zonal Velocity
+    ! units: meter second-1
 "ocean_model", "vav"  [Unused]
+    ! long_name: Barotropic-step Averaged Meridional Velocity
+    ! units: meter second-1
+"ocean_model_z_new", "vav"  [Unused]
     ! long_name: Barotropic-step Averaged Meridional Velocity
     ! units: meter second-1
 "ocean_model", "u_BT_accel"  [Unused]
     ! long_name: Barotropic Anomaly Zonal Acceleration
     ! units: meter second-1
+"ocean_model_z_new", "u_BT_accel"  [Unused]
+    ! long_name: Barotropic Anomaly Zonal Acceleration
+    ! units: meter second-1
 "ocean_model", "v_BT_accel"  [Unused]
+    ! long_name: Barotropic Anomaly Meridional Acceleration
+    ! units: meter second-1
+"ocean_model_z_new", "v_BT_accel"  [Unused]
     ! long_name: Barotropic Anomaly Meridional Acceleration
     ! units: meter second-1
 "ocean_model", "uhGM"  [Unused]
     ! long_name: Time Mean Diffusive Zonal Thickness Flux
     ! units: meter3 second-1
+"ocean_model_z_new", "uhGM"  [Unused]
+    ! long_name: Time Mean Diffusive Zonal Thickness Flux
+    ! units: meter3 second-1
 "ocean_model", "vhGM"  [Unused]
+    ! long_name: Time Mean Diffusive Meridional Thickness Flux
+    ! units: meter3 second-1
+"ocean_model_z_new", "vhGM"  [Unused]
     ! long_name: Time Mean Diffusive Meridional Thickness Flux
     ! units: meter3 second-1
 "ocean_model", "GMwork"  [Unused]
@@ -397,7 +487,13 @@
 "ocean_model", "uhml"  [Unused]
     ! long_name: Zonal Thickness Flux to Restratify Mixed Layer
     ! units: meter3 second-1
+"ocean_model_z_new", "uhml"  [Unused]
+    ! long_name: Zonal Thickness Flux to Restratify Mixed Layer
+    ! units: meter3 second-1
 "ocean_model", "vhml"  [Unused]
+    ! long_name: Meridional Thickness Flux to Restratify Mixed Layer
+    ! units: meter3 second-1
+"ocean_model_z_new", "vhml"  [Unused]
     ! long_name: Meridional Thickness Flux to Restratify Mixed Layer
     ! units: meter3 second-1
 "ocean_model", "MLu_restrat_time"  [Unused]
@@ -495,7 +591,13 @@
 "ocean_model", "dudt"  [Unused]
     ! long_name: Zonal Acceleration
     ! units: meter second-2
+"ocean_model_z_new", "dudt"  [Unused]
+    ! long_name: Zonal Acceleration
+    ! units: meter second-2
 "ocean_model", "dvdt"  [Unused]
+    ! long_name: Meridional Acceleration
+    ! units: meter second-2
+"ocean_model_z_new", "dvdt"  [Unused]
     ! long_name: Meridional Acceleration
     ! units: meter second-2
 "ocean_model", "dhdt"  [Unused]
@@ -513,13 +615,25 @@
 "ocean_model", "uh_rho"  [Unused]
     ! long_name: Zonal volume transport in pure potential density coordinates
     ! units: meter3 second-1
+"ocean_model_z_new", "uh_rho"  [Unused]
+    ! long_name: Zonal volume transport in pure potential density coordinates
+    ! units: meter3 second-1
 "ocean_model", "vh_rho"  [Unused]
+    ! long_name: Meridional volume transport in pure potential density coordinates
+    ! units: meter3 second-1
+"ocean_model_z_new", "vh_rho"  [Unused]
     ! long_name: Meridional volume transport in pure potential density coordinates
     ! units: meter3 second-1
 "ocean_model", "uhGM_rho"  [Unused]
     ! long_name: Zonal volume transport due to interface height diffusion in pure potential density coordinates
     ! units: meter3 second-1
+"ocean_model_z_new", "uhGM_rho"  [Unused]
+    ! long_name: Zonal volume transport due to interface height diffusion in pure potential density coordinates
+    ! units: meter3 second-1
 "ocean_model", "vhGM_rho"  [Unused]
+    ! long_name: Meridional volume transport due to interface height diffusion in pure potential density coordinates
+    ! units: meter3 second-1
+"ocean_model_z_new", "vhGM_rho"  [Unused]
     ! long_name: Meridional volume transport due to interface height diffusion in pure potential density coordinates
     ! units: meter3 second-1
 "ocean_model", "KE"  [Unused]
@@ -655,7 +769,13 @@
 "ocean_model", "dudt_dia"  [Unused]
     ! long_name: Zonal Acceleration from Diapycnal Mixing
     ! units: meter second-2
+"ocean_model_z_new", "dudt_dia"  [Unused]
+    ! long_name: Zonal Acceleration from Diapycnal Mixing
+    ! units: meter second-2
 "ocean_model", "dvdt_dia"  [Unused]
+    ! long_name: Meridional Acceleration from Diapycnal Mixing
+    ! units: meter second-2
+"ocean_model_z_new", "dvdt_dia"  [Unused]
     ! long_name: Meridional Acceleration from Diapycnal Mixing
     ! units: meter second-2
 "ocean_model", "wd"  [Unused]
@@ -977,6 +1097,9 @@
     ! long_name: Sea Water X Velocity
     ! units: m s-1
     ! standard_name: sea_water_x_velocity
+"ocean_model_z_new", "u"  [Unused]
+    ! long_name: Zonal velocity
+    ! units: meter  second-1
 "ocean_model", "v"  [Unused]
     ! long_name: Meridional velocity
     ! units: meter second-1
@@ -984,6 +1107,9 @@
     ! long_name: Sea Water Y Velocity
     ! units: m s-1
     ! standard_name: sea_water_y_velocity
+"ocean_model_z_new", "v"  [Unused]
+    ! long_name: Meridional velocity
+    ! units: meter second-1
 "ocean_model", "h"  [Unused]
     ! long_name: Layer Thickness
     ! units: meter
@@ -1081,25 +1207,49 @@
 "ocean_model", "T_adx"  [Unused]
     ! long_name: Advective Zonal Flux of Potential Temperature
     ! units: Celsius meter3 second-1
+"ocean_model_z_new", "T_adx"  [Unused]
+    ! long_name: Advective Zonal Flux of Potential Temperature
+    ! units: Celsius meter3 second-1
 "ocean_model", "T_ady"  [Unused]
+    ! long_name: Advective Meridional Flux of Potential Temperature
+    ! units: Celsius meter3 second-1
+"ocean_model_z_new", "T_ady"  [Unused]
     ! long_name: Advective Meridional Flux of Potential Temperature
     ! units: Celsius meter3 second-1
 "ocean_model", "T_diffx"  [Unused]
     ! long_name: Diffusive Zonal Flux of Potential Temperature
     ! units: Celsius meter3 second-1
+"ocean_model_z_new", "T_diffx"  [Unused]
+    ! long_name: Diffusive Zonal Flux of Potential Temperature
+    ! units: Celsius meter3 second-1
 "ocean_model", "T_diffy"  [Unused]
+    ! long_name: Diffusive Meridional Flux of Potential Temperature
+    ! units: Celsius meter3 second-1
+"ocean_model_z_new", "T_diffy"  [Unused]
     ! long_name: Diffusive Meridional Flux of Potential Temperature
     ! units: Celsius meter3 second-1
 "ocean_model", "S_adx"  [Unused]
     ! long_name: Advective Zonal Flux of Salinity
     ! units: PPT meter3 second-1
+"ocean_model_z_new", "S_adx"  [Unused]
+    ! long_name: Advective Zonal Flux of Salinity
+    ! units: PPT meter3 second-1
 "ocean_model", "S_ady"  [Unused]
+    ! long_name: Advective Meridional Flux of Salinity
+    ! units: PPT meter3 second-1
+"ocean_model_z_new", "S_ady"  [Unused]
     ! long_name: Advective Meridional Flux of Salinity
     ! units: PPT meter3 second-1
 "ocean_model", "S_diffx"  [Unused]
     ! long_name: Diffusive Zonal Flux of Salinity
     ! units: PPT meter3 second-1
+"ocean_model_z_new", "S_diffx"  [Unused]
+    ! long_name: Diffusive Zonal Flux of Salinity
+    ! units: PPT meter3 second-1
 "ocean_model", "S_diffy"  [Unused]
+    ! long_name: Diffusive Meridional Flux of Salinity
+    ! units: PPT meter3 second-1
+"ocean_model_z_new", "S_diffy"  [Unused]
     ! long_name: Diffusive Meridional Flux of Salinity
     ! units: PPT meter3 second-1
 "ocean_model", "T_adx_2d"  [Unused]
@@ -1129,7 +1279,13 @@
 "ocean_model", "u_predia"  [Unused]
     ! long_name: Zonal velocity before diabatic forcing
     ! units: meter second-1
+"ocean_model_z_new", "u_predia"  [Unused]
+    ! long_name: Zonal velocity before diabatic forcing
+    ! units: meter second-1
 "ocean_model", "v_predia"  [Unused]
+    ! long_name: Meridional velocity before diabatic forcing
+    ! units: meter second-1
+"ocean_model_z_new", "v_predia"  [Unused]
     ! long_name: Meridional velocity before diabatic forcing
     ! units: meter second-1
 "ocean_model", "h_predia"  [Unused]
@@ -1144,7 +1300,13 @@
 "ocean_model", "u_preale"  [Unused]
     ! long_name: Zonal velocity before remapping
     ! units: meter second-1
+"ocean_model_z_new", "u_preale"  [Unused]
+    ! long_name: Zonal velocity before remapping
+    ! units: meter second-1
 "ocean_model", "v_preale"  [Unused]
+    ! long_name: Meridional velocity before remapping
+    ! units: meter second-1
+"ocean_model_z_new", "v_preale"  [Unused]
     ! long_name: Meridional velocity before remapping
     ! units: meter second-1
 "ocean_model", "h_preale"  [Unused]
@@ -1165,6 +1327,9 @@
 "ocean_model_z_new", "S_preale"  [Unused]
     ! long_name: Salinity before remapping
     ! units: ppt
+"ocean_model", "e_preale"  [Unused]
+    ! long_name: Interface Heights before remapping
+    ! units: meter
 "ocean_model", "temp_predia"  [Unused]
     ! long_name: Potential Temperature
     ! units: Celsius
@@ -1202,13 +1367,25 @@
 "ocean_model", "age_adx"  [Unused]
     ! long_name: Ideal Age Tracer advective zonal flux
     ! units: years m3 s-1
+"ocean_model_z_new", "age_adx"  [Unused]
+    ! long_name: Ideal Age Tracer advective zonal flux
+    ! units: years m3 s-1
 "ocean_model", "age_ady"  [Unused]
+    ! long_name: Ideal Age Tracer advective meridional flux
+    ! units: years m3 s-1
+"ocean_model_z_new", "age_ady"  [Unused]
     ! long_name: Ideal Age Tracer advective meridional flux
     ! units: years m3 s-1
 "ocean_model", "age_dfx"  [Unused]
     ! long_name: Ideal Age Tracer diffusive zonal flux
     ! units: years m3 s-1
+"ocean_model_z_new", "age_dfx"  [Unused]
+    ! long_name: Ideal Age Tracer diffusive zonal flux
+    ! units: years m3 s-1
 "ocean_model", "age_dfy"  [Unused]
+    ! long_name: Ideal Age Tracer diffusive zonal flux
+    ! units: years m3 s-1
+"ocean_model_z_new", "age_dfy"  [Unused]
     ! long_name: Ideal Age Tracer diffusive zonal flux
     ! units: years m3 s-1
 "ocean_model_z", "age"  [Unused]
