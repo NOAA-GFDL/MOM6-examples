@@ -302,7 +302,7 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! used with BOTTOMDRAGLAW. This might be
                                 ! Kv / (cdrag * drag_bg_vel) to give Kv as the minimum
                                 ! near-bottom viscosity.
-SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.01
+SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.0
                                 ! The nondimensional Laplacian Smagorinsky constant used
                                 ! in calculating the channel drag if it is enabled.  The
                                 ! default is to use the same value as SMAG_LAP_CONST if
@@ -345,14 +345,6 @@ LAPLACIAN = True                !   [Boolean] default = False
                                 ! If true, use a Laplacian horizontal viscosity.
 SMAGORINSKY_KH = True           !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
-SMAG_LAP_CONST = 0.01           !   [nondim] default = 0.0
-                                ! The nondimensional Laplacian Smagorinsky constant,
-                                ! often 0.15.
-AH_VEL_SCALE = 0.025            !   [m s-1] default = 0.0
-                                ! The velocity scale which is multiplied by the cube of
-                                ! the grid spacing to calculate the biharmonic viscosity.
-                                ! The final viscosity is the largest of this scaled
-                                ! viscosity, the Smagorinsky viscosity and AH.
 SMAGORINSKY_AH = True           !   [Boolean] default = False
                                 ! If true, use a biharmonic Smagorinsky nonlinear eddy
                                 ! viscosity.

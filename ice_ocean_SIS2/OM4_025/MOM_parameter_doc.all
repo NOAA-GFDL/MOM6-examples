@@ -715,7 +715,7 @@ KV_BBL_MIN = 0.0                !   [m2 s-1] default = 0.0
                                 ! The minimum viscosities in the bottom boundary layer.
 KV_TBL_MIN = 0.0                !   [m2 s-1] default = 0.0
                                 ! The minimum viscosities in the top boundary layer.
-SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.01
+SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.0
                                 ! The nondimensional Laplacian Smagorinsky constant used
                                 ! in calculating the channel drag if it is enabled.  The
                                 ! default is to use the same value as SMAG_LAP_CONST if
@@ -861,7 +861,7 @@ KH_VEL_SCALE = 0.0              !   [m s-1] default = 0.0
                                 ! viscosity, the Smagorinsky viscosity and KH.
 SMAGORINSKY_KH = True           !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
-SMAG_LAP_CONST = 0.01           !   [nondim] default = 0.0
+SMAG_LAP_CONST = 0.0            !   [nondim] default = 0.0
                                 ! The nondimensional Laplacian Smagorinsky constant,
                                 ! often 0.15.
 BOUND_KH = True                 !   [Boolean] default = True
@@ -875,7 +875,7 @@ BIHARMONIC = True               !   [Boolean] default = True
                                 ! BIHARMONIC may be used with LAPLACIAN.
 AH = 0.0                        !   [m4 s-1] default = 0.0
                                 ! The background biharmonic horizontal viscosity.
-AH_VEL_SCALE = 0.025            !   [m s-1] default = 0.0
+AH_VEL_SCALE = 0.0              !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the cube of
                                 ! the grid spacing to calculate the biharmonic viscosity.
                                 ! The final viscosity is the largest of this scaled
