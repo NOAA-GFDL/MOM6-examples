@@ -302,12 +302,6 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! used with BOTTOMDRAGLAW. This might be
                                 ! Kv / (cdrag * drag_bg_vel) to give Kv as the minimum
                                 ! near-bottom viscosity.
-SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.0
-                                ! The nondimensional Laplacian Smagorinsky constant used
-                                ! in calculating the channel drag if it is enabled.  The
-                                ! default is to use the same value as SMAG_LAP_CONST if
-                                ! it is defined, or 0.15 if it is not. The value used is
-                                ! also 0.15 if the specified value is negative.
 ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.75E-09
                                 ! The tolerance for the differences between the
                                 ! barotropic and baroclinic estimates of the sea surface
@@ -343,8 +337,6 @@ MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
                                 ! If true, use a Laplacian horizontal viscosity.
-SMAGORINSKY_KH = True           !   [Boolean] default = False
-                                ! If true, use a Smagorinsky nonlinear eddy viscosity.
 SMAGORINSKY_AH = True           !   [Boolean] default = False
                                 ! If true, use a biharmonic Smagorinsky nonlinear eddy
                                 ! viscosity.
@@ -431,6 +423,10 @@ Z_OUTPUT_GRID_FILE = "vgrid_75_2m.nc" ! default = ""
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
+ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
+                                ! If true, use an implied energetics planetary boundary
+                                ! layer scheme to determine the diffusivity and viscosity
+                                ! in the surface boundary layer.
 PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
                                 ! If true, use a pressure dependent freezing temperature
                                 ! when making frazil. The default is false, which will be
@@ -502,22 +498,6 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
 ! === module MOM_KPP ===
 ! This is the MOM wrapper to CVmix:KPP
 ! See http://code.google.com/p/cvmix/
-USE_KPP = True                  !   [Boolean] default = False
-                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
-                                ! to calculate diffusivities and non-local transport in the OBL.
-KPP%
-MINIMUM_OBL_DEPTH = 6.0         !   [m] default = 0.0
-                                ! If non-zero, a minimum depth to use for KPP OBL depth. Independent of
-                                ! this parameter, the OBL depth is always at least as deep as the first layer.
-NLT_SHAPE = "PARABOLIC"         ! default = "CVMIX"
-                                ! MOM6 method to set nonlocal transport profile.
-                                ! Over-rides the result from CVMix.  Allowed values are:
-                                !    CVMIX     - Uses the profiles from CVmix specified by MATCH_TECHNIQUE
-                                !    LINEAR    - A linear profile, 1-sigma
-                                !    PARABOLIC - A parablic profile, (1-sigma)^2
-                                !    CUBIC     - A cubic profile, (1-sigma)^2(1+2*sigma)
-                                !    CUBIC_LMD - The original KPP profile
-%KPP
 
 ! === module MOM_diffConvection ===
 ! This module implements enhanced diffusivity as a
@@ -526,6 +506,8 @@ CONVECTION%
 %CONVECTION
 
 ! === module MOM_entrain_diffusive ===
+
+! === module MOM_energetic_PBL ===
 
 ! === module MOM_regularize_layers ===
 

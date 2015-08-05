@@ -715,7 +715,7 @@ KV_BBL_MIN = 0.0                !   [m2 s-1] default = 0.0
                                 ! The minimum viscosities in the bottom boundary layer.
 KV_TBL_MIN = 0.0                !   [m2 s-1] default = 0.0
                                 ! The minimum viscosities in the top boundary layer.
-SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.0
+SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.15
                                 ! The nondimensional Laplacian Smagorinsky constant used
                                 ! in calculating the channel drag if it is enabled.  The
                                 ! default is to use the same value as SMAG_LAP_CONST if
@@ -859,11 +859,8 @@ KH_VEL_SCALE = 0.0              !   [m s-1] default = 0.0
                                 ! spacing to calculate the Laplacian viscosity.
                                 ! The final viscosity is the largest of this scaled
                                 ! viscosity, the Smagorinsky viscosity and KH.
-SMAGORINSKY_KH = True           !   [Boolean] default = False
+SMAGORINSKY_KH = False          !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
-SMAG_LAP_CONST = 0.0            !   [nondim] default = 0.0
-                                ! The nondimensional Laplacian Smagorinsky constant,
-                                ! often 0.15.
 BOUND_KH = True                 !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited
                                 ! to be stable.
@@ -1120,7 +1117,7 @@ Z_OUTPUT_GRID_FILE = "vgrid_75_2m.nc" ! default = ""
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-ENERGETICS_SFC_PBL = False      !   [Boolean] default = False
+ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary
                                 ! layer scheme to determine the diffusivity and viscosity
                                 ! in the surface boundary layer.
@@ -1146,6 +1143,10 @@ AGGREGATE_FW_FORCING = True     !   [Boolean] default = True
                                 ! and applied as either incoming or outgoing depending on the sign of the net.
                                 ! If false, the net incoming fresh water flux is added to the model and
                                 ! thereafter the net outgoing is removed from the updated state.into the first non-vanished layer for which the column remains stable
+DO_RIVERMIX = False             !   [Boolean] default = False
+                                ! If true, apply additional mixing whereever there is
+                                ! runoff, so that it is mixed down to RIVERMIX_DEPTH
+                                ! if the ocean is that deep.
 DEBUG_CONSERVATION = False      !   [Boolean] default = False
                                 ! If true, monitor conservation and extrema.
 MIX_BOUNDARY_TRACERS = True     !   [Boolean] default = True
@@ -1369,83 +1370,9 @@ DEBUG_KAPPA_SHEAR = False       !   [Boolean] default = False
 ! === module MOM_KPP ===
 ! This is the MOM wrapper to CVmix:KPP
 ! See http://code.google.com/p/cvmix/
-USE_KPP = True                  !   [Boolean] default = False
+USE_KPP = False                 !   [Boolean] default = False
                                 ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
                                 ! to calculate diffusivities and non-local transport in the OBL.
-KPP%
-PASSIVE = False                 !   [Boolean] default = False
-                                ! If True, puts KPP into a passive-diagnostic mode.
-APPLY_NONLOCAL_TRANSPORT = True !   [Boolean] default = True
-                                ! If True, applies the non-local transport to heat and scalars.
-                                ! If False, calculates the non-local transport and tendencies but
-                                ! purely for diagnostic purposes.
-RI_CRIT = 0.3                   !   [nondim] default = 0.3
-                                ! Critical bulk Richardson number used to define depth of the
-                                ! surface Ocean Boundary Layer (OBL).
-VON_KARMAN = 0.4                !   [nondim] default = 0.4
-                                ! von Karman constant.
-ENHANCE_DIFFUSION = True        !   [Boolean] default = True
-                                ! If True, adds enhanced diffusion at the based of the boundary layer.
-INTERP_TYPE = "cubic"           ! default = "cubic"
-                                ! Type of interpolation to determine the OBL depth.
-                                ! Allowed types are: linear, quadratic, cubic.
-COMPUTE_EKMAN = False           !   [Boolean] default = False
-                                ! If True, limit OBL depth to be no deeper than Ekman depth.
-COMPUTE_MONIN_OBUKHOV = False   !   [Boolean] default = False
-                                ! If True, limit the OBL depth to be no deeper than
-                                ! Monin-Obukhov depth.
-CS = 98.96                      !   [nondim] default = 98.96
-                                ! Parameter for computing velocity scale function.
-DEEP_OBL_OFFSET = 0.0           !   [m] default = 0.0
-                                ! If non-zero, the distance above the bottom to which the OBL is clipped
-                                ! if it would otherwise reach the bottom. The smaller of this and 0.1D is used.
-FIXED_OBLDEPTH = False          !   [Boolean] default = False
-                                ! If True, fix the OBL depth to FIXED_OBLDEPTH_VALUE
-                                ! rather than using the OBL depth from CVMix.
-                                ! This option is just for testing purposes.
-FIXED_OBLDEPTH_VALUE = 30.0     !   [m] default = 30.0
-                                ! Value for the fixed OBL depth when fixedOBLdepth==True.
-                                ! This parameter is for just for testing purposes.
-                                ! It will over-ride the OBLdepth computed from CVMix.
-SURF_LAYER_EXTENT = 0.1         !   [nondim] default = 0.1
-                                ! Fraction of OBL depth considered in the surface layer.
-MINIMUM_OBL_DEPTH = 6.0         !   [m] default = 0.0
-                                ! If non-zero, a minimum depth to use for KPP OBL depth. Independent of
-                                ! this parameter, the OBL depth is always at least as deep as the first layer.
-MINIMUM_VT2 = 1.0E-10           !   [m2/s2] default = 1.0E-10
-                                ! Min of the unresolved velocity Vt2 used in Rib CVMix calculation.
-                                ! Scaling: MINIMUM_VT2 = const1*d*N*ws, with d=1m, N=1e-5/s, ws=1e-6 m/s.
-CORRECT_SURFACE_LAYER_AVERAGE = False !   [Boolean] default = False
-                                ! If true, applies a correction step to the averaging of surface layer
-                                ! properties. This option is obsolete.
-FIRST_GUESS_SURFACE_LAYER_DEPTH = 0.0 !   [m] default = 0.0
-                                ! The first guess at the depth of the surface layer used for averaging
-                                ! the surface layer properties. If =0, the top model level properties
-                                ! will be used for the surface layer. If CORRECT_SURFACE_LAYER_AVERAGE=True, a
-                                ! subsequent correction is applied. This parameter is obsolete
-NLT_SHAPE = "PARABOLIC"         ! default = "CVMIX"
-                                ! MOM6 method to set nonlocal transport profile.
-                                ! Over-rides the result from CVMix.  Allowed values are:
-                                !    CVMIX     - Uses the profiles from CVmix specified by MATCH_TECHNIQUE
-                                !    LINEAR    - A linear profile, 1-sigma
-                                !    PARABOLIC - A parablic profile, (1-sigma)^2
-                                !    CUBIC     - A cubic profile, (1-sigma)^2(1+2*sigma)
-                                !    CUBIC_LMD - The original KPP profile
-MATCH_TECHNIQUE = "SimpleShapes" ! default = "SimpleShapes"
-                                ! CVMix method to set profile function for diffusivity and NLT,
-                                ! as well as matching across OBL base. Allowed values are:
-                                !    SimpleShapes      = sigma*(1-sigma)^2 for both diffusivity and NLT
-                                !    MatchGradient     = sigma*(1-sigma)^2 for NLT; diffusivity profile from matching
-                                !    MatchBoth         = match gradient for both diffusivity and NLT
-                                !    ParabolicNonLocal = sigma*(1-sigma)^2 for diffusivity; (1-sigma)^2 for NLT
-KPP_ZERO_DIFFUSIVITY = False    !   [Boolean] default = False
-                                ! If True, zeroes the KPP diffusivity and viscosity; for testing purpose.
-KPP_IS_ADDITIVE = True          !   [Boolean] default = True
-                                ! If true, adds KPP diffusivity to diffusivity from other schemes.If false, KPP is the only diffusivity wherever KPP is non-zero.
-%KPP
-KPP_BEFORE_KAPPA_SHEAR = True   !   [Boolean] default = True
-                                ! If true, KPP matches interior diffusivity that EXCLUDES any
-                                ! diffusivity from kappa-shear.
 SALT_REJECT_BELOW_ML = False    !   [Boolean] default = False
                                 ! If true, place salt from brine rejection below the mixed layer,
                                 ! into the first non-vanished layer for which the column remains stable
@@ -1475,6 +1402,39 @@ MAX_ENT_IT = 5                  ! default = 5
                                 ! calculate the interior diapycnal entrainment.
 TOLERANCE_ENT = 4.898979485566356E-06 !   [m] default = 4.898979485566356E-06
                                 ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_energetic_PBL ===
+MSTAR = 1.2                     !   [units=nondim] default = 1.2
+                                ! The ratio of the friction velocity cubed to the TKE
+                                ! input to the mixed layer.
+NSTAR = 0.2                     !   [nondim] default = 0.2
+                                ! The portion of the buoyant potential energy imparted by
+                                ! surface fluxes that is available to drive entrainment
+                                ! at the base of mixed layer when that energy is positive.
+MKE_TO_TKE_EFFIC = 0.0          !   [nondim] default = 0.0
+                                ! The efficiency with which mean kinetic energy released
+                                ! by mechanically forced entrainment of the mixed layer
+                                ! is converted to turbulent kinetic energy.
+TKE_DECAY = 2.5                 !   [nondim] default = 2.5
+                                ! TKE_DECAY relates the vertical rate of decay of the
+                                ! TKE available for mechanical entrainment to the natural
+                                ! Ekman depth.
+ML_USE_OMEGA = False            !   [Boolean] default = False
+                                ! If true, use the absolute rotation rate instead of the
+                                ! vertical component of rotation when setting the decay
+                                ! scale for turbulence.
+WSTAR_USTAR_COEF = 1.0          !   [units=nondim] default = 1.0
+                                ! A ratio relating the efficiency with which convectively
+                                ! released energy is converted to a turbulent velocity,
+                                ! relative to mechanically forced TKE. Making this larger
+                                ! increases the BL diffusivity
+VSTAR_SCALE_COEF = 1.0          !   [units=nondim] default = 1.0
+                                ! An overall nondimensional scaling factor for v*.
+                                ! Making this larger decreases the PBL diffusivity.
+EKMAN_SCALE_COEF = 1.0          !   [units=nondim] default = 1.0
+                                ! A nondimensional scaling factor controlling the inhibition
+                                ! of the diffusive length scale by rotation. Making this larger
+                                ! decreases the PBL diffusivity.
 
 ! === module MOM_regularize_layers ===
 REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False
