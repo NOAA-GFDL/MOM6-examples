@@ -528,6 +528,16 @@ MEKE_ALPHA_GRID = 0.0           !   [nondim] default = 0.0
 MEKE_COLD_START = False         !   [Boolean] default = False
                                 ! If true, initialize EKE to zero. Otherwise a local equilibrium solution
                                 ! is used as an initial condition for EKE.
+MEKE_BACKSCAT_RO_C = 0.0        !   [nondim] default = 0.0
+                                ! The coefficient in the Rossby number function for scaling the buharmonic
+                                ! frictional energy source. Setting to non-zero enables the Rossby number function.
+MEKE_BACKSCAT_RO_POW = 0.0      !   [nondim] default = 0.0
+                                ! The power in the Rossby number function for scaling the biharmomnic
+                                ! frictional energy source.
+MEKE_ADVECTION_FACTOR = 0.0     !   [nondim] default = 0.0
+                                ! A scale factor in front of advection of eddy energy. Zero turns advection off.
+                                ! Using unity would be normal but other values could accomodate a mismatch
+                                ! between the advecting barotropic flow and the vertical structure of MEKE.
 CDRAG = 0.003                   !   [nondim] default = 0.003
                                 ! CDRAG is the drag coefficient relating the magnitude of
                                 ! the velocity field to the bottom stress.
