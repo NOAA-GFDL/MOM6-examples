@@ -12,16 +12,6 @@
 TRIPOLAR_N = True               !   [Boolean] default = False
                                 ! Use tripolar connectivity at the northern edge of the
                                 ! domain.  With TRIPOLAR_N, NIGLOBAL must be even.
-NIHALO = 4                      ! default = 2
-                                ! The number of halo points on each side in the
-                                ! x-direction.  With STATIC_MEMORY_ this is set as NIHALO_
-                                ! in MOM_memory.h at compile time; without STATIC_MEMORY_
-                                ! the default is NIHALO_ in MOM_memory.h (if defined) or 2.
-NJHALO = 4                      ! default = 2
-                                ! The number of halo points on each side in the
-                                ! y-direction.  With STATIC_MEMORY_ this is set as NJHALO_
-                                ! in MOM_memory.h at compile time; without STATIC_MEMORY_
-                                ! the default is NJHALO_ in MOM_memory.h (if defined) or 2.
 NIGLOBAL = 1440                 !
                                 ! The total number of thickness grid points in the
                                 ! x-direction in the physical domain. With STATIC_MEMORY_
@@ -322,7 +312,7 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! used with BOTTOMDRAGLAW. This might be
                                 ! Kv / (cdrag * drag_bg_vel) to give Kv as the minimum
                                 ! near-bottom viscosity.
-SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.0
+SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.15
                                 ! The nondimensional Laplacian Smagorinsky constant used
                                 ! in calculating the channel drag if it is enabled.  The
                                 ! default is to use the same value as SMAG_LAP_CONST if
@@ -534,6 +524,9 @@ CONVECTION%
 ! === module MOM_entrain_diffusive ===
 
 ! === module MOM_energetic_PBL ===
+MSTAR = 0.3                     !   [units=nondim] default = 1.2
+                                ! The ratio of the friction velocity cubed to the TKE
+                                ! input to the mixed layer.
 
 ! === module MOM_regularize_layers ===
 
