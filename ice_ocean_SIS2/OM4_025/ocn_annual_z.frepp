@@ -112,6 +112,7 @@ $script_dir/depth_average_T_bias.py -w $woa05 -g $mosaicDir -zb 300 -o $out_dir/
 $script_dir/depth_average_T_bias.py -w $woa05 -g $mosaicDir -zb 700 -o $out_dir/ocean_${yr1}-${yr2}/ptemp -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
 $script_dir/depth_average_T_bias.py -w $woa05 -g $mosaicDir -zb 2000 -o $out_dir/ocean_${yr1}-${yr2}/ptemp -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
 $script_dir/depth_average_T_bias.py -w $woa05 -g $mosaicDir -zt 2000 -zb 4000 -o $out_dir/ocean_${yr1}-${yr2}/ptemp -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
+$script_dir/depth_average_T_bias.py -w $woa05 -g $mosaicDir -zb 6500 -o $out_dir/ocean_${yr1}-${yr2}/ptemp -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
 
 mkdir -p $out_dir/ocean_${yr1}-${yr2}/salinity
 $script_dir/SSS_bias_WOA05.py -w $woa05 -g $mosaicDir -o $out_dir/ocean_${yr1}-${yr2}/salinity -l ${yr1}-${yr2} $in_data_dir/ocean_annual_z.$yr1-$yr2.ann.nc
