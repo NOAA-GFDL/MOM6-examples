@@ -855,6 +855,10 @@
 "ocean_model", "SSH"  [Unused]
     ! long_name: Sea Surface Height
     ! units: meter
+"ocean_model", "ssh_ga"  [Unused]
+    ! long_name: Area averaged sea surface height
+    ! units: m
+    ! standard_name: area_averaged_sea_surface_height
 "ocean_model", "SSH_inst"  [Unused]
     ! long_name: Instantaneous Sea Surface Height
     ! units: meter
@@ -1177,6 +1181,17 @@
 "ocean_model", "total_net_massin"  [Unused]
     ! long_name: Area integrated mass entering ocean due to predip, runoff, ice melt
     ! units: kg/s
+"ocean_model", "PRCmE_ga"  [Unused]
+    ! long_name: Area averaged net surface water flux (precip+melt+liq runoff+ice calving-evap)
+    ! units: kg m-2 s-1
+    ! standard_name: water_flux_into_sea_water_area_averaged
+"ocean_model", "evap_ga"  [Unused]
+    ! long_name: Area averaged evap/condense at ocean surface
+    ! units: kg m-2 s-1
+    ! standard_name: water_evaporation_flux_area_averaged
+"ocean_model", "precip_ga"  [Unused]
+    ! long_name: Area averaged liquid+frozen precip into ocean
+    ! units: kg m-2 s-1
 "ocean_model", "heat_content_frunoff"  [Unused]
     ! long_name: Heat content (relative to 0C) of solid runoff into ocean
     ! units: Watt meter-2
@@ -1348,6 +1363,27 @@
 "ocean_model", "total_heat_restore"  [Unused]
     ! long_name: Area integrated surface heat flux from restoring
     ! units: Watt
+"ocean_model", "net_heat_coupler_ga"  [Unused]
+    ! long_name: Area averaged surface heat flux from SW+LW+latent+sensible (via the coupler)
+    ! units: W m-2
+"ocean_model", "net_heat_surface_ga"  [Unused]
+    ! long_name: Area averaged surface heat flux from SW+LW+lat+sens+mass+frazil+restore
+    ! units: W m-2
+"ocean_model", "sw_ga"  [Unused]
+    ! long_name: Area averaged net downward shortwave at sea water surface
+    ! units: W m-2
+"ocean_model", "LwLatSens_ga"  [Unused]
+    ! long_name: Area averaged longwave+latent+sensible heating
+    ! units: W m-2
+"ocean_model", "lw_ga"  [Unused]
+    ! long_name: Area averaged net downward longwave at sea water surface
+    ! units: W m-2
+"ocean_model", "lat_ga"  [Unused]
+    ! long_name: Area averaged surface downward latent heat flux
+    ! units: W m-2
+"ocean_model", "sens_ga"  [Unused]
+    ! long_name: Area averaged downward sensible heat flux
+    ! units: W m-2
 "ocean_model", "salt_flux"  [Unused]
     ! long_name: Salt flux into ocean at surface
     ! units: kilogram meter-2 second-1
