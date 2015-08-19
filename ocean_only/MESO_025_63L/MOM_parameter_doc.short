@@ -349,11 +349,6 @@ Z_OUTPUT_GRID_FILE = "OM3_zgrid.nc" ! default = ""
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-RECLAIM_FRAZIL = False          !   [Boolean] default = True
-                                ! If true, try to use any frazil heat deficit to cool any
-                                ! overlying layers down to the freezing point, thereby
-                                ! avoiding the creation of thin ice when the SST is above
-                                ! the freezing point.
 KD_MIN_TR = 2.0E-06             !   [m2 s-1] default = 2.0E-06
                                 ! A minimal diffusivity that should always be applied to
                                 ! tracers, especially in massless layers near the bottom.
@@ -415,6 +410,14 @@ MAX_ENT_IT = 20                 ! default = 5
                                 ! calculate the interior diapycnal entrainment.
 TOLERANCE_ENT = 1.0E-05         !   [m] default = 1.095445115010332E-05
                                 ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_diabatic_aux ===
+! The following parameters are used for auxiliary diabatic processes.
+RECLAIM_FRAZIL = False          !   [Boolean] default = True
+                                ! If true, try to use any frazil heat deficit to cool any
+                                ! overlying layers down to the freezing point, thereby
+                                ! avoiding the creation of thin ice when the SST is above
+                                ! the freezing point.
 
 ! === module MOM_mixed_layer ===
 BULK_RI_ML = 0.05               !   [nondim]

@@ -1139,24 +1139,11 @@ MASSLESS_MATCH_TARGETS = True   !   [Boolean] default = True
                                 ! are kept consistent with their target densities.
                                 ! Otherwise the properties of massless layers evolve
                                 ! diffusively to match massive neighboring layers.
-RECLAIM_FRAZIL = True           !   [Boolean] default = True
-                                ! If true, try to use any frazil heat deficit to cool any
-                                ! overlying layers down to the freezing point, thereby
-                                ! avoiding the creation of thin ice when the SST is above
-                                ! the freezing point.
-PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
-                                ! If true, use a pressure dependent freezing temperature
-                                ! when making frazil. The default is false, which will be
-                                ! faster but is inappropriate with ice-shelf cavities.
 AGGREGATE_FW_FORCING = True     !   [Boolean] default = True
                                 ! If true, the net incoming and outgoing fresh water fluxes are combined
                                 ! and applied as either incoming or outgoing depending on the sign of the net.
                                 ! If false, the net incoming fresh water flux is added to the model and
                                 ! thereafter the net outgoing is removed from the updated state.into the first non-vanished layer for which the column remains stable
-DO_RIVERMIX = False             !   [Boolean] default = False
-                                ! If true, apply additional mixing whereever there is
-                                ! runoff, so that it is mixed down to RIVERMIX_DEPTH
-                                ! if the ocean is that deep.
 DEBUG_CONSERVATION = False      !   [Boolean] default = False
                                 ! If true, monitor conservation and extrema.
 MIX_BOUNDARY_TRACERS = True     !   [Boolean] default = True
@@ -1412,6 +1399,22 @@ MAX_ENT_IT = 5                  ! default = 5
                                 ! calculate the interior diapycnal entrainment.
 TOLERANCE_ENT = 4.898979485566356E-06 !   [m] default = 4.898979485566356E-06
                                 ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_diabatic_aux ===
+! The following parameters are used for auxiliary diabatic processes.
+RECLAIM_FRAZIL = True           !   [Boolean] default = True
+                                ! If true, try to use any frazil heat deficit to cool any
+                                ! overlying layers down to the freezing point, thereby
+                                ! avoiding the creation of thin ice when the SST is above
+                                ! the freezing point.
+PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
+                                ! If true, use a pressure dependent freezing temperature
+                                ! when making frazil. The default is false, which will be
+                                ! faster but is inappropriate with ice-shelf cavities.
+DO_RIVERMIX = False             !   [Boolean] default = False
+                                ! If true, apply additional mixing whereever there is
+                                ! runoff, so that it is mixed down to RIVERMIX_DEPTH
+                                ! if the ocean is that deep.
 
 ! === module MOM_energetic_PBL ===
 MSTAR = 0.3                     !   [units=nondim] default = 1.2

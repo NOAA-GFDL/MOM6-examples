@@ -979,15 +979,6 @@ MASSLESS_MATCH_TARGETS = True   !   [Boolean] default = True
                                 ! are kept consistent with their target densities.
                                 ! Otherwise the properties of massless layers evolve
                                 ! diffusively to match massive neighboring layers.
-RECLAIM_FRAZIL = True           !   [Boolean] default = True
-                                ! If true, try to use any frazil heat deficit to cool any
-                                ! overlying layers down to the freezing point, thereby
-                                ! avoiding the creation of thin ice when the SST is above
-                                ! the freezing point.
-PRESSURE_DEPENDENT_FRAZIL = False !   [Boolean] default = False
-                                ! If true, use a pressure dependent freezing temperature
-                                ! when making frazil. The default is false, which will be
-                                ! faster but is inappropriate with ice-shelf cavities.
 AGGREGATE_FW_FORCING = True     !   [Boolean] default = True
                                 ! If true, the net incoming and outgoing fresh water fluxes are combined
                                 ! and applied as either incoming or outgoing depending on the sign of the net.
@@ -1204,6 +1195,18 @@ MAX_ENT_IT = 5                  ! default = 5
                                 ! calculate the interior diapycnal entrainment.
 TOLERANCE_ENT = 1.0E-13         !   [m] default = 1.0E-13
                                 ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_diabatic_aux ===
+! The following parameters are used for auxiliary diabatic processes.
+RECLAIM_FRAZIL = True           !   [Boolean] default = True
+                                ! If true, try to use any frazil heat deficit to cool any
+                                ! overlying layers down to the freezing point, thereby
+                                ! avoiding the creation of thin ice when the SST is above
+                                ! the freezing point.
+PRESSURE_DEPENDENT_FRAZIL = False !   [Boolean] default = False
+                                ! If true, use a pressure dependent freezing temperature
+                                ! when making frazil. The default is false, which will be
+                                ! faster but is inappropriate with ice-shelf cavities.
 
 ! === module MOM_regularize_layers ===
 REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False

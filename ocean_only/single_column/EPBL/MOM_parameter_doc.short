@@ -287,11 +287,6 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary
                                 ! layer scheme to determine the diffusivity and viscosity
                                 ! in the surface boundary layer.
-RECLAIM_FRAZIL = False          !   [Boolean] default = True
-                                ! If true, try to use any frazil heat deficit to cool any
-                                ! overlying layers down to the freezing point, thereby
-                                ! avoiding the creation of thin ice when the SST is above
-                                ! the freezing point.
 ML_RADIATION = True             !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind
                                 ! work to penetrate below the base of the mixed layer
@@ -344,6 +339,14 @@ MAX_ENT_IT = 20                 ! default = 5
                                 ! calculate the interior diapycnal entrainment.
 TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.683281572999748E-05
                                 ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_diabatic_aux ===
+! The following parameters are used for auxiliary diabatic processes.
+RECLAIM_FRAZIL = False          !   [Boolean] default = True
+                                ! If true, try to use any frazil heat deficit to cool any
+                                ! overlying layers down to the freezing point, thereby
+                                ! avoiding the creation of thin ice when the SST is above
+                                ! the freezing point.
 
 ! === module MOM_energetic_PBL ===
 

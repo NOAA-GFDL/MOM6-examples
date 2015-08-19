@@ -427,10 +427,6 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary
                                 ! layer scheme to determine the diffusivity and viscosity
                                 ! in the surface boundary layer.
-PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
-                                ! If true, use a pressure dependent freezing temperature
-                                ! when making frazil. The default is false, which will be
-                                ! faster but is inappropriate with ice-shelf cavities.
 BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the
                                 ! BBL mixing and the other diffusivities. Otherwise,
@@ -506,6 +502,13 @@ CONVECTION%
 %CONVECTION
 
 ! === module MOM_entrain_diffusive ===
+
+! === module MOM_diabatic_aux ===
+! The following parameters are used for auxiliary diabatic processes.
+PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
+                                ! If true, use a pressure dependent freezing temperature
+                                ! when making frazil. The default is false, which will be
+                                ! faster but is inappropriate with ice-shelf cavities.
 
 ! === module MOM_energetic_PBL ===
 MSTAR = 0.3                     !   [units=nondim] default = 1.2
