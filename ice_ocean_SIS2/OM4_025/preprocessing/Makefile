@@ -106,24 +106,11 @@ MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
 	(cd MIDAS; git checkout 446ea813e2d64a4a10f8209deea905bed64bc1b0)
 
-# Submodule method for obtaining MIDAS (used by frepp_local target) 
-MIDAS/README.md:
-	(cd ../../..; git submodule init tools/python/025gridGeneration/MIDAS)
-	(cd ../../..; git submodule update tools/python/025gridGeneration/MIDAS)
-
 local: MIDAS 
 	-rm -rf $</build/*
 	mkdir -p $@
 	cd $<; make -f Makefile_GFDL INSTALL_PATH=../local
 	touch $@
-
-# This is a target to allow frepp analysis scripts to build MIDAS only once and then clean up
-frepp_local: MIDAS/README.md
-	make local
-	rm -rf MIDAS
-	mkdir MIDAS
-	touch $<
-	touch local
 
 bedmap2.nc GEBCO_08_v1.nc IBCAO_V3_500m_RR.grd:
 	cp /archive/gold/datasets/topography/$@ .
