@@ -115,13 +115,65 @@ local: MIDAS
 bedmap2.nc GEBCO_08_v1.nc IBCAO_V3_500m_RR.grd:
 	cp /archive/gold/datasets/topography/$@ .
 
-md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc scap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc scap_topog_gebco.nc so_topog_gebco.nc ocean_topog.nc basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
+tools:
+	cvs co -r fre-nctools_201208_jwd tools
+	cvs up -r siena_stretch_grid_z1l    tools/fregrid/conserve_interp.c
+	cvs up -r siena_stretch_grid_z1l    tools/fregrid/conserve_interp.h
+	cvs up -r siena_stretch_grid_z1l    tools/fregrid/fregrid.c
+	cvs up -r siena_stretch_grid_z1l    tools/fregrid/fregrid_util.h
+	cvs up -r siena_stretch_grid_z1l    tools/fregrid/globals.h
+	cvs up -r siena_stretch_grid_z1l    tools/make_hgrid/create_hgrid.h
+	cvs up -r siena_stretch_grid_z1l    tools/make_hgrid/create_lonlat_grid.c
+	cvs up -r siena_stretch_grid_z1l    tools/make_topog/make_topog.c
+	cvs up -r siena_stretch_grid_z1l    tools/make_topog/topog.c
+	cvs up -r siena_stretch_grid_z1l    tools/make_topog/topog.h
+	cvs up -r siena_stretch_grid_z1l    tools/river_regrid/river_regrid.c
+	cvs up -r siena_stretch_grid_z1l    tools/shared/mpp.c
+	cvs up -r siena_stretch_grid_z1l    tools/shared/mpp.h
+	cvs up -r siena_stretch_nest_z1l    tools/make_hgrid/create_gnomonic_cubic_grid.c
+	cvs up -r siena_parallel_runoff_z1l tools/shared/mpp_domain.h 
+	cvs up -r siena_parallel_runoff_z1l tools/runoff_regrid/runoff_regrid.c
+	cvs up -r siena_parallel_runoff_z1l tools/runoff_regrid/fre-nctools.mk
+	cvs up -r siena_201302_z1l          tools/fregrid/fregrid_util.c
+	cvs up -r siena_201302_z1l          tools/make_quick_mosaic/make_quick_mosaic.c
+	cvs up -r siena_201302_z1l          tools/shared/mpp_domain.c
+	cvs up -r siena_narr_z1l            tools/make_hgrid/create_grid_from_file.c
+	cvs up -r siena_remap_land_z1l      tools/remap_land/fre-nctools.mk
+	cvs up -r siena_remap_land_z1l      tools/remap_land/remap_land.c
+	cvs up -r siena_remap_land_z1l      tools/shared/mpp_io.h
+	cvs up -r siena_portable_z1l        tools/make_hgrid/make_hgrid.c
+	cvs up -r siena_portable_z1l        tools/shared/mpp_io.c
+	cvs up -r tikal_nonuniform_z1l      tools/make_coupler_mosaic/make_coupler_mosaic.c
+	cvs up -r tikal_land_frac_z1l       tools/river_regrid/river_regrid.c
+	cvs co -r siena_201308 shared/mosaic
+	cvs up -r tikal_fold_z1l tools/make_solo_mosaic/{make_solo_mosaic.c,get_contact.c}
+
+tools/make_solo_mosaic/make_solo_mosaic tools/make_quick_mosaic/make_quick_mosaic tools/make_coupler_mosaic/make_coupler_mosaic: tools
+	(cd $(@D); make SITE=pan -f fre-nctools.mk $(@F))
+
+mosaic_ocean.1440x1080/ocean_mosaic.nc: ocean_hgrid.nc tools/make_solo_mosaic/make_solo_mosaic
+	mkdir -p $(@D)
+	(cd  $(@D); ln -sf ../ocean_hgrid.nc .)
+	(cd  $(@D); ../tools/make_solo_mosaic/make_solo_mosaic --num_tiles 1 --dir . --mosaic_name ocean_mosaic --tile_file ocean_hgrid.nc --periodx 360.)
+mosaic_ocean.1440x1080/ocean_mask.nc: ocean_topog.nc mosaic_ocean.1440x1080/ocean_mosaic.nc tools/make_quick_mosaic/make_quick_mosaic
+	(cd  $(@D); ln -sf ../ocean_topog.nc .)
+	(cd $(@D); ../tools/make_quick_mosaic/make_quick_mosaic --input_mosaic ocean_mosaic.nc --mosaic_name grid_spec --ocean_topog ocean_topog.nc )
+ocean_mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc
+ocean_mask.nc: mosaic_ocean.1440x1080/ocean_mask.nc
+ocean_mosaic.nc ocean_mask.nc:
+	ln -sf $< $@
+
+md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc scap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc scap_topog_gebco.nc so_topog_gebco.nc ocean_topog.nc ocean_mosaic.nc ocean_mask.nc basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
 	echo Grids > $@
 	md5sum *supergrid.nc ocean_hgrid.nc >> $@
 	echo >> $@
 	echo Topography >> $@
 	md5sum *topog*.nc >> $@
 	md5sum basin_codes.nc >> $@
+	echo >> $@
+	echo Mosaics >> $@
+	md5sum ocean_mosaic.nc >> $@
+	md5sum ocean_mask.nc >> $@
 	echo >> $@
 	echo Data >> $@
 	md5sum salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc >> $@
