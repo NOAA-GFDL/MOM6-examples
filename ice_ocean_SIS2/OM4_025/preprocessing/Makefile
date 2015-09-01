@@ -21,9 +21,6 @@ showenv:
 	which python
 	-python --version
 
-ocean_mosaic: mosaic_ocean.1440x1080/grid_spec.nc basin_codes.nc
-cpld_mosaics: mosaic_c96.1440x1080/mosaic.nc mosaic_c192.1440x1080/mosaic.nc
-
 forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc
 
 obs: WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
@@ -152,31 +149,51 @@ tools:
 tools/make_solo_mosaic/make_solo_mosaic tools/make_quick_mosaic/make_quick_mosaic tools/make_coupler_mosaic/make_coupler_mosaic_parallel: tools
 	(cd $(@D); make SITE=pan -f fre-nctools.mk $(@F))
 
-mosaic_ocean.1440x1080/ocean_mosaic.nc: ocean_hgrid.nc tools/make_solo_mosaic/make_solo_mosaic
+OCN_MOSAIC = $(foreach f,atmos_mosaic_tile1Xland_mosaic_tile1.cdl atmos_mosaic_tile1Xocean_mosaic_tile1.cdl grid_spec.cdl land_mask.cdl\
+                         land_mosaic_tile1Xocean_mosaic_tile1.cdl ocean_mask.cdl ocean_mosaic.cdl,mosaic_ocean.1440x1080/$f)
+C96_MOSAIC = $(foreach f,C96_grid.tile1.nc C96_grid.tile2.nc C96_grid.tile3.nc C96_grid.tile4.nc C96_grid.tile5.nc C96_grid.tile6.nc C96_mosaic.nc\
+                         C96_mosaic_tile1XC96_mosaic_tile1.cdl C96_mosaic_tile1Xocean_mosaic_tile1.cdl C96_mosaic_tile2XC96_mosaic_tile2.cdl C96_mosaic_tile2Xocean_mosaic_tile1.cdl\
+                         C96_mosaic_tile3XC96_mosaic_tile3.cdl C96_mosaic_tile3Xocean_mosaic_tile1.cdl C96_mosaic_tile4XC96_mosaic_tile4.cdl C96_mosaic_tile4Xocean_mosaic_tile1.cdl\
+                         C96_mosaic_tile5XC96_mosaic_tile5.cdl C96_mosaic_tile5Xocean_mosaic_tile1.cdl C96_mosaic_tile6XC96_mosaic_tile6.cdl C96_mosaic_tile6Xocean_mosaic_tile1.cdl\
+                         land_mask_tile1.cdl land_mask_tile2.cdl land_mask_tile3.cdl land_mask_tile4.cdl land_mask_tile5.cdl land_mask_tile6.cdl\
+                         mosaic.cdl ocean_mask.cdl,mosaic_c96.1440x1080/$f)
+C192_MOSAIC = $(foreach f,C192_grid.tile1.nc C192_grid.tile2.nc C192_grid.tile3.nc C192_grid.tile4.nc C192_grid.tile5.nc C192_grid.tile6.nc C192_mosaic.nc\
+                          C192_mosaic_tile1XC192_mosaic_tile1.cdl C192_mosaic_tile1Xocean_mosaic_tile1.cdl C192_mosaic_tile2XC192_mosaic_tile2.cdl C192_mosaic_tile2Xocean_mosaic_tile1.cdl\
+                          C192_mosaic_tile3XC192_mosaic_tile3.cdl C192_mosaic_tile3Xocean_mosaic_tile1.cdl C192_mosaic_tile4XC192_mosaic_tile4.cdl C192_mosaic_tile4Xocean_mosaic_tile1.cdl\
+                          C192_mosaic_tile5XC192_mosaic_tile5.cdl C192_mosaic_tile5Xocean_mosaic_tile1.cdl C192_mosaic_tile6XC192_mosaic_tile6.cdl C192_mosaic_tile6Xocean_mosaic_tile1.cdl\
+                          land_mask_tile1.cdl land_mask_tile2.cdl land_mask_tile3.cdl land_mask_tile4.cdl land_mask_tile5.cdl land_mask_tile6.cdl\
+                          mosaic.cdl ocean_mask.cdl,mosaic_c192.1440x1080/$f)
+ocean_mosaic: $(OCN_MOSAIC) basin_codes.nc
+cpld_mosaics: $(C96_MOSAIC) $(C192_MOSAIC)
+
+#$(filter-out mosaic_ocean.1440x1080/grid_spec.nc,$(OCN_MOSAIC)): mosaic_ocean.1440x1080/grid_spec.nc
+$(OCN_MOSAIC): mosaic_ocean.1440x1080/grid_spec.nc
+mosaic_ocean.1440x1080/grid_spec.nc: ocean_hgrid.nc ocean_topog.nc tools/make_solo_mosaic/make_solo_mosaic
 	mkdir -p $(@D)
-	(cd $(@D); ln -sf ../ocean_hgrid.nc .)
+	(cd $(@D); ln -sf ../ocean_hgrid.nc ../ocean_topog.nc .)
 	(cd $(@D); ../tools/make_solo_mosaic/make_solo_mosaic --num_tiles 1 --dir . --mosaic_name ocean_mosaic --tile_file ocean_hgrid.nc --periodx 360.)
-mosaic_ocean.1440x1080/grid_spec.nc: ocean_topog.nc mosaic_ocean.1440x1080/ocean_mosaic.nc tools/make_quick_mosaic/make_quick_mosaic
-	(cd $(@D); ln -sf ../ocean_topog.nc .)
 	(cd $(@D); ../tools/make_quick_mosaic/make_quick_mosaic --input_mosaic ocean_mosaic.nc --mosaic_name grid_spec --ocean_topog ocean_topog.nc )
 
+$(filter-out mosaic_c96.1440x1080/mosaic.nc,$(C96_MOSAIC)): mosaic_c96.1440x1080/mosaic.nc
 mosaic_c96.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_topog.nc tools/make_coupler_mosaic/make_coupler_mosaic_parallel
 	mkdir -p $(@D)
-	(cd $(@D); ln -sf ../ocean_hgrid.nc .)
-	(cd $(@D); ln -sf ../ocean_topog.nc .)
+	(cd $(@D); ln -sf ../ocean_hgrid.nc ../ocean_topog.nc .)
 	(cd $(@D); ln -sf ../mosaic_ocean.1440x1080/ocean_mosaic.nc .)
-	(cd $(@D); tar xvf /archive/cjg/awg/input/grid/C96_CM2G_grid.tar C96_grid.\* C96_mosaic.nc)
-	(cd $(@D); mpirun -np 16 ../tools/make_coupler_mosaic/make_coupler_mosaic_parallel --atmos_mosaic C96_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
+	(cd $(@D); tar xf /archive/cjg/awg/input/grid/C96_CM2G_grid.tar C96_grid.\* C96_mosaic.nc)
+	(cd $(@D); time mpirun -np 8 ../tools/make_coupler_mosaic/make_coupler_mosaic_parallel --atmos_mosaic C96_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
 
+$(filter-out mosaic_c192.1440x1080/mosaic.nc,$(C192_MOSAIC)): mosaic_c192.1440x1080/mosaic.nc
 mosaic_c192.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_topog.nc tools/make_coupler_mosaic/make_coupler_mosaic_parallel
 	mkdir -p $(@D)
-	(cd $(@D); ln -sf ../ocean_hgrid.nc .)
-	(cd $(@D); ln -sf ../ocean_topog.nc .)
+	(cd $(@D); ln -sf ../ocean_hgrid.nc ../ocean_topog.nc .)
 	(cd $(@D); ln -sf ../mosaic_ocean.1440x1080/ocean_mosaic.nc .)
-	(cd $(@D); tar xvf /archive/cjg/awg/input/grid/c192_CM2_grid_20130423.tar C192_grid.\* C192_mosaic.nc)
-	(cd $(@D); mpirun -np 16 ../tools/make_coupler_mosaic/make_coupler_mosaic_parallel --atmos_mosaic C192_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
+	(cd $(@D); tar xf /archive/cjg/awg/input/grid/c192_CM2_grid_20130423.tar C192_grid.\* C192_mosaic.nc)
+	(cd $(@D); time mpirun -np 8 ../tools/make_coupler_mosaic/make_coupler_mosaic_parallel --atmos_mosaic C192_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
 
-md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc scap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc scap_topog_gebco.nc so_topog_gebco.nc ocean_topog.nc mosaic_ocean.1440x1080/grid_spec.nc mosaic_c96.1440x1080/mosaic.nc mosaic_c192.1440x1080/mosaic.nc basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
+%.cdl: %.nc
+	ncdump $< | egrep -v 'code_version|history' > $@
+
+md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc scap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc scap_topog_gebco.nc so_topog_gebco.nc ocean_topog.nc $(OCN_MOSAIC) $(C96_MOSAIC) $(C192_MOSAIC) basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
 	echo Grids > $@
 	md5sum *supergrid.nc ocean_hgrid.nc >> $@
 	echo >> $@
@@ -185,9 +202,9 @@ md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.
 	md5sum basin_codes.nc >> $@
 	echo >> $@
 	echo Mosaics >> $@
-	md5sum mosaic_ocean.1440x1080/*.nc >> $@
-	md5sum mosaic_c96.1440x1080/*.nc >> $@
-	md5sum mosaic_c192.1440x1080/*.nc >> $@
+	md5sum $(OCN_MOSAIC) >> $@
+	md5sum $(C96_MOSAIC) >> $@
+	md5sum $(C192_MOSAIC) >> $@
 	echo >> $@
 	echo Data >> $@
 	md5sum salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc >> $@
