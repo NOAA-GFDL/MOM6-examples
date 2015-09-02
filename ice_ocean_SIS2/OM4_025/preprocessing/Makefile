@@ -10,8 +10,9 @@
 #   make interpolated_topog.nc
 
 SHELL=tcsh -f
+NP=8
 
-all: ocean_mosaic cpld_mosaics forcing obs
+all: ocean_mosaic c96_mosaic c192_mosaic forcing obs
 	md5sum -c md5sums.txt
 
 showenv:
@@ -113,40 +114,14 @@ local: MIDAS
 bedmap2.nc GEBCO_08_v1.nc IBCAO_V3_500m_RR.grd:
 	cp /archive/gold/datasets/topography/$@ .
 
-tools:
-	cvs co -r fre-nctools_201208_jwd tools
-	cvs up -r siena_stretch_grid_z1l    tools/fregrid/conserve_interp.c
-	cvs up -r siena_stretch_grid_z1l    tools/fregrid/conserve_interp.h
-	cvs up -r siena_stretch_grid_z1l    tools/fregrid/fregrid.c
-	cvs up -r siena_stretch_grid_z1l    tools/fregrid/fregrid_util.h
-	cvs up -r siena_stretch_grid_z1l    tools/fregrid/globals.h
-	cvs up -r siena_stretch_grid_z1l    tools/make_hgrid/create_hgrid.h
-	cvs up -r siena_stretch_grid_z1l    tools/make_hgrid/create_lonlat_grid.c
-	cvs up -r siena_stretch_grid_z1l    tools/make_topog/make_topog.c
-	cvs up -r siena_stretch_grid_z1l    tools/make_topog/topog.c
-	cvs up -r siena_stretch_grid_z1l    tools/make_topog/topog.h
-	cvs up -r siena_stretch_grid_z1l    tools/river_regrid/river_regrid.c
-	cvs up -r siena_stretch_grid_z1l    tools/shared/mpp.c
-	cvs up -r siena_stretch_grid_z1l    tools/shared/mpp.h
-	cvs up -r siena_stretch_nest_z1l    tools/make_hgrid/create_gnomonic_cubic_grid.c
-	cvs up -r siena_parallel_runoff_z1l tools/shared/mpp_domain.h 
-	cvs up -r siena_parallel_runoff_z1l tools/runoff_regrid/runoff_regrid.c
-	cvs up -r siena_parallel_runoff_z1l tools/runoff_regrid/fre-nctools.mk
-	cvs up -r siena_201302_z1l          tools/fregrid/fregrid_util.c
-	cvs up -r siena_201302_z1l          tools/make_quick_mosaic/make_quick_mosaic.c
-	cvs up -r siena_201302_z1l          tools/shared/mpp_domain.c
-	cvs up -r siena_narr_z1l            tools/make_hgrid/create_grid_from_file.c
-	cvs up -r siena_remap_land_z1l      tools/remap_land/fre-nctools.mk
-	cvs up -r siena_remap_land_z1l      tools/remap_land/remap_land.c
-	cvs up -r siena_remap_land_z1l      tools/shared/mpp_io.h
-	cvs up -r siena_portable_z1l        tools/make_hgrid/make_hgrid.c
-	cvs up -r siena_portable_z1l        tools/shared/mpp_io.c
-	cvs up -r tikal_nonuniform_z1l      tools/make_coupler_mosaic/make_coupler_mosaic.c
-	cvs up -r tikal_land_frac_z1l       tools/river_regrid/river_regrid.c
-	cvs co -r siena_201308 shared/mosaic
-	cvs up -r tikal_fold_z1l tools/make_solo_mosaic/{make_solo_mosaic.c,get_contact.c}
+#FRE_NCTOOLS = fre_nctools/tools
+FRE_NCTOOLS = nctools/tools
 
-tools/make_solo_mosaic/make_solo_mosaic tools/make_quick_mosaic/make_quick_mosaic tools/make_coupler_mosaic/make_coupler_mosaic_parallel: tools
+nctools/tools:
+	mkdir -p $(@D)
+	(cd $(@D); cvs co -r fre-nctools-bronx-10 tools)
+	(cd $(@D); cvs -d /home/fms/cvs co -r siena_201309 shared/mosaic)
+nctools/tools/make_solo_mosaic/make_solo_mosaic nctools/tools/make_quick_mosaic/make_quick_mosaic nctools/tools/make_coupler_mosaic/make_coupler_mosaic_parallel: nctools/tools
 	(cd $(@D); make SITE=pan -f fre-nctools.mk $(@F))
 
 OCN_MOSAIC = $(foreach f,atmos_mosaic_tile1Xland_mosaic_tile1.cdl atmos_mosaic_tile1Xocean_mosaic_tile1.cdl grid_spec.cdl land_mask.cdl\
@@ -164,31 +139,32 @@ C192_MOSAIC = $(foreach f,C192_grid.tile1.nc C192_grid.tile2.nc C192_grid.tile3.
                           land_mask_tile1.cdl land_mask_tile2.cdl land_mask_tile3.cdl land_mask_tile4.cdl land_mask_tile5.cdl land_mask_tile6.cdl\
                           mosaic.cdl ocean_mask.cdl,mosaic_c192.1440x1080/$f)
 ocean_mosaic: $(OCN_MOSAIC) basin_codes.nc
-cpld_mosaics: $(C96_MOSAIC) $(C192_MOSAIC)
+c96_mosaic: $(C96_MOSAIC)
+c192_mosaic: $(C192_MOSAIC)
 
-#$(filter-out mosaic_ocean.1440x1080/grid_spec.nc,$(OCN_MOSAIC)): mosaic_ocean.1440x1080/grid_spec.nc
-$(OCN_MOSAIC): mosaic_ocean.1440x1080/grid_spec.nc
-mosaic_ocean.1440x1080/grid_spec.nc: ocean_hgrid.nc ocean_topog.nc tools/make_solo_mosaic/make_solo_mosaic
+$(filter-out mosaic_ocean.1440x1080/grid_spec.nc mosaic_ocean.1440x1080/ocean_mosaic.nc,$(OCN_MOSAIC:.cdl=.nc)): mosaic_ocean.1440x1080/grid_spec.nc
+mosaic_ocean.1440x1080/ocean_mosaic.nc: ocean_hgrid.nc ocean_topog.nc $(FRE_NCTOOLS)/make_solo_mosaic/make_solo_mosaic
 	mkdir -p $(@D)
 	(cd $(@D); ln -sf ../ocean_hgrid.nc ../ocean_topog.nc .)
-	(cd $(@D); ../tools/make_solo_mosaic/make_solo_mosaic --num_tiles 1 --dir . --mosaic_name ocean_mosaic --tile_file ocean_hgrid.nc --periodx 360.)
-	(cd $(@D); ../tools/make_quick_mosaic/make_quick_mosaic --input_mosaic ocean_mosaic.nc --mosaic_name grid_spec --ocean_topog ocean_topog.nc )
+	(cd $(@D); ../$(FRE_NCTOOLS)/make_solo_mosaic/make_solo_mosaic --num_tiles 1 --dir . --mosaic_name ocean_mosaic --tile_file ocean_hgrid.nc --periodx 360.)
+mosaic_ocean.1440x1080/grid_spec.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc $(FRE_NCTOOLS)/make_quick_mosaic/make_quick_mosaic
+	(cd $(@D); ../$(FRE_NCTOOLS)/make_quick_mosaic/make_quick_mosaic --input_mosaic ocean_mosaic.nc --mosaic_name grid_spec --ocean_topog ocean_topog.nc )
 
-$(filter-out mosaic_c96.1440x1080/mosaic.nc,$(C96_MOSAIC)): mosaic_c96.1440x1080/mosaic.nc
-mosaic_c96.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_topog.nc tools/make_coupler_mosaic/make_coupler_mosaic_parallel
+$(filter-out mosaic_c96.1440x1080/mosaic.nc,$(C96_MOSAIC:.cdl=.nc)): mosaic_c96.1440x1080/mosaic.nc
+mosaic_c96.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_topog.nc $(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel
 	mkdir -p $(@D)
 	(cd $(@D); ln -sf ../ocean_hgrid.nc ../ocean_topog.nc .)
 	(cd $(@D); ln -sf ../mosaic_ocean.1440x1080/ocean_mosaic.nc .)
 	(cd $(@D); tar xf /archive/cjg/awg/input/grid/C96_CM2G_grid.tar C96_grid.\* C96_mosaic.nc)
-	(cd $(@D); time mpirun -np 8 ../tools/make_coupler_mosaic/make_coupler_mosaic_parallel --atmos_mosaic C96_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
+	(cd $(@D); time mpirun -np $(NP) ../$(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel --atmos_mosaic C96_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
 
-$(filter-out mosaic_c192.1440x1080/mosaic.nc,$(C192_MOSAIC)): mosaic_c192.1440x1080/mosaic.nc
-mosaic_c192.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_topog.nc tools/make_coupler_mosaic/make_coupler_mosaic_parallel
+$(filter-out mosaic_c192.1440x1080/mosaic.nc,$(C192_MOSAIC:.cdl=.nc)): mosaic_c192.1440x1080/mosaic.nc
+mosaic_c192.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_topog.nc $(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel
 	mkdir -p $(@D)
 	(cd $(@D); ln -sf ../ocean_hgrid.nc ../ocean_topog.nc .)
 	(cd $(@D); ln -sf ../mosaic_ocean.1440x1080/ocean_mosaic.nc .)
 	(cd $(@D); tar xf /archive/cjg/awg/input/grid/c192_CM2_grid_20130423.tar C192_grid.\* C192_mosaic.nc)
-	(cd $(@D); time mpirun -np 8 ../tools/make_coupler_mosaic/make_coupler_mosaic_parallel --atmos_mosaic C192_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
+	(cd $(@D); time mpirun -np $(NP) ../$(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel --atmos_mosaic C192_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
 
 %.cdl: %.nc
 	ncdump $< | egrep -v 'code_version|history' > $@
