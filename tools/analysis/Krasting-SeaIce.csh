@@ -6,7 +6,7 @@
 #PBS -r y
 #PBS -j oe
 #PBS -o
-#PBS -q batch
+#PBS -q bigmem
 #----------------------------------
 # Script:  Krasting-SeaIce.csh
 # Authors: John Krasting
