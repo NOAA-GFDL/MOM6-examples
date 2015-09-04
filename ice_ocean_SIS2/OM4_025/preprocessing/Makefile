@@ -117,12 +117,23 @@ bedmap2.nc GEBCO_08_v1.nc IBCAO_V3_500m_RR.grd:
 #FRE_NCTOOLS = fre_nctools/tools
 FRE_NCTOOLS = nctools/tools
 
+fre_nctools:
+	echo $@
+	git clone http://gitlab.gfdl.noaa.gov/fre/fre-nctools.git $@
+	(cd $@; git checkout bronx-10)
+fre_nctools/tools: fre_nctools
+fre_nctools/tools/make_solo_mosaic/make_solo_mosaic fre_nctools/tools/make_quick_mosaic/make_quick_mosaic: fre_nctools/tools
+	(cd $(@D); make SITE=pan -f fre-nctools.mk $(@F))
+	(cd $(@D); make SITE=pan CC="icc -Dfix_truncate" -f fre-nctools.mk $(@F))
+fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic: fre_nctools/tools
+	(cd $(FRE_NCTOOLS); fre-nctools-make-package)
+
 nctools/tools:
 	mkdir -p $(@D)
 	(cd $(@D); cvs co -r fre-nctools-bronx-10 tools)
 	(cd $(@D); cvs -d /home/fms/cvs co -r siena_201309 shared/mosaic)
 nctools/tools/make_solo_mosaic/make_solo_mosaic nctools/tools/make_quick_mosaic/make_quick_mosaic nctools/tools/make_coupler_mosaic/make_coupler_mosaic_parallel: nctools/tools
-	(cd $(@D); make SITE=pan -f fre-nctools.mk $(@F))
+	(cd $(@D); make SITE=pan CC="icc -DRANGE_CHECK_CRITERIA=0." -f fre-nctools.mk $(@F))
 
 OCN_MOSAIC = $(foreach f,atmos_mosaic_tile1Xland_mosaic_tile1.cdl atmos_mosaic_tile1Xocean_mosaic_tile1.cdl grid_spec.cdl land_mask.cdl\
                          land_mosaic_tile1Xocean_mosaic_tile1.cdl ocean_mask.cdl ocean_mosaic.cdl,mosaic_ocean.1440x1080/$f)
