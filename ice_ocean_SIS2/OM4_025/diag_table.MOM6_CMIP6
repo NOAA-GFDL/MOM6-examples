@@ -1,0 +1,130 @@
+# Ocean diagnostics files
+"ocean_daily",            1, "days",   1, "days", "time"
+
+#"ocean_month",            1, "months", 1, "days", "time"
+#"ocean_annual",          12, "months", 1, "days", "time"
+#"ocean_scalar_month",     1, "months", 1, "days", "time"
+#"ocean_static",          -1, "months", 1, "days", "time"
+
+# for testing 
+"ocean_month",            1, "days", 1, "days", "time"
+"ocean_annual",           1, "days", 1, "days", "time"
+"ocean_scalar_month",     1, "days", 1, "days", "time"
+"ocean_static",          -1, "days", 1, "days", "time"
+
+
+
+# CMIP6 Table 2.1
+ "ocean_model", "areacello",   "areacello",   "ocean_static", "all", "none", "none", 2  
+ "ocean_model", "deptho",      "deptho",      "ocean_static", "all", "none", "none", 2  
+#"ocean_model", "basin",       "basin",       "ocean_static", "all", "none", "none", 2  # needs to be coded 
+
+
+# CMIP6 Table 2.2 (nearly complete)
+ "ocean_model", "pbo",          "pbo",              "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "pso",          "pso",              "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "masscello",    "masscello",        "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "masso",        "masso",            "ocean_scalar_month",  "all", "mean", "none",2  # global sum masscello
+ "ocean_model", "thkcello",     "thkcello",         "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "volo",         "volo",             "ocean_scalar_month",  "all", "mean", "none",2  # global sum thkcello 
+ "ocean_model", "zos",          "zos",              "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "zossq",        "zossq",            "ocean_month",         "all", "mean", "none",2
+#"ocean_model", "zostoga",      "zostoga",          "ocean_month",         "all", "mean", "none",2  # to be done offline 
+ "ocean_model", "temp",         "thetao",           "ocean_month",         "all", "mean", "none",2  # if use pre-TEOS10 
+ "ocean_model", "thetaoga",     "thetaoga",         "ocean_scalar_month",  "all", "mean", "none",2  
+#"ocean_model", "temp",         "bigthetao",        "ocean_month",         "all", "mean", "none",2  # if use TEOS10
+#"ocean_model", "bigthetaoga",  "bigthetaoga",      "ocean_scalar_month",  "all", "mean", "none",2  # if use TEOS10
+ "ocean_model", "tos",          "tos",              "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "tosga",        "tosga",            "ocean_scalar_month",  "all", "mean", "none",2  
+ "ocean_model", "tos",          "tos",              "ocean_daily",         "all", "mean", "none",2
+ "ocean_model", "tossq",        "tossq",            "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "tossq",        "tossq",            "ocean_daily",         "all", "mean", "none",2
+ "ocean_model", "tob",          "tob",              "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "opottempmint", "opottempmint",     "ocean_month",         "all", "mean", "none",2   
+#"ocean_model", "ocontempmint", "ocontempmint",     "ocean_month",         "all", "mean", "none",2  # to be coded if use TEOS10 
+ "ocean_model", "so",           "so",               "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "soga",         "soga",             "ocean_scalar_month",  "all", "mean", "none",2  
+ "ocean_model", "sos",          "sos",              "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "sosga",        "sosga",            "ocean_scalar_month",  "all", "mean", "none",2  
+ "ocean_model", "sos",          "sos",              "ocean_daily",         "all", "mean", "none",2
+ "ocean_model", "sob",          "sob",              "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "somint",       "somint",           "ocean_month",         "all", "mean", "none",2  
+ "ocean_model", "obvfsq",       "obvfsq",           "ocean_month",         "all", "mean", "none",2  
+ "ocean_model", "age",          "agessc",           "ocean_month",         "all", "mean", "none",2  
+#"ocean_model", "cfc11",        "cfc11",            "ocean_month",         "all", "mean", "none",2  # get from generic tracer module  
+#"ocean_model", "cfc12",        "cfc12",            "ocean_month",         "all", "mean", "none",2  # get from generic tracer module  
+#"ocean_model", "sf6",          "sf6",              "ocean_month",         "all", "mean", "none",2  # get from generic tracer module  
+ "ocean_model", "mlotst"        "mlotst",           "ocean_month",         "all", "mean", "none",2 
+ "ocean_model", "mlotstsq"      "mlotstsq",         "ocean_month",         "all", "mean", "none",2 
+ "ocean_model", "msftbarot"     "msftbarot",        "ocean_month",         "all", "mean", "none",2  # to be done offline
+
+
+# CMIP6 Table 2.3 (much MOM code and offline code to do)
+ "ocean_model",  "uo",           "uo",               "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "vo",           "vo",               "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "umo",          "umo",              "ocean_month",        "all", "mean", "none",2  
+ "ocean_model",  "vmo",          "vmo",              "ocean_month",        "all", "mean", "none",2  
+#"ocean_model",  "wmo",          "wmo",              "ocean_month",        "all", "mean", "none",2  # needs to be coded 
+## Offline calculations needed for overturning streamfunctions.  
+## Need to save the raw transport fields for net and SGS contributions.  
+## Code needs to be written for mass transports. 
+## Code needs to be written for net heat transport too. 
+
+
+# CMIP6 Table 2.4: straits transport done offline using umo and vmo as input 
+
+
+# CMIP6 Table 2.5
+ "ocean_model",  "pr",           "pr",               "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "prsn",         "prsn",             "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "evs",          "evs",              "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "friver",       "friver",           "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "ficeberg",     "ficeberg",         "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "fsitherm",     "fsitherm",         "ocean_month",        "all", "mean", "none",2  # need code to split ice melt from prn 
+ "ocean_model",  "wfo",          "wfo",              "ocean_month",        "all", "mean", "none",2
+ 
+# CMIP6 Table 2.6
+ "ocean_model",  "sfdsi",        "sfdsi",            "ocean_month",        "all", "mean", "none",2
+#"ocean_model",  "sfriver",      "sfriver",          "ocean_month",        "all", "mean", "none",2  # to be coded if rivers have salt
+
+# CMIP6 Table 2.7
+ "ocean_model",  "hfgeou",       "hfgeou",           "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "hfrainds",     "hfrainds",         "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "hfevapds",     "hfevapds",         "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "hfrunoffds",   "hfrunoffds",       "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "hfsnthermds",  "hfsnthermds",      "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "hfsifrazil",   "hfsifrazil",       "ocean_month",        "all", "mean", "none",2
+#"ocean_model",  "hfsithermds",  "hfsithermds",      "ocean_month",        "all", "mean", "none",2  # computed in SIS2 
+ "ocean_model",  "hfibthermds",  "hfibthermds",      "ocean_month",        "all", "mean", "none",2  
+ "ocean_model",  "rlntds",       "rlntds",           "ocean_month",        "all", "mean", "none",2  # code change needed from rlds  
+ "ocean_model",  "hfls",         "hfls",             "ocean_month",        "all", "mean", "none",2  
+ "ocean_model",  "hfss",         "hfss",             "ocean_month",        "all", "mean", "none",2  
+ "ocean_model",  "rsntds",       "rsntds"            "ocean_month",        "all", "mean", "none",2  
+ "ocean_model",  "rsdo",         "rsdo"              "ocean_month",        "all", "mean", "none",2  # code needed 
+ "ocean_model",  "hfds",         "hfds"              "ocean_month",        "all", "mean", "none",2 
+
+# CMIP6 Table 2.8
+ "ocean_model",  "tauuo",        "tauuo",            "ocean_month",        "all", "mean", "none",2 
+ "ocean_model",  "tauvo",        "tauvo",            "ocean_month",        "all", "mean", "none",2
+
+# CMIP6 Table 2.9: this table computed in generic tracer code 
+#"ocean_model",  "fgcfc11",      "fgcfc11",          "ocean_month",        "all", "mean", "none",2
+#"ocean_model",  "fgcfc12",      "fgcfc12",          "ocean_month",        "all", "mean", "none",2
+#"ocean_model",  "fgsf6",        "fgsf6",            "ocean_month",        "all", "mean", "none",2
+
+
+# CMIP6 Table 2.10: this table of heat and salt tendencies remains to be coded 
+
+# CMIP6 Table 2.11
+ "ocean_model",  "difvho",       "difvho",           "ocean_month",        "all", "mean", "none",2 
+ "ocean_model",  "difvso",       "difvso",           "ocean_month",        "all", "mean", "none",2 
+ "ocean_model",  "tnpeo",        "tnpeo",            "ocean_month",        "all", "mean", "none",2  # code needed 
+
+# CMIP6 Table 2.12 
+ "ocean_model",  "diftrblo",     "diftrblo",         "ocean_month",        "all", "mean", "none",2  
+ "ocean_model",  "diftrelo",     "diftrelo",         "ocean_month",        "all", "mean", "none",2  # ask AJA 
+ "ocean_model",  "tnkebto",      "tnkebto",          "ocean_month",        "all", "mean", "none",2 
+#"ocean_model",  "difmxylo",     "difmxylo",         "ocean_month",        "all", "mean", "none",2  # save if use Laplacian visc 
+ "ocean_model",  "difmxybo",     "difmxybo",         "ocean_month",        "all", "mean", "none",2 
+ "ocean_model",  "dispkexyfo",   "dispkexyfo",       "ocean_month",        "all", "mean", "none",2 
+
