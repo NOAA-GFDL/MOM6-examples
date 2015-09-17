@@ -114,26 +114,17 @@ local: MIDAS
 bedmap2.nc GEBCO_08_v1.nc IBCAO_V3_500m_RR.grd:
 	cp /archive/gold/datasets/topography/$@ .
 
-#FRE_NCTOOLS = fre_nctools/tools
-FRE_NCTOOLS = nctools/tools
+FRE_NCTOOLS = fre_nctools/tools
 
 fre_nctools:
 	echo $@
 	git clone http://gitlab.gfdl.noaa.gov/fre/fre-nctools.git $@
 	(cd $@; git checkout bronx-10)
+	cp make_quick_mosaic.c $@/tools/make_quick_mosaic/
+	cp make_coupler_mosaic.c $@/tools/make_coupler_mosaic/
 fre_nctools/tools: fre_nctools
-fre_nctools/tools/make_solo_mosaic/make_solo_mosaic fre_nctools/tools/make_quick_mosaic/make_quick_mosaic: fre_nctools/tools
+fre_nctools/tools/make_solo_mosaic/make_solo_mosaic fre_nctools/tools/make_quick_mosaic/make_quick_mosaic fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic_parallel: fre_nctools/tools
 	(cd $(@D); make SITE=pan -f fre-nctools.mk $(@F))
-	(cd $(@D); make SITE=pan CC="icc -Dfix_truncate" -f fre-nctools.mk $(@F))
-fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic: fre_nctools/tools
-	(cd $(FRE_NCTOOLS); fre-nctools-make-package)
-
-nctools/tools:
-	mkdir -p $(@D)
-	(cd $(@D); cvs co -r fre-nctools-bronx-10 tools)
-	(cd $(@D); cvs -d /home/fms/cvs co -r siena_201309 shared/mosaic)
-nctools/tools/make_solo_mosaic/make_solo_mosaic nctools/tools/make_quick_mosaic/make_quick_mosaic nctools/tools/make_coupler_mosaic/make_coupler_mosaic_parallel: nctools/tools
-	(cd $(@D); make SITE=pan CC="icc -DRANGE_CHECK_CRITERIA=0." -f fre-nctools.mk $(@F))
 
 OCN_MOSAIC = $(foreach f,atmos_mosaic_tile1Xland_mosaic_tile1.cdl atmos_mosaic_tile1Xocean_mosaic_tile1.cdl grid_spec.cdl land_mask.cdl\
                          land_mosaic_tile1Xocean_mosaic_tile1.cdl ocean_mask.cdl ocean_mosaic.cdl,mosaic_ocean.1440x1080/$f)
@@ -159,7 +150,7 @@ mosaic_ocean.1440x1080/ocean_mosaic.nc: ocean_hgrid.nc ocean_topog.nc $(FRE_NCTO
 	(cd $(@D); ln -sf ../ocean_hgrid.nc ../ocean_topog.nc .)
 	(cd $(@D); ../$(FRE_NCTOOLS)/make_solo_mosaic/make_solo_mosaic --num_tiles 1 --dir . --mosaic_name ocean_mosaic --tile_file ocean_hgrid.nc --periodx 360.)
 mosaic_ocean.1440x1080/grid_spec.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc $(FRE_NCTOOLS)/make_quick_mosaic/make_quick_mosaic
-	(cd $(@D); ../$(FRE_NCTOOLS)/make_quick_mosaic/make_quick_mosaic --input_mosaic ocean_mosaic.nc --mosaic_name grid_spec --ocean_topog ocean_topog.nc )
+	(cd $(@D); ../$(FRE_NCTOOLS)/make_quick_mosaic/make_quick_mosaic --reproduce_siena --input_mosaic ocean_mosaic.nc --mosaic_name grid_spec --ocean_topog ocean_topog.nc )
 
 $(filter-out mosaic_c96.1440x1080/mosaic.nc,$(C96_MOSAIC:.cdl=.nc)): mosaic_c96.1440x1080/mosaic.nc
 mosaic_c96.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_topog.nc $(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel
@@ -167,7 +158,7 @@ mosaic_c96.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_top
 	(cd $(@D); ln -sf ../ocean_hgrid.nc ../ocean_topog.nc .)
 	(cd $(@D); ln -sf ../mosaic_ocean.1440x1080/ocean_mosaic.nc .)
 	(cd $(@D); tar xf /archive/cjg/awg/input/grid/C96_CM2G_grid.tar C96_grid.\* C96_mosaic.nc)
-	(cd $(@D); time mpirun -np $(NP) ../$(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel --atmos_mosaic C96_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
+	(cd $(@D); time mpirun -np $(NP) ../$(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel --reproduce_siena --atmos_mosaic C96_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
 
 $(filter-out mosaic_c192.1440x1080/mosaic.nc,$(C192_MOSAIC:.cdl=.nc)): mosaic_c192.1440x1080/mosaic.nc
 mosaic_c192.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_topog.nc $(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel
@@ -175,7 +166,7 @@ mosaic_c192.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_to
 	(cd $(@D); ln -sf ../ocean_hgrid.nc ../ocean_topog.nc .)
 	(cd $(@D); ln -sf ../mosaic_ocean.1440x1080/ocean_mosaic.nc .)
 	(cd $(@D); tar xf /archive/cjg/awg/input/grid/c192_CM2_grid_20130423.tar C192_grid.\* C192_mosaic.nc)
-	(cd $(@D); time mpirun -np $(NP) ../$(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel --atmos_mosaic C192_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
+	(cd $(@D); time mpirun -np $(NP) ../$(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel --reproduce_siena --atmos_mosaic C192_mosaic.nc --ocean_mosaic ocean_mosaic.nc --mosaic_name mosaic --ocean_topog ocean_topog.nc)
 
 %.cdl: %.nc
 	ncdump $< | egrep -v 'code_version|history' > $@
