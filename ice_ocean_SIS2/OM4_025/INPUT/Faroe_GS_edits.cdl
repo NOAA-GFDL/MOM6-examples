@@ -1,0 +1,27 @@
+netcdf Faroe_GS_edits {
+dimensions:
+	nEdits = UNLIMITED ; // (11 currently)
+variables:
+	int iEdit(nEdits) ;
+		iEdit:long_name = "i-index of edited data" ;
+	int jEdit(nEdits) ;
+		jEdit:long_name = "j-index of edited data" ;
+	double zEdit(nEdits) ;
+		zEdit:long_name = "New value of data" ;
+		zEdit:units = "meters" ;
+	int ni ;
+		ni:long_name = "The size of the i-dimension of the dataset these edits apply to" ;
+	int nj ;
+		nj:long_name = "The size of the j-dimension of the dataset these edits apply to" ;
+data:
+
+ iEdit = 1166, 1166, 1166, 1167, 1168, 1168, 1168, 1169, 1176, 1177, 1178 ;
+
+ jEdit = 818, 817, 816, 816, 816, 815, 814, 814, 657, 657, 657 ;
+
+ zEdit = -800, -800, -800, -800, -800, -800, -800, -800, -280, -280, -280 ;
+
+ ni = 1440 ;
+
+ nj = 1080 ;
+}
