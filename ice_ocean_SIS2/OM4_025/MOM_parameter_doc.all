@@ -1152,7 +1152,7 @@ MIX_BOUNDARY_TRACERS = True     !   [Boolean] default = True
                                 ! If true, mix the passive tracers in massless layers at
                                 ! the bottom into the interior as though a diffusivity of
                                 ! KD_MIN_TR were operating.
-KD_MIN_TR = 2.0E-07             !   [m2 s-1] default = 2.0E-07
+KD_MIN_TR = 2.0E-06             !   [m2 s-1] default = 2.0E-06
                                 ! A minimal diffusivity that should always be applied to
                                 ! tracers, especially in massless layers near the bottom.
                                 ! The default is 0.1*KD.
@@ -1225,11 +1225,11 @@ KD_TANH_LAT_FN = False          !   [Boolean] default = False
                                 ! like CM2.1/CM2M.  There is no physical justification
                                 ! for this form, and it can not be used with
                                 ! HENYEY_IGW_BACKGROUND.
-KD = 2.0E-06                    !   [m2 s-1]
+KD = 2.0E-05                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
                                 ! may be used.
-KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-08
+KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
                                 ! The minimum diapycnal diffusivity.
 KD_MAX = 0.1                    !   [m2 s-1] default = -1.0
                                 ! The maximum permitted increment for the diapycnal
@@ -1238,7 +1238,7 @@ KD_MAX = 0.1                    !   [m2 s-1] default = -1.0
 KD_ADD = 0.0                    !   [m2 s-1] default = 0.0
                                 ! A uniform diapycnal diffusivity that is added
                                 ! everywhere without any filtering or scaling.
-KDML = 2.0E-06                  !   [m2 s-1] default = 2.0E-06
+KDML = 2.0E-05                  !   [m2 s-1] default = 2.0E-05
                                 ! If BULKMIXEDLAYER is false, KDML is the elevated
                                 ! diapycnal diffusivity in the topmost HMIX of fluid.
                                 ! KDML is only used if BULKMIXEDLAYER is false.
@@ -1319,7 +1319,7 @@ SHEARMIX_RATE = 0.089           !   [nondim] default = 0.089
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to
                                 ! estimate the Richardson number driven mixing.
-KD_KAPPA_SHEAR_0 = 2.0E-06      !   [m2 s-1] default = 2.0E-06
+KD_KAPPA_SHEAR_0 = 2.0E-05      !   [m2 s-1] default = 2.0E-05
                                 ! The background diffusivity that is used to smooth the
                                 ! density and shear profiles before solving for the
                                 ! diffusivities. Defaults to value of KD.
@@ -1399,7 +1399,7 @@ CORRECT_DENSITY = True          !   [Boolean] default = True
 MAX_ENT_IT = 5                  ! default = 5
                                 ! The maximum number of iterations that may be used to
                                 ! calculate the interior diapycnal entrainment.
-TOLERANCE_ENT = 4.898979485566356E-06 !   [m] default = 4.898979485566356E-06
+TOLERANCE_ENT = 1.549193338482967E-05 !   [m] default = 1.549193338482967E-05
                                 ! The tolerance with which to solve for entrainment values.
 
 ! === module MOM_diabatic_aux ===
@@ -1419,7 +1419,7 @@ DO_RIVERMIX = False             !   [Boolean] default = False
                                 ! if the ocean is that deep.
 
 ! === module MOM_energetic_PBL ===
-MSTAR = 0.3                     !   [units=nondim] default = 1.2
+MSTAR = 1.2                     !   [units=nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE
                                 ! input to the mixed layer.
 NSTAR = 0.2                     !   [nondim] default = 0.2

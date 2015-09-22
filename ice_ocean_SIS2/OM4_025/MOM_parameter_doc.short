@@ -447,11 +447,11 @@ N2_FLOOR_IOMEGA2 = 0.0          !   [nondim] default = 1.0
                                 ! The floor applied to N2(k) scaled by Omega^2:
                                 !   If =0., N2(k) is simply positive definite.
                                 !   If =1., N2(k) > Omega^2 everywhere.
-KD = 2.0E-06                    !   [m2 s-1]
+KD = 2.0E-05                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
                                 ! may be used.
-KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-08
+KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
                                 ! The minimum diapycnal diffusivity.
 KD_MAX = 0.1                    !   [m2 s-1] default = -1.0
                                 ! The maximum permitted increment for the diapycnal
@@ -511,9 +511,6 @@ PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
                                 ! faster but is inappropriate with ice-shelf cavities.
 
 ! === module MOM_energetic_PBL ===
-MSTAR = 0.3                     !   [units=nondim] default = 1.2
-                                ! The ratio of the friction velocity cubed to the TKE
-                                ! input to the mixed layer.
 
 ! === module MOM_regularize_layers ===
 
