@@ -191,6 +191,10 @@ ICE_TEMP_RANGE_ESTIMATE = 40.0  !   [degC] default = 40.0
                                 ! layer heat budget is more likely to be more accurate.
                                 ! Setting this to 0 causes the explicit diffusive form.
                                 ! to always be used.
+OLD_ICE_HEAT_CAPACITY = False   !   [Boolean] default = False
+                                ! If true, use an older linearization of the sea ice heat
+                                ! capacity for temperatures above the freezing point in the
+                                ! calculation of the initial ice temperature estimate.
 ICE_DELTA_EDD_R_ICE = 1.0       !   [perhaps nondimensional?] default = 0.0
                                 ! A dreadfully documented tuning parameter for the radiative
                                 ! propeties of sea ice with the delta-Eddington radiative
