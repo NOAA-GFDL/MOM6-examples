@@ -22,7 +22,7 @@ showenv:
 	which python
 	-python --version
 
-forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc
+forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mosaic_ocean.1440x1080/runoff.daitren.clim.v2011.02.10a.1440x1080.nc
 
 obs: WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
 
@@ -123,7 +123,9 @@ fre_nctools:
 	cp make_quick_mosaic.c $@/tools/make_quick_mosaic/
 	cp make_coupler_mosaic.c $@/tools/make_coupler_mosaic/
 fre_nctools/tools: fre_nctools
-fre_nctools/tools/make_solo_mosaic/make_solo_mosaic fre_nctools/tools/make_quick_mosaic/make_quick_mosaic fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic_parallel: fre_nctools/tools
+fre_nctools/tools/make_solo_mosaic/make_solo_mosaic fre_nctools/tools/make_quick_mosaic/make_quick_mosaic \
+fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic_parallel\
+fre_nctools/tools/runoff_regrid/runoff_regrid fre_nctools/tools/runoff_regrid/runoff_regrid_parallel: fre_nctools/tools
 	(cd $(@D); make SITE=pan -f fre-nctools.mk $(@F))
 
 OCN_MOSAIC = $(foreach f,atmos_mosaic_tile1Xland_mosaic_tile1.cdl atmos_mosaic_tile1Xocean_mosaic_tile1.cdl grid_spec.cdl land_mask.cdl\
@@ -151,6 +153,12 @@ mosaic_ocean.1440x1080/ocean_mosaic.nc: ocean_hgrid.nc ocean_topog.nc $(FRE_NCTO
 	(cd $(@D); ../$(FRE_NCTOOLS)/make_solo_mosaic/make_solo_mosaic --num_tiles 1 --dir . --mosaic_name ocean_mosaic --tile_file ocean_hgrid.nc --periodx 360.)
 mosaic_ocean.1440x1080/grid_spec.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc $(FRE_NCTOOLS)/make_quick_mosaic/make_quick_mosaic
 	(cd $(@D); ../$(FRE_NCTOOLS)/make_quick_mosaic/make_quick_mosaic --reproduce_siena --input_mosaic ocean_mosaic.nc --mosaic_name grid_spec --ocean_topog ocean_topog.nc )
+
+mosaic_ocean.1440x1080/runoff_tmp.nc: fre_nctools/tools/runoff_regrid/runoff_regrid_parallel mosaic_ocean.1440x1080/ocean_mosaic.nc mosaic_ocean.1440x1080/ocean_topog.nc
+	(cd $(@D); time mpirun -np $(NP) ../fre_nctools/tools/runoff_regrid/runoff_regrid_parallel --input_file /archive/gold/datasets/CORE/NYF_v2.0/runoff.daitren.clim.v2011.02.10.nc --input_fld_name runoff --output_mosaic ocean_mosaic.nc --output_topog ocean_topog.nc --output_file $(@F))
+mosaic_ocean.1440x1080/runoff.daitren.clim.v2011.02.10a.1440x1080.nc: mosaic_ocean.1440x1080/runoff_tmp.nc
+	(cd $(@D); ncks -h -3 runoff_tmp.nc $(@F))
+	(cd $(@D); ncatted -h -O -a 'modulo,Time,c,c, ' $(@F))
 
 $(filter-out mosaic_c96.1440x1080/mosaic.nc,$(C96_MOSAIC:.cdl=.nc)): mosaic_c96.1440x1080/mosaic.nc
 mosaic_c96.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_topog.nc $(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel
