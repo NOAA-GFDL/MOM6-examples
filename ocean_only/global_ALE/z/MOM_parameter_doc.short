@@ -391,6 +391,10 @@ Z_OUTPUT_GRID_FILE = "OM3_zgrid.nc" ! default = ""
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
+ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
+                                ! If true, use an implied energetics planetary boundary
+                                ! layer scheme to determine the diffusivity and viscosity
+                                ! in the surface boundary layer.
 ML_RADIATION = True             !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind
                                 ! work to penetrate below the base of the mixed layer
@@ -474,13 +478,6 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
 ! === module MOM_KPP ===
 ! This is the MOM wrapper to CVmix:KPP
 ! See http://code.google.com/p/cvmix/
-USE_KPP = True                  !   [Boolean] default = False
-                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
-                                ! to calculate diffusivities and non-local transport in the OBL.
-KPP%
-PASSIVE = True                  !   [Boolean] default = False
-                                ! If True, puts KPP into a passive-diagnostic mode.
-%KPP
 
 ! === module MOM_diffConvection ===
 ! This module implements enhanced diffusivity as a
@@ -506,6 +503,8 @@ GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
+
+! === module MOM_energetic_PBL ===
 
 ! === module MOM_regularize_layers ===
 HMIX_MIN = 2.0                  !   [m] default = 0.0
