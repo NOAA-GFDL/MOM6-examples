@@ -94,12 +94,8 @@ NJHALO = 4                      !  points on each side in the x- and y-direction
                                 !  If static memory allocation is used, these
                                 !  must match the values of NIHALO_ and NJHALO_
                                 !  in MOM_memory.h.
-NIPROC_IO = 8                   !    The number of processors used for I/O in the
-                                !  x-direction, or 0 to equal NIPROC.  NIPROC_IO
-                                !  must be a factor of NIPROC.
-NJPROC_IO = 4                   !    The number of processors used for I/O in the
-                                !  y-direction, or 0 to equal NJPROC.  NJPROC_IO
-                                !  must be a factor of NJPROC.
+IO_LAYOUT = 8, 4                !    The processor layout to be used, or 0,0 to automatically
+                                !  set the io_layout to be the same as the layout.
 
 NIPROC = 32                     ! The number of processors used in the x and y directions
                                 ! respectively.
