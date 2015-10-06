@@ -441,6 +441,9 @@ Z_INIT_ALE_REMAPPING = True     !   [Boolean] default = False
 Z_INIT_REMAPPING_SCHEME = "PPM_IH4" ! default = "PPM_IH4"
                                 ! The remapping scheme to use if using Z_INIT_ALE_REMAPPING
                                 ! is True.
+Z_INIT_OLD_ALGORITHM = True     !   [Boolean] default = True
+                                ! If true, only uses as many source cells as there are data points.
+                                ! If false, inserts vanished layers at bottom with bottom most values.
 VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 ! A string that determines how the initial velocities
                                 ! are specified for a new run:
