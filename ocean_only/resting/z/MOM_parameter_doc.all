@@ -415,6 +415,11 @@ REMAPPING_SCHEME = "PLM"        ! default = "PLM"
                                 ! PPM_IH4     (3rd-order accurate)
                                 ! PQM_IH4IH3  (4th-order accurate)
                                 ! PQM_IH6IH5  (5th-order accurate)
+REMAP_AFTER_INITIALIZATION = True !   [Boolean] default = True
+                                ! If true, applies regridding and remapping immediately after
+                                ! initialization so that the state is ALE consistent. This is a
+                                ! legacy step and should not be needed if the initialization is
+                                ! consistent with the coordinate mode.
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
                                 ! If true, intialize the layer thicknesses, temperatures,
                                 ! and salnities from a Z-space file on a latitude-
