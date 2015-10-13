@@ -1,9 +1,11 @@
 ! Blank file in which we can put "overrides" for parameters
-#override NK = 50
+NK = 50
 #override USE_REGRIDDING = True
 #override BULKMIXEDLAYER = False
-#override MIXEDLAYER_RESTRAT = False
 #override COORD_FILE = "Layer_coord50.nc"
+USE_STORED_SLOPES = True
+USE_NEUTRAL_DIFFUSION = True
+SIMPLE_TKE_TO_KD = True
 REGRIDDING_COORDINATE_MODE = "Z*"
 ALE_COORDINATE_CONFIG = "FILE:vgrid.nc,dz"
 HMIX_FIXED = 0.5
