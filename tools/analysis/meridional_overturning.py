@@ -24,8 +24,11 @@ depth = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_topog.nc').variables['de
 basin_code = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/basin_codes.v20140629.nc').variables['basin'][:]
 
 rootGroup = netCDF4.Dataset( cmdLineArgs.annual_file )
-if 'vh' in rootGroup.variables: varName = 'vh'
-else: raise Exception('Could not find "vh" in file "%s"'%(cmdLineArgs.annual_file))
+if 'vh' in rootGroup.variables:
+  varName = 'vh'; conversion_factor = 1.e-6
+elif 'vmo' in rootGroup.variables:
+  varName = 'vmo'; conversion_factor = 1.e-9
+else: raise Exception('Could not find "vh" or "vmo" in file "%s"'%(cmdLineArgs.annual_file))
 if len(rootGroup.variables[varName].shape)==4: VHmod = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
 else: VHmod = rootGroup.variables[varName][:].filled(0.)
 if 'e' in rootGroup.variables: Zmod = rootGroup.variables['e'][0]
@@ -67,10 +70,10 @@ m6plot.setFigureSize(npanels=1)
 cmap = plt.get_cmap('dunnePM')
 
 # Global MOC
-z = Zmod.min(axis=-1); psiPlot = MOCpsi(VHmod)/1e6
+z = Zmod.min(axis=-1); psiPlot = MOCpsi(VHmod)*conversion_factor
 yy = y[1:,:].max(axis=-1)+0*z
 ci=m6plot.pmCI(0.,40.,5.)
-plotPsi(yy, z, psiPlot, ci, 'Global MOC')
+plotPsi(yy, z, psiPlot, ci, 'Global MOC [Sv]')
 plt.xlabel(r'Latitude [$\degree$N]')
 plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
 findExtrema(yy, z, psiPlot, max_lat=-30.)
@@ -82,9 +85,9 @@ plt.savefig(cmdLineArgs.outdir+'/MOC_global.png')
 plt.clf()
 m = 0*basin_code; m[(basin_code==2) | (basin_code==4) | (basin_code==6) | (basin_code==7) | (basin_code==8)]=1
 ci=m6plot.pmCI(0.,22.,2.)
-z = (m*Zmod).min(axis=-1); psiPlot = MOCpsi(VHmod, vmsk=m*numpy.roll(m,1,axis=1))/1e6
+z = (m*Zmod).min(axis=-1); psiPlot = MOCpsi(VHmod, vmsk=m*numpy.roll(m,1,axis=1))*conversion_factor
 yy = y[1:,:].max(axis=-1)+0*z
-plotPsi(yy, z, psiPlot, ci, 'Atlantic MOC')
+plotPsi(yy, z, psiPlot, ci, 'Atlantic MOC [Sv]')
 plt.xlabel(r'Latitude [$\degree$N]')
 plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
 findExtrema(yy, z, psiPlot, min_lat=26.5, max_lat=27.) # RAPID
