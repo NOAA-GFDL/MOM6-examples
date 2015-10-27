@@ -130,11 +130,11 @@
 # "ocean_model",  "opottemptend",   "opottemptend",     "ocean_month",        "all", "mean", "none",2  
 # "ocean_model",  "opottempadvect", "opottempadvect",   "ocean_month",        "all", "mean", "none",2  
  "ocean_model",  "opottemppmdiff", "opottemppmdiff",   "ocean_month",        "all", "mean", "none",2  
-# "ocean_model",  "opottempdiff",   "opottempdiff",     "ocean_month",        "all", "mean", "none",2  
+ "ocean_model",  "opottempdiff",   "opottempdiff",     "ocean_month",        "all", "mean", "none",2  
 # "ocean_model",  "osalttend",      "osalttend",        "ocean_month",        "all", "mean", "none",2  
 # "ocean_model",  "osaltadvect",    "osaltadvect",      "ocean_month",        "all", "mean", "none",2  
  "ocean_model",  "osaltpmdiff",    "osaltpmdiff",      "ocean_month",        "all", "mean", "none",2  
-# "ocean_model",  "osaltdiff",      "osaltdiff",        "ocean_month",        "all", "mean", "none",2  
+ "ocean_model",  "osaltdiff",      "osaltdiff",        "ocean_month",        "all", "mean", "none",2  
 
 # CMIP6 Table 2.11
  "ocean_model",  "difvho",       "difvho",           "ocean_month",        "all", "mean", "none",2 
@@ -251,6 +251,19 @@
  "ocean_model", "MEKE_Ue",          "MEKE_Ue",          "ocean_annual", "all", "mean", "none",2
  "ocean_model", "MEKE_Le",          "MEKE_Le",          "ocean_annual", "all", "mean", "none",2
  "ocean_model", "MEKE_KH",          "MEKE_KH",          "ocean_annual", "all", "mean", "none",2
+
+# vertical diffusion tendencies for T and S
+"ocean_model","opottempdiff"               ,"opottempdiff",               "ocean_annual","all",.true.,"none",2
+"ocean_model","osaltdiff"                  ,"osaltdiff",                  "ocean_annual","all",.true.,"none",2
+"ocean_model","diabatic_diff_temp_tendency","diabatic_diff_temp_tendency","ocean_annual","all",.true.,"none",2
+"ocean_model","diabatic_diff_saln_tendency","diabatic_diff_saln_tendency","ocean_annual","all",.true.,"none",2
+
+# neutral diffusion tendencies for T and S
+"ocean_model","opottemppmdiff"                 ,"opottemppmdiff",                 "ocean_annual","all",.true.,"none",2
+"ocean_model","osaltpmdiff"                    ,"osaltpmdiff",                    "ocean_annual","all",.true.,"none",2
+"ocean_model","ndiff_tracer_conc_tendency_temp","ndiff_tracer_conc_tendency_temp","ocean_annual","all",.true.,"none",2
+"ocean_model","ndiff_tracer_conc_tendency_saln","ndiff_tracer_conc_tendency_saln","ocean_annual","all",.true.,"none",2
+
 
 # Annual layer averages
  "ocean_model", "temp_layer_ave",   "temp_layer_ave",   "ocean_annual", "all", "mean", "none",2
