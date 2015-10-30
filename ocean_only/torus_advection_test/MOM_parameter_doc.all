@@ -869,8 +869,9 @@ KD_SMOOTH = 1.0E-06             !   [not defined] default = 1.0E-06
 ! === module MOM_mixed_layer_restrat ===
 MIXEDLAYER_RESTRAT = False      !   [Boolean] default = False
                                 ! If true, a density-gradient dependent re-stratifying
-                                ! flow is imposed in the mixed layer.
-                                ! This is only used if BULKMIXEDLAYER is true.
+                                ! flow is imposed in the mixed layer. Can be used in ALE mode
+                                ! without restriction but in layer mode can only be used if
+                                ! BULKMIXEDLAYER is true.
 Z_OUTPUT_GRID_FILE = ""         ! default = ""
                                 ! The file that specifies the vertical grid for
                                 ! depth-space diagnostics, or blank to disable
