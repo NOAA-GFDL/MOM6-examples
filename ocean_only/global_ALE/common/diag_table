@@ -5,8 +5,9 @@
 "prog",     1,"days",1,"days","Time",
 "prog_z",   1,"days",1,"days","Time",
 "ave_prog", 1,"days",1,"days","Time",
+"tracer",   1,"days",1,"days","Time",
 "cont",     1,"days",1,"days","Time",
-#"mom",      5,"days",1,"days","Time",
+#"mom",     5,"days",1,"days","Time",
 #"bt_mom",   5,"days",1,"days","Time",
 "visc",     1,"days",1,"days","Time",
 #"energy",   5,"days",1,"days","Time",
@@ -108,14 +109,46 @@
 #
 # Tracer Fluxes:
 #==================
-#"ocean_model","T_adx",  "T_adx",  "ave_prog","all",.true.,"none",2
-#"ocean_model","T_ady",  "T_ady",  "ave_prog","all",.true.,"none",2
-#"ocean_model","T_diffx","T_diffx","ave_prog","all",.true.,"none",2
-#"ocean_model","T_diffy","T_diffy","ave_prog","all",.true.,"none",2
-#"ocean_model","S_adx",  "S_adx",  "ave_prog","all",.true.,"none",2
-#"ocean_model","S_ady",  "S_ady",  "ave_prog","all",.true.,"none",2
-#"ocean_model","S_diffx","S_diffx","ave_prog","all",.true.,"none",2
-#"ocean_model","S_diffy","S_diffy","ave_prog","all",.true.,"none",2
+"ocean_model","T_adx",  "T_adx",  "tracer","all",.true.,"none",2
+"ocean_model","T_ady",  "T_ady",  "tracer","all",.true.,"none",2
+"ocean_model","T_diffx","T_diffx","tracer","all",.true.,"none",2
+"ocean_model","T_diffy","T_diffy","tracer","all",.true.,"none",2
+"ocean_model","S_adx",  "S_adx",  "tracer","all",.true.,"none",2
+"ocean_model","S_ady",  "S_ady",  "tracer","all",.true.,"none",2
+"ocean_model","S_diffx","S_diffx","tracer","all",.true.,"none",2
+"ocean_model","S_diffy","S_diffy","tracer","all",.true.,"none",2
+
+# T/S net tendency and lateral advection budget terms 
+#==================
+"ocean_model","T_tendency"          ,"T_tendency",               "tracer","all",.true.,"none",2
+"ocean_model","S_tendency"          ,"S_tendency",               "tracer","all",.true.,"none",2
+"ocean_model","opottemptend"        ,"opottemptend",             "tracer","all",.true.,"none",2
+"ocean_model","osalttend"           ,"osalttend",                "tracer","all",.true.,"none",2
+"ocean_model","opottemptend_intz"   ,"opottemptend_intz",        "tracer","all",.true.,"none",2
+"ocean_model","osalttend_intz"      ,"osalttend_intz",           "tracer","all",.true.,"none",2
+"ocean_model","T_advection_xy"      ,"T_advection_xy",           "tracer","all",.true.,"none",2
+"ocean_model","S_advection_xy"      ,"S_advection_xy",           "tracer","all",.true.,"none",2
+"ocean_model","T_advection_xy_2d"   ,"T_advection_xy_2d",        "tracer","all",.true.,"none",2
+"ocean_model","S_advection_xy_2d"   ,"S_advection_xy_2d",        "tracer","all",.true.,"none",2
+
+# neutral diffusion tendencies for T and S 
+#==================
+"ocean_model","opottemppmdiff","opottemppmdiff",                  "tracer","all",.true.,"none",2
+#"ocean_model","osaltpmdiff","osaltpmdiff",                        "tracer","all",.true.,"none",2
+"ocean_model","opottemppmdiff_intz","opottemppmdiff_intz",        "tracer","all",.true.,"none",2
+#"ocean_model","osaltpmdiff_intz","osaltpmdiff_intz",              "tracer","all",.true.,"none",2
+#"ocean_model","ndiff_tracer_conc_tendency_T","ndiff_tracer_conc_tendency_T","tracer","all",.true.,"none",2
+#"ocean_model","ndiff_tracer_conc_tendency_S","ndiff_tracer_conc_tendency_S","tracer","all",.true.,"none",2
+
+# diabatic diffusion tendencies for T and S
+#==================
+"ocean_model","opottempdiff"               ,"opottempdiff",               "tracer","all",.true.,"none",2
+"ocean_model","osaltdiff"                  ,"osaltdiff",                  "tracer","all",.true.,"none",2
+"ocean_model","opottempdiff_intz"          ,"opottempdiff_intz",          "tracer","all",.true.,"none",2
+"ocean_model","osaltdiff_intz"             ,"osaltdiff_intz",             "tracer","all",.true.,"none",2
+"ocean_model","diabatic_diff_temp_tendency","diabatic_diff_temp_tendency","tracer","all",.true.,"none",2
+"ocean_model","diabatic_diff_saln_tendency","diabatic_diff_saln_tendency","tracer","all",.true.,"none",2
+
 
 
 # Momentum Balance Terms:
@@ -178,22 +211,6 @@
 "ocean_model","MEKE","MEKE","visc","all",.true.,"none",2
 "ocean_model","MEKE_KH","MEKE_KH","visc","all",.true.,"none",2
 "ocean_model","SN_u","SN_u","visc","all",.true.,"none",2
-
-# neutral diffusion tendencies for T and S 
-#"ocean_model","opottemppmdiff","opottemppmdiff",                  "visc","all",.true.,"none",2
-#"ocean_model","osaltpmdiff","osaltpmdiff",                        "visc","all",.true.,"none",2
-#"ocean_model","opottemppmdiff_intz","opottemppmdiff_intz",        "visc","all",.true.,"none",2
-#"ocean_model","osaltpmdiff_intz","osaltpmdiff_intz",              "visc","all",.true.,"none",2
-#"ocean_model","ndiff_tracer_conc_tendency_T","ndiff_tracer_conc_tendency_T","visc","all",.true.,"none",2
-#"ocean_model","ndiff_tracer_conc_tendency_S","ndiff_tracer_conc_tendency_S","visc","all",.true.,"none",2
-
-# diabatic diffusion tendencies for T and S
-"ocean_model","opottempdiff"               ,"opottempdiff",               "visc","all",.true.,"none",2
-"ocean_model","osaltdiff"                  ,"osaltdiff",                  "visc","all",.true.,"none",2
-"ocean_model","opottempdiff_intz"          ,"opottempdiff_intz",          "visc","all",.true.,"none",2
-"ocean_model","osaltdiff_intz"             ,"osaltdiff_intz",             "visc","all",.true.,"none",2
-"ocean_model","diabatic_diff_temp_tendency","diabatic_diff_temp_tendency","visc","all",.true.,"none",2
-"ocean_model","diabatic_diff_saln_tendency","diabatic_diff_saln_tendency","visc","all",.true.,"none",2
 
 #
 # Kinetic Energy Balance Terms:

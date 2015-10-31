@@ -1164,16 +1164,16 @@
     ! long_name: Heat flux into ocean from geothermal or other internal sources
     ! units: Watt meter-2
 "ocean_model", "T_adx"  [Unused]
-    ! long_name: Advective Zonal Flux of Potential Temperature
+    ! long_name: Advective (by residual mean) Zonal Flux of Potential Temperature
     ! units: Celsius meter3 second-1
 "ocean_model_z_new", "T_adx"  [Unused]
-    ! long_name: Advective Zonal Flux of Potential Temperature
+    ! long_name: Advective (by residual mean) Zonal Flux of Potential Temperature
     ! units: Celsius meter3 second-1
 "ocean_model", "T_ady"  [Unused]
-    ! long_name: Advective Meridional Flux of Potential Temperature
+    ! long_name: Advective (by residual mean) Meridional Flux of Potential Temperature
     ! units: Celsius meter3 second-1
 "ocean_model_z_new", "T_ady"  [Unused]
-    ! long_name: Advective Meridional Flux of Potential Temperature
+    ! long_name: Advective (by residual mean) Meridional Flux of Potential Temperature
     ! units: Celsius meter3 second-1
 "ocean_model", "T_diffx"  [Unused]
     ! long_name: Diffusive Zonal Flux of Potential Temperature
@@ -1188,16 +1188,16 @@
     ! long_name: Diffusive Meridional Flux of Potential Temperature
     ! units: Celsius meter3 second-1
 "ocean_model", "S_adx"  [Unused]
-    ! long_name: Advective Zonal Flux of Salinity
+    ! long_name: Advective (by residual mean) Zonal Flux of Salinity
     ! units: PPT meter3 second-1
 "ocean_model_z_new", "S_adx"  [Unused]
-    ! long_name: Advective Zonal Flux of Salinity
+    ! long_name: Advective (by residual mean) Zonal Flux of Salinity
     ! units: PPT meter3 second-1
 "ocean_model", "S_ady"  [Unused]
-    ! long_name: Advective Meridional Flux of Salinity
+    ! long_name: Advective (by residual mean) Meridional Flux of Salinity
     ! units: PPT meter3 second-1
 "ocean_model_z_new", "S_ady"  [Unused]
-    ! long_name: Advective Meridional Flux of Salinity
+    ! long_name: Advective (by residual mean) Meridional Flux of Salinity
     ! units: PPT meter3 second-1
 "ocean_model", "S_diffx"  [Unused]
     ! long_name: Diffusive Zonal Flux of Salinity
@@ -1268,6 +1268,70 @@
 "ocean_model_z_new", "salt_predia"  [Unused]
     ! long_name: Salinity
     ! units: PPT
+"ocean_model", "T_advection_xy"  [Unused]
+    ! long_name: Horizontal convergence of residual mean heat advective fluxes
+    ! units: W/m2
+"ocean_model_z_new", "T_advection_xy"  [Unused]
+    ! long_name: Horizontal convergence of residual mean heat advective fluxes
+    ! units: W/m2
+"ocean_model", "T_advection_xy_2d"  [Unused]
+    ! long_name: Vertical sum of horizontal convergence of residual mean heat advective fluxes
+    ! units: W/m2
+"ocean_model", "T_tendency"  [Unused]
+    ! long_name: Net time tendency for temperature
+    ! units: degC/s
+"ocean_model_z_new", "T_tendency"  [Unused]
+    ! long_name: Net time tendency for temperature
+    ! units: degC/s
+"ocean_model", "Th_tendency"  [Unused]
+    ! long_name: Net time tendency for heat
+    ! units: W/m2
+"ocean_model", "opottemptend"  [Unused]
+    ! long_name: Tendency of Sea Water Potential Temperature Expressed as Heat Content
+    ! units: W m-2
+    ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content
+"ocean_model_z_new", "Th_tendency"  [Unused]
+    ! long_name: Net time tendency for heat
+    ! units: W/m2
+"ocean_model", "Th_tendency_2d"  [Unused]
+    ! long_name: Vertical sum of net time tendency for heat
+    ! units: W/m2
+"ocean_model", "opottemptend_intz"  [Unused]
+    ! long_name: Tendency of Sea Water Potential Temperature Expressed as Heat Content Vertical Sum
+    ! units: W m-2
+    ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_vertical_sum
+"ocean_model", "S_advection_xy"  [Unused]
+    ! long_name: Horizontal convergence of residual mean salt advective fluxes
+    ! units: kg/(m2 * s)
+"ocean_model_z_new", "S_advection_xy"  [Unused]
+    ! long_name: Horizontal convergence of residual mean salt advective fluxes
+    ! units: kg/(m2 * s)
+"ocean_model", "S_advection_xy_2d"  [Unused]
+    ! long_name: Vertical sum of horizontal convergence of residual mean salt advective fluxes
+    ! units: kg/(m2 * s)
+"ocean_model", "S_tendency"  [Unused]
+    ! long_name: Net time tendency for salinity
+    ! units: PPT/s
+"ocean_model_z_new", "S_tendency"  [Unused]
+    ! long_name: Net time tendency for salinity
+    ! units: PPT/s
+"ocean_model", "Sh_tendency"  [Unused]
+    ! long_name: Net time tendency for salt
+    ! units: kg/(m2 * s)
+"ocean_model", "osalttend"  [Unused]
+    ! long_name: Tendency of Sea Water Salinity Expressed as Salt Content
+    ! units: kg m-2 s-1
+    ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content
+"ocean_model_z_new", "Sh_tendency"  [Unused]
+    ! long_name: Net time tendency for salt
+    ! units: kg/(m2 * s)
+"ocean_model", "Sh_tendency_2d"  [Unused]
+    ! long_name: Vertical sum of net time tendency for salt
+    ! units: kg/(m2 * s)
+"ocean_model", "osalttend_intz"  [Unused]
+    ! long_name: Tendency of Sea Water Salinity Expressed as Salt Content Vertical Sum
+    ! units: kg m-2 s-1
+    ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_vertical_sum
 "ocean_model_z", "temp"  [Used]
     ! long_name: Potential Temperature
     ! units: degC
