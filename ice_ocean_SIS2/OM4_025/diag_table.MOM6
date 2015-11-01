@@ -76,15 +76,20 @@
 # (umo,vmo)  =net mass transport from residual mean velocity (model resolved + SGS)
 # (uhml,vhml)=parameterized mixed layer restrat mass transport  
 # (uhGM,vhGM)=parameterized GM transport mass transport  
+# (T_adx_2d,T_ady_2d) = heat transported by residual mean advection (need to code neutral diffusion diagnostic)
  "ocean_model",  "uo",           "uo",               "ocean_month",        "all", "mean", "none",2
  "ocean_model",  "vo",           "vo",               "ocean_month",        "all", "mean", "none",2
  "ocean_model",  "umo",          "umo",              "ocean_month",        "all", "mean", "none",2  
  "ocean_model",  "vmo",          "vmo",              "ocean_month",        "all", "mean", "none",2  
 #"ocean_model",  "wmo",          "wmo",              "ocean_month",        "all", "mean", "none",2  # needs to be coded 
- "ocean_model", "uhml",          "uhml",             "ocean_month",        "all", "mean", "none",2
- "ocean_model", "vhml",          "vhml",             "ocean_month",        "all", "mean", "none",2
- "ocean_model", "uhGM",          "uhGM",             "ocean_month",        "all", "mean", "none",2
- "ocean_model", "vhGM",          "vhGM",             "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "uhml",         "uhml",             "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "vhml",         "vhml",             "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "uhGM",         "uhGM",             "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "vhGM",         "vhGM",             "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "T_adx",        "T_adx",            "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "T_ady",        "T_ady",            "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "T_adx_2d",     "T_adx_2d",         "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "T_ady_2d",     "T_ady_2d",         "ocean_month",        "all", "mean", "none",2
 ## Offline calculations needed for overturning streamfunctions.  
 ## Code needs to be written for net heat transport. 
 
@@ -235,6 +240,8 @@
  "ocean_model", "MLD_003",          "MLD_003_max",        "ocean_annual", "all", "max",  "none",2
  "ocean_model", "T_ady",            "T_ady",              "ocean_annual", "all", "mean", "none",2
  "ocean_model", "S_ady",            "S_ady",              "ocean_annual", "all", "mean", "none",2
+ "ocean_model", "T_ady_2d",         "T_ady_2d",           "ocean_annual", "all", "mean", "none",2
+ "ocean_model", "S_ady_2d",         "S_ady_2d",           "ocean_annual", "all", "mean", "none",2
  "ocean_model", "TKE_tidal",        "TKE_tidal",          "ocean_annual", "all", "mean", "none",2
  "ocean_model", "TKE_itidal",       "TKE_itidal",         "ocean_annual", "all", "mean", "none",2
  "ocean_model", "tauuo",            "tauuo",              "ocean_annual", "all", "mean", "none",2
