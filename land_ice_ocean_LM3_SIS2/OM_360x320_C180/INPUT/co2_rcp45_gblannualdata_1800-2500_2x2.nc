@@ -1,0 +1,1 @@
+/lustre/f1/unswept/Matthew.Harrison/MOM6_datasets/C180_OM360x320.071315/INPUT/co2_rcp45_gblannualdata_1800-2500_2x2.nc

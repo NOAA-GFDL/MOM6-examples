@@ -1,0 +1,1 @@
+/lustre/f1/pdata/gfdl_O/datasets/reanalysis/MERRA/uv10/uv10_merra_1992.nc

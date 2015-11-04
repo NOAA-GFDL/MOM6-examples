@@ -1,0 +1,1 @@
+/lustre/f1/unswept/Matthew.Harrison/MOM6_datasets/FLOR2/seawifs_1998-2006_smoothed_2X.nc

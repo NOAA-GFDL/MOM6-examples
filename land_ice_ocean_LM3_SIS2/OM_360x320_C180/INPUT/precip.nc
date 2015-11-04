@@ -1,0 +1,1 @@
+/lustre/f1/pdata/gfdl_O/datasets/reanalysis/MERRA/precip/precip_merra_1992.nc
