@@ -1,0 +1,1327 @@
+NOTE from PE     0: MPP_DOMAINS_SET_STACK_SIZE: stack size set to    32768.
+ &MPP_IO_NML
+ HEADER_BUFFER_VAL       =       16384,
+ GLOBAL_FIELD_ON_ROOT_PE = T,
+ IO_CLOCKS_ON    = F,
+ SHUFFLE =           0,
+ DEFLATE_LEVEL   =          -1
+ /
+NOTE from PE     0: MPP_IO_SET_STACK_SIZE: stack size set to     131072.
+NOTE from PE     0: MPP_DOMAINS_SET_STACK_SIZE: stack size set to  5000000.
+ Entering coupler_init at 20151030 160822.466
+ Starting initializing ensemble_manager at 20151030 160822.500
+ Finished initializing ensemble_manager at 20151030 160822.537
+NOTE from PE     0: coupler_init: Atmos PE range:      0    35 ens_01
+NOTE from PE     0: coupler_init: Ocean PE range:     36   323 ens_01
+NOTE from PE     0: coupler_init: Land PE range:      0    35 ens_01
+NOTE from PE     0: coupler_init: Ice PE range:      0    35 ens_01
+NOTE from PE     0: coupler_init: Running with CONCURRENT coupling.
+NOTE from PE     0: coupler_init: Sending LAG fluxes to ocean.
+ Starting to initialize diag_manager at 20151030 160822.562
+ Starting to initialize diag_manager at 20151030 160822.561
+ Finished initializing diag_manager at 20151030 160822.614
+ Finished initializing diag_manager at 20151030 160822.913
+
+WARNING from PE     0: MPP_OPEN: File time_stamp.out opened WRONLY already exists!
+
+
+WARNING from PE     0: MPP_OPEN: File time_stamp.out opened WRONLY already exists!
+
+ Starting to initialize ocean model at 20151030 160822.931
+NOTE from PE    36: callTree: ---> ocean_model_init(), ocean_model_MOM.F90
+NOTE from PE    36: open_param_file: MOM_input has been opened successfully.
+ Starting to initialize tracer_manager at 20151030 160822.941
+ Finished initializing tracer_manager at 20151030 160822.946
+ Starting to initialize coupler_types at 20151030 160822.947
+ 
+ Dumping coupler_mod/types tree
+types/
+      air_sea_gas_flux_generic/
+                               implementation/
+                                              ocmip2/
+                                                     num_parameters = 2
+                               num_flags = 0
+                               use_atm_pressure = T
+                               use_10m_wind_speed = T
+                               pass_through_ice = F
+                               atm/
+                                   name[1] = 'pcair'
+                                   name[2] = 'u10'
+                                   name[3] = 'psurf'
+                                   long_name[1] = 'Atmospheric concentration'
+                                   long_name[2] = 'Wind speed at 10 m'
+ Finished initializing coupler_types at 20151030 160822.963
+ Beginning to initialize component models at 20151030 160822.963
+ Starting to initialize atmospheric model at 20151030 160822.963
+                                   long_name[3] = 'Surface atmospheric pressure'
+                                   units[1] = 'mol/mol'
+                                   units[2] = 'm/s'
+                                   units[3] = 'Pa'
+                               ice/
+                                   name[1] = 'alpha'
+                                   name[2] = 'csurf'
+                                   name[3] = 'sc_no'
+                                   long_name[1] = 'Solubility w.r.t. atmosphere'
+                                   long_name[2] = 'Ocean concentration'
+                                   long_name[3] = 'Schmidt number'
+                                   units[1] = 'mol/m^3/atm'
+                                   units[2] = 'mol/m^3'
+                                   units[3] = 'dimensionless'
+                               flux/
+                                    name[1] = 'flux'
+                                    name[2] = 'deltap'
+                                    name[3] = 'kw'
+                                    long_name[1] = 'Surface flux'
+                                    long_name[2] = 'Ocean-air delta pressure'
+                                    long_name[3] = 'Piston velocity'
+                                    units[1] = 'mol/m^2/s'
+                                    units[2] = 'uatm'
+                                    units[3] = 'm/s'
+      air_sea_gas_flux/
+                       implementation/
+                                      ocmip2/
+                                             num_parameters = 2
+                                      ocmip2_data/
+                                                  num_parameters = 2
+                                      linear/
+                                             num_parameters = 3
+                       num_flags = 0
+                       use_atm_pressure = T
+                       use_10m_wind_speed = T
+                       pass_through_ice = F
+                       atm/
+                           name[1] = 'pcair'
+                           name[2] = 'u10'
+                           name[3] = 'psurf'
+                           long_name[1] = 'Atmospheric concentration'
+                           long_name[2] = 'Wind speed at 10 m'
+                           long_name[3] = 'Surface atmospheric pressure'
+                           units[1] = 'mol/mol'
+                           units[2] = 'm/s'
+                           units[3] = 'Pa'
+                       ice/
+                           name[1] = 'alpha'
+                           name[2] = 'csurf'
+                           long_name[1] = 'Solubility from atmosphere times Schmidt number term'
+                           long_name[2] = 'Ocean concentration times Schmidt number term'
+                           units[1] = 'mol/m^3/atm'
+                           units[2] = 'mol/m^3'
+                       flux/
+                            name = 'flux'
+                            long_name = 'Surface flux'
+                            units = 'mol/m^2/s'
+      air_sea_deposition/
+                         implementation/
+                                        dry/
+                                            num_parameters = 1
+                                        wet/
+                                            num_parameters = 1
+                         num_flags = 0
+                         use_atm_pressure = F
+                         use_10m_wind_speed = F
+                         pass_through_ice = T
+                         atm/
+                             name = 'deposition'
+                             long_name = 'Atmospheric deposition'
+                             units = 'kg/m^2/s'
+                         ice/
+                             name = NULL
+                             long_name = NULL
+                             units = NULL
+                         flux/
+                              name = 'flux'
+                              long_name = 'Surface deposition'
+                              units = 'mol/m^2/s'
+      land_sea_runoff/
+                      implementation/
+                                     river/
+                                           num_parameters = 1
+                      num_flags = 0
+                      use_atm_pressure = F
+                      use_10m_wind_speed = F
+                      pass_through_ice = T
+                      atm/
+                          name = 'runoff'
+                          long_name = 'Concentration in land runoff'
+                          units = 'mol/m^3'
+                      ice/
+                          name = NULL
+                          long_name = NULL
+                          units = NULL
+                      flux/
+                           name = 'flux'
+                           long_name = 'Concentration in land runoff'
+                           units = 'mol/m^3'
+NOTE from PE    36: open_param_file: MOM_layout has been opened successfully.
+NOTE from PE    36: open_param_file: MOM_override has been opened successfully.
+ MOM domain decomposition
+whalo =    4, ehalo =    4, shalo =    4, nhalo =    4
+  X-AXIS =   20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20
+  Y-AXIS =   20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20
+ MOM_MOSAIC domain decomposition
+whalo =    9, ehalo =    9, shalo =    9, nhalo =    9
+  X-AXIS =   40  40  40  40  40  40  40  40  40  40  40  40  40  40  40  40  40  40
+  Y-AXIS =   40  40  40  40  40  40  40  40  40  40  40  40  40  40  40  40
+ ATMCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+ ATMCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+ ATMCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+ ATMCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+ ATMCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+ ATMCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+NOTE from PE     0: grid_mod/get_grid_cell_vertices: domain is not present, global data will be read
+NOTE from PE     0: grid_mod/get_grid_cell_centers: domain is not present, global data will be read
+ Finished initializing atmospheric model at 20151030 160824.123
+ Starting to initialize land model at 20151030 160824.197
+NOTE from PE     0: land_tracers_init: land tracer (1)= "sphum"
+NOTE from PE     0: land_tracers_init: land tracer (2)= "co2"
+NOTE from PE     0: land_tracers_init: isphum=1
+NOTE from PE     0: land_tracers_init: ico2=2
+NOTE from PE     0: river_mod: Cannot dump field list "/land_mod/river_tracer"
+===================================================================
+                 h2o              ice              het             
+-------------------------------------------------------------------
+longname         h2o mass         ice mass         ****************
+units            kg               kg/kg            K               
+flux_units       kg/m2/s          kg/m2/s          W/m2            
+store_units      kg/m2            kg/m2            J/m2            
+t_ref            298.000000       298.000000       298.000000      
+vf_ref           0.00000000       0.00000000       0.00000000      
+q10              1.00000000       1.00000000       1.00000000      
+kinv             1.00000000       1.00000000       1.00000000      
+===================================================================
+NOTE from PE     0: hillslope: Tiled hillslope model not activated based on namelist optiongw_option /= "tiled".
+=====================================================================================================
+                 c4grass          c3grass          tempdec          tropical         evergreen       
+-----------------------------------------------------------------------------------------------------
+Treefall dist. r 0.175000000      0.185000000      0.250000000E-01  0.275000000E-01  0.270000000E-01 
+Mortality kills  F                F                F                F                F               
+Phisiology Type  1                0                0                0                0               
+C1               1.35802500       2.22222200       0.480769200      0.333333300      0.300000000     
+C2               0.400448600      0.400448600      0.400448600      0.361383300      0.300000000     
+C3               0.555555500      0.555555500      0.442307700      1.23076900       0.589743700     
+alpha_leaf       1.00000000       4.00000000       1.00000000       0.800000000      0.120000000     
+alpha_root       0.900000000      0.550000000      1.00000000       0.800000000      0.600000000     
+alpha_vleaf      0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+alpha_sapwood    0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+alpha_wood       0.00000000       0.00000000       0.120000000E-01  0.120000000E-01  0.120000000E-01 
+alpha_repro      0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+beta_leaf        0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+beta_root        1.25000000       1.25000000       1.25000000       1.25000000       1.25000000      
+beta_vleaf       0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+beta_sapwood     0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+beta_wood        0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+beta_repro       0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+dfr              2.20000000       2.20000000       5.80000000       5.80000000       5.80000000      
+srl              112000.000       150000.000       24400.0000       24400.0000       24400.0000      
+root_r           0.110000000E-03  0.110000000E-03  0.290000000E-03  0.290000000E-03  0.290000000E-03 
+root_perm        0.500000000E-06  0.500000000E-06  0.500000000E-06  0.500000000E-06  0.500000000E-06 
+xylem_res        0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+specific_leaf_ar 16.0179385       30.3077864       16.0179385       14.4553302       6.03990344      
+leaf_size        0.400000000E-01  0.400000000E-01  0.400000000E-01  0.400000000E-01  0.400000000E-01 
+leaf_life_span   12.0000000       3.00000000       12.0000000       15.0000000       100.000000      
+alpha_phot       0.500000000E-01  0.600000000E-01  0.600000000E-01  0.600000000E-01  0.600000000E-01 
+m_cond           4.00000000       9.00000000       9.00000000       7.00000000       7.00000000      
+Vmax             0.200000000E-04  0.200000000E-04  0.200000000E-04  0.200000000E-04  0.150000000E-04 
+gamma_resp       0.300000000E-01  0.200000000E-01  0.200000000E-01  0.200000000E-01  0.200000000E-01 
+wet_leaf_dreg    0.300000000      0.300000000      0.300000000      0.300000000      0.300000000     
+leaf_age_onset   100.000000       100.000000       100.000000       100.000000       100.000000      
+leaf_age_tau     0.00000000       0.00000000       150.000000       0.00000000       0.00000000      
+leaf_refl_vis    0.110000000      0.110000000      0.100000000      0.100000000      0.100000000     
+leaf_refl_nir    0.580000000      0.580000000      0.500000000      0.500000000      0.500000000     
+leaf_tran_vis    0.700000000E-01  0.700000000E-01  0.500000000E-01  0.500000000E-01  0.500000000E-01 
+leaf_tran_nir    0.250000000      0.250000000      0.250000000      0.250000000      0.100000000     
+leaf_emis        1.00000000       1.00000000       1.00000000       1.00000000       1.00000000      
+ksi              0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+phi1             0.500000000      0.500000000      0.500000000      0.500000000      0.500000000     
+phi2             0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+mu_bar           1.00000000       1.00000000       1.00000000       1.00000000       1.00000000      
+cmc_lai          0.100000000      0.100000000      0.100000000      0.100000000      0.200000000     
+cmc_pow          0.666666667      0.666666667      0.666666667      0.666666667      0.666666667     
+csc_lai          0.300000000      0.300000000      0.300000000      0.300000000      0.600000000     
+csc_pow          0.666666667      0.666666667      0.666666667      0.666666667      0.666666667     
+fuel_intensity   1.00000000       1.00000000       0.200000000E-02  0.200000000E-02  0.400000000E-02 
+tc_crit          273.160000       273.160000       273.160000       283.160000       263.160000      
+psi_stress_crit_ 0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+fact_crit_phen   0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+cnst_crit_phen   0.300000000      0.150000000      0.150000000      0.300000000      0.300000000     
+fact_crit_fire   0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+cnst_crit_fire   0.150000000      0.400000000      0.150000000      0.150000000      0.150000000     
+smoke_fraction   0.900000000      0.900000000      0.600000000      0.600000000      0.600000000     
+root_exudate_fra 0.00000000       0.00000000       0.00000000       0.00000000       0.00000000      
+tracer_cuticular 0.500000000E-03  0.500000000E-03  0.500000000E-03  0.500000000E-03  0.500000000E-03 
+=====================================================================================================
+ LNDCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+ LNDCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+ LNDCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+ LNDCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+ LNDCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+ LNDCubic-Sphere Grid domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   90  90
+  Y-AXIS =   60  60  60
+NOTE from PE     0: land_model_init: reading NetCDF restart "INPUT/land.res.tile1.nc"
+NOTE from PE     0: land_model_init: Using new land restart read
+NOTE from PE     0: MPP_IO_SET_STACK_SIZE: stack size set to     766080.
+NOTE from PE     0: MPP_IO_SET_STACK_SIZE: stack size set to    1715040.
+
+WARNING from PE    36: MEKE_init: Initializing MEKE with a local equilibrium balance.
+
+
+WARNING from PE    36: MEKE_init: Initializing MEKE with a local equilibrium balance.
+
+ MOM domain decomposition
+whalo =    4, ehalo =    4, shalo =    4, nhalo =    4
+  X-AXIS =   20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20
+  Y-AXIS =   20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20
+MOM Date   1992/01/01 00:00:00      0: En 0.000000E+00, MaxCFL  0.00000, Mass 1.381051764746E+21, Salt  34.72047523289, Temp   3.62062940250
+    Total Energy: 0000000000000000  0.0000000000000000E+00
+    Total Mass:   1.3810517647459879E+21, Change:   0.0000000000000000E+00 Error:  0.00000E+00 ( 0.0E+00)
+    Total Salt:   4.7950773593197126E+19, Change:   0.0000000000000000E+00 Error:  0.00000E+00 ( 0.0E+00)
+    Total Heat:   1.9626085756305606E+25, Change:   0.0000000000000000E+00 Error:  0.00000E+00 ( 0.0E+00)
+      Total age:   0.0000000000000000E+00 years kg
+
+            ======== COMPLETED MOM INITIALIZATION ========
+
+ Finished initializing ocean model at 20151030 160827.526
+ Starting to initialize data_override at 20151030 160827.526
+ Finished initializing data_override at 20151030 160827.573
+ Finished initializing component models at 20151030 160827.573
+NOTE from PE     0: soil_init: Using new soil restart read
+NOTE from PE     0: vegn_init: reading NetCDF restarts "INPUT/vegn1.res.tile1.nc" and "INPUT/vegn2.res.tile1.nc"
+NOTE from PE     0: vegn_init: Using new vegetation restart read
+NOTE from PE     0: vegn_init: did read INPUT/biodata.nc
+NOTE from PE     0: lake_init: reading lake information from river data file
+NOTE from PE     0: lake_init: reading NetCDF restart "INPUT/lake.res.tile1.nc"
+NOTE from PE     0: lake_init: Using new lake restart read
+NOTE from PE     0: glac_init: reading NetCDF restart "INPUT/glac.res.tile1.nc"
+NOTE from PE     0: glac_init: Using new glacier restart read
+NOTE from PE     0: snow_init: Using new snow restart read
+NOTE from PE     0: cana_init: reading NetCDF restart "INPUT/cana.res.tile1.nc"
+NOTE from PE     0: cana_init: Using new canopy restart read
+NOTE from PE     0: topo_rough_init: computing topography standard deviation
+NOTE from PE     0: topography_mod: Reading NetCDF formatted input data file: INPUT/navy_topography.data.nc
+NOTE from PE     0: MPP_IO_SET_STACK_SIZE: stack size set to    2332800.
+NOTE from PE     0: river_mod: tracer numbers: num_phys=2                num_species=2
+NOTE from PE     0: river_init : Read restart files INPUT/river.res.tile1.nc
+NOTE from PE     0: land_transitions_init: reading restart "INPUT/landuse.res"
+==================================================
+                                                  
+--------------------------------------------------
+do_deposition    T                T               
+diff_ratio       1.60000000       1.60000000      
+Henry_const      0.100000000E-01  0.100000000E-01 
+reactivity       1.00000000       1.00000000      
+r_lw             1000.00000       1000.00000      
+r_ls             1000.00000       1000.00000      
+r_gsS            100.000000       100.000000      
+r_gsO            300.000000       300.000000      
+==================================================
+ Finished initializing land model at 20151030 160935.326
+ Starting to initialize ice model at 20151030 160935.361
+NOTE from PE     0: open_param_file: SIS_input has been opened successfully.
+NOTE from PE     0: open_param_file: SIS_layout has been opened successfully.
+NOTE from PE     0: open_param_file: SIS_override has been opened successfully.
+
+WARNING from PE     0: MOM_file_parser : DO_ICEBERGS over-ridden.  Line: 'DO_ICEBERGS = False' in file SIS_override.
+
+
+WARNING from PE     0: MOM_file_parser : DO_ICEBERGS over-ridden.  Line: 'DO_ICEBERGS = False' in file SIS_override.
+
+
+WARNING from PE     0: MOM_file_parser : LAYOUT occurs more times than is permitted. Line: 'LAYOUT = 0,1' in file SIS_layout is being ignored.
+
+
+WARNING from PE     0: MOM_file_parser : LAYOUT occurs more times than is permitted. Line: 'LAYOUT = 0,1' in file SIS_layout is being ignored.
+
+ ice model domain decomposition
+whalo =    2, ehalo =    2, shalo =    2, nhalo =    2
+  X-AXIS =   10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10
+             10  10  10  10  10  10  10  10  10  10  10  10
+  Y-AXIS =  320
+ ice model aux domain decomposition
+whalo =    2, ehalo =    2, shalo =    2, nhalo =    2
+  X-AXIS =   10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10
+             10  10  10  10  10  10  10  10  10  10  10  10
+  Y-AXIS =  320
+ ice_nohalo domain decomposition
+whalo =    0, ehalo =    0, shalo =    0, nhalo =    0
+  X-AXIS =   10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10
+             10  10  10  10  10  10  10  10  10  10  10  10
+  Y-AXIS =  320
+NOTE from PE     0:    Note from ice_grid_mod(set_ice_grid): read grid from mosaic version grid
+NOTE from PE     0:    MOM_grid_init.F90, set_grid_metrics_from_mosaic: reading grid
+ MOM_MOSAIC domain decomposition
+whalo =    5, ehalo =    5, shalo =    5, nhalo =    5
+  X-AXIS =   20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20  20
+             20  20  20  20  20  20  20  20  20  20  20  20
+  Y-AXIS =  640
+NOTE from PE     0:   MOM_grid_init.F90, set_grid_derived_metrics: deriving metrics
+NOTE from PE     0: close_param_file: SIS_input has been closed successfully.
+NOTE from PE     0: close_param_file: SIS_layout has been closed successfully.
+NOTE from PE     0: close_param_file: SIS_override has been closed successfully.
+SIS Date   1992/01/01 00:00:00      0: Area 0.000000000000E+00 0.000000000000E+00, Mass  0.00000000000E+00 0.00000000000E+00
+ Total Ice Mass:   0.0000000000000000E+00, Change:  0.00000E+00 Error:  0.00000E+00 ( 0.0E+00)
+ Total Ice Salt:   0.0000000000000000E+00, Change:  0.00000E+00 Error:  0.00000E+00
+ Total Ice Heat:   0.0000000000000000E+00, Change:  0.00000E+00 Error:  0.00000E+00
+ Finished initializing ice model at 20151030 160936.505
+ Finished initializing component models at 20151030 160936.576
+ Starting to initialize flux_exchange at 20151030 160936.586
+NOTE from PE     0: open_param_file: MOM_input has been opened successfully.
+NOTE from PE     0: open_param_file: MOM_layout has been opened successfully.
+NOTE from PE     0: open_param_file: MOM_override has been opened successfully.
+ ==>Note from atmos_ocean_fluxes_mod(atmos_ocean_fluxes_init): No gas fluxes
+ ==>Note from flux_exchange_mod(flux_exchange_init):
+  Number of exchanged tracers =            1
+ Tracer field name :sphum
+NOTE from PE     0: flux_exchange_mod: tracer "co2" not present in the atmosphere
+ NOTE from xgrid_mod: use second_order conservative exchange
+NOTE from PE     0: xgrid_mod: reading exchange grid information from mosaic grid file
+ Checked data is array of constant 1
+ ATM(ATMOCNLND)=  0.999999999021455       0.999999999021455     
+  0.999999999021455     
+ OCN(ATMOCNLND)=  0.707114905266796       0.707114905266796     
+  0.707114905266796     
+ LND(ATMOCNLND)=  0.292885093754659       0.292885093754659     
+  0.292885093754659     
+ Checked data is array of random number between 0 and 1 using second_order
+ ATM(ATMOCNLND)=  0.502594768431211       0.502594768431211     
+  0.502594768431211     
+ OCN(ATMOCNLND)=  0.342387698662388       0.342387698662388     
+  0.342387698662388     
+ LND(ATMOCNLND)=  0.146528423611781       0.146528423611781     
+  0.146528423611781     
+NOTE from PE     0: xgrid_mod: reading exchange grid information from mosaic grid file
+ Checked data is array of constant 1
+ LND(LNDOCN)=  0.707114905266796       0.707114905266796     
+  0.707114905266796     
+ OCN(LNDOCN)=  0.707114905266796       0.707114905266796     
+  0.707114905266796     
+ Finsihed initializing flux_exchange at 20151030 160938.193
+ BEGIN CHECKSUM(ocean_type):: coupler_init+           0
+   CHECKSUM::     ocean%t_surf    =     AED3FC140227B031
+   CHECKSUM::     ocean%s_surf    =     93C3EEA28067821E
+   CHECKSUM::     ocean%u_surf    =                    0
+   CHECKSUM::     ocean%v_surf    =                    0
+   CHECKSUM::     ocean%sea_lev   =     252A9C59000268AF
+   CHECKSUM::     ocean%frazil    =                    0
+ BEGIN CHECKSUM(ice_ocean_boundary_type):: coupler_init+           0
+   CHECKSUM::iobt%u_flux          =                    0
+   CHECKSUM::iobt%v_flux          =                    0
+   CHECKSUM::iobt%t_flux          =                    0
+   CHECKSUM::iobt%q_flux          =                    0
+   CHECKSUM::iobt%salt_flux       =                    0
+   CHECKSUM::iobt%lw_flux         =                    0
+   CHECKSUM::iobt%sw_flux_vis_dir =                    0
+   CHECKSUM::iobt%sw_flux_vis_dif =                    0
+   CHECKSUM::iobt%sw_flux_nir_dir =                    0
+   CHECKSUM::iobt%sw_flux_nir_dif =                    0
+   CHECKSUM::iobt%lprec           =                    0
+   CHECKSUM::iobt%fprec           =                    0
+   CHECKSUM::iobt%runoff          =                    0
+   CHECKSUM::iobt%calving         =                    0
+   CHECKSUM::iobt%p               =                    0
+ BEGIN CHECKSUM(Atmos_data_type):: coupler_init+           0
+CHECKSUM::     atm%lon_bnd                 =     44D6C0272376B145
+CHECKSUM::     atm%lat_bnd                 =     889769A2D2EF524B
+CHECKSUM::     atm%t_bot                   =     60D6000000000000
+CHECKSUM::     atm%tr_bot(:,:,n)           =                    0
+CHECKSUM::     atm%tr_bot(:,:,n)           =                    0
+CHECKSUM::     atm%z_bot                   =     C980000000000000
+CHECKSUM::     atm%p_bot                   =     2608D00000000000
+CHECKSUM::     atm%u_bot                   =                    0
+CHECKSUM::     atm%v_bot                   =                    0
+CHECKSUM::     atm%p_surf                  =     DF6DC00000000000
+CHECKSUM::     atm%slp                     =     DF6DC00000000000
+CHECKSUM::     atm%gust                    =                    0
+CHECKSUM::     atm%coszen                  =                    0
+CHECKSUM::     atm%flux_sw                 =                    0
+CHECKSUM::     atm%flux_sw_dir             =                    0
+CHECKSUM::     atm%flux_sw_dif             =                    0
+CHECKSUM::     atm%flux_sw_down_vis_dir    =                    0
+CHECKSUM::     atm%flux_sw_down_vis_dif    =                    0
+CHECKSUM::     atm%flux_sw_down_total_dir  =                    0
+CHECKSUM::     atm%flux_sw_down_total_dif  =                    0
+CHECKSUM::     atm%flux_sw_vis             =                    0
+CHECKSUM::     atm%flux_sw_vis_dir         =                    0
+CHECKSUM::     atm%flux_sw_vis_dif         =                    0
+CHECKSUM::     atm%flux_lw                 =                    0
+CHECKSUM::     atm%lprec                   =                    0
+CHECKSUM::     atm%fprec                   =                    0
+ BEGIN CHECKSUM(lnd_ice_Atm_bnd_type):: coupler_init+           0
+CHECKSUM::lnd_ice_atm_bnd_type%t           =     60D6000000000000
+CHECKSUM::lnd_ice_atm_bnd_type%albedo      =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%albedo_vis_ =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%albedo_nir_ =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%albedo_vis_ =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%albedo_nir_ =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%land_frac   =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%dt_t        =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%dt_tr(:,:,n =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%dt_tr(:,:,n =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%dt_tr(:,:,n =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%dt_tr(:,:,n =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%u_flux      =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%v_flux      =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%dtaudu      =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%dtaudv      =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%u_star      =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%b_star      =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%q_star      =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%rough_mom   =     9A00000000005B20
+ BEGIN CHECKSUM(ice_data_type):: coupler_init+           0
+   CHECKSUM::ice_data_type%part_size          =     E000000000000000
+   CHECKSUM::ice_data_type%albedo             =                    0
+   CHECKSUM::ice_data_type%albedo_vis_dir     =                    0
+   CHECKSUM::ice_data_type%albedo_nir_dir     =                    0
+   CHECKSUM::ice_data_type%albedo_vis_dif     =                    0
+   CHECKSUM::ice_data_type%albedo_nir_dif     =                    0
+   CHECKSUM::ice_data_type%rough_mom          =     7AE147AE147E9C00
+   CHECKSUM::ice_data_type%rough_heat         =     7AE147AE147E9C00
+   CHECKSUM::ice_data_type%rough_moist        =     7AE147AE147E9C00
+   CHECKSUM::ice_data_type%t_surf             =     8FC000000004A400
+   CHECKSUM::ice_data_type%u_surf             =                    0
+   CHECKSUM::ice_data_type%v_surf             =                    0
+   CHECKSUM::ice_data_type%s_surf             =                    0
+   CHECKSUM::ice_data_type%flux_u             =                    0
+   CHECKSUM::ice_data_type%flux_v             =                    0
+   CHECKSUM::ice_data_type%flux_t             =                    0
+   CHECKSUM::ice_data_type%flux_q             =                    0
+   CHECKSUM::ice_data_type%flux_lw            =                    0
+   CHECKSUM::ice_data_type%flux_sw_vis_dir    =                    0
+   CHECKSUM::ice_data_type%flux_sw_vis_dif    =                    0
+   CHECKSUM::ice_data_type%flux_sw_nir_dir    =                    0
+   CHECKSUM::ice_data_type%flux_sw_nir_dif    =                    0
+   CHECKSUM::ice_data_type%flux_lh            =                    0
+   CHECKSUM::ice_data_type%lprec              =                    0
+   CHECKSUM::ice_data_type%fprec              =                    0
+   CHECKSUM::ice_data_type%p_surf             =                    0
+   CHECKSUM::ice_data_type%runoff             =                    0
+   CHECKSUM::ice_data_type%calving            =                    0
+   CHECKSUM::ice_data_type%flux_salt          =                    0
+ BEGIN CHECKSUM(atmos_ice_boundary_type):: coupler_init+           0
+CHECKSUM::atm_ice_bnd_type%u_flux          =                    0
+CHECKSUM::atm_ice_bnd_type%v_flux          =                    0
+CHECKSUM::atm_ice_bnd_type%u_star          =                    0
+CHECKSUM::atm_ice_bnd_type%t_flux          =                    0
+CHECKSUM::atm_ice_bnd_type%q_flux          =                    0
+CHECKSUM::atm_ice_bnd_type%lw_flux         =                    0
+CHECKSUM::atm_ice_bnd_type%sw_flux_vis_dir =                    0
+CHECKSUM::atm_ice_bnd_type%sw_flux_vis_dif =                    0
+CHECKSUM::atm_ice_bnd_type%sw_flux_nir_dir =                    0
+CHECKSUM::atm_ice_bnd_type%sw_flux_nir_dif =                    0
+CHECKSUM::atm_ice_bnd_type%lprec           =                    0
+CHECKSUM::atm_ice_bnd_type%fprec           =                    0
+CHECKSUM::atm_ice_bnd_type%dhdt            =                    0
+CHECKSUM::atm_ice_bnd_type%dedt            =                    0
+CHECKSUM::atm_ice_bnd_type%drdt            =                    0
+CHECKSUM::atm_ice_bnd_type%coszen          =                    0
+CHECKSUM::atm_ice_bnd_type%p               =                    0
+ BEGIN CHECKSUM(ocean_ice_boundary_type):: coupler_init+           0
+CHECKSUM::      ocn_ice_bnd_type%u         =                    0
+CHECKSUM::      ocn_ice_bnd_type%v         =                    0
+CHECKSUM::      ocn_ice_bnd_type%t         =     BE20000000000000
+CHECKSUM::      ocn_ice_bnd_type%s         =                    0
+CHECKSUM::      ocn_ice_bnd_type%frazil    =                    0
+CHECKSUM::      ocn_ice_bnd_type%sea_level =                    0
+ BEGIN CHECKSUM(land_data_type):: coupler_init+           0
+CHECKSUM::         land%tile_size          =     9D7C4CA5686730D0
+CHECKSUM::         land%t_surf             =     83BCDED1B11AC50D
+CHECKSUM::         land%t_ca               =     82812B9BFB4702A2
+CHECKSUM::         land%albedo             =     8931B342F0F8F330
+CHECKSUM::         land%albedo_vis_dir     =     9977695D778FEF98
+CHECKSUM::         land%albedo_nir_dir     =     DC808E7BDBBFEDC4
+CHECKSUM::         land%albedo_vis_dif     =     3ABC182297CB80CC
+CHECKSUM::         land%albedo_nir_dif     =     86506C1F542E2ACE
+CHECKSUM::         land%rough_mom          =      6C091842BD0F84B
+CHECKSUM::         land%rough_heat         =     2B914E1CC5C0C301
+CHECKSUM::         land%rough_scale        =     ED652CF00D37AE1C
+CHECKSUM::         land%tr                 =     C672FFDBEBDAEAE6
+CHECKSUM::         land%tr                 =     A1739A3D9CF099C4
+CHECKSUM::         land%discharge          =                    0
+CHECKSUM::         land%discharge_snow     =                    0
+CHECKSUM::         land%discharge_heat     =                    0
+ BEGIN CHECKSUM(atmos_land_boundary_type):: coupler_init+           0
+ Exiting coupler_init at 20151030 160938.223
+CHECKSUM::     albt%t_flux                 =     5A00000000059A60
+CHECKSUM::     albt%lw_flux                =     5A00000000059A60
+CHECKSUM::     albt%lwdn_flux              =     5A00000000059A60
+CHECKSUM::     albt%sw_flux                =     5A00000000059A60
+CHECKSUM::   albt%swdn_flux                =     5A00000000059A60
+CHECKSUM::     albt%lprec                  =     5A00000000059A60
+CHECKSUM::     albt%fprec                  =     5A00000000059A60
+CHECKSUM::     albt%tprec                  =     5A00000000059A60
+CHECKSUM::     albt%sw_flux_down_vis_dir   =     5A00000000059A60
+CHECKSUM::     albt%sw_flux_down_total_dir =     5A00000000059A60
+CHECKSUM::     albt%sw_flux_down_vis_dif   =     5A00000000059A60
+CHECKSUM::     albt%sw_flux_down_total_dif =     5A00000000059A60
+CHECKSUM::     albt%dhdt                   =     5A00000000059A60
+CHECKSUM::     albt%dhdq                   =     5A00000000059A60
+CHECKSUM::     albt%drdt                   =     5A00000000059A60
+CHECKSUM::     albt%cd_m                   =     5A00000000059A60
+CHECKSUM::     albt%cd_t                   =     5A00000000059A60
+CHECKSUM::     albt%ustar                  =     5A00000000059A60
+CHECKSUM::     albt%bstar                  =     5A00000000059A60
+CHECKSUM::     albt%wind                   =     5A00000000059A60
+CHECKSUM::     albt%z_bot                  =     5A00000000059A60
+CHECKSUM::     albt%drag_q                 =     5A00000000059A60
+CHECKSUM::     albt%p_surf                 =     5A00000000059A60
+CHECKSUM::     albt%tr_flux                =     5A00000000059A60
+CHECKSUM::     albt%tr_flux                =     5A00000000059A60
+CHECKSUM::     albt%dfdtr                  =     5A00000000059A60
+CHECKSUM::     albt%dfdtr                  =     5A00000000059A60
+NOTE from PE     0: Lnd_stock_pe: Heat stock not yet implemented
+
+
+ &ICE_SPEC_NML
+ MCM_ICE = F,
+ DO_LEADS        = T,
+ MINIMUM_ICE_CONCENTRATION       =  0.200000000000000     ,
+ MINIMUM_ICE_THICKNESS   =   1.00000000000000     ,
+ SST_DEGK        = F,
+ SST_PERT        =  0.000000000000000E+000,
+ REPEAT_DATE     = 3*-1
+ /
+MOM Date   1992/01/01 06:00:00      6: En 4.443775E-04, MaxCFL  0.03298, Mass 1.381051112698E+21, Salt  34.72048942991, Temp   3.62068113673
+    Total Energy: 43A108A86A8185DA  6.1370803692574643E+17
+    Total Mass:   1.3810511126977996E+21, Change:  -6.5204818836481850E+14 Error: -3.68311E+02 (-2.7E-19)
+    Total Salt:   4.7950770560583803E+19, Change:  -3.0326133218925298E+12 Error:  2.05107E+02 ( 4.3E-18)
+    Total Heat:   1.9626356921996136E+25, Change:   2.7116569053427840E+20 Error: -1.94509E+07 (-9.9E-19)
+      Total age:   9.4460947747417702E+17 years kg
+SIS Date   1992/01/01 06:00:00      6: Area 8.723327210374E+12 7.554615416115E+10, Mass  6.35023154870E+14 3.37619577458E+12
+ Total Ice Mass:   6.3839935064457475E+14, Change:  6.38399E+14 Error:  2.13976E-02 ( 3.4E-17)
+ Total Ice Salt:   3.1916625358611279E+09, Change:  3.19166E+09 Error:  2.94032E-07 ( 9.2E-17)
+ Total Ice Heat:  -2.1153540442102052E+20, Change: -2.11535E+20 Error: -2.45060E+03 ( 1.2E-17)
+MOM Date   1992/01/01 12:00:00     12: En 4.716863E-04, MaxCFL  0.04861, Mass 1.381050888810E+21, Salt  34.72049440084, Temp   3.62067538281
+    Total Energy: 43A214A315700433  6.5142275234294003E+17
+    Total Mass:   1.3810508888098915E+21, Change:  -2.2388790893578762E+14 Error:  4.69759E+01 ( 3.4E-20)
+    Total Salt:   4.7950769652201308E+19, Change:  -9.0838248811795911E+11 Error: -1.84691E+01 (-3.9E-19)
+    Total Heat:   1.9626322550439341E+25, Change:  -3.4371556797602800E+19 Error:  4.51188E+07 ( 2.3E-18)
+      Total age:   1.8876718199120358E+18 years kg
+SIS Date   1992/01/01 12:00:00     12: Area 9.292583876554E+12 7.770082719565E+10, Mass  8.13549827669E+14 3.55435489210E+12
+ Total Ice Mass:   8.1710418256087700E+14, Change:  1.78705E+14 Error:  3.21977E-02 ( 3.9E-17)
+ Total Ice Salt:   4.0840484114218316E+09, Change:  8.92386E+08 Error:  1.34844E-07 ( 3.3E-17)
+ Total Ice Heat:  -2.7811630503963617E+20, Change: -6.65809E+19 Error:  7.04835E+04 (-2.5E-16)
+MOM Date   1992/01/01 18:00:00     18: En 4.842193E-04, MaxCFL  0.04878, Mass 1.381050690779E+21, Salt  34.72049877715, Temp   3.62068446998
+    Total Energy: 43A28F9F59CB3BA1  6.6873141118145754E+17
+    Total Mass:   1.3810506907794892E+21, Change:  -1.9803040185226703E+14 Error:  1.85209E+02 ( 1.3E-19)
+    Total Salt:   4.7950768820396868E+19, Change:  -8.3180444050430188E+11 Error:  3.86642E+01 ( 8.1E-19)
+    Total Heat:   1.9626368994303904E+25, Change:   4.6443864564823769E+19 Error: -4.54724E+07 (-2.3E-18)
+      Total age:   2.8295021633086664E+18 years kg
+SIS Date   1992/01/01 18:00:00     18: Area 9.532406217103E+12 7.700991327506E+10, Mass  9.78059435768E+14 3.60017628484E+12
+ Total Ice Mass:   9.8165961205283588E+14, Change:  1.64555E+14 Error:  3.49068E-02 ( 3.6E-17)
+ Total Ice Salt:   4.9052070453278933E+09, Change:  8.21159E+08 Error:  1.19813E-07 ( 2.4E-17)
+ Total Ice Heat:  -3.3702529304469937E+20, Change: -5.89090E+19 Error:  2.50034E+04 (-7.4E-17)
+MOM Date   1992/01/02 00:00:00     24: En 6.285077E-04, MaxCFL  0.04521, Mass 1.381050513027E+21, Salt  34.72050269062, Temp   3.62073718542
+    Total Energy: 43A81784731AA40F  8.6800090563884019E+17
+    Total Mass:   1.3810505130265469E+21, Change:  -1.7775294189693297E+14 Error:  2.01081E+02 ( 1.5E-19)
+    Total Salt:   4.7950768053422604E+19, Change:  -7.6697426454225940E+11 Error:  2.45115E+01 ( 5.1E-19)
+    Total Heat:   1.9626652218785601E+25, Change:   2.8322448169672383E+20 Error: -2.10110E+07 (-1.1E-18)
+      Total age:   3.7704308923501000E+18 years kg
+SIS Date   1992/01/02 00:00:00     24: Area 9.695753578674E+12 7.089485892908E+10, Mass  1.13003378362E+15 3.45997485120E+12
+ Total Ice Mass:   1.1334937584674510E+15, Change:  1.51834E+14 Error:  2.82299E-02 ( 2.5E-17)
+ Total Ice Salt:   5.6618957537333784E+09, Change:  7.56689E+08 Error:  1.66605E-07 ( 2.9E-17)
+ Total Ice Heat:  -3.9085779218948647E+20, Change: -5.38325E+19 Error:  2.80560E+04 (-7.2E-17)
+MOM Date   1992/01/02 06:00:00     30: En 5.966472E-04, MaxCFL  0.03920, Mass 1.381050334113E+21, Salt  34.72050666999, Temp   3.62077533053
+    Total Energy: 43A6DEDEE7BC5214  8.2399980027124378E+17
+    Total Mass:   1.3810503341129096E+21, Change:  -1.7891363730743503E+14 Error: -1.37141E+01 (-9.9E-21)
+    Total Salt:   4.7950767337164194E+19, Change:  -7.1625841692655725E+11 Error: -7.99914E+01 (-1.7E-18)
+    Total Heat:   1.9626856446388660E+25, Change:   2.0422760305891279E+20 Error:  3.43590E+07 ( 1.8E-18)
+      Total age:   4.7105866964183849E+18 years kg
+SIS Date   1992/01/02 06:00:00     30: Area 9.796127717811E+12 6.551790317393E+10, Mass  1.27249174353E+15 3.45325862012E+12
+ Total Ice Mass:   1.2759450021532242E+15, Change:  1.42451E+14 Error:  1.94378E-02 ( 1.5E-17)
+ Total Ice Salt:   6.3711324445841475E+09, Change:  7.09237E+08 Error:  1.33364E-07 ( 2.1E-17)
+ Total Ice Heat:  -4.4145464042634091E+20, Change: -5.05968E+19 Error:  2.85963E+04 (-6.5E-17)
+MOM Date   1992/01/02 12:00:00     36: En 6.209303E-04, MaxCFL  0.05078, Mass 1.381050166949E+21, Salt  34.72051038421, Temp   3.62077176855
+    Total Energy: 43A7CD28951C9822  8.5753582699649869E+17
+    Total Mass:   1.3810501669494684E+21, Change:  -1.6716344141995066E+14 Error:  4.81167E+02 ( 3.5E-19)
+    Total Salt:   4.7950766662679822E+19, Change:  -6.7448436708921570E+11 Error:  1.08023E+02 ( 2.3E-18)
+    Total Heat:   1.9626834762621425E+25, Change:  -2.1683767236774932E+19 Error: -8.32125E+06 (-4.2E-19)
+      Total age:   5.6499241926962330E+18 years kg
+SIS Date   1992/01/02 12:00:00     36: Area 9.866117950619E+12 6.362997321282E+10, Mass  1.40625996084E+15 3.71452760495E+12
+ Total Ice Mass:   1.4099744884456188E+15, Change:  1.34029E+14 Error:  1.73530E-02 ( 1.2E-17)
+ Total Ice Salt:   7.0389833119523764E+09, Change:  6.67851E+08 Error:  1.65458E-07 ( 2.4E-17)
+ Total Ice Heat:  -4.8893031705027222E+20, Change: -4.74757E+19 Error:  3.86442E+04 (-7.9E-17)
+MOM Date   1992/01/02 18:00:00     42: En 6.234255E-04, MaxCFL  0.07065, Mass 1.381050018711E+21, Salt  34.72051365210, Temp   3.62077915656
+    Total Energy: 43A7E5A4E0C06B4A  8.6098185887348454E+17
+    Total Mass:   1.3810500187108097E+21, Change:  -1.4823865852386022E+14 Error: -3.35872E+02 (-2.4E-19)
+    Total Salt:   4.7950766028875547E+19, Change:  -6.3380428088841577E+11 Error:  2.06650E+01 ( 4.3E-19)
+    Total Heat:   1.9626872703525747E+25, Change:   3.7940904324114702E+19 Error:  1.59118E+07 ( 8.1E-19)
+      Total age:   6.5885054921843139E+18 years kg
+SIS Date   1992/01/02 18:00:00     42: Area 9.932269849643E+12 6.195406471723E+10, Mass  1.53193350670E+15 3.78431296260E+12
+ Total Ice Mass:   1.5357178196645742E+15, Change:  1.25743E+14 Error:  1.51662E-02 ( 9.9E-18)
+ Total Ice Salt:   7.6661469861499596E+09, Change:  6.27164E+08 Error:  1.44148E-07 ( 1.9E-17)
+ Total Ice Heat:  -5.3359119208164360E+20, Change: -4.46609E+19 Error:  3.97317E+04 (-7.4E-17)
+MOM Date   1992/01/03 00:00:00     48: En 6.358721E-04, MaxCFL  0.04341, Mass 1.381049879998E+21, Salt  34.72051670369, Temp   3.62083031285
+    Total Energy: 43A85FC7F4C8AB31  8.7817111692519642E+17
+    Total Mass:   1.3810498799980328E+21, Change:  -1.3871277739769389E+14 Error: -1.40081E+02 (-1.0E-19)
+    Total Salt:   4.7950765427095544E+19, Change:  -6.0177999877624756E+11 Error: -6.88056E+00 (-1.4E-19)
+    Total Heat:   1.9627148031061298E+25, Change:   2.7532753555040987E+20 Error: -3.10002E+07 (-1.6E-18)
+      Total age:   7.5266345428482376E+18 years kg
+SIS Date   1992/01/03 00:00:00     48: Area 1.003671327411E+13 5.857586861373E+10, Mass  1.65208532163E+15 3.66031672012E+12
+ Total Ice Mass:   1.6557456383487208E+15, Change:  1.20028E+14 Error: -7.25481E-03 (-4.4E-18)
+ Total Ice Salt:   8.2644321588432570E+09, Change:  5.98285E+08 Error:  8.00623E-08 ( 9.7E-18)
+ Total Ice Heat:  -5.7641009105177706E+20, Change: -4.28189E+19 Error:  5.29269E+04 (-9.2E-17)
+MOM Date   1992/01/03 06:00:00     54: En 6.403026E-04, MaxCFL  0.04829, Mass 1.381049734113E+21, Salt  34.72051995103, Temp   3.62087308374
+    Total Energy: 43A88B41B8530AE2  8.8428976929803085E+17
+    Total Mass:   1.3810497341134762E+21, Change:  -1.4588455590034488E+14 Error:  3.03319E+02 ( 2.2E-19)
+    Total Salt:   4.7950764846658085E+19, Change:  -5.8043746328114978E+11 Error:  7.80727E+01 ( 1.6E-18)
+    Total Heat:   1.9627377802521766E+25, Change:   2.2977146046794564E+20 Error:  6.00414E+07 ( 3.1E-18)
+      Total age:   8.4644035192482109E+18 years kg
+SIS Date   1992/01/03 06:00:00     54: Area 1.008736776916E+13 5.602711627711E+10, Mass  1.76772462102E+15 3.83608649233E+12
+ Total Ice Mass:   1.7715607075106920E+15, Change:  1.15815E+14 Error:  2.18521E-02 ( 1.2E-17)
+ Total Ice Salt:   8.8414674761046410E+09, Change:  5.77035E+08 Error:  1.47842E-07 ( 1.7E-17)
+ Total Ice Heat:  -6.1785902273216211E+20, Change: -4.14489E+19 Error:  4.19947E+04 (-6.8E-17)
+MOM Date   1992/01/03 12:00:00     60: En 6.477601E-04, MaxCFL  0.03798, Mass 1.381049590992E+21, Salt  34.72052314152, Temp   3.62087063830
+    Total Energy: 43A8D46F8DE4D715  8.9458880359665114E+17
+    Total Mass:   1.3810495909922286E+21, Change:  -1.4312124781771697E+14 Error: -9.43618E+01 (-6.8E-20)
+    Total Salt:   4.7950764283635876E+19, Change:  -5.6302219967961707E+11 Error: -4.44008E+01 (-9.3E-19)
+    Total Heat:   1.9627362512662261E+25, Change:  -1.5289859505888293E+19 Error: -1.44921E+07 (-7.4E-19)
+      Total age:   9.4015778591933399E+18 years kg
+SIS Date   1992/01/03 12:00:00     60: Area 1.016239470427E+13 5.571964689411E+10, Mass  1.87970953485E+15 4.23631584378E+12
+ Total Ice Mass:   1.8839458506909072E+15, Change:  1.12385E+14 Error:  1.40532E-02 ( 7.5E-18)
+ Total Ice Salt:   9.4017883013245869E+09, Change:  5.60321E+08 Error:  2.11791E-07 ( 2.3E-17)
+ Total Ice Heat:  -6.5797604665567674E+20, Change: -4.01170E+19 Error:  4.95311E+04 (-7.5E-17)
+MOM Date   1992/01/03 18:00:00     66: En 6.517208E-04, MaxCFL  0.03984, Mass 1.381049460960E+21, Salt  34.72052601552, Temp   3.62087962081
+    Total Energy: 43A8FB4D32E66AB2  9.0005867853705037E+17
+    Total Mass:   1.3810494609602414E+21, Change:  -1.3003198718386388E+14 Error:  3.22194E+02 ( 2.3E-19)
+    Total Salt:   4.7950763737988538E+19, Change:  -5.4564734973286841E+11 Error:  6.43174E+01 ( 1.3E-18)
+    Total Heat:   1.9627409355455665E+25, Change:   4.6842793402638451E+19 Error: -9.96796E+06 (-5.1E-19)
+      Total age:   1.0338176577088510E+19 years kg
+SIS Date   1992/01/03 18:00:00     66: Area 1.023106052563E+13 5.709473073139E+10, Mass  1.98840775496E+15 4.40643313247E+12
+ Total Ice Mass:   1.9928141880961008E+15, Change:  1.08868E+14 Error:  1.22912E-02 ( 6.2E-18)
+ Total Ice Salt:   9.9447168176468315E+09, Change:  5.42929E+08 Error:  1.62330E-07 ( 1.6E-17)
+ Total Ice Heat:  -6.9697901118683061E+20, Change: -3.90030E+19 Error:  5.72814E+04 (-8.2E-17)
+MOM Date   1992/01/04 00:00:00     72: En 6.579951E-04, MaxCFL  0.03467, Mass 1.381049340002E+21, Salt  34.72052867296, Temp   3.62093632051
+    Total Energy: 43A938DED0E62B9F  9.0872371922008870E+17
+    Total Mass:   1.3810493400018903E+21, Change:  -1.2095835147185269E+14 Error:  3.51153E+02 ( 2.5E-19)
+    Total Salt:   4.7950763208304722E+19, Change:  -5.2968380746500153E+11 Error: -9.80784E+01 (-2.0E-18)
+    Total Heat:   1.9627714983846457E+25, Change:   3.0562839079217221E+20 Error: -1.83221E+06 (-9.3E-20)
+      Total age:   1.1274566805074020E+19 years kg
+SIS Date   1992/01/04 00:00:00     72: Area 1.026819625063E+13 5.698940200441E+10, Mass  2.09414415194E+15 4.36246394448E+12
+ Total Ice Mass:   2.0985066158852892E+15, Change:  1.05692E+14 Error:  2.17232E-02 ( 1.0E-17)
+ Total Ice Salt:   1.0471816910249195E+10, Change:  5.27100E+08 Error:  2.29295E-07 ( 2.2E-17)
+ Total Ice Heat:  -7.3505746809888139E+20, Change: -3.80785E+19 Error:  6.24672E+04 (-8.5E-17)
+MOM Date   1992/01/04 06:00:00     78: En 6.555401E-04, MaxCFL  0.03025, Mass 1.381049211826E+21, Salt  34.72053152048, Temp   3.62098066803
+    Total Energy: 43A920C76F86F4B9  9.0533316601121088E+17
+    Total Mass:   1.3810492118262014E+21, Change:  -1.2817568879424372E+14 Error: -1.20774E+02 (-8.7E-20)
+    Total Salt:   4.7950762690548441E+19, Change:  -5.1775627504145575E+11 Error:  3.87679E+01 ( 8.1E-19)
+    Total Heat:   1.9627953553187491E+25, Change:   2.3856934103619859E+20 Error:  7.01878E+06 ( 3.6E-19)
+      Total age:   1.2210764266144963E+19 years kg
+SIS Date   1992/01/04 06:00:00     78: Area 1.030748043813E+13 5.687438663319E+10, Mass  2.19755046002E+15 4.56809759976E+12
+ Total Ice Mass:   2.2021185576224482E+15, Change:  1.03612E+14 Error:  2.76081E-02 ( 1.3E-17)
+ Total Ice Salt:   1.0987853159022095E+10, Change:  5.16036E+08 Error:  2.94693E-07 ( 2.7E-17)
+ Total Ice Heat:  -7.7252334590982907E+20, Change: -3.74659E+19 Error:  6.17535E+04 (-8.0E-17)
+MOM Date   1992/01/04 12:00:00     84: En 6.435226E-04, MaxCFL  0.03261, Mass 1.381049089542E+21, Salt  34.72053422769, Temp   3.62097525004
+    Total Energy: 43A8AAD9E1251560  8.8873628198205440E+17
+    Total Mass:   1.3810490895420049E+21, Change:  -1.2228419630681292E+14 Error: -2.68864E+02 (-1.9E-19)
+    Total Salt:   4.7950762183558177E+19, Change:  -5.0699027587827161E+11 Error:  1.96360E+01 ( 4.1E-19)
+    Total Heat:   1.9627922446346431E+25, Change:  -3.1106841059416666E+19 Error:  1.70215E+07 ( 8.7E-19)
+      Total age:   1.3146406731354245E+19 years kg
+SIS Date   1992/01/04 12:00:00     84: Area 1.035065190828E+13 5.692673809236E+10, Mass  2.29855997236E+15 4.96737823531E+12
+ Total Ice Mass:   2.3035273505967715E+15, Change:  1.01409E+14 Error:  3.96316E-02 ( 1.7E-17)
+ Total Ice Salt:   1.1492750123717890E+10, Change:  5.04897E+08 Error:  1.53348E-07 ( 1.3E-17)
+ Total Ice Heat:  -8.0875936155100185E+20, Change: -3.62360E+19 Error:  6.79259E+04 (-8.4E-17)
+MOM Date   1992/01/04 18:00:00     90: En 6.245834E-04, MaxCFL  0.03394, Mass 1.381048978020E+21, Salt  34.72053667534, Temp   3.62098148763
+    Total Energy: 43A7F1004ED1B2CB  8.6258023539260762E+17
+    Total Mass:   1.3810489780196677E+21, Change:  -1.1152233706893258E+14 Error: -3.00578E+01 (-2.2E-20)
+    Total Salt:   4.7950761691776221E+19, Change:  -4.9178194672999066E+11 Error: -1.53365E+01 (-3.2E-19)
+    Total Heat:   1.9627954672945110E+25, Change:   3.2226598678068511E+19 Error: -3.26221E+07 (-1.7E-18)
+      Total age:   1.4081498343997346E+19 years kg
+SIS Date   1992/01/04 18:00:00     90: Area 1.040823756467E+13 5.632321223683E+10, Mass  2.39666213550E+15 5.15327795887E+12
+ Total Ice Mass:   2.4018154134577130E+15, Change:  9.82881E+13 Error:  1.95111E-02 ( 8.1E-18)
+ Total Ice Salt:   1.1981763105935524E+10, Change:  4.89013E+08 Error:  4.58100E-08 ( 3.8E-18)
+ Total Ice Heat:  -8.4367113414956155E+20, Change: -3.49118E+19 Error:  6.77960E+04 (-8.0E-17)
+MOM Date   1992/01/05 00:00:00     96: En 6.175388E-04, MaxCFL  0.03519, Mass 1.381048862037E+21, Salt  34.72053924756, Temp   3.62103590182
+    Total Energy: 43A7ABDF6F7FD465  8.5285127693442726E+17
+    Total Mass:   1.3810488620366797E+21, Change:  -1.1598298839679033E+14 Error:  3.59656E+02 ( 2.6E-19)
+    Total Salt:   4.7950761217137230E+19, Change:  -4.7463899431297272E+11 Error:  5.85871E+01 ( 1.2E-18)
+    Total Heat:   1.9628247983043722E+25, Change:   2.9331009861269599E+20 Error:  1.87841E+06 ( 9.6E-20)
+      Total age:   1.5016458238534906E+19 years kg
+SIS Date   1992/01/05 00:00:00     96: Area 1.043991601894E+13 5.403491383661E+10, Mass  2.49150675481E+15 5.15913369834E+12
+ Total Ice Mass:   2.4966658885103070E+15, Change:  9.48505E+13 Error:  2.34070E-02 ( 9.4E-18)
+ Total Ice Salt:   1.2453444710603966E+10, Change:  4.71682E+08 Error:  5.67951E-08 ( 4.6E-18)
+ Total Ice Heat:  -8.7690537703024348E+20, Change: -3.32342E+19 Error:  8.52845E+04 (-9.7E-17)
+MOM Date   1992/01/05 06:00:00    102: En 6.154542E-04, MaxCFL  0.03600, Mass 1.381048734276E+21, Salt  34.72054212901, Temp   3.62107744724
+    Total Energy: 43A7976A7363A136  8.4997221409047219E+17
+    Total Mass:   1.3810487342756287E+21, Change:  -1.2776105025362802E+14 Error:  4.58996E+02 ( 3.3E-19)
+    Total Salt:   4.7950760760633737E+19, Change:  -4.5650349002875165E+11 Error:  2.73276E+01 ( 5.7E-19)
+    Total Heat:   1.9628471369033348E+25, Change:   2.2338598962655035E+20 Error:  2.37203E+07 ( 1.2E-18)
+      Total age:   1.5951288507077323E+19 years kg
+SIS Date   1992/01/05 06:00:00    102: Area 1.047258714452E+13 5.308685022518E+10, Mass  2.58269957735E+15 5.42120479241E+12
+ Total Ice Mass:   2.5881207821455680E+15, Change:  9.14549E+13 Error:  1.85374E-02 ( 7.2E-18)
+ Total Ice Salt:   1.2907190579443386E+10, Change:  4.53746E+08 Error:  7.48635E-08 ( 5.8E-18)
+ Total Ice Heat:  -9.0859101614577510E+20, Change: -3.16856E+19 Error:  7.97155E+04 (-8.8E-17)
+MOM Date   1992/01/05 12:00:00    108: En 6.093294E-04, MaxCFL  0.03693, Mass 1.381048617172E+21, Salt  34.72054475346, Temp   3.62107094366
+    Total Energy: 43A75B503D0A81E0  8.4151355442626150E+17
+    Total Mass:   1.3810486171724643E+21, Change:  -1.1710316496293672E+14 Error: -3.18367E+02 (-2.3E-19)
+    Total Salt:   4.7950760319237169E+19, Change:  -4.4139656676525952E+11 Error: -1.36867E+02 (-2.9E-18)
+    Total Heat:   1.9628434451222444E+25, Change:  -3.6917810904955683E+19 Error: -3.46239E+07 (-1.8E-18)
+      Total age:   1.6885601500253127E+19 years kg
+SIS Date   1992/01/05 12:00:00    108: Area 1.053708407814E+13 5.330881404702E+10, Mass  2.67058426584E+15 5.88304986402E+12
+ Total Ice Mass:   2.6764673157010830E+15, Change:  8.83465E+13 Error:  1.04551E-02 ( 3.9E-18)
+ Total Ice Salt:   1.3346176885835178E+10, Change:  4.38986E+08 Error:  5.82592E-08 ( 4.4E-18)
+ Total Ice Heat:  -9.3925231748353688E+20, Change: -3.06613E+19 Error:  8.89032E+04 (-9.5E-17)
+MOM Date   1992/01/05 18:00:00    114: En 5.995061E-04, MaxCFL  0.03759, Mass 1.381048510423E+21, Salt  34.72054712751, Temp   3.62107084151
+    Total Energy: 43A6FAEAC1754CD5  8.2794696481481792E+17
+    Total Mass:   1.3810485104234741E+21, Change:  -1.0674899052168691E+14 Error:  1.55221E+01 ( 1.1E-20)
+    Total Salt:   4.7950759891538551E+19, Change:  -4.2769862556531323E+11 Error:  4.71107E+01 ( 9.8E-19)
+    Total Heat:   1.9628432380327461E+25, Change:  -2.0708949860227267E+18 Error:  1.04087E+07 ( 5.3E-19)
+      Total age:   1.7819384709968607E+19 years kg
+SIS Date   1992/01/05 18:00:00    114: Area 1.059069966885E+13 5.334801855495E+10, Mass  2.75599054429E+15 6.12857573750E+12
+ Total Ice Mass:   2.7621191200227660E+15, Change:  8.56518E+13 Error:  2.36990E-02 ( 8.6E-18)
+ Total Ice Salt:   1.3771454879953417E+10, Change:  4.25278E+08 Error:  2.56592E-07 ( 1.9E-17)
+ Total Ice Heat:  -9.6957367686170699E+20, Change: -3.03214E+19 Error:  8.42186E+04 (-8.7E-17)
+MOM Date   1992/01/06 00:00:00    120: En 6.001003E-04, MaxCFL  0.03792, Mass 1.381048406638E+21, Salt  34.72054943604, Temp   3.62112357569
+    Total Energy: 43A700BF67769CCA  8.2876755698243302E+17
+    Total Mass:   1.3810484066381469E+21, Change:  -1.0378532685552697E+14 Error: -1.48240E+01 (-1.1E-20)
+    Total Salt:   4.7950759476249649E+19, Change:  -4.1528889802008966E+11 Error: -9.46663E+01 (-2.0E-18)
+    Total Heat:   1.9628716756927336E+25, Change:   2.8437659987787435E+20 Error:  2.12548E+06 ( 1.1E-19)
+      Total age:   1.8753071342655562E+19 years kg
+SIS Date   1992/01/06 00:00:00    120: Area 1.065110694385E+13 5.175259790348E+10, Mass  2.83934567279E+15 6.20073935177E+12
+ Total Ice Mass:   2.8455464121466460E+15, Change:  8.34273E+13 Error:  1.72767E-02 ( 6.1E-18)
+ Total Ice Salt:   1.4185659574751011E+10, Change:  4.14205E+08 Error:  1.84417E-07 ( 1.3E-17)
+ Total Ice Heat:  -9.9916635710580051E+20, Change: -2.95927E+19 Error:  1.02800E+05 (-1.0E-16)
+MOM Date   1992/01/06 06:00:00    126: En 5.988627E-04, MaxCFL  0.03841, Mass 1.381048294746E+21, Salt  34.72055195251, Temp   3.62116526918
+    Total Energy: 43A6F49A6DADD4F2  8.2705837950517069E+17
+    Total Mass:   1.3810482947459436E+21, Change:  -1.1189220363338464E+14 Error:  7.83325E+01 ( 5.7E-20)
+    Total Salt:   4.7950759066652328E+19, Change:  -4.0959731938957263E+11 Error:  9.34698E+01 ( 1.9E-18)
+    Total Heat:   1.9628941170968847E+25, Change:   2.2441404150812344E+20 Error:  5.07361E+07 ( 2.6E-18)
+      Total age:   1.9686650355940057E+19 years kg
+SIS Date   1992/01/06 06:00:00    126: Area 1.070245549514E+13 5.076189370667E+10, Mass  2.92122630397E+15 6.48532997495E+12
+ Total Ice Mass:   2.9277116339467160E+15, Change:  8.21652E+13 Error:  1.84610E-02 ( 6.3E-18)
+ Total Ice Salt:   1.4594156524720972E+10, Change:  4.08497E+08 Error:  1.32034E-07 ( 9.0E-18)
+ Total Ice Heat:  -1.0285600959887463E+21, Change: -2.93937E+19 Error:  9.33831E+04 (-9.1E-17)
+MOM Date   1992/01/06 12:00:00    132: En 5.950456E-04, MaxCFL  0.03900, Mass 1.381048179969E+21, Salt  34.72055454413, Temp   3.62115471523
+    Total Energy: 43A6CF252EF52794  8.2178663631262771E+17
+    Total Mass:   1.3810481799689659E+21, Change:  -1.1477697789352561E+14 Error: -8.17572E+01 (-5.9E-20)
+    Total Salt:   4.7950758660687045E+19, Change:  -4.0596528343491205E+11 Error: -1.53764E+01 (-3.2E-19)
+    Total Heat:   1.9628882330748320E+25, Change:  -5.8840220524688630E+19 Error: -2.25830E+07 (-1.2E-18)
+      Total age:   2.0619732444842131E+19 years kg
+SIS Date   1992/01/06 12:00:00    132: Area 1.078088159548E+13 5.146770303186E+10, Mass  3.00248827689E+15 6.88699469865E+12
+ Total Ice Mass:   3.0093752715876295E+15, Change:  8.16636E+13 Error:  2.77600E-02 ( 9.2E-18)
+ Total Ice Salt:   1.4999951309589453E+10, Change:  4.05795E+08 Error:  2.22536E-07 ( 1.5E-17)
+ Total Ice Heat:  -1.0575915028041601E+21, Change: -2.90314E+19 Error:  1.03129E+05 (-9.8E-17)
+MOM Date   1992/01/06 18:00:00    138: En 5.958031E-04, MaxCFL  0.04028, Mass 1.381048058461E+21, Salt  34.72055730696, Temp   3.62114918236
+    Total Energy: 43A6D6941B97BDF7  8.2283278004066598E+17
+    Total Mass:   1.3810480584614032E+21, Change:  -1.2150756211899708E+14 Error:  5.07646E+01 ( 3.7E-20)
+    Total Salt:   4.7950758257480016E+19, Change:  -4.0320703164858850E+11 Error:  6.38154E+01 ( 1.3E-18)
+    Total Heat:   1.9628850612195431E+25, Change:  -3.1718552891646829E+19 Error:  2.52366E+06 ( 1.3E-19)
+      Total age:   2.1552295544681591E+19 years kg
+SIS Date   1992/01/06 18:00:00    138: Area 1.084944651343E+13 5.294334980961E+10, Mass  3.08327587770E+15 7.12476595965E+12
+ Total Ice Mass:   3.0904006436612050E+15, Change:  8.10254E+13 Error:  1.30288E-02 ( 4.2E-18)
+ Total Ice Salt:   1.5402327489966942E+10, Change:  4.02376E+08 Error:  1.01329E-07 ( 6.6E-18)
+ Total Ice Heat:  -1.0864210909919178E+21, Change: -2.88296E+19 Error:  9.01307E+04 (-8.3E-17)
+MOM Date   1992/01/07 00:00:00    144: En 5.918167E-04, MaxCFL  0.04158, Mass 1.381047936851E+21, Salt  34.72056007449, Temp   3.62120121426
+    Total Energy: 43A6AF75A813FC57  8.1732727725451968E+17
+    Total Mass:   1.3810479368506570E+21, Change:  -1.2161074624238059E+14 Error:  2.65822E+02 ( 1.9E-19)
+    Total Salt:   4.7950757857168114E+19, Change:  -4.0031190344684674E+11 Error: -3.27591E+01 (-6.8E-19)
+    Total Heat:   1.9629130928583719E+25, Change:   2.8031638829280362E+20 Error: -2.69973E+06 (-1.4E-19)
+      Total age:   2.2484869123568079E+19 years kg
+SIS Date   1992/01/07 00:00:00    144: Area 1.094530697106E+13 5.508500220102E+10, Mass  3.16409863979E+15 7.17886203300E+12
+ Total Ice Mass:   3.1712775018224180E+15, Change:  8.08769E+13 Error:  1.15157E-02 ( 3.6E-18)
+ Total Ice Salt:   1.5803448369531719E+10, Change:  4.01121E+08 Error:  1.22287E-07 ( 7.7E-18)
+ Total Ice Heat:  -1.1151893798370467E+21, Change: -2.87683E+19 Error:  1.04122E+05 (-9.3E-17)
+MOM Date   1992/01/07 06:00:00    150: En 5.917722E-04, MaxCFL  0.04176, Mass 1.381047804746E+21, Salt  34.72056310072, Temp   3.62124229315
+    Total Energy: 43A6AF05BA29AD75  8.1726574344003443E+17
+    Total Mass:   1.3810478047462084E+21, Change:  -1.3210444895752705E+14 Error:  2.54592E+02 ( 1.8E-19)
+    Total Salt:   4.7950757449802818E+19, Change:  -4.0736529395197437E+11 Error:  8.74771E+01 ( 1.8E-18)
+    Total Heat:   1.9629351723660000E+25, Change:   2.2079507628014138E+20 Error:  5.47848E+07 ( 2.8E-18)
+      Total age:   2.3417481261991424E+19 years kg
+SIS Date   1992/01/07 06:00:00    150: Area 1.106049314029E+13 4.926143698433E+10, Mass  3.24640112840E+15 7.32476446043E+12
+ Total Ice Mass:   3.2537258928633725E+15, Change:  8.24484E+13 Error:  4.29033E-02 ( 1.3E-17)
+ Total Ice Salt:   1.6212215708165051E+10, Change:  4.08767E+08 Error:  2.84725E-07 ( 1.8E-17)
+ Total Ice Heat:  -1.1447121895880020E+21, Change: -2.95228E+19 Error:  9.97892E+04 (-8.7E-17)
+MOM Date   1992/01/07 12:00:00    156: En 5.881788E-04, MaxCFL  0.04174, Mass 1.381047674953E+21, Salt  34.72056606493, Temp   3.62123279707
+    Total Energy: 43A68BC2899A8C75  8.1230299342820006E+17
+    Total Mass:   1.3810476749526128E+21, Change:  -1.2979359492002127E+14 Error:  4.34685E+02 ( 3.1E-19)
+    Total Salt:   4.7950757037014073E+19, Change:  -4.1278874858694214E+11 Error: -7.65759E+01 (-1.6E-18)
+    Total Heat:   1.9629298404304102E+25, Change:  -5.3319355899027939E+19 Error: -3.97959E+07 (-2.0E-18)
+      Total age:   2.4349696309375795E+19 years kg
+SIS Date   1992/01/07 12:00:00    156: Area 1.115111960497E+13 4.827786701696E+10, Mass  3.32942092134E+15 7.50475595614E+12
+ Total Ice Mass:   3.3369256772918640E+15, Change:  8.31998E+13 Error:  1.75994E-02 ( 5.3E-18)
+ Total Ice Salt:   1.6624667718109339E+10, Change:  4.12452E+08 Error:  1.97018E-07 ( 1.2E-17)
+ Total Ice Heat:  -1.1744477278737624E+21, Change: -2.97355E+19 Error:  1.14691E+05 (-9.8E-17)
+MOM Date   1992/01/07 18:00:00    162: En 5.874564E-04, MaxCFL  0.04205, Mass 1.381047556053E+21, Salt  34.72056875880, Temp   3.62123024817
+    Total Energy: 43A684AB8AA00607  8.1130518881940365E+17
+    Total Mass:   1.3810475560527942E+21, Change:  -1.1889981920825475E+14 Error: -9.44485E+01 (-6.8E-20)
+    Total Salt:   4.7950756629100265E+19, Change:  -4.0791380433316022E+11 Error:  7.70382E+01 ( 1.6E-18)
+    Total Heat:   1.9629282897759111E+25, Change:  -1.5506544991517743E+19 Error: -1.27510E+07 (-6.5E-19)
+      Total age:   2.5281497930525164E+19 years kg
+SIS Date   1992/01/07 18:00:00    162: Area 1.121640076009E+13 4.822846044898E+10, Mass  3.41137718846E+15 7.54116528835E+12
+ Total Ice Mass:   3.4189183537470455E+15, Change:  8.19927E+13 Error:  6.16171E-03 ( 1.8E-18)
+ Total Ice Salt:   1.7031058085670784E+10, Change:  4.06390E+08 Error:  8.75783E-08 ( 5.1E-18)
+ Total Ice Heat:  -1.2037986238640009E+21, Change: -2.93509E+19 Error:  1.20068E+05 (-1.0E-16)
+MOM Date   1992/01/08 00:00:00    168: En 5.795752E-04, MaxCFL  0.04189, Mass 1.381047443062E+21, Salt  34.72057130950, Temp   3.62128219443
+    Total Energy: 43A63755090460DA  8.0042084488501171E+17
+    Total Mass:   1.3810474430616227E+21, Change:  -1.1299117102606434E+14 Error: -8.64435E+01 (-6.3E-20)
+    Total Salt:   4.7950756228622795E+19, Change:  -4.0047746946121814E+11 Error:  7.15168E+00 ( 1.5E-19)
+    Total Heat:   1.9629562872261900E+25, Change:   2.7997450278850442E+20 Error:  2.10259E+06 ( 1.1E-19)
+      Total age:   2.6213305046063239E+19 years kg
+SIS Date   1992/01/08 00:00:00    168: Area 1.126562050257E+13 4.645837912306E+10, Mass  3.49192853808E+15 7.56227145308E+12
+ Total Ice Mass:   3.4994908095370570E+15, Change:  8.05725E+13 Error:  1.79817E-02 ( 5.1E-18)
+ Total Ice Salt:   1.7430949390341919E+10, Change:  3.99891E+08 Error:  2.37078E-07 ( 1.4E-17)
+ Total Ice Heat:  -1.2326133892217281E+21, Change: -2.88148E+19 Error:  1.32789E+05 (-1.1E-16)
+MOM Date   1992/01/08 06:00:00    174: En 5.784537E-04, MaxCFL  0.04080, Mass 1.381047324618E+21, Salt  34.72057400049, Temp   3.62132623733
+    Total Energy: 43A62C538D5A5168  7.9887191719023104E+17
+    Total Mass:   1.3810473246182516E+21, Change:  -1.1844337161296628E+14 Error:  3.09707E+02 ( 2.2E-19)
+    Total Salt:   4.7950755832589443E+19, Change:  -3.9603335007797351E+11 Error: -8.23659E+00 (-1.7E-19)
+    Total Heat:   1.9629799928178844E+25, Change:   2.3705591694552921E+20 Error:  1.07542E+07 ( 5.5E-19)
+      Total age:   2.7145236432228925E+19 years kg
+SIS Date   1992/01/08 06:00:00    174: Area 1.129923803661E+13 3.790605370230E+10, Mass  3.57172988947E+15 7.57870835486E+12
+ Total Ice Mass:   3.5793085978256005E+15, Change:  7.98178E+13 Error:  3.92008E-02 ( 1.1E-17)
+ Total Ice Salt:   1.7826153217366779E+10, Change:  3.95204E+08 Error:  3.00418E-07 ( 1.7E-17)
+ Total Ice Heat:  -1.2614375911375540E+21, Change: -2.88242E+19 Error:  1.16099E+05 (-9.2E-17)
+MOM Date   1992/01/08 12:00:00    180: En 5.693980E-04, MaxCFL  0.04012, Mass 1.381047213972E+21, Salt  34.72057649855, Temp   3.62132283473
+    Total Energy: 43A5D376956E074B  7.8636553952530573E+17
+    Total Mass:   1.3810472139720093E+21, Change:  -1.1064624202182569E+14 Error:  2.77441E+02 ( 2.0E-19)
+    Total Salt:   4.7950755440821944E+19, Change:  -3.9176751040830615E+11 Error:  1.24710E+01 ( 2.6E-19)
+    Total Heat:   1.9629779911277718E+25, Change:  -2.0016901124779438E+19 Error: -5.65697E+07 (-2.9E-18)
+      Total age:   2.8076862635687150E+19 years kg
+SIS Date   1992/01/08 12:00:00    180: Area 1.134174659279E+13 3.576512559149E+10, Mass  3.65067526436E+15 7.69767874895E+12
+ Total Ice Mass:   3.6583729431126170E+15, Change:  7.90643E+13 Error:  3.33477E-02 ( 9.1E-18)
+ Total Ice Salt:   1.8217183549294941E+10, Change:  3.91030E+08 Error:  3.64137E-07 ( 2.0E-17)
+ Total Ice Heat:  -1.2901079565647277E+21, Change: -2.86704E+19 Error:  1.30619E+05 (-1.0E-16)
+MOM Date   1992/01/08 18:00:00    186: En 5.621668E-04, MaxCFL  0.03911, Mass 1.381047112225E+21, Salt  34.72057877745, Temp   3.62133128465
+    Total Energy: 43A58C80DB0BE29F  7.7637882491078643E+17
+    Total Mass:   1.3810471122252309E+21, Change:  -1.0174677838886222E+14 Error:  6.47618E+02 ( 4.7E-19)
+    Total Salt:   4.7950755055385936E+19, Change:  -3.8543599958670453E+11 Error:  6.76799E+01 ( 1.4E-18)
+    Total Heat:   1.9629824268818409E+25, Change:   4.4357540689526333E+19 Error:  3.51867E+07 ( 1.8E-18)
+      Total age:   2.9008194539843981E+19 years kg
+SIS Date   1992/01/08 18:00:00    186: Area 1.137727979478E+13 3.862196347368E+10, Mass  3.72810498376E+15 7.84050954812E+12
+ Total Ice Mass:   3.7359454933036065E+15, Change:  7.75726E+13 Error:  6.72878E-02 ( 1.8E-17)
+ Total Ice Salt:   1.8601008697430347E+10, Change:  3.83825E+08 Error:  4.44252E-07 ( 2.4E-17)
+ Total Ice Heat:  -1.3183613938055604E+21, Change: -2.82534E+19 Error:  1.17734E+05 (-8.9E-17)
+MOM Date   1992/01/09 00:00:00    192: En 5.588432E-04, MaxCFL  0.03807, Mass 1.381047005769E+21, Salt  34.72058118114, Temp   3.62138647401
+    Total Energy: 43A56BE3885E1834  7.7178873606911437E+17
+    Total Mass:   1.3810470057694486E+21, Change:  -1.0645578254215139E+14 Error:  3.33495E+01 ( 2.4E-20)
+    Total Salt:   4.7950754678791881E+19, Change:  -3.7659405746616791E+11 Error: -1.80138E+01 (-3.8E-19)
+    Total Heat:   1.9630121915652591E+25, Change:   2.9764683417893405E+20 Error:  5.12595E+07 ( 2.6E-18)
+      Total age:   2.9939546909759279E+19 years kg
+SIS Date   1992/01/09 00:00:00    192: Area 1.140851195896E+13 3.870622894990E+10, Mass  3.80365382139E+15 7.92154436904E+12
+ Total Ice Mass:   3.8115753657625725E+15, Change:  7.56299E+13 Error:  2.97682E-02 ( 7.8E-18)
+ Total Ice Salt:   1.8976672224020164E+10, Change:  3.75664E+08 Error:  6.17078E-08 ( 3.3E-18)
+ Total Ice Heat:  -1.3459445021925331E+21, Change: -2.75831E+19 Error:  1.25928E+05 (-9.4E-17)
+MOM Date   1992/01/09 06:00:00    198: En 5.556479E-04, MaxCFL  0.03743, Mass 1.381046880893E+21, Salt  34.72058405121, Temp   3.62143120351
+    Total Energy: 43A54C8861BDB9AD  7.6737576320138202E+17
+    Total Mass:   1.3810468808932818E+21, Change:  -1.2487616639735448E+14 Error: -1.14291E+02 (-8.3E-20)
+    Total Salt:   4.7950754306712248E+19, Change:  -3.7207963674373322E+11 Error: -4.17737E+01 (-8.7E-19)
+    Total Heat:   1.9630362601829236E+25, Change:   2.4068617664755597E+20 Error: -3.72009E+07 (-1.9E-18)
+      Total age:   3.0870971108706591E+19 years kg
+SIS Date   1992/01/09 06:00:00    198: Area 1.145680505721E+13 3.802409526861E+10, Mass  3.87837381914E+15 8.01660889856E+12
+ Total Ice Mass:   3.8863904280408095E+15, Change:  7.48151E+13 Error:  5.15788E-02 ( 1.3E-17)
+ Total Ice Salt:   1.9348473836941250E+10, Change:  3.71802E+08 Error:  3.49314E-07 ( 1.8E-17)
+ Total Ice Heat:  -1.3733515829028504E+21, Change: -2.74071E+19 Error:  1.23547E+05 (-9.0E-17)
+MOM Date   1992/01/09 12:00:00    204: En 5.529753E-04, MaxCFL  0.03698, Mass 1.381046762150E+21, Salt  34.72058676647, Temp   3.62142766185
+    Total Energy: 43A5324E81C17ECB  7.6368477141803968E+17
+    Total Mass:   1.3810467621499893E+21, Change:  -1.1874329283588705E+14 Error: -7.65383E+01 (-5.5E-20)
+    Total Salt:   4.7950753933780435E+19, Change:  -3.7293180230112225E+11 Error: -6.97899E+01 (-1.5E-18)
+    Total Heat:   1.9630341716016138E+25, Change:  -2.0885813096905892E+19 Error: -2.55119E+07 (-1.3E-18)
+      Total age:   3.1801910026641580E+19 years kg
+SIS Date   1992/01/09 12:00:00    204: Area 1.150636101692E+13 3.924112157431E+10, Mass  3.95329868139E+15 8.22308492921E+12
+ Total Ice Mass:   3.9615217663159375E+15, Change:  7.51313E+13 Error:  6.55499E-03 ( 1.7E-18)
+ Total Ice Salt:   1.9721720329612366E+10, Change:  3.73246E+08 Error:  2.08240E-07 ( 1.1E-17)
+ Total Ice Heat:  -1.4008941553765570E+21, Change: -2.75426E+19 Error:  1.29680E+05 (-9.3E-17)
+MOM Date   1992/01/09 18:00:00    210: En 5.523611E-04, MaxCFL  0.03675, Mass 1.381046658301E+21, Salt  34.72058910716, Temp   3.62143269834
+    Total Energy: 43A52C474EACFD19  7.6283638850352243E+17
+    Total Mass:   1.3810466583014371E+21, Change:  -1.0384855199921028E+14 Error:  4.79918E+01 ( 3.5E-20)
+    Total Salt:   4.7950753560696701E+19, Change:  -3.7308374092041840E+11 Error: -5.62884E+01 (-1.2E-18)
+    Total Heat:   1.9630367540754852E+25, Change:   2.5824738713912226E+19 Error:  2.11320E+07 ( 1.1E-18)
+      Total age:   3.2732549664772497E+19 years kg
+SIS Date   1992/01/09 18:00:00    210: Area 1.154493614887E+13 4.202020958163E+10, Mass  4.02800665102E+15 8.46315481068E+12
+ Total Ice Mass:   4.0364698058273555E+15, Change:  7.49480E+13 Error:  5.03767E-02 ( 1.2E-17)
+ Total Ice Salt:   2.0094223058319523E+10, Change:  3.72503E+08 Error:  5.62760E-07 ( 2.8E-17)
+ Total Ice Heat:  -1.4282330746158349E+21, Change: -2.73389E+19 Error:  1.33894E+05 (-9.4E-17)
+MOM Date   1992/01/10 00:00:00    216: En 5.529162E-04, MaxCFL  0.03701, Mass 1.381046543361E+21, Salt  34.72059172895, Temp   3.62148467395
+    Total Energy: 43A531B9B59DCAF4  7.6360296917142579E+17
+    Total Mass:   1.3810465433605594E+21, Change:  -1.1494087778918666E+14 Error: -5.84450E+01 (-4.2E-20)
+    Total Salt:   4.7950753190705054E+19, Change:  -3.6999164258487463E+11 Error:  8.20042E+01 ( 1.7E-18)
+    Total Heat:   1.9630647646358232E+25, Change:   2.8010560337923129E+20 Error:  1.96565E+07 ( 1.0E-18)
+      Total age:   3.3663324116223242E+19 years kg
+SIS Date   1992/01/10 00:00:00    216: Area 1.157182658360E+13 4.160132334428E+10, Mass  4.10226273703E+15 8.63774807393E+12
+ Total Ice Mass:   4.1109004850999395E+15, Change:  7.44307E+13 Error:  3.66895E-02 ( 8.9E-18)
+ Total Ice Salt:   2.0464074704119869E+10, Change:  3.69852E+08 Error:  1.28024E-07 ( 6.3E-18)
+ Total Ice Heat:  -1.4552810595684844E+21, Change: -2.70480E+19 Error:  1.38333E+05 (-9.5E-17)
+MOM Date   1992/01/10 06:00:00    222: En 5.540086E-04, MaxCFL  0.03726, Mass 1.381046421765E+21, Salt  34.72059451881, Temp   3.62152535415
+    Total Energy: 43A53C71C9BA3B30  7.6511154231296614E+17
+    Total Mass:   1.3810464217648519E+21, Change:  -1.2159570745881662E+14 Error:  7.94380E+01 ( 5.8E-20)
+    Total Salt:   4.7950752821745787E+19, Change:  -3.6895927216483777E+11 Error:  1.06171E+00 ( 2.2E-20)
+    Total Heat:   1.9630866429354201E+25, Change:   2.1878299596991532E+20 Error: -1.48325E+07 (-7.6E-19)
+      Total age:   3.4594173510445351E+19 years kg
+SIS Date   1992/01/10 06:00:00    222: Area 1.160688463003E+13 4.241927069979E+10, Mass  4.17649558853E+15 8.75793934671E+12
+ Total Ice Mass:   4.1852535278718680E+15, Change:  7.43530E+13 Error:  4.23676E-02 ( 1.0E-17)
+ Total Ice Salt:   2.0833025394274612E+10, Change:  3.68951E+08 Error:  1.20295E-07 ( 5.8E-18)
+ Total Ice Heat:  -1.4823927971798888E+21, Change: -2.71117E+19 Error:  1.41235E+05 (-9.5E-17)
+MOM Date   1992/01/10 12:00:00    228: En 5.525181E-04, MaxCFL  0.03737, Mass 1.381046318039E+21, Salt  34.72059685843, Temp   3.62151998732
+    Total Energy: 43A52DD17B96A5D9  7.6305308874355008E+17
+    Total Mass:   1.3810463180386224E+21, Change:  -1.0372622921174722E+14 Error:  8.86162E+01 ( 6.4E-20)
+    Total Salt:   4.7950752451443466E+19, Change:  -3.7030232185423230E+11 Error: -4.18520E+00 (-8.7E-20)
+    Total Heat:   1.9630835863470968E+25, Change:  -3.0565883234548908E+19 Error:  7.47527E+06 ( 3.8E-19)
+      Total age:   3.5524433492073243E+19 years kg
+SIS Date   1992/01/10 12:00:00    228: Area 1.164598080361E+13 4.043832627071E+10, Mass  4.25096951367E+15 8.95420972224E+12
+ Total Ice Mass:   4.2599237233948065E+15, Change:  7.46702E+13 Error:  4.38783E-02 ( 1.0E-17)
+ Total Ice Salt:   2.1203450868290123E+10, Change:  3.70425E+08 Error:  3.94825E-07 ( 1.9E-17)
+ Total Ice Heat:  -1.5096911999590458E+21, Change: -2.72984E+19 Error:  1.36397E+05 (-9.0E-17)
+MOM Date   1992/01/10 18:00:00    234: En 5.537790E-04, MaxCFL  0.03722, Mass 1.381046226270E+21, Salt  34.72059889819, Temp   3.62152420812
+    Total Energy: 43A53A30C8B8DC43  7.6479433104936998E+17
+    Total Mass:   1.3810462262697890E+21, Change:  -9.1768833737290766E+13 Error:  5.04078E+02 ( 3.6E-19)
+    Total Salt:   4.7950752082176025E+19, Change:  -3.6926743442527252E+11 Error: -5.41465E+01 (-1.1E-18)
+    Total Heat:   1.9630857438288651E+25, Change:   2.1574817682225676E+19 Error: -5.98244E+07 (-3.0E-18)
+      Total age:   3.6454422395640467E+19 years kg
+SIS Date   1992/01/10 18:00:00    234: Area 1.167927575052E+13 3.907340056554E+10, Mass  4.32509871384E+15 9.15352027275E+12
+ Total Ice Mass:   4.3342522341115650E+15, Change:  7.43285E+13 Error:  5.00400E-02 ( 1.2E-17)
+ Total Ice Salt:   2.1572149170217903E+10, Change:  3.68698E+08 Error:  3.80710E-07 ( 1.8E-17)
+ Total Ice Heat:  -1.5367601607901769E+21, Change: -2.70690E+19 Error:  1.54504E+05 (-1.0E-16)
+MOM Date   1992/01/11 00:00:00    240: En 5.529301E-04, MaxCFL  0.03711, Mass 1.381046132691E+21, Salt  34.72060098602, Temp   3.62158110178
+    Total Energy: 43A531DC44C85611  7.6362196831613965E+17
+    Total Mass:   1.3810461326911230E+21, Change:  -9.3578665557608594E+13 Error:  2.73460E+01 ( 2.0E-20)
+    Total Salt:   4.7950751716460937E+19, Change:  -3.6571508843092908E+11 Error:  3.75483E+01 ( 7.8E-19)
+    Total Heat:   1.9631164506236985E+25, Change:   3.0706794833685742E+20 Error:  7.01896E+07 ( 3.6E-18)
+      Total age:   3.7384700320396182E+19 years kg
+SIS Date   1992/01/11 00:00:00    240: Area 1.170692174223E+13 3.810523437756E+10, Mass  4.39858157504E+15 9.28271935732E+12
+ Total Ice Mass:   4.4078642943941390E+15, Change:  7.36121E+13 Error:  1.68490E-02 ( 3.8E-18)
+ Total Ice Salt:   2.1937450370651810E+10, Change:  3.65301E+08 Error:  2.97884E-07 ( 1.4E-17)
+ Total Ice Heat:  -1.5634142001338348E+21, Change: -2.66540E+19 Error:  1.59600E+05 (-1.0E-16)
+ BEGIN CHECKSUM(Atmos_data_type):: coupler_end           0
+ BEGIN CHECKSUM(ocean_type):: coupler_end           0
+   CHECKSUM::     ocean%t_surf    =     AFC2D684CDB7AAAB
+   CHECKSUM::     ocean%s_surf    =     BF5BA40BDAD912FE
+CHECKSUM::     atm%lon_bnd                 =     44D6C0272376B145
+   CHECKSUM::     ocean%u_surf    =     5D26A338F22F1C94
+CHECKSUM::     atm%lat_bnd                 =     889769A2D2EF524B
+   CHECKSUM::     ocean%v_surf    =     6225EDD53520DCA7
+   CHECKSUM::     ocean%sea_lev   =     ACCEFDD2404F879C
+   CHECKSUM::     ocean%frazil    =     5DD2855D6C7DE8BE
+ BEGIN CHECKSUM(ice_ocean_boundary_type):: coupler_end           0
+   CHECKSUM::iobt%u_flux          =     86A2DABCC442BFD2
+   CHECKSUM::iobt%v_flux          =     D0BA8D6A818A081F
+   CHECKSUM::iobt%t_flux          =     AAA9617D7A20C088
+   CHECKSUM::iobt%q_flux          =     D1F862AB8F92D6C4
+   CHECKSUM::iobt%salt_flux       =      504253E823F8088
+   CHECKSUM::iobt%lw_flux         =     BFDA9B6CBA71B9CA
+   CHECKSUM::iobt%sw_flux_vis_dir =     DC9AB90FF53E09F1
+   CHECKSUM::iobt%sw_flux_vis_dif =     438CB519C60FB4C5
+   CHECKSUM::iobt%sw_flux_nir_dir =     A2B5A7B062DD65F7
+   CHECKSUM::iobt%sw_flux_nir_dif =     A2B5A7B062DD65F7
+   CHECKSUM::iobt%lprec           =     713A4974AA99C047
+   CHECKSUM::iobt%fprec           =     CA3C5BC113813DF7
+   CHECKSUM::iobt%runoff          =     96B2576E96CE85D4
+   CHECKSUM::iobt%calving         =     915A6479F8989FC2
+   CHECKSUM::iobt%p               =     2D81E66613D668D1
+CHECKSUM::     atm%t_bot                   =     936502A1451E5E40
+CHECKSUM::     atm%tr_bot(:,:,n)           =     33C5B9757713854D
+CHECKSUM::     atm%tr_bot(:,:,n)           =                    0
+CHECKSUM::     atm%z_bot                   =     C980000000000000
+CHECKSUM::     atm%p_bot                   =     B67CFF156454292F
+CHECKSUM::     atm%u_bot                   =     CFABB25AC9876C79
+CHECKSUM::     atm%v_bot                   =     EFBAC6EDFBACDE49
+CHECKSUM::     atm%p_surf                  =     B67CFF156454292F
+CHECKSUM::     atm%slp                     =     DF6DC00000000000
+CHECKSUM::     atm%gust                    =     628F5C28F5C39BE0
+CHECKSUM::     atm%coszen                  =                    0
+CHECKSUM::     atm%flux_sw                 =                    0
+CHECKSUM::     atm%flux_sw_dir             =                    0
+CHECKSUM::     atm%flux_sw_dif             =                    0
+CHECKSUM::     atm%flux_sw_down_vis_dir    =     FF2C469E073470BC
+CHECKSUM::     atm%flux_sw_down_vis_dif    =     FF2C469E073470BC
+CHECKSUM::     atm%flux_sw_down_total_dir  =     FF2C469E073470BC
+CHECKSUM::     atm%flux_sw_down_total_dif  =     FF2C469E073470BC
+CHECKSUM::     atm%flux_sw_vis             =                    0
+CHECKSUM::     atm%flux_sw_vis_dir         =                    0
+CHECKSUM::     atm%flux_sw_vis_dif         =                    0
+CHECKSUM::     atm%flux_lw                 =     7EEE11E5ED6BCD7A
+CHECKSUM::     atm%lprec                   =     AC9584D737C04722
+CHECKSUM::     atm%fprec                   =     73433BC7C6A61394
+ BEGIN CHECKSUM(lnd_ice_Atm_bnd_type):: coupler_end           0
+CHECKSUM::lnd_ice_atm_bnd_type%t           =     B2B3093D09080257
+CHECKSUM::lnd_ice_atm_bnd_type%albedo      =     C6F97199F8710752
+CHECKSUM::lnd_ice_atm_bnd_type%albedo_vis_ =       1502FD455BBC1F
+CHECKSUM::lnd_ice_atm_bnd_type%albedo_nir_ =      E9573654BCB24D1
+CHECKSUM::lnd_ice_atm_bnd_type%albedo_vis_ =     4F36BCEE25E883DB
+CHECKSUM::lnd_ice_atm_bnd_type%albedo_nir_ =     59EA4C7ECE5CAF2F
+CHECKSUM::lnd_ice_atm_bnd_type%land_frac   =     B1EB8FF90486866D
+CHECKSUM::lnd_ice_atm_bnd_type%dt_t        =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%dt_tr(:,:,n =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%dt_tr(:,:,n =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%dt_tr(:,:,n =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%dt_tr(:,:,n =                    0
+CHECKSUM::lnd_ice_atm_bnd_type%u_flux      =     DBC7DCB4F48CF0D4
+CHECKSUM::lnd_ice_atm_bnd_type%v_flux      =     9709433E2EEFECAE
+CHECKSUM::lnd_ice_atm_bnd_type%dtaudu      =     74BBB347F2A051BD
+CHECKSUM::lnd_ice_atm_bnd_type%dtaudv      =     5A71775E0846C633
+CHECKSUM::lnd_ice_atm_bnd_type%u_star      =     863D6F596996FB4D
+CHECKSUM::lnd_ice_atm_bnd_type%b_star      =     B3A5911141047D8F
+CHECKSUM::lnd_ice_atm_bnd_type%q_star      =     7976B334918D9CDB
+CHECKSUM::lnd_ice_atm_bnd_type%rough_mom   =     F065B0F26B1CF007
+ BEGIN CHECKSUM(ice_data_type):: coupler_end           0
+   CHECKSUM::ice_data_type%part_size          =      54A6B6CB8FC3136
+   CHECKSUM::ice_data_type%albedo             =     CEF785E1AEF903C8
+   CHECKSUM::ice_data_type%albedo_vis_dir     =       1C78123E528B08
+   CHECKSUM::ice_data_type%albedo_nir_dir     =     637F0F03B165AB93
+   CHECKSUM::ice_data_type%albedo_vis_dif     =     590FC5A34D10131F
+   CHECKSUM::ice_data_type%albedo_nir_dif     =     7198996DBEA50683
+   CHECKSUM::ice_data_type%rough_mom          =      6E03FA9F6BD1E11
+   CHECKSUM::ice_data_type%rough_heat         =     C3BEBA2A1C07A87F
+   CHECKSUM::ice_data_type%rough_moist        =     81415688775F7206
+   CHECKSUM::ice_data_type%t_surf             =     56DB9B44A02867C9
+   CHECKSUM::ice_data_type%u_surf             =     1D11B8CC1D8E6B1A
+   CHECKSUM::ice_data_type%v_surf             =      73DF5CCB4F2C572
+   CHECKSUM::ice_data_type%s_surf             =     BF50D794C43DBA1C
+   CHECKSUM::ice_data_type%flux_u             =     6D5B5CDF46F85E44
+   CHECKSUM::ice_data_type%flux_v             =      201FBAE8572F72A
+   CHECKSUM::ice_data_type%flux_t             =     4C4D5771FB2834CA
+   CHECKSUM::ice_data_type%flux_q             =     E5B5A9C64C108840
+   CHECKSUM::ice_data_type%flux_lw            =     BCF36F5DE5073DD1
+   CHECKSUM::ice_data_type%flux_sw_vis_dir    =     2DDE7D0E83A05319
+   CHECKSUM::ice_data_type%flux_sw_vis_dif    =     9C74F331967B32F3
+   CHECKSUM::ice_data_type%flux_sw_nir_dir    =     12151729BB70F4CA
+   CHECKSUM::ice_data_type%flux_sw_nir_dif    =     12151729BB70F4CA
+   CHECKSUM::ice_data_type%flux_lh            =     A2F4AE0F88380C93
+   CHECKSUM::ice_data_type%lprec              =     F9BD77058907D83C
+   CHECKSUM::ice_data_type%fprec              =     C6FF5C27E031A5C8
+   CHECKSUM::ice_data_type%p_surf             =     D9D529F70B39AE7B
+   CHECKSUM::ice_data_type%runoff             =     96B2576E96CE85D4
+   CHECKSUM::ice_data_type%calving            =     915A6479F8989FC2
+   CHECKSUM::ice_data_type%flux_salt          =     90B0CAA1F970D408
+ BEGIN CHECKSUM(atmos_ice_boundary_type):: coupler_end           0
+CHECKSUM::atm_ice_bnd_type%u_flux          =     1F2851E38AE43BDA
+CHECKSUM::atm_ice_bnd_type%v_flux          =     5E4DDA3659300070
+CHECKSUM::atm_ice_bnd_type%u_star          =     FF8400287C98F5CD
+CHECKSUM::atm_ice_bnd_type%t_flux          =     46DCF02B1EC2E9A1
+CHECKSUM::atm_ice_bnd_type%q_flux          =     75F74AC2C7939C96
+CHECKSUM::atm_ice_bnd_type%lw_flux         =     6AC0355105FC448C
+CHECKSUM::atm_ice_bnd_type%sw_flux_vis_dir =     88CF35F9ADEBDEB0
+CHECKSUM::atm_ice_bnd_type%sw_flux_vis_dif =     84DF80C12E8B4967
+CHECKSUM::atm_ice_bnd_type%sw_flux_nir_dir =     D7C6826C9EDDD54F
+CHECKSUM::atm_ice_bnd_type%sw_flux_nir_dif =     1CF0869117000B3E
+CHECKSUM::atm_ice_bnd_type%lprec           =     86DC62D1B6657F2C
+CHECKSUM::atm_ice_bnd_type%fprec           =      55EF63D318CF219
+CHECKSUM::atm_ice_bnd_type%dhdt            =     F000000000000000
+CHECKSUM::atm_ice_bnd_type%dedt            =     327BB2FEC56B1C00
+CHECKSUM::atm_ice_bnd_type%drdt            =     B000000000000000
+CHECKSUM::atm_ice_bnd_type%coszen          =                    0
+CHECKSUM::atm_ice_bnd_type%p               =                    0
+ BEGIN CHECKSUM(ocean_ice_boundary_type):: coupler_end           0
+CHECKSUM::      ocn_ice_bnd_type%u         =     94F79BF7B293E85F
+CHECKSUM::      ocn_ice_bnd_type%v         =     C0314BF8CB38DC9D
+CHECKSUM::      ocn_ice_bnd_type%t         =     AFBB07A47D466643
+CHECKSUM::      ocn_ice_bnd_type%s         =     BF50D794C43DBA1C
+CHECKSUM::      ocn_ice_bnd_type%frazil    =     D3E9CBD8BFA2E74C
+CHECKSUM::      ocn_ice_bnd_type%sea_level =     96D13A82582A3B1A
+ BEGIN CHECKSUM(land_data_type):: coupler_end           0
+CHECKSUM::         land%tile_size          =     9D7C4CA5686730D0
+CHECKSUM::         land%t_surf             =     916AE4AB9BC57679
+CHECKSUM::         land%t_ca               =     92C06A9C3E6912EE
+CHECKSUM::         land%albedo             =     FE836F6597F02A15
+CHECKSUM::         land%albedo_vis_dir     =     805EB85E782B6169
+CHECKSUM::         land%albedo_nir_dir     =      4FE510164AD6CCA
+CHECKSUM::         land%albedo_vis_dif     =      FE88D193A557EF6
+CHECKSUM::         land%albedo_nir_dif     =     B8FF5ED1187BF3B6
+CHECKSUM::         land%rough_mom          =     2E5FE004EC3BDB85
+CHECKSUM::         land%rough_heat         =     42C3B5163A803120
+CHECKSUM::         land%rough_scale        =     F04D378496FB2BE2
+CHECKSUM::         land%tr                 =     83CB218047B1FB7D
+CHECKSUM::         land%tr                 =     55CB113E13C9158C
+CHECKSUM::         land%discharge          =     1CBFD59DA07E8B1D
+CHECKSUM::         land%discharge_snow     =     2DABCD19FEF083E7
+CHECKSUM::         land%discharge_heat     =     5103502DC97FD1D1
+ BEGIN CHECKSUM(atmos_land_boundary_type):: coupler_end           0
+CHECKSUM::     albt%t_flux                 =     5A00000000059A60
+CHECKSUM::     albt%lw_flux                =     5A00000000059A60
+CHECKSUM::     albt%lwdn_flux              =     5A00000000059A60
+CHECKSUM::     albt%sw_flux                =     5A00000000059A60
+CHECKSUM::   albt%swdn_flux                =     5A00000000059A60
+CHECKSUM::     albt%lprec                  =     5A00000000059A60
+CHECKSUM::     albt%fprec                  =     5A00000000059A60
+CHECKSUM::     albt%tprec                  =     5A00000000059A60
+CHECKSUM::     albt%sw_flux_down_vis_dir   =     5A00000000059A60
+CHECKSUM::     albt%sw_flux_down_total_dir =     5A00000000059A60
+CHECKSUM::     albt%sw_flux_down_vis_dif   =     5A00000000059A60
+CHECKSUM::     albt%sw_flux_down_total_dif =     5A00000000059A60
+CHECKSUM::     albt%dhdt                   =     5A00000000059A60
+CHECKSUM::     albt%dhdq                   =     5A00000000059A60
+CHECKSUM::     albt%drdt                   =     5A00000000059A60
+CHECKSUM::     albt%cd_m                   =     5A00000000059A60
+CHECKSUM::     albt%cd_t                   =     5A00000000059A60
+CHECKSUM::     albt%ustar                  =     5A00000000059A60
+CHECKSUM::     albt%bstar                  =     5A00000000059A60
+CHECKSUM::     albt%wind                   =     5A00000000059A60
+CHECKSUM::     albt%z_bot                  =     5A00000000059A60
+CHECKSUM::     albt%drag_q                 =     5A00000000059A60
+CHECKSUM::     albt%p_surf                 =     5A00000000059A60
+CHECKSUM::     albt%tr_flux                =     5A00000000059A60
+CHECKSUM::     albt%tr_flux                =     5A00000000059A60
+CHECKSUM::     albt%dfdtr                  =     5A00000000059A60
+CHECKSUM::     albt%dfdtr                  =     5A00000000059A60
+NOTE from PE     0: land_model_end: writing NetCDF restart
+NOTE from PE     0: land_model_restart: Using new land restart write
+NOTE from PE    36: MPP_IO_SET_STACK_SIZE: stack size set to    2160000.
+NOTE from PE     0: glac_end: writing new format NetCDF restart
+NOTE from PE     0: lake_end: writing new format NetCDF restart
+NOTE from PE     0: soil_end: writing new format NetCDF restart
+NOTE from PE     0: snow_end: writing new format NetCDF restart
+NOTE from PE     0: vegn_end: writing new format NetCDF restart
+NOTE from PE     0: cana_end: writing new format NetCDF restart
+ Chksum for storage ==>    -995415382054992727
+ Chksum for storage_c ==>    5483582908731067875
+ Chksum for discharge2ocean_next ==>   -5759894470199229589
+ Chksum for discharge2ocean_next_c ==>    7912613893550129326
+NOTE from PE    36: MPP_IO_SET_STACK_SIZE: stack size set to    2188800.
+                              20151030 162639.920: Memuse(MB) at Memory HiWaterMark=  8.148E+01  4.022E+02  7.246E+01  1.094E+02
+ MPP_DOMAINS_STACK high water mark=      347700
+
+Tabulating mpp_clock statistics across    324 PEs...
+
+                                          tmin          tmax          tavg          tstd  tfrac grain pemin pemax
+Total runtime                      1097.834398   1097.835819   1097.835057      0.000384  1.000     0     0   323
+Initialization                       76.106180     76.106586     76.106366      0.000087  0.069     0     0   323
+  Init: ocean_model_init              4.586740      4.595548      4.587053      0.000512  0.004     0    36   323
+  Init: atmos_model_init              1.160464      1.160626      1.160555      0.000049  0.001     0     0    35
+  Init: land_model_init              71.115602     71.159614     71.130252      0.012851  0.065     0     0    35
+  Init: ice_model_init                1.138534      1.143574      1.138757      0.000816  0.001     0     0    35
+  Init: flux_exchange_init            1.607872      1.607906      1.607901      0.000002  0.001     0     0   323
+Main loop                          1020.216686   1020.218055   1020.217321      0.000380  0.929     0     0   323
+Termination                           1.478376      1.478389      1.478381      0.000003  0.001     0     0   323
+Ocean Initialization                  4.488810      4.508451      4.492678      0.002535  0.004    11    36   323
+Land                                  6.454300    273.246273     91.536883     84.351399  0.083     1     0    35
+Ocean                               240.951002    240.994465    240.963317      0.008909  0.219     1    36   323
+Update-Land-Fast                      6.106611    257.154751     85.994459     79.658721  0.078    41     0    35
+Update-Land-Slow                      0.279503     16.091175      5.542099      4.757813  0.005    41     0    35
+Land init                            71.114784     71.159472     71.129631      0.012809  0.065    41     0    35
+update_river                          0.414827      5.657241      3.995830      1.650965  0.004    11     0    35
+update_river_slow                     0.363509      5.596769      3.932996      1.643795  0.004    41     0    35
+Ocean dynamics                      131.796275    178.227667    152.541637     13.882558  0.139    11    36   323
+update_river_bnd_slow                 0.000314      0.000804      0.000513      0.000126  0.000    41     0    35
+river phys                            0.184413      0.270720      0.239098      0.029679  0.000    41     0    35
+river diag                            0.000522      0.001326      0.000862      0.000229  0.000    41     0    35
+(Ocean continuity update)             0.000000      0.000000      0.000000      0.000000  0.000    41     0    35
+(Ocean continuity correction)         0.000000      0.000000      0.000000      0.000000  0.000    41     0    35
+(Ocean advect tracer)                 1.417600      1.979391      1.829021      0.136386  0.002    31     0    35
+(Ocean tracer halo updates)           0.000000      0.000000      0.000000      0.000000  0.000    41     0    35
+(Ocean tracer global synch)           0.000000      0.000000      0.000000      0.000000  0.000    41     0    35
+Ice                                  41.268033     49.686972     46.354400      2.474861  0.042     1     0    35
+Ice: bot to top                       3.999252      9.971982      7.867573      1.900714  0.007    41     0    35
+Ice: update slow (dn)                33.090249     34.020745     33.664975      0.227667  0.031    41     0    35
+Ice: update fast                      4.029388      5.908486      4.820948      0.531433  0.004    41     0    35
+Land-ice-atm coupler                694.991224    966.004380    878.346234     84.352719  0.800     1     0    35
+SFC boundary layer                  422.681132    430.395055    425.985211      1.982311  0.388    11     0    35
+Flux DN from atm                    254.140447    269.501602    263.856704      4.082249  0.240    41     0    35
+Flux land to ice                      0.418669     16.338139     11.022831      4.756206  0.010    41     0    35
+XGrid generation                      0.445664      2.434174      1.335646      0.559082  0.001    41     0    35
+Flux UP to atm                        2.306761    264.632309    176.143836     80.923187  0.160    41     0    35
+Ocean thermodynamics and tracers     31.824307    104.612980     75.842430     15.986640  0.069    11    36   323
+Ocean Other                           2.404154     42.554356     10.128075      8.102772  0.009    11    36   323
+(Ocean tracer advection)              9.504771     11.433534     10.377925      0.339121  0.009    21    36   323
+(Ocean diabatic driver)               7.322662     58.069858     23.201663      9.272556  0.021    21    36   323
+(Ocean continuity equation *)         0.000000      0.000000      0.000000      0.000000  0.000    31    36   323
+(Ocean message passing *)             4.895284     80.978187     33.357286     18.990255  0.030    31    36   323
+(Ocean MOM_initialize_state)          3.171470      3.243295      3.239789      0.004184  0.003    31    36   323
+(Ocean init message passing *)        0.002594      0.025140      0.007281      0.003052  0.000    41    36   323
+(Ocean thickness diffusion *)         4.337209      6.793569      5.825785      0.527665  0.005    31    36   323
+(Ocean mixed layer restrat)           1.513319      8.391092      5.501520      2.380711  0.005    31    36   323
+(Ocean collective diagnostics)        0.001904      0.007044      0.004025      0.000783  0.000    31    36   323
+(Ocean Z-space diagnostics)           0.000746      0.002600      0.001582      0.000321  0.000    31    36   323
+(Ocean ALE)                           0.127665     33.256748     20.662206     12.907416  0.019    31    36   323
+(Initialize from Z)                   2.221915      2.237700      2.233471      0.003246  0.002    41    36   323
+(Ocean continuity halo updates)       0.031755      7.180281      1.288236      1.402739  0.001    41    36   323
+(Ocean continuity update)             3.761592      8.494634      6.824245      1.420102  0.006    41    36   323
+(Ocean continuity correction)        11.384025     25.352327     20.624077      4.143654  0.019    41    36   323
+(Ocean BT pre-calcs only)             5.884284     12.329329      7.758370      0.509295  0.007    41    36   323
+(Ocean BT pre-step halo updates)      1.178068     18.768207      5.672537      2.916929  0.005    41    36   323
+(Ocean BT stepping calcs only)        2.059886      2.985551      2.653657      0.227643  0.002    41    36   323
+(Ocean BT stepping halo updates)      0.479648      4.662738      1.427986      1.054892  0.001    41    36   323
+(Ocean BT post-calcs only)            0.984497      1.162367      1.078383      0.025697  0.001    41    36   323
+(Ocean BT post-step halo updates      0.137736      0.346946      0.212127      0.042868  0.000    41    36   323
+(Ocean BT global synch)               0.000000      0.000000      0.000000      0.000000  0.000    41    36   323
+(Ocean Coriolis & mom advection)      4.316967      5.811007      5.274421      0.342120  0.005    31    36   323
+(Ocean continuity equation)          16.179157     36.157182     29.515255      5.937119  0.027    31    36   323
+(Ocean pressure force)               13.182857     15.645219     14.633697      0.596846  0.013    31    36   323
+(Ocean vertical viscosity)            4.378679     19.320878     13.997692      5.309917  0.013    31    36   323
+(Ocean horizontal viscosity)          3.758252      4.444059      4.293308      0.117529  0.004    31    36   323
+(Ocean momentum increments)           0.877505      1.788256      1.697959      0.133247  0.002    31    36   323
+(Ocean message passing)              12.513347     82.403444     38.478072     18.953914  0.035    31    36   323
+(Ocean init message passing)          0.000000      0.000000      0.000000      0.000000  0.000    41    36   323
+(Ocean barotropic mode calc)          0.116078      0.242512      0.181096      0.022810  0.000    31    36   323
+(Ocean barotropic mode stepping)     14.426880     30.785017     18.843451      2.842258  0.017    31    36   323
+(Ocean barotropic forcing calc)       0.558437      1.728218      1.092418      0.255327  0.001    31    36   323
+(Ocean kappa_shear)                   0.260700     43.469181      6.689905      6.321237  0.006    31    36   323
+(Ocean diabatic entrain)              0.000000      0.000000      0.000000      0.000000  0.000    31    36   323
+(Ocean vert remap)                    1.362447      6.458433      4.078326      1.462213  0.004    31    36   323
+(Ocean set_diffusivity)               2.265527     45.806911      9.152414      6.311507  0.008    31    36   323
+(Ocean KPP)                           0.000000      0.000000      0.000000      0.000000  0.000    31    36   323
+(Ocean tracer_columns)                0.209231      0.402698      0.317335      0.038005  0.000    26    36   323
+(Ocean diabatic tridiag)              0.446256      0.628856      0.511945      0.028977  0.000    41    36   323
+(Ocean diabatic message passing)      0.187929     32.460719      7.209366      5.696363  0.007    41    36   323
+Ice-ocean coupler                     2.282627      2.289537      2.286482      0.001214  0.002     1     0   323
+(Ocean find_uv_at_h)                  0.225116      0.457799      0.310099      0.049782  0.000    41    36   323
+(Ocean frazil)                        0.172066      0.717097      0.386736      0.136898  0.000    41    36   323
+(Ocean regularize_layers EOS)         0.000000      0.000000      0.000000      0.000000  0.000    41    36   323
+(Ocean regularize_layers halo up      0.000000      0.000000      0.000000      0.000000  0.000    41    36   323
+(Ocean advect tracer)                 8.416968      9.838222      8.846253      0.334559  0.008    31    36   323
+(Ocean tracer halo updates)           1.782786      3.969745      3.186633      0.396650  0.003    41    36   323
+(Ocean tracer global synch)           0.126858      7.392969      2.418763      1.941182  0.002    41    36   323
+(Ocean diffuse tracer)                0.997069      1.829029      1.520725      0.162952  0.001    31    36   323
+(Ocean epipycnal diffuse tracer)      0.000000      0.000000      0.000000      0.000000  0.000    31    36   323
+Ocean surface forcing                 0.046298      0.096658      0.078510      0.009191  0.000    11    36   323
+(Ocean forcing diagnostics)           0.002117      0.010611      0.007586      0.002595  0.000    41    36   323
+Flux ice to ocean                     1.128963      1.136097      1.134586      0.001716  0.001    41     0   323
+Flux ocean to ice                     1.149612      1.157718      1.151613      0.001516  0.001    41     0   323
+generate_sfc_xgrid                    0.446072      2.434871      1.336470      0.559105  0.001     0     0    35
+flux_ocean_to_ice                     1.150523      1.158297      1.152346      0.001552  0.001     0     0   323
+flux_ice_to_ocean                     1.129590      1.136478      1.135100      0.001692  0.001     0     0   323
+flux_check_stocks                     0.000000      0.000000      0.000000      0.000000  0.000     0     0   323
+OCN                                 241.624553    241.723471    241.655575      0.014956  0.220     0    36   323
+ATM                                1014.317347   1015.288070   1014.965286      0.258127  0.925     0     0    35
+ ATM: update_ice_model_slow_up        3.999869      9.972878      7.868308      1.900792  0.007     0     0    35
+ ATM: atmos loop                    954.740740    960.702545    956.814794      1.870457  0.872     0     0    35
+  A-L: atmos_tracer_driver_gathe      0.000152      0.000303      0.000213      0.000035  0.000     0     0    35
+  A-L: sfc_boundary_layer           422.683215    430.396818    425.987260      1.982252  0.388     0     0    35
+  A-L: update_atmos_model_dynami      0.000070      0.000176      0.000115      0.000022  0.000     0     0    35
+  A-L: serial radiation               0.000052      0.000107      0.000079      0.000013  0.000     0     0    35
+  A-L: update_atmos_model_down        0.000059      0.000167      0.000111      0.000028  0.000     0     0    35
+  A-L: flux_down_from_atmos         254.141767    269.502584    263.858163      4.082309  0.240     0     0    35
+  A-L: update_land_model_fast         6.108129    257.156317     85.996449     79.658641  0.078     0     0    35
+  A-L: update_ice_model_fast          4.030563      5.909800      4.822168      0.531469  0.004     0     0    35
+  A-L: flux_up_to_atmos               2.308557    264.633629    176.145407     80.923207  0.160     0     0    35
+  A-L: update_atmos_model_up          0.000138      0.000471      0.000237      0.000069  0.000     0     0    35
+  A-L: update_atmos_model_state       0.000126      0.000356      0.000218      0.000061  0.000     0     0    35
+ ATM: update_land_model_slow          0.280267     16.091752      5.542753      4.757754  0.005     0     0    35
+ ATM: flux_land_to_ice                0.419291     16.339151     11.023491      4.756278  0.010     0     0    35
+ ATM: update_ice_model_slow_dn       33.090835     34.021419     33.665668      0.227693  0.031     0     0    35
+ ATM: flux_ice_to_ocean_stocks        0.023751      0.048808      0.034815      0.007082  0.000     0     0    35
+intermediate restart                  0.000000      0.000000      0.000000      0.000000  0.000     0     0   323
+final flux_check_stocks               0.010903      0.011295      0.010912      0.000021  0.000     0     0   323
+ MPP_STACK high water mark=           0
+Application 136581228 resources: utime ~349829s, stime ~4340s, Rss ~411932, inblocks ~155368626, outblocks ~3611248
