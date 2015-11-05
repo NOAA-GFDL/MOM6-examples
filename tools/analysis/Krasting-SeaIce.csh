@@ -168,10 +168,13 @@ geolon = netCDF4.Dataset('gridspec/ocean_hgrid.nc').variables['x'][1::2,1::2]
 geolat = netCDF4.Dataset('gridspec/ocean_hgrid.nc').variables['y'][1::2,1::2]
 area_t = netCDF4.Dataset('gridspec/ocean_hgrid.nc').variables['area'][:].reshape((geolon.shape[0],2,geolon.shape[1],2)).sum(axis=1).sum(axis=-1)
 
-#-- Read geolon/geolat
+#-- Read yh/xh
+if 'area_t' in netCDF4.Dataset('${oceanstaticfile}').variables: area_varname = 'area_t'
+elif 'areacello' in netCDF4.Dataset('${oceanstaticfile}').variables: area_varname = 'areacello'
+else: raise Exception('Could not find an area variable in the static grid file')
 fs = cdms2.open('${oceanstaticfile}')
-yh = fs('area_t').getAxis(0)
-xh = fs('area_t').getAxis(1)
+yh = fs(area_varname).getAxis(0)
+xh = fs(area_varname).getAxis(1)
 
 #-- Read data and compute climatology
 f = cdms2.open('input.xml')
