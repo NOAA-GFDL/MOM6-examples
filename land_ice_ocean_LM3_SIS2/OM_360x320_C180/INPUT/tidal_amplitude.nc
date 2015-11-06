@@ -1,1 +1,1 @@
-/lustre/f1/unswept/Matthew.Harrison/MOM6_datasets/FLOR2/tidal_amplitude.nc
+.datasets/OM4_360x320_C180/INPUT.20150713/tidal_amplitude.nc

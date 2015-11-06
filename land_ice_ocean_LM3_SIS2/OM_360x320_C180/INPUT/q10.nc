@@ -1,1 +1,1 @@
-/lustre/f1/pdata/gfdl_O/datasets/reanalysis/MERRA/q10/q10_merra_1992.nc
+.datasets/reanalysis/MERRA/q10/q10_merra_1992.nc
