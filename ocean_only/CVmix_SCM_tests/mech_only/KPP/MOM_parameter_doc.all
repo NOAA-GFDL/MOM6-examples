@@ -404,6 +404,11 @@ REMAP_AFTER_INITIALIZATION = True !   [Boolean] default = True
                                 ! initialization so that the state is ALE consistent. This is a
                                 ! legacy step and should not be needed if the initialization is
                                 ! consistent with the coordinate mode.
+REGRID_TIME_SCALE = 0.0         !   [s] default = 0.0
+                                ! The time-scale used in blending between the current (old) grid
+                                ! and the target (new) grid. A short time-scale favors the target
+                                ! grid (0. or anything less than DT_THERM) has no memory of the old
+                                ! grid. A very long time-scale makes the model more Lagrangian.
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
                                 ! If true, intialize the layer thicknesses, temperatures,
                                 ! and salnities from a Z-space file on a latitude-
