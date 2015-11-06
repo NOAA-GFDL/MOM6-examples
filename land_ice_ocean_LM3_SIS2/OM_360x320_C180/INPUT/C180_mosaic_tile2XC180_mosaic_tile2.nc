@@ -1,1 +1,1 @@
-/lustre/f1/unswept/Matthew.Harrison/MOM6_datasets/C180_OM360x320.071315/mosaic_unpacked/C180_mosaic_tile2XC180_mosaic_tile2.nc
+.datasets/OM4_360x320_C180/mosaic_unpacked.20150713/C180_mosaic_tile2XC180_mosaic_tile2.nc

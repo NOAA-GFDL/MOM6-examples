@@ -1,1 +1,1 @@
-/lustre/f1/unswept/Matthew.Harrison/MOM6_datasets/FLOR2/ocn_only/atmos_mosaic_tile1Xland_mosaic_tile1.nc
+.datasets/OM4_360x320_C180/mosaic_unpacked.20150713/atmos_mosaic_tile1Xland_mosaic_tile1.nc

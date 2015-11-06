@@ -1,1 +1,1 @@
-/lustre/f1/unswept/Matthew.Harrison/MOM6_datasets/C180_OM360x320.071315/INPUT/soil.res.tile6.nc
+.datasets/OM4_360x320_C180/INPUT.20150713/soil.res.tile6.nc
