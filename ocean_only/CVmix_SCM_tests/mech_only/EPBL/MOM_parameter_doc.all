@@ -347,6 +347,7 @@ REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 !  Z*    - stetched geopotential z*
                                 !  SIGMA - terrain following coordinates
                                 !  RHO   - continuous isopycnal
+                                !  HYCOM1 - HyCOM-like hybrid coordinate
 REGRIDDING_COORDINATE_UNITS = "m" ! default = "m"
                                 ! Units of the regridding coordinuate.
 INTERPOLATION_SCHEME = "P1M_H2" ! default = "P1M_H2"
@@ -365,6 +366,10 @@ INTERPOLATION_SCHEME = "P1M_H2" ! default = "P1M_H2"
                                 !  P3M_IH6IH5 (4th-order accurate)
                                 !  PQM_IH4IH3 (4th-order accurate)
                                 !  PQM_IH6IH5 (5th-order accurate)
+REGRID_COMPRESSIBILITY_FRACTION = 0.0 !   [not defined] default = 0.0
+                                ! When interpolating potential density profiles we can add
+                                ! some artificial compressibility solely to make homogenous
+                                ! regions appear stratified.
 ALE_COORDINATE_CONFIG = "UNIFORM" ! default = "UNIFORM"
                                 ! Determines how to specify the coordinate
                                 ! resolution. Valid options are:
