@@ -768,186 +768,6 @@ DIAG_MLD_DENSITY_DIFF = 0.1     !   [kg/m3] default = 0.1
                                 ! layer depth, MLD_user, following the definition of Levitus 1982.
                                 ! The MLD is the depth at which the density is larger than the
                                 ! surface density by the specified amount.
-FLUX_RI_MAX = 0.2               !   [not defined] default = 0.2
-                                ! The flux Richardson number where the stratification is
-                                ! large enough that N2 > omega2.  The full expression for
-                                ! the Flux Richardson number is usually
-                                ! FLUX_RI_MAX*N2/(N2+OMEGA2).
-OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
-                                ! The rotation rate of the earth.
-ML_RADIATION = True             !   [Boolean] default = False
-                                ! If true, allow a fraction of TKE available from wind
-                                ! work to penetrate below the base of the mixed layer
-                                ! with a vertical decay scale determined by the minimum
-                                ! of: (1) The depth of the mixed layer, (2) an Ekman
-                                ! length scale.
-ML_RAD_EFOLD_COEFF = 0.2        !   [nondim] default = 0.2
-                                ! A coefficient that is used to scale the penetration
-                                ! depth for turbulence below the base of the mixed layer.
-                                ! This is only used if ML_RADIATION is true.
-ML_RAD_KD_MAX = 0.001           !   [m2 s-1] default = 0.001
-                                ! The maximum diapycnal diffusivity due to turbulence
-                                ! radiated from the base of the mixed layer.
-                                ! This is only used if ML_RADIATION is true.
-ML_RAD_COEFF = 0.2              !   [nondim] default = 0.2
-                                ! The coefficient which scales MSTAR*USTAR^3 to obtain
-                                ! the energy available for mixing below the base of the
-                                ! mixed layer. This is only used if ML_RADIATION is true.
-ML_RAD_APPLY_TKE_DECAY = True   !   [Boolean] default = True
-                                ! If true, apply the same exponential decay to ML_rad as
-                                ! is applied to the other surface sources of TKE in the
-                                ! mixed layer code. This is only used if ML_RADIATION is true.
-MSTAR = 1.2                     !   [units=nondim] default = 1.2
-                                ! The ratio of the friction velocity cubed to the TKE
-                                ! input to the mixed layer.
-TKE_DECAY = 10.0                !   [nondim] default = 2.5
-                                ! The ratio of the natural Ekman depth to the TKE decay scale.
-ML_USE_OMEGA = True             !   [Boolean] default = False
-                                ! If true, use the absolute rotation rate instead of the
-                                ! vertical component of rotation when setting the decay
-                                ! scale for turbulence in the mixed layer.
-                                ! This is only used if ML_RADIATION is true.
-BBL_EFFIC = 0.2                 !   [nondim] default = 0.2
-                                ! The efficiency with which the energy extracted by
-                                ! bottom drag drives BBL diffusion.  This is only
-                                ! used if BOTTOMDRAGLAW is true.
-BBL_MIXING_MAX_DECAY = 0.0      !   [m] default = 0.0
-                                ! The maximum decay scale for the BBL diffusion, or 0
-                                ! to allow the mixing to penetrate as far as
-                                ! stratification and rotation permit.  The default is 0.
-                                ! This is only used if BOTTOMDRAGLAW is true.
-BBL_MIXING_AS_MAX = True        !   [Boolean] default = True
-                                ! If true, take the maximum of the diffusivity from the
-                                ! BBL mixing and the other diffusivities. Otherwise,
-                                ! diffusiviy from the BBL_mixing is simply added.
-USE_LOTW_BBL_DIFFUSIVITY = False !   [Boolean] default = False
-                                ! If true, uses a simple, imprecise but non-coordinate dependent, model
-                                ! of BBL mixing diffusivity based on Law of the Wall. Otherwise, uses
-                                ! the original BBL scheme.
-SIMPLE_TKE_TO_KD = False        !   [Boolean] default = False
-                                ! If true, uses a simple estimate of Kd/TKE that will
-                                ! work for arbitrary vertical coordinates. If false,
-                                ! calculates Kd/TKE and bounds based on exact energetics/nfor an isopycnal layer-formulation.
-BRYAN_LEWIS_DIFFUSIVITY = False !   [Boolean] default = False
-                                ! If true, use a Bryan & Lewis (JGR 1979) like tanh
-                                ! profile of background diapycnal diffusivity with depth.
-HENYEY_IGW_BACKGROUND = False   !   [Boolean] default = False
-                                ! If true, use a latitude-dependent scaling for the near
-                                ! surface background diffusivity, as described in
-                                ! Harrison & Hallberg, JPO 2008.
-HENYEY_IGW_BACKGROUND_NEW = False !   [Boolean] default = False
-                                ! If true, use a better latitude-dependent scaling for the
-                                ! background diffusivity, as described in
-                                ! Harrison & Hallberg, JPO 2008.
-N2_FLOOR_IOMEGA2 = 1.0          !   [nondim] default = 1.0
-                                ! The floor applied to N2(k) scaled by Omega^2:
-                                !   If =0., N2(k) is simply positive definite.
-                                !   If =1., N2(k) > Omega^2 everywhere.
-KD_TANH_LAT_FN = False          !   [Boolean] default = False
-                                ! If true, use a tanh dependence of Kd_sfc on latitude,
-                                ! like CM2.1/CM2M.  There is no physical justification
-                                ! for this form, and it can not be used with
-                                ! HENYEY_IGW_BACKGROUND.
-KD = 2.0E-05                    !   [m2 s-1]
-                                ! The background diapycnal diffusivity of density in the
-                                ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
-                                ! may be used.
-KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
-                                ! The minimum diapycnal diffusivity.
-KD_MAX = -1.0                   !   [m2 s-1] default = -1.0
-                                ! The maximum permitted increment for the diapycnal
-                                ! diffusivity from TKE-based parameterizations, or a
-                                ! negative value for no limit.
-KD_ADD = 0.0                    !   [m2 s-1] default = 0.0
-                                ! A uniform diapycnal diffusivity that is added
-                                ! everywhere without any filtering or scaling.
-INT_TIDE_DISSIPATION = False    !   [Boolean] default = False
-                                ! If true, use an internal tidal dissipation scheme to
-                                ! drive diapycnal mixing, along the lines of St. Laurent
-                                ! et al. (2002) and Simmons et al. (2004).
-LEE_WAVE_DISSIPATION = False    !   [Boolean] default = False
-                                ! If true, use an lee wave driven dissipation scheme to
-                                ! drive diapycnal mixing, along the lines of Nikurashin
-                                ! (2010) and using the St. Laurent et al. (2002)
-                                ! and Simmons et al. (2004) vertical profile
-USER_CHANGE_DIFFUSIVITY = False !   [Boolean] default = False
-                                ! If true, call user-defined code to change the diffusivity.
-DISSIPATION_MIN = 0.0           !   [W m-3] default = 0.0
-                                ! The minimum dissipation by which to determine a lower
-                                ! bound of Kd (a floor).
-DISSIPATION_N0 = 0.0            !   [W m-3] default = 0.0
-                                ! The intercept when N=0 of the N-dependent expression
-                                ! used to set a minimum dissipation by which to determine
-                                ! a lower bound of Kd (a floor): A in eps_min = A + B*N.
-DISSIPATION_N1 = 0.0            !   [J m-3] default = 0.0
-                                ! The coefficient multiplying N, following Gargett, used to
-                                ! set a minimum dissipation by which to determine a lower
-                                ! bound of Kd (a floor): B in eps_min = A + B*N
-DISSIPATION_KD_MIN = 0.0        !   [m2 s-1] default = 0.0
-                                ! The minimum vertical diffusivity applied as a floor.
-
-! === module MOM_kappa_shear ===
-! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
-USE_JACKSON_PARAM = True        !   [Boolean] default = False
-                                ! If true, use the Jackson-Hallberg-Legg (JPO 2008)
-                                ! shear mixing parameterization.
-RINO_CRIT = 0.25                !   [nondim] default = 0.25
-                                ! The critical Richardson number for shear mixing.
-SHEARMIX_RATE = 0.089           !   [nondim] default = 0.089
-                                ! A nondimensional rate scale for shear-driven entrainment.
-                                ! Jackson et al find values in the range of 0.085-0.089.
-MAX_RINO_IT = 25                !   [nondim] default = 50
-                                ! The maximum number of iterations that may be used to
-                                ! estimate the Richardson number driven mixing.
-KD_KAPPA_SHEAR_0 = 2.0E-05      !   [m2 s-1] default = 2.0E-05
-                                ! The background diffusivity that is used to smooth the
-                                ! density and shear profiles before solving for the
-                                ! diffusivities. Defaults to value of KD.
-FRI_CURVATURE = -0.97           !   [nondim] default = -0.97
-                                ! The nondimensional curvature of the function of the
-                                ! Richardson number in the kappa source term in the
-                                ! Jackson et al. scheme.
-TKE_N_DECAY_CONST = 0.24        !   [nondim] default = 0.24
-                                ! The coefficient for the decay of TKE due to
-                                ! stratification (i.e. proportional to N*tke).
-                                ! The values found by Jackson et al. are 0.24-0.28.
-TKE_SHEAR_DECAY_CONST = 0.14    !   [nondim] default = 0.14
-                                ! The coefficient for the decay of TKE due to shear (i.e.
-                                ! proportional to |S|*tke). The values found by Jackson
-                                ! et al. are 0.14-0.12.
-KAPPA_BUOY_SCALE_COEF = 0.82    !   [nondim] default = 0.82
-                                ! The coefficient for the buoyancy length scale in the
-                                ! kappa equation.  The values found by Jackson et al. are
-                                ! in the range of 0.81-0.86.
-KAPPA_N_OVER_S_SCALE_COEF2 = 0.0 !   [nondim] default = 0.0
-                                ! The square of the ratio of the coefficients of the
-                                ! buoyancy and shear scales in the diffusivity equation,
-                                ! Set this to 0 (the default) to eliminate the shear scale.
-                                ! This is only used if USE_JACKSON_PARAM is true.
-KAPPA_SHEAR_TOL_ERR = 0.1       !   [nondim] default = 0.1
-                                ! The fractional error in kappa that is tolerated.
-                                ! Iteration stops when changes between subsequent
-                                ! iterations are smaller than this everywhere in a
-                                ! column.  The peak diffusivities usually converge most
-                                ! rapidly, and have much smaller errors than this.
-TKE_BACKGROUND = 0.0            !   [m2 s-2] default = 0.0
-                                ! A background level of TKE used in the first iteration
-                                ! of the kappa equation.  TKE_BACKGROUND could be 0.
-KAPPA_SHEAR_ELIM_MASSLESS = True !   [Boolean] default = True
-                                ! If true, massless layers are merged with neighboring
-                                ! massive layers in this calculation.  The default is
-                                ! true and I can think of no good reason why it should
-                                ! be false. This is only used if USE_JACKSON_PARAM is true.
-MAX_KAPPA_SHEAR_IT = 13         !   [nondim] default = 13
-                                ! The maximum number of iterations that may be used to
-                                ! estimate the time-averaged diffusivity.
-DEBUG_KAPPA_SHEAR = False       !   [Boolean] default = False
-                                ! If true, write debugging data for the kappa-shear code.
-                                ! Caution: this option is _very_ verbose and should only
-                                ! be used in single-column mode!
-KAPPA_SHEAR_MERGE_ML = True     !   [Boolean] default = True
-                                ! If true, combine the mixed layers together before
-                                ! solving the kappa-shear equations.
 
 ! === module MOM_KPP ===
 ! This is the MOM wrapper to CVmix:KPP
@@ -1055,6 +875,192 @@ MAX_ENT_IT = 20                 ! default = 5
                                 ! calculate the interior diapycnal entrainment.
 TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.683281572999748E-05
                                 ! The tolerance with which to solve for entrainment values.
+FLUX_RI_MAX = 0.2               !   [not defined] default = 0.2
+                                ! The flux Richardson number where the stratification is
+                                ! large enough that N2 > omega2.  The full expression for
+                                ! the Flux Richardson number is usually
+                                ! FLUX_RI_MAX*N2/(N2+OMEGA2).
+OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
+                                ! The rotation rate of the earth.
+ML_RADIATION = True             !   [Boolean] default = False
+                                ! If true, allow a fraction of TKE available from wind
+                                ! work to penetrate below the base of the mixed layer
+                                ! with a vertical decay scale determined by the minimum
+                                ! of: (1) The depth of the mixed layer, (2) an Ekman
+                                ! length scale.
+ML_RAD_EFOLD_COEFF = 0.2        !   [nondim] default = 0.2
+                                ! A coefficient that is used to scale the penetration
+                                ! depth for turbulence below the base of the mixed layer.
+                                ! This is only used if ML_RADIATION is true.
+ML_RAD_KD_MAX = 0.001           !   [m2 s-1] default = 0.001
+                                ! The maximum diapycnal diffusivity due to turbulence
+                                ! radiated from the base of the mixed layer.
+                                ! This is only used if ML_RADIATION is true.
+ML_RAD_COEFF = 0.2              !   [nondim] default = 0.2
+                                ! The coefficient which scales MSTAR*USTAR^3 to obtain
+                                ! the energy available for mixing below the base of the
+                                ! mixed layer. This is only used if ML_RADIATION is true.
+ML_RAD_APPLY_TKE_DECAY = True   !   [Boolean] default = True
+                                ! If true, apply the same exponential decay to ML_rad as
+                                ! is applied to the other surface sources of TKE in the
+                                ! mixed layer code. This is only used if ML_RADIATION is true.
+MSTAR = 1.2                     !   [units=nondim] default = 1.2
+                                ! The ratio of the friction velocity cubed to the TKE
+                                ! input to the mixed layer.
+TKE_DECAY = 10.0                !   [nondim] default = 2.5
+                                ! The ratio of the natural Ekman depth to the TKE decay scale.
+ML_USE_OMEGA = True             !   [Boolean] default = False
+                                ! If true, use the absolute rotation rate instead of the
+                                ! vertical component of rotation when setting the decay
+                                ! scale for turbulence in the mixed layer.
+                                ! This is only used if ML_RADIATION is true.
+BBL_EFFIC = 0.2                 !   [nondim] default = 0.2
+                                ! The efficiency with which the energy extracted by
+                                ! bottom drag drives BBL diffusion.  This is only
+                                ! used if BOTTOMDRAGLAW is true.
+BBL_MIXING_MAX_DECAY = 0.0      !   [m] default = 0.0
+                                ! The maximum decay scale for the BBL diffusion, or 0
+                                ! to allow the mixing to penetrate as far as
+                                ! stratification and rotation permit.  The default is 0.
+                                ! This is only used if BOTTOMDRAGLAW is true.
+BBL_MIXING_AS_MAX = True        !   [Boolean] default = True
+                                ! If true, take the maximum of the diffusivity from the
+                                ! BBL mixing and the other diffusivities. Otherwise,
+                                ! diffusiviy from the BBL_mixing is simply added.
+USE_LOTW_BBL_DIFFUSIVITY = False !   [Boolean] default = False
+                                ! If true, uses a simple, imprecise but non-coordinate dependent, model
+                                ! of BBL mixing diffusivity based on Law of the Wall. Otherwise, uses
+                                ! the original BBL scheme.
+SIMPLE_TKE_TO_KD = False        !   [Boolean] default = False
+                                ! If true, uses a simple estimate of Kd/TKE that will
+                                ! work for arbitrary vertical coordinates. If false,
+                                ! calculates Kd/TKE and bounds based on exact energetics/nfor an isopycnal layer-formulation.
+BRYAN_LEWIS_DIFFUSIVITY = False !   [Boolean] default = False
+                                ! If true, use a Bryan & Lewis (JGR 1979) like tanh
+                                ! profile of background diapycnal diffusivity with depth.
+HENYEY_IGW_BACKGROUND = False   !   [Boolean] default = False
+                                ! If true, use a latitude-dependent scaling for the near
+                                ! surface background diffusivity, as described in
+                                ! Harrison & Hallberg, JPO 2008.
+HENYEY_IGW_BACKGROUND_NEW = False !   [Boolean] default = False
+                                ! If true, use a better latitude-dependent scaling for the
+                                ! background diffusivity, as described in
+                                ! Harrison & Hallberg, JPO 2008.
+N2_FLOOR_IOMEGA2 = 1.0          !   [nondim] default = 1.0
+                                ! The floor applied to N2(k) scaled by Omega^2:
+                                !   If =0., N2(k) is simply positive definite.
+                                !   If =1., N2(k) > Omega^2 everywhere.
+KD_TANH_LAT_FN = False          !   [Boolean] default = False
+                                ! If true, use a tanh dependence of Kd_sfc on latitude,
+                                ! like CM2.1/CM2M.  There is no physical justification
+                                ! for this form, and it can not be used with
+                                ! HENYEY_IGW_BACKGROUND.
+KD = 2.0E-05                    !   [m2 s-1]
+                                ! The background diapycnal diffusivity of density in the
+                                ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
+                                ! may be used.
+KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
+                                ! The minimum diapycnal diffusivity.
+KD_MAX = -1.0                   !   [m2 s-1] default = -1.0
+                                ! The maximum permitted increment for the diapycnal
+                                ! diffusivity from TKE-based parameterizations, or a
+                                ! negative value for no limit.
+KD_ADD = 0.0                    !   [m2 s-1] default = 0.0
+                                ! A uniform diapycnal diffusivity that is added
+                                ! everywhere without any filtering or scaling.
+INT_TIDE_DISSIPATION = False    !   [Boolean] default = False
+                                ! If true, use an internal tidal dissipation scheme to
+                                ! drive diapycnal mixing, along the lines of St. Laurent
+                                ! et al. (2002) and Simmons et al. (2004).
+LEE_WAVE_DISSIPATION = False    !   [Boolean] default = False
+                                ! If true, use an lee wave driven dissipation scheme to
+                                ! drive diapycnal mixing, along the lines of Nikurashin
+                                ! (2010) and using the St. Laurent et al. (2002)
+                                ! and Simmons et al. (2004) vertical profile
+INT_TIDE_LOWMODE_DISSIPATION = False !   [Boolean] default = False
+                                ! If true, consider mixing due to breaking low modes that
+                                ! have been remotely generated; as with itidal drag on the
+                                ! barotropic tide, use an internal tidal dissipation scheme to
+                                ! drive diapycnal mixing, along the lines of St. Laurent
+                                ! et al. (2002) and Simmons et al. (2004).
+USER_CHANGE_DIFFUSIVITY = False !   [Boolean] default = False
+                                ! If true, call user-defined code to change the diffusivity.
+DISSIPATION_MIN = 0.0           !   [W m-3] default = 0.0
+                                ! The minimum dissipation by which to determine a lower
+                                ! bound of Kd (a floor).
+DISSIPATION_N0 = 0.0            !   [W m-3] default = 0.0
+                                ! The intercept when N=0 of the N-dependent expression
+                                ! used to set a minimum dissipation by which to determine
+                                ! a lower bound of Kd (a floor): A in eps_min = A + B*N.
+DISSIPATION_N1 = 0.0            !   [J m-3] default = 0.0
+                                ! The coefficient multiplying N, following Gargett, used to
+                                ! set a minimum dissipation by which to determine a lower
+                                ! bound of Kd (a floor): B in eps_min = A + B*N
+DISSIPATION_KD_MIN = 0.0        !   [m2 s-1] default = 0.0
+                                ! The minimum vertical diffusivity applied as a floor.
+
+! === module MOM_kappa_shear ===
+! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
+USE_JACKSON_PARAM = True        !   [Boolean] default = False
+                                ! If true, use the Jackson-Hallberg-Legg (JPO 2008)
+                                ! shear mixing parameterization.
+RINO_CRIT = 0.25                !   [nondim] default = 0.25
+                                ! The critical Richardson number for shear mixing.
+SHEARMIX_RATE = 0.089           !   [nondim] default = 0.089
+                                ! A nondimensional rate scale for shear-driven entrainment.
+                                ! Jackson et al find values in the range of 0.085-0.089.
+MAX_RINO_IT = 25                !   [nondim] default = 50
+                                ! The maximum number of iterations that may be used to
+                                ! estimate the Richardson number driven mixing.
+KD_KAPPA_SHEAR_0 = 2.0E-05      !   [m2 s-1] default = 2.0E-05
+                                ! The background diffusivity that is used to smooth the
+                                ! density and shear profiles before solving for the
+                                ! diffusivities. Defaults to value of KD.
+FRI_CURVATURE = -0.97           !   [nondim] default = -0.97
+                                ! The nondimensional curvature of the function of the
+                                ! Richardson number in the kappa source term in the
+                                ! Jackson et al. scheme.
+TKE_N_DECAY_CONST = 0.24        !   [nondim] default = 0.24
+                                ! The coefficient for the decay of TKE due to
+                                ! stratification (i.e. proportional to N*tke).
+                                ! The values found by Jackson et al. are 0.24-0.28.
+TKE_SHEAR_DECAY_CONST = 0.14    !   [nondim] default = 0.14
+                                ! The coefficient for the decay of TKE due to shear (i.e.
+                                ! proportional to |S|*tke). The values found by Jackson
+                                ! et al. are 0.14-0.12.
+KAPPA_BUOY_SCALE_COEF = 0.82    !   [nondim] default = 0.82
+                                ! The coefficient for the buoyancy length scale in the
+                                ! kappa equation.  The values found by Jackson et al. are
+                                ! in the range of 0.81-0.86.
+KAPPA_N_OVER_S_SCALE_COEF2 = 0.0 !   [nondim] default = 0.0
+                                ! The square of the ratio of the coefficients of the
+                                ! buoyancy and shear scales in the diffusivity equation,
+                                ! Set this to 0 (the default) to eliminate the shear scale.
+                                ! This is only used if USE_JACKSON_PARAM is true.
+KAPPA_SHEAR_TOL_ERR = 0.1       !   [nondim] default = 0.1
+                                ! The fractional error in kappa that is tolerated.
+                                ! Iteration stops when changes between subsequent
+                                ! iterations are smaller than this everywhere in a
+                                ! column.  The peak diffusivities usually converge most
+                                ! rapidly, and have much smaller errors than this.
+TKE_BACKGROUND = 0.0            !   [m2 s-2] default = 0.0
+                                ! A background level of TKE used in the first iteration
+                                ! of the kappa equation.  TKE_BACKGROUND could be 0.
+KAPPA_SHEAR_ELIM_MASSLESS = True !   [Boolean] default = True
+                                ! If true, massless layers are merged with neighboring
+                                ! massive layers in this calculation.  The default is
+                                ! true and I can think of no good reason why it should
+                                ! be false. This is only used if USE_JACKSON_PARAM is true.
+MAX_KAPPA_SHEAR_IT = 13         !   [nondim] default = 13
+                                ! The maximum number of iterations that may be used to
+                                ! estimate the time-averaged diffusivity.
+DEBUG_KAPPA_SHEAR = False       !   [Boolean] default = False
+                                ! If true, write debugging data for the kappa-shear code.
+                                ! Caution: this option is _very_ verbose and should only
+                                ! be used in single-column mode!
+KAPPA_SHEAR_MERGE_ML = True     !   [Boolean] default = True
+                                ! If true, combine the mixed layers together before
+                                ! solving the kappa-shear equations.
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.

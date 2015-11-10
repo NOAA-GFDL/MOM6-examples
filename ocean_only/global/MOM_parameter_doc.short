@@ -393,6 +393,32 @@ Z_OUTPUT_GRID_FILE = "OM3_zgrid.nc" ! default = ""
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
+
+! === module MOM_KPP ===
+! This is the MOM wrapper to CVmix:KPP
+! See http://code.google.com/p/cvmix/
+
+! === module MOM_diffConvection ===
+! This module implements enhanced diffusivity as a
+! function of static stability, N^2.
+CONVECTION%
+%CONVECTION
+
+! === module MOM_entrain_diffusive ===
+MAX_ENT_IT = 20                 ! default = 5
+                                ! The maximum number of iterations that may be used to
+                                ! calculate the interior diapycnal entrainment.
+TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.683281572999748E-05
+                                ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_geothermal ===
+GEOTHERMAL_SCALE = 0.001        !   [W m-2 or various] default = 0.0
+                                ! The constant geothermal heat flux, a rescaling
+                                ! factor for the heat flux read from GEOTHERMAL_FILE, or
+                                ! 0 to disable the geothermal heating.
+GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
+                                ! The file from which the geothermal heating is to be
+                                ! read, or blank to use a constant heating rate.
 ML_RADIATION = True             !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind
                                 ! work to penetrate below the base of the mixed layer
@@ -464,32 +490,6 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to
                                 ! estimate the Richardson number driven mixing.
-
-! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
-
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-CONVECTION%
-%CONVECTION
-
-! === module MOM_entrain_diffusive ===
-MAX_ENT_IT = 20                 ! default = 5
-                                ! The maximum number of iterations that may be used to
-                                ! calculate the interior diapycnal entrainment.
-TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.683281572999748E-05
-                                ! The tolerance with which to solve for entrainment values.
-
-! === module MOM_geothermal ===
-GEOTHERMAL_SCALE = 0.001        !   [W m-2 or various] default = 0.0
-                                ! The constant geothermal heat flux, a rescaling
-                                ! factor for the heat flux read from GEOTHERMAL_FILE, or
-                                ! 0 to disable the geothermal heating.
-GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
-                                ! The file from which the geothermal heating is to be
-                                ! read, or blank to use a constant heating rate.
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.

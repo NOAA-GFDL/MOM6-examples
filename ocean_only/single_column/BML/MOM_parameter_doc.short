@@ -243,6 +243,30 @@ Z_OUTPUT_GRID_FILE = "../zgrid.nc" ! default = ""
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
+
+! === module MOM_KPP ===
+! This is the MOM wrapper to CVmix:KPP
+! See http://code.google.com/p/cvmix/
+USE_KPP = True                  !   [Boolean] default = False
+                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
+                                ! to calculate diffusivities and non-local transport in the OBL.
+KPP%
+PASSIVE = True                  !   [Boolean] default = False
+                                ! If True, puts KPP into a passive-diagnostic mode.
+%KPP
+
+! === module MOM_diffConvection ===
+! This module implements enhanced diffusivity as a
+! function of static stability, N^2.
+CONVECTION%
+%CONVECTION
+
+! === module MOM_entrain_diffusive ===
+MAX_ENT_IT = 20                 ! default = 5
+                                ! The maximum number of iterations that may be used to
+                                ! calculate the interior diapycnal entrainment.
+TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.683281572999748E-05
+                                ! The tolerance with which to solve for entrainment values.
 ML_RADIATION = True             !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind
                                 ! work to penetrate below the base of the mixed layer
@@ -271,30 +295,6 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to
                                 ! estimate the Richardson number driven mixing.
-
-! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
-USE_KPP = True                  !   [Boolean] default = False
-                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
-                                ! to calculate diffusivities and non-local transport in the OBL.
-KPP%
-PASSIVE = True                  !   [Boolean] default = False
-                                ! If True, puts KPP into a passive-diagnostic mode.
-%KPP
-
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-CONVECTION%
-%CONVECTION
-
-! === module MOM_entrain_diffusive ===
-MAX_ENT_IT = 20                 ! default = 5
-                                ! The maximum number of iterations that may be used to
-                                ! calculate the interior diapycnal entrainment.
-TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.683281572999748E-05
-                                ! The tolerance with which to solve for entrainment values.
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.

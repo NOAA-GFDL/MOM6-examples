@@ -807,6 +807,9 @@
 "ocean_model", "wd"  [Used]
     ! long_name: Diapycnal Velocity
     ! units: meter second-1
+"ocean_model", "cn1"  [Unused]
+    ! long_name: First baroclinic mode (eigen) speed
+    ! units: m s-1
 "ocean_model", "Tflx_dia_diff"  [Unused]
     ! long_name: Diffusive diapycnal temperature flux across interfaces
     ! units: degC meter second-1
@@ -854,88 +857,6 @@
 "ocean_model_z", "Sflx_dia_adv"  [Unused]
     ! long_name: Advective diapycnal salinity flux across interfaces, interpolated to z
     ! units: PSU meter second-1
-"ocean_model", "Kd_BBL"  [Used]
-    ! long_name: Bottom Boundary Layer Diffusivity
-    ! units: meter2 sec-1
-"ocean_model", "Kd_layer"  [Used]
-    ! long_name: Diapycnal diffusivity of layers (as set)
-    ! units: meter2 second-1
-"ocean_model_z_new", "Kd_layer"  [Unused]
-    ! long_name: Diapycnal diffusivity of layers (as set)
-    ! units: meter2 second-1
-"ocean_model", "TKE_itidal"  [Unused]
-    ! long_name: Internal Tide Driven Turbulent Kinetic Energy
-    ! units: Watt meter-2
-"ocean_model", "maxTKE"  [Unused]
-    ! long_name: Maximum layer TKE
-    ! units: meter3 second-3
-"ocean_model_z_new", "maxTKE"  [Unused]
-    ! long_name: Maximum layer TKE
-    ! units: meter3 second-3
-"ocean_model", "TKE_to_Kd"  [Unused]
-    ! long_name: Convert TKE to Kd
-    ! units: second2 meter
-"ocean_model_z_new", "TKE_to_Kd"  [Unused]
-    ! long_name: Convert TKE to Kd
-    ! units: second2 meter
-"ocean_model", "Nb"  [Unused]
-    ! long_name: Bottom Buoyancy Frequency
-    ! units: sec-1
-"ocean_model", "Kd_itides"  [Used]
-    ! long_name: Internal Tide Driven Diffusivity
-    ! units: meter2 sec-1
-"ocean_model", "Fl_itides"  [Unused]
-    ! long_name: Vertical flux of tidal turbulent dissipation
-    ! units: meter3 sec-3
-"ocean_model", "Polzin_decay_scale"  [Unused]
-    ! long_name: Vertical decay scale for the tidal turbulent dissipation with Polzin scheme
-    ! units: meter
-"ocean_model", "Polzin_decay_scale_scaled"  [Unused]
-    ! long_name: Vertical decay scale for the tidal turbulent dissipation with Polzin scheme, scaled by N2_bot/N2_meanz
-    ! units: meter
-"ocean_model", "N2_b"  [Unused]
-    ! long_name: Bottom Buoyancy frequency squared
-    ! units: s-2
-"ocean_model", "N2_meanz"  [Unused]
-    ! long_name: Buoyancy frequency squared averaged over the water column
-    ! units: s-2
-"ocean_model", "Kd_Work"  [Unused]
-    ! long_name: Work done by Diapycnal Mixing
-    ! units: Watts m-2
-"ocean_model_z_new", "Kd_Work"  [Unused]
-    ! long_name: Work done by Diapycnal Mixing
-    ! units: Watts m-2
-"ocean_model", "Kd_Itidal_Work"  [Unused]
-    ! long_name: Work done by Internal Tide Diapycnal Mixing
-    ! units: Watts m-2
-"ocean_model_z_new", "Kd_Itidal_Work"  [Unused]
-    ! long_name: Work done by Internal Tide Diapycnal Mixing
-    ! units: Watts m-2
-"ocean_model", "Kd_Nikurashin_Work"  [Unused]
-    ! long_name: Work done by Nikurashin Lee Wave Drag Scheme
-    ! units: Watts m-2
-"ocean_model_z_new", "Kd_Nikurashin_Work"  [Unused]
-    ! long_name: Work done by Nikurashin Lee Wave Drag Scheme
-    ! units: Watts m-2
-"ocean_model", "N2"  [Unused]
-    ! long_name: Buoyancy frequency squared
-    ! units: sec-2
-"ocean_model", "obvfsq"  [Used]
-    ! long_name: Square of seawater buoyancy frequency
-    ! units: s-2
-    ! standard_name: square_of_brunt_vaisala_frequency_in_sea_water
-"ocean_model_z", "N2"  [Unused]
-    ! long_name: Buoyancy frequency, interpolated to z
-    ! units: second-2
-"ocean_model_z", "Kd_itides"  [Unused]
-    ! long_name: Internal Tide Driven Diffusivity, interpolated to z
-    ! units: meter2 second-1
-"ocean_model", "Kd_shear"  [Used]
-    ! long_name: Shear-driven Diapycnal Diffusivity
-    ! units: meter2 second-1
-"ocean_model", "TKE_shear"  [Unused]
-    ! long_name: Shear-driven Turbulent Kinetic Energy
-    ! units: meter2 second-2
 "ocean_model", "Kd_interface"  [Used]
     ! long_name: Total diapycnal diffusivity at interfaces
     ! units: meter2 second-1
@@ -1011,6 +932,100 @@
 "ocean_model", "diff_work"  [Unused]
     ! long_name: Work actually done by diapycnal diffusion across each interface
     ! units: W m-2
+"ocean_model", "Kd_BBL"  [Used]
+    ! long_name: Bottom Boundary Layer Diffusivity
+    ! units: meter2 sec-1
+"ocean_model", "Kd_layer"  [Used]
+    ! long_name: Diapycnal diffusivity of layers (as set)
+    ! units: meter2 second-1
+"ocean_model_z_new", "Kd_layer"  [Unused]
+    ! long_name: Diapycnal diffusivity of layers (as set)
+    ! units: meter2 second-1
+"ocean_model", "TKE_itidal"  [Unused]
+    ! long_name: Internal Tide Driven Turbulent Kinetic Energy
+    ! units: Watt meter-2
+"ocean_model", "maxTKE"  [Unused]
+    ! long_name: Maximum layer TKE
+    ! units: meter3 second-3
+"ocean_model_z_new", "maxTKE"  [Unused]
+    ! long_name: Maximum layer TKE
+    ! units: meter3 second-3
+"ocean_model", "TKE_to_Kd"  [Unused]
+    ! long_name: Convert TKE to Kd
+    ! units: second2 meter
+"ocean_model_z_new", "TKE_to_Kd"  [Unused]
+    ! long_name: Convert TKE to Kd
+    ! units: second2 meter
+"ocean_model", "Nb"  [Unused]
+    ! long_name: Bottom Buoyancy Frequency
+    ! units: sec-1
+"ocean_model", "Kd_itides"  [Used]
+    ! long_name: Internal Tide Driven Diffusivity
+    ! units: meter2 sec-1
+"ocean_model", "Kd_lowmode"  [Unused]
+    ! long_name: Internal Tide Driven Diffusivity (from propagating low modes)
+    ! units: meter2 sec-1
+"ocean_model", "Fl_itides"  [Unused]
+    ! long_name: Vertical flux of tidal turbulent dissipation
+    ! units: meter3 sec-3
+"ocean_model", "Fl_lowmode"  [Unused]
+    ! long_name: Vertical flux of tidal turbulent dissipation (from propagating low modes)
+    ! units: meter3 sec-3
+"ocean_model", "Polzin_decay_scale"  [Unused]
+    ! long_name: Vertical decay scale for the tidal turbulent dissipation with Polzin scheme
+    ! units: meter
+"ocean_model", "Polzin_decay_scale_scaled"  [Unused]
+    ! long_name: Vertical decay scale for the tidal turbulent dissipation with Polzin scheme, scaled by N2_bot/N2_meanz
+    ! units: meter
+"ocean_model", "N2_b"  [Unused]
+    ! long_name: Bottom Buoyancy frequency squared
+    ! units: s-2
+"ocean_model", "N2_meanz"  [Unused]
+    ! long_name: Buoyancy frequency squared averaged over the water column
+    ! units: s-2
+"ocean_model", "Kd_Work"  [Unused]
+    ! long_name: Work done by Diapycnal Mixing
+    ! units: Watts m-2
+"ocean_model_z_new", "Kd_Work"  [Unused]
+    ! long_name: Work done by Diapycnal Mixing
+    ! units: Watts m-2
+"ocean_model", "Kd_Itidal_Work"  [Unused]
+    ! long_name: Work done by Internal Tide Diapycnal Mixing
+    ! units: Watts m-2
+"ocean_model_z_new", "Kd_Itidal_Work"  [Unused]
+    ! long_name: Work done by Internal Tide Diapycnal Mixing
+    ! units: Watts m-2
+"ocean_model", "Kd_Nikurashin_Work"  [Unused]
+    ! long_name: Work done by Nikurashin Lee Wave Drag Scheme
+    ! units: Watts m-2
+"ocean_model_z_new", "Kd_Nikurashin_Work"  [Unused]
+    ! long_name: Work done by Nikurashin Lee Wave Drag Scheme
+    ! units: Watts m-2
+"ocean_model", "Kd_Lowmode_Work"  [Unused]
+    ! long_name: Work done by Internal Tide Diapycnal Mixing (low modes)
+    ! units: Watts m-2
+"ocean_model_z_new", "Kd_Lowmode_Work"  [Unused]
+    ! long_name: Work done by Internal Tide Diapycnal Mixing (low modes)
+    ! units: Watts m-2
+"ocean_model", "N2"  [Unused]
+    ! long_name: Buoyancy frequency squared
+    ! units: sec-2
+"ocean_model", "obvfsq"  [Used]
+    ! long_name: Square of seawater buoyancy frequency
+    ! units: s-2
+    ! standard_name: square_of_brunt_vaisala_frequency_in_sea_water
+"ocean_model_z", "N2"  [Unused]
+    ! long_name: Buoyancy frequency, interpolated to z
+    ! units: second-2
+"ocean_model_z", "Kd_itides"  [Unused]
+    ! long_name: Internal Tide Driven Diffusivity, interpolated to z
+    ! units: meter2 second-1
+"ocean_model", "Kd_shear"  [Used]
+    ! long_name: Shear-driven Diapycnal Diffusivity
+    ! units: meter2 second-1
+"ocean_model", "TKE_shear"  [Unused]
+    ! long_name: Shear-driven Turbulent Kinetic Energy
+    ! units: meter2 second-2
 "ocean_model", "created_H"  [Unused]
     ! long_name: The volume flux added to stop the ocean from drying out and becoming negative in depth
     ! units: meter second-1

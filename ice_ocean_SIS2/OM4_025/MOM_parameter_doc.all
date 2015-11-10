@@ -1183,6 +1183,42 @@ DIAG_MLD_DENSITY_DIFF = 0.1     !   [kg/m3] default = 0.1
                                 ! layer depth, MLD_user, following the definition of Levitus 1982.
                                 ! The MLD is the depth at which the density is larger than the
                                 ! surface density by the specified amount.
+
+! === module MOM_KPP ===
+! This is the MOM wrapper to CVmix:KPP
+! See http://code.google.com/p/cvmix/
+USE_KPP = False                 !   [Boolean] default = False
+                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
+                                ! to calculate diffusivities and non-local transport in the OBL.
+SALT_REJECT_BELOW_ML = False    !   [Boolean] default = False
+                                ! If true, place salt from brine rejection below the mixed layer,
+                                ! into the first non-vanished layer for which the column remains stable
+
+! === module MOM_diffConvection ===
+! This module implements enhanced diffusivity as a
+! function of static stability, N^2.
+USE_CONVECTION = False          !   [Boolean] default = False
+                                ! If true, turns on the diffusive convection scheme that
+                                ! increases diapycnal diffusivities at statically unstable
+                                ! interfaces. Relevant parameters are contained in the
+                                ! CONVECTION% parameter block.
+CONVECTION%
+PASSIVE = False                 !   [Boolean] default = False
+                                ! If True, puts KPP into a passive-diagnostic mode.
+KD_CONV = 1.0                   !   [m2/s] default = 1.0
+                                ! DIffusivity used in statically unstable regions of column.
+%CONVECTION
+
+! === module MOM_entrain_diffusive ===
+CORRECT_DENSITY = True          !   [Boolean] default = True
+                                ! If true, and USE_EOS is true, the layer densities are
+                                ! restored toward their target values by the diapycnal
+                                ! mixing, as described in Hallberg (MWR, 2000).
+MAX_ENT_IT = 5                  ! default = 5
+                                ! The maximum number of iterations that may be used to
+                                ! calculate the interior diapycnal entrainment.
+TOLERANCE_ENT = 1.549193338482967E-05 !   [m] default = 1.549193338482967E-05
+                                ! The tolerance with which to solve for entrainment values.
 FLUX_RI_MAX = 0.2               !   [not defined] default = 0.2
                                 ! The flux Richardson number where the stratification is
                                 ! large enough that N2 > omega2.  The full expression for
@@ -1275,6 +1311,12 @@ LEE_WAVE_DISSIPATION = False    !   [Boolean] default = False
                                 ! drive diapycnal mixing, along the lines of Nikurashin
                                 ! (2010) and using the St. Laurent et al. (2002)
                                 ! and Simmons et al. (2004) vertical profile
+INT_TIDE_LOWMODE_DISSIPATION = False !   [Boolean] default = False
+                                ! If true, consider mixing due to breaking low modes that
+                                ! have been remotely generated; as with itidal drag on the
+                                ! barotropic tide, use an internal tidal dissipation scheme to
+                                ! drive diapycnal mixing, along the lines of St. Laurent
+                                ! et al. (2002) and Simmons et al. (2004).
 USER_CHANGE_DIFFUSIVITY = False !   [Boolean] default = False
                                 ! If true, call user-defined code to change the diffusivity.
 DISSIPATION_MIN = 0.0           !   [W m-3] default = 0.0
@@ -1382,42 +1424,6 @@ DEBUG_KAPPA_SHEAR = False       !   [Boolean] default = False
                                 ! If true, write debugging data for the kappa-shear code.
                                 ! Caution: this option is _very_ verbose and should only
                                 ! be used in single-column mode!
-
-! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
-USE_KPP = False                 !   [Boolean] default = False
-                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
-                                ! to calculate diffusivities and non-local transport in the OBL.
-SALT_REJECT_BELOW_ML = False    !   [Boolean] default = False
-                                ! If true, place salt from brine rejection below the mixed layer,
-                                ! into the first non-vanished layer for which the column remains stable
-
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-USE_CONVECTION = False          !   [Boolean] default = False
-                                ! If true, turns on the diffusive convection scheme that
-                                ! increases diapycnal diffusivities at statically unstable
-                                ! interfaces. Relevant parameters are contained in the
-                                ! CONVECTION% parameter block.
-CONVECTION%
-PASSIVE = False                 !   [Boolean] default = False
-                                ! If True, puts KPP into a passive-diagnostic mode.
-KD_CONV = 1.0                   !   [m2/s] default = 1.0
-                                ! DIffusivity used in statically unstable regions of column.
-%CONVECTION
-
-! === module MOM_entrain_diffusive ===
-CORRECT_DENSITY = True          !   [Boolean] default = True
-                                ! If true, and USE_EOS is true, the layer densities are
-                                ! restored toward their target values by the diapycnal
-                                ! mixing, as described in Hallberg (MWR, 2000).
-MAX_ENT_IT = 5                  ! default = 5
-                                ! The maximum number of iterations that may be used to
-                                ! calculate the interior diapycnal entrainment.
-TOLERANCE_ENT = 1.549193338482967E-05 !   [m] default = 1.549193338482967E-05
-                                ! The tolerance with which to solve for entrainment values.
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
