@@ -909,20 +909,65 @@
 "ocean_model_z_new", "diabatic_salt_tendency"  [Unused]
     ! long_name: Diabatic diffusion of salt tendency
     ! units: kg/(m2 * s)
-"ocean_model", "diabatic_heat_tendency_intz"  [Unused]
+"ocean_model", "diabatic_heat_tendency_2d"  [Unused]
     ! long_name: Depth integrated diabatic diffusion heat tendency
     ! units: Watts/m2
-"ocean_model", "opottempdiff_intz"  [Used]
+"ocean_model", "opottempdiff_2d"  [Used]
     ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized dianeutral mixing depth integrated
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_dianeutral_mixing_depth_integrated
-"ocean_model", "diabatic_salt_tendency_intz"  [Unused]
+"ocean_model", "diabatic_salt_tendency_2d"  [Unused]
     ! long_name: Depth integrated diabatic diffusion salt tendency
     ! units: kg/(m2 * s)
-"ocean_model", "osaltdiff_intz"  [Used]
+"ocean_model", "osaltdiff_2d"  [Used]
     ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized dianeutral mixing depth integrated
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_dianeutral_mixing_depth_integrated
+"ocean_model", "boundary_forcing_temp_tendency"  [Used]
+    ! long_name: Boundary forcing temperature tendency
+    ! units: Degree C per second
+"ocean_model_z_new", "boundary_forcing_temp_tendency"  [Unused]
+    ! long_name: Boundary forcing temperature tendency
+    ! units: Degree C per second
+"ocean_model", "boundary_forcing_saln_tendency"  [Used]
+    ! long_name: Boundary forcing saln tendency
+    ! units: PPT per second
+"ocean_model_z_new", "boundary_forcing_saln_tendency"  [Unused]
+    ! long_name: Boundary forcing saln tendency
+    ! units: PPT per second
+"ocean_model", "boundary_forcing_heat_tendency"  [Used]
+    ! long_name: Boundary forcing heat tendency
+    ! units: Watts/m2
+"ocean_model_z_new", "boundary_forcing_heat_tendency"  [Unused]
+    ! long_name: Boundary forcing heat tendency
+    ! units: Watts/m2
+"ocean_model", "boundary_forcing_salt_tendency"  [Used]
+    ! long_name: Boundary forcing salt tendency
+    ! units: kg m-2 s-1
+"ocean_model_z_new", "boundary_forcing_salt_tendency"  [Unused]
+    ! long_name: Boundary forcing salt tendency
+    ! units: kg m-2 s-1
+"ocean_model", "boundary_forcing_heat_tendency_2d"  [Used]
+    ! long_name: Depth integrated boundary forcing of ocean heat
+    ! units: Watts/m2
+"ocean_model", "boundary_forcing_salt_tendency_2d"  [Used]
+    ! long_name: Depth integrated boundary forcing of ocean salt
+    ! units: kg m-2 s-1
+"ocean_model", "frazil_temp_tendency"  [Used]
+    ! long_name: Temperature tendency due to frazil formation
+    ! units: Degree C per second
+"ocean_model_z_new", "frazil_temp_tendency"  [Unused]
+    ! long_name: Temperature tendency due to frazil formation
+    ! units: Degree C per second
+"ocean_model", "frazil_heat_tendency"  [Used]
+    ! long_name: Heat tendency due to frazil formation
+    ! units: Watts/m2
+"ocean_model_z_new", "frazil_heat_tendency"  [Unused]
+    ! long_name: Heat tendency due to frazil formation
+    ! units: Watts/m2
+"ocean_model", "frazil_heat_tendency_2d"  [Used]
+    ! long_name: Depth integrated heat tendency due to frazil formation
+    ! units: Watts/m2
 "ocean_model", "Kd_effective"  [Used]
     ! long_name: Diapycnal diffusivity as applied
     ! units: meter2 second-1
@@ -1029,7 +1074,7 @@
 "ocean_model", "created_H"  [Unused]
     ! long_name: The volume flux added to stop the ocean from drying out and becoming negative in depth
     ! units: meter second-1
-"ocean_model", "rsdo"  [Unused]
+"ocean_model", "rsdo"  [Used]
     ! long_name: Downwelling Shortwave Flux in Sea Water
     ! units: Watt meter-2
     ! standard_name: downwelling_shortwave_flux_in_sea_water
@@ -1392,7 +1437,7 @@
 "ocean_model", "Th_tendency_2d"  [Unused]
     ! long_name: Vertical sum of net time tendency for heat
     ! units: W/m2
-"ocean_model", "opottemptend_intz"  [Used]
+"ocean_model", "opottemptend_2d"  [Used]
     ! long_name: Tendency of Sea Water Potential Temperature Expressed as Heat Content Vertical Sum
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_vertical_sum
@@ -1424,7 +1469,7 @@
 "ocean_model", "Sh_tendency_2d"  [Unused]
     ! long_name: Vertical sum of net time tendency for salt
     ! units: kg/(m2 * s)
-"ocean_model", "osalttend_intz"  [Used]
+"ocean_model", "osalttend_2d"  [Used]
     ! long_name: Tendency of Sea Water Salinity Expressed as Salt Content Vertical Sum
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_vertical_sum
@@ -1559,10 +1604,10 @@
 "ocean_model_z_new", "ndiff_tracer_cont_tendency_T"  [Unused]
     ! long_name: Neutral diffusion tracer content tendency for T
     ! units: Watts/m2
-"ocean_model", "ndiff_tracer_cont_tendency_intz_T"  [Unused]
+"ocean_model", "ndiff_tracer_cont_tendency_2d_T"  [Unused]
     ! long_name: Depth integrated neutral diffusion tracer content tendency for T
     ! units: Watts/m2
-"ocean_model", "opottemppmdiff_intz"  [Used]
+"ocean_model", "opottemppmdiff_2d"  [Used]
     ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized mesocale diffusion depth integrated
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_mesocale_diffusion_depth_integrated
@@ -1582,10 +1627,10 @@
 "ocean_model_z_new", "ndiff_tracer_cont_tendency_S"  [Unused]
     ! long_name: Neutral diffusion tracer content tendency for S
     ! units: kg m-2 s-1
-"ocean_model", "ndiff_tracer_cont_tendency_intz_S"  [Unused]
+"ocean_model", "ndiff_tracer_cont_tendency_2d_S"  [Unused]
     ! long_name: Depth integrated neutral diffusion tracer content tendency for S
     ! units: kg m-2 s-1
-"ocean_model", "osaltpmdiff_intz"  [Unused]
+"ocean_model", "osaltpmdiff_2d"  [Unused]
     ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized mesocale diffusion depth integrated
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_mesocale_diffusion_depth_integrated
@@ -1601,10 +1646,10 @@
 "ocean_model_z_new", "ndiff_tracer_cont_tendency_age"  [Unused]
     ! long_name: Neutral diffusion tracer content tendency for age
     ! units: tracer content * m-2 s-1
-"ocean_model", "ndiff_tracer_cont_tendency_intz_age"  [Unused]
+"ocean_model", "ndiff_tracer_cont_tendency_2d_age"  [Unused]
     ! long_name: Depth integrated neutral diffusion tracer content tendency for age
     ! units: tracer content * m-2 s-1
-"ocean_model_z_new", "ndiff_tracer_cont_tendency_intz_age"  [Unused]
+"ocean_model_z_new", "ndiff_tracer_cont_tendency_2d_age"  [Unused]
     ! long_name: Depth integrated neutral diffusion tracer content tendency for age
     ! units: tracer content * m-2 s-1
 "ocean_model", "taux"  [Used]
@@ -1812,7 +1857,7 @@
     ! long_name: Heat content (relative to 0C) of solid runoff into ocean
     ! units: Watt meter-2
     ! standard_name: temperature_flux_due_to_solid_runoff_expressed_as_heat_flux_into_sea_water
-"ocean_model", "hfsolidrunoffds"  [Unused]
+"ocean_model", "hfsolidrunoffds"  [Used]
     ! long_name: Temperature Flux due to Solid Runoff Expressed as Heat Flux into Sea Water
     ! units: W m-2
     ! standard_name: temperature_flux_due_to_solid_runoff_expressed_as_heat_flux_into_sea_water
@@ -1828,7 +1873,7 @@
     ! long_name: Heat content (relative to 0degC) of liquid precip entering ocean
     ! units: W/m^2
     ! standard_name: temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water
-"ocean_model", "hfrainds"  [Unused]
+"ocean_model", "hfrainds"  [Used]
     ! long_name: Heat Flux into Sea Water due to Liquid Precipitation
     ! units: W m-2
     ! standard_name: temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water
@@ -1847,7 +1892,7 @@
 "ocean_model", "heat_content_massout"  [Used]
     ! long_name: Heat content (relative to 0degC)of net mass leaving ocean ocean
     ! units: Watt/m^2
-"ocean_model", "hfevapds"  [Unused]
+"ocean_model", "hfevapds"  [Used]
     ! long_name: Heat Flux Out of Sea Water due to Evaporating Water
     ! units: W m-2
     ! standard_name: temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water
@@ -1880,7 +1925,7 @@
     ! long_name: Longwave radiation flux into ocean
     ! units: Watt meter-2
     ! standard_name: surface_net_downward_longwave_flux
-"ocean_model", "rlntds"  [Unused]
+"ocean_model", "rlntds"  [Used]
     ! long_name: Surface Net Downward Longwave Radiation
     ! units: W m-2
     ! standard_name: surface_net_downward_longwave_flux
@@ -1897,7 +1942,7 @@
 "ocean_model", "latent_fprec_diag"  [Unused]
     ! long_name: Latent heat flux into ocean due to melting of frozen precipitation
     ! units: Watt meter-2
-"ocean_model", "hfsnthermds"  [Unused]
+"ocean_model", "hfsnthermds"  [Used]
     ! long_name: Latent Heat to Melt Frozen Precipitation
     ! units: W m-2
     ! standard_name: heat_flux_into_sea_water_due_to_snow_thermodynamics
