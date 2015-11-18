@@ -17,6 +17,7 @@ def run():
   parser.add_argument('-w','--woa', type=str, required=True,
     help='''File containing WOA (or obs) data to compare against.''')
   cmdLineArgs = parser.parse_args()
+  main(cmdLineArgs)
 
 def main(cmdLineArgs,stream=None):
   numpy.seterr(divide='ignore', invalid='ignore', over='ignore') # To avoid warnings
