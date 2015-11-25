@@ -1,1 +1,1 @@
-.datasets/reanalysis/MERRA/swdn/swdn_merra_1992.nc
+.datasets/OM4_360x320_C180/MERRA_sample.20151124/swdn_merra_1992_sample.nc
