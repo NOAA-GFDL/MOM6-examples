@@ -1,6 +1,6 @@
+! This MOM_override file demonstrates the use of a HyCOM-like coordinate.
 !REGRID_TIME_SCALE = 86400.
-!REGRID_COMPRESSIBILITY_FRACTION = 0.01
-! Blank file in which we can put "overrides" for parameters
+
 NK = 50
 #override USE_REGRIDDING = True
 #override BULKMIXEDLAYER = False
@@ -10,6 +10,12 @@ USE_STORED_SLOPES = True
 USE_NEUTRAL_DIFFUSION = True
 SIMPLE_TKE_TO_KD = True
 REGRIDDING_COORDINATE_MODE = "HYCOM1"
+
+MAXIMUM_INT_DEPTH_CONFIG = "FNC1:5,12000,1.0,.125"
+! These 2 lines go together in place of the line above.
+! REGRID_COMPRESSIBILITY_FRACTION = 0.01
+! MAXIMUM_INT_DEPTH_CONFIG = "FNC1:5,8000,1.0,.125"
+
 ALE_COORDINATE_CONFIG = "HYBRID:hycom1_50.nc,sigma2,dz"
 HMIX_FIXED = 0.5
 CFL_TRUNCATE_RAMP_TIME = 7200.

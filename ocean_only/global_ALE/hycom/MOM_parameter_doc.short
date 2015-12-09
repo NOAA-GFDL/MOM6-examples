@@ -186,6 +186,17 @@ ALE_COORDINATE_CONFIG = "HYBRID:hycom1_50.nc,sigma2,dz" ! default = "UNIFORM"
                                 ! is of non-dimensional fractions of the water column.
 !TARGET_DENSITIES = 1010.0, 1016.1289, 1020.843, 1024.821, 1027.0275, 1028.2911, 1029.2795, 1030.1194, 1030.8626, 1031.5364, 1032.1572, 1032.7358, 1033.2798, 1033.7948, 1034.2519, 1034.5828, 1034.8508, 1035.0821, 1035.2886, 1035.4769, 1035.6511, 1035.814, 1035.9675, 1036.1107, 1036.2411, 1036.3615, 1036.4739, 1036.5797, 1036.68, 1036.7755, 1036.8526, 1036.9024, 1036.9418, 1036.9754, 1037.0052, 1037.0323, 1037.0574, 1037.082, 1037.1066, 1037.1312, 1037.1558, 1037.1804, 1037.206, 1037.2337, 1037.2642, 1037.2986, 1037.3389, 1037.3901, 1037.475, 1037.7204, 1038.0 !   [m]
                                 ! HYBRID target densities for itnerfaces
+MAXIMUM_INT_DEPTH_CONFIG = "FNC1:5,12000,1.0,.125" ! default = "NONE"
+                                ! Determines how to specify the maximum interface depths.
+                                ! Valid options are:
+                                !  NONE        - there are no maximum interface depths
+                                !  PARAM       - use the vector-parameter MAXIMUM_INTERFACE_DEPTHS
+                                !  FILE:string - read from a file. The string specifies
+                                !                the filename and variable name, separated
+                                !                by a comma or space, e.g. FILE:lev.nc,Z
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
+!MAXIMUM_INT_DEPTHS = 0.0, 5.0, 19.625, 43.75, 77.5, 120.875, 173.875, 236.375, 308.5, 390.25, 481.625, 582.5, 693.0, 813.125, 942.875, 1082.125, 1231.0, 1389.5, 1557.5, 1735.125, 1922.375, 2119.25, 2325.625, 2541.625, 2767.25, 3002.5, 3247.25, 3501.625, 3765.625, 4039.25, 4322.375, 4615.125, 4917.5, 5229.5, 5551.0, 5882.125, 6222.875, 6573.125, 6933.0, 7302.5, 7681.625, 8070.25, 8468.5, 8876.375, 9293.875, 9720.875, 1.01575E+04, 1.060375E+04, 1.1059625E+04, 1.1525E+04, 1.2E+04 !   [m]
+                                ! The list of maximum depths for each interfaces.
 REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! This sets the reconstruction scheme used
                                 ! for vertical remapping for all variables.
