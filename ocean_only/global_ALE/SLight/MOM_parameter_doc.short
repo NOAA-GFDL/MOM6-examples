@@ -200,6 +200,31 @@ SLIGHT_SURFACE_AVG_DEPTH = 25.0 !   [m] default = 1.0
                                 ! The thickness of the surface region over which to average
                                 ! when calculating the density to use to define the interior
                                 ! with the SLight coordinate.
+SLIGHT_FIX_HALOCLINES = True    !   [Boolean] default = False
+                                ! If true, identify regions above the reference pressure
+                                ! where the reference pressure systematically underestimates
+                                ! the stratification and use this in the definition of the
+                                ! interior with the SLight coordinate.
+HALOCLINE_FILTER_LENGTH = 10.0  !   [m] default = 2.0
+                                ! A length scale over which to smooth the temperature and
+                                ! salinity before identifying erroneously unstable haloclines.
+HALOCLINE_STRAT_TOL = 0.8       !   [nondimensional] default = 0.2
+                                ! A tolerance for the ratio of the stratification of the
+                                ! apparent coordinate stratification to the actual value
+                                ! that is used to identify erroneously unstable haloclines.
+                                ! This ratio is 1 when they are equal, and sensible values
+                                ! are between 0 and 0.5.
+MAXIMUM_INT_DEPTH_CONFIG = "FNC1:5,8000,1.0,.125" ! default = "NONE"
+                                ! Determines how to specify the maximum interface depths.
+                                ! Valid options are:
+                                !  NONE        - there are no maximum interface depths
+                                !  PARAM       - use the vector-parameter MAXIMUM_INTERFACE_DEPTHS
+                                !  FILE:string - read from a file. The string specifies
+                                !                the filename and variable name, separated
+                                !                by a comma or space, e.g. FILE:lev.nc,Z
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
+!MAXIMUM_INT_DEPTHS = 0.0, 5.0, 10.0, 15.0, 20.0, 50.25, 86.875, 129.875, 179.125, 234.75, 296.75, 365.0, 439.625, 520.5, 607.75, 701.375, 801.25, 907.5, 1020.0, 1138.875, 1264.125, 1395.625, 1533.5, 1677.625, 1828.125, 1985.0, 2148.125, 2317.625, 2493.5, 2675.625, 2864.125, 3058.875, 3260.0, 3467.5, 3681.25, 3901.375, 4127.75, 4360.5, 4599.625, 4845.0, 5096.75, 5354.75, 5619.125, 5889.875, 6166.875, 6450.25, 6740.0, 7036.0, 7338.375, 7647.0, 7962.0 !   [m]
+                                ! The list of maximum depths for each interfaces.
 REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! This sets the reconstruction scheme used
                                 ! for vertical remapping for all variables.
