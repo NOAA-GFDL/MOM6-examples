@@ -443,6 +443,20 @@ SLIGHT_SURFACE_AVG_DEPTH = 25.0 !   [m] default = 1.0
 SLIGHT_NLAY_TO_INTERIOR = 2.0   !   [nondimensional] default = 2.0
                                 ! The number of layers to offset the surface density when
                                 ! defining where the interior ocean starts with SLight.
+SLIGHT_FIX_HALOCLINES = False   !   [Boolean] default = False
+                                ! If true, identify regions above the reference pressure
+                                ! where the reference pressure systematically underestimates
+                                ! the stratification and use this in the definition of the
+                                ! interior with the SLight coordinate.
+MAXIMUM_INT_DEPTH_CONFIG = "NONE" ! default = "NONE"
+                                ! Determines how to specify the maximum interface depths.
+                                ! Valid options are:
+                                !  NONE        - there are no maximum interface depths
+                                !  PARAM       - use the vector-parameter MAXIMUM_INTERFACE_DEPTHS
+                                !  FILE:string - read from a file. The string specifies
+                                !                the filename and variable name, separated
+                                !                by a comma or space, e.g. FILE:lev.nc,Z
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
 REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! This sets the reconstruction scheme used
                                 ! for vertical remapping for all variables.
