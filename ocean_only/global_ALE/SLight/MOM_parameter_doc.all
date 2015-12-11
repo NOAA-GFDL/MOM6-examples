@@ -1547,6 +1547,15 @@ PRESSURE_DEPENDENT_FRAZIL = False !   [Boolean] default = False
                                 ! If true, use a pressure dependent freezing temperature
                                 ! when making frazil. The default is false, which will be
                                 ! faster but is inappropriate with ice-shelf cavities.
+MINIMUM_FORCING_DEPTH = 0.001   !   [m] default = 0.001
+                                ! The smallest depth over which forcing can be applied. This
+                                ! only takes effect when near-surface layers become thin
+                                ! relative to this scale, in which case the forcing tendencies
+                                ! scaled down by distributing the forcing over this depth scale.
+EVAP_CFL_LIMIT = 0.8            !   [nondim] default = 0.8
+                                ! The largest fraction of a layer than can be lost to forcing
+                                ! (e.g. evaporation, sea-ice formation) in one time-step. The unused
+                                ! mass loss is passed down through the column.
 DO_RIVERMIX = False             !   [Boolean] default = False
                                 ! If true, apply additional mixing whereever there is
                                 ! runoff, so that it is mixed down to RIVERMIX_DEPTH
