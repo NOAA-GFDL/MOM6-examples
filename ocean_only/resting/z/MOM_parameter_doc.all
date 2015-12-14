@@ -420,6 +420,15 @@ MAXIMUM_INT_DEPTH_CONFIG = "NONE" ! default = "NONE"
                                 !                the filename and variable name, separated
                                 !                by a comma or space, e.g. FILE:lev.nc,Z
                                 !  FNC1:string - FNC1:dz_min,H_total,power,precision
+MAX_LAYER_THICKNESS_CONFIG = "NONE" ! default = "NONE"
+                                ! Determines how to specify the maximum layer thicknesses.
+                                ! Valid options are:
+                                !  NONE        - there are no maximum layer thicknesses
+                                !  PARAM       - use the vector-parameter MAX_LAYER_THICKNESS
+                                !  FILE:string - read from a file. The string specifies
+                                !                the filename and variable name, separated
+                                !                by a comma or space, e.g. FILE:lev.nc,Z
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
 REMAPPING_SCHEME = "PLM"        ! default = "PLM"
                                 ! This sets the reconstruction scheme used
                                 ! for vertical remapping for all variables.

@@ -440,7 +440,16 @@ MAXIMUM_INT_DEPTH_CONFIG = "FNC1:5,12000,1.0,.125" ! default = "NONE"
                                 !                by a comma or space, e.g. FILE:lev.nc,Z
                                 !  FNC1:string - FNC1:dz_min,H_total,power,precision
 !MAXIMUM_INT_DEPTHS = 0.0, 5.0, 19.625, 43.75, 77.5, 120.875, 173.875, 236.375, 308.5, 390.25, 481.625, 582.5, 693.0, 813.125, 942.875, 1082.125, 1231.0, 1389.5, 1557.5, 1735.125, 1922.375, 2119.25, 2325.625, 2541.625, 2767.25, 3002.5, 3247.25, 3501.625, 3765.625, 4039.25, 4322.375, 4615.125, 4917.5, 5229.5, 5551.0, 5882.125, 6222.875, 6573.125, 6933.0, 7302.5, 7681.625, 8070.25, 8468.5, 8876.375, 9293.875, 9720.875, 1.01575E+04, 1.060375E+04, 1.1059625E+04, 1.1525E+04, 1.2E+04 !   [m]
-                                ! The list of maximum depths for each interfaces.
+                                ! The list of maximum depths for each interface.
+MAX_LAYER_THICKNESS_CONFIG = "NONE" ! default = "NONE"
+                                ! Determines how to specify the maximum layer thicknesses.
+                                ! Valid options are:
+                                !  NONE        - there are no maximum layer thicknesses
+                                !  PARAM       - use the vector-parameter MAX_LAYER_THICKNESS
+                                !  FILE:string - read from a file. The string specifies
+                                !                the filename and variable name, separated
+                                !                by a comma or space, e.g. FILE:lev.nc,Z
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
 REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! This sets the reconstruction scheme used
                                 ! for vertical remapping for all variables.
