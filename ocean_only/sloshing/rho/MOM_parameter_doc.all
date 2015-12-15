@@ -971,6 +971,12 @@ KHTH_MIN = 0.0                  !   [m2 s-1] default = 0.0
                                 ! The minimum horizontal thickness diffusivity.
 KHTH_MAX = 0.0                  !   [m2 s-1] default = 0.0
                                 ! The maximum horizontal thickness diffusivity.
+KHTH_MAX_CFL = 0.8              !   [nondimensional] default = 0.8
+                                ! The maximum value of the local diffusive CFL ratio that
+                                ! is permitted for the thickness diffusivity. 1.0 is the
+                                ! marginally unstable value in a pure layered model, but
+                                ! much smaller numbers (e.g. 0.1) seem to work better for
+                                ! ALE-based models.
 DETANGLE_INTERFACES = False     !   [Boolean] default = False
                                 ! If defined add 3-d structured enhanced interface height
                                 ! diffusivities to horizonally smooth jagged layers.
