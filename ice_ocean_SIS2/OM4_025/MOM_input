@@ -414,6 +414,12 @@ DTBT = -0.9                     !   [s or nondim] default = -0.98
                                 ! integer fraction of DT, rounding down.
 
 ! === module MOM_thickness_diffuse ===
+KHTH_MAX_CFL = 0.1              !   [nondimensional] default = 0.8
+                                ! The maximum value of the local diffusive CFL ratio that
+                                ! is permitted for the thickness diffusivity. 1.0 is the
+                                ! marginally unstable value in a pure layered model, but
+                                ! much smaller numbers (e.g. 0.1) seem to work better for
+                                ! ALE-based models.
 
 ! === module MOM_mixed_layer_restrat ===
 MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
