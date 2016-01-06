@@ -462,6 +462,13 @@ REGRID_TIME_SCALE = 0.0         !   [s] default = 0.0
                                 ! and the target (new) grid. A short time-scale favors the target
                                 ! grid (0. or anything less than DT_THERM) has no memory of the old
                                 ! grid. A very long time-scale makes the model more Lagrangian.
+REGRID_FILTER_SHALLOW_DEPTH = 0.0 !   [m] default = 0.0
+                                ! The depth above which no time-filtering is applied. Above this depth
+                                ! final grid exactly matches the target (new) grid.
+REGRID_FILTER_DEEP_DEPTH = 0.0  !   [m] default = 0.0
+                                ! The depth below which full time-filtering is applied with time-scale
+                                ! REGRID_TIME_SCALE. Between depths REGRID_FILTER_SHALLOW_DEPTH and
+                                ! REGRID_FILTER_SHALLOW_DEPTH the filter wieghts adopt a cubic profile.
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
                                 ! If true, intialize the layer thicknesses, temperatures,
                                 ! and salnities from a Z-space file on a latitude-
