@@ -1,0 +1,36 @@
+netcdf Caribbean_edits {
+dimensions:
+        nEdits = UNLIMITED ; // (47 currently)
+variables:
+        int jEdit(nEdits) ;
+                jEdit:long_name = "j-index of edited data" ;
+        int iEdit(nEdits) ;
+                iEdit:long_name = "i-index of edited data" ;
+        int zEdit(nEdits) ;
+                zEdit:long_name = "New value of data" ;
+                zEdit:units = "meters" ;
+        int ni ;
+                ni:long_name = "The size of the i-dimension of the dataset these edits apply to" ;
+        int nj ;
+                nj:long_name = "The size of the j-dimension of the dataset these edits apply to" ;
+data:
+
+ jEdit = 550, 550, 551, 552, 553, 554, 555, 558, 559, 560, 557, 561, 564, 
+    565, 578, 577, 575, 595, 595, 596, 596, 596, 596, 597, 597, 598, 598, 
+    598, 600, 601, 618, 617, 616, 615, 614, 613, 612, 611, 605, 604, 602, 
+    613, 613, 619, 620, 621, 622 ;
+
+ iEdit = 953, 952, 952, 953, 954, 954, 955, 956, 956, 956, 955, 956, 956, 
+    955, 944, 944, 942, 889, 888, 888, 887, 886, 885, 885, 884, 884, 883, 
+    882, 883, 881, 881, 881, 881, 881, 881, 881, 881, 881, 879, 878, 878, 
+    884, 885, 881, 881, 881, 881 ;
+
+ zEdit = -730, -730, -40, -40, -40, -40, -40, -40, -40, -40, -900, -950, 
+    -800, -1000, -1850, -1850, -1400, -500, -500, -500, -500, -500, -500, 
+    -500, -500, -500, -500, -500, -500, -500, -700, -730, -730, -730, -730, 
+    -730, -730, -730, -730, -730, -730, -600, -600, -710, -710, -710, -710 ;
+
+ ni = 1440 ;
+
+ nj = 1080 ;
+}
