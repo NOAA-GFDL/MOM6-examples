@@ -1219,6 +1219,11 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! geostrophic kinetic energy or 1 plus the square of the
                                 ! grid spacing over the deformation radius, as detailed
                                 ! by Fox-Kemper et al. (2010)
+MLE_USE_PBL_MLD = False         !   [Boolean] default = False
+                                ! If true, the MLE parameterization will use the mixed-layer
+                                ! depth provided by the active PBL parameterization. If false,
+                                ! MLE will estimate a MLD based on a density difference with the
+                                ! surface using the parameter MLE_DENSITY_DIFF.
 MLE_DENSITY_DIFF = 0.03         !   [kg/m3] default = 0.03
                                 ! Density difference used to detect the mixed-layer
                                 ! depth used for the mixed-layer eddy parameterization
