@@ -1202,6 +1202,12 @@ DO_RIVERMIX = False             !   [Boolean] default = False
                                 ! If true, apply additional mixing whereever there is
                                 ! runoff, so that it is mixed down to RIVERMIX_DEPTH
                                 ! if the ocean is that deep.
+USE_RIVER_HEAT_CONTENT = False  !   [Boolean] default = False
+                                ! If true, use the fluxes%runoff_Hflx field to set the
+                                ! heat carried by runoff, instead of using SST*CP*liq_runoff.
+USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
+                                ! If true, use the fluxes%calving_Hflx field to set the
+                                ! heat carried by runoff, instead of using SST*CP*froz_runoff.
 
 ! === module MOM_energetic_PBL ===
 NSTAR = 0.2                     !   [nondim] default = 0.2
