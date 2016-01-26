@@ -456,6 +456,10 @@ REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! PPM_IH4     (3rd-order accurate)
                                 ! PQM_IH4IH3  (4th-order accurate)
                                 ! PQM_IH6IH5  (5th-order accurate)
+FATAL_CHECK_RECONSTRUCTIONS = False !   [Boolean] default = False
+                                ! If true, cell-by-cell reconstructions are checked for
+                                ! consistency and if non-monotonicty or an inconsistency is
+                                ! detected then a FATAL error is issued.
 REMAP_AFTER_INITIALIZATION = True !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after
                                 ! initialization so that the state is ALE consistent. This is a
