@@ -467,6 +467,10 @@ FATAL_CHECK_RECONSTRUCTIONS = False !   [Boolean] default = False
                                 ! If true, cell-by-cell reconstructions are checked for
                                 ! consistency and if non-monotonicty or an inconsistency is
                                 ! detected then a FATAL error is issued.
+FATAL_CHECK_REMAPPING = False   !   [Boolean] default = False
+                                ! If true, the results of remapping are checked for
+                                ! conservation and new extrema and if an inconsistency is
+                                ! detected then a FATAL error is issued.
 REMAP_AFTER_INITIALIZATION = True !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after
                                 ! initialization so that the state is ALE consistent. This is a
