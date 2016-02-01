@@ -1646,47 +1646,42 @@
     ! long_name: Heat content (relative to 0C) of solid runoff into ocean
     ! units: Watt meter-2
     ! standard_name: temperature_flux_due_to_solid_runoff_expressed_as_heat_flux_into_sea_water
-"ocean_model", "hfsolidrunoffds"  [Unused]
-    ! long_name: Temperature Flux due to Solid Runoff Expressed as Heat Flux into Sea Water
-    ! units: W m-2
-    ! standard_name: temperature_flux_due_to_solid_runoff_expressed_as_heat_flux_into_sea_water
 "ocean_model", "heat_content_lrunoff"  [Unused]
     ! long_name: Heat content (relative to 0C) of liquid runoff into ocean
     ! units: Watt meter-2
     ! standard_name: temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water
 "ocean_model", "hfrunoffds"  [Unused]
-    ! long_name: Temperature Flux due to Runoff Expressed as Heat Flux into Sea Water
+    ! long_name: Heat content (relative to 0C) of liquid+solid runoff into ocean
     ! units: W m-2
     ! standard_name: temperature_flux_due_to_runoff_expressed_as_heat_flux_into_sea_water
 "ocean_model", "heat_content_lprec"  [Unused]
     ! long_name: Heat content (relative to 0degC) of liquid precip entering ocean
     ! units: W/m^2
-    ! standard_name: temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water
-"ocean_model", "hfrainds"  [Unused]
-    ! long_name: Heat Flux into Sea Water due to Liquid Precipitation
-    ! units: W m-2
-    ! standard_name: temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water
 "ocean_model", "heat_content_fprec"  [Unused]
     ! long_name: Heat content (relative to 0degC) of frozen prec entering ocean
-    ! units: Watt/m^2
+    ! units: W/m^2
 "ocean_model", "heat_content_vprec"  [Unused]
     ! long_name: Heat content (relative to 0degC) of virtual precip entering ocean
     ! units: Watt/m^2
 "ocean_model", "heat_content_cond"  [Unused]
     ! long_name: Heat content (relative to 0degC) of water condensing into ocean
     ! units: Watt/m^2
+"ocean_model", "hfrainds"  [Unused]
+    ! long_name: Heat content (relative to 0degC) of liquid+frozen precip entering ocean
+    ! units: W/m^2
+    ! standard_name: temperature_flux_due_to_rainfall_expressed_as_heat_flux_into_sea_water
 "ocean_model", "heat_content_surfwater"  [Unused]
     ! long_name: Heat content (relative to 0degC) of net water crossing ocean surface (frozen+liquid)
     ! units: Watt/m^2
 "ocean_model", "heat_content_massout"  [Unused]
-    ! long_name: Heat content (relative to 0degC)of net mass leaving ocean ocean
+    ! long_name: Heat content (relative to 0degC) of net mass leaving ocean ocean via evap and ice form
     ! units: Watt/m^2
 "ocean_model", "hfevapds"  [Unused]
-    ! long_name: Heat Flux Out of Sea Water due to Evaporating Water
+    ! long_name: Heat Content (relative to 0degC) of Water Leaving Ocean via Evaporation and Ice Formation
     ! units: W m-2
     ! standard_name: temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water
 "ocean_model", "heat_content_massin"  [Unused]
-    ! long_name: Heat content (relative to 0degC)of net mass entering ocean ocean
+    ! long_name: Heat content (relative to 0degC) of net mass entering ocean ocean
     ! units: Watt/m^2
 "ocean_model", "net_heat_coupler"  [Unused]
     ! long_name: Surface ocean heat flux from SW+LW+latent+sensible (via the coupler)
@@ -1696,7 +1691,7 @@
     ! units: Watt/m^2
     ! standard_name: surface_downward_heat_flux_in_sea_water
 "ocean_model", "hfds"  [Unused]
-    ! long_name: Surface ocean heat flux from SW+LW+latent+sensible+mass transfer+frazil
+    ! long_name: Surface ocean heat flux from SW+LW+latent+sensible+masstransfer+frazil
     ! units: W m-2
     ! standard_name: surface_downward_heat_flux_in_sea_water
 "ocean_model", "SW"  [Unused]
@@ -1719,10 +1714,10 @@
     ! units: W m-2
     ! standard_name: surface_net_downward_longwave_flux
 "ocean_model", "latent"  [Unused]
-    ! long_name: Latent heat flux into ocean due to fusion and evaporation (negative means ocean losses heat)
+    ! long_name: Latent heat flux into ocean due to fusion and evaporation (negative means ocean heat loss)
     ! units: Watt meter-2
 "ocean_model", "hfls"  [Unused]
-    ! long_name: Surface Downward Latent Heat Flux
+    ! long_name: Surface Downward Latent Heat Flux due to Evap + Melt Snow/Ice
     ! units: W m-2
     ! standard_name: surface_downward_latent_heat_flux
 "ocean_model", "latent_evap"  [Unused]
@@ -1739,7 +1734,7 @@
     ! long_name: Latent heat flux into ocean due to melting of icebergs
     ! units: Watt/m^2
 "ocean_model", "hfibthermds"  [Unused]
-    ! long_name: Heat Flux into Sea Water due to Iceberg Thermodynamics
+    ! long_name: Latent Heat to Melt Frozen Runoff/Iceberg
     ! units: W m-2
     ! standard_name: heat_flux_into_sea_water_due_to_iceberg_thermodynamics
 "ocean_model", "sensible"  [Unused]
