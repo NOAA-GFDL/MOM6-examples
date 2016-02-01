@@ -323,7 +323,7 @@
  "ocean_model",  "fsitherm",     "fsitherm",         "ocean_annual",       "all", "mean", "none",2  # need code to split ice melt from prn 
  "ocean_model",  "wfo",          "wfo",              "ocean_annual",       "all", "mean", "none",2
  
- "ocean_model",  "pr",           "pr",               "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "pr",           "pr",               "ocean_month",        "all", "mean", "none",2  # MOM6 has ice melt/form added to pr
  "ocean_model",  "prsn",         "prsn",             "ocean_month",        "all", "mean", "none",2
  "ocean_model",  "evs",          "evs",              "ocean_month",        "all", "mean", "none",2
  "ocean_model",  "friver",       "friver",           "ocean_month",        "all", "mean", "none",2
@@ -365,20 +365,20 @@
  "ocean_model",  "hfds",            "hfds"              "ocean_annual",       "all", "mean", "none",2 
  
  "ocean_model",  "hfgeou",          "hfgeou",           "ocean_month",        "all", "mean", "none",2  # geothermal heat flux
- "ocean_model",  "hfrainds",        "hfrainds",         "ocean_month",        "all", "mean", "none",2
- "ocean_model",  "hfevapds",        "hfevapds",         "ocean_month",        "all", "mean", "none",2
- "ocean_model",  "hfrunoffds",      "hfrunoffds",       "ocean_month",        "all", "mean", "none",2
- "ocean_model",  "hfsnthermds",     "hfsnthermds",      "ocean_month",        "all", "mean", "none",2
- "ocean_model",  "hfsifrazil",      "hfsifrazil",       "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "hfrainds",        "hfrainds",         "ocean_month",        "all", "mean", "none",2  # heat content of lprec,fprec,condensate 
+ "ocean_model",  "hfevapds",        "hfevapds",         "ocean_month",        "all", "mean", "none",2  # heat content of mass leaving ocean 
+ "ocean_model",  "hfrunoffds",      "hfrunoffds",       "ocean_month",        "all", "mean", "none",2  # heat content of lrunoff,frunoff 
+ "ocean_model",  "hfsnthermds",     "hfsnthermds",      "ocean_month",        "all", "mean", "none",2  # latent heat to melt snow 
+ "ocean_model",  "hfsifrazil",      "hfsifrazil",       "ocean_month",        "all", "mean", "none",2  # frazil formation
 #"ocean_model",  "hfsithermds",     "hfsithermds",      "ocean_month",        "all", "mean", "none",2  # computed in SIS2 
- "ocean_model",  "hfibthermds",     "hfibthermds",      "ocean_month",        "all", "mean", "none",2  
- "ocean_model",  "hfsolidrunoffds", "hfsolidrunoffds",  "ocean_month",        "all", "mean", "none",2  # =0 if ice = 0C  
- "ocean_model",  "rlntds",          "rlntds",           "ocean_month",        "all", "mean", "none",2 
- "ocean_model",  "hfls",            "hfls",             "ocean_month",        "all", "mean", "none",2  
- "ocean_model",  "hfss",            "hfss",             "ocean_month",        "all", "mean", "none",2  
- "ocean_model",  "rsntds",          "rsntds"            "ocean_month",        "all", "mean", "none",2  
- "ocean_model",  "rsdo",            "rsdo"              "ocean_month",        "all", "mean", "none",2 
- "ocean_model",  "hfds",            "hfds"              "ocean_month",        "all", "mean", "none",2 
+ "ocean_model",  "hfibthermds",     "hfibthermds",      "ocean_month",        "all", "mean", "none",2  # latent heat to melt icebergs 
+ "ocean_model",  "hfsolidrunoffds", "hfsolidrunoffds",  "ocean_month",        "all", "mean", "none",2  # ne 0 since ice has SST 
+ "ocean_model",  "rlntds",          "rlntds",           "ocean_month",        "all", "mean", "none",2  # longwave down  
+ "ocean_model",  "hfls",            "hfls",             "ocean_month",        "all", "mean", "none",2  # latent heat for evap+melt 
+ "ocean_model",  "hfss",            "hfss",             "ocean_month",        "all", "mean", "none",2  # sensible from air-sea and ice-sea 
+ "ocean_model",  "rsntds",          "rsntds"            "ocean_month",        "all", "mean", "none",2  # shortwave 
+ "ocean_model",  "rsdo",            "rsdo"              "ocean_month",        "all", "mean", "none",2  # penetratie shortwave 
+ "ocean_model",  "hfds",            "hfds"              "ocean_month",        "all", "mean", "none",2  # total heat entering ocean surface 
 
 # Extra heat flux terms beyond Table 2.7 from CMIP6/OMIP  
  "ocean_model", "net_heat_coupler",       "net_heat_coupler",       "ocean_annual", "all", "mean", "none",2
