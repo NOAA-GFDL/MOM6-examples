@@ -162,10 +162,10 @@ ETA_TOLERANCE_AUX = 1e-3        !    The equivalent to ETA_TOLERANCE for the
 !  Specify properties of the I/O and length of the integration.
 TIMEUNIT = 86400.0              !    The time unit in seconds for the following
                                 !  fields.
-ENERGYSAVEDAYS = 10.0            !    The number of days between saves of the
+ENERGYSAVEDAYS = 10.0           !    The number of days between saves of the
                                 !  energies of the run.
 ENERGYFILE = "timestats"        !    The file to use to save the energies.
-RESTARTFILE = "MOM.res"        !    The name of the restart file.
+RESTARTFILE = "MOM.res"         !    The name of the restart file.
 RESTINT = 365.0                 !    The number of days between saves of the
                                 !  restart file.  Use a value that is larger than
                                 !  DAYMAX not to save incremental restart files
@@ -421,6 +421,11 @@ CORRECT_DENSITY = True          !    If CORRECT_DENSITY is defined, the layer
 !  Specify the properties of the surface forcing.
 WIND_STAGGER = "B"              !  "A", "B", or "C" to indicate the
                                 !  staggering of the wind stresses.
+OCEAN_SURFACE_STAGGER = "B"     ! default = "B"
+                                ! A case-insensitive character string to indicate the
+                                ! staggering of the surface velocity field that is
+                                ! returned to the coupler.  Valid values include
+                                ! 'A', 'B', or 'C'.
 
 !  Specify the properties of the passive tracers.
 KHTR = 0.0                      ! KHTR is the along-isopycnal tracer diffusivity, in m2 s-1.
