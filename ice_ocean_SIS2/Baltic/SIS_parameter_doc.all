@@ -95,6 +95,11 @@ DO_SUN_ANGLE_FOR_ALB = False    !   [Boolean] default = False
                                 ! albedo within the sea ice model.
 DO_RIDGING = False              !   [Boolean] default = False
                                 ! If true, call the ridging routines.
+SIS2_FILLING_FRAZIL = False     !   [Boolean] default = False
+                                ! If true, apply frazil to fill as many categories as
+                                ! possible to fill in a uniform (minimum) amount of ice
+                                ! in all the thinnest categories. Otherwise the frazil is
+                                ! always assigned to a single category.
 RESTARTFILE = "ice_model.res.nc" ! default = "ice_model.res.nc"
                                 ! The name of the restart file.
 TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
