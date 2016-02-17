@@ -1078,9 +1078,21 @@ BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! to do a corrector continuity step using a weighted
                                 ! average of the old and new velocities, with weights
                                 ! of (1-BEBT) and BEBT.
-DYNAMIC_SURFACE_PRESSURE = False !   [Boolean] default = False
+DYNAMIC_SURFACE_PRESSURE = True !   [Boolean] default = False
                                 ! If true, add a dynamic pressure due to a viscous ice
                                 ! shelf, for instance.
+ICE_LENGTH_DYN_PSURF = 1.0E+04  !   [m] default = 1.0E+04
+                                ! The length scale at which the Rayleigh damping rate due
+                                ! to the ice strength should be the same as if a Laplacian
+                                ! were applied, if DYNAMIC_SURFACE_PRESSURE is true.
+DEPTH_MIN_DYN_PSURF = 1.0E-06   !   [m] default = 1.0E-06
+                                ! The minimum depth to use in limiting the size of the
+                                ! dynamic surface pressure for stability, if
+                                ! DYNAMIC_SURFACE_PRESSURE is true..
+CONST_DYN_PSURF = 0.9           !   [nondim] default = 0.9
+                                ! The constant that scales the dynamic surface pressure,
+                                ! if DYNAMIC_SURFACE_PRESSURE is true.  Stable values
+                                ! are < ~1.0.
 SADOURNY = True                 !   [Boolean] default = True
                                 ! If true, the Coriolis terms are discretized with the
                                 ! Sadourny (1975) energy conserving scheme, otherwise
