@@ -3,6 +3,8 @@
 import netCDF4
 import numpy
 import m6plot
+import m6toolbox
+import os
 import matplotlib.pyplot as plt
 
 try: import argparse
@@ -12,19 +14,34 @@ parser = argparse.ArgumentParser(description='''Script for plotting annual-avera
 parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'temp' and 'e'.''')
 parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
 parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
-parser.add_argument('-g','--gridspecdir', type=str, required=True,
+parser.add_argument('-g','--gridspec', type=str, required=True,
   help='''Directory containing mosaic/grid-spec files (ocean_hgrid.nc and ocean_mask.nc).''')
 parser.add_argument('-w','--woa', type=str, required=True,
   help='''File containing WOA (or obs) data to compare against.''')
 cmdLineArgs = parser.parse_args()
 
-x = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['x'][1::2,1::2]
-y = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['y'][1::2,1::2]
-xg = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['x'][0::2,0::2]
-yg = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['y'][0::2,0::2]
-msk = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_mask.nc').variables['mask'][:]
-area = msk*netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['area'][:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
-basin = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/basin_codes.nc').variables['basin'][:]
+if not os.path.exists(cmdLineArgs.gridspec): raise ValueError('Specified gridspec directory/tar file does not exist.')
+if os.path.isdir(cmdLineArgs.gridspec):
+  x = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['x'][1::2,1::2]
+  xg = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['x'][0::2,0::2]
+  y = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['y'][1::2,1::2]
+  yg = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['y'][0::2,0::2]
+  msk = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_mask.nc').variables['mask'][:]
+  area = msk*netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['area'][:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
+  depth = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_topog.nc').variables['depth'][:]
+elif os.path.isfile(cmdLineArgs.gridspec):
+  x = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','x')[1::2,1::2]
+  xg = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','x')[0::2,0::2]
+  y = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','y')[1::2,1::2]
+  yg = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','y')[0::2,0::2]
+  msk = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_mask.nc','mask')[:]
+  area = msk*m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','area')[:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
+  depth = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_topog.nc','depth')[:]
+else:
+  raise ValueError('Unable to extract grid information from gridspec directory/tar file.') 
+
+# Basin codes
+basin = m6toolbox.genBasinMasks(x, y, depth) # All ocean points seeded from South Atlantic
 
 obsRootGroup = netCDF4.Dataset( cmdLineArgs.woa )
 if 'temp' in obsRootGroup.variables: OTvar = 'temp'

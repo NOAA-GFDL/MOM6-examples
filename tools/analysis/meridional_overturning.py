@@ -3,7 +3,9 @@
 import netCDF4
 import numpy
 import m6plot
+import m6toolbox
 import matplotlib.pyplot as plt
+import os
 import sys
 
 def run():
@@ -13,19 +15,36 @@ def run():
   parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'vh' and 'e'.''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
-  parser.add_argument('-g','--gridspecdir', type=str, required=True,
+  parser.add_argument('-g','--gridspec', type=str, required=True,
     help='''Directory containing mosaic/grid-spec files (ocean_hgrid.nc and ocean_mask.nc).''')
   cmdLineArgs = parser.parse_args()
   main(cmdLineArgs)
 
 def main(cmdLineArgs,stream=None):
-  #x = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['x'][::2,::2]
-  y = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['y'][::2,::2]
-  msk = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_mask.nc').variables['mask'][:]
-  area = msk*netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['area'][:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
-  depth = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_topog.nc').variables['depth'][:]
-  basin_code = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/basin_codes.v20140629.nc').variables['basin'][:]
-  
+  if not os.path.exists(cmdLineArgs.gridspec): raise ValueError('Specified gridspec directory/tar file does not exist.')
+  if os.path.isdir(cmdLineArgs.gridspec):
+    x = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['x'][::2,::2]
+    xcenter = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['x'][1::2,1::2]
+    y = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['y'][::2,::2]
+    ycenter = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['y'][1::2,1::2]
+    msk = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_mask.nc').variables['mask'][:]
+    area = msk*netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['area'][:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
+    depth = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_topog.nc').variables['depth'][:]
+    try: basin_code = netCDF4.Dataset(cmdLineArgs.gridspec+'/basin_codes.nc').variables['basin'][:]
+    except: basin_code = m6toolbox.genBasinMasks(xcenter, ycenter, depth)
+  elif os.path.isfile(cmdLineArgs.gridspec):
+    x = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','x')[::2,::2]
+    xcenter = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','x')[1::2,1::2]
+    y = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','y')[::2,::2]
+    ycenter = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','y')[1::2,1::2]
+    msk = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_mask.nc','mask')[:]
+    area = msk*m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','area')[:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
+    depth = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_topog.nc','depth')[:]
+    try: basin_code = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'basin_codes.nc','basin')[:]
+    except: basin_code = m6toolbox.genBasinMasks(xcenter, ycenter, depth)
+  else:
+    raise ValueError('Unable to extract grid information from gridspec directory/tar file.') 
+
   if stream != None:
     if len(stream) != 2:
       raise ValueError('If specifying output streams, exactly two streams are needed for this analysis')
@@ -36,8 +55,10 @@ def main(cmdLineArgs,stream=None):
   elif 'vmo' in rootGroup.variables:
     varName = 'vmo'; conversion_factor = 1.e-9
   else: raise Exception('Could not find "vh" or "vmo" in file "%s"'%(cmdLineArgs.annual_file))
-  if len(rootGroup.variables[varName].shape)==4: VHmod = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
-  else: VHmod = rootGroup.variables[varName][:].filled(0.)
+  if len(rootGroup.variables[varName].shape)==4: VHmod = rootGroup.variables[varName][:].mean(axis=0)
+  else: VHmod = rootGroup.variables[varName][:]
+  try: VHmod = VHmod.filled(0.)
+  except: pass
   if 'e' in rootGroup.variables: Zmod = rootGroup.variables['e'][0]
   elif 'zw' in rootGroup.variables:
     zw = rootGroup.variables['zw'][:]
@@ -99,7 +120,7 @@ def main(cmdLineArgs,stream=None):
   plt.clf()
   m = 0*basin_code; m[(basin_code==2) | (basin_code==4) | (basin_code==6) | (basin_code==7) | (basin_code==8)]=1
   ci=m6plot.pmCI(0.,22.,2.)
-  z = (m*Zmod).min(axis=-1); psiPlot = MOCpsi(VHmod, vmsk=m*numpy.roll(m,1,axis=1))*conversion_factor
+  z = (m*Zmod).min(axis=-1); psiPlot = MOCpsi(VHmod, vmsk=m*numpy.roll(m,-1,axis=-2))*conversion_factor
   yy = y[1:,:].max(axis=-1)+0*z
   plotPsi(yy, z, psiPlot, ci, 'Atlantic MOC [Sv]')
   plt.xlabel(r'Latitude [$\degree$N]')
