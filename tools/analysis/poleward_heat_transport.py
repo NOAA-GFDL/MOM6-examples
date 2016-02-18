@@ -3,7 +3,9 @@
 import netCDF4
 import numpy
 import m6plot
+import m6toolbox
 import matplotlib.pyplot as plt
+import os
 import sys
 import warnings
 
@@ -14,22 +16,39 @@ def run():
   parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'T_ady_2d' and 'T_diffy_2d'.''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
-  parser.add_argument('-g','--gridspecdir', type=str, required=True,
-    help='''Directory containing mosaic/grid-spec files (ocean_hgrid.nc and ocean_mask.nc).''')
+  parser.add_argument('-g','--gridspec', type=str, required=True,
+    help='''Directory or tarfile containing mosaic/grid-spec files (ocean_hgrid.nc and ocean_mask.nc).''')
   cmdLineArgs = parser.parse_args()
   main(cmdLineArgs)
 
 def main(cmdLineArgs,stream=None):
-  #x = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['x'][::2,::2]
-  y = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['y'][::2,::2]
-  msk = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_mask.nc').variables['mask'][:]
-  area = msk*netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['area'][:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
-  depth = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_topog.nc').variables['depth'][:]
-  basin_code = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/basin_codes.v20140629.nc').variables['basin'][:]
-  
+  if not os.path.exists(cmdLineArgs.gridspec): raise ValueError('Specified gridspec directory/tar file does not exist.')
+  if os.path.isdir(cmdLineArgs.gridspec):
+    x = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['x'][::2,::2]
+    xcenter = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['x'][1::2,1::2]
+    y = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['y'][::2,::2]
+    ycenter = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['y'][1::2,1::2]
+    msk = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_mask.nc').variables['mask'][:]
+    area = msk*netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['area'][:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
+    depth = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_topog.nc').variables['depth'][:]
+    try: basin_code = netCDF4.Dataset(cmdLineArgs.gridspec+'/basin_codes.nc').variables['basin'][:]
+    except: basin_code = m6toolbox.genBasinMasks(xcenter, ycenter, depth)
+  elif os.path.isfile(cmdLineArgs.gridspec):
+    x = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','x')[::2,::2]
+    xcenter = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','x')[1::2,1::2]
+    y = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','y')[::2,::2]
+    ycenter = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','y')[1::2,1::2]
+    msk = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_mask.nc','mask')[:]
+    area = msk*m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','area')[:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
+    depth = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_topog.nc','depth')[:]
+    try: basin_code = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'basin_codes.nc','basin')[:]
+    except: basin_code = m6toolbox.genBasinMasks(xcenter, ycenter, depth)
+  else:
+    raise ValueError('Unable to extract grid information from gridspec directory/tar file.') 
+
   if stream != None:
-    if len(stream) != 2:
-      raise ValueError('If specifying output streams, exactly two streams are needed for this analysis')
+    if len(stream) != 3:
+      raise ValueError('If specifying output streams, exactly three streams are needed for this analysis')
   
   rootGroup = netCDF4.MFDataset( cmdLineArgs.annual_file )
   if 'T_ady_2d' in rootGroup.variables:
@@ -79,12 +98,11 @@ def main(cmdLineArgs,stream=None):
     plt.savefig(stream[0])
   else:
     plt.savefig(cmdLineArgs.outdir+'/HeatTransport_global.png')
-  plt.show(block=False) 
 
   # Atlantic Heat Transport
   plt.clf()
-  m = 0*basin_code; m[(basin_code==2) | (basin_code==4)] = 1
-  HTplot = heatTrans(advective, diffusive, vmask=m*numpy.roll(m,1,axis=1))
+  m = 0*basin_code; m[(basin_code==2) | (basin_code==4) | (basin_code==6) | (basin_code==7) | (basin_code==8)] = 1
+  HTplot = heatTrans(advective, diffusive, vmask=m*numpy.roll(m,-1,axis=-2))
   yy = y[1:,:].max(axis=-1)
   HTplot[yy<-34] = numpy.nan
   plotHeatTrans(yy,HTplot,title='Atlantic Y-Direction Heat Transport [PW]')
@@ -92,15 +110,14 @@ def main(cmdLineArgs,stream=None):
   plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
   if diffusive == None: annotatePlot('Warning: Diffusive component of transport is missing.')
   if stream != None:
-    plt.savefig(stream[0])
+    plt.savefig(stream[1])
   else:
     plt.savefig(cmdLineArgs.outdir+'/HeatTransport_Atlantic.png')
-  plt.show(block=False) 
    
   # Indo-Pacific Heat Transport
   plt.clf()
   m = 0*basin_code; m[(basin_code==3) | (basin_code==5)] = 1
-  HTplot = heatTrans(advective, diffusive, vmask=m*numpy.roll(m,1,axis=1))
+  HTplot = heatTrans(advective, diffusive, vmask=m*numpy.roll(m,-1,axis=-2))
   yy = y[1:,:].max(axis=-1)
   HTplot[yy<-38] = numpy.nan
   plotHeatTrans(yy,HTplot,title='Indo-Pacific Y-Direction Heat Transport [PW]')
@@ -108,10 +125,9 @@ def main(cmdLineArgs,stream=None):
   if diffusive == None: annotatePlot('Warning: Diffusive component of transport is missing.')
   plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
   if stream != None:
-    plt.savefig(stream[0])
+    plt.savefig(stream[2])
   else:
     plt.savefig(cmdLineArgs.outdir+'/HeatTransport_IndoPac.png')
-  plt.show(block=False)
  
 if __name__ == '__main__':
   run()

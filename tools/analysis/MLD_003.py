@@ -3,7 +3,9 @@
 import netCDF4
 import numpy
 import m6plot
+import m6toolbox
 import matplotlib.pyplot as plt
+import os
 
 try: import argparse
 except: raise Exception('This version of python is not new enough. python 2.7 or newer is required.')
@@ -15,17 +17,26 @@ parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in
 parser.add_argument('-od','--obsdata', type=str,
   default='/archive/gold/datasets/obs/Hosada2010_MLD_climatology.v20140515.nc',
   help='''File containing the observational MLD data (Hosoda et al., 2010).''')
-parser.add_argument('-g','--gridspecdir', type=str, required=True,
+parser.add_argument('-g','--gridspec', type=str, required=True,
   help='''Directory containing mosaic/grid-spec files (ocean_hgrid.nc and ocean_mask.nc).''')
 cmdLineArgs = parser.parse_args()
 
 rootGroup = netCDF4.Dataset( cmdLineArgs.monthly_file )
 if 'MLD_003' not in rootGroup.variables: raise Exception('Could not find "MLD_003" in file "%s"'%(cmdLineArgs.monthly_file))
 
-x = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['x'][::2,::2]
-y = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['y'][::2,::2]
-msk = netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_mask.nc').variables['mask'][:]
-area = msk*netCDF4.Dataset(cmdLineArgs.gridspecdir+'/ocean_hgrid.nc').variables['area'][:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
+if not os.path.exists(cmdLineArgs.gridspec): raise ValueError('Specified gridspec directory/tar file does not exist.')
+if os.path.isdir(cmdLineArgs.gridspec):
+  x = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['x'][::2,::2]
+  y = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['y'][::2,::2]
+  msk = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_mask.nc').variables['mask'][:]
+  area = msk*netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['area'][:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
+elif os.path.isfile(cmdLineArgs.gridspec):
+  x = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','x')[::2,::2]
+  y = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','y')[::2,::2]
+  msk = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_mask.nc','mask')[:]
+  area = msk*m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'ocean_hgrid.nc','area')[:,:].reshape([msk.shape[0], 2, msk.shape[1], 2]).sum(axis=-3).sum(axis=-1)
+else:
+  raise ValueError('Unable to extract grid information from gridspec directory/tar file.') 
 
 variable = rootGroup.variables['MLD_003']
 shape = variable.shape
