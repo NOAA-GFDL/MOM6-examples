@@ -9,6 +9,7 @@ import os
 import sys
 import warnings
 
+
 def run():
   try: import argparse
   except: raise Exception('This version of python is not new enough. python 2.7 or newer is required.')
@@ -53,12 +54,12 @@ def main(cmdLineArgs,stream=None):
   rootGroup = netCDF4.MFDataset( cmdLineArgs.annual_file )
   if 'T_ady_2d' in rootGroup.variables:
     varName = 'T_ady_2d'
-    if len(rootGroup.variables[varName].shape)==4: advective = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
+    if len(rootGroup.variables[varName].shape)==3: advective = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
     else: advective = rootGroup.variables[varName][:].filled(0.)
   else: raise Exception('Could not find "T_ady_2d" in file "%s"'%(cmdLineArgs.annual_file))
   if 'T_diffy_2d' in rootGroup.variables:
     varName = 'T_diffy_2d'
-    if len(rootGroup.variables[varName].shape)==4: diffusive = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
+    if len(rootGroup.variables[varName].shape)==3: diffusive = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
     else: diffusive = rootGroup.variables[varName][:].filled(0.)
   else: 
     diffusive = None
@@ -74,25 +75,76 @@ def main(cmdLineArgs,stream=None):
     HT = HT.sum(axis=-1); HT = HT.squeeze() # sum in x-direction
     return HT
 
-  def plotHeatTrans(y, HT, title):
+  def plotHeatTrans(y, HT, title, xlim=(-80,90)):
     plt.plot(y, y*0., 'k', linewidth=0.5)
-    plt.plot(y, HT, 'k', linewidth=1.5)
-    plt.xlim(-80,90); plt.ylim(-2.0,3.0)
+    plt.plot(y, HT, 'r', linewidth=1.5,label='Model')
+    plt.xlim(xlim); plt.ylim(-2.5,3.0)
     plt.title(title)
     plt.grid(True)
 
   def annotatePlot(label):
     fig = plt.gcf()
-    fig.text(0.1,0.85,label)
+    #fig.text(0.1,0.85,label)
+    fig.text(0.535,0.12,label)
  
+  def annotateObs():
+    fig = plt.gcf()
+    fig.text(0.1,0.85,r"Trenberth, K. E. and J. M. Caron, 2001: Estimates of Meridional Atmosphere and Ocean Heat Transports. J.Climate, 14, 3433-3443.", fontsize=8)
+    fig.text(0.1,0.825,r"Ganachaud, A. and C. Wunsch, 2000: Improved estimates of global ocean circulation, heat transport and mixing from hydrographic data.", fontsize=8)
+    fig.text(0.13,0.8,r"Nature, 408, 453-457", fontsize=8)
+
   m6plot.setFigureSize(npanels=1)
+
+  # Load Observations
+  fObs = netCDF4.Dataset('/archive/John.Krasting/obs/TC2001/Trenberth_and_Caron_Heat_Transport.nc')  #Trenberth and Caron
+  yobs = fObs.variables['ylat'][:]
+  NCEP = {}; NCEP['Global'] = fObs.variables['OTn']
+  NCEP['Atlantic'] = fObs.variables['ATLn'][:]; NCEP['IndoPac'] = fObs.variables['INDPACn'][:]
+  ECMWF = {}; ECMWF['Global'] = fObs.variables['OTe'][:]
+  ECMWF['Atlantic'] = fObs.variables['ATLe'][:]; ECMWF['IndoPac'] = fObs.variables['INDPACe'][:]
+
+  #G and W 
+  Global = {}
+  Global['lat'] = numpy.array([-30., -19., 24., 47.])
+  Global['trans'] = numpy.array([-0.6, -0.8, 1.8, 0.6])
+  Global['err'] = numpy.array([0.3, 0.6, 0.3, 0.1])
+
+  Atlantic = {}
+  Atlantic['lat'] = numpy.array([-45., -30., -19., -11., -4.5, 7.5, 24., 47.])
+  Atlantic['trans'] = numpy.array([0.66, 0.35, 0.77, 0.9, 1., 1.26, 1.27, 0.6])
+  Atlantic['err'] = numpy.array([0.12, 0.15, 0.2, 0.4, 0.55, 0.31, 0.15, 0.09])
+
+  IndoPac = {}
+  IndoPac['lat'] = numpy.array([-30., -18., 24., 47.])
+  IndoPac['trans'] = numpy.array([-0.9, -1.6, 0.52, 0.])
+  IndoPac['err'] = numpy.array([0.3, 0.6, 0.2, 0.05,])
+
+  GandW = {}
+  GandW['Global'] = Global
+  GandW['Atlantic'] = Atlantic
+  GandW['IndoPac'] = IndoPac
+
+  def plotGandW(lat,trans,err):
+    low = trans - err
+    high = trans + err
+    for n in range(0,len(low)):
+      if n == 0:
+        plt.plot([lat[n],lat[n]], [low[n],high[n]], 'c', linewidth=2.0, label='G&W')
+      else:
+        plt.plot([lat[n],lat[n]], [low[n],high[n]], 'c', linewidth=2.0)
+    plt.scatter(lat,trans,marker='s',facecolor='cyan')
 
   # Global Heat Transport
   HTplot = heatTrans(advective,diffusive)
   yy = y[1:,:].max(axis=-1)
   plotHeatTrans(yy,HTplot,title='Global Y-Direction Heat Transport [PW]')
+  plt.plot(yobs,NCEP['Global'],'k--',linewidth=0.5,label='NCEP')
+  plt.plot(yobs,ECMWF['Global'],'k.',linewidth=0.5,label='ECMWF')
+  plotGandW(GandW['Global']['lat'],GandW['Global']['trans'],GandW['Global']['err'])
   plt.xlabel(r'Latitude [$\degree$N]')
   plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
+  plt.legend(loc=0,fontsize=10)
+  annotateObs()
   if diffusive == None: annotatePlot('Warning: Diffusive component of transport is missing.')
   if stream != None:
     plt.savefig(stream[0])
@@ -106,8 +158,13 @@ def main(cmdLineArgs,stream=None):
   yy = y[1:,:].max(axis=-1)
   HTplot[yy<-34] = numpy.nan
   plotHeatTrans(yy,HTplot,title='Atlantic Y-Direction Heat Transport [PW]')
+  plt.plot(yobs,NCEP['Atlantic'],'k--',linewidth=0.5,label='NCEP')
+  plt.plot(yobs,ECMWF['Atlantic'],'k.',linewidth=0.5,label='ECMWF')
+  plotGandW(GandW['Atlantic']['lat'],GandW['Atlantic']['trans'],GandW['Atlantic']['err'])
   plt.xlabel(r'Latitude [$\degree$N]')
   plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
+  plt.legend(loc=0,fontsize=10)
+  annotateObs()
   if diffusive == None: annotatePlot('Warning: Diffusive component of transport is missing.')
   if stream != None:
     plt.savefig(stream[1])
@@ -119,11 +176,16 @@ def main(cmdLineArgs,stream=None):
   m = 0*basin_code; m[(basin_code==3) | (basin_code==5)] = 1
   HTplot = heatTrans(advective, diffusive, vmask=m*numpy.roll(m,-1,axis=-2))
   yy = y[1:,:].max(axis=-1)
-  HTplot[yy<-38] = numpy.nan
+  HTplot[yy<-34] = numpy.nan
   plotHeatTrans(yy,HTplot,title='Indo-Pacific Y-Direction Heat Transport [PW]')
+  plt.plot(yobs,NCEP['IndoPac'],'k--',linewidth=0.5,label='NCEP')
+  plt.plot(yobs,ECMWF['IndoPac'],'k.',linewidth=0.5,label='ECMWF')
+  plotGandW(GandW['IndoPac']['lat'],GandW['IndoPac']['trans'],GandW['IndoPac']['err'])
   plt.xlabel(r'Latitude [$\degree$N]')
+  annotateObs()
   if diffusive == None: annotatePlot('Warning: Diffusive component of transport is missing.')
   plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
+  plt.legend(loc=0,fontsize=10)
   if stream != None:
     plt.savefig(stream[2])
   else:
