@@ -58,6 +58,7 @@ mkdir -p ../../../ocean_${yr1}-${yr2}/MOC
 
 mkdir -p ../../../ocean_${yr1}-${yr2}/Hosoda_MLD
 ./MLD_003.py -g ${GRIDSPEC} -o ../../../ocean_${yr1}-${yr2}/Hosoda_MLD -l ${yr1}-${yr2} ${ppDir}/pp/ocean_monthly/ts/monthly/${chunk}/ocean_monthly.${yr1}01-${yr2}12.MLD_003.nc
+if ($status != 0) echo '   --> Mixed Layer Depth analysis may only be available on 5-year chunks.'
 
 
 mkdir -p ../../../ocean_${yr1}-${yr2}/heat_transport
@@ -66,5 +67,6 @@ mkdir -p ../../../ocean_${yr1}-${yr2}/heat_transport
 # -- This script may not work; requires MIDAS build
 mkdir -p ../../../ocean_${yr1}-${yr2}/heat_salt_0_300m
 ./TS_depth_integrals.py -r ${WOA} -s 0 -e 300 -g ${GRIDSPEC} -o ../../../ocean_${yr1}-${yr2}/heat_salt_0_300m -l ${yr1}-${yr2} ${ppDir}/ocean_annual.$yr1-$yr2.ann.nc
+if ($status != 0) echo '   --> Script may have failed on the MIDAS dependency.'
 
 #//
