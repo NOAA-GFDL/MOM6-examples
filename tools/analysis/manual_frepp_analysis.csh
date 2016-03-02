@@ -1,9 +1,8 @@
-#!/bin/csh -f
+#!/bin/csh
 
 # -------------------------------------------------
 #    Simple csh snippet to repair frepp analysis
 #
-#   *** make sure to run 'module load python' ***
 #
 #  Instructions:
 #    1. Fill in ppDir, years, and chunk
@@ -12,6 +11,8 @@
 #
 # -------------------------------------------------
 
+source $MODULESHOME/init/csh
+module load python
 
 set ppDir = ""  # e.g. include everything up to but not including the '/pp'
 set yr1   = ""  # make sure it has 4 digits
