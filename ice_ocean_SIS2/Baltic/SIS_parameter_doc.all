@@ -246,6 +246,9 @@ ICE_STRENGTH_CSTAR = 20.0       !   [nondim] default = 20.0
                                 ! ice strength, c* in Hunke & Dukowicz 1997.
 ICE_CDRAG_WATER = 0.00324       !   [nondim] default = 0.00324
                                 ! The drag coefficient between the sea ice and water.
+MIN_OCN_INTERTIAL_H = 0.0       !   [m] default = 0.0
+                                ! A minimum ocean thickness used to limit the viscous coupling rate
+                                ! implied for the ocean by the ice-ocean stress. Only used if positive.
 ICE_DEL_SH_MIN_SCALE = 2.0      !   [nondim] default = 2.0
                                 ! A scaling factor for the lower bound on the shear rates
                                 ! used in the denominator of the stress calculation. This
