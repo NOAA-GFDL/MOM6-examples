@@ -107,6 +107,15 @@ TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between writes of the
                                 ! globally summed ice statistics and conservation checks.
+NCAT_ICE = 5                    !   [nondim] default = 5
+                                ! The number of sea ice thickness categories.
+NK_ICE = 4                      !   [nondim] default = 4
+                                ! The number of layers within the sea ice.
+NK_SNOW = 1                     !   [nondim] default = 1
+                                ! The number of layers within the snow atop the sea ice.
+H_TO_KG_M2 = 1.0                !   [kg m-2 H-1] default = 1.0
+                                ! A constant that translates thicknesses from the model's
+                                ! internal units of thickness to kg m-2.
 REENTRANT_X = True              !   [Boolean] default = True
                                 ! If true, the domain is zonally reentrant.
 REENTRANT_Y = False             !   [Boolean] default = False
@@ -126,15 +135,6 @@ GLOBAL_INDEXING = False         !   [Boolean] default = False
                                 ! If true, use a global lateral indexing convention, so
                                 ! that corresponding points on different processors have
                                 ! the same index. This does not work with static memory.
-NCAT_ICE = 5                    !   [nondim] default = 5
-                                ! The number of sea ice thickness categories.
-NK_ICE = 4                      !   [nondim] default = 4
-                                ! The number of layers within the sea ice.
-NK_SNOW = 1                     !   [nondim] default = 1
-                                ! The number of layers within the snow atop the sea ice.
-H_TO_KG_M2 = 1.0                !   [kg m-2 H-1] default = 1.0
-                                ! A constant that translates thicknesses from the model's
-                                ! internal units of thickness to kg m-2.
 FIRST_DIRECTION = 0             ! default = 0
                                 ! An integer that indicates which direction goes first
                                 ! in parts of the code that use directionally split
