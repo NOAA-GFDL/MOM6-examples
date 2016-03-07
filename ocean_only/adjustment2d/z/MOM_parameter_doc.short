@@ -16,9 +16,12 @@ NJGLOBAL = 4                    !
 ! Sets the horizontal array index types.
 
 ! === module MOM_grid ===
-! Parameters providing information about the vertical grid.
+! Parameters providing information about the lateral grid.
 G_EARTH = 10.0                  !   [m s-2] default = 9.8
                                 ! The gravitational acceleration of the Earth.
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
 RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
                                 ! The mean ocean density used with BOUSSINESQ true to
                                 ! calculate accelerations and the mass for conservation
@@ -28,9 +31,6 @@ ANGSTROM = 1.0E-15              !   [m] default = 1.0E-10
                                 ! The minumum layer thickness, usually one-Angstrom.
 NK = 25                         !   [nondim]
                                 ! The number of model layers.
-
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
 
 ! === module MOM ===
 BULKMIXEDLAYER = False          !   [Boolean] default = True
