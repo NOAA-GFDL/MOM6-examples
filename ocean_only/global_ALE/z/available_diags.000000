@@ -158,6 +158,10 @@
 "ocean_model_z_new", "Ahh"  [Unused]
     ! long_name: Biharmonic Horizontal Viscosity at h Points
     ! units: meter4 second-1
+"ocean_model_z_new", "difmxybo"  [Unused]
+    ! long_name: Ocean lateral biharmonic viscosity
+    ! units: m4 s-1
+    ! standard_name: ocean_momentum_xy_biharmonic_diffusivity
 "ocean_model", "Ahq"  [Unused]
     ! long_name: Biharmonic Horizontal Viscosity at q Points
     ! units: meter4 second-1
@@ -171,6 +175,10 @@
 "ocean_model_z_new", "Khh"  [Unused]
     ! long_name: Laplacian Horizontal Viscosity at h Points
     ! units: meter2 second-1
+"ocean_model_z_new", "difmxylo"  [Unused]
+    ! long_name: Ocean lateral Laplacian viscosity
+    ! units: m2 s-1
+    ! standard_name: ocean_momentum_xy_laplacian_diffusivity
 "ocean_model", "Khq"  [Unused]
     ! long_name: Laplacian Horizontal Viscosity at q Points
     ! units: meter2 second-1
@@ -507,6 +515,10 @@
 "ocean_model_z_new", "KHTH_t"  [Unused]
     ! long_name: Ocean Tracer Diffusivity due to Parameterized Mesoscale Advection
     ! units: meter second-2
+"ocean_model_z_new", "diftrblo"  [Unused]
+    ! long_name: Ocean Tracer Diffusivity due to Parameterized Mesoscale Advection
+    ! units: m2 s-1
+    ! standard_name: ocean_tracer_diffusivity_due_to_parameterized_mesoscale_advection
 "ocean_model", "KHTH_u1"  [Unused]
     ! long_name: Parameterized mesoscale eddy advection diffusivity at U-points (2-D)
     ! units: meter second-2
@@ -900,6 +912,10 @@
 "ocean_model_z_new", "diabatic_heat_tendency"  [Unused]
     ! long_name: Diabatic diffusion heat tendency
     ! units: Watts/m2
+"ocean_model_z_new", "opottempdiff"  [Unused]
+    ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized dianeutral mixing
+    ! units: W m-2
+    ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_dianeutral_mixing
 "ocean_model", "diabatic_salt_tendency"  [Unused]
     ! long_name: Diabatic diffusion of salt tendency
     ! units: kg/(m2 * s)
@@ -910,6 +926,10 @@
 "ocean_model_z_new", "diabatic_salt_tendency"  [Unused]
     ! long_name: Diabatic diffusion of salt tendency
     ! units: kg/(m2 * s)
+"ocean_model_z_new", "osaltdiff"  [Unused]
+    ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized dianeutral mixing
+    ! units: kg m-2 s-1
+    ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_dianeutral_mixing
 "ocean_model", "diabatic_heat_tendency_2d"  [Unused]
     ! long_name: Depth integrated diabatic diffusion heat tendency
     ! units: Watts/m2
@@ -1186,6 +1206,10 @@
 "ocean_model_z_new", "u"  [Unused]
     ! long_name: Zonal velocity
     ! units: meter  second-1
+"ocean_model_z_new", "uo"  [Unused]
+    ! long_name: Sea Water X Velocity
+    ! units: m s-1
+    ! standard_name: sea_water_x_velocity
 "ocean_model", "v"  [Used]
     ! long_name: Meridional velocity
     ! units: meter second-1
@@ -1196,6 +1220,10 @@
 "ocean_model_z_new", "v"  [Unused]
     ! long_name: Meridional velocity
     ! units: meter second-1
+"ocean_model_z_new", "vo"  [Unused]
+    ! long_name: Sea Water Y Velocity
+    ! units: m s-1
+    ! standard_name: sea_water_y_velocity
 "ocean_model", "h"  [Used]
     ! long_name: Layer Thickness
     ! units: meter
@@ -1243,6 +1271,10 @@
 "ocean_model_z_new", "temp"  [Unused]
     ! long_name: Potential Temperature
     ! units: Celsius
+"ocean_model_z_new", "thetao"  [Unused]
+    ! long_name: Sea Water Potential Temperature
+    ! units: C
+    ! standard_name: sea_water_potential_temperature
 "ocean_model", "salt"  [Used]
     ! long_name: Salinity
     ! units: PPT
@@ -1253,6 +1285,10 @@
 "ocean_model_z_new", "salt"  [Unused]
     ! long_name: Salinity
     ! units: PPT
+"ocean_model_z_new", "so"  [Unused]
+    ! long_name: Sea Water Salinity
+    ! units: ppt
+    ! standard_name: sea_water_salinity
 "ocean_model", "tob"  [Unused]
     ! long_name: Sea Water Potential Temperature at Sea Floor
     ! units: degC
@@ -1461,6 +1497,10 @@
 "ocean_model_z_new", "Th_tendency"  [Unused]
     ! long_name: Net time tendency for heat
     ! units: W/m2
+"ocean_model_z_new", "opottemptend"  [Unused]
+    ! long_name: Tendency of Sea Water Potential Temperature Expressed as Heat Content
+    ! units: W m-2
+    ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content
 "ocean_model", "Th_tendency_2d"  [Unused]
     ! long_name: Vertical sum of net time tendency for heat
     ! units: W/m2
@@ -1493,6 +1533,10 @@
 "ocean_model_z_new", "Sh_tendency"  [Unused]
     ! long_name: Net time tendency for salt
     ! units: kg/(m2 * s)
+"ocean_model_z_new", "osalttend"  [Unused]
+    ! long_name: Tendency of Sea Water Salinity Expressed as Salt Content
+    ! units: kg m-2 s-1
+    ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content
 "ocean_model", "Sh_tendency_2d"  [Unused]
     ! long_name: Vertical sum of net time tendency for salt
     ! units: kg/(m2 * s)
@@ -1679,6 +1723,10 @@
 "ocean_model_z_new", "ndiff_tracer_cont_tendency_T"  [Unused]
     ! long_name: Neutral diffusion tracer content tendency for T
     ! units: Watts/m2
+"ocean_model_z_new", "opottemppmdiff"  [Unused]
+    ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized mesocale diffusion
+    ! units: W m-2
+    ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_mesocale_diffusion
 "ocean_model", "ndiff_tracer_cont_tendency_2d_T"  [Unused]
     ! long_name: Depth integrated neutral diffusion tracer content tendency for T
     ! units: Watts/m2
@@ -1702,6 +1750,10 @@
 "ocean_model_z_new", "ndiff_tracer_cont_tendency_S"  [Unused]
     ! long_name: Neutral diffusion tracer content tendency for S
     ! units: kg m-2 s-1
+"ocean_model_z_new", "osaltpmdiff"  [Unused]
+    ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized mesocale diffusion
+    ! units: kg m-2 s-1
+    ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_mesocale_diffusion
 "ocean_model", "ndiff_tracer_cont_tendency_2d_S"  [Unused]
     ! long_name: Depth integrated neutral diffusion tracer content tendency for S
     ! units: kg m-2 s-1
