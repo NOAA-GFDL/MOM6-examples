@@ -16,6 +16,7 @@ def run():
   parser = argparse.ArgumentParser(description='''Script for plotting plotting poleward heat transport.''')
   parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'T_ady_2d' and 'T_diffy_2d'.''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
+  parser.add_argument('-s','--suptitle', type=str, default='', help='''Super-title for experiment.  Default is to read from netCDF file.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
   parser.add_argument('-g','--gridspec', type=str, required=True,
     help='''Directory or tarfile containing mosaic/grid-spec files (ocean_hgrid.nc and ocean_mask.nc).''')
@@ -134,6 +135,9 @@ def main(cmdLineArgs,stream=None):
         plt.plot([lat[n],lat[n]], [low[n],high[n]], 'c', linewidth=2.0)
     plt.scatter(lat,trans,marker='s',facecolor='cyan')
 
+  if cmdLineArgs.suptitle != '':  suptitle = cmdLineArgs.suptitle + ' ' + cmdLineArgs.label
+  else: suptitle = rootGroup.title + ' ' + cmdLineArgs.label
+
   # Global Heat Transport
   HTplot = heatTrans(advective,diffusive)
   yy = y[1:,:].max(axis=-1)
@@ -142,7 +146,7 @@ def main(cmdLineArgs,stream=None):
   plt.plot(yobs,ECMWF['Global'],'k.',linewidth=0.5,label='ECMWF')
   plotGandW(GandW['Global']['lat'],GandW['Global']['trans'],GandW['Global']['err'])
   plt.xlabel(r'Latitude [$\degree$N]')
-  plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
+  plt.suptitle(suptitle)
   plt.legend(loc=0,fontsize=10)
   annotateObs()
   if diffusive == None: annotatePlot('Warning: Diffusive component of transport is missing.')
@@ -162,7 +166,7 @@ def main(cmdLineArgs,stream=None):
   plt.plot(yobs,ECMWF['Atlantic'],'k.',linewidth=0.5,label='ECMWF')
   plotGandW(GandW['Atlantic']['lat'],GandW['Atlantic']['trans'],GandW['Atlantic']['err'])
   plt.xlabel(r'Latitude [$\degree$N]')
-  plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
+  plt.suptitle(suptitle)
   plt.legend(loc=0,fontsize=10)
   annotateObs()
   if diffusive == None: annotatePlot('Warning: Diffusive component of transport is missing.')
@@ -184,7 +188,7 @@ def main(cmdLineArgs,stream=None):
   plt.xlabel(r'Latitude [$\degree$N]')
   annotateObs()
   if diffusive == None: annotatePlot('Warning: Diffusive component of transport is missing.')
-  plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
+  plt.suptitle(suptitle)
   plt.legend(loc=0,fontsize=10)
   if stream != None:
     plt.savefig(stream[2])

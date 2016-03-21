@@ -13,6 +13,7 @@ def run():
   parser = argparse.ArgumentParser(description='''Script for plotting annual-average zonal salinity bias.''')
   parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'salt' and 'e'.''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
+  parser.add_argument('-s','--suptitle', type=str, default='', help='''Super-title for experiment.  Default is to read from netCDF file.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
   parser.add_argument('-g','--gridspec', type=str, required=True,
     help='''Directory containing mosaic/grid-spec files (ocean_hgrid.nc and ocean_mask.nc).''')
@@ -67,6 +68,9 @@ def main(cmdLineArgs,stream=None):
     return numpy.sum( vols * S, axis=-1 ) / numpy.sum( vols, axis=-1 ), (mask*eta).min(axis=-1)
   
   ci=m6plot.pmCI(0.125,2.25,.25)
+
+  if cmdLineArgs.suptitle != '':  suptitle = cmdLineArgs.suptitle + ' ' + cmdLineArgs.label
+  else: suptitle = rootGroup.title + ' ' + cmdLineArgs.label
   
   # Global
   sPlot, z = zonalAverage(Smod, Zmod, area)
@@ -74,13 +78,13 @@ def main(cmdLineArgs,stream=None):
   if stream != None: objOut = stream[0]
   else: objOut = cmdLineArgs.outdir+'/S_global_xave_bias_WOA05.png'
   m6plot.yzplot( sPlot - sObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label, title='''Global zonal-average salinity bias (w.r.t. WOA'05) [ppt]''',
+        suptitle=suptitle, title='''Global zonal-average salinity bias (w.r.t. WOA'05) [ppt]''',
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
   if stream == None:  
     m6plot.yzcompare( sPlot, sObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label,
+        suptitle=suptitle,
         title1='Global zonal-average salinity [ppt]',
         title2='''WOA'05 salinity [ppt]''',
         clim=m6plot.linCI(20,30,10, 31,39,.5), colormap='dunneRainbow', extend='both',
@@ -94,13 +98,13 @@ def main(cmdLineArgs,stream=None):
   if stream != None: objOut = stream[1]
   else: objOut = cmdLineArgs.outdir+'/S_Atlantic_xave_bias_WOA05.png'
   m6plot.yzplot( sPlot - sObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label, title='''Atlantic zonal-average salinity bias (w.r.t. WOA'05) [ppt]''',
+        suptitle=suptitle, title='''Atlantic zonal-average salinity bias (w.r.t. WOA'05) [ppt]''',
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
   if stream == None:
     m6plot.yzcompare( sPlot, sObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label,
+        suptitle=suptitle,
         title1='Atlantic zonal-average salinity [ppt]',
         title2='''WOA'05 salinity [ppt]''',
         clim=m6plot.linCI(20,30,10, 31,39,.5), colormap='dunneRainbow', extend='both',
@@ -114,13 +118,13 @@ def main(cmdLineArgs,stream=None):
   if stream != None: objOut = stream[2]
   else: objOut = cmdLineArgs.outdir+'/S_Pacific_xave_bias_WOA05.png'
   m6plot.yzplot( sPlot - sObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label, title='''Pacific zonal-average salinity bias (w.r.t. WOA'05) [ppt]''',
+        suptitle=suptitle, title='''Pacific zonal-average salinity bias (w.r.t. WOA'05) [ppt]''',
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
   if stream == None:
     m6plot.yzcompare( sPlot, sObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label,
+        suptitle=suptitle,
         title1='Pacific zonal-average salinity [ppt]',
         title2='''WOA'05 salinity [ppt]''',
         clim=m6plot.linCI(20,30,10, 31,39,.5), colormap='dunneRainbow', extend='both',
@@ -134,13 +138,13 @@ def main(cmdLineArgs,stream=None):
   if stream != None: objOut = stream[3]
   else: objOut = cmdLineArgs.outdir+'/S_Indian_xave_bias_WOA05.png'
   m6plot.yzplot( sPlot - sObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label, title='''Indian zonal-average salinity bias (w.r.t. WOA'05) [ppt]''',
+        suptitle=suptitle, title='''Indian zonal-average salinity bias (w.r.t. WOA'05) [ppt]''',
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
   if stream == None:
     m6plot.yzcompare( sPlot, sObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label,
+        suptitle=suptitle,
         title1='Indian zonal-average salinity [ppt]',
         title2='''WOA'05 salinity [ppt]''',
         clim=m6plot.linCI(20,30,10, 31,39,.5), colormap='dunneRainbow', extend='both',

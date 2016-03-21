@@ -14,6 +14,7 @@ def run():
   parser = argparse.ArgumentParser(description='''Script for plotting meridional overturning.''')
   parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'vh' and 'e'.''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
+  parser.add_argument('-s','--suptitle', type=str, default='', help='''Super-title for experiment.  Default is to read from netCDF file.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
   parser.add_argument('-g','--gridspec', type=str, required=True,
     help='''Directory containing mosaic/grid-spec files (ocean_hgrid.nc and ocean_mask.nc).''')
@@ -101,13 +102,16 @@ def main(cmdLineArgs,stream=None):
   m6plot.setFigureSize(npanels=1)
   cmap = plt.get_cmap('dunnePM')
 
+  if cmdLineArgs.suptitle != '':  suptitle = cmdLineArgs.suptitle + ' ' + cmdLineArgs.label
+  else: suptitle = rootGroup.title + ' ' + cmdLineArgs.label
+
   # Global MOC
   z = Zmod.min(axis=-1); psiPlot = MOCpsi(VHmod)*conversion_factor
   yy = y[1:,:].max(axis=-1)+0*z
   ci=m6plot.pmCI(0.,40.,5.)
   plotPsi(yy, z, psiPlot, ci, 'Global MOC [Sv]')
   plt.xlabel(r'Latitude [$\degree$N]')
-  plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
+  plt.suptitle(suptitle)
   findExtrema(yy, z, psiPlot, max_lat=-30.)
   findExtrema(yy, z, psiPlot, min_lat=25.)
   findExtrema(yy, z, psiPlot, min_depth=2000., mult=-1.)
@@ -124,7 +128,7 @@ def main(cmdLineArgs,stream=None):
   yy = y[1:,:].max(axis=-1)+0*z
   plotPsi(yy, z, psiPlot, ci, 'Atlantic MOC [Sv]')
   plt.xlabel(r'Latitude [$\degree$N]')
-  plt.suptitle(rootGroup.title+' '+cmdLineArgs.label)
+  plt.suptitle(suptitle)
   findExtrema(yy, z, psiPlot, min_lat=26.5, max_lat=27.) # RAPID
   findExtrema(yy, z, psiPlot, max_lat=-33.)
   findExtrema(yy, z, psiPlot)
