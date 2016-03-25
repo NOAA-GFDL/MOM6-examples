@@ -71,7 +71,10 @@ def xyplot(field, x=None, y=None, area=None,
   # Choose colormap
   if nbins is None and (clim is None or len(clim)==2): nbins=35
   if colormap is None: colormap = chooseColorMap(sMin, sMax)
-  cmap, norm, extend = chooseColorLevels(sMin, sMax, colormap, clim=clim, nbins=nbins, extend=extend, logscale=logscale)
+  if clim is None and sStd>0:
+    cmap, norm, extend = chooseColorLevels(sMean-2.*sStd, sMean+2.*sStd, colormap, clim=clim, nbins=nbins, extend=extend, logscale=logscale)
+  else:
+    cmap, norm, extend = chooseColorLevels(sMin, sMax, colormap, clim=clim, nbins=nbins, extend=extend, logscale=logscale)
 
   if axis is None:
     setFigureSize(aspect, resolution, debug=debug)
@@ -81,6 +84,7 @@ def xyplot(field, x=None, y=None, area=None,
   if interactive: addStatusBar(xCoord, yCoord, maskedField)
   cb = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
   if centerlabels and len(clim)>2: cb.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
+  elif len(clim)>2: cb.set_ticks( clim )
   axis.set_axis_bgcolor(landcolor)
   plt.xlim( xLims )
   plt.ylim( yLims )
@@ -218,7 +222,10 @@ def xycompare(field1, field2, x=None, y=None, area=None,
   if npanels in [1,3]:
     axis = plt.subplot(npanels,1,npanels)
     if dcolormap is None: dcolormap = chooseColorMap(dMin, dMax)
-    cmap, norm, extend = chooseColorLevels(dMin, dMax, dcolormap, clim=dlim, nbins=nbins, extend=dextend)
+    if dlim is None and dStd>0:
+      cmap, norm, dextend = chooseColorLevels(dMean-2.*dStd, dMean+2.*dStd, dcolormap, clim=dlim, nbins=nbins, extend='both', autocenter=True)
+    else:
+      cmap, norm, dextend = chooseColorLevels(dMin, dMax, dcolormap, clim=dlim, nbins=nbins, extend=dextend, autocenter=True)
     plt.pcolormesh(xCoord, yCoord, maskedField1 - maskedField2, cmap=cmap, norm=norm)
     if interactive: addStatusBar(xCoord, yCoord, maskedField1 - maskedField2)
     if dextend is None: dextend = extend
@@ -230,7 +237,7 @@ def xycompare(field1, field2, x=None, y=None, area=None,
     if len(ylabel+yunits)>0: plt.ylabel(label(ylabel, yunits))
     if len(title3)>0: plt.title(title3)
 
-  if dRxy is not None: axis.annotate(' r(A,B)=%.5g\n'%(dRxy), xy=(1.0,-0.20), xycoords='axes fraction', verticalalignment='bottom', horizontalalignment='center', fontsize=10)
+  if dRxy is not None: axis.annotate(' r(A,B)=%.5g\n'%(dRxy), xy=(1.0,-1.1), xycoords='axes fraction', verticalalignment='top', horizontalalignment='center', fontsize=10)
   if len(xlabel+xunits)>0: plt.xlabel(label(xlabel, xunits))
   if len(suptitle)>0: plt.suptitle(suptitle)
 
@@ -458,7 +465,10 @@ def yzcompare(field1, field2, y=None, z=None,
   if npanels in [1, 3]:
     axis = plt.subplot(npanels,1,npanels)
     if dcolormap is None: dcolormap = chooseColorMap(dMin, dMax)
-    cmap, norm, extend = chooseColorLevels(dMin, dMax, dcolormap, clim=dlim, nbins=nbins, extend=dextend)
+    if dlim is None and dStd>0:
+      cmap, norm, dextend = chooseColorLevels(dMean-2.*dStd, dMean+2.*dStd, dcolormap, clim=dlim, nbins=nbins, extend='both', autocenter=True)
+    else:
+      cmap, norm, dextend = chooseColorLevels(dMin, dMax, dcolormap, clim=dlim, nbins=nbins, extend=dextend, autocenter=True)
     plt.pcolormesh(yCoord, zCoord, field1 - field2, cmap=cmap, norm=norm)
     if interactive: addStatusBar(yCoord, zCoord, field1 - field2)
     cb3 = plt.colorbar(fraction=.08, pad=0.02, extend=dextend)
@@ -471,7 +481,7 @@ def yzcompare(field1, field2, y=None, z=None,
     annotateStats(axis, dMin, dMax, dMean, dStd, dRMS)
     if len(zlabel+zunits)>0: plt.ylabel(label(zlabel, zunits))
 
-  axis.annotate(' r(A,B)=%.5g\n'%(dRxy), xy=(1.0,-0.20), xycoords='axes fraction', verticalalignment='bottom', horizontalalignment='center', fontsize=10)
+  axis.annotate(' r(A,B)=%.5g\n'%(dRxy), xy=(1.0,-1.07), xycoords='axes fraction', verticalalignment='top', horizontalalignment='center', fontsize=10)
   if len(ylabel+yunits)>0: plt.xlabel(label(ylabel, yunits))
   if len(title3)>0: plt.title(title3)
   if len(suptitle)>0: plt.suptitle(suptitle)
@@ -480,6 +490,89 @@ def yzcompare(field1, field2, y=None, z=None,
   if interactive: addInteractiveCallbacks()
   if show: plt.show(block=False)
 
+def ztplot(field, t=None, z=None,
+  tlabel=None, tunits=None, zlabel=None, zunits=None,
+  splitscale=None,
+  title='', suptitle='', autocenter=False,
+  clim=None, colormap=None, extend=None, centerlabels=False,
+  nbins=None, landcolor=[.5,.5,.5],
+  aspect=[16,9], resolution=576, axis=None,
+  ignore=None, save=None, debug=False, show=False, interactive=False):
+  """
+  Renders section plot of scalar field, field(x,z).
+
+  Arguments:
+  field       Scalar 2D array to be plotted.
+  t           t (or time) coordinate (1D array).
+  z           z coordinate (1D array).
+  tlabel      The label for the t axis. Default 'Time'.
+  tunits      The units for the t axis. Default 'Years'.
+  zlabel      The label for the z axis. Default 'Elevation'.
+  zunits      The units for the z axis. Default 'm'.
+  splitscale    A list of depths to define equal regions of projection in the vertical, e.g. [0.,-1000,-6500]
+  title       The title to place at the top of the panel. Default ''.
+  suptitle    The super-title to place at the top of the figure. Default ''.
+  autocenter  If clim generated by script, set to be centered on zero.  Default False. 
+  clim        A tuple of (min,max) color range OR a list of contour levels. Default None.
+  colormap    The name of the colormap to use. Default None.
+  extend      Can be one of 'both', 'neither', 'max', 'min'. Default None.
+  centerlabels If True, will move the colorbar labels to the middle of the interval. Default False.
+  nbins       The number of colors levels (used is clim is missing or only specifies the color range).
+  landcolor   An rgb tuple to use for the color of land (no data). Default [.5,.5,.5].
+  aspect      The aspect ratio of the figure, given as a tuple (W,H). Default [16,9].
+  resolution  The vertical resolution of the figure given in pixels. Default 720.
+  axis         The axis handle to plot to. Default None.
+  ignore      A value to use as no-data (NaN). Default None.
+  save        Name of file to save figure in. Default None.
+  debug       If true, report stuff for debugging. Default False.
+  show        If true, causes the figure to appear on screen. Used for testing. Default False.
+  interactive If true, adds interactive features such as zoom, close and cursor. Default False.
+  """
+
+  # Create coordinates if not provided
+  tlabel, tunits, zlabel, zunits = createTZlabels(t, z, tlabel, tunits, zlabel, zunits)
+  if debug: print('t,z label/units=',tlabel,tunits,zlabel,zunits)
+  if ignore is not None: maskedField = numpy.ma.masked_array(field, mask=[field==ignore])
+  else: maskedField = field.copy()
+  field2 = maskedField.T
+  tCoord = t; zCoord = z
+
+  # Diagnose statistics
+  sMin, sMax, sMean, sStd, sRMS = myStats(maskedField, None, debug=debug)
+  tLims = numpy.amin(tCoord), numpy.amax(tCoord)
+  zLims = numpy.amin(zCoord), numpy.amax(zCoord)
+  #zLims = boundaryStats(zCoord)
+
+  # Choose colormap
+  if nbins is None and (clim is None or len(clim)==2): nbins=35
+  if colormap is None: colormap = chooseColorMap(sMin, sMax)
+  cmap, norm, extend = chooseColorLevels(sMin, sMax, colormap, clim=clim, nbins=nbins, extend=extend, autocenter=autocenter)
+
+  if axis is None:
+    setFigureSize(aspect, resolution, debug=debug)
+    #plt.gcf().subplots_adjust(left=.10, right=.99, wspace=0, bottom=.09, top=.9, hspace=0)
+    axis = plt.gca()
+  plt.pcolormesh(tCoord, zCoord, field2, cmap=cmap, norm=norm)
+  if interactive: addStatusBar(tCoord, zCoord, field2)
+  cb = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
+  if centerlabels and len(clim)>2: cb.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
+  axis.set_axis_bgcolor(landcolor)
+  if splitscale is not None:
+    for zzz in splitscale[1:-1]: plt.axhline(zzz,color='k',linestyle='--')
+    axis.set_yscale('splitscale', zval=splitscale)
+  plt.xlim( tLims ); plt.ylim( zLims )
+  axis.annotate('max=%.5g\nmin=%.5g'%(sMax,sMin), xy=(0.0,1.01), xycoords='axes fraction', verticalalignment='bottom', fontsize=10)
+  if sMean is not None:
+    axis.annotate('mean=%.5g\nrms=%.5g'%(sMean,sRMS), xy=(1.0,1.01), xycoords='axes fraction', verticalalignment='bottom', horizontalalignment='right', fontsize=10)
+    axis.annotate(' sd=%.5g\n'%(sStd), xy=(1.0,1.01), xycoords='axes fraction', verticalalignment='bottom', horizontalalignment='left', fontsize=10)
+  if len(tlabel+tunits)>0: plt.xlabel(label(tlabel, tunits))
+  if len(zlabel+zunits)>0: plt.ylabel(label(zlabel, zunits))
+  if len(title)>0: plt.title(title)
+  if len(suptitle)>0: plt.suptitle(suptitle)
+
+  if save is not None: plt.savefig(save)
+  if interactive: addInteractiveCallbacks()
+  if show: plt.show(block=False)
 
 def chooseColorMap(sMin, sMax):
   """
@@ -491,13 +584,14 @@ def chooseColorMap(sMin, sMax):
   else: return 'dunneRainbow'
 
 
-def chooseColorLevels(sMin, sMax, colorMapName, clim=None, nbins=None, steps=[1,2,2.5,5,10], extend=None, logscale=False):
+def chooseColorLevels(sMin, sMax, colorMapName, clim=None, nbins=None, steps=[1,2,2.5,5,10], extend=None, logscale=False, autocenter=False):
   """
   If nbins is a positive integer, choose sensible color levels with nbins colors.
   If clim is a 2-element tuple, create color levels within the clim range
   or if clim is a vector, use clim as contour levels.
   If clim provides more than 2 color interfaces, nbins must be absent.
   If clim is absent, the sMin,sMax are used as the color range bounds.
+  If autocenter is True and clim is None then the automatic color levels are centered.
   
   Returns cmap, norm and extend.
   """
@@ -506,7 +600,11 @@ def chooseColorLevels(sMin, sMax, colorMapName, clim=None, nbins=None, steps=[1,
     if len(clim)<2: raise Exception('clim must be at least 2 values long.')
     if nbins is None and len(clim)==2: raise Exception('nbins must be provided when clims specifies a color range.')
     if nbins is not None and len(clim)>2: raise Exception('nbins cannot be provided when clims specifies color levels.')
-  if clim is None: levels = MaxNLocator(nbins=nbins, steps=steps).tick_values(sMin, sMax)
+  if clim is None:
+    if autocenter:
+      levels = MaxNLocator(nbins=nbins, steps=steps).tick_values(min(sMin,-sMax), max(sMax,-sMin))
+    else:
+      levels = MaxNLocator(nbins=nbins, steps=steps).tick_values(sMin, sMax)
   elif len(clim)==2: levels = MaxNLocator(nbins=nbins, steps=steps).tick_values(clim[0], clim[1])
   else: levels = clim
 
@@ -831,6 +929,24 @@ def createYZlabels(y, z, ylabel, yunits, zlabel, zunits):
     if zlabel is None: zlabel='Elevation'
     if zunits is None: zunits='m'
   return ylabel, yunits, zlabel, zunits
+
+def createTZlabels(t, z, tlabel, tunits, zlabel, zunits):
+  """
+  Checks that y and z labels are appropriate and tries to make some if they are not.
+  """
+  if t is None:
+    if tlabel is None: tlabel='t'
+    if tunits is None: tunits=''
+  else:
+    if tlabel is None: tlabel='Time'
+    if tunits is None: tunits=''
+  if z is None:
+    if zlabel is None: zlabel='k'
+    if zunits is None: zunits=''
+  else:
+    if zlabel is None: zlabel='Elevation'
+    if zunits is None: zunits='m'
+  return tlabel, tunits, zlabel, zunits
 
 
 def yzWeight(y, z):

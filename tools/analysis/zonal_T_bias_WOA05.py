@@ -13,6 +13,7 @@ def run():
   parser = argparse.ArgumentParser(description='''Script for plotting annual-average zonal temperature bias.''')
   parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'temp' and 'e'.''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
+  parser.add_argument('-s','--suptitle', type=str, default='', help='''Super-title for experiment.  Default is to read from netCDF file.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
   parser.add_argument('-g','--gridspec', type=str, required=True,
     help='''Directory containing mosaic/grid-spec files (ocean_hgrid.nc and ocean_mask.nc).''')
@@ -70,20 +71,23 @@ def main(cmdLineArgs,stream=None):
     return numpy.sum( vols * T, axis=-1 ) / numpy.sum( vols, axis=-1 ), (mask*eta).min(axis=-1)
   
   ci=m6plot.pmCI(0.25,4.5,.5)
-  
+
+  if cmdLineArgs.suptitle != '':  suptitle = cmdLineArgs.suptitle + ' ' + cmdLineArgs.label
+  else: suptitle = rootGroup.title + ' ' + cmdLineArgs.label
+    
   # Global
   tPlot, z = zonalAverage(Tmod, Zmod, area)
   tObsPlot, _ = zonalAverage(Tobs, Zobs, area)
   if stream != None: objOut = stream[0]
   else: objOut = cmdLineArgs.outdir+'/T_global_xave_bias_WOA05.png'
   m6plot.yzplot( tPlot - tObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label, title=r'''Global zonal-average $\theta$ bias (w.r.t. WOA'05) [$\degree$C]''',
+        suptitle=suptitle, title=r'''Global zonal-average $\theta$ bias (w.r.t. WOA'05) [$\degree$C]''',
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
 
   if stream == None:
     m6plot.yzcompare( tPlot, tObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label,
+        suptitle=suptitle,
         title1=r'Global zonal-average $\theta$ [$\degree$C]',
         title2=r'''WOA'05 $\theta$ [$\degree$C]''',
         clim=m6plot.linCI(-2,29,.5), colormap='dunneRainbow', extend='max',
@@ -97,13 +101,13 @@ def main(cmdLineArgs,stream=None):
   if stream != None: objOut = stream[1]
   else: objOut = cmdLineArgs.outdir+'/T_Atlantic_xave_bias_WOA05.png'
   m6plot.yzplot( tPlot - tObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label, title=r'''Atlantic zonal-average $\theta$ bias (w.r.t. WOA'05) [$\degree$C]''',
+        suptitle=suptitle, title=r'''Atlantic zonal-average $\theta$ bias (w.r.t. WOA'05) [$\degree$C]''',
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
   if stream == None:
     m6plot.yzcompare( tPlot, tObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label,
+        suptitle=suptitle,
         title1=r'Atlantic zonal-average $\theta$ [$\degree$C]',
         title2=r'''WOA'05 $\theta$ [$\degree$C]''',
         clim=m6plot.linCI(-2,29,.5), colormap='dunneRainbow', extend='max',
@@ -117,13 +121,13 @@ def main(cmdLineArgs,stream=None):
   if stream != None: objOut = stream[2]
   else: objOut = cmdLineArgs.outdir+'/T_Pacific_xave_bias_WOA05.png'
   m6plot.yzplot( tPlot - tObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label, title=r'''Pacific zonal-average $\theta$ bias (w.r.t. WOA'05) [$\degree$C]''',
+        suptitle=suptitle, title=r'''Pacific zonal-average $\theta$ bias (w.r.t. WOA'05) [$\degree$C]''',
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
 
   if stream == None:
     m6plot.yzcompare( tPlot, tObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label,
+        suptitle=suptitle,
         title1=r'Pacific zonal-average $\theta$ [$\degree$C]',
         title2=r'''WOA'05 $\theta$ [$\degree$C]''',
         clim=m6plot.linCI(-2,29,.5), colormap='dunneRainbow', extend='max',
@@ -137,13 +141,13 @@ def main(cmdLineArgs,stream=None):
   if stream != None: objOut = stream[3]
   else: objOut = cmdLineArgs.outdir+'/T_Indian_xave_bias_WOA05.png'
   m6plot.yzplot( tPlot - tObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label, title=r'''Indian zonal-average $\theta$ bias (w.r.t. WOA'05) [$\degree$C]''',
+        suptitle=suptitle, title=r'''Indian zonal-average $\theta$ bias (w.r.t. WOA'05) [$\degree$C]''',
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
   if stream == None:
     m6plot.yzcompare( tPlot, tObsPlot , y, z, splitscale=[0., -1000., -6500.],
-        suptitle=rootGroup.title+' '+cmdLineArgs.label,
+        suptitle=suptitle,
         title1=r'Indian zonal-average $\theta$ [$\degree$C]',
         title2=r'''WOA'05 $\theta$ [$\degree$C]''',
         clim=m6plot.linCI(-2,29,.5), colormap='dunneRainbow', extend='max',
