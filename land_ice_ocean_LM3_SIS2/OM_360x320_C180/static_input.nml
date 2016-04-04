@@ -1,38 +1,3 @@
- &MOM_input_nml
-         output_directory = './',
-         input_filename = 'n'
-         restart_input_dir = 'INPUT/',
-         restart_output_dir = 'RESTART/',
-         parameter_filename = 'MOM_input','MOM_layout','MOM_override'
-/
-
- &SIS_input_nml
-         output_directory = './',
-         input_filename = 'n'
-         restart_input_dir = 'INPUT/',
-         restart_output_dir = 'RESTART/',
-         parameter_filename = 'SIS_input','SIS_layout','SIS_override'
-/
-
- &coupler_nml
-            months = 0,
-            days   = 3,
-            current_date = 1992,1,1,0,0,0,
-            calendar = 'JULIAN',
-            dt_cpld = 3600,
-            dt_atmos = 1800,
-            do_atmos = .true.,
-            do_land = .true.,
-            do_ice = .true.,
-            do_ocean = .true.,
-            do_flux = .true.,
-            atmos_npes = 144,
-            ocean_npes = 288,
-            concurrent = .true.,
-            use_lag_fluxes=.true.,
-            check_stocks = 0
-/
-
  &atmos_model_nml
            layout = 0, 0
 /
