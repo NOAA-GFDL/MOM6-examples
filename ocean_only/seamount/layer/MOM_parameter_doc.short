@@ -110,7 +110,7 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! MINIMUM_DEPTH is assumed to be land and all fluxes are masked out.
                                 ! If MASKING_DEPTH is specified, then all depths shallower than
                                 ! MINIMUM_DEPTH but depper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
-COORD_CONFIG = "linear"         !
+COORD_CONFIG = "ts_range"       !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
@@ -125,9 +125,16 @@ COORD_CONFIG = "linear"         !
                                 !     ts_profile - use temperature and salinity profiles
                                 !       (read from COORD_FILE) to set layer densities.
                                 !     USER - call a user modified routine.
-LIGHTEST_DENSITY = 1034.0       !   [kg m-3] default = 1035.0
-                                ! The reference potential density used for the surface
-                                ! interface.
+T_REF = 0.0                     !   [degC] default = 10.0
+                                ! The default initial temperatures.
+S_REF = 34.0                    !   [PSU] default = 35.0
+                                ! The default initial salinities.
+TS_RANGE_S_LIGHT = 34.05        !   [PSU] default = 34.0
+                                ! The initial lightest salinities when COORD_CONFIG
+                                ! is set to ts_range.
+TS_RANGE_S_DENSE = 35.95        !   [PSU] default = 34.0
+                                ! The initial densest salinities when COORD_CONFIG
+                                ! is set to ts_range.
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate

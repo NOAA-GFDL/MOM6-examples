@@ -104,11 +104,12 @@ DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
 ! === module MOM_tracer_flow_control ===
 INPUTDIR = "INPUT/"             ! default = "."
                                 ! The directory in which input files are found.
-COORD_CONFIG = "linear"         !
+COORD_CONFIG = "ts_range"       !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layesrs.
+                                !     linear - linear based on interfaces not layers
+                                !     layer_ref - linear based on layer densities
                                 !     ts_ref - use reference temperature and salinity
                                 !     ts_range - use range of temperature and salinity
                                 !       (T_REF and S_REF) to determine surface density
@@ -118,8 +119,22 @@ COORD_CONFIG = "linear"         !
                                 !     ts_profile - use temperature and salinity profiles
                                 !       (read from COORD_FILE) to set layer densities.
                                 !     USER - call a user modified routine.
-LIGHTEST_DENSITY = 1034.0       !   [kg m-3] default = 1035.0
-                                ! The reference potential density used for layer 1.
+T_REF = 0.0                     !   [degC] default = 10.0
+                                ! The default initial temperatures.
+TS_RANGE_T_LIGHT = 0.0          !   [degC] default = 10.0
+                                ! The initial temperature of the lightest layer when
+                                ! COORD_CONFIG is set to ts_range.
+TS_RANGE_T_DENSE = 0.0          !   [degC] default = 10.0
+                                ! The initial temperature of the densest layer when
+                                ! COORD_CONFIG is set to ts_range.
+S_REF = 34.0                    !   [PSU] default = 35.0
+                                ! The default initial salinities.
+TS_RANGE_S_LIGHT = 34.05        !   [PSU] default = 35.0
+                                ! The initial lightest salinities when COORD_CONFIG
+                                ! is set to ts_range.
+TS_RANGE_S_DENSE = 35.95        !   [PSU] default = 35.0
+                                ! The initial densest salinities when COORD_CONFIG
+                                ! is set to ts_range.
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
