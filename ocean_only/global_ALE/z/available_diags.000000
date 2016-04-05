@@ -1436,15 +1436,15 @@
     ! long_name: The volume flux added to stop the ocean from drying out and becoming negative in depth
     ! units: meter second-1
     ! cell_methods: xh:mean yh:mean
-"ocean_model", "rsdo"  [Used]
-    ! long_name: Downwelling Shortwave Flux in Sea Water
+"ocean_model", "rsdoabsorb"  [Used]
+    ! long_name: Convergence of Penetrative Shortwave Flux in Sea Water
     ! units: Watt meter-2
-    ! standard_name: downwelling_shortwave_flux_in_sea_water
+    ! standard_name: net_rate_of_absorption_of_shortwave_energy_in_ocean_layer
     ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "rsdo"  [Unused]
-    ! long_name: Downwelling Shortwave Flux in Sea Water
+"ocean_model_z_new", "rsdoabsorb"  [Unused]
+    ! long_name: Convergence of Penetrative Shortwave Flux in Sea Water
     ! units: Watt meter-2
-    ! standard_name: downwelling_shortwave_flux_in_sea_water
+    ! standard_name: net_rate_of_absorption_of_shortwave_energy_in_ocean_layer
     ! cell_methods: xh:mean yh:mean zl:mean
 "ocean_model", "nonpenSW"  [Unused]
     ! long_name: Non-downwelling SW radiation (i.e., SW absorbed in ocean surface with LW,SENS,LAT)
@@ -2200,6 +2200,9 @@
     ! long_name: Obsolete parameter
     ! units: N/A
 "ocean_model", "KPP_dSdt"  [Unused]
+    ! long_name: Obsolete parameter
+    ! units: N/A
+"ocean_model", "rsdo"  [Unused]
     ! long_name: Obsolete parameter
     ! units: N/A
 "ocean_model", "ndiff_tracer_conc_tendency_T"  [Unused]
