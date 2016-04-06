@@ -74,7 +74,7 @@ def main(cmdLineArgs,stream=None):
                    'Drake Passage':(129.8,143.6), 'English Channel':(0.1,0.2), 'Faroe-Scotland':(0.8,1.0), 'Florida-Bahamas':(28.9,34.3), 
                    'Fram Strait':(6.2,7.0), 'Gibraltar Strait':0.11, 'Iceland-Faroe':(4.35,4.85), 
                    'Indonesian Throughflow':-13., 'Mozambique Channel':(-25.6,-7.8), 'Pacific Equatorial Undercurrent':(24.,36.), 
-                   'Taiwan-Luzon Striat':(-3.0,-1.8), 'Windward Passage':(-15.,5.)}
+                   'Taiwan-Luzon Strait':(-3.0,-1.8), 'Windward Passage':(-15.,5.)}
  
   plotSections = []
 
@@ -126,7 +126,7 @@ def main(cmdLineArgs,stream=None):
   try: res = Transport(cmdLineArgs,'ocean_Pacific_undercurrent','umo',label='Pacific Equatorial Undercurrent',ylim=(-8,8)); plotSections.append(res)
   except: print('WARNING: unable to process ocean_Pacific_undercurrent')
 
-  try: res = Transport(cmdLineArgs,'ocean_Taiwan_Luzon','umo',label='Taiwan-Luzon Striat',ylim=(-15,10)); plotSections.append(res)
+  try: res = Transport(cmdLineArgs,'ocean_Taiwan_Luzon','umo',label='Taiwan-Luzon Strait',ylim=(-15,10)); plotSections.append(res)
   except: print('WARNING: unable to process ocean_Taiwan_Luzon')
 
   try: res = Transport(cmdLineArgs,'ocean_Windward_Passage','vmo',label='Windward Passage',ylim=(-15,15)); plotSections.append(res)
