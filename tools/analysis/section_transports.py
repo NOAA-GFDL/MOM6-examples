@@ -12,7 +12,7 @@ except: raise Exception('This version of python is not new enough. python 2.7 or
 
 def run():
   parser = argparse.ArgumentParser(description='''Script for plotting depth vs. time plots of temperature and salinity drift''')
-  parser.add_argument('ts_directory', type=str, help='''Directory containing annual time series thetao and so xyave files''')
+  parser.add_argument('ts_directory', type=str, help='''Top-level post-processing directory for an experiment (i.e <some_path>/pp/)''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
   parser.add_argument('-s','--suptitle', type=str, default='', help='''Super-title for experiment.  Default is to read from netCDF file.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
