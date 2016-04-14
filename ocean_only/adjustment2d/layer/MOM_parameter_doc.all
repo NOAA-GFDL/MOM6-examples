@@ -15,13 +15,14 @@ NJGLOBAL = 4                    !
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
 
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
-
 ! === module MOM_grid ===
 ! Parameters providing information about the lateral grid.
 G_EARTH = 10.0                  !   [m s-2] default = 9.8
                                 ! The gravitational acceleration of the Earth.
+GLOBAL_INDEXING = False         !   [Boolean] default = False
+                                ! If true, use a global lateral indexing convention, so
+                                ! that corresponding points on different processors have
+                                ! the same index. This does not work with static memory.
 FIRST_DIRECTION = 0             ! default = 0
                                 ! An integer that indicates which direction goes first
                                 ! in parts of the code that use directionally split
@@ -31,6 +32,9 @@ BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
                                 ! If true, there are separate values for the basin depths
                                 ! at velocity points.  Otherwise the effects of of
                                 ! topography are entirely determined from thickness points.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
