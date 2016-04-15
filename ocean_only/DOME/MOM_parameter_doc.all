@@ -246,27 +246,6 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 3600.0          !   [m]
                                 ! The maximum depth of the ocean.
-COORD_CONFIG = "layer_ref"      !
-                                ! This specifies how layers are to be defined:
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layers
-                                !     layer_ref - linear based on layer densities
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
-GFS = 9.8                       !   [m s-2] default = 9.8
-                                ! The reduced gravity at the free surface.
-LIGHTEST_DENSITY = 1030.0       !   [kg m-3] default = 1031.0
-                                ! The reference potential density used for layer 1.
-DENSITY_RANGE = 2.0             !   [kg m-3] default = 2.0
-                                ! The range of reference potential densities in the layers.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
@@ -305,6 +284,27 @@ F_0 = 1.0E-04                   !   [s-1] default = 0.0
 BETA = 0.0                      !   [m-1 s-1] default = 0.0
                                 ! The northward gradient of the Coriolis parameter with
                                 ! the betaplane option.
+COORD_CONFIG = "layer_ref"      !
+                                ! This specifies how layers are to be defined:
+                                !     file - read coordinate information from the file
+                                !       specified by (COORD_FILE).
+                                !     linear - linear based on interfaces not layers
+                                !     layer_ref - linear based on layer densities
+                                !     ts_ref - use reference temperature and salinity
+                                !     ts_range - use range of temperature and salinity
+                                !       (T_REF and S_REF) to determine surface density
+                                !       and GINT calculate internal densities.
+                                !     gprime - use reference density (RHO_0) for surface
+                                !       density and GINT calculate internal densities.
+                                !     ts_profile - use temperature and salinity profiles
+                                !       (read from COORD_FILE) to set layer densities.
+                                !     USER - call a user modified routine.
+GFS = 9.8                       !   [m s-2] default = 9.8
+                                ! The reduced gravity at the free surface.
+LIGHTEST_DENSITY = 1030.0       !   [kg m-3] default = 1031.0
+                                ! The reference potential density used for layer 1.
+DENSITY_RANGE = 2.0             !   [kg m-3] default = 2.0
+                                ! The range of reference potential densities in the layers.
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
                                 ! If true, intialize the layer thicknesses, temperatures,
                                 ! and salnities from a Z-space file on a latitude-

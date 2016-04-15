@@ -128,6 +128,12 @@ MINIMUM_DEPTH = 0.1             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 20.0            !   [m]
                                 ! The maximum depth of the ocean.
+ROTATION = "beta"               ! default = "2omegasinlat"
+                                ! This specifies how the Coriolis parameter is specified:
+                                !     2omegasinlat - Use twice the planetary rotation rate
+                                !       times the sine of latitude.
+                                !     betaplane - Use a beta-plane or f-plane.
+                                !     USER - call a user modified routine.
 COORD_CONFIG = "linear"         !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -146,12 +152,6 @@ COORD_CONFIG = "linear"         !
 DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
                                 ! The range of reference potential densities across
                                 ! all interfaces.
-ROTATION = "beta"               ! default = "2omegasinlat"
-                                ! This specifies how the Coriolis parameter is specified:
-                                !     2omegasinlat - Use twice the planetary rotation rate
-                                !       times the sine of latitude.
-                                !     betaplane - Use a beta-plane or f-plane.
-                                !     USER - call a user modified routine.
 REGRIDDING_COORDINATE_MODE = "RHO" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding.
                                 ! Choose among the following possibilities:

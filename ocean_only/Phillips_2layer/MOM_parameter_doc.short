@@ -106,6 +106,18 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 2000.0          !   [m]
                                 ! The maximum depth of the ocean.
+ROTATION = "beta"               ! default = "2omegasinlat"
+                                ! This specifies how the Coriolis parameter is specified:
+                                !     2omegasinlat - Use twice the planetary rotation rate
+                                !       times the sine of latitude.
+                                !     betaplane - Use a beta-plane or f-plane.
+                                !     USER - call a user modified routine.
+F_0 = 6.49E-05                  !   [s-1] default = 0.0
+                                ! The reference value of the Coriolis parameter with the
+                                ! betaplane option.
+BETA = 2.0E-11                  !   [m-1 s-1] default = 0.0
+                                ! The northward gradient of the Coriolis parameter with
+                                ! the betaplane option.
 COORD_CONFIG = "gprime"         !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -123,18 +135,6 @@ COORD_CONFIG = "gprime"         !
                                 !     USER - call a user modified routine.
 GINT = 0.0196                   !   [m s-2]
                                 ! The reduced gravity across internal interfaces.
-ROTATION = "beta"               ! default = "2omegasinlat"
-                                ! This specifies how the Coriolis parameter is specified:
-                                !     2omegasinlat - Use twice the planetary rotation rate
-                                !       times the sine of latitude.
-                                !     betaplane - Use a beta-plane or f-plane.
-                                !     USER - call a user modified routine.
-F_0 = 6.49E-05                  !   [s-1] default = 0.0
-                                ! The reference value of the Coriolis parameter with the
-                                ! betaplane option.
-BETA = 2.0E-11                  !   [m-1 s-1] default = 0.0
-                                ! The northward gradient of the Coriolis parameter with
-                                ! the betaplane option.
 THICKNESS_CONFIG = "phillips"   !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:

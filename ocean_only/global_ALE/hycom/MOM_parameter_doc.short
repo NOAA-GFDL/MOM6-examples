@@ -135,6 +135,17 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! MINIMUM_DEPTH is assumed to be land and all fluxes are masked out.
                                 ! If MASKING_DEPTH is specified, then all depths shallower than
                                 ! MINIMUM_DEPTH but depper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
+CHANNEL_CONFIG = "global_1deg"  ! default = "none"
+                                ! A parameter that determines which set of channels are
+                                ! restricted to specific  widths.  Options are:
+                                !     none - All channels have the grid width.
+                                !     global_1deg - Sets 16 specific channels appropriate
+                                !       for a 1-degree model, as used in CM2G.
+                                !     list - Read the channel locations and widths from a
+                                !       text file, like MOM_channel_list in the MOM_SIS
+                                !       test case.
+                                !     file - Read open face widths everywhere from a
+                                !       NetCDF file on the model grid.
 COORD_CONFIG = "file"           !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -152,17 +163,6 @@ COORD_CONFIG = "file"           !
                                 !     USER - call a user modified routine.
 COORD_FILE = "Layer_coord50.nc" !
                                 ! The file from which the coordinate densities are read.
-CHANNEL_CONFIG = "global_1deg"  ! default = "none"
-                                ! A parameter that determines which set of channels are
-                                ! restricted to specific  widths.  Options are:
-                                !     none - All channels have the grid width.
-                                !     global_1deg - Sets 16 specific channels appropriate
-                                !       for a 1-degree model, as used in CM2G.
-                                !     list - Read the channel locations and widths from a
-                                !       text file, like MOM_channel_list in the MOM_SIS
-                                !       test case.
-                                !     file - Read open face widths everywhere from a
-                                !       NetCDF file on the model grid.
 REGRIDDING_COORDINATE_MODE = "HYCOM1" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding.
                                 ! Choose among the following possibilities:

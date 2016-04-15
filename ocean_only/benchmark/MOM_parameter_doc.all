@@ -320,6 +320,40 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 5500.0          !   [m]
                                 ! The maximum depth of the ocean.
+MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
+                                ! The depth below which to mask points as land points, for which all
+                                ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
+APPLY_OBC_U_FLATHER_EAST = False !   [Boolean] default = False
+                                ! Apply a Flather open boundary condition on the eastern
+                                ! side of the global domain
+APPLY_OBC_U_FLATHER_WEST = False !   [Boolean] default = False
+                                ! Apply a Flather open boundary condition on the western
+                                ! side of the global domain
+APPLY_OBC_V_FLATHER_NORTH = False !   [Boolean] default = False
+                                ! Apply a Flather open boundary condition on the northern
+                                ! side of the global domain
+APPLY_OBC_V_FLATHER_SOUTH = False !   [Boolean] default = False
+                                ! Apply a Flather open boundary condition on the southern
+                                ! side of the global domain
+CHANNEL_CONFIG = "none"         ! default = "none"
+                                ! A parameter that determines which set of channels are
+                                ! restricted to specific  widths.  Options are:
+                                !     none - All channels have the grid width.
+                                !     global_1deg - Sets 16 specific channels appropriate
+                                !       for a 1-degree model, as used in CM2G.
+                                !     list - Read the channel locations and widths from a
+                                !       text file, like MOM_channel_list in the MOM_SIS
+                                !       test case.
+                                !     file - Read open face widths everywhere from a
+                                !       NetCDF file on the model grid.
+ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
+                                ! This specifies how the Coriolis parameter is specified:
+                                !     2omegasinlat - Use twice the planetary rotation rate
+                                !       times the sine of latitude.
+                                !     betaplane - Use a beta-plane or f-plane.
+                                !     USER - call a user modified routine.
+OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
+                                ! The rotation rate of the earth.
 COORD_CONFIG = "ts_range"       !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -358,40 +392,6 @@ TS_RANGE_RESOLN_RATIO = 5.0     !   [nondim] default = 1.0
                                 ! greater than 1 increase the resolution of the denser water.
 GFS = 9.8                       !   [m s-2] default = 9.8
                                 ! The reduced gravity at the free surface.
-MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
-                                ! The depth below which to mask points as land points, for which all
-                                ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
-APPLY_OBC_U_FLATHER_EAST = False !   [Boolean] default = False
-                                ! Apply a Flather open boundary condition on the eastern
-                                ! side of the global domain
-APPLY_OBC_U_FLATHER_WEST = False !   [Boolean] default = False
-                                ! Apply a Flather open boundary condition on the western
-                                ! side of the global domain
-APPLY_OBC_V_FLATHER_NORTH = False !   [Boolean] default = False
-                                ! Apply a Flather open boundary condition on the northern
-                                ! side of the global domain
-APPLY_OBC_V_FLATHER_SOUTH = False !   [Boolean] default = False
-                                ! Apply a Flather open boundary condition on the southern
-                                ! side of the global domain
-CHANNEL_CONFIG = "none"         ! default = "none"
-                                ! A parameter that determines which set of channels are
-                                ! restricted to specific  widths.  Options are:
-                                !     none - All channels have the grid width.
-                                !     global_1deg - Sets 16 specific channels appropriate
-                                !       for a 1-degree model, as used in CM2G.
-                                !     list - Read the channel locations and widths from a
-                                !       text file, like MOM_channel_list in the MOM_SIS
-                                !       test case.
-                                !     file - Read open face widths everywhere from a
-                                !       NetCDF file on the model grid.
-ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
-                                ! This specifies how the Coriolis parameter is specified:
-                                !     2omegasinlat - Use twice the planetary rotation rate
-                                !       times the sine of latitude.
-                                !     betaplane - Use a beta-plane or f-plane.
-                                !     USER - call a user modified routine.
-OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
-                                ! The rotation rate of the earth.
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
                                 ! If true, intialize the layer thicknesses, temperatures,
                                 ! and salnities from a Z-space file on a latitude-

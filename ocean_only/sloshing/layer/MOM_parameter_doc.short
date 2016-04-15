@@ -108,6 +108,12 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! MINIMUM_DEPTH is assumed to be land and all fluxes are masked out.
                                 ! If MASKING_DEPTH is specified, then all depths shallower than
                                 ! MINIMUM_DEPTH but depper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
+ROTATION = "betaplane"          ! default = "2omegasinlat"
+                                ! This specifies how the Coriolis parameter is specified:
+                                !     2omegasinlat - Use twice the planetary rotation rate
+                                !       times the sine of latitude.
+                                !     betaplane - Use a beta-plane or f-plane.
+                                !     USER - call a user modified routine.
 COORD_CONFIG = "linear"         !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -128,12 +134,6 @@ LIGHTEST_DENSITY = 1034.0       !   [kg m-3] default = 1035.0
                                 ! interface.
 GFS = 0.98                      !   [m s-2] default = 9.8
                                 ! The reduced gravity at the free surface.
-ROTATION = "betaplane"          ! default = "2omegasinlat"
-                                ! This specifies how the Coriolis parameter is specified:
-                                !     2omegasinlat - Use twice the planetary rotation rate
-                                !       times the sine of latitude.
-                                !     betaplane - Use a beta-plane or f-plane.
-                                !     USER - call a user modified routine.
 THICKNESS_CONFIG = "sloshing"   !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:

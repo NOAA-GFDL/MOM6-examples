@@ -297,44 +297,6 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! MINIMUM_DEPTH is assumed to be land and all fluxes are masked out.
                                 ! If MASKING_DEPTH is specified, then all depths shallower than
                                 ! MINIMUM_DEPTH but depper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
-COORD_CONFIG = "ts_range"       !
-                                ! This specifies how layers are to be defined:
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layers
-                                !     layer_ref - linear based on layer densities
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
-T_REF = 0.0                     !   [degC] default = 10.0
-                                ! The default initial temperatures.
-TS_RANGE_T_LIGHT = 0.0          !   [degC] default = 0.0
-                                ! The initial temperature of the lightest layer when
-                                ! COORD_CONFIG is set to ts_range.
-TS_RANGE_T_DENSE = 0.0          !   [degC] default = 0.0
-                                ! The initial temperature of the densest layer when
-                                ! COORD_CONFIG is set to ts_range.
-S_REF = 34.0                    !   [PSU] default = 35.0
-                                ! The default initial salinities.
-TS_RANGE_S_LIGHT = 34.05        !   [PSU] default = 34.0
-                                ! The initial lightest salinities when COORD_CONFIG
-                                ! is set to ts_range.
-TS_RANGE_S_DENSE = 35.95        !   [PSU] default = 34.0
-                                ! The initial densest salinities when COORD_CONFIG
-                                ! is set to ts_range.
-TS_RANGE_RESOLN_RATIO = 1.0     !   [nondim] default = 1.0
-                                ! The ratio of density space resolution in the densest
-                                ! part of the range to that in the lightest part of the
-                                ! range when COORD_CONFIG is set to ts_range. Values
-                                ! greater than 1 increase the resolution of the denser water.
-GFS = 9.8                       !   [m s-2] default = 9.8
-                                ! The reduced gravity at the free surface.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
@@ -373,6 +335,44 @@ F_0 = 0.0                       !   [s-1] default = 0.0
 BETA = 0.0                      !   [m-1 s-1] default = 0.0
                                 ! The northward gradient of the Coriolis parameter with
                                 ! the betaplane option.
+COORD_CONFIG = "ts_range"       !
+                                ! This specifies how layers are to be defined:
+                                !     file - read coordinate information from the file
+                                !       specified by (COORD_FILE).
+                                !     linear - linear based on interfaces not layers
+                                !     layer_ref - linear based on layer densities
+                                !     ts_ref - use reference temperature and salinity
+                                !     ts_range - use range of temperature and salinity
+                                !       (T_REF and S_REF) to determine surface density
+                                !       and GINT calculate internal densities.
+                                !     gprime - use reference density (RHO_0) for surface
+                                !       density and GINT calculate internal densities.
+                                !     ts_profile - use temperature and salinity profiles
+                                !       (read from COORD_FILE) to set layer densities.
+                                !     USER - call a user modified routine.
+T_REF = 0.0                     !   [degC] default = 10.0
+                                ! The default initial temperatures.
+TS_RANGE_T_LIGHT = 0.0          !   [degC] default = 0.0
+                                ! The initial temperature of the lightest layer when
+                                ! COORD_CONFIG is set to ts_range.
+TS_RANGE_T_DENSE = 0.0          !   [degC] default = 0.0
+                                ! The initial temperature of the densest layer when
+                                ! COORD_CONFIG is set to ts_range.
+S_REF = 34.0                    !   [PSU] default = 35.0
+                                ! The default initial salinities.
+TS_RANGE_S_LIGHT = 34.05        !   [PSU] default = 34.0
+                                ! The initial lightest salinities when COORD_CONFIG
+                                ! is set to ts_range.
+TS_RANGE_S_DENSE = 35.95        !   [PSU] default = 34.0
+                                ! The initial densest salinities when COORD_CONFIG
+                                ! is set to ts_range.
+TS_RANGE_RESOLN_RATIO = 1.0     !   [nondim] default = 1.0
+                                ! The ratio of density space resolution in the densest
+                                ! part of the range to that in the lightest part of the
+                                ! range when COORD_CONFIG is set to ts_range. Values
+                                ! greater than 1 increase the resolution of the denser water.
+GFS = 9.8                       !   [m s-2] default = 9.8
+                                ! The reduced gravity at the free surface.
 BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! When defined, the reconstruction is extrapolated
                                 ! within boundary cells rather than assume PCM for the.

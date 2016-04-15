@@ -102,23 +102,6 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 600.0           !   [m]
                                 ! The maximum depth of the ocean.
-COORD_CONFIG = "layer_ref"      !
-                                ! This specifies how layers are to be defined:
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layers
-                                !     layer_ref - linear based on layer densities
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
-LIGHTEST_DENSITY = 1030.0       !   [kg m-3] default = 1031.0
-                                ! The reference potential density used for layer 1.
 APPLY_OBC_U_FLATHER_EAST = True !   [Boolean] default = False
                                 ! Apply a Flather open boundary condition on the eastern
                                 ! side of the global domain
@@ -137,6 +120,23 @@ ROTATION = "beta"               ! default = "2omegasinlat"
                                 !       times the sine of latitude.
                                 !     betaplane - Use a beta-plane or f-plane.
                                 !     USER - call a user modified routine.
+COORD_CONFIG = "layer_ref"      !
+                                ! This specifies how layers are to be defined:
+                                !     file - read coordinate information from the file
+                                !       specified by (COORD_FILE).
+                                !     linear - linear based on interfaces not layers
+                                !     layer_ref - linear based on layer densities
+                                !     ts_ref - use reference temperature and salinity
+                                !     ts_range - use range of temperature and salinity
+                                !       (T_REF and S_REF) to determine surface density
+                                !       and GINT calculate internal densities.
+                                !     gprime - use reference density (RHO_0) for surface
+                                !       density and GINT calculate internal densities.
+                                !     ts_profile - use temperature and salinity profiles
+                                !       (read from COORD_FILE) to set layer densities.
+                                !     USER - call a user modified routine.
+LIGHTEST_DENSITY = 1030.0       !   [kg m-3] default = 1031.0
+                                ! The reference potential density used for layer 1.
 THICKNESS_CONFIG = "circle_obcs" !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:

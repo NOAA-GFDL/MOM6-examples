@@ -290,29 +290,6 @@ MINIMUM_DEPTH = 0.1             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 20.0            !   [m]
                                 ! The maximum depth of the ocean.
-COORD_CONFIG = "linear"         !
-                                ! This specifies how layers are to be defined:
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     linear - linear based on interfaces not layers
-                                !     layer_ref - linear based on layer densities
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
-LIGHTEST_DENSITY = 1000.0       !   [kg m-3] default = 1000.0
-                                ! The reference potential density used for the surface
-                                ! interface.
-DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
-                                ! The range of reference potential densities across
-                                ! all interfaces.
-GFS = 10.0                      !   [m s-2] default = 10.0
-                                ! The reduced gravity at the free surface.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
@@ -351,6 +328,29 @@ F_0 = 0.0                       !   [s-1] default = 0.0
 BETA = 0.0                      !   [m-1 s-1] default = 0.0
                                 ! The northward gradient of the Coriolis parameter with
                                 ! the betaplane option.
+COORD_CONFIG = "linear"         !
+                                ! This specifies how layers are to be defined:
+                                !     file - read coordinate information from the file
+                                !       specified by (COORD_FILE).
+                                !     linear - linear based on interfaces not layers
+                                !     layer_ref - linear based on layer densities
+                                !     ts_ref - use reference temperature and salinity
+                                !     ts_range - use range of temperature and salinity
+                                !       (T_REF and S_REF) to determine surface density
+                                !       and GINT calculate internal densities.
+                                !     gprime - use reference density (RHO_0) for surface
+                                !       density and GINT calculate internal densities.
+                                !     ts_profile - use temperature and salinity profiles
+                                !       (read from COORD_FILE) to set layer densities.
+                                !     USER - call a user modified routine.
+LIGHTEST_DENSITY = 1000.0       !   [kg m-3] default = 1000.0
+                                ! The reference potential density used for the surface
+                                ! interface.
+DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
+                                ! The range of reference potential densities across
+                                ! all interfaces.
+GFS = 10.0                      !   [m s-2] default = 10.0
+                                ! The reduced gravity at the free surface.
 BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! When defined, the reconstruction is extrapolated
                                 ! within boundary cells rather than assume PCM for the.

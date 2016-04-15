@@ -118,6 +118,12 @@ MINIMUM_DEPTH = 0.01            !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 20.0            !   [m]
                                 ! The maximum depth of the ocean.
+ROTATION = "beta"               ! default = "2omegasinlat"
+                                ! This specifies how the Coriolis parameter is specified:
+                                !     2omegasinlat - Use twice the planetary rotation rate
+                                !       times the sine of latitude.
+                                !     betaplane - Use a beta-plane or f-plane.
+                                !     USER - call a user modified routine.
 COORD_CONFIG = "layer_ref"      !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -137,12 +143,6 @@ LIGHTEST_DENSITY = 1022.0       !   [kg m-3] default = 1000.0
                                 ! The reference potential density used for layer 1.
 DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
                                 ! The range of reference potential densities in the layers.
-ROTATION = "beta"               ! default = "2omegasinlat"
-                                ! This specifies how the Coriolis parameter is specified:
-                                !     2omegasinlat - Use twice the planetary rotation rate
-                                !       times the sine of latitude.
-                                !     betaplane - Use a beta-plane or f-plane.
-                                !     USER - call a user modified routine.
 THICKNESS_CONFIG = "external_gwave" !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
