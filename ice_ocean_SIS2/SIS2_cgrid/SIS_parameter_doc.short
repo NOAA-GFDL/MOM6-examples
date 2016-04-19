@@ -32,18 +32,20 @@ NJGLOBAL = 210                  !
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
+
+! === module SIS_grid_initialize ===
+GRID_CONFIG = "mosaic"          !
+                                ! A character string that determines the method for
+                                ! defining the horizontal grid.  Current options are:
+                                !     mosaic - read the grid from a mosaic (supergrid)
+                                !              file set by GRID_FILE.
+                                !     cartesian - use a (flat) Cartesian grid.
+                                !     spherical - use a simple spherical grid.
+                                !     mercator - use a Mercator spherical grid.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
-GRID_CONFIG = "mosaic"          !
-                                ! The method for defining the horizontal grid.  Valid
-                                ! entries include:
-                                !    file - read the grid from GRID_FILE
-                                !    mosaic - read the grid from a mosaic grid file
-                                !    cartesian - a Cartesian grid
-                                !    spherical - a spherical grid
-                                !    mercator  - a Mercator grid
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,

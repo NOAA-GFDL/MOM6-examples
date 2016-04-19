@@ -143,6 +143,16 @@ FIRST_DIRECTION = 0             ! default = 0
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
+
+! === module SIS_grid_initialize ===
+GRID_CONFIG = "mosaic"          !
+                                ! A character string that determines the method for
+                                ! defining the horizontal grid.  Current options are:
+                                !     mosaic - read the grid from a mosaic (supergrid)
+                                !              file set by GRID_FILE.
+                                !     cartesian - use a (flat) Cartesian grid.
+                                !     spherical - use a simple spherical grid.
+                                !     mercator - use a Mercator spherical grid.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
 INPUTDIR = "INPUT"              ! default = "."
@@ -158,14 +168,6 @@ MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
 AVAILABLE_DIAGS_FILE = "SIS.available_diags" ! default = "SIS.available_diags"
                                 ! A file into which to write a list of all available
                                 ! ocean diagnostics that can be included in a diag_table.
-GRID_CONFIG = "mosaic"          !
-                                ! The method for defining the horizontal grid.  Valid
-                                ! entries include:
-                                !    file - read the grid from GRID_FILE
-                                !    mosaic - read the grid from a mosaic grid file
-                                !    cartesian - a Cartesian grid
-                                !    spherical - a spherical grid
-                                !    mercator  - a Mercator grid
 CP_ICE = 2100.0                 !   [J kg-1 K-1] default = 2100.0
                                 ! The heat capacity of fresh ice, approximated as a
                                 ! constant.
