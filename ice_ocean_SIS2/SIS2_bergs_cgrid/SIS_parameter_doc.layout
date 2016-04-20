@@ -1,5 +1,5 @@
 ! This file was written by the model and records the layout parameters used at run-time.
-!SYMMETRIC_MEMORY_ = False      !   [Boolean]
+!SYMMETRIC_MEMORY_ = True       !   [Boolean]
                                 ! If defined, the velocity point data domain includes
                                 ! every face of the thickness points. In other words,
                                 ! some arrays are larger than others, depending on where
@@ -51,6 +51,10 @@ LAYOUT = 60, 1                  !
 IO_LAYOUT = 1, 1                ! default = 0
                                 ! The processor layout to be used, or 0,0 to automatically
                                 ! set the io_layout to be the same as the layout.
+GLOBAL_INDEXING = False         !   [Boolean] default = False
+                                ! If true, use a global lateral indexing convention, so
+                                ! that corresponding points on different processors have
+                                ! the same index. This does not work with static memory.
 NIBLOCK = 1                     ! default = 1
                                 ! The number of blocks in the x-direction on each processor (for openmp).
 NJBLOCK = 1                     ! default = 1
