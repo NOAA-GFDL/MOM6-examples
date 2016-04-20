@@ -153,6 +153,25 @@ GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
+TOPO_CONFIG = "file"            ! default = "file"
+                                ! This specifies how bathymetry is specified:
+                                !     file - read bathymetric information from the file
+                                !       specified by (TOPO_FILE).
+                                !     flat - flat bottom set to MAXIMUM_DEPTH.
+                                !     bowl - an analytically specified bowl-shaped basin
+                                !       ranging between MAXIMUM_DEPTH and MINIMUM_DEPTH.
+                                !     spoon - a similar shape to 'bowl', but with an vertical
+                                !       wall at the southern face.
+                                !     halfpipe - a zonally uniform channel with a half-sine
+                                !       profile in the meridional direction.
+TOPO_FILE = "topog.nc"          ! default = "topog.nc"
+                                ! The file from which the bathymetry is read.
+TOPO_VARNAME = "depth"          ! default = "depth"
+                                ! The name of the bathymetry variable in TOPO_FILE.
+TOPO_EDITS_FILE = ""            ! default = ""
+                                ! The file from which to read a list of i,j,z topography overrides.
+!MAXIMUM_DEPTH = 6000.0         !   [m]
+                                ! The (diagnosed) maximum depth of the ocean.
 MINIMUM_DEPTH = 0.0             !   [m] default = 0.0
                                 ! If MASKING_DEPTH is unspecified, then anything shallower than
                                 ! MINIMUM_DEPTH is assumed to be land and all fluxes are masked out.
@@ -161,6 +180,14 @@ MINIMUM_DEPTH = 0.0             !   [m] default = 0.0
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
+ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
+                                ! This specifies how the Coriolis parameter is specified:
+                                !     2omegasinlat - Use twice the planetary rotation rate
+                                !       times the sine of latitude.
+                                !     betaplane - Use a beta-plane or f-plane.
+                                !     USER - call a user modified routine.
+OMEGA = 7.292E-05               !   [s-1]
+                                ! The rotation rate of the earth.
 AVAILABLE_DIAGS_FILE = "SIS.available_diags" ! default = "SIS.available_diags"
                                 ! A file into which to write a list of all available
                                 ! ocean diagnostics that can be included in a diag_table.
