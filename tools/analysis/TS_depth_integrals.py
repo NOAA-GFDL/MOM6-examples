@@ -38,10 +38,31 @@ grid.latq=grid.y_T_bounds[:,grid.im/4]
 grid.wet=np.zeros(grid.D.shape)
 grid.wet[grid.D>0.]=1.
 
-S=state(path_ann,grid=grid,fields=['temp','salt'],interfaces='e',verbose=False)
-S.var_dict['temp']['Zdir']=-1
-S.var_dict['salt']['Zdir']=-1
+f=nc.Dataset(path_ann)
 
+temp_name='none'
+if 'temp' in f.variables:
+  temp_name = temp
+elif 'thetao' in f.variables:
+  temp_name = 'thetao'
+
+salt_name='none'
+if 'salt' in f.variables:
+  salt_name = salt
+elif 'so' in f.variables:
+  salt_name = 'so'
+
+    
+S=state(path_ann,grid=grid,fields=[temp_name,salt_name],interfaces='e',verbose=False)
+S.var_dict[temp_name]['Zdir']=-1
+S.var_dict[salt_name]['Zdir']=-1
+
+if temp_name == 'thetao':
+    S.rename_field('thetao','temp')
+
+if salt_name == 'so':
+    S.rename_field('so','salt')    
+    
 O=state(path_obs,grid=grid,fields=['ptemp','salt'],interfaces='eta',verbose=False)
 
 O.rename_field('ptemp','temp')
