@@ -1744,6 +1744,15 @@
     ! units: ppt
     ! standard_name: sea_surface_salinity
     ! cell_methods: xh:mean yh:mean
+"ocean_model", "SSS_sq"  [Unused] (CMOR equivalent is "sossq")
+    ! long_name: Sea Surface Salinity Squared
+    ! units: ppt**2
+    ! cell_methods: xh:mean yh:mean
+"ocean_model", "sossq"  [Unused] (native name is "SSS_sq")
+    ! long_name: Square of Sea Surface Salinity
+    ! units: ppt^2
+    ! standard_name: square_of_sea_surface_salinity
+    ! cell_methods: xh:mean yh:mean
 "ocean_model", "frazil"  [Used] (CMOR equivalent is "hfsifrazil")
     ! long_name: Heat from frazil formation
     ! units: Watt meter-2
@@ -2266,6 +2275,22 @@
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_mesocale_diffusion_depth_integrated
     ! cell_methods: xh:mean yh:mean
+"ocean_model", "ndiff_tracer_trans_x_2d_T"  [Unused]
+    ! long_name: Depth integrated neutral diffusion zonal tracer transport for T
+    ! units: Watts/m2
+    ! cell_methods: xq:point yh:mean zl:mean
+"ocean_model_z_new", "ndiff_tracer_trans_x_2d_T"  [Unused]
+    ! long_name: Depth integrated neutral diffusion zonal tracer transport for T
+    ! units: Watts/m2
+    ! cell_methods: xq:point yh:mean zl:mean
+"ocean_model", "ndiff_tracer_trans_y_2d_T"  [Unused]
+    ! long_name: Depth integrated neutral diffusion merid tracer transport for T
+    ! units: Watts/m2
+    ! cell_methods: xh:mean yq:point zl:mean
+"ocean_model_z_new", "ndiff_tracer_trans_y_2d_T"  [Unused]
+    ! long_name: Depth integrated neutral diffusion merid tracer transport for T
+    ! units: Watts/m2
+    ! cell_methods: xh:mean yq:point zl:mean
 "ocean_model", "ndiff_tracer_conc_tendency_S"  [Unused]
     ! long_name: Neutral diffusion tracer concentration tendency for S
     ! units: tracer concentration units per second
@@ -2301,6 +2326,22 @@
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_mesocale_diffusion_depth_integrated
     ! cell_methods: xh:mean yh:mean
+"ocean_model", "ndiff_tracer_trans_x_2d_S"  [Unused]
+    ! long_name: Depth integrated neutral diffusion zonal tracer transport for S
+    ! units: tracer concentration * m-2 s-1
+    ! cell_methods: xq:point yh:mean zl:mean
+"ocean_model_z_new", "ndiff_tracer_trans_x_2d_S"  [Unused]
+    ! long_name: Depth integrated neutral diffusion zonal tracer transport for S
+    ! units: tracer concentration * m-2 s-1
+    ! cell_methods: xq:point yh:mean zl:mean
+"ocean_model", "ndiff_tracer_trans_y_2d_S"  [Unused]
+    ! long_name: Depth integrated neutral diffusion merid tracer transport for S
+    ! units: tracer concentration * m-2 s-1
+    ! cell_methods: xh:mean yq:point zl:mean
+"ocean_model_z_new", "ndiff_tracer_trans_y_2d_S"  [Unused]
+    ! long_name: Depth integrated neutral diffusion merid tracer transport for S
+    ! units: tracer concentration * m-2 s-1
+    ! cell_methods: xh:mean yq:point zl:mean
 "ocean_model", "ndiff_tracer_conc_tendency_age"  [Unused]
     ! long_name: Neutral diffusion tracer concentration tendency for age
     ! units: tracer concentration * m-2 s-1
@@ -2325,6 +2366,22 @@
     ! long_name: Depth integrated neutral diffusion tracer content tendency for age
     ! units: tracer content * m-2 s-1
     ! cell_methods: xh:mean yh:mean zl:mean
+"ocean_model", "ndiff_tracer_trans_x_2d_age"  [Unused]
+    ! long_name: Depth integrated neutral diffusion zonal tracer transport for age
+    ! units: tracer concentration * m-2 s-1
+    ! cell_methods: xq:point yh:mean zl:mean
+"ocean_model_z_new", "ndiff_tracer_trans_x_2d_age"  [Unused]
+    ! long_name: Depth integrated neutral diffusion zonal tracer transport for age
+    ! units: tracer concentration * m-2 s-1
+    ! cell_methods: xq:point yh:mean zl:mean
+"ocean_model", "ndiff_tracer_trans_y_2d_age"  [Unused]
+    ! long_name: Depth integrated neutral diffusion merid tracer transport for age
+    ! units: tracer concentration * m-2 s-1
+    ! cell_methods: xh:mean yq:point zl:mean
+"ocean_model_z_new", "ndiff_tracer_trans_y_2d_age"  [Unused]
+    ! long_name: Depth integrated neutral diffusion merid tracer transport for age
+    ! units: tracer concentration * m-2 s-1
+    ! cell_methods: xh:mean yq:point zl:mean
 "ocean_model", "geolat"  [Used]
     ! long_name: Latitude of tracer (T) points
     ! units: degrees_N

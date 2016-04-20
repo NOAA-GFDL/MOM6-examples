@@ -124,10 +124,14 @@
  "ocean_model", "sos",          "sos",              "ocean_daily",         "all", "mean", "none",2
  "ocean_model", "sosga",        "sosga",            "ocean_scalar_annual", "all", "mean", "none",2  
  "ocean_model", "sosga",        "sosga",            "ocean_scalar_month",  "all", "mean", "none",2  
+ "ocean_model", "sossq",        "sossq",            "ocean_annual",        "all", "mean", "none",2
+ "ocean_model", "sossq",        "sossq",            "ocean_month",         "all", "mean", "none",2
+ "ocean_model", "sossq",        "sossq",            "ocean_daily",         "all", "mean", "none",2
  "ocean_model", "sob",          "sob",              "ocean_annual",        "all", "mean", "none",2
  "ocean_model", "sob",          "sob",              "ocean_month",         "all", "mean", "none",2
  "ocean_model", "somint",       "somint",           "ocean_annual",        "all", "mean", "none",2  
  "ocean_model", "obvfsq",       "obvfsq",           "ocean_annual",        "all", "mean", "none",2  
+#"ocean_model", "obvfsq",       "obvfsq",           "ocean_month",         "all", "mean", "none",2  
  "ocean_model", "age",          "agessc",           "ocean_annual",        "all", "mean", "none",2  
 #"ocean_model", "cfc11",        "cfc11",            "ocean_annual",        "all", "mean", "none",2  # get from generic tracer module  
 #"ocean_model", "cfc12",        "cfc12",            "ocean_annual",        "all", "mean", "none",2  # get from generic tracer module  
@@ -197,19 +201,19 @@
 "ocean_model", "vo",   "vo",       "ocean_Bering_Strait",    "all", "mean", "-171.4 -168.7  66.1 66.1 -1 -1",2
 "ocean_model", "e",    "e",        "ocean_Bering_Strait",    "all", "mean", "-171.4 -168.7  66.1 66.1 -1 -1",2
 
+# Caribbean (Cuba-Haiti) Windward Passage: settings specific to OM4 grid 
+"ocean_model", "thetao", "theta",  "ocean_Windward_Passage", "all", "mean", "-75.0 -72.5 19.96 19.96 -1 -1",2
+"ocean_model", "so",   "so",       "ocean_Windward_Passage", "all", "mean", "-75.0 -72.5 19.96 19.96 -1 -1",2
+"ocean_model", "vmo",  "vmo",      "ocean_Windward_Passage", "all", "mean", "-75.0 -72.5 19.96 19.96 -1 -1",2
+"ocean_model", "vo",   "vo",       "ocean_Windward_Passage", "all", "mean", "-75.0 -72.5 19.96 19.96 -1 -1",2
+"ocean_model", "e",    "e",        "ocean_Windward_Passage", "all", "mean", "-75.0 -72.5 19.96 19.96 -1 -1",2
+
 # Approximate section to capture outflow of Arctic through Davis Strait
 "ocean_model", "thetao", "theta",  "ocean_Davis_Strait", "all", "mean", "-65.0 -48.0  66.0 66.0 -1 -1",2
 "ocean_model", "so",   "so",       "ocean_Davis_Strait", "all", "mean", "-65.0 -48.0  66.0 66.0 -1 -1",2
 "ocean_model", "vmo",  "vmo",      "ocean_Davis_Strait", "all", "mean", "-65.0 -48.0  66.0 66.0 -1 -1",2
 "ocean_model", "vo",   "vo",       "ocean_Davis_Strait", "all", "mean", "-65.0 -48.0  66.0 66.0 -1 -1",2
 "ocean_model", "e",    "e",        "ocean_Davis_Strait", "all", "mean", "-65.0 -48.0  66.0 66.0 -1 -1",2
-
-# Cuba-Haiti Windward Passage: settings specific to OM4 grid 
-"ocean_model", "thetao", "theta",  "ocean_Windward_Passage", "all", "mean", "-75.0 -72.5 19.96 19.96 -1 -1",2
-"ocean_model", "so",   "so",       "ocean_Windward_Passage", "all", "mean", "-75.0 -72.5 19.96 19.96 -1 -1",2
-"ocean_model", "vmo",  "vmo",      "ocean_Windward_Passage", "all", "mean", "-75.0 -72.5 19.96 19.96 -1 -1",2
-"ocean_model", "vo",   "vo",       "ocean_Windward_Passage", "all", "mean", "-75.0 -72.5 19.96 19.96 -1 -1",2
-"ocean_model", "e",    "e",        "ocean_Windward_Passage", "all", "mean", "-75.0 -72.5 19.96 19.96 -1 -1",2
 
 # Approximate section to capture flow across Denmark Strait 
 "ocean_model", "thetao", "thetao", "ocean_Denmark_Strait",   "all", "mean", "-42.5 -20. 65. 65. -1 -1",2
@@ -253,6 +257,13 @@
 "ocean_model", "vo",   "vo",       "ocean_Fram_Strait",  "all", "mean", "-22. 0.0  81.2 81.2 -1 -1",2
 "ocean_model", "e",    "e",        "ocean_Fram_Strait",  "all", "mean", "-22. 0.0  81.2 81.2 -1 -1",2
 
+# Gibraltar Strait 
+"ocean_model", "thetao", "thetao", "ocean_Gibraltar_Strait", "all", "mean", "-5. -5. 35.8 36.2 -1 -1",2
+"ocean_model", "so",   "so",       "ocean_Gibraltar_Strait", "all", "mean", "-5. -5. 35.8 36.2 -1 -1",2
+"ocean_model", "umo",  "umo",      "ocean_Gibraltar_Strait", "all", "mean", "-5. -5. 35.8 36.2 -1 -1",2
+"ocean_model", "uo",   "uo",       "ocean_Gibraltar_Strait", "all", "mean", "-5. -5. 35.8 36.2 -1 -1",2
+"ocean_model", "e",    "e",        "ocean_Gibraltar_Strait", "all", "mean", "-5. -5. 35.8 36.2 -1 -1",2
+
 # Iceland-Faroe flow: 1st part of zig-zag for flow moving north/south; specific settings for OM4
 "ocean_model", "thetao", "thetao", "ocean_Iceland_Faroe_V", "all", "mean", "-17.89 -6. 62.25 62.25 -1 -1",2
 "ocean_model", "so",   "so",       "ocean_Iceland_Faroe_V", "all", "mean", "-17.89 -6. 62.25 62.25 -1 -1",2
@@ -295,12 +306,7 @@
 "ocean_model", "uo",   "uo",       "ocean_Taiwan_Luzon",  "all", "mean", "-239.5 -239.5  17. 23. -1 -1",2
 "ocean_model", "e",    "e",        "ocean_Taiwan_Luzon",  "all", "mean", "-239.5 -239.5  17. 23. -1 -1",2
 
-"ocean_model", "thetao", "thetao", "ocean_Gibraltar_Strait", "all", "mean", "-5. -5. 35.8 36.2 -1 -1",2
-"ocean_model", "so",   "so",       "ocean_Gibraltar_Strait", "all", "mean", "-5. -5. 35.8 36.2 -1 -1",2
-"ocean_model", "umo",  "umo",      "ocean_Gibraltar_Strait", "all", "mean", "-5. -5. 35.8 36.2 -1 -1",2
-"ocean_model", "uo",   "uo",       "ocean_Gibraltar_Strait", "all", "mean", "-5. -5. 35.8 36.2 -1 -1",2
-"ocean_model", "e",    "e",        "ocean_Gibraltar_Strait", "all", "mean", "-5. -5. 35.8 36.2 -1 -1",2
-
+# Agulhas section (should be very closely tied to Drake Passage transport)
 "ocean_model", "thetao", "thetao", "ocean_Agulhas_section",  "all", "mean", "20. 20. -70.1 -34.5 -1 -1",2
 "ocean_model", "so",   "so",       "ocean_Agulhas_section",  "all", "mean", "20. 20. -70.1 -34.5 -1 -1",2
 "ocean_model", "umo",  "umo",      "ocean_Agulhas_section",  "all", "mean", "20. 20. -70.1 -34.5 -1 -1",2
@@ -430,11 +436,11 @@
 # CMIP6/OMIP Table 2.10: table of heat and salt tendencies
   "ocean_model",  "rsdoabsorb"                     ,"rsdoabsorb"                      "ocean_annual",   "all", "mean", "none",2 
   "ocean_model",  "opottemptend"                   ,"opottemptend",                   "ocean_annual",   "all", "mean", "none",2  
-# "ocean_model", "opottempadvect"                  ,"opottempadvect",                 "ocean_annual",   "all", "mean", "none",2  
+# "ocean_model", "opottemprmadvect"                ,"opottemprmadvect",               "ocean_annual",   "all", "mean", "none",2 # T_advection_xy+Th_tendency_vert_remap
  "ocean_model",  "opottemppmdiff"                  ,"opottemppmdiff",                 "ocean_annual",   "all", "mean", "none",2  
  "ocean_model",  "opottempdiff"                    ,"opottempdiff",                   "ocean_annual",   "all", "mean", "none",2  
  "ocean_model",  "osalttend"                       ,"osalttend",                      "ocean_annual",   "all", "mean", "none",2  
-# "ocean_model", "osaltadvect"                     ,"osaltadvect",                    "ocean_annual",   "all", "mean", "none",2  
+# "ocean_model", "osaltrmadvect"                   ,"osaltrmadvect",                  "ocean_annual",   "all", "mean", "none",2 # S_advection_xy+Sh_tendency_vert_remap
  "ocean_model",  "osaltpmdiff"                     ,"osaltpmdiff",                    "ocean_annual",   "all", "mean", "none",2  
  "ocean_model",  "osaltdiff"                       ,"osaltdiff",                      "ocean_annual",   "all", "mean", "none",2  
  "ocean_model",  "frazil_heat_tendency"            ,"frazil_heat_tendency",           "ocean_annual",   "all", "mean", "none",2
