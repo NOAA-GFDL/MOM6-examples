@@ -27,7 +27,7 @@ nc_out = netCDF4.Dataset( args.annual_file, 'w', format='NETCDF3_64BIT' )
 
 if nt==365: days_in_month =   [31,28,31,30,31,30,31,31,30,31,30,31]
 elif nt==366: days_in_month = [31,29,31,30,31,30,31,31,30,31,30,31]
-elif nt==73 : days_in_month = [6,6,6,6,6,6,6,6,6,6,6,6] # for ocean_5daily.nc
+elif nt==73 : days_in_month = [6,6,6,6,6,6,6,7,6,6,6,6] # for ocean_5daily.nc
 else: raise Exception('First dimension appears to not match a days in a single year.')
 
 # Create dimensions
