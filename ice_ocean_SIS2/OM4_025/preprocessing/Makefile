@@ -119,7 +119,8 @@ FRE_NCTOOLS = fre_nctools/tools
 fre_nctools:
 	echo $@
 	git clone http://gitlab.gfdl.noaa.gov/fre/fre-nctools.git $@
-	(cd $@; git checkout user/z1l/dev)
+	(cd $@; git checkout 168f6a5a2717bc80961da6ba751509cd8c7ace0d)
+#	(cd $@; git checkout user/z1l/dev)
 fre_nctools/tools: fre_nctools
 fre_nctools/tools/make_solo_mosaic/make_solo_mosaic fre_nctools/tools/make_quick_mosaic/make_quick_mosaic \
 fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic_parallel\
