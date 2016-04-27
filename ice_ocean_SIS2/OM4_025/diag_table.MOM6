@@ -12,14 +12,15 @@
 "ocean_static",          -1, "months", 1, "days", "time" # ocean_static is a protected name. Do not change this line.
 
 # for interactive testing 
-#"ocean_daily",            5, "days",   1, "days", "time"
-#"ocean_5daily",           5, "days",   1, "days", "time"
-#"ocean_month_snap",       5, "days",   1, "days", "time"
-#"ocean_month",            5, "days",   1, "days", "time"
-#"ocean_annual",           5, "days",   1, "days", "time"
-#"ocean_annual_z",         5, "days",   1, "days", "time"
-#"ocean_scalar_month",     5, "days",   1, "days", "time"
-#"ocean_scalar_annual",    5, "days",   1, "days", "time"
+#"ocean_daily",            1, "days",   1, "days", "time"
+#"ocean_5daily",           1, "days",   1, "days", "time"
+#"ocean_month_snap",       1, "days",   1, "days", "time"
+#"ocean_month",            1, "days",   1, "days", "time"
+#"ocean_month_z",          1, "days",   1, "days", "time"
+#"ocean_annual",           1, "days",   1, "days", "time"
+#"ocean_annual_z",         1, "days",   1, "days", "time"
+#"ocean_scalar_month",     1, "days",   1, "days", "time"
+#"ocean_scalar_annual",    1, "days",   1, "days", "time"
 #"ocean_static",          -1, "months", 1, "days", "time"
 
 
@@ -167,6 +168,10 @@
  "ocean_model",  "S_ady",        "S_ady",            "ocean_annual",       "all", "mean", "none",2
  "ocean_model",  "S_adx_2d",     "S_adx_2d",         "ocean_annual",       "all", "mean", "none",2
  "ocean_model",  "S_ady_2d",     "S_ady_2d",         "ocean_annual",       "all", "mean", "none",2
+ "ocean_model",  "ndiff_tracer_trans_x_2d_T","ndiff_tracer_trans_x_2d_T",  "ocean_annual",  "all", "mean", "none",2
+ "ocean_model",  "ndiff_tracer_trans_y_2d_T","ndiff_tracer_trans_y_2d_T",  "ocean_annual",  "all", "mean", "none",2
+ "ocean_model",  "ndiff_tracer_trans_x_2d_S","ndiff_tracer_trans_x_2d_S",  "ocean_annual",  "all", "mean", "none",2
+ "ocean_model",  "ndiff_tracer_trans_y_2d_S","ndiff_tracer_trans_y_2d_S",  "ocean_annual",  "all", "mean", "none",2
 
  "ocean_model",  "uo",           "uo",               "ocean_month",        "all", "mean", "none",2
  "ocean_model",  "vo",           "vo",               "ocean_month",        "all", "mean", "none",2
@@ -575,8 +580,10 @@
 "ocean_model","diabatic_diff_saln_tendency","diabatic_diff_saln_tendency","ocean_annual","all","mean","none",2
 
 # neutral diffusion tendencies for T and S
-"ocean_model","ndiff_tracer_conc_tendency_temp","ndiff_tracer_conc_tendency_temp","ocean_annual","all","mean","none",2
-"ocean_model","ndiff_tracer_conc_tendency_saln","ndiff_tracer_conc_tendency_saln","ocean_annual","all","mean","none",2
+"ocean_model","ndiff_tracer_conc_tendency_T","ndiff_tracer_conc_tendency_T" ,"ocean_annual","all","mean","none",2
+"ocean_model","ndiff_tracer_conc_tendency_S","ndiff_tracer_conc_tendency_S" ,"ocean_annual","all","mean","none",2
+"ocean_model","opottemppmdiff_2d"           ,"opottemppmdiff_2d"            ,"ocean_annual","all","mean","none",2
+"ocean_model","osaltpmdiff_2d"              ,"osaltpmdiff_2d"               ,"ocean_annual","all","mean","none",2
 
 # net tendencies and lateral advection tendencies for T and S 
  "ocean_model", "T_tendency",        "T_tendency",         "ocean_annual","all","mean","none",2

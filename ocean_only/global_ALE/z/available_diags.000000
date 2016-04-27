@@ -1573,6 +1573,10 @@
     ! units: m2 sec-1
     ! standard_name: ocean_tracer_epineutral_laplacian_diffusivity
     ! cell_methods: xh:mean yh:mean
+"ocean_model", "CFL_lateral_diff"  [Unused]
+    ! long_name: Grid CFL number for lateral/neutral tracer diffusion
+    ! units: dimensionless
+    ! cell_methods: xh:mean yh:mean
 "ocean_model", "T_vardec"  [Unused]
     ! long_name: ALE variance decay for temperature
     ! units: degC2 s-1
@@ -2277,20 +2281,12 @@
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "ndiff_tracer_trans_x_2d_T"  [Unused]
     ! long_name: Depth integrated neutral diffusion zonal tracer transport for T
-    ! units: Watts/m2
-    ! cell_methods: xq:point yh:mean zl:mean
-"ocean_model_z_new", "ndiff_tracer_trans_x_2d_T"  [Unused]
-    ! long_name: Depth integrated neutral diffusion zonal tracer transport for T
-    ! units: Watts/m2
-    ! cell_methods: xq:point yh:mean zl:mean
+    ! units: Watts
+    ! cell_methods: xq:point yh:mean
 "ocean_model", "ndiff_tracer_trans_y_2d_T"  [Unused]
     ! long_name: Depth integrated neutral diffusion merid tracer transport for T
-    ! units: Watts/m2
-    ! cell_methods: xh:mean yq:point zl:mean
-"ocean_model_z_new", "ndiff_tracer_trans_y_2d_T"  [Unused]
-    ! long_name: Depth integrated neutral diffusion merid tracer transport for T
-    ! units: Watts/m2
-    ! cell_methods: xh:mean yq:point zl:mean
+    ! units: Watts
+    ! cell_methods: xh:mean yq:point
 "ocean_model", "ndiff_tracer_conc_tendency_S"  [Unused]
     ! long_name: Neutral diffusion tracer concentration tendency for S
     ! units: tracer concentration units per second
@@ -2328,20 +2324,12 @@
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "ndiff_tracer_trans_x_2d_S"  [Unused]
     ! long_name: Depth integrated neutral diffusion zonal tracer transport for S
-    ! units: tracer concentration * m-2 s-1
-    ! cell_methods: xq:point yh:mean zl:mean
-"ocean_model_z_new", "ndiff_tracer_trans_x_2d_S"  [Unused]
-    ! long_name: Depth integrated neutral diffusion zonal tracer transport for S
-    ! units: tracer concentration * m-2 s-1
-    ! cell_methods: xq:point yh:mean zl:mean
+    ! units: kg/s
+    ! cell_methods: xq:point yh:mean
 "ocean_model", "ndiff_tracer_trans_y_2d_S"  [Unused]
     ! long_name: Depth integrated neutral diffusion merid tracer transport for S
-    ! units: tracer concentration * m-2 s-1
-    ! cell_methods: xh:mean yq:point zl:mean
-"ocean_model_z_new", "ndiff_tracer_trans_y_2d_S"  [Unused]
-    ! long_name: Depth integrated neutral diffusion merid tracer transport for S
-    ! units: tracer concentration * m-2 s-1
-    ! cell_methods: xh:mean yq:point zl:mean
+    ! units: kg/s
+    ! cell_methods: xh:mean yq:point
 "ocean_model", "ndiff_tracer_conc_tendency_age"  [Unused]
     ! long_name: Neutral diffusion tracer concentration tendency for age
     ! units: tracer concentration * m-2 s-1
@@ -2368,20 +2356,12 @@
     ! cell_methods: xh:mean yh:mean zl:mean
 "ocean_model", "ndiff_tracer_trans_x_2d_age"  [Unused]
     ! long_name: Depth integrated neutral diffusion zonal tracer transport for age
-    ! units: tracer concentration * m-2 s-1
-    ! cell_methods: xq:point yh:mean zl:mean
-"ocean_model_z_new", "ndiff_tracer_trans_x_2d_age"  [Unused]
-    ! long_name: Depth integrated neutral diffusion zonal tracer transport for age
-    ! units: tracer concentration * m-2 s-1
-    ! cell_methods: xq:point yh:mean zl:mean
+    ! units: kg/s
+    ! cell_methods: xq:point yh:mean
 "ocean_model", "ndiff_tracer_trans_y_2d_age"  [Unused]
     ! long_name: Depth integrated neutral diffusion merid tracer transport for age
-    ! units: tracer concentration * m-2 s-1
-    ! cell_methods: xh:mean yq:point zl:mean
-"ocean_model_z_new", "ndiff_tracer_trans_y_2d_age"  [Unused]
-    ! long_name: Depth integrated neutral diffusion merid tracer transport for age
-    ! units: tracer concentration * m-2 s-1
-    ! cell_methods: xh:mean yq:point zl:mean
+    ! units: kg/s
+    ! cell_methods: xh:mean yq:point
 "ocean_model", "geolat"  [Used]
     ! long_name: Latitude of tracer (T) points
     ! units: degrees_N
@@ -2963,7 +2943,7 @@
     ! units: W m-2
     ! standard_name: surface_downward_sensible_heat_flux_area_averaged
 "ocean_model", "salt_flux"  [Used] (CMOR equivalent is "sfdsi")
-    ! long_name: Salt flux into ocean at surface
+    ! long_name: Net salt flux into ocean at surface (restoring + sea-ice)
     ! units: kilogram meter-2 second-1
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "sfdsi"  [Used] (native name is "salt_flux")

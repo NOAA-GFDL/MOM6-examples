@@ -1581,6 +1581,10 @@
     ! units: m2 sec-1
     ! standard_name: ocean_tracer_epineutral_laplacian_diffusivity
     ! cell_methods: xh:mean yh:mean
+"ocean_model", "CFL_lateral_diff"  [Unused]
+    ! long_name: Grid CFL number for lateral/neutral tracer diffusion
+    ! units: dimensionless
+    ! cell_methods: xh:mean yh:mean
 "ocean_model", "u"  [Used] (CMOR equivalent is "uo")
     ! long_name: Zonal velocity
     ! units: meter  second-1
@@ -2753,7 +2757,7 @@
     ! units: W m-2
     ! standard_name: surface_downward_sensible_heat_flux_area_averaged
 "ocean_model", "salt_flux"  [Used] (CMOR equivalent is "sfdsi")
-    ! long_name: Salt flux into ocean at surface
+    ! long_name: Net salt flux into ocean at surface (restoring + sea-ice)
     ! units: kilogram meter-2 second-1
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "sfdsi"  [Used] (native name is "salt_flux")
