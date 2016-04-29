@@ -326,6 +326,8 @@ HBBL = 10.0                     !   [m]
                                 ! the thickness over which near-bottom velocities are
                                 ! averaged for the drag law if BOTTOMDRAGLAW is defined
                                 ! but LINEAR_DRAG is not.
+KV_BBL_MIN = 0.0                !   [m2 s-1] default = 1.0E-04
+KV_TBL_MIN = 0.0                !   [m2 s-1] default = 1.0E-04
 MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity
                                 ! components are truncated.
@@ -618,6 +620,11 @@ ML_KHTR_SCALE = 0.0             !   [nondim] default = 1.0
 ENERGYSAVEDAYS = 0.25           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
+OCEAN_SURFACE_STAGGER = "B"     ! default = "B"
+                                ! A case-insensitive character string to indicate the
+                                ! staggering of the surface velocity field that is
+                                ! returned to the coupler.  Valid values include
+                                ! 'A', 'B', or 'C'.
 
 ! === module MOM_surface_forcing ===
 MAX_P_SURF = 7.0E+04            !   [Pa] default = -1.0

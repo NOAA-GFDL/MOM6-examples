@@ -11,7 +11,7 @@ except: raise Exception('This version of python is not new enough. python 2.7 or
 parser = argparse.ArgumentParser(description='''Script for plotting annual-average eddy kinetic energy.''')
 parser.add_argument('annual_file', type=str, help='''Daily file containing ssu,ssv.''')
 parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
-parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
+parser.add_argument('-o','--outfile', type=str, default='.', help='''Output file plot.''')
 parser.add_argument('-g','--gridspec', type=str,
   help='''File containing variables geolon,geolat,wet,areacello. Usually the ocean_static.nc from diag_table.''')
 cmdLineArgs = parser.parse_args()
@@ -56,5 +56,5 @@ plot_title = 'Log of Eddy Kinetic Energy annual mean [(cm/s)^2]'
 m6plot.xyplot( eke, x, y, area=area,
       suptitle=rootGroup.title+' '+cmdLineArgs.label, title=plot_title,
 #      clim=ci, logscale=True,
-      save=cmdLineArgs.outdir+'/EKE_mean.png')
+      save=cmdLineArgs.outfile )
 

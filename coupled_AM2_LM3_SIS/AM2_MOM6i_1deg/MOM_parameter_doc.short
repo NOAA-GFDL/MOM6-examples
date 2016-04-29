@@ -11,6 +11,9 @@ NJGLOBAL = 210                  !
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
 
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
 ! === module MOM_grid ===
 ! Parameters providing information about the vertical grid.
 NK = 63                         !   [nondim]
@@ -535,6 +538,11 @@ ML_KHTR_SCALE = 0.0             !   [nondim] default = 1.0
 ENERGYSAVEDAYS = 0.25           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
+OCEAN_SURFACE_STAGGER = "B"     ! default = "C"
+                                ! A case-insensitive character string to indicate the
+                                ! staggering of the surface velocity field that is
+                                ! returned to the coupler.  Valid values include
+                                ! 'A', 'B', or 'C'.
 
 ! === module MOM_surface_forcing ===
 MAX_P_SURF = 7.0E+04            !   [Pa] default = -1.0

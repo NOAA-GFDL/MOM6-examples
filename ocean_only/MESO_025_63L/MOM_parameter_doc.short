@@ -8,6 +8,9 @@ NJGLOBAL = 450                  !
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
 
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
 ! === module MOM_grid ===
 ! Parameters providing information about the vertical grid.
 NK = 63                         !   [nondim]
@@ -540,6 +543,3 @@ RESTART_CONTROL = 3             ! default = 1
                                 ! (bit 0) for a non-time-stamped file. A non-time-stamped
                                 ! restart file is saved at the end of the run segment
                                 ! for any non-negative value.
-ENERGYSAVEDAYS = 1.0            !   [hours] default = 8.64E+04
-                                ! The interval in units of TIMEUNIT between saves of the
-                                ! energies of the run and other globally summed diagnostics.

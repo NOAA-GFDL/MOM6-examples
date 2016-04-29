@@ -15,6 +15,9 @@ NJGLOBAL = 210                  !
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
 
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
 ! === module MOM_grid ===
 ! Parameters providing information about the vertical grid.
 G_EARTH = 9.8                   !   [m s-2] default = 9.8
@@ -413,6 +416,10 @@ ALE_COORDINATE_CONFIG = "HYBRID:hycom1_50.nc,sigma2,dz" ! default = "UNIFORM"
                                 !                the filename and variable name, separated
                                 !                by a comma or space, e.g. FILE:lev.nc,Z
                                 !  FNC1:string - FNC1:dz_min,H_total,power,precision
+                                !  HYBRID:string - read from a file. The string specifies
+                                !                the filename and two variable names, separated
+                                !                by a comma or space, for sigma-2 and dz. e.g.
+                                !                HYBRID:vgrid.nc,sigma2,dz
 !ALE_RESOLUTION = 4*5.0, 5.1, 5.2, 5.3, 5.4, 5.5, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 17*30.0 !   [m]
                                 ! The distribution of vertical resolution for the target
                                 ! grid used for Eulerian-like coordinates. For example,
@@ -487,6 +494,18 @@ REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! PPM_IH4     (3rd-order accurate)
                                 ! PQM_IH4IH3  (4th-order accurate)
                                 ! PQM_IH6IH5  (5th-order accurate)
+FATAL_CHECK_RECONSTRUCTIONS = False !   [Boolean] default = False
+                                ! If true, cell-by-cell reconstructions are checked for
+                                ! consistency and if non-monotonicty or an inconsistency is
+                                ! detected then a FATAL error is issued.
+FATAL_CHECK_REMAPPING = False   !   [Boolean] default = False
+                                ! If true, the results of remapping are checked for
+                                ! conservation and new extrema and if an inconsistency is
+                                ! detected then a FATAL error is issued.
+REMAP_BOUND_INTERMEDIATE_VALUES = False !   [Boolean] default = False
+                                ! If true, the values on the intermediate grid used for remapping
+                                ! are forced to be bounded, which might not be the case due to
+                                ! round off.
 REMAP_AFTER_INITIALIZATION = False !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after
                                 ! initialization so that the state is ALE consistent. This is a
@@ -497,6 +516,13 @@ REGRID_TIME_SCALE = 8.64E+04    !   [s] default = 0.0
                                 ! and the target (new) grid. A short time-scale favors the target
                                 ! grid (0. or anything less than DT_THERM) has no memory of the old
                                 ! grid. A very long time-scale makes the model more Lagrangian.
+REGRID_FILTER_SHALLOW_DEPTH = 0.0 !   [m] default = 0.0
+                                ! The depth above which no time-filtering is applied. Above this depth
+                                ! final grid exactly matches the target (new) grid.
+REGRID_FILTER_DEEP_DEPTH = 0.0  !   [m] default = 0.0
+                                ! The depth below which full time-filtering is applied with time-scale
+                                ! REGRID_TIME_SCALE. Between depths REGRID_FILTER_SHALLOW_DEPTH and
+                                ! REGRID_FILTER_SHALLOW_DEPTH the filter wieghts adopt a cubic profile.
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
                                 ! If true, intialize the layer thicknesses, temperatures,
                                 ! and salnities from a Z-space file on a latitude-
@@ -1236,6 +1262,11 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! geostrophic kinetic energy or 1 plus the square of the
                                 ! grid spacing over the deformation radius, as detailed
                                 ! by Fox-Kemper et al. (2010)
+MLE_USE_PBL_MLD = False         !   [Boolean] default = False
+                                ! If true, the MLE parameterization will use the mixed-layer
+                                ! depth provided by the active PBL parameterization. If false,
+                                ! MLE will estimate a MLD based on a density difference with the
+                                ! surface using the parameter MLE_DENSITY_DIFF.
 MLE_DENSITY_DIFF = 0.03         !   [kg/m3] default = 0.03
                                 ! Density difference used to detect the mixed-layer
                                 ! depth used for the mixed-layer eddy parameterization
@@ -1575,6 +1606,12 @@ DO_RIVERMIX = False             !   [Boolean] default = False
                                 ! If true, apply additional mixing whereever there is
                                 ! runoff, so that it is mixed down to RIVERMIX_DEPTH
                                 ! if the ocean is that deep.
+USE_RIVER_HEAT_CONTENT = False  !   [Boolean] default = False
+                                ! If true, use the fluxes%runoff_Hflx field to set the
+                                ! heat carried by runoff, instead of using SST*CP*liq_runoff.
+USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
+                                ! If true, use the fluxes%calving_Hflx field to set the
+                                ! heat carried by runoff, instead of using SST*CP*froz_runoff.
 
 ! === module MOM_energetic_PBL ===
 MSTAR = 1.2                     !   [units=nondim] default = 1.2
@@ -1859,7 +1896,7 @@ RESTINT = 365.0                 !   [days] default = 0.0
                                 ! The interval between saves of the restart file in units
                                 ! of TIMEUNIT.  Use 0 (the default) to not save
                                 ! incremental restart files at all.
-ENERGYSAVEDAYS = 0.5            !   [days] default = 7200.0
+ENERGYSAVEDAYS = 0.5            !   [days] default = 0.0833333333333333
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
 ICE_SHELF = False               !   [Boolean] default = False

@@ -1,4 +1,11 @@
-# These diagnostics are only used in a CORE forced run with a virtual
-# fresh-water flux acting to restore salinity to obs.
+# MOM6 ocean diagnostics only used in a CORE/OMIP (no interactive atmos). 
+# These terms provide diagnostics for the surface salinity / fresh water restoring. 
+
+ "ocean_model", "vprec",              "vprec",              "ocean_annual", "all", "mean", "none",2
+ "ocean_model", "heat_content_vprec", "heat_content_vprec", "ocean_annual", "all", "mean", "none",2
+ "ocean_model", "salt_flux_restore",  "salt_flux_restore",  "ocean_annual", "all", "mean", "none",2
+
  "ocean_model", "vprec",              "vprec",              "ocean_month", "all", "mean", "none",2
  "ocean_model", "heat_content_vprec", "heat_content_vprec", "ocean_month", "all", "mean", "none",2
+ "ocean_model", "salt_flux_restore",  "salt_flux_restore",  "ocean_month", "all", "mean", "none",2
+

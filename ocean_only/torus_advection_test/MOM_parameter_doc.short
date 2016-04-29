@@ -11,6 +11,12 @@ NJGLOBAL = 48                   !
                                 ! this is set in MOM_memory.h at compile time.
 
 ! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
+! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
 RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
                                 ! The mean ocean density used with BOUSSINESQ true to
@@ -21,9 +27,6 @@ ANGSTROM = 0.0                  !   [m] default = 1.0E-10
                                 ! The minumum layer thickness, usually one-Angstrom.
 NK = 5                          !   [nondim]
                                 ! The number of model layers.
-
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
 
 ! === module MOM ===
 BULKMIXEDLAYER = False          !   [Boolean] default = True
@@ -122,6 +125,12 @@ MINIMUM_DEPTH = 0.01            !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 200.0           !   [m]
                                 ! The maximum depth of the ocean.
+ROTATION = "beta"               ! default = "2omegasinlat"
+                                ! This specifies how the Coriolis parameter is specified:
+                                !     2omegasinlat - Use twice the planetary rotation rate
+                                !       times the sine of latitude.
+                                !     betaplane - Use a beta-plane or f-plane.
+                                !     USER - call a user modified routine.
 COORD_CONFIG = "ts_ref"         !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -141,12 +150,6 @@ T_REF = 20.0                    !   [degC]
                                 ! The initial temperature of the lightest layer.
 GINT = 7.89E-04                 !   [m s-2]
                                 ! The reduced gravity across internal interfaces.
-ROTATION = "beta"               ! default = "2omegasinlat"
-                                ! This specifies how the Coriolis parameter is specified:
-                                !     2omegasinlat - Use twice the planetary rotation rate
-                                !       times the sine of latitude.
-                                !     betaplane - Use a beta-plane or f-plane.
-                                !     USER - call a user modified routine.
 THICKNESS_CONFIG = "uniform"    !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
@@ -225,7 +228,10 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! used with BOTTOMDRAGLAW. This might be
                                 ! Kv / (cdrag * drag_bg_vel) to give Kv as the minimum
                                 ! near-bottom viscosity.
-KV_BBL_MIN = 1.0E-06            !   [m2 s-1] default = 0.0
+KV = 1.0E-04                    !   [m2 s-1]
+                                ! The background kinematic viscosity in the interior.
+                                ! The molecular value, ~1e-6 m2 s-1, may be used.
+KV_BBL_MIN = 1.0E-06            !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the bottom boundary layer.
 BOUND_CORIOLIS = True           !   [Boolean] default = False
                                 ! If true, the Coriolis terms at u-points are bounded by
@@ -265,9 +271,6 @@ HMIX_FIXED = 1.0E-10            !   [m]
                                 ! The prescribed depth over which the near-surface
                                 ! viscosity and diffusivity are elevated when the bulk
                                 ! mixed layer is not used.
-KV = 1.0E-04                    !   [m2 s-1]
-                                ! The background kinematic viscosity in the interior.
-                                ! The molecular value, ~1e-6 m2 s-1, may be used.
 KVBBL = 0.0                     !   [m2 s-1] default = 1.0E-04
                                 ! The kinematic viscosity in the benthic boundary layer.
                                 ! A typical value is ~1e-2 m2 s-1. KVBBL is not used if
@@ -409,6 +412,6 @@ RESTINT = 100.0                 !   [days] default = 0.0
                                 ! The interval between saves of the restart file in units
                                 ! of TIMEUNIT.  Use 0 (the default) to not save
                                 ! incremental restart files at all.
-ENERGYSAVEDAYS = 0.5            !   [days] default = 3600.0
+ENERGYSAVEDAYS = 0.5            !   [days] default = 0.0416666666666667
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.

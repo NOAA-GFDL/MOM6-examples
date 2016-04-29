@@ -14,20 +14,9 @@
          parameter_filename = 'SIS_input','SIS_layout','SIS_override'
 /
 
- &atmos_model_nml
-           layout = 0, 0
-/
-
- &cana_nml
-       turbulence_to_use = "lm3v"
-       init_co2 = 286.0e-6
-       canopy_air_mass_for_tracers = 10.0
-       allow_small_z0 = .true.
-/
-
  &coupler_nml
             months = 0,
-            days   = 3,
+            days   = 1,
             current_date = 1992,1,1,0,0,0,
             calendar = 'JULIAN',
             dt_cpld = 3600,
@@ -39,9 +28,20 @@
             do_flux = .true.,
             atmos_npes = 144,
             ocean_npes = 288,
-            concurrent = .true.     
-            use_lag_fluxes=.true.    
+            concurrent = .true.,
+            use_lag_fluxes=.true.,
             check_stocks = 0
+/
+
+ &atmos_model_nml
+           layout = 0, 0
+/
+
+ &cana_nml
+       turbulence_to_use = "lm3v"
+       init_co2 = 286.0e-6
+       canopy_air_mass_for_tracers = 10.0
+       allow_small_z0 = .true.
 /
 
  &diag_manager_nml

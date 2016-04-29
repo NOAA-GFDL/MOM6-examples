@@ -1,0 +1,29 @@
+netcdf Oman_RedSea {
+dimensions:
+	nEdits = UNLIMITED ; // (13 currently)
+variables:
+	int iEdit(nEdits) ;
+		iEdit:long_name = "i-index of edited data" ;
+	int jEdit(nEdits) ;
+		jEdit:long_name = "j-index of edited data" ;
+	double zEdit(nEdits) ;
+		zEdit:long_name = "New value of data" ;
+		zEdit:units = "meters" ;
+	int ni ;
+		ni:long_name = "The size of the i-dimension of the dataset these edits apply to" ;
+	int nj ;
+		nj:long_name = "The size of the j-dimension of the dataset these edits apply to" ;
+data:
+
+ iEdit = 1424, 1369, 1369, 1370, 1370, 1370, 1371, 1371, 1372, 1372, 1373, 
+    1373, 1373 ;
+
+ jEdit = 612, 560, 559, 559, 558, 557, 557, 556, 556, 555, 555, 554, 553 ;
+
+ zEdit = -80, -180, -180, -180, -180, -180, -180, -180, -180, -180, -180, 
+    -180, -180 ;
+
+ ni = 1440 ;
+
+ nj = 1080 ;
+}
