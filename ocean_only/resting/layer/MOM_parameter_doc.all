@@ -721,6 +721,11 @@ V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
 HARMONIC_VISC = False           !   [Boolean] default = False
                                 ! If true, use the harmonic mean thicknesses for
                                 ! calculating the vertical viscosity.
+HARMONIC_BL_SCALE = 0.0         !   [nondim] default = 0.0
+                                ! A scale to determine when water is in the boundary
+                                ! layers based solely on harmonic mean thicknesses for
+                                ! the purpose of determining the extent to which the
+                                ! thicknesses used in the viscosities are upwinded.
 HMIX_FIXED = 20.0               !   [m]
                                 ! The prescribed depth over which the near-surface
                                 ! viscosity and diffusivity are elevated when the bulk
