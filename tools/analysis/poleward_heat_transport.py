@@ -149,7 +149,7 @@ def main(cmdLineArgs,stream=None):
   plt.suptitle(suptitle)
   plt.legend(loc=0,fontsize=10)
   annotateObs()
-  if diffusive == None: annotatePlot('Warning: Diffusive component of transport is missing.')
+  if diffusive is None: annotatePlot('Warning: Diffusive component of transport is missing.')
   if stream != None:
     plt.savefig(stream[0])
   else:
@@ -169,7 +169,7 @@ def main(cmdLineArgs,stream=None):
   plt.suptitle(suptitle)
   plt.legend(loc=0,fontsize=10)
   annotateObs()
-  if diffusive == None: annotatePlot('Warning: Diffusive component of transport is missing.')
+  if diffusive is None: annotatePlot('Warning: Diffusive component of transport is missing.')
   if stream != None:
     plt.savefig(stream[1])
   else:
@@ -187,7 +187,7 @@ def main(cmdLineArgs,stream=None):
   plotGandW(GandW['IndoPac']['lat'],GandW['IndoPac']['trans'],GandW['IndoPac']['err'])
   plt.xlabel(r'Latitude [$\degree$N]')
   annotateObs()
-  if diffusive == None: annotatePlot('Warning: Diffusive component of transport is missing.')
+  if diffusive is None: annotatePlot('Warning: Diffusive component of transport is missing.')
   plt.suptitle(suptitle)
   plt.legend(loc=0,fontsize=10)
   if stream != None:

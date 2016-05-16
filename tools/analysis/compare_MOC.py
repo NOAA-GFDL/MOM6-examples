@@ -47,12 +47,12 @@ def MOCpsi(vh, vmsk=None):
   psi = numpy.zeros(shape[:-1])
   if len(shape)==3:
     for k in range(shape[-3]-1,0,-1):
-      if vmsk==None: psi[k-1,:] = psi[k,:] - vh[k-1].sum(axis=-1)
+      if vmsk is None: psi[k-1,:] = psi[k,:] - vh[k-1].sum(axis=-1)
       else: psi[k-1,:] = psi[k,:] - (vmsk*vh[k-1]).sum(axis=-1)
   else:
     for n in range(shape[0]):
       for k in range(shape[-3]-1,0,-1):
-        if vmsk==None: psi[n,k-1,:] = psi[n,k,:] - vh[n,k-1].sum(axis=-1)
+        if vmsk is None: psi[n,k-1,:] = psi[n,k,:] - vh[n,k-1].sum(axis=-1)
         else: psi[n,k-1,:] = psi[n,k,:] - (vmsk*vh[n,k-1]).sum(axis=-1)
   return psi
 

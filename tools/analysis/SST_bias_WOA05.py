@@ -64,7 +64,7 @@ def main(cmdLineArgs,stream=None):
   else: suptitle = rootGroup.title + ' ' + cmdLineArgs.label
 
   ci=m6plot.pmCI(0.25,4.5,.5)
-  if stream == None: stream = cmdLineArgs.outdir+'/SST_bias_WOA05.png'
+  if stream is None: stream = cmdLineArgs.outdir+'/SST_bias_WOA05.png'
   m6plot.xyplot( Tmod - Tobs , x, y, area=area,
       suptitle=suptitle, title='SST bias (w.r.t. WOA\'05) [$\degree$C]',
       clim=ci, colormap='dunnePM', centerlabels=True, extend='both',

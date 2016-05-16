@@ -82,7 +82,7 @@ def main(cmdLineArgs,stream=None):
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
-  if stream == None:  
+  if stream is None:
     m6plot.yzcompare( sPlot, sObsPlot , y, z, splitscale=[0., -1000., -6500.],
         suptitle=suptitle,
         title1='Global zonal-average salinity [ppt]',
@@ -102,7 +102,7 @@ def main(cmdLineArgs,stream=None):
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
-  if stream == None:
+  if stream is None:
     m6plot.yzcompare( sPlot, sObsPlot , y, z, splitscale=[0., -1000., -6500.],
         suptitle=suptitle,
         title1='Atlantic zonal-average salinity [ppt]',
@@ -122,7 +122,7 @@ def main(cmdLineArgs,stream=None):
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
-  if stream == None:
+  if stream is None:
     m6plot.yzcompare( sPlot, sObsPlot , y, z, splitscale=[0., -1000., -6500.],
         suptitle=suptitle,
         title1='Pacific zonal-average salinity [ppt]',
@@ -142,7 +142,7 @@ def main(cmdLineArgs,stream=None):
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
-  if stream == None:
+  if stream is None:
     m6plot.yzcompare( sPlot, sObsPlot , y, z, splitscale=[0., -1000., -6500.],
         suptitle=suptitle,
         title1='Indian zonal-average salinity [ppt]',

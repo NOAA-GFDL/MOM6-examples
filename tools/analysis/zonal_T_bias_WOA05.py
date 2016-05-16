@@ -85,7 +85,7 @@ def main(cmdLineArgs,stream=None):
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
 
-  if stream == None:
+  if stream is None:
     m6plot.yzcompare( tPlot, tObsPlot , y, z, splitscale=[0., -1000., -6500.],
         suptitle=suptitle,
         title1=r'Global zonal-average $\theta$ [$\degree$C]',
@@ -105,7 +105,7 @@ def main(cmdLineArgs,stream=None):
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
-  if stream == None:
+  if stream is None:
     m6plot.yzcompare( tPlot, tObsPlot , y, z, splitscale=[0., -1000., -6500.],
         suptitle=suptitle,
         title1=r'Atlantic zonal-average $\theta$ [$\degree$C]',
@@ -125,7 +125,7 @@ def main(cmdLineArgs,stream=None):
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
 
-  if stream == None:
+  if stream is None:
     m6plot.yzcompare( tPlot, tObsPlot , y, z, splitscale=[0., -1000., -6500.],
         suptitle=suptitle,
         title1=r'Pacific zonal-average $\theta$ [$\degree$C]',
@@ -145,7 +145,7 @@ def main(cmdLineArgs,stream=None):
         clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
         save=objOut)
   
-  if stream == None:
+  if stream is None:
     m6plot.yzcompare( tPlot, tObsPlot , y, z, splitscale=[0., -1000., -6500.],
         suptitle=suptitle,
         title1=r'Indian zonal-average $\theta$ [$\degree$C]',

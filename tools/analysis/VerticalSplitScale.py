@@ -33,12 +33,12 @@ class VerticalSplitScale(mscale.ScaleBase):
         #if thresh >= np.pi / 2.0:
         #    raise ValueError("thresh must be less than pi/2")
         zval = kwargs.pop("zval", None)
-        if zval == None:
+        if zval is None:
             raise Exception("zval must be specified")
         if len(zval) < 3:
             raise Exception("zval must be at least 3 long")
         zfrac = kwargs.pop("zfrac", None)
-        if zfrac == None:
+        if zfrac is None:
             zfrac = np.linspace(0., 1., len(zval))
         if len(zfrac) != len(zval):
             raise Exception("zval and zfrac must have the same length")
@@ -82,7 +82,7 @@ class VerticalSplitScale(mscale.ScaleBase):
         for k in range(1,len(self.zval)):
           nbins = 16 * ( self.zfrac[k] - self.zfrac[k-1] )
           newticks = MaxNLocator(nbins=nbins, steps=[1,2,2.5,5,10]).tick_values(self.zval[k-1], self.zval[k])
-          if ticks==None: ticks = newticks
+          if ticks is None: ticks = newticks
           else: ticks = np.append( ticks, newticks )
         ticks = [x for x in ticks if (x>+self.zval.min() and x<=self.zval.max())] # Only used tickes within range
         ticks = np.sort( ticks ) # Fix due to different python versions on PP and workstations!
