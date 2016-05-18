@@ -1726,6 +1726,10 @@ WIND_STAGGER = "C"              ! default = "C"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the input wind stress field.  Valid
                                 ! values are 'A', 'B', or 'C'.
+WIND_STRESS_MULTIPLIER = 1.0    !   [not defined] default = 1.0
+                                ! A factor multiplying the wind-stress given to the ocean by the
+                                ! coupler. This is used for testing and should be =1.0 for any
+                                ! production runs.
 CD_TIDES = 0.0018               !   [nondim] default = 1.0E-04
                                 ! The drag coefficient that applies to the tides.
 READ_GUST_2D = False            !   [Boolean] default = False
