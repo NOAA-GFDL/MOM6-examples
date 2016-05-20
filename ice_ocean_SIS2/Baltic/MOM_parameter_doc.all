@@ -488,6 +488,10 @@ DIAG_REMAP_Z_GRID_DEF = "FILE:OM3_zgrid.nc,zw" ! default = ""
                                 !                           contains interface positions.
                                 !  UNIFORM                - vertical grid is uniform
                                 !                           between surface and max depth.
+DIAG_REMAP_Z_MODULE_SUFFIX = "_z_new" ! default = "_z_new"
+                                ! This is the string attached to the end of "ocean_model"
+                                ! for use in the model column of the diag_table to indicate
+                                ! a diagnostic should be remapped to z*-coordinates.
 
 ! === module MOM_MEKE ===
 USE_MEKE = False                !   [Boolean] default = False
