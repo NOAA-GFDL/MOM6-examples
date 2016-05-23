@@ -1,21 +1,7 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
-GRID_CONFIG = "mosaic"          !    Method for defining horizontal grid
-                                !  = file|cartesian|spherical|mercator
-                                !  file - read grid from file "GRID_FILE"
-                                !  cartesian - a Cartesian grid
-                                !  spherical - a spherical grid
-                                !  mercator  - a Mercator grid
-OMEGA = 7.292e-5                !   The rotation rate of the earth in s-1.
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
-INTERSPERSED_ICE_THERMO = False !   [Boolean] default = True
-                                ! If true, the sea ice thermodynamic updates are applied
-                                ! after the new velocities are determined, but before the
-                                ! transport occurs.  Otherwise, the ice thermodynamic
-                                ! updates occur at the start of the slow ice update and
-                                ! dynamics and continuity can occur together.
-                                ! The default should be changed to false.
 DT_ICE_DYNAMICS = 1200.0        !   [seconds] default = -1.0
                                 ! The time step used for the slow ice dynamics, including
                                 ! stepping the continuity equation and interactions
@@ -42,18 +28,30 @@ NJGLOBAL = 1080                 !
                                 ! The total number of thickness grid points in the
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in SIS2_memory.h at compile time.
+
+! === module hor_grid ===
+! Parameters providing information about the lateral grid.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
+! === module SIS_grid_initialize ===
+GRID_CONFIG = "mosaic"          !
+                                ! A character string that determines the method for
+                                ! defining the horizontal grid.  Current options are:
+                                !     mosaic - read the grid from a mosaic (supergrid)
+                                !              file set by GRID_FILE.
+                                !     cartesian - use a (flat) Cartesian grid.
+                                !     spherical - use a simple spherical grid.
+                                !     mercator - use a Mercator spherical grid.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
-GRID_CONFIG = "mosaic"          !
-                                ! The method for defining the horizontal grid.  Valid
-                                ! entries include:
-                                !    file - read the grid from GRID_FILE
-                                !    mosaic - read the grid from a mosaic grid file
-                                !    cartesian - a Cartesian grid
-                                !    spherical - a spherical grid
-                                !    mercator  - a Mercator grid
+!MAXIMUM_DEPTH = 9682.232421875 !   [m]
+                                ! The (diagnosed) maximum depth of the ocean.
+OMEGA = 7.292E-05               !   [s-1] default = 7.2921E-05
+                                ! The rotation rate of the earth.
 ICE_DELTA_EDD_R_ICE = 1.0       !   [perhaps nondimensional?] default = 0.0
                                 ! A dreadfully documented tuning parameter for the radiative
                                 ! propeties of sea ice with the delta-Eddington radiative

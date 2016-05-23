@@ -22,12 +22,15 @@ NJGLOBAL = 1080                 !
                                 ! this is set in MOM_memory.h at compile time.
 
 ! === module MOM_grid ===
-! Parameters providing information about the vertical grid.
-NK = 75                         !   [nondim]
-                                ! The number of model layers.
+! Parameters providing information about the lateral grid.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
+NK = 75                         !   [nondim]
+                                ! The number of model layers.
 
 ! === module MOM ===
 DIABATIC_FIRST = True           !   [Boolean] default = False
@@ -94,6 +97,11 @@ BAD_VAL_SST_MAX = 55.0          !   [deg C] default = 45.0
 BAD_VAL_SST_MIN = -3.0          !   [deg C] default = -2.1
                                 ! The value of SST below which a bad value message is
                                 ! triggered, if CHECK_BAD_SURFACE_VALS is true.
+WRITE_GEOM = 0                  ! default = 1
+                                ! If =0, never write the geometry and vertical grid files.
+                                ! If =1, write the geometry and vertical grid files only for
+                                ! a new simulation. If =2, always write the geometry and
+                                ! vertical grid files. Other values are invalid.
 
 ! === module MOM_tracer_registry ===
 DTFREEZE_DP = -7.75E-08         !   [deg C Pa-1] default = 0.0
@@ -137,6 +145,8 @@ TOPO_CONFIG = "file"            !
                                 !     benchmark - use the benchmark test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
+                                !     ISOMIP - use a slope and channel configuration for the
+                                !       ISOMIP test case.
                                 !     DOME2D - use a shelf and slope configuration for the
                                 !       DOME2D gravity current/overflow test case.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
@@ -144,7 +154,7 @@ TOPO_CONFIG = "file"            !
                                 !     USER - call a user modified routine.
 TOPO_FILE = "ocean_topog.nc"    ! default = "topog.nc"
                                 ! The file from which the bathymetry is read.
-TOPO_EDITS_FILE = "All_edits.nc"! default = ""
+TOPO_EDITS_FILE = "All_edits.nc" ! default = ""
                                 ! The file from which to read a list of i,j,z topography overrides.
 MAXIMUM_DEPTH = 6500.0          !   [m]
                                 ! The maximum depth of the ocean.
@@ -152,7 +162,23 @@ MINIMUM_DEPTH = 9.5             !   [m] default = 0.0
                                 ! If MASKING_DEPTH is unspecified, then anything shallower than
                                 ! MINIMUM_DEPTH is assumed to be land and all fluxes are masked out.
                                 ! If MASKING_DEPTH is specified, then all depths shallower than
-                                ! MINIMUM_DEPTH but depper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
+                                ! MINIMUM_DEPTH but deeper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
+MASKING_DEPTH = 0.0             !   [m] default = -9999.0
+                                ! The depth below which to mask points as land points, for which all
+                                ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
+CHANNEL_CONFIG = "list"         ! default = "none"
+                                ! A parameter that determines which set of channels are
+                                ! restricted to specific  widths.  Options are:
+                                !     none - All channels have the grid width.
+                                !     global_1deg - Sets 16 specific channels appropriate
+                                !       for a 1-degree model, as used in CM2G.
+                                !     list - Read the channel locations and widths from a
+                                !       text file, like MOM_channel_list in the MOM_SIS
+                                !       test case.
+                                !     file - Read open face widths everywhere from a
+                                !       NetCDF file on the model grid.
+CHANNEL_LIST_FILE = "MOM_channels_global_025" ! default = "MOM_channel_list"
+                                ! The file from which the list of narrowed channels is read.
 COORD_CONFIG = "file"           !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -170,27 +196,6 @@ COORD_CONFIG = "file"           !
                                 !     USER - call a user modified routine.
 COORD_FILE = "layer_coord.nc"   !
                                 ! The file from which the coordinate densities are read.
-MASKING_DEPTH = 0.0             !   [m] default = -9999.0
-                                ! The depth below which to mask points as land points, for which all
-                                ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
-CHANNEL_CONFIG = "list"         ! default = "none"
-                                ! A parameter that determines which set of channels are
-                                ! restricted to specific  widths.  Options are:
-                                !     none - All channels have the grid width.
-                                !     global_1deg - Sets 16 specific channels appropriate
-                                !       for a 1-degree model, as used in CM2G.
-                                !     list - Read the channel locations and widths from a
-                                !       text file, like MOM_channel_list in the MOM_SIS
-                                !       test case.
-                                !     file - Read open face widths everywhere from a
-                                !       NetCDF file on the model grid.
-CHANNEL_LIST_FILE = "MOM_channels_global_025" ! default = "MOM_channel_list"
-                                ! The file from which the list of narrowed channels is read.
-WRITE_GEOM = 0                  ! default = 1
-                                ! If =0, never write the geometry and vertical grid files.
-                                ! If =1, write the geometry and vertical grid files only for
-                                ! a new simulation. If =2, always write the geometry and
-                                ! vertical grid files. Other values are invalid.
 REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding.
                                 ! Choose among the following possibilities:
@@ -198,6 +203,8 @@ REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 !  Z*    - stetched geopotential z*
                                 !  SIGMA - terrain following coordinates
                                 !  RHO   - continuous isopycnal
+                                !  HYCOM1 - HyCOM-like hybrid coordinate
+                                !  SLIGHT - stretched coordinates above continuous isopycnal
 ALE_COORDINATE_CONFIG = "FNC1:2,6500,6,.01" ! default = "UNIFORM"
                                 ! Determines how to specify the coordinate
                                 ! resolution. Valid options are:
@@ -206,7 +213,12 @@ ALE_COORDINATE_CONFIG = "FNC1:2,6500,6,.01" ! default = "UNIFORM"
                                 !  FILE:string - read from a file. The string specifies
                                 !                the filename and variable name, separated
                                 !                by a comma or space, e.g. FILE:lev.nc,Z
-!ALE_RESOLUTION = 4*2.0, 2*2.01, 2.02, 2.03, 2.05, 2.08, 2.11, 2.15, 2.2, 2.27, 2.34, 2.44, 2.55, 2.69, 2.85, 3.04, 3.27, 3.54, 3.85, 4.22, 4.66, 5.18, 5.79, 6.52, 7.37, 8.37, 9.55, 10.94, 12.57, 14.48, 16.72, 19.33, 22.36, 25.87, 29.91, 34.53, 39.79, 45.72, 52.37, 59.76, 67.89, 76.74, 86.29, 96.47, 107.2, 118.35, 129.81, 141.42, 153.01, 164.41, 175.47, 186.01, 195.9, 205.01, 213.27, 220.6, 226.99, 232.43, 236.96, 240.63, 243.52, 245.72, 247.33, 248.45, 249.18, 249.62, 249.86, 249.96, 249.99, 2*250.0 !   [m]
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
+                                !  HYBRID:string - read from a file. The string specifies
+                                !                the filename and two variable names, separated
+                                !                by a comma or space, for sigma-2 and dz. e.g.
+                                !                HYBRID:vgrid.nc,sigma2,dz
+!ALE_RESOLUTION = 11*2.0, 2*2.01, 2.02, 2.03, 2.04, 2.06, 2.08, 2.12, 2.16, 2.22, 2.3, 2.4, 2.52, 2.67, 2.85, 3.08, 3.35, 3.6799999999999997, 4.08, 4.54, 5.1, 5.75, 6.51, 7.39, 8.42, 9.600000000000001, 10.96, 12.51, 14.280000000000001, 16.3, 18.580000000000002, 21.16, 24.07, 27.330000000000002, 30.990000000000002, 35.07, 39.63, 44.69, 50.32, 56.54, 63.42, 71.01, 79.37, 88.55, 98.63, 109.66, 121.72, 134.89000000000001, 149.24, 164.86, 181.84, 200.27, 220.25, 241.88, 265.27, 290.52, 317.76, 347.12, 378.71, 412.68, 449.16, 488.31, 530.27, 575.19 !   [m]
                                 ! The distribution of vertical resolution for the target
                                 ! grid used for Eulerian-like coordinates. For example,
                                 ! in z-coordinate mode, the parameter is a list of level
@@ -314,12 +326,13 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! used with BOTTOMDRAGLAW. This might be
                                 ! Kv / (cdrag * drag_bg_vel) to give Kv as the minimum
                                 ! near-bottom viscosity.
-SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.15
-                                ! The nondimensional Laplacian Smagorinsky constant used
-                                ! in calculating the channel drag if it is enabled.  The
-                                ! default is to use the same value as SMAG_LAP_CONST if
-                                ! it is defined, or 0.15 if it is not. The value used is
-                                ! also 0.15 if the specified value is negative.
+KV = 1.0E-04                    !   [m2 s-1]
+                                ! The background kinematic viscosity in the interior.
+                                ! The molecular value, ~1e-6 m2 s-1, may be used.
+KV_BBL_MIN = 0.0                !   [m2 s-1] default = 1.0E-04
+                                ! The minimum viscosities in the bottom boundary layer.
+KV_TBL_MIN = 0.0                !   [m2 s-1] default = 1.0E-04
+                                ! The minimum viscosities in the top boundary layer.
 ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.75E-09
                                 ! The tolerance for the differences between the
                                 ! barotropic and baroclinic estimates of the sea surface
@@ -382,11 +395,6 @@ HMIX_FIXED = 0.5                !   [m]
                                 ! The prescribed depth over which the near-surface
                                 ! viscosity and diffusivity are elevated when the bulk
                                 ! mixed layer is not used.
-KV = 1.0E-04                    !   [m2 s-1]
-                                ! The background kinematic viscosity in the interior.
-                                ! The molecular value, ~1e-6 m2 s-1, may be used.
-KV_BBL_MIN = 0.0                !   [m2 s-1] default = 1.0E-04
-KV_TBL_MIN = 0.0                !   [m2 s-1] default = 1.0E-04
 MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity
                                 ! components are truncated.
@@ -436,8 +444,9 @@ KHTH_MAX_CFL = 0.1              !   [nondimensional] default = 0.8
 ! === module MOM_mixed_layer_restrat ===
 MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
                                 ! If true, a density-gradient dependent re-stratifying
-                                ! flow is imposed in the mixed layer.
-                                ! This is only used if BULKMIXEDLAYER is true.
+                                ! flow is imposed in the mixed layer. Can be used in ALE mode
+                                ! without restriction but in layer mode can only be used if
+                                ! BULKMIXEDLAYER is true.
 FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! A nondimensional coefficient that is proportional to
                                 ! the ratio of the deformation radius to the dominant
@@ -461,10 +470,18 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary
                                 ! layer scheme to determine the diffusivity and viscosity
                                 ! in the surface boundary layer.
-PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
-                                ! If true, use a pressure dependent freezing temperature
-                                ! when making frazil. The default is false, which will be
-                                ! faster but is inappropriate with ice-shelf cavities.
+
+! === module MOM_KPP ===
+! This is the MOM wrapper to CVmix:KPP
+! See http://code.google.com/p/cvmix/
+
+! === module MOM_diffConvection ===
+! This module implements enhanced diffusivity as a
+! function of static stability, N^2.
+CONVECTION%
+%CONVECTION
+
+! === module MOM_entrain_diffusive ===
 BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the
                                 ! BBL mixing and the other diffusivities. Otherwise,
@@ -489,7 +506,7 @@ KD = 2.0E-05                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
                                 ! may be used.
-KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-08
+KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
                                 ! The minimum diapycnal diffusivity.
 KD_MAX = 0.1                    !   [m2 s-1] default = -1.0
                                 ! The maximum permitted increment for the diapycnal
@@ -529,17 +546,12 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to
                                 ! estimate the Richardson number driven mixing.
 
-! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
-
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-CONVECTION%
-%CONVECTION
-
-! === module MOM_entrain_diffusive ===
+! === module MOM_diabatic_aux ===
+! The following parameters are used for auxiliary diabatic processes.
+PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
+                                ! If true, use a pressure dependent freezing temperature
+                                ! when making frazil. The default is false, which will be
+                                ! faster but is inappropriate with ice-shelf cavities.
 
 ! === module MOM_energetic_PBL ===
 
@@ -569,15 +581,13 @@ CHECK_DIFFUSIVE_CFL = True      !   [Boolean] default = False
                                 ! that the diffusive equivalent of the CFL limit is not
                                 ! violated.  If false, always use 1 iteration.
 
+! === module MOM_neutral_diffusion ===
+! This module implements neutral diffusion of tracers
+
 ! === module ocean_model_init ===
 ENERGYSAVEDAYS = 0.25           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
-OCEAN_SURFACE_STAGGER = "C"     ! default = "B"
-                                ! A case-insensitive character string to indicate the
-                                ! staggering of the surface velocity field that is
-                                ! returned to the coupler.  Valid values include
-                                ! 'A', 'B', or 'C'.
 
 ! === module MOM_surface_forcing ===
 MAX_P_SURF = 0.0                !   [Pa] default = -1.0
