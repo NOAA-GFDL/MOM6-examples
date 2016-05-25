@@ -317,12 +317,12 @@ CFL_TRUNC_DYN_ITS = False       !   [Boolean] default = False
                                 ! are used for transport are checked.
 DEBUG_REDUNDANT = False         !   [Boolean] default = False
                                 ! If true, debug redundant data points.
-U_TRUNC_FILE = ""               ! default = ""
+U_TRUNC_FILE = "SIS_U_truncations" ! default = ""
                                 ! The absolute path to the file where the accelerations
                                 ! leading to zonal velocity truncations are written.
                                 ! Leave this empty for efficiency if this diagnostic is
                                 ! not needed.
-V_TRUNC_FILE = ""               ! default = ""
+V_TRUNC_FILE = "SIS_V_truncations" ! default = ""
                                 ! The absolute path to the file where the accelerations
                                 ! leading to meridional velocity truncations are written.
                                 ! Leave this empty for efficiency if this diagnostic is
@@ -386,7 +386,7 @@ WRITE_STOCKS = True             !   [Boolean] default = True
 STDOUT_HEARTBEAT = True         !   [Boolean] default = True
                                 ! If true, periodically write sea ice statistics to
                                 ! stdout to allow the progress to be seen.
-MAXTRUNC = 0                    !   [truncations save_interval-1] default = 0
+MAXTRUNC = 200                  !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very
                                 ! large value if the velocity is truncated more than
                                 ! MAXTRUNC times between  writing ice statistics.
