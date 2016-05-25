@@ -1,0 +1,27 @@
+netcdf Wyville_Thompson_edits {
+dimensions:
+	nEdits = UNLIMITED ; // (9 currently)
+variables:
+	int iEdit(nEdits) ;
+		iEdit:long_name = "i-index of edited data" ;
+	int jEdit(nEdits) ;
+		jEdit:long_name = "j-index of edited data" ;
+	double zEdit(nEdits) ;
+		zEdit:long_name = "New value of data" ;
+		zEdit:units = "meters" ;
+	int ni ;
+		ni:long_name = "The size of the i-dimension of the dataset these edits apply to" ;
+	int nj ;
+		nj:long_name = "The size of the j-dimension of the dataset these edits apply to" ;
+data:
+
+ iEdit = 1166, 1167, 1168, 1169, 1170, 1171, 1172, 1173, 1174 ;
+
+ jEdit = 808, 807, 807, 806, 805, 805, 805, 805, 804 ;
+
+ zEdit = -540, -510, -530, -610, -500, -460, -490, -330, -450 ;
+
+ ni = 1440 ;
+
+ nj = 1080 ;
+}
