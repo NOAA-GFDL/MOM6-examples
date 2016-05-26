@@ -33,10 +33,6 @@ NK = 75                         !   [nondim]
                                 ! The number of model layers.
 
 ! === module MOM ===
-DIABATIC_FIRST = True           !   [Boolean] default = False
-                                ! If true, apply diabatic and thermodynamic processes,
-                                ! including buoyancy forcing and mass gain or loss,
-                                ! before stepping the dynamics forward.
 BULKMIXEDLAYER = False          !   [Boolean] default = True
                                 ! If true, use a Kraus-Turner-like bulk mixed layer
                                 ! with transitional buffer layers.  Layers 1 through
@@ -52,18 +48,24 @@ THICKNESSDIFFUSE = True         !   [Boolean] default = False
 THICKNESSDIFFUSE_FIRST = True   !   [Boolean] default = False
                                 ! If true, do thickness diffusion before dynamics.
                                 ! This is only used if THICKNESSDIFFUSE is true.
-DT = 1200.0                     !   [s]
+DT = 900.0                      !   [s]
                                 ! The (baroclinic) dynamics time step.  The time-step that
                                 ! is actually used will be an integer fraction of the
                                 ! forcing time-step (DT_FORCING in ocean-only mode or the
                                 ! coupling timestep in coupled mode.)
-DT_THERM = 3600.0               !   [s] default = 1200.0
+DT_THERM = 3600.0               !   [s] default = 900.0
                                 ! The thermodynamic and tracer advection time step.
                                 ! Ideally DT_THERM should be an integer multiple of DT
                                 ! and less than the forcing or coupling time-step, unless
                                 ! THERMO_SPANS_COUPLING is true, in which case DT_THERM
                                 ! can be an integer multiple of the coupling timestep.  By
                                 ! default DT_THERM is set to DT.
+THERMO_SPANS_COUPLING = True    !   [Boolean] default = False
+                                ! If true, the MOM will take thermodynamic and tracer
+                                ! timesteps that can be longer than the coupling timestep.
+                                ! The actual thermodynamic timestep that is used in this
+                                ! case is the largest integer multiple of the coupling
+                                ! timestep that is less than or equal to DT_THERM.
 MIN_Z_DIAG_INTERVAL = 2.16E+04  !   [s] default = 0.0
                                 ! The minimum amount of time in seconds between
                                 ! calculations of depth-space diagnostics. Making this
