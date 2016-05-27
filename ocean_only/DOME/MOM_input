@@ -248,6 +248,9 @@ SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
                                 ! typically 0.015 - 0.06.
 
 ! === module MOM_vert_friction ===
+PRANDTL_TURB = 0.0              !   [nondim] default = 1.0
+                                ! The turbulent Prandtl number applied to shear
+                                ! instability.
 DIRECT_STRESS = True            !   [Boolean] default = False
                                 ! If true, the wind stress is distributed over the
                                 ! topmost HMIX_STRESS of fluid (like in HYCOM), and KVML
