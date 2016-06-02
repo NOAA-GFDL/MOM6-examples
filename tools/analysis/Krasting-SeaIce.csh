@@ -68,6 +68,7 @@ if (`gfdl_platform` == "hpcs-csc") then
    module load $fremodule
    module load fre-analysis/test
    module unload python
+   unalias python
 
    # This script relies on the ESMF regridder, available in 
    # uv-cdat version 1.5 and higher.  This package is currently
