@@ -48,9 +48,6 @@ H_TO_M = 1.0                    !   [m H-1] default = 1.0
                                 ! units of thickness into m.
 NK = 50                         !   [nondim]
                                 ! The number of model layers.
-AVAILABLE_DIAGS_FILE = "available_diags.000000" ! default = "available_diags.000000"
-                                ! A file into which to write a list of all available
-                                ! ocean diagnostics that can be included in a diag_table.
 
 ! === module MOM ===
 VERBOSITY = 2                   ! default = 2
@@ -563,6 +560,9 @@ APPLY_OBC_U = False             !   [Boolean] default = False
 APPLY_OBC_V = False             !   [Boolean] default = False
                                 ! If true, open boundary conditions may be set at some
                                 ! v-points, with the configuration controlled by OBC_CONFIG
+AVAILABLE_DIAGS_FILE = "available_diags.000000" ! default = "available_diags.000000"
+                                ! A file into which to write a list of all available
+                                ! ocean diagnostics that can be included in a diag_table.
 DIAG_REMAP_Z_GRID_DEF = ""      ! default = ""
                                 ! This sets the file and variable names that define the
                                 ! vertical grid used for diagnostic output remapping to
