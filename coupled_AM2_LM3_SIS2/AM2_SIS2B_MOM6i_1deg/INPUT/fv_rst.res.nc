@@ -1,1 +1,1 @@
-.datasets/AM2_LM3_MOM6i_1deg/tikal/1990_ICs/fv_rst.res.nc
+.datasets/AM2_LM3_MOM6i_1deg/ulm/1990_ICs/fv_rst.res.nc
