@@ -1,9 +1,21 @@
+
 # MOM6-examples
 
 This repository provides the configurations (input parameters and data) and their corresponding
 regression data (for testing), of models that involve [MOM6](https://github.com/NOAA-GFDL/MOM6)
 and [SIS2](https://github.com/NOAA-GFDL/SIS2). The repository also contains tools
 for analysis and preprocessing.
+
+## Testing status
+
+
+Compile:  [![Build Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_build_copy)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_build_copy/)
+
+Run:      [![Run Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_run)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_run/)
+
+Valgrind: [![Valgrind Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_runtime_analyzer)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_runtime_analyzer/)
+
+(Click on icons for details)
 
 # Where to find information
 
