@@ -1,7 +1,18 @@
+ &diag_manager_nml
+         max_output_fields=1000
+         max_input_fields=1000
+         max_num_axis_sets=1000
+         max_files=1000
+         max_axes=2000
+ /
+
+ &data_override_nml
+         /
 
  &fms_io_nml
          fms_netcdf_restart=.true.
-         threading_read='multi' /
+         threading_read='multi'
+ /
 
  &fms_nml
        clock_grain='MODULE'

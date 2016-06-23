@@ -215,6 +215,13 @@
     max_files_w = 300
 /
 
+ &fms_nml
+    clock_grain='COMPONENT'
+    clock_flags='SYNC'
+    domains_stack_size = 5000000
+    stack_size =0
+/
+
  &fv_core_nml
     LAYOUT = 0,30
     nlon =144
@@ -356,16 +363,16 @@
 
  &radiation_driver_nml
     rad_time_step= 10800,
-    time_varying_solar_constant = .false.,
-    solar_dataset_entry = 1990,1,1,0,0,0,
     rad_package = 'sea_esf',
     do_clear_sky_pass=.true.,
-    calc_hemi_integrals = .false.,
     renormalize_sw_fluxes=.true.,
-    all_step_diagnostics = .true.,
     zenith_spec = 'diurnally_varying',
     use_co2_tracer_field = .false.  ! not using co2 tracer field
     using_restart_file = .false.
+/
+
+ &radiation_driver_diag_nml
+    all_step_diagnostics = .true.,
 /
 
  &radiative_gases_nml
@@ -415,6 +422,24 @@
     f22_dataset_entry = 1990, 1, 1, 0, 0, 0,
     f22_specification_type = 'time_series'
     f22_data_source = 'input'
+
+    calc_co2_tfs_on_first_step = .false.,
+    calc_co2_tfs_monthly = .true.,
+    co2_tf_time_displacement = 0.0,
+
+    calc_ch4_tfs_on_first_step = .true.,
+    calc_ch4_tfs_monthly = .false.,
+    ch4_tf_time_displacement = 0.0,
+
+    calc_n2o_tfs_on_first_step = .true.,
+    calc_n2o_tfs_monthly = .false.,
+    n2o_tf_time_displacement = 0.0,
+/
+
+ &random_number_streams_nml
+       do_legacy_seed_generation = .true. ! siena_201303
+       force_use_of_temp_for_seed=.false.
+
 /
 
  &ras_nml
@@ -450,22 +475,14 @@
     do_n2olbltmpint = .false.,
     continuum_form = 'ckd2.1',
     linecatalog_form = 'hitran_2000',
-    calc_co2_tfs_on_first_step = .true.,
-    calc_co2_tfs_monthly = .false.,
-    co2_tf_time_displacement = 0.0,
-    calc_ch4_tfs_on_first_step = .true.,
-    calc_ch4_tfs_monthly = .false.,
-    ch4_tf_time_displacement = 0.0,
-    calc_n2o_tfs_on_first_step = .true.,
-    calc_n2o_tfs_monthly = .false.,
-    n2o_tf_time_displacement = 0.0,
     verbose = 5
 /
 
  &shortwave_driver_nml
     do_cmip_diagnostics = .true.,
-    calculate_volcanic_sw_heating = .false.,
     swform = 'esfsw99'
+    time_varying_solar_constant = .false.,
+    solar_dataset_entry = 1990,1,1,0,0,0,
 /
 
  &stable_bl_turb_nml

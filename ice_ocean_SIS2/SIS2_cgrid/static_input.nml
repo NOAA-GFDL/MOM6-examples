@@ -1,11 +1,15 @@
 
 
+ &diag_manager_nml
+ /
+
  &data_override_nml
          /
 
  &fms_io_nml
          fms_netcdf_restart=.true.
-         threading_read='multi' /
+         threading_read='multi'
+ /
 
  &fms_nml
        clock_grain='MODULE'
@@ -16,7 +20,7 @@
       t_range = 10. /
 
  &ice_model_nml
-         /
+           /
 
  &monin_obukhov_nml
             neutral = .true. /
