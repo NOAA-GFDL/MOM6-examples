@@ -8,6 +8,7 @@ import shlex
 import string
 import subprocess as sp
 import run_config as rc
+from model import Model
 
 # Only support Python version >= 2.7
 assert(not(sys.version_info[0] == 2) or sys.version_info[1] >= 7)
@@ -66,29 +67,32 @@ def exp_id_from_path(path):
 
 class Experiment:
 
-    def __init__(self, id, platform='gnu'):
+    def __init__(self, id, compiler='gnu', build='repro', memory_type='dynamic'):
         """
         Python representation of an experiment/test case.
 
         The id is a string of the form <model>/<exp>/<variation>.
         """
 
-        self.platform = platform
+        self.compiler = compiler
+        self.build = build
+        self.memory_type = memory_type
         id = id.split('/')
-        self.model = id[0]
+        self.model_name = id[0]
         self.name = id[1]
         if len(id) == 3:
             self.variation = id[2]
         else:
             self.variation = None
 
-        self.path = os.path.join(_mom_examples_path, self.model, self.name)
+        self.model = Model(self.model_name, _mom_examples_path)
+
+        self.path = os.path.join(_mom_examples_path, self.model_name,
+                                 self.name)
         if self.variation is not None:
             self.path = os.path.join(self.path, self.variation)
 
-        # Path to executable, may not exist yet.
-        rel_path = 'build/{}/{}/repro/MOM6'.format(self.platform, self.model)
-        self.exec_path = os.path.join(_mom_examples_path, rel_path)
+        self.exec_path = None
 
         # Lists of available and unfinished diagnostics.
         self.available_diags = self._parse_available_diags()
@@ -101,7 +105,7 @@ class Experiment:
         # It helps with testing and human readability if this is sorted.
         self.available_diags.sort(key=lambda d: d.full_name)
 
-        # Whether this experiment has been run/built. Want to try to avoid
+        # Whether this experiment has been run. Want to try to avoid
         # repeating this if possible.
         self.has_run = False
         # Another thing to avoid repeating.
@@ -128,30 +132,31 @@ class Experiment:
                 diags.extend([Diagnostic(m, d, self.path) for m, d in matches])
         return diags
 
-    def force_build(self):
-        """
-        Do a clean build of the configuration.
-        """
-        raise NotImplementedError
-
-    def build(self):
+    def build_model(self):
         """
         Build the configuration for this experiment.
         """
-        raise NotImplementedError
+
+        if not self.exec_path:
+            ret, exe = self.model.build(self.compiler, self.build,
+                                     self.memory_type)
+            assert(ret == 0)
+            self.exec_path = exe
 
     def run(self):
         """
         Run the experiment if it hasn't already.
         """
+
         if not self.has_run:
-            self.force_run()
+            return self.force_run()
 
     def force_run(self):
         """
         Run the experiment.
         """
 
+        self.build_model()
         assert(os.path.exists(self.exec_path))
 
         ret = 0
