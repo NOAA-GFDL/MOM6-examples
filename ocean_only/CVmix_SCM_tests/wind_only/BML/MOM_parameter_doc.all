@@ -1058,10 +1058,10 @@ BUFFER_LAYER_EXTRAP_LIMIT = -1.0 !   [nondim] default = -1.0
 DEPTH_LIMIT_FLUXES = 0.2        !   [m] default = 0.2
                                 ! The surface fluxes are scaled away when the total ocean
                                 ! depth is less than DEPTH_LIMIT_FLUXES.
-ML_USE_OMEGA = False            !   [Boolean] default = False
-                                ! If true, use the absolute rotation rate instead of the
-                                ! vertical component of rotation when setting the decay
-                                ! scale for turbulence.
+ML_OMEGA_FRAC = 0.0             !   [nondim] default = 0.0
+                                ! When setting the decay scale for turbulence, use this
+                                ! fraction of the absolute rotation rate blended with the
+                                ! local value of f, as sqrt((1-of)*f^2 + of*4*omega^2).
 ML_RESORT = False               !   [Boolean] default = False
                                 ! If true, resort the topmost layers by potential density
                                 ! before the mixed layer calculations.

@@ -1576,10 +1576,10 @@ TKE_DECAY = 2.5                 !   [nondim] default = 2.5
                                 ! TKE_DECAY relates the vertical rate of decay of the
                                 ! TKE available for mechanical entrainment to the natural
                                 ! Ekman depth.
-ML_USE_OMEGA = False            !   [Boolean] default = False
-                                ! If true, use the absolute rotation rate instead of the
-                                ! vertical component of rotation when setting the decay
-                                ! scale for turbulence.
+ML_OMEGA_FRAC = 0.0             !   [nondim] default = 0.0
+                                ! When setting the decay scale for turbulence, use this
+                                ! fraction of the absolute rotation rate blended with the
+                                ! local value of f, as sqrt((1-of)*f^2 + of*4*omega^2).
 WSTAR_USTAR_COEF = 1.0          !   [units=nondim] default = 1.0
                                 ! A ratio relating the efficiency with which convectively
                                 ! released energy is converted to a turbulent velocity,

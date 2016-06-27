@@ -517,7 +517,10 @@ CORRECT_ABSORPTION_DEPTH = True ! If true, the depth at which penetrating
                                 ! shortwave radiation is absorbed is corrected by
                                 ! moving some of the heating upward in the water
                                 ! column.  The default is false.
-ML_USE_OMEGA = True             !    Use Omega instead of f in ML code
+ML_OMEGA_FRAC = 1.0             !   [nondim] default = 0.0
+                                ! When setting the decay scale for turbulence, use this
+                                ! fraction of the absolute rotation rate blended with the
+                                ! local value of f, as sqrt((1-of)*f^2 + of*4*omega^2).
 TKE_DECAY = 10.0                !    TKE_DECAY relates the vertical rate of decay
                                 !  of the TKE available for mechanical entrain-
                                 !  ment to the natural Ekman depth.  Nondim.
