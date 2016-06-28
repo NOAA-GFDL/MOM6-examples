@@ -1,4 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
+
+! === module MOM_domains ===
 TRIPOLAR_N = True               !   [Boolean] default = False
                                 ! Use tripolar connectivity at the northern edge of the
                                 ! domain.  With TRIPOLAR_N, NIGLOBAL must be even.
@@ -81,11 +83,17 @@ SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
 
 ! === module MOM_tracer_registry ===
 
+! === module MOM_EOS ===
+
+! === module MOM_restart ===
+
 ! === module MOM_tracer_flow_control ===
 USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
                                 ! If true, use the ideal_age_example tracer package.
 
 ! === module ideal_age_example ===
+
+! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
 
@@ -139,6 +147,8 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
                                 !       test case.
                                 !     file - Read open face widths everywhere from a
                                 !       NetCDF file on the model grid.
+
+! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -156,10 +166,14 @@ COORD_CONFIG = "file"           !
                                 !     USER - call a user modified routine.
 COORD_FILE = "Layer_coord.nc"   !
                                 ! The file from which the coordinate densities are read.
+
+! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
                                 ! If true, intialize the layer thicknesses, temperatures,
                                 ! and salnities from a Z-space file on a latitude-
                                 ! longitude grid.
+
+! === module MOM_initialize_layers_from_Z ===
 TEMP_SALT_Z_INIT_FILE = "WOA05_pottemp_salt.nc" ! default = "temp_salt_z.nc"
                                 ! The name of the z-space input file used to initialize
                                 ! the layer thicknesses, temperatures and salinities.
@@ -173,6 +187,8 @@ ADJUST_THICKNESS = True         !   [Boolean] default = False
                                 ! If true, all mass below the bottom removed if the
                                 ! topography is shallower than the thickness input file
                                 ! would indicate.
+
+! === module MOM_diag_mediator ===
 
 ! === module MOM_MEKE ===
 USE_MEKE = True                 !   [Boolean] default = False
@@ -243,6 +259,10 @@ KV = 1.0E-04                    !   [m2 s-1]
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
 TIDES = True                    !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
+
+! === module MOM_continuity ===
+
+! === module MOM_continuity_PPM ===
 ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.15E-09
                                 ! The tolerance for the differences between the
                                 ! barotropic and baroclinic estimates of the sea surface
@@ -254,6 +274,8 @@ VELOCITY_TOLERANCE = 1.0E-04    !   [m s-1] default = 3.0E+08
                                 ! The tolerance for barotropic velocity discrepancies
                                 ! between the barotropic solution and  the sum of the
                                 ! layer thicknesses.
+
+! === module MOM_CoriolisAdv ===
 BOUND_CORIOLIS = True           !   [Boolean] default = False
                                 ! If true, the Coriolis terms at u-points are bounded by
                                 ! the four estimates of (f+rv)v from the four neighboring
@@ -270,6 +292,10 @@ TIDE_SAL_SCALAR_VALUE = 0.094   !   [m m-1]
                                 ! height (really it should be bottom pressure) anomalies
                                 ! and bottom geopotential anomalies. This is only used if
                                 ! TIDES and TIDE_USE_SAL_SCALAR are true.
+
+! === module MOM_PressureForce ===
+
+! === module MOM_PressureForce_AFV ===
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolation T/S for
                                 ! top/bottom integrals in AFV pressure gradient calculation.
@@ -361,6 +387,8 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! geostrophic kinetic energy or 1 plus the square of the
                                 ! grid spacing over the deformation radius, as detailed
                                 ! by Fox-Kemper et al. (2010)
+
+! === module MOM_diag_to_Z ===
 Z_OUTPUT_GRID_FILE = "analysis_vgrid_lev35.v1.nc" ! default = ""
                                 ! The file that specifies the vertical grid for
                                 ! depth-space diagnostics, or blank to disable
@@ -397,6 +425,8 @@ GEOTHERMAL_SCALE = 0.001        !   [W m-2 or various] default = 0.0
 GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
                                 ! The file from which the geothermal heating is to be
                                 ! read, or blank to use a constant heating rate.
+
+! === module MOM_set_diffusivity ===
 BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the
                                 ! BBL mixing and the other diffusivities. Otherwise,
@@ -594,12 +624,16 @@ GUST_2D_FILE = "gustiness_qscat.nc" !
                                 ! The file in which the wind gustiness is found in
                                 ! variable gustiness.
 
+! === module MOM_restart ===
+
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very
                                 ! large value if the velocity is truncated more than
                                 ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
                                 ! to stop if there is any truncation of velocities.
+
+! === module MOM_write_cputime ===
 MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! The maximum amount of cpu time per processor for which
                                 ! MOM should run before saving a restart file and
@@ -633,3 +667,5 @@ RESTINT = 365.0                 !   [days] default = 0.0
 ENERGYSAVEDAYS = 0.5            !   [days] default = 0.0833333333333333
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
+
+! === module MOM_file_parser ===

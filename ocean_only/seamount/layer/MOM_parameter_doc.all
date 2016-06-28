@@ -1,4 +1,6 @@
 ! This file was written by the model and records all non-layout parameters used at run-time.
+
+! === module MOM_domains ===
 REENTRANT_X = False             !   [Boolean] default = True
                                 ! If true, the domain is zonally reentrant.
 REENTRANT_Y = False             !   [Boolean] default = False
@@ -169,6 +171,8 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! vertical grid files. Other values are invalid.
 
 ! === module MOM_tracer_registry ===
+
+! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state
                                 ! should be used.  Currently, the valid choices are
@@ -204,6 +208,8 @@ DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR,
                                 ! this is the derivative of the freezing potential
                                 ! temperature with pressure.
+
+! === module MOM_restart ===
 PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
                                 ! If true, each processor writes its own restart file,
                                 ! otherwise a single restart file is generated
@@ -235,6 +241,8 @@ USE_OCMIP2_CFC = False          !   [Boolean] default = False
 USE_generic_tracer = False      !   [Boolean] default = False
                                 ! If true and _USE_GENERIC_TRACER is defined as a
                                 ! preprocessor macro, use the MOM_generic_tracer packages.
+
+! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT/"             ! default = "."
                                 ! The directory in which input files are found.
 
@@ -338,6 +346,8 @@ F_0 = 0.0                       !   [s-1] default = 0.0
 BETA = 0.0                      !   [m-1 s-1] default = 0.0
                                 ! The northward gradient of the Coriolis parameter with
                                 ! the betaplane option.
+
+! === module MOM_coord_initialization ===
 COORD_CONFIG = "ts_range"       !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -376,6 +386,8 @@ TS_RANGE_RESOLN_RATIO = 1.0     !   [nondim] default = 1.0
                                 ! greater than 1 increase the resolution of the denser water.
 GFS = 9.8                       !   [m s-2] default = 9.8
                                 ! The reduced gravity at the free surface.
+
+! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
                                 ! If true, intialize the layer thicknesses, temperatures,
                                 ! and salnities from a Z-space file on a latitude-
@@ -470,6 +482,8 @@ APPLY_OBC_V = False             !   [Boolean] default = False
 AVAILABLE_DIAGS_FILE = "available_diags.000000" ! default = "available_diags.000000"
                                 ! A file into which to write a list of all available
                                 ! ocean diagnostics that can be included in a diag_table.
+
+! === module MOM_diag_mediator ===
 DIAG_REMAP_Z_GRID_DEF = ""      ! default = ""
                                 ! This sets the file and variable names that define the
                                 ! vertical grid used for diagnostic output remapping to
@@ -608,11 +622,15 @@ BT_USE_LAYER_FLUXES = True      !   [Boolean] default = True
                                 ! If true, use the summed layered fluxes plus an
                                 ! adjustment due to the change in the barotropic velocity
                                 ! in the barotropic continuity equation.
+
+! === module MOM_continuity ===
 CONTINUITY_SCHEME = "PPM"       ! default = "PPM"
                                 ! CONTINUITY_SCHEME selects the discretization for the
                                 ! continuity solver. The only valid value currently is:
                                 !    PPM - use a positive-definite (or monotonic)
                                 !          piecewise parabolic reconstruction solver.
+
+! === module MOM_continuity_PPM ===
 MONOTONIC_CONTINUITY = False    !   [Boolean] default = False
                                 ! If true, CONTINUITY_PPM uses the Colella and Woodward
                                 ! monotonic limiter.  The default (false) is to use a
@@ -667,6 +685,8 @@ CONT_PPM_MARGINAL_FACE_AREAS = True !   [Boolean] default = True
                                 ! If true, use the marginal face areas from the continuity
                                 ! solver for use as the weights in the barotropic solver.
                                 ! Otherwise use the transport averaged areas.
+
+! === module MOM_CoriolisAdv ===
 NOSLIP = False                  !   [Boolean] default = False
                                 ! If true, no slip boundary conditions are used; otherwise
                                 ! free slip boundary conditions are assumed. The
@@ -702,12 +722,16 @@ PV_ADV_SCHEME = "PV_ADV_CENTERED" ! default = "PV_ADV_CENTERED"
                                 ! advection. Valid values are:
                                 !    PV_ADV_CENTERED - centered (aka Sadourny, 75)
                                 !    PV_ADV_UPWIND1  - upwind, first order
+
+! === module MOM_PressureForce ===
 ANALYTIC_FV_PGF = True          !   [Boolean] default = True
                                 ! If true the pressure gradient forces are calculated
                                 ! with a finite volume form that analytically integrates
                                 ! the equations of state in pressure to avoid any
                                 ! possibility of numerical thermobaric instability, as
                                 ! described in Adcroft et al., O. Mod. (2008).
+
+! === module MOM_PressureForce_AFV ===
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = False !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolation T/S for
                                 ! top/bottom integrals in AFV pressure gradient calculation.
@@ -938,6 +962,8 @@ MIXEDLAYER_RESTRAT = False      !   [Boolean] default = False
                                 ! flow is imposed in the mixed layer. Can be used in ALE mode
                                 ! without restriction but in layer mode can only be used if
                                 ! BULKMIXEDLAYER is true.
+
+! === module MOM_diag_to_Z ===
 Z_OUTPUT_GRID_FILE = ""         ! default = ""
                                 ! The file that specifies the vertical grid for
                                 ! depth-space diagnostics, or blank to disable
@@ -1022,6 +1048,8 @@ MAX_ENT_IT = 5                  ! default = 5
                                 ! calculate the interior diapycnal entrainment.
 TOLERANCE_ENT = 1.0E-08         !   [m] default = 1.0E-08
                                 ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_set_diffusivity ===
 FLUX_RI_MAX = 0.2               !   [not defined] default = 0.2
                                 ! The flux Richardson number where the stratification is
                                 ! large enough that N2 > omega2.  The full expression for
@@ -1306,6 +1334,8 @@ GUST_CONST = 0.02               !   [Pa] default = 0.02
 READ_GUST_2D = False            !   [Boolean] default = False
                                 ! If true, use a 2-dimensional gustiness supplied from
                                 ! an input file
+
+! === module MOM_restart ===
 ICE_SHELF = False               !   [Boolean] default = False
                                 ! If true, enables the ice shelf model.
 
@@ -1339,6 +1369,8 @@ READ_DEPTH_LIST = False         !   [Boolean] default = False
 DEPTH_LIST_MIN_INC = 1.0E-10    !   [m] default = 1.0E-10
                                 ! The minimum increment between the depths of the
                                 ! entries in the depth-list file.
+
+! === module MOM_write_cputime ===
 MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! The maximum amount of cpu time per processor for which
                                 ! MOM should run before saving a restart file and
@@ -1374,6 +1406,8 @@ RESTINT = 10.0                  !   [days] default = 0.0
 ENERGYSAVEDAYS = 1.0            !   [days] default = 0.0208333333333333
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
+
+! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
                                 ! If true, all log messages are also sent to stdout.
 REPORT_UNUSED_PARAMS = False    !   [Boolean] default = False

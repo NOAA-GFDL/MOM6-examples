@@ -1,4 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
+
+! === module MOM_domains ===
 REENTRANT_Y = True              !   [Boolean] default = False
                                 ! If true, the domain is meridionally reentrant.
 NIGLOBAL = 2                    !
@@ -55,6 +57,8 @@ SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! by IC_OUTPUT_FILE.
 
 ! === module MOM_tracer_registry ===
+
+! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state
                                 ! should be used.  Currently, the valid choices are
@@ -69,7 +73,11 @@ DRHO_DS = 0.764                 !   [kg m-3 PSU-1] default = 0.8
                                 ! this is the partial derivative of density with
                                 ! salinity.
 
+! === module MOM_restart ===
+
 ! === module MOM_tracer_flow_control ===
+
+! === module MOM_fixed_initialization ===
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
@@ -121,6 +129,8 @@ ROTATION = "betaplane"          ! default = "2omegasinlat"
 F_0 = 1.0E-04                   !   [s-1] default = 0.0
                                 ! The reference value of the Coriolis parameter with the
                                 ! betaplane option.
+
+! === module MOM_coord_initialization ===
 COORD_CONFIG = "none"           !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -151,6 +161,8 @@ REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 ! in z-coordinate mode, the parameter is a list of level
                                 ! thicknesses (in m). In sigma-coordinate mode, the list
                                 ! is of non-dimensional fractions of the water column.
+
+! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "coord"      !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
@@ -200,6 +212,8 @@ SCM_DTDZ = 0.0                  !   [C/m]
 SCM_MLD = 0.0                   !   [m]
                                 ! Initial mixed layer depth
 
+! === module MOM_diag_mediator ===
+
 ! === module MOM_MEKE ===
 
 ! === module MOM_wave_speed ===
@@ -231,6 +245,10 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
 KV = 0.0                        !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior.
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
+
+! === module MOM_continuity ===
+
+! === module MOM_continuity_PPM ===
 UPWIND_1ST_CONTINUITY = True    !   [Boolean] default = False
                                 ! If true, CONTINUITY_PPM becomes a 1st-order upwind
                                 ! continuity solver.  This scheme is highly diffusive
@@ -249,6 +267,8 @@ ETA_TOLERANCE_AUX = 0.001       !   [m] default = 1.0E-06
                                 ! layer thicknesses when calculating the auxiliary
                                 ! corrected velocities. By default, this is the same as
                                 ! ETA_TOLERANCE, but can be made larger for efficiency.
+
+! === module MOM_CoriolisAdv ===
 CORIOLIS_EN_DIS = True          !   [Boolean] default = False
                                 ! If true, two estimates of the thickness fluxes are used
                                 ! to estimate the Coriolis term, and the one that
@@ -259,6 +279,10 @@ BOUND_CORIOLIS = True           !   [Boolean] default = False
                                 ! v-points, and similarly at v-points.  This option is
                                 ! always effectively false with CORIOLIS_EN_DIS defined and
                                 ! CORIOLIS_SCHEME set to SADOURNY75_ENERGY.
+
+! === module MOM_PressureForce ===
+
+! === module MOM_PressureForce_AFV ===
 
 ! === module MOM_hor_visc ===
 BIHARMONIC = False              !   [Boolean] default = True
@@ -292,6 +316,8 @@ MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
 ! === module MOM_thickness_diffuse ===
 
 ! === module MOM_mixed_layer_restrat ===
+
+! === module MOM_diag_to_Z ===
 Z_OUTPUT_GRID_FILE = "zgrid.nc" ! default = ""
                                 ! The file that specifies the vertical grid for
                                 ! depth-space diagnostics, or blank to disable
@@ -324,6 +350,8 @@ MAX_ENT_IT = 20                 ! default = 5
                                 ! calculate the interior diapycnal entrainment.
 TOLERANCE_ENT = 1.0E-05         !   [m] default = 1.0E-08
                                 ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_set_diffusivity ===
 KD = 0.0                        !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
@@ -381,6 +409,8 @@ CONST_WIND_TAUY = 0.0           !   [Pa]
                                 ! With wind_config const, this is the constant zonal
                                 ! wind-stress
 
+! === module MOM_restart ===
+
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very
@@ -389,6 +419,8 @@ MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
                                 ! to stop if there is any truncation of velocities.
 DATE_STAMPED_STDOUT = False     !   [Boolean] default = True
                                 ! If true, use dates (not times) in messages to stdout
+
+! === module MOM_write_cputime ===
 MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! The maximum amount of cpu time per processor for which
                                 ! MOM should run before saving a restart file and
@@ -418,3 +450,5 @@ RESTINT = 3650.0                !   [days] default = 0.0
 ENERGYSAVEDAYS = 0.25           !   [days] default = 0.0138888888888889
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
+
+! === module MOM_file_parser ===

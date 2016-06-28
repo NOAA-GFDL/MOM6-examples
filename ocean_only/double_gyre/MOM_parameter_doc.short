@@ -1,4 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
+
+! === module MOM_domains ===
 REENTRANT_X = False             !   [Boolean] default = True
                                 ! If true, the domain is zonally reentrant.
 NIGLOBAL = 44                   !
@@ -52,7 +54,11 @@ DTBT_RESET_PERIOD = -1.0        !   [s] default = 2400.0
 
 ! === module MOM_tracer_registry ===
 
+! === module MOM_restart ===
+
 ! === module MOM_tracer_flow_control ===
+
+! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
 
@@ -96,6 +102,8 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 2000.0          !   [m]
                                 ! The maximum depth of the ocean.
+
+! === module MOM_coord_initialization ===
 COORD_CONFIG = "gprime"         !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -115,6 +123,8 @@ GFS = 0.98                      !   [m s-2] default = 9.8
                                 ! The reduced gravity at the free surface.
 GINT = 0.0098                   !   [m s-2]
                                 ! The reduced gravity across internal interfaces.
+
+! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "uniform"    !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
@@ -138,6 +148,8 @@ THICKNESS_CONFIG = "uniform"    !
                                 !     seamount - TBD AJA.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
+
+! === module MOM_diag_mediator ===
 
 ! === module MOM_MEKE ===
 
@@ -169,6 +181,10 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
 KV = 1.0E-04                    !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior.
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
+
+! === module MOM_continuity ===
+
+! === module MOM_continuity_PPM ===
 ETA_TOLERANCE = 1.0E-12         !   [m] default = 1.0E-10
                                 ! The tolerance for the differences between the
                                 ! barotropic and baroclinic estimates of the sea surface
@@ -176,12 +192,18 @@ ETA_TOLERANCE = 1.0E-12         !   [m] default = 1.0E-10
                                 ! tolerance for SSH is 4 times this value.  The default
                                 ! is 0.5*NK*ANGSTROM, and this should not be set less x
                                 ! than about 10^-15*MAXIMUM_DEPTH.
+
+! === module MOM_CoriolisAdv ===
 BOUND_CORIOLIS = True           !   [Boolean] default = False
                                 ! If true, the Coriolis terms at u-points are bounded by
                                 ! the four estimates of (f+rv)v from the four neighboring
                                 ! v-points, and similarly at v-points.  This option would
                                 ! have no effect on the SADOURNY Coriolis scheme if it
                                 ! were possible to use centered difference thickness fluxes.
+
+! === module MOM_PressureForce ===
+
+! === module MOM_PressureForce_AFV ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -255,6 +277,8 @@ DTBT = -0.9                     !   [s or nondim] default = -0.98
 
 ! === module MOM_mixed_layer_restrat ===
 
+! === module MOM_diag_to_Z ===
+
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 
@@ -280,6 +304,8 @@ WIND_CONFIG = "2gyre"           !
                                 ! is specified. Valid options include (file), (2gyre),
                                 ! (1gyre), (gyres), (zero), and (USER).
 
+! === module MOM_restart ===
+
 ! === module MOM_sum_output ===
 DATE_STAMPED_STDOUT = False     !   [Boolean] default = True
                                 ! If true, use dates (not times) in messages to stdout
@@ -289,6 +315,8 @@ READ_DEPTH_LIST = True          !   [Boolean] default = False
 DEPTH_LIST_MIN_INC = 1.0E-06    !   [m] default = 1.0E-10
                                 ! The minimum increment between the depths of the
                                 ! entries in the depth-list file.
+
+! === module MOM_write_cputime ===
 
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 2400.0             !   [s] default = 1200.0
@@ -313,3 +341,5 @@ RESTINT = 110.0                 !   [days] default = 0.0
 ENERGYSAVEDAYS = 1.0            !   [days] default = 0.0277777777777778
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
+
+! === module MOM_file_parser ===

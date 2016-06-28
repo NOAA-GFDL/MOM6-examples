@@ -1,4 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
+
+! === module MOM_domains ===
 REENTRANT_X = False             !   [Boolean] default = True
                                 ! If true, the domain is zonally reentrant.
 NIGLOBAL = 25                   !
@@ -50,11 +52,15 @@ IC_OUTPUT_FILE = "GOLD_IC"      ! default = "MOM_IC"
 
 ! === module MOM_tracer_registry ===
 
+! === module MOM_restart ===
+
 ! === module MOM_tracer_flow_control ===
 USE_DOME_TRACER = True          !   [Boolean] default = False
                                 ! If true, use the DOME_tracer tracer package.
 
 ! === module DOME_tracer ===
+
+! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
 
@@ -122,6 +128,8 @@ ROTATION = "beta"               ! default = "2omegasinlat"
                                 !       times the sine of latitude.
                                 !     betaplane - Use a beta-plane or f-plane.
                                 !     USER - call a user modified routine.
+
+! === module MOM_coord_initialization ===
 COORD_CONFIG = "layer_ref"      !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -139,6 +147,8 @@ COORD_CONFIG = "layer_ref"      !
                                 !     USER - call a user modified routine.
 LIGHTEST_DENSITY = 1030.0       !   [kg m-3] default = 1031.0
                                 ! The reference potential density used for layer 1.
+
+! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "circle_obcs" !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
@@ -167,6 +177,8 @@ THICKNESS_CONFIG = "circle_obcs" !
 DISK_RADIUS = 24.0              !   [kilometers]
                                 ! The radius of the initially elevated disk in the
                                 ! circle_obcs test case.
+
+! === module MOM_diag_mediator ===
 
 ! === module MOM_MEKE ===
 
@@ -199,12 +211,22 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
 KV = 1.0E-04                    !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior.
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
+
+! === module MOM_continuity ===
+
+! === module MOM_continuity_PPM ===
+
+! === module MOM_CoriolisAdv ===
 BOUND_CORIOLIS = True           !   [Boolean] default = False
                                 ! If true, the Coriolis terms at u-points are bounded by
                                 ! the four estimates of (f+rv)v from the four neighboring
                                 ! v-points, and similarly at v-points.  This option would
                                 ! have no effect on the SADOURNY Coriolis scheme if it
                                 ! were possible to use centered difference thickness fluxes.
+
+! === module MOM_PressureForce ===
+
+! === module MOM_PressureForce_AFV ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -265,6 +287,8 @@ MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
 
 ! === module MOM_PointAccel ===
 
+! === module MOM_open_boundary ===
+
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the
@@ -302,6 +326,8 @@ DTBT = -0.95                    !   [s or nondim] default = -0.98
 
 ! === module MOM_mixed_layer_restrat ===
 
+! === module MOM_diag_to_Z ===
+
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 
@@ -321,6 +347,8 @@ MAX_ENT_IT = 20                 ! default = 5
                                 ! calculate the interior diapycnal entrainment.
 TOLERANCE_ENT = 1.0E-05         !   [m] default = 1.095445115010332E-05
                                 ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_set_diffusivity ===
 KD = 1.0E-04                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
@@ -362,6 +390,8 @@ WIND_CONFIG = "zero"            !
                                 ! is specified. Valid options include (file), (2gyre),
                                 ! (1gyre), (gyres), (zero), and (USER).
 
+! === module MOM_restart ===
+
 ! === module MOM_sum_output ===
 MAXTRUNC = 10                   !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very
@@ -372,6 +402,8 @@ DATE_STAMPED_STDOUT = False     !   [Boolean] default = True
                                 ! If true, use dates (not times) in messages to stdout
 TIMEUNIT = 3600.0               !   [s] default = 8.64E+04
                                 ! The time unit in seconds a number of input fields
+
+! === module MOM_write_cputime ===
 MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! The maximum amount of cpu time per processor for which
                                 ! MOM should run before saving a restart file and
@@ -405,3 +437,5 @@ RESTINT = 10.0                  !   [hours] default = 0.0
 ENERGYSAVEDAYS = 0.5            !   [hours] default = 0.1666666666666667
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
+
+! === module MOM_file_parser ===

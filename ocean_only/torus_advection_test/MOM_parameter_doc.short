@@ -1,4 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
+
+! === module MOM_domains ===
 REENTRANT_Y = True              !   [Boolean] default = False
                                 ! If true, the domain is meridionally reentrant.
 NIGLOBAL = 48                   !
@@ -59,11 +61,15 @@ IC_OUTPUT_FILE = "GOLD_IC"      ! default = "MOM_IC"
                                 ! The file into which to write the initial conditions.
 
 ! === module MOM_tracer_registry ===
+
+! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state
                                 ! should be used.  Currently, the valid choices are
                                 ! "LINEAR", "UNESCO", and "WRIGHT".
                                 ! This is only used if USE_EOS is true.
+
+! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 USE_ADVECTION_TEST_TRACER = True !   [Boolean] default = False
@@ -78,6 +84,8 @@ ADVECTION_TEST_X_WIDTH = 21.6   !   [not defined] default = 0.0
                                 ! The x-width of the test-functions.
 ADVECTION_TEST_Y_WIDTH = 21.6   !   [not defined] default = 0.0
                                 ! The y-width of the test-functions.
+
+! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
 
@@ -133,6 +141,8 @@ ROTATION = "beta"               ! default = "2omegasinlat"
                                 !       times the sine of latitude.
                                 !     betaplane - Use a beta-plane or f-plane.
                                 !     USER - call a user modified routine.
+
+! === module MOM_coord_initialization ===
 COORD_CONFIG = "ts_ref"         !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -152,6 +162,8 @@ T_REF = 20.0                    !   [degC]
                                 ! The initial temperature of the lightest layer.
 GINT = 7.89E-04                 !   [m s-2]
                                 ! The reduced gravity across internal interfaces.
+
+! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "uniform"    !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
@@ -209,6 +221,8 @@ INITIAL_U_CONST = 0.2           !   [m s-1]
 INITIAL_V_CONST = 0.2           !   [m s-1]
                                 ! A initial uniform value for the meridional flow.
 
+! === module MOM_diag_mediator ===
+
 ! === module MOM_MEKE ===
 
 ! === module MOM_wave_speed ===
@@ -238,6 +252,12 @@ KV = 1.0E-04                    !   [m2 s-1]
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
 KV_BBL_MIN = 1.0E-06            !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the bottom boundary layer.
+
+! === module MOM_continuity ===
+
+! === module MOM_continuity_PPM ===
+
+! === module MOM_CoriolisAdv ===
 BOUND_CORIOLIS = True           !   [Boolean] default = False
                                 ! If true, the Coriolis terms at u-points are bounded by
                                 ! the four estimates of (f+rv)v from the four neighboring
@@ -248,6 +268,10 @@ KE_SCHEME = "KE_GUDONOV"        ! default = "KE_ARAKAWA"
                                 ! KE_SCHEME selects the discretization for acceleration
                                 ! due to the kinetic energy gradient. Valid values are:
                                 !    KE_ARAKAWA, KE_SIMPLE_GUDONOV, KE_GUDONOV
+
+! === module MOM_PressureForce ===
+
+! === module MOM_PressureForce_AFV ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -323,6 +347,8 @@ DTBT = -0.9                     !   [s or nondim] default = -0.98
 
 ! === module MOM_mixed_layer_restrat ===
 
+! === module MOM_diag_to_Z ===
+
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 
@@ -346,6 +372,8 @@ MAX_ENT_IT = 20                 ! default = 5
                                 ! calculate the interior diapycnal entrainment.
 TOLERANCE_ENT = 1.0E-05         !   [m] default = 0.0
                                 ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_set_diffusivity ===
 KD = 0.0                        !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
@@ -383,6 +411,8 @@ WIND_CONFIG = "zero"            !
                                 ! is specified. Valid options include (file), (2gyre),
                                 ! (1gyre), (gyres), (zero), and (USER).
 
+! === module MOM_restart ===
+
 ! === module MOM_sum_output ===
 MAXTRUNC = 10                   !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very
@@ -391,6 +421,8 @@ MAXTRUNC = 10                   !   [truncations save_interval-1] default = 0
                                 ! to stop if there is any truncation of velocities.
 DATE_STAMPED_STDOUT = False     !   [Boolean] default = True
                                 ! If true, use dates (not times) in messages to stdout
+
+! === module MOM_write_cputime ===
 MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! The maximum amount of cpu time per processor for which
                                 ! MOM should run before saving a restart file and
@@ -420,3 +452,5 @@ RESTINT = 100.0                 !   [days] default = 0.0
 ENERGYSAVEDAYS = 0.5            !   [days] default = 0.0416666666666667
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
+
+! === module MOM_file_parser ===

@@ -24,6 +24,8 @@ FILLING_FRAZIL_TIMESCALE = 8.64E+04 !   [s] default = 0.0
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between writes of the
                                 ! globally summed ice statistics and conservation checks.
+
+! === module MOM_domains ===
 REENTRANT_X = False             !   [Boolean] default = True
                                 ! If true, the domain is zonally reentrant.
 NIGLOBAL = 23                   !
@@ -78,6 +80,8 @@ SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
 ! === module SIS_sum_output ===
 
 ! === module SIS_tracer_flow_control ===
+
+! === module MOM_file_parser ===
 DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
                                 ! The basename for files where run-time parameters, their
                                 ! settings, units and defaults are documented. Blank will

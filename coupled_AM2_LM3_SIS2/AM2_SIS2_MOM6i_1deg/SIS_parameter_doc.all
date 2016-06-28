@@ -116,6 +116,8 @@ NK_SNOW = 1                     !   [nondim] default = 1
 H_TO_KG_M2 = 1.0                !   [kg m-2 H-1] default = 1.0
                                 ! A constant that translates thicknesses from the model's
                                 ! internal units of thickness to kg m-2.
+
+! === module MOM_domains ===
 REENTRANT_X = True              !   [Boolean] default = True
                                 ! If true, the domain is zonally reentrant.
 REENTRANT_Y = False             !   [Boolean] default = False
@@ -399,6 +401,8 @@ STATISTICS_FILE = "seaice.stats" ! default = "seaice.stats"
 ! === module SIS_tracer_flow_control ===
 USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
                                 ! If true, use the concentration based age tracer package.
+
+! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
                                 ! If true, all log messages are also sent to stdout.
 REPORT_UNUSED_PARAMS = False    !   [Boolean] default = False

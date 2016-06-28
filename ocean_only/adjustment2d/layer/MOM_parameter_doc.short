@@ -1,4 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
+
+! === module MOM_domains ===
 REENTRANT_X = False             !   [Boolean] default = True
                                 ! If true, the domain is zonally reentrant.
 REENTRANT_Y = True              !   [Boolean] default = False
@@ -63,6 +65,8 @@ IC_OUTPUT_FILE = "Initial_state" ! default = "MOM_IC"
                                 ! The file into which to write the initial conditions.
 
 ! === module MOM_tracer_registry ===
+
+! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state
                                 ! should be used.  Currently, the valid choices are
@@ -77,7 +81,11 @@ DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
                                 ! this is the partial derivative of density with
                                 ! salinity.
 
+! === module MOM_restart ===
+
 ! === module MOM_tracer_flow_control ===
+
+! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
 
@@ -133,6 +141,8 @@ ROTATION = "beta"               ! default = "2omegasinlat"
                                 !       times the sine of latitude.
                                 !     betaplane - Use a beta-plane or f-plane.
                                 !     USER - call a user modified routine.
+
+! === module MOM_coord_initialization ===
 COORD_CONFIG = "linear"         !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -151,6 +161,8 @@ COORD_CONFIG = "linear"         !
 DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
                                 ! The range of reference potential densities across
                                 ! all interfaces.
+
+! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "adjustment2d" !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
@@ -208,6 +220,8 @@ T_REF = 0.0                     !   [C]
 S_RANGE = 5.0                   !   [1e-3] default = 2.0
                                 ! Initial salinity range
 
+! === module MOM_diag_mediator ===
+
 ! === module MOM_MEKE ===
 
 ! === module MOM_wave_speed ===
@@ -233,6 +247,10 @@ BBL_THICK_MIN = 0.01            !   [m] default = 0.0
 KV = 1.0E-06                    !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior.
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
+
+! === module MOM_continuity ===
+
+! === module MOM_continuity_PPM ===
 ETA_TOLERANCE = 1.0E-12         !   [m] default = 1.25E-14
                                 ! The tolerance for the differences between the
                                 ! barotropic and baroclinic estimates of the sea surface
@@ -240,6 +258,8 @@ ETA_TOLERANCE = 1.0E-12         !   [m] default = 1.25E-14
                                 ! tolerance for SSH is 4 times this value.  The default
                                 ! is 0.5*NK*ANGSTROM, and this should not be set less x
                                 ! than about 10^-15*MAXIMUM_DEPTH.
+
+! === module MOM_CoriolisAdv ===
 BOUND_CORIOLIS = True           !   [Boolean] default = False
                                 ! If true, the Coriolis terms at u-points are bounded by
                                 ! the four estimates of (f+rv)v from the four neighboring
@@ -250,6 +270,10 @@ KE_SCHEME = "KE_GUDONOV"        ! default = "KE_ARAKAWA"
                                 ! KE_SCHEME selects the discretization for acceleration
                                 ! due to the kinetic energy gradient. Valid values are:
                                 !    KE_ARAKAWA, KE_SIMPLE_GUDONOV, KE_GUDONOV
+
+! === module MOM_PressureForce ===
+
+! === module MOM_PressureForce_AFV ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -339,6 +363,8 @@ KHTH = 1.0E-04                  !   [m2 s-1] default = 0.0
 
 ! === module MOM_mixed_layer_restrat ===
 
+! === module MOM_diag_to_Z ===
+
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 
@@ -357,6 +383,8 @@ CORRECT_DENSITY = False         !   [Boolean] default = True
                                 ! If true, and USE_EOS is true, the layer densities are
                                 ! restored toward their target values by the diapycnal
                                 ! mixing, as described in Hallberg (MWR, 2000).
+
+! === module MOM_set_diffusivity ===
 BBL_EFFIC = 0.0                 !   [nondim] default = 0.2
                                 ! The efficiency with which the energy extracted by
                                 ! bottom drag drives BBL diffusion.  This is only
@@ -404,6 +432,8 @@ WIND_CONFIG = "zero"            !
                                 ! is specified. Valid options include (file), (2gyre),
                                 ! (1gyre), (gyres), (zero), and (USER).
 
+! === module MOM_restart ===
+
 ! === module MOM_sum_output ===
 MAXTRUNC = 10                   !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very
@@ -414,6 +444,8 @@ DATE_STAMPED_STDOUT = False     !   [Boolean] default = True
                                 ! If true, use dates (not times) in messages to stdout
 TIMEUNIT = 3600.0               !   [s] default = 8.64E+04
                                 ! The time unit in seconds a number of input fields
+
+! === module MOM_write_cputime ===
 MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! The maximum amount of cpu time per processor for which
                                 ! MOM should run before saving a restart file and
@@ -447,3 +479,5 @@ RESTINT = 240.0                 !   [hours] default = 0.0
 ENERGYSAVEDAYS = 0.5            !   [hours] default = 0.1666666666666667
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
+
+! === module MOM_file_parser ===

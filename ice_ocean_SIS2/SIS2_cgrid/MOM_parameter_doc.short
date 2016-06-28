@@ -1,4 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
+
+! === module MOM_domains ===
 TRIPOLAR_N = True               !   [Boolean] default = False
                                 ! Use tripolar connectivity at the northern edge of the
                                 ! domain.  With TRIPOLAR_N, NIGLOBAL must be even.
@@ -77,6 +79,10 @@ IC_OUTPUT_FILE = "GOLD_IC"      ! default = "MOM_IC"
 
 ! === module MOM_tracer_registry ===
 
+! === module MOM_EOS ===
+
+! === module MOM_restart ===
+
 ! === module MOM_tracer_flow_control ===
 USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
                                 ! If true, use the ideal_age_example tracer package.
@@ -86,6 +92,8 @@ USE_OCMIP2_CFC = True           !   [Boolean] default = False
 ! === module ideal_age_example ===
 
 ! === module MOM_OCMIP2_CFC ===
+
+! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
 
@@ -139,6 +147,8 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
                                 !       test case.
                                 !     file - Read open face widths everywhere from a
                                 !       NetCDF file on the model grid.
+
+! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
@@ -156,6 +166,8 @@ COORD_CONFIG = "file"           !
                                 !     USER - call a user modified routine.
 COORD_FILE = "GOLD_IC.2010.11.15.nc" !
                                 ! The file from which the coordinate densities are read.
+
+! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "file"       !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
@@ -206,6 +218,8 @@ TS_CONFIG = "file"              !
                                 !     USER - call a user modified routine.
 TS_FILE = "GOLD_IC.2010.11.15.nc" !
                                 ! The initial condition file for temperature.
+
+! === module MOM_diag_mediator ===
 
 ! === module MOM_MEKE ===
 
@@ -273,6 +287,10 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
 KV = 1.0E-04                    !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior.
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
+
+! === module MOM_continuity ===
+
+! === module MOM_continuity_PPM ===
 ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.15E-09
                                 ! The tolerance for the differences between the
                                 ! barotropic and baroclinic estimates of the sea surface
@@ -284,6 +302,8 @@ VELOCITY_TOLERANCE = 1.0E-04    !   [m s-1] default = 3.0E+08
                                 ! The tolerance for barotropic velocity discrepancies
                                 ! between the barotropic solution and  the sum of the
                                 ! layer thicknesses.
+
+! === module MOM_CoriolisAdv ===
 CORIOLIS_EN_DIS = True          !   [Boolean] default = False
                                 ! If true, two estimates of the thickness fluxes are used
                                 ! to estimate the Coriolis term, and the one that
@@ -294,6 +314,10 @@ BOUND_CORIOLIS = True           !   [Boolean] default = False
                                 ! v-points, and similarly at v-points.  This option is
                                 ! always effectively false with CORIOLIS_EN_DIS defined and
                                 ! CORIOLIS_SCHEME set to SADOURNY75_ENERGY.
+
+! === module MOM_PressureForce ===
+
+! === module MOM_PressureForce_AFV ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -382,6 +406,8 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! geostrophic kinetic energy or 1 plus the square of the
                                 ! grid spacing over the deformation radius, as detailed
                                 ! by Fox-Kemper et al. (2010)
+
+! === module MOM_diag_to_Z ===
 Z_OUTPUT_GRID_FILE = "OM3_zgrid.nc" ! default = ""
                                 ! The file that specifies the vertical grid for
                                 ! depth-space diagnostics, or blank to disable
@@ -418,6 +444,8 @@ GEOTHERMAL_SCALE = 0.001        !   [W m-2 or various] default = 0.0
 GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
                                 ! The file from which the geothermal heating is to be
                                 ! read, or blank to use a constant heating rate.
+
+! === module MOM_set_diffusivity ===
 ML_RADIATION = True             !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind
                                 ! work to penetrate below the base of the mixed layer
@@ -610,9 +638,13 @@ GUST_2D_FILE = "gustiness_qscat.nc" !
                                 ! The file in which the wind gustiness is found in
                                 ! variable gustiness.
 
+! === module MOM_restart ===
+
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very
                                 ! large value if the velocity is truncated more than
                                 ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
                                 ! to stop if there is any truncation of velocities.
+
+! === module MOM_file_parser ===
