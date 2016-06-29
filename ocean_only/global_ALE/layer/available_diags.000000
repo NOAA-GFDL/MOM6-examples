@@ -1146,10 +1146,6 @@
     ! long_name: Total diapycnal diffusivity at interfaces
     ! units: meter2 second-1
     ! cell_methods: xh:mean yh:mean zi:point
-"ocean_model", "Kd_ePBL"  [Unused]
-    ! long_name: ePBL diapycnal diffusivity at interfaces
-    ! units: meter2 second-1
-    ! cell_methods: xh:mean yh:mean zi:point
 "ocean_model", "Kd_heat"  [Unused] (CMOR equivalent is "difvho")
     ! long_name: Total diapycnal diffusivity for heat at interfaces
     ! units: meter2 second-1
@@ -1168,116 +1164,6 @@
     ! units: m2 s-1
     ! standard_name: ocean_vertical_salt_diffusivity
     ! cell_methods: xh:mean yh:mean zi:point
-"ocean_model", "diabatic_diff_temp_tendency"  [Used]
-    ! long_name: Diabatic diffusion temperature tendency
-    ! units: Degree C per second
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "diabatic_diff_temp_tendency"  [Unused]
-    ! long_name: Diabatic diffusion temperature tendency
-    ! units: Degree C per second
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "diabatic_diff_saln_tendency"  [Used]
-    ! long_name: Diabatic diffusion salinity tendency
-    ! units: PPT per second
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "diabatic_diff_saln_tendency"  [Unused]
-    ! long_name: Diabatic diffusion salinity tendency
-    ! units: PPT per second
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "diabatic_heat_tendency"  [Unused] (CMOR equivalent is "opottempdiff")
-    ! long_name: Diabatic diffusion heat tendency
-    ! units: Watts/m2
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "opottempdiff"  [Used] (native name is "diabatic_heat_tendency")
-    ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized dianeutral mixing
-    ! units: W m-2
-    ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_dianeutral_mixing
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "diabatic_heat_tendency"  [Unused] (CMOR equivalent is "opottempdiff")
-    ! long_name: Diabatic diffusion heat tendency
-    ! units: Watts/m2
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "opottempdiff"  [Unused] (native name is "diabatic_heat_tendency")
-    ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized dianeutral mixing
-    ! units: W m-2
-    ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_dianeutral_mixing
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "diabatic_salt_tendency"  [Unused] (CMOR equivalent is "osaltdiff")
-    ! long_name: Diabatic diffusion of salt tendency
-    ! units: kg/(m2 * s)
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "osaltdiff"  [Used] (native name is "diabatic_salt_tendency")
-    ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized dianeutral mixing
-    ! units: kg m-2 s-1
-    ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_dianeutral_mixing
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "diabatic_salt_tendency"  [Unused] (CMOR equivalent is "osaltdiff")
-    ! long_name: Diabatic diffusion of salt tendency
-    ! units: kg/(m2 * s)
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "osaltdiff"  [Unused] (native name is "diabatic_salt_tendency")
-    ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized dianeutral mixing
-    ! units: kg m-2 s-1
-    ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_dianeutral_mixing
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "diabatic_heat_tendency_2d"  [Unused] (CMOR equivalent is "opottempdiff_2d")
-    ! long_name: Depth integrated diabatic diffusion heat tendency
-    ! units: Watts/m2
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "opottempdiff_2d"  [Used] (native name is "diabatic_heat_tendency_2d")
-    ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized dianeutral mixing depth integrated
-    ! units: W m-2
-    ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_dianeutral_mixing_depth_integrated
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "diabatic_salt_tendency_2d"  [Unused] (CMOR equivalent is "osaltdiff_2d")
-    ! long_name: Depth integrated diabatic diffusion salt tendency
-    ! units: kg/(m2 * s)
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "osaltdiff_2d"  [Used] (native name is "diabatic_salt_tendency_2d")
-    ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized dianeutral mixing depth integrated
-    ! units: kg m-2 s-1
-    ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_dianeutral_mixing_depth_integrated
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "boundary_forcing_temp_tendency"  [Used]
-    ! long_name: Boundary forcing temperature tendency
-    ! units: Degree C per second
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "boundary_forcing_temp_tendency"  [Unused]
-    ! long_name: Boundary forcing temperature tendency
-    ! units: Degree C per second
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "boundary_forcing_saln_tendency"  [Used]
-    ! long_name: Boundary forcing saln tendency
-    ! units: PPT per second
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "boundary_forcing_saln_tendency"  [Unused]
-    ! long_name: Boundary forcing saln tendency
-    ! units: PPT per second
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "boundary_forcing_heat_tendency"  [Used]
-    ! long_name: Boundary forcing heat tendency
-    ! units: Watts/m2
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "boundary_forcing_heat_tendency"  [Unused]
-    ! long_name: Boundary forcing heat tendency
-    ! units: Watts/m2
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "boundary_forcing_salt_tendency"  [Used]
-    ! long_name: Boundary forcing salt tendency
-    ! units: kg m-2 s-1
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "boundary_forcing_salt_tendency"  [Unused]
-    ! long_name: Boundary forcing salt tendency
-    ! units: kg m-2 s-1
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "boundary_forcing_heat_tendency_2d"  [Used]
-    ! long_name: Depth integrated boundary forcing of ocean heat
-    ! units: Watts/m2
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "boundary_forcing_salt_tendency_2d"  [Used]
-    ! long_name: Depth integrated boundary forcing of ocean salt
-    ! units: kg m-2 s-1
-    ! cell_methods: xh:mean yh:mean
 "ocean_model", "frazil_temp_tendency"  [Used]
     ! long_name: Temperature tendency due to frazil formation
     ! units: Degree C per second
@@ -1440,30 +1326,6 @@
     ! long_name: Shear-driven Turbulent Kinetic Energy
     ! units: meter2 second-2
     ! cell_methods: xh:mean yh:mean zi:point
-"ocean_model", "created_H"  [Unused]
-    ! long_name: The volume flux added to stop the ocean from drying out and becoming negative in depth
-    ! units: meter second-1
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "rsdoabsorb"  [Used]
-    ! long_name: Convergence of Penetrative Shortwave Flux in Sea Water Layer
-    ! units: Watt meter-2
-    ! standard_name: net_rate_of_absorption_of_shortwave_energy_in_ocean_layer
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model_z_new", "rsdoabsorb"  [Unused]
-    ! long_name: Convergence of Penetrative Shortwave Flux in Sea Water Layer
-    ! units: Watt meter-2
-    ! standard_name: net_rate_of_absorption_of_shortwave_energy_in_ocean_layer
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "rsdo"  [Used]
-    ! long_name: Downwelling Shortwave Flux in Sea Water at Grid Cell Upper Interface
-    ! units: Watt meter-2
-    ! standard_name: downwelling_shortwave_flux_in_sea_water
-    ! cell_methods: xh:mean yh:mean zi:point
-"ocean_model", "nonpenSW"  [Unused]
-    ! long_name: Non-downwelling SW radiation (i.e., SW absorbed in ocean surface with LW,SENS,LAT)
-    ! units: Watt meter-2
-    ! standard_name: nondownwelling_shortwave_flux_in_sea_water
-    ! cell_methods: xh:mean yh:mean
 "ocean_model", "h_ML"  [Unused]
     ! long_name: Surface mixed layer depth
     ! units: meter
@@ -1580,10 +1442,6 @@
     ! long_name: Ocean Tracer Epineutral Laplacian Diffusivity
     ! units: m2 sec-1
     ! standard_name: ocean_tracer_epineutral_laplacian_diffusivity
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "CFL_lateral_diff"  [Unused]
-    ! long_name: Grid CFL number for lateral/neutral tracer diffusion
-    ! units: dimensionless
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "u"  [Used] (CMOR equivalent is "uo")
     ! long_name: Zonal velocity
@@ -2128,54 +1986,6 @@
     ! long_name: Ideal Age Tracer
     ! units: years
     ! standard_name: not provided
-"ocean_model", "Net_Heat"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "PmE"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "froz_precip"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "liq_precip"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "virt_precip"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "froz_runoff"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "liq_runoff"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "calving_heat_content"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "precip_heat_content"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "evap_heat_content"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "runoff_heat_content"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "latent_fprec"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "latent_calve"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "heat_rest"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "KPP_dTdt"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "KPP_dSdt"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
 "ocean_model", "geolat"  [Used]
     ! long_name: Latitude of tracer (T) points
     ! units: degrees_N
@@ -2305,16 +2115,6 @@
     ! units: kg m-2 s-1
     ! standard_name: water_evaporation_flux
     ! cell_methods: xh:mean yh:mean
-"ocean_model", "seaice_melt"  [Unused] (CMOR equivalent is "fsitherm")
-    ! long_name: water flux to ocean from sea ice melt(> 0) or form(< 0)
-    ! units: kilogram/(meter^2 * second)
-    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "fsitherm"  [Unused] (native name is "seaice_melt")
-    ! long_name: water flux to ocean from sea ice melt(> 0) or form(< 0)
-    ! units: kg m-2 s-1
-    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics
-    ! cell_methods: xh:mean yh:mean
 "ocean_model", "precip"  [Unused]
     ! long_name: Liquid + frozen precipitation into ocean
     ! units: kilogram/(meter^2 * second)
@@ -2387,14 +2187,6 @@
     ! long_name: Evaporation Where Ice Free Ocean over Sea Area Integrated
     ! units: kg s-1
     ! standard_name: water_evaporation_flux_area_integrated
-"ocean_model", "total_seaice_melt"  [Unused]
-    ! long_name: Area integrated sea ice melt (>0) or form (<0)
-    ! units: kg/s
-    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics_area_integrated
-"ocean_model", "total_fsitherm"  [Unused]
-    ! long_name: Water Melt/Form from Sea Ice Area Integrated
-    ! units: kg s-1
-    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics_area_integrated
 "ocean_model", "total_precip"  [Used]
     ! long_name: Area integrated liquid+frozen precip into ocean
     ! units: kg/s
