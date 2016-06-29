@@ -1,12 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module MOM ===
-BULKMIXEDLAYER = False          !   [Boolean] default = True
-                                ! If true, use a Kraus-Turner-like bulk mixed layer
-                                ! with transitional buffer layers.  Layers 1 through
-                                ! NKML+NKBL have variable densities. There must be at
-                                ! least NKML+NKBL+1 layers if BULKMIXEDLAYER is true.
-                                ! The default is the same setting as ENABLE_THERMODYNAMICS.
 USE_REGRIDDING = True           !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping).
                                 ! If False, use the layered isopycnal algorithm.
@@ -49,14 +43,14 @@ NJGLOBAL = 4                    !
 
 ! === module MOM_grid ===
 ! Parameters providing information about the lateral grid.
-G_EARTH = 10.0                  !   [m s-2] default = 9.8
-                                ! The gravitational acceleration of the Earth.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
+G_EARTH = 10.0                  !   [m s-2] default = 9.8
+                                ! The gravitational acceleration of the Earth.
 RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
                                 ! The mean ocean density used with BOUSSINESQ true to
                                 ! calculate accelerations and the mass for conservation

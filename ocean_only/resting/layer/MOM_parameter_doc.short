@@ -6,7 +6,8 @@ BULKMIXEDLAYER = False          !   [Boolean] default = True
                                 ! with transitional buffer layers.  Layers 1 through
                                 ! NKML+NKBL have variable densities. There must be at
                                 ! least NKML+NKBL+1 layers if BULKMIXEDLAYER is true.
-                                ! The default is the same setting as ENABLE_THERMODYNAMICS.
+                                ! BULKMIXEDLAYER can not be used with USE_REGRIDDING.
+                                ! The default is influenced by ENABLE_THERMODYNAMICS.
 DT = 1200.0                     !   [s]
                                 ! The (baroclinic) dynamics time step.  The time-step that
                                 ! is actually used will be an integer fraction of the

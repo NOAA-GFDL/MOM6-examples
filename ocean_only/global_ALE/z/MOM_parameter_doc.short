@@ -5,12 +5,6 @@ DIABATIC_FIRST = True           !   [Boolean] default = False
                                 ! If true, apply diabatic and thermodynamic processes,
                                 ! including buoyancy forcing and mass gain or loss,
                                 ! before stepping the dynamics forward.
-BULKMIXEDLAYER = False          !   [Boolean] default = True
-                                ! If true, use a Kraus-Turner-like bulk mixed layer
-                                ! with transitional buffer layers.  Layers 1 through
-                                ! NKML+NKBL have variable densities. There must be at
-                                ! least NKML+NKBL+1 layers if BULKMIXEDLAYER is true.
-                                ! The default is the same setting as ENABLE_THERMODYNAMICS.
 USE_REGRIDDING = True           !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping).
                                 ! If False, use the layered isopycnal algorithm.

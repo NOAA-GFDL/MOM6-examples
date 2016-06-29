@@ -27,15 +27,16 @@ ADIABATIC = False               !   [Boolean] default = False
                                 ! true. This assumes that KD = KDML = 0.0 and that
                                 ! there is no buoyancy forcing, but makes the model
                                 ! faster by eliminating subroutine calls.
+USE_REGRIDDING = False          !   [Boolean] default = False
+                                ! If True, use the ALE algorithm (regridding/remapping).
+                                ! If False, use the layered isopycnal algorithm.
 BULKMIXEDLAYER = False          !   [Boolean] default = False
                                 ! If true, use a Kraus-Turner-like bulk mixed layer
                                 ! with transitional buffer layers.  Layers 1 through
                                 ! NKML+NKBL have variable densities. There must be at
                                 ! least NKML+NKBL+1 layers if BULKMIXEDLAYER is true.
-                                ! The default is the same setting as ENABLE_THERMODYNAMICS.
-USE_REGRIDDING = False          !   [Boolean] default = False
-                                ! If True, use the ALE algorithm (regridding/remapping).
-                                ! If False, use the layered isopycnal algorithm.
+                                ! BULKMIXEDLAYER can not be used with USE_REGRIDDING.
+                                ! The default is influenced by ENABLE_THERMODYNAMICS.
 THICKNESSDIFFUSE = False        !   [Boolean] default = False
                                 ! If true, interface heights are diffused with a
                                 ! coefficient of KHTH.
@@ -117,8 +118,6 @@ NJGLOBAL = 25                   !
 
 ! === module MOM_grid ===
 ! Parameters providing information about the lateral grid.
-G_EARTH = 9.8                   !   [m s-2] default = 9.8
-                                ! The gravitational acceleration of the Earth.
 FIRST_DIRECTION = 0             ! default = 0
                                 ! An integer that indicates which direction goes first
                                 ! in parts of the code that use directionally split
@@ -134,6 +133,8 @@ BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
+G_EARTH = 9.8                   !   [m s-2] default = 9.8
+                                ! The gravitational acceleration of the Earth.
 RHO_0 = 1031.0                  !   [kg m-3] default = 1035.0
                                 ! The mean ocean density used with BOUSSINESQ true to
                                 ! calculate accelerations and the mass for conservation
