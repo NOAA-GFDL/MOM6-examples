@@ -1,56 +1,5 @@
 ! This file was written by the model and records all non-layout parameters used at run-time.
 
-! === module MOM_domains ===
-REENTRANT_X = True              !   [Boolean] default = True
-                                ! If true, the domain is zonally reentrant.
-REENTRANT_Y = True              !   [Boolean] default = False
-                                ! If true, the domain is meridionally reentrant.
-TRIPOLAR_N = False              !   [Boolean] default = False
-                                ! Use tripolar connectivity at the northern edge of the
-                                ! domain.  With TRIPOLAR_N, NIGLOBAL must be even.
-NIGLOBAL = 2                    !
-                                ! The total number of thickness grid points in the
-                                ! x-direction in the physical domain. With STATIC_MEMORY_
-                                ! this is set in MOM_memory.h at compile time.
-NJGLOBAL = 2                    !
-                                ! The total number of thickness grid points in the
-                                ! y-direction in the physical domain. With STATIC_MEMORY_
-                                ! this is set in MOM_memory.h at compile time.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-G_EARTH = 9.80616               !   [m s-2] default = 9.8
-                                ! The gravitational acceleration of the Earth.
-FIRST_DIRECTION = 0             ! default = 0
-                                ! An integer that indicates which direction goes first
-                                ! in parts of the code that use directionally split
-                                ! updates, with even numbers (or 0) used for x- first
-                                ! and odd numbers used for y-first.
-BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
-                                ! If true, there are separate values for the basin depths
-                                ! at velocity points.  Otherwise the effects of of
-                                ! topography are entirely determined from thickness points.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
-
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
-RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
-                                ! The mean ocean density used with BOUSSINESQ true to
-                                ! calculate accelerations and the mass for conservation
-                                ! properties, or with BOUSSINSEQ false to convert some
-                                ! parameters from vertical units of m to kg m-2.
-BOUSSINESQ = True               !   [Boolean] default = True
-                                ! If true, make the Boussinesq approximation.
-ANGSTROM = 1.0E-10              !   [m] default = 1.0E-10
-                                ! The minumum layer thickness, usually one-Angstrom.
-H_TO_M = 1.0                    !   [m H-1] default = 1.0
-                                ! A constant that translates the model's internal
-                                ! units of thickness into m.
-NK = 400                        !   [nondim]
-                                ! The number of model layers.
-
 ! === module MOM ===
 VERBOSITY = 2                   ! default = 2
                                 ! Integer controlling level of messaging
@@ -161,6 +110,57 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =1, write the geometry and vertical grid files only for
                                 ! a new simulation. If =2, always write the geometry and
                                 ! vertical grid files. Other values are invalid.
+
+! === module MOM_domains ===
+REENTRANT_X = True              !   [Boolean] default = True
+                                ! If true, the domain is zonally reentrant.
+REENTRANT_Y = True              !   [Boolean] default = False
+                                ! If true, the domain is meridionally reentrant.
+TRIPOLAR_N = False              !   [Boolean] default = False
+                                ! Use tripolar connectivity at the northern edge of the
+                                ! domain.  With TRIPOLAR_N, NIGLOBAL must be even.
+NIGLOBAL = 2                    !
+                                ! The total number of thickness grid points in the
+                                ! x-direction in the physical domain. With STATIC_MEMORY_
+                                ! this is set in MOM_memory.h at compile time.
+NJGLOBAL = 2                    !
+                                ! The total number of thickness grid points in the
+                                ! y-direction in the physical domain. With STATIC_MEMORY_
+                                ! this is set in MOM_memory.h at compile time.
+
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+G_EARTH = 9.80616               !   [m s-2] default = 9.8
+                                ! The gravitational acceleration of the Earth.
+FIRST_DIRECTION = 0             ! default = 0
+                                ! An integer that indicates which direction goes first
+                                ! in parts of the code that use directionally split
+                                ! updates, with even numbers (or 0) used for x- first
+                                ! and odd numbers used for y-first.
+BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
+                                ! If true, there are separate values for the basin depths
+                                ! at velocity points.  Otherwise the effects of of
+                                ! topography are entirely determined from thickness points.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
+                                ! The mean ocean density used with BOUSSINESQ true to
+                                ! calculate accelerations and the mass for conservation
+                                ! properties, or with BOUSSINSEQ false to convert some
+                                ! parameters from vertical units of m to kg m-2.
+BOUSSINESQ = True               !   [Boolean] default = True
+                                ! If true, make the Boussinesq approximation.
+ANGSTROM = 1.0E-10              !   [m] default = 1.0E-10
+                                ! The minumum layer thickness, usually one-Angstrom.
+H_TO_M = 1.0                    !   [m H-1] default = 1.0
+                                ! A constant that translates the model's internal
+                                ! units of thickness into m.
+NK = 400                        !   [nondim]
+                                ! The number of model layers.
 
 ! === module MOM_tracer_registry ===
 
