@@ -1573,10 +1573,6 @@
     ! units: m2 sec-1
     ! standard_name: ocean_tracer_epineutral_laplacian_diffusivity
     ! cell_methods: xh:mean yh:mean
-"ocean_model", "CFL_lateral_diff"  [Unused]
-    ! long_name: Grid CFL number for lateral/neutral tracer diffusion
-    ! units: dimensionless
-    ! cell_methods: xh:mean yh:mean
 "ocean_model", "T_vardec"  [Unused]
     ! long_name: ALE variance decay for temperature
     ! units: degC2 s-1
@@ -2196,54 +2192,6 @@
     ! long_name: Ideal Age Tracer
     ! units: years
     ! standard_name: not provided
-"ocean_model", "Net_Heat"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "PmE"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "froz_precip"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "liq_precip"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "virt_precip"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "froz_runoff"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "liq_runoff"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "calving_heat_content"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "precip_heat_content"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "evap_heat_content"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "runoff_heat_content"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "latent_fprec"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "latent_calve"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "heat_rest"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "KPP_dTdt"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
-"ocean_model", "KPP_dSdt"  [Unused]
-    ! long_name: Obsolete parameter
-    ! units: N/A
 "ocean_model", "ndiff_tracer_conc_tendency_T"  [Unused]
     ! long_name: Neutral diffusion tracer concentration tendency for T
     ! units: Degree C per second
@@ -2491,16 +2439,6 @@
     ! units: kg m-2 s-1
     ! standard_name: water_evaporation_flux
     ! cell_methods: xh:mean yh:mean
-"ocean_model", "seaice_melt"  [Unused] (CMOR equivalent is "fsitherm")
-    ! long_name: water flux to ocean from sea ice melt(> 0) or form(< 0)
-    ! units: kilogram/(meter^2 * second)
-    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "fsitherm"  [Unused] (native name is "seaice_melt")
-    ! long_name: water flux to ocean from sea ice melt(> 0) or form(< 0)
-    ! units: kg m-2 s-1
-    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics
-    ! cell_methods: xh:mean yh:mean
 "ocean_model", "precip"  [Unused]
     ! long_name: Liquid + frozen precipitation into ocean
     ! units: kilogram/(meter^2 * second)
@@ -2573,14 +2511,6 @@
     ! long_name: Evaporation Where Ice Free Ocean over Sea Area Integrated
     ! units: kg s-1
     ! standard_name: water_evaporation_flux_area_integrated
-"ocean_model", "total_seaice_melt"  [Unused]
-    ! long_name: Area integrated sea ice melt (>0) or form (<0)
-    ! units: kg/s
-    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics_area_integrated
-"ocean_model", "total_fsitherm"  [Unused]
-    ! long_name: Water Melt/Form from Sea Ice Area Integrated
-    ! units: kg s-1
-    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics_area_integrated
 "ocean_model", "total_precip"  [Used]
     ! long_name: Area integrated liquid+frozen precip into ocean
     ! units: kg/s
