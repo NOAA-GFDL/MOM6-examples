@@ -43,6 +43,10 @@ THICKNESSDIFFUSE = False        !   [Boolean] default = False
 THICKNESSDIFFUSE_FIRST = False  !   [Boolean] default = False
                                 ! If true, do thickness diffusion before dynamics.
                                 ! This is only used if THICKNESSDIFFUSE is true.
+BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
+                                ! If true, there are separate values for the basin depths
+                                ! at velocity points.  Otherwise the effects of topography
+                                ! are entirely determined from thickness points.
 DEBUG = False                   !   [Boolean] default = False
                                 ! If true, write out verbose debugging data.
 DEBUG_TRUNCATIONS = False       !   [Boolean] default = False
@@ -86,6 +90,11 @@ DTBT_RESET_PERIOD = -1.0        !   [s] default = 2400.0
                                 ! dynamic, DTBT will be set at least every forcing time
                                 ! step, and if 0, every dynamics time step.  The default is
                                 ! set by DT_THERM.  This is only used if SPLIT is true.
+FIRST_DIRECTION = 0             ! default = 0
+                                ! An integer that indicates which direction goes first
+                                ! in parts of the code that use directionally split
+                                ! updates, with even numbers (or 0) used for x- first
+                                ! and odd numbers used for y-first.
 CHECK_BAD_SURFACE_VALS = False  !   [Boolean] default = False
                                 ! If true, check the surface state for ridiculous values.
 SAVE_INITIAL_CONDS = False      !   [Boolean] default = False
@@ -115,18 +124,6 @@ NJGLOBAL = 40                   !
                                 ! The total number of thickness grid points in the
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-FIRST_DIRECTION = 0             ! default = 0
-                                ! An integer that indicates which direction goes first
-                                ! in parts of the code that use directionally split
-                                ! updates, with even numbers (or 0) used for x- first
-                                ! and odd numbers used for y-first.
-BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
-                                ! If true, there are separate values for the basin depths
-                                ! at velocity points.  Otherwise the effects of of
-                                ! topography are entirely determined from thickness points.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -293,6 +290,9 @@ GFS = 0.98                      !   [m s-2] default = 9.8
                                 ! The reduced gravity at the free surface.
 GINT = 0.0098                   !   [m s-2]
                                 ! The reduced gravity across internal interfaces.
+
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False

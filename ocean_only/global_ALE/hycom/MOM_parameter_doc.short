@@ -73,9 +73,6 @@ NJGLOBAL = 210                  !
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
 
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
@@ -230,6 +227,9 @@ REGRID_TIME_SCALE = 8.64E+04    !   [s] default = 0.0
                                 ! and the target (new) grid. A short time-scale favors the target
                                 ! grid (0. or anything less than DT_THERM) has no memory of the old
                                 ! grid. A very long time-scale makes the model more Lagrangian.
+
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
