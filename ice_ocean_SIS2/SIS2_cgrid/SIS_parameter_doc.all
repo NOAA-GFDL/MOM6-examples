@@ -1,4 +1,6 @@
 ! This file was written by the model and records all non-layout parameters used at run-time.
+
+! === module ice_model ===
 SPECIFIED_ICE = False           !   [Boolean] default = False
                                 ! If true, the ice is specified and there is no dynamics.
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
@@ -62,6 +64,11 @@ ICE_BOUNDS_CHECK = True         !   [Boolean] default = True
                                 ! does not change answers, but can increase model run time.
 DEBUG = False                   !   [Boolean] default = False
                                 ! If true, write out verbose debugging data.
+FIRST_DIRECTION = 0             ! default = 0
+                                ! An integer that indicates which direction goes first
+                                ! in parts of the code that use directionally split
+                                ! updates, with even numbers (or 0) used for x- first
+                                ! and odd numbers used for y-first.
 ICE_SEES_ATMOS_WINDS = True     !   [Boolean] default = True
                                 ! If true, the sea ice is being given wind stresses with
                                 ! the atmospheric sign convention, and need to have their
@@ -138,11 +145,6 @@ NJGLOBAL = 210                  !
 ! Parameters providing information about the lateral grid.
 G_EARTH = 9.8                   !   [m s-2] default = 9.8
                                 ! The gravitational acceleration of the Earth.
-FIRST_DIRECTION = 0             ! default = 0
-                                ! An integer that indicates which direction goes first
-                                ! in parts of the code that use directionally split
-                                ! updates, with even numbers (or 0) used for x- first
-                                ! and odd numbers used for y-first.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
