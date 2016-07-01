@@ -107,6 +107,9 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 600.0           !   [m]
                                 ! The maximum depth of the ocean.
+
+! === module MOM_open_boundary ===
+! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
 APPLY_OBC_U_FLATHER_EAST = True !   [Boolean] default = False
                                 ! Apply a Flather open boundary condition on the eastern
                                 ! side of the global domain
@@ -286,8 +289,6 @@ MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
                                 ! components are truncated.
 
 ! === module MOM_PointAccel ===
-
-! === module MOM_open_boundary ===
 
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False

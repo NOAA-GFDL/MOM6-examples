@@ -315,9 +315,15 @@ MINIMUM_DEPTH = 0.01            !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 200.0           !   [m]
                                 ! The maximum depth of the ocean.
-MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
-                                ! The depth below which to mask points as land points, for which all
-                                ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
+
+! === module MOM_open_boundary ===
+! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
+APPLY_OBC_U = False             !   [Boolean] default = False
+                                ! If true, open boundary conditions may be set at some
+                                ! u-points, with the configuration controlled by OBC_CONFIG
+APPLY_OBC_V = False             !   [Boolean] default = False
+                                ! If true, open boundary conditions may be set at some
+                                ! v-points, with the configuration controlled by OBC_CONFIG
 APPLY_OBC_U_FLATHER_EAST = False !   [Boolean] default = False
                                 ! Apply a Flather open boundary condition on the eastern
                                 ! side of the global domain
@@ -330,6 +336,9 @@ APPLY_OBC_V_FLATHER_NORTH = False !   [Boolean] default = False
 APPLY_OBC_V_FLATHER_SOUTH = False !   [Boolean] default = False
                                 ! Apply a Flather open boundary condition on the southern
                                 ! side of the global domain
+MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
+                                ! The depth below which to mask points as land points, for which all
+                                ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
 CHANNEL_CONFIG = "none"         ! default = "none"
                                 ! A parameter that determines which set of channels are
                                 ! restricted to specific  widths.  Options are:
@@ -458,12 +467,6 @@ TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
                                 ! If true, cuts way the top of the column for initial conditions
                                 ! at the depth where the hydrostatic presure matches the imposed
                                 ! surface pressure which is read from file.
-APPLY_OBC_U = False             !   [Boolean] default = False
-                                ! If true, open boundary conditions may be set at some
-                                ! u-points, with the configuration controlled by OBC_CONFIG
-APPLY_OBC_V = False             !   [Boolean] default = False
-                                ! If true, open boundary conditions may be set at some
-                                ! v-points, with the configuration controlled by OBC_CONFIG
 AVAILABLE_DIAGS_FILE = "available_diags.000000" ! default = "available_diags.000000"
                                 ! A file into which to write a list of all available
                                 ! ocean diagnostics that can be included in a diag_table.
