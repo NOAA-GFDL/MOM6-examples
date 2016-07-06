@@ -1,1 +1,1 @@
-./.datasets/obs/WOA05_pottemp_salt.nc
+.datasets/obs/WOA05_pottemp_salt.nc
