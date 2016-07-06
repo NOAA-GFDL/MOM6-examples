@@ -320,6 +320,9 @@ USE_KPP = True                  !   [Boolean] default = False
 KPP%
 PASSIVE = True                  !   [Boolean] default = False
                                 ! If True, puts KPP into a passive-diagnostic mode.
+CVMIX_ZERO_H_WORK_AROUND = 1.E-05  !   [m] default = 0.
+                                ! A minimum thickness used to avoid division by small numbers in the vicinity
+                                ! of vanished layers. This is independent of MIN_THICKNESS used in other parts of MOM.
 %KPP
 
 ! === module MOM_diffConvection ===

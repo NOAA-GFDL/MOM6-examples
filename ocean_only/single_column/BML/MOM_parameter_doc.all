@@ -921,6 +921,9 @@ KPP_ZERO_DIFFUSIVITY = False    !   [Boolean] default = False
                                 ! If True, zeroes the KPP diffusivity and viscosity; for testing purpose.
 KPP_IS_ADDITIVE = True          !   [Boolean] default = True
                                 ! If true, adds KPP diffusivity to diffusivity from other schemes.If false, KPP is the only diffusivity wherever KPP is non-zero.
+CVMIX_ZERO_H_WORK_AROUND = 1.0E-05 !   [m] default = 0.0
+                                ! A minimum thickness used to avoid division by small numbers in the vicinity
+                                ! of vanished layers. This is independent of MIN_THICKNESS used in other parts of MOM.
 %KPP
 SALT_REJECT_BELOW_ML = False    !   [Boolean] default = False
                                 ! If true, place salt from brine rejection below the mixed layer,
