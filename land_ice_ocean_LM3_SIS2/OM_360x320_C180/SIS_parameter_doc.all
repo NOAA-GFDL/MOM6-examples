@@ -143,9 +143,6 @@ NJGLOBAL = 320                  !
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in SIS2_memory.h at compile time.
 
-! === module hor_grid ===
-! Parameters providing information about the lateral grid.
-
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
@@ -162,6 +159,12 @@ GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
+
+! === module hor_grid ===
+! Parameters providing information about the lateral grid.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
 TOPO_CONFIG = "file"            ! default = "file"
                                 ! This specifies how bathymetry is specified:
                                 !     file - read bathymetric information from the file
