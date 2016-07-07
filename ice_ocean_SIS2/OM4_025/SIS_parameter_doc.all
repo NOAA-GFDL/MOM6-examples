@@ -146,6 +146,10 @@ NJGLOBAL = 1080                 !
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
+! === module SIS_initialize_fixed ===
+INPUTDIR = "INPUT"              ! default = "."
+                                ! The directory in which input files are found.
+
 ! === module SIS_grid_initialize ===
 GRID_CONFIG = "mosaic"          !
                                 ! A character string that determines the method for
@@ -157,8 +161,6 @@ GRID_CONFIG = "mosaic"          !
                                 !     mercator - use a Mercator spherical grid.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
-INPUTDIR = "INPUT"              ! default = "."
-                                ! The directory in which input files are found.
 TOPO_CONFIG = "file"            ! default = "file"
                                 ! This specifies how bathymetry is specified:
                                 !     file - read bathymetric information from the file

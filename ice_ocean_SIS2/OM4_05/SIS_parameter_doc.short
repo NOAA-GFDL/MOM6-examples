@@ -39,6 +39,10 @@ NJGLOBAL = 576                  !
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
+! === module SIS_initialize_fixed ===
+INPUTDIR = "INPUT"              ! default = "."
+                                ! The directory in which input files are found.
+
 ! === module SIS_grid_initialize ===
 GRID_CONFIG = "mosaic"          !
                                 ! A character string that determines the method for
@@ -50,8 +54,6 @@ GRID_CONFIG = "mosaic"          !
                                 !     mercator - use a Mercator spherical grid.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
-INPUTDIR = "INPUT"              ! default = "."
-                                ! The directory in which input files are found.
 !MAXIMUM_DEPTH = 8799.6513671875 !   [m]
                                 ! The (diagnosed) maximum depth of the ocean.
 OMEGA = 7.292E-05               !   [s-1] default = 7.2921E-05
