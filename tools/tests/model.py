@@ -109,6 +109,7 @@ class Model:
             output = sp.check_output(command, stderr=sp.STDOUT, shell=True)
         except sp.CalledProcessError as e:
             ret = e.returncode
+            output = e.output
             print(e.output, file=sys.stderr)
         finally:
             os.chdir(saved_path)
