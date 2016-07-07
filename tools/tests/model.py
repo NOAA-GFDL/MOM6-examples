@@ -22,7 +22,7 @@ source ../../../../../mkmf/env/{site}-{compiler}.env && make NETCDF=3 {build}=1 
 _build_ocean_ice_script = """
 pwd &&
 ../../../../../mkmf/bin/list_paths ./ ../../../../../src/MOM6/config_src/{{{memory_type},coupled_driver}} ../../../../../src/MOM6/src/{{*,*/*}}/ ../../../../../src/{{atmos_null,coupler,land_null,SIS2,ice_ocean_extras,icebergs,FMS/coupler,FMS/include}} &&
-../../../../../mkmf/bin/mkmf -t ../../../../../mkmf/templates/{site}-{compiler}.mk -o '-I../../../shared/{build}' -p 'MOM6 -L../../../shared/{build} -lfms' -c '-Duse_libMPI -Duse_netCDF -DSPMD -DUSE_LOG_DIAG_FIELD_INFO' path_names &&
+../../../../../mkmf/bin/mkmf -t ../../../../../mkmf/templates/{site}-{compiler}.mk -o '-I../../../shared/{build}' -p 'MOM6 -L../../../shared/{build} -lfms' -c '-Duse_libMPI -Duse_netCDF -DSPMD -DUSE_LOG_DIAG_FIELD_INFO -Duse_AM3_physics' path_names &&
 source ../../../../../mkmf/env/{site}-{compiler}.env && make NETCDF=3 {build}=1 MOM6 -j
 """
 
