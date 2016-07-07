@@ -120,6 +120,11 @@ TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between writes of the
                                 ! globally summed ice statistics and conservation checks.
+WRITE_GEOM = 1                  ! default = 1
+                                ! If =0, never write the geometry and vertical grid files.
+                                ! If =1, write the geometry and vertical grid files only for
+                                ! a new simulation. If =2, always write the geometry and
+                                ! vertical grid files. Other values are invalid.
 NCAT_ICE = 5                    !   [nondim] default = 5
                                 ! The number of sea ice thickness categories.
 NK_ICE = 4                      !   [nondim] default = 4
@@ -211,6 +216,9 @@ ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
                                 !     USER - call a user modified routine.
 OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
                                 ! The rotation rate of the earth.
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file,
+                                ! otherwise a single restart file is generated
 
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
@@ -282,12 +290,6 @@ ICE_DELTA_EDD_R_POND = 0.0      !   [perhaps nondimensional?] default = 0.0
                                 ! A dreadfully documented tuning parameter for the radiative
                                 ! propeties of meltwater ponds on sea ice with the delta-Eddington
                                 ! radiative transfer calculation.
-
-! === module hor_grid ===
-! Parameters providing information about the lateral grid.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
