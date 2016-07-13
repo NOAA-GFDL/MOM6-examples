@@ -81,7 +81,7 @@ class Model:
         return ret, shared_dir
 
 
-    def build_model(self, compiler='gnu', build='REPRO', memory_type='dynamic'):
+    def build_model(self, compiler='gnu', build='DEBUG', memory_type='dynamic'):
         """
         Build this model.
         """

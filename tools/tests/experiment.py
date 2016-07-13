@@ -67,7 +67,7 @@ def exp_id_from_path(path):
 
 class Experiment:
 
-    def __init__(self, id, compiler='gnu', build='repro', memory_type='dynamic'):
+    def __init__(self, id, compiler='gnu', build='DEBUG', memory_type='dynamic'):
         """
         Python representation of an experiment/test case.
 
