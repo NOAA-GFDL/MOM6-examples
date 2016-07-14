@@ -5,7 +5,6 @@ import sys
 import os
 import re
 import shlex
-import string
 import subprocess as sp
 import run_config as rc
 from model import Model
@@ -33,7 +32,7 @@ class Diagnostic:
 
 
 # Unfinished diagnostics are those which have been registered but have not been
-# implemented, so no post_data called. This list should to be updated as the
+# implemented, so no post_data called. This list should be updated as the
 # diags are completed.
 _unfinished_diags = [('ocean_model', 'uml_restrat'),
                      ('ocean_model', 'vml_restrat'),
@@ -63,7 +62,7 @@ def exp_id_from_path(path):
     path = os.path.normpath(path)
     path = path.replace(_mom_examples_path, '')
     # Remove possible '/' from front and back.
-    return string.strip(path, '/')
+    return path.strip('/')
 
 class Experiment:
 
