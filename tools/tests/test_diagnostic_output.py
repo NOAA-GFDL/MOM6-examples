@@ -3,7 +3,7 @@ from __future__ import print_function
 
 import sys
 import os
-from scipy.io import netcdf as nc
+from netCDF4 import Dataset
 import numpy as np
 import hashlib
 import pytest
@@ -33,7 +33,7 @@ class TestDiagnosticOutput:
             - that data doesn't contain NaNs.
         """
         for d in exp.get_available_diags():
-            with nc.netcdf_file(d.output) as f:
+            with Dataset(d.output) as f:
                 assert(d.name in f.variables.keys())
                 data = f.variables[d.name][:].copy()
                 assert(len(data) > 0)
@@ -46,22 +46,24 @@ class TestDiagnosticOutput:
         """
         Test that checksums of diagnostic output are the same
         as a baseline.
-
-        Note that diagnostic output needs to be in netCDF3 format for this
-        checksum to be reproducible.
         """
+
         checksum_file = os.path.join(exp.path, 'diag_checksums.txt')
         tmp_file = os.path.join(exp.path, 'tmp_diag_checksums.txt')
         new_checksums = ''
         for d in exp.get_available_diags():
-            with open(d.output, 'rb') as f:
-                checksum = hashlib.md5(f.read()).hexdigest()
+            # hash the diagnostic data in the output file
+            with Dataset(d.output) as f:
+                checksum = hashlib.sha1(f.variables[d.name][:].data.tobytes()).hexdigest()
+
+            # add the text data
             new_checksums += '{}:{}\n'.format(os.path.basename(d.output),
                                               checksum)
 
         # Read in the baseline and check against calculated.
         with open(checksum_file) as f:
             baseline = f.read()
+
         if baseline != new_checksums:
             with open(tmp_file, 'w') as f:
                 f.write(new_checksums)
