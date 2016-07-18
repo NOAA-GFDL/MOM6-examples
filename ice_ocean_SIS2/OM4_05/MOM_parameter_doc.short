@@ -634,6 +634,9 @@ USE_CALVING_HEAT_CONTENT = True !   [Boolean] default = False
                                 ! heat carried by runoff, instead of using SST*CP*froz_runoff.
 
 ! === module MOM_energetic_PBL ===
+VSTAR_SCALE_FACTOR = 0.9410360288810284 !   [units=nondim] default = 1.0
+                                ! An overall nondimensional scaling factor for v*.
+                                ! Making this larger decreases the PBL diffusivity.
 
 ! === module MOM_regularize_layers ===
 
