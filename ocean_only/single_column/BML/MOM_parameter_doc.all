@@ -1214,6 +1214,10 @@ DEPTH_LIMIT_FLUXES = 0.1        !   [m] default = 0.2
 ML_RESORT = False               !   [Boolean] default = False
                                 ! If true, resort the topmost layers by potential density
                                 ! before the mixed layer calculations.
+BML_USTAR_MIN = 1.45842E-18     !   [m s-1] default = 1.45842E-18
+                                ! The minimum value of ustar that should be used by the
+                                ! bulk mixed layer model in setting vertical TKE decay
+                                ! scales. This must be greater than 0.
 RESOLVE_EKMAN = False           !   [Boolean] default = False
                                 ! If true, the NKML>1 layers in the mixed layer are
                                 ! chosen to optimally represent the impact of the Ekman

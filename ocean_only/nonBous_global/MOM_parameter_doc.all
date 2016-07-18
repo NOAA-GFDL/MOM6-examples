@@ -1503,6 +1503,10 @@ ML_RESORT = True                !   [Boolean] default = False
 ML_PRESORT_NK_CONV_ADJ = 4      !   [nondim] default = 0
                                 ! Convectively mix the first ML_PRESORT_NK_CONV_ADJ
                                 ! layers before sorting when ML_RESORT is true.
+BML_USTAR_MIN = 1.45842E-18     !   [m s-1] default = 1.45842E-18
+                                ! The minimum value of ustar that should be used by the
+                                ! bulk mixed layer model in setting vertical TKE decay
+                                ! scales. This must be greater than 0.
 RESOLVE_EKMAN = False           !   [Boolean] default = False
                                 ! If true, the NKML>1 layers in the mixed layer are
                                 ! chosen to optimally represent the impact of the Ekman
