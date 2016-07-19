@@ -216,6 +216,12 @@ PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
+
+! === module SIS_tracer_registry ===
+
+! === module SIS_tracer_flow_control ===
+USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
+                                ! If true, use the concentration based age tracer package.
 AVAILABLE_DIAGS_FILE = "SIS.available_diags" ! default = "SIS.available_diags"
                                 ! A file into which to write a list of all available
                                 ! ocean diagnostics that can be included in a diag_table.
@@ -345,8 +351,6 @@ SIS_TRACER_ADVECTION_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
 
-! === module SIS_tracer_registry ===
-
 ! === module SIS_sum_output ===
 WRITE_STOCKS = True             !   [Boolean] default = True
                                 ! If true, write the integrated tracer amounts to stdout
@@ -363,10 +367,6 @@ MAXTRUNC = 0                    !   [truncations save_interval-1] default = 0
 STATISTICS_FILE = "seaice.stats" ! default = "seaice.stats"
                                 ! The file to use to write the globally integrated
                                 ! statistics.
-
-! === module SIS_tracer_flow_control ===
-USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
-                                ! If true, use the concentration based age tracer package.
 
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
