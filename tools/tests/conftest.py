@@ -3,7 +3,7 @@ import os
 
 import pytest
 from dump_all_diagnostics import dump_diags
-from experiment import experiment_dict, exp_id_from_path
+from experiment import create_experiments, exp_id_from_path
 
 def pytest_addoption(parser):
     parser.addoption('--exps', default=None,
@@ -15,11 +15,18 @@ def pytest_addoption(parser):
                      help="""Run on all experiments/test cases. By default
                              tests are run on a 'fast' subset of experiments.
                              Note that this overrides the --exps option.""")
+    parser.addoption('--platform', default='raijin',
+                     help="""Which machine we're on. This determines how
+                             the model is built. Currently supported options
+                             are 'raijin' and 'ubuntu'.""")
+
 
 def pytest_generate_tests(metafunc):
     """
     Parameterize tests. Presently handles those that have 'exp' as an argument.
     """
+    experiment_dict = create_experiments(metafunc.config.option.platform)
+
     if 'exp' in metafunc.fixturenames:
         if metafunc.config.option.full:
             # Run tests on all experiments.

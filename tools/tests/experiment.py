@@ -42,6 +42,7 @@ _unfinished_diags = [('ocean_model', 'uml_restrat'),
                      ('ocean_model', 'total_seaice_melt'),
                      ('ocean_model', 'heat_restore'),
                      ('ocean_model', 'total_heat_restore'),
+                     ('ocean_model', 'total_heat_adjustment'),
                      ('ocean_model_z_new', 'TKE_to_Kd'),
                      ('ice_model', 'Cor_ui'),
                      ('ice_model', 'Cor_vi'),
@@ -66,16 +67,18 @@ def exp_id_from_path(path):
 
 class Experiment:
 
-    def __init__(self, id, compiler='gnu', build='DEBUG', memory_type='dynamic'):
+    def __init__(self, id, platform='raijin', compiler='gnu', build='DEBUG', memory_type='dynamic'):
         """
         Python representation of an experiment/test case.
 
         The id is a string of the form <model>/<exp>/<variation>.
         """
 
+        self.platform = platform
         self.compiler = compiler
         self.build = build
         self.memory_type = memory_type
+
         id = id.split('/')
         self.model_name = id[0]
         self.name = id[1]
@@ -137,8 +140,7 @@ class Experiment:
         """
 
         if not self.exec_path:
-            ret, exe = self.model.build(self.compiler, self.build,
-                                     self.memory_type)
+            ret, exe = self.model.build(self.platform, self.compiler, self.build, self.memory_type)
             assert(ret == 0)
             self.exec_path = exe
 
@@ -189,7 +191,7 @@ class Experiment:
         return self.unfinished_diags
 
 
-def discover_experiments():
+def create_experiments(platform='raijin'):
     """
     Return a dictionary of Experiment objects representing all the test cases.
     """
@@ -200,8 +202,5 @@ def discover_experiments():
         for fname in filenames:
             if fname == 'input.nml':
                 id = exp_id_from_path(path)
-                exps[id] = Experiment(id)
+                exps[id] = Experiment(id, platform)
     return exps
-
-# A dictionary of available experiments.
-experiment_dict = discover_experiments()
