@@ -8,7 +8,7 @@ CGRID_ICE_DYNAMICS = False      !   [Boolean] default = False
                                 ! dynamics; if false use a B-grid discretization.
 USE_SLAB_ICE = False            !   [Boolean] default = False
                                 ! If true, use the very old slab-style ice.
-SIS1_5L_THERMODYNAMICS = True   !   [Boolean] default = False
+SIS1_5L_THERMODYNAMICS = False  !   [Boolean] default = False
                                 ! If true, use the thermodynamic calculations inhereted
                                 ! from the SIS1 5 layer. Otherwise, use the newer SIS2 version.
 AREA_WEIGHTED_STRESSES = True   !   [Boolean] default = True
@@ -98,6 +98,11 @@ DO_SUN_ANGLE_FOR_ALB = False    !   [Boolean] default = False
                                 ! albedo within the sea ice model.
 DO_RIDGING = False              !   [Boolean] default = False
                                 ! If true, call the ridging routines.
+SIS2_FILLING_FRAZIL = False     !   [Boolean] default = False
+                                ! If true, apply frazil to fill as many categories as
+                                ! possible to fill in a uniform (minimum) amount of ice
+                                ! in all the thinnest categories. Otherwise the frazil is
+                                ! always assigned to a single category.
 RESTARTFILE = "ice_model.res.nc" ! default = "ice_model.res.nc"
                                 ! The name of the restart file.
 TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
