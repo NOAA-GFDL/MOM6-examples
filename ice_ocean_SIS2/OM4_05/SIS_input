@@ -9,13 +9,6 @@ OMEGA = 7.292e-5                !   The rotation rate of the earth in s-1.
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
-INTERSPERSED_ICE_THERMO = False !   [Boolean] default = True
-                                ! If true, the sea ice thermodynamic updates are applied
-                                ! after the new velocities are determined, but before the
-                                ! transport occurs.  Otherwise, the ice thermodynamic
-                                ! updates occur at the start of the slow ice update and
-                                ! dynamics and continuity can occur together.
-                                ! The default should be changed to false.
 DT_ICE_DYNAMICS = 1200.0        !   [seconds] default = -1.0
                                 ! The time step used for the slow ice dynamics, including
                                 ! stepping the continuity equation and interactions

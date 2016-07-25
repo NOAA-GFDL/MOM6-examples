@@ -53,12 +53,6 @@ DT_ICE_DYNAMICS = 3600.0        ! The time step used for the slow ice dynamics,
                                 ! including stepping the continuity equation and
                                 ! interactions between the ice mass field and 
                                 ! velocities, in s.
-INTERSPERSED_ICE_THERMO = False ! If true, the sea ice thermodynamic updates are applied
-                                ! after the new velocities are determined, but before the
-                                ! transport occurs.  Otherwise, the ice thermodynamic
-                                ! updates occur at the start of the slow ice update and
-                                ! dynamics and continuity can occur together.
-                                ! The default should be changed to false.
 
 DT_RHEOLOGY = 100.0             ! The sub-cycling time step, in s, for iterating
                                 ! the rheology and ice momentum equations. If

@@ -57,6 +57,10 @@ GRID_FILE = "ocean_hgrid.nc"    !
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
+
+! === module SIS_tracer_registry ===
+
+! === module SIS_tracer_flow_control ===
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
@@ -86,11 +90,7 @@ SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
 
-! === module SIS_tracer_registry ===
-
 ! === module SIS_sum_output ===
-
-! === module SIS_tracer_flow_control ===
 
 ! === module MOM_file_parser ===
 DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"

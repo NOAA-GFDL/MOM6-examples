@@ -581,6 +581,9 @@ ML_OMEGA_FRAC = 1.0             !   [nondim] default = 0.0
                                 ! When setting the decay scale for turbulence, use this
                                 ! fraction of the absolute rotation rate blended with the
                                 ! local value of f, as sqrt((1-of)*f^2 + of*4*omega^2).
+VSTAR_SCALE_FACTOR = 0.9410360288810284 !   [units=nondim] default = 1.0
+                                ! An overall nondimensional scaling factor for v*.
+                                ! Making this larger decreases the PBL diffusivity.
 
 ! === module MOM_regularize_layers ===
 

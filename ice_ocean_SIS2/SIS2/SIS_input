@@ -53,11 +53,6 @@ ICE_STATS_INTERVAL = 0.25       !    The interval in units of TIMEUNIT between
                                 ! and conservation checks.
 
 !  Specify the time integration scheme.
-INTERSPERSED_ICE_THERMO = True  ! If true, the sea ice thermodynamic updates are applied
-                                ! after the new velocities are determined, but before the
-                                ! transport occurs.  Otherwise, the ice thermodynamic
-                                ! updates occur at the start of the slow ice update and
-                                ! dynamics and continuity can occur together.
 DT_ICE_DYNAMICS = 3600.0        ! The time step used for the slow ice dynamics, 
                                 ! including stepping the continuity equation and
                                 ! interactions between the ice mass field and 
@@ -68,7 +63,7 @@ DT_RHEOLOGY = 100.0             ! The sub-cycling time step, in s, for iterating
                                 ! via NSTEPS_DYN.
 
 !  Specify the ice properties.
-SIS1_5L_THERMODYNAMICS = True   !    If true, use the thermodynamic calculations
+SIS1_5L_THERMODYNAMICS = False  !    If true, use the thermodynamic calculations
                                 !  inhereted from SIS1. Otherwise, use the newer
                                 !  SIS2 version.
 ICE_STRENGTH_PSTAR = 2.75e4     !    ICE_STRENGTH_PSTAR is a constant in the
