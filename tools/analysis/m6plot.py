@@ -84,7 +84,7 @@ def xyplot(field, x=None, y=None, area=None,
   if interactive: addStatusBar(xCoord, yCoord, maskedField)
   cb = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
   if centerlabels and len(clim)>2: cb.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
-  elif len(clim)>2: cb.set_ticks( clim )
+  elif clim is not None and len(clim)>2: cb.set_ticks( clim )
   axis.set_axis_bgcolor(landcolor)
   plt.xlim( xLims )
   plt.ylim( yLims )
