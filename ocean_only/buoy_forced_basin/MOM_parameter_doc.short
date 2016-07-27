@@ -1,30 +1,4 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
-REENTRANT_X = False             !   [Boolean] default = True
-                                ! If true, the domain is zonally reentrant.
-NIGLOBAL = 40                   !
-                                ! The total number of thickness grid points in the
-                                ! x-direction in the physical domain. With STATIC_MEMORY_
-                                ! this is set in MOM_memory.h at compile time.
-NJGLOBAL = 80                   !
-                                ! The total number of thickness grid points in the
-                                ! y-direction in the physical domain. With STATIC_MEMORY_
-                                ! this is set in MOM_memory.h at compile time.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
-
-! === module MOM_grid ===
-! Parameters providing information about the vertical grid.
-RHO_0 = 1031.0                  !   [kg m-3] default = 1035.0
-                                ! The mean ocean density used with BOUSSINESQ true to
-                                ! calculate accelerations and the mass for conservation
-                                ! properties, or with BOUSSINSEQ false to convert some
-                                ! parameters from vertical units of m to kg m-2.
-NK = 10                         !   [nondim]
-                                ! The number of model layers.
-
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
 
 ! === module MOM ===
 ENABLE_THERMODYNAMICS = False   !   [Boolean] default = True
@@ -46,9 +20,38 @@ SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given
                                 ! by IC_OUTPUT_FILE.
 
+! === module MOM_domains ===
+REENTRANT_X = False             !   [Boolean] default = True
+                                ! If true, the domain is zonally reentrant.
+NIGLOBAL = 40                   !
+                                ! The total number of thickness grid points in the
+                                ! x-direction in the physical domain. With STATIC_MEMORY_
+                                ! this is set in MOM_memory.h at compile time.
+NJGLOBAL = 80                   !
+                                ! The total number of thickness grid points in the
+                                ! y-direction in the physical domain. With STATIC_MEMORY_
+                                ! this is set in MOM_memory.h at compile time.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+RHO_0 = 1031.0                  !   [kg m-3] default = 1035.0
+                                ! The mean ocean density used with BOUSSINESQ true to
+                                ! calculate accelerations and the mass for conservation
+                                ! properties, or with BOUSSINSEQ false to convert some
+                                ! parameters from vertical units of m to kg m-2.
+NK = 10                         !   [nondim]
+                                ! The number of model layers.
+
 ! === module MOM_tracer_registry ===
 
+! === module MOM_restart ===
+
 ! === module MOM_tracer_flow_control ===
+
+! === module MOM_fixed_initialization ===
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "mercator"        !
@@ -81,6 +84,8 @@ TOPO_CONFIG = "flat"            !
                                 !     benchmark - use the benchmark test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
+                                !     ISOMIP - use a slope and channel configuration for the
+                                !       ISOMIP test case.
                                 !     DOME2D - use a shelf and slope configuration for the
                                 !       DOME2D gravity current/overflow test case.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
@@ -90,7 +95,12 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 2000.0          !   [m]
                                 ! The maximum depth of the ocean.
-COORD_CONFIG = "USER"           !
+
+! === module MOM_open_boundary ===
+! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
+
+! === module MOM_coord_initialization ===
+COORD_CONFIG = "buoy_forced_basin" !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
@@ -107,6 +117,11 @@ COORD_CONFIG = "USER"           !
                                 !     USER - call a user modified routine.
 T_BOT = 7.0                     !   [C] default = 5.0
                                 ! Bottom Temp
+
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+
+! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "uniform"    !
                                 ! A string that determines how the initial layer
                                 ! thicknesses are specified for a new run:
@@ -118,6 +133,8 @@ THICKNESS_CONFIG = "uniform"    !
                                 !       between the surface and MAXIMUM_DEPTH.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
+                                !     ISOMIP - use a configuration for the
+                                !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
@@ -132,15 +149,18 @@ SPONGE = True                   !   [Boolean] default = False
                                 ! If true, sponges may be applied anywhere in the domain.
                                 ! The exact location and properties of those sponges are
                                 ! specified via SPONGE_CONFIG.
-SPONGE_CONFIG = "USER"          ! default = "file"
+SPONGE_CONFIG = "buoy_forced_basin" ! default = "file"
                                 ! A string that sets how the sponges are configured:
                                 !     file - read sponge properties from the file
                                 !       specified by (SPONGE_FILE).
+                                !     ISOMIP - apply ale sponge in the ISOMIP case
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     USER - call a user modified routine.
 !Total sponge columns = 240     !
                                 ! The total number of columns where sponges are applied.
+
+! === module MOM_diag_mediator ===
 
 ! === module MOM_MEKE ===
 
@@ -166,6 +186,15 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! used with BOTTOMDRAGLAW. This might be
                                 ! Kv / (cdrag * drag_bg_vel) to give Kv as the minimum
                                 ! near-bottom viscosity.
+KV = 1.0E-04                    !   [m2 s-1]
+                                ! The background kinematic viscosity in the interior.
+                                ! The molecular value, ~1e-6 m2 s-1, may be used.
+
+! === module MOM_continuity ===
+
+! === module MOM_continuity_PPM ===
+
+! === module MOM_CoriolisAdv ===
 NOSLIP = True                   !   [Boolean] default = False
                                 ! If true, no slip boundary conditions are used; otherwise
                                 ! free slip boundary conditions are assumed. The
@@ -173,6 +202,10 @@ NOSLIP = True                   !   [Boolean] default = False
                                 ! cleaner than the no slip BCs. The use of free slip BCs
                                 ! is strongly encouraged, and no slip BCs are not used with
                                 ! the biharmonic viscosity.
+
+! === module MOM_PressureForce ===
+
+! === module MOM_PressureForce_AFV ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -191,9 +224,6 @@ HMIX_FIXED = 20.0               !   [m]
                                 ! The prescribed depth over which the near-surface
                                 ! viscosity and diffusivity are elevated when the bulk
                                 ! mixed layer is not used.
-KV = 1.0E-04                    !   [m2 s-1]
-                                ! The background kinematic viscosity in the interior.
-                                ! The molecular value, ~1e-6 m2 s-1, may be used.
 KVML = 0.01                     !   [m2 s-1] default = 1.0E-04
                                 ! The kinematic viscosity in the mixed layer.  A typical
                                 ! value is ~1e-2 m2 s-1. KVML is not used if
@@ -205,17 +235,10 @@ MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
 ! === module MOM_barotropic ===
 
 ! === module MOM_thickness_diffuse ===
-KHTH = 1000.0                   !   [m2 s-1] default = 0.0
-                                ! The background horizontal thickness diffusivity.
 
 ! === module MOM_mixed_layer_restrat ===
-Z_OUTPUT_GRID_FILE = "zcoord.nc" ! default = ""
-                                ! The file that specifies the vertical grid for
-                                ! depth-space diagnostics, or blank to disable
-                                ! depth-space output.
-!NK_ZSPACE (from file) = 50     !   [nondim]
-                                ! The number of depth-space levels.  This is determined
-                                ! from the size of the variable zw in the output grid file.
+
+! === module MOM_diag_to_Z ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
@@ -231,6 +254,8 @@ CONVECTION%
 %CONVECTION
 
 ! === module MOM_entrain_diffusive ===
+
+! === module MOM_set_diffusivity ===
 KD = 1.0E-04                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
@@ -254,7 +279,7 @@ KD = 1.0E-04                    !   [m2 s-1]
 ! === module MOM_surface_forcing ===
 VARIABLE_WINDS = False          !   [Boolean] default = True
                                 ! If true, the winds vary in time after the initialization.
-BUOY_CONFIG = "USER"            !
+BUOY_CONFIG = "buoy_forced_basin" !
                                 ! The character string that indicates how buoyancy forcing
                                 ! is specified. Valid options include (file), (zero),
                                 ! (linear), (USER), and (NONE).
@@ -271,7 +296,9 @@ FLUXCONST = 4.0                 !   [m day-1]
                                 ! to the relative surface anomalies (akin to a piston
                                 ! velocity).  Note the non-MKS units.
 
-! === module user_surface_forcing ===
+! === module buoy_forced_basin_surface_forcing ===
+
+! === module MOM_restart ===
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 400                  !   [truncations save_interval-1] default = 0
@@ -279,6 +306,8 @@ MAXTRUNC = 400                  !   [truncations save_interval-1] default = 0
                                 ! large value if the velocity is truncated more than
                                 ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
                                 ! to stop if there is any truncation of velocities.
+
+! === module MOM_write_cputime ===
 
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 8.64E+04           !   [s] default = 1800.0
@@ -300,9 +329,8 @@ RESTINT = 100.0                 !   [days] default = 0.0
                                 ! The interval between saves of the restart file in units
                                 ! of TIMEUNIT.  Use 0 (the default) to not save
                                 ! incremental restart files at all.
-ENERGYSAVEDAYS = 1.0            !   [days] default = 8.64E+04
-                                ! The interval in units of TIMEUNIT between saves of the
-                                ! energies of the run and other globally summed diagnostics.
+
+! === module MOM_file_parser ===
 REPORT_UNUSED_PARAMS = True     !   [Boolean] default = False
                                 ! If true, report any parameter lines that are not used
                                 ! in the run.
