@@ -151,10 +151,11 @@ def maskFromDepth(depth, zCellTop):
   wet[depth>-zCellTop] = 1
   return wet
 
-def nearestJI(x, y, (x0, y0)):
+def nearestJI(x, y, xy0):
   """
   Find (j,i) of cell with center nearest to (x0,y0).
   """
+  x0,y0 = xy0
   return np.unravel_index( ((x-x0)**2 + (y-y0)**2).argmin() , x.shape)
 
 def readNCFromTar(tar,file,var):
@@ -174,55 +175,55 @@ def southOf(x, y, xy0, xy1):
   return Y
 
 def genBasinMasks(x,y,depth,verbose=False):
-  if verbose: print 'Generating global wet mask ...',
+  if verbose: print('Generating global wet mask ...')
   wet = ice9Wrapper(x, y, depth, (0,-35)) # All ocean points seeded from South Atlantic
-  if verbose: print 'done.'
+  if verbose: print('done.')
 
   code = 0*wet
 
-  if verbose: print 'Finding Cape of Good Hope ...',
+  if verbose: print('Finding Cape of Good Hope ...')
   tmp = 1 - wet; tmp[x<-30] = 0
   tmp = ice9Wrapper(x, y, tmp, (20,-30.))
   yCGH = (tmp*y).min()
-  if verbose: print 'done.', yCGH
+  if verbose: print('done.', yCGH)
 
-  if verbose: print 'Finding Melbourne ...',
+  if verbose: print('Finding Melbourne ...')
   tmp = 1 - wet; tmp[x>-180] = 0
   tmp = ice9Wrapper(x, y, tmp, (-220,-25.))
   yMel = (tmp*y).min()
-  if verbose: print 'done.', yMel
+  if verbose: print('done.', yMel)
 
-  if verbose: print 'Processing Persian Gulf ...'
+  if verbose: print('Processing Persian Gulf ...')
   tmp = wet*( 1-southOf(x, y, (55.,23.), (56.5,27.)) )
   tmp = ice9Wrapper(x, y, tmp, (53.,25.))
   code[tmp>0] = 11
   wet = wet - tmp # Removed named points
 
-  if verbose: print 'Processing Red Sea ...'
+  if verbose: print('Processing Red Sea ...')
   tmp = wet*( 1-southOf(x, y, (40.,11.), (45.,13.)) )
   tmp = ice9Wrapper(x, y, tmp, (40.,18.))
   code[tmp>0] = 10
   wet = wet - tmp # Removed named points
 
-  if verbose: print 'Processing Black Sea ...'
+  if verbose: print('Processing Black Sea ...')
   tmp = wet*( 1-southOf(x, y, (26.,42.), (32.,40.)) )
   tmp = ice9Wrapper(x, y, tmp, (32.,43.))
   code[tmp>0] = 7
   wet = wet - tmp # Removed named points
 
-  if verbose: print 'Processing Mediterranean ...'
+  if verbose: print('Processing Mediterranean ...')
   tmp = wet*( southOf(x, y, (-5.7,35.5), (-5.7,36.5)) )
   tmp = ice9Wrapper(x, y, tmp, (4.,38.))
   code[tmp>0] = 6
   wet = wet - tmp # Removed named points
 
-  if verbose: print 'Processing Baltic ...'
+  if verbose: print('Processing Baltic ...')
   tmp = wet*( southOf(x, y, (8.6,56.), (8.6,60.)) )
   tmp = ice9Wrapper(x, y, tmp, (10.,58.))
   code[tmp>0] = 9
   wet = wet - tmp # Removed named points
 
-  if verbose: print 'Processing Hudson Bay ...'
+  if verbose: print('Processing Hudson Bay ...')
   tmp = wet*( 
              ( 1-(1-southOf(x, y, (-95.,66.), (-83.5,67.5)))
                 *(1-southOf(x, y, (-83.5,67.5), (-84.,71.))) 
@@ -231,7 +232,7 @@ def genBasinMasks(x,y,depth,verbose=False):
   code[tmp>0] = 8
   wet = wet - tmp # Removed named points
 
-  if verbose: print 'Processing Arctic ...'
+  if verbose: print('Processing Arctic ...')
   tmp = wet*( 
             (1-southOf(x, y, (-171.,66.), (-166.,65.5))) * (1-southOf(x, y, (-64.,66.4), (-50.,68.5))) # Lab Sea
        +    southOf(x, y, (-50.,0.), (-50.,90.)) * (1- southOf(x, y, (0.,65.5), (360.,65.5))  ) # Denmark Strait
@@ -243,7 +244,7 @@ def genBasinMasks(x,y,depth,verbose=False):
   code[tmp>0] = 4
   wet = wet - tmp # Removed named points
 
-  if verbose: print 'Processing Pacific ...'
+  if verbose: print('Processing Pacific ...')
   tmp = wet*( (1-southOf(x, y, (0.,yMel), (360.,yMel)))
              -southOf(x, y, (-257,1), (-257,0))*southOf(x, y, (0,3), (1,3))
              -southOf(x, y, (-254.25,1), (-254.25,0))*southOf(x, y, (0,-5), (1,-5)) 
@@ -254,19 +255,19 @@ def genBasinMasks(x,y,depth,verbose=False):
   code[tmp>0] = 3
   wet = wet - tmp # Removed named points
 
-  if verbose: print 'Processing Atlantic ...'
+  if verbose: print('Processing Atlantic ...')
   tmp = wet*(1-southOf(x, y, (0.,yCGH), (360.,yCGH)))
   tmp = ice9Wrapper(x, y, tmp, (-20.,0.))
   code[tmp>0] = 2
   wet = wet - tmp # Removed named points
 
-  if verbose: print 'Processing Indian ...'
+  if verbose: print('Processing Indian ...')
   tmp = wet*(1-southOf(x, y, (0.,yCGH), (360.,yCGH)))
   tmp = ice9Wrapper(x, y, tmp, (55.,0.))
   code[tmp>0] = 5
   wet = wet - tmp # Removed named points
 
-  if verbose: print 'Processing Southern Ocean ...'
+  if verbose: print('Processing Southern Ocean ...')
   tmp = ice9Wrapper(x, y, wet, (0.,-55.))
   code[tmp>0] = 1
   wet = wet - tmp # Removed named points
@@ -274,16 +275,16 @@ def genBasinMasks(x,y,depth,verbose=False):
   code[wet>0] = -9
   (j,i) = np.unravel_index( wet.argmax(), x.shape)
   if j:
-    if verbose: print 'There are leftover points unassigned to a basin code'
+    if verbose: print('There are leftover points unassigned to a basin code')
     while j:
-      print x[j,i],y[j,i],[j,i]
+      print(x[j,i],y[j,i],[j,i])
       wet[j,i]=0
       (j,i) = np.unravel_index( wet.argmax(), x.shape)
   else: 
-    if verbose: print 'All points assigned a basin code'
+    if verbose: print('All points assigned a basin code')
 
   if verbose:
-    print """
+    print("""
 Basin codes:
 -----------------------------------------------------------
   (1) Southern Ocean      (6) Mediterranean Sea
@@ -292,7 +293,7 @@ Basin codes:
   (4) Arctic Ocean        (9) Baltic Sea
   (5) Indian Ocean       (10) Red Sea
 
-    """
+    """)
 
   return code
 
