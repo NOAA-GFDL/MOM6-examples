@@ -100,10 +100,12 @@ MAXIMUM_DEPTH = 2000.0          !   [m]
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "buoy_forced_basin" !
+COORD_CONFIG = "BFB"            !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
+                                !     BFB - Custom coords for buoyancy-forced basin case
+                                !       based on SST_S, T_BOT and DRHO_DT.
                                 !     linear - linear based on interfaces not layers
                                 !     layer_ref - linear based on layer densities
                                 !     ts_ref - use reference temperature and salinity
@@ -149,13 +151,15 @@ SPONGE = True                   !   [Boolean] default = False
                                 ! If true, sponges may be applied anywhere in the domain.
                                 ! The exact location and properties of those sponges are
                                 ! specified via SPONGE_CONFIG.
-SPONGE_CONFIG = "buoy_forced_basin" ! default = "file"
+SPONGE_CONFIG = "BFB"           ! default = "file"
                                 ! A string that sets how the sponges are configured:
                                 !     file - read sponge properties from the file
                                 !       specified by (SPONGE_FILE).
                                 !     ISOMIP - apply ale sponge in the ISOMIP case
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
+                                !     BFB - Sponge at the southern boundary of the domain
+                                !       for buoyancy-forced basin case.
                                 !     USER - call a user modified routine.
 !Total sponge columns = 240     !
                                 ! The total number of columns where sponges are applied.
@@ -279,10 +283,10 @@ KD = 1.0E-04                    !   [m2 s-1]
 ! === module MOM_surface_forcing ===
 VARIABLE_WINDS = False          !   [Boolean] default = True
                                 ! If true, the winds vary in time after the initialization.
-BUOY_CONFIG = "buoy_forced_basin" !
+BUOY_CONFIG = "BFB"             !
                                 ! The character string that indicates how buoyancy forcing
                                 ! is specified. Valid options include (file), (zero),
-                                ! (linear), (USER), and (NONE).
+                                ! (linear), (USER), (BFB) and (NONE).
 WIND_CONFIG = "zero"            !
                                 ! The character string that indicates how wind forcing
                                 ! is specified. Valid options include (file), (2gyre),
@@ -296,7 +300,7 @@ FLUXCONST = 4.0                 !   [m day-1]
                                 ! to the relative surface anomalies (akin to a piston
                                 ! velocity).  Note the non-MKS units.
 
-! === module buoy_forced_basin_surface_forcing ===
+! === module BFB_surface_forcing ===
 
 ! === module MOM_restart ===
 
