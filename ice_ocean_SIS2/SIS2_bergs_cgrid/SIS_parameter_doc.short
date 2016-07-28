@@ -59,10 +59,6 @@ GRID_FILE = "ocean_hgrid.nc"    !
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
-
-! === module SIS_tracer_registry ===
-
-! === module SIS_tracer_flow_control ===
 CP_SEAWATER = 3925.0            !   [J kg-1 K-1] default = 4200.0
                                 ! The heat capacity of sea water, approximated as a
                                 ! constant.
@@ -71,6 +67,10 @@ CP_BRINE = 3925.0               !   [J kg-1 K-1] default = 2100.0
                                 ! sea-ice, approximated as a constant.  CP_BRINE and
                                 ! CP_WATER should be equal, but for computational
                                 ! convenience CP_BRINE has often been set equal to CP_ICE.
+
+! === module SIS_tracer_registry ===
+
+! === module SIS_tracer_flow_control ===
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
