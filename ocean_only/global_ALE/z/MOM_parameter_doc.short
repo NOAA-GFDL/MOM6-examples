@@ -156,6 +156,8 @@ COORD_CONFIG = "file"           !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
+                                !     BFB - Custom coords for buoyancy-forced basin case
+                                !       based on SST_S, T_BOT and DRHO_DT.
                                 !     linear - linear based on interfaces not layers
                                 !     layer_ref - linear based on layer densities
                                 !     ts_ref - use reference temperature and salinity
@@ -590,7 +592,7 @@ USE_NEUTRAL_DIFFUSION = True    !   [Boolean] default = False
 BUOY_CONFIG = "file"            !
                                 ! The character string that indicates how buoyancy forcing
                                 ! is specified. Valid options include (file), (zero),
-                                ! (linear), (USER), and (NONE).
+                                ! (linear), (USER), (BFB) and (NONE).
 ARCHAIC_OMIP_FORCING_FILE = False !   [Boolean] default = True
                                 ! If true, use the forcing variable decomposition from
                                 ! the old German OMIP prescription that predated CORE. If
