@@ -2325,7 +2325,7 @@
     ! units: Watt/m^2
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "net_heat_surface"  [Used] (CMOR equivalent is "hfds")
-    ! long_name: Surface ocean heat flux from SW+LW+lat+sens+mass transfer+frazil+restore
+    ! long_name: Surface ocean heat flux from SW+LW+lat+sens+mass transfer+frazil+restore or flux adjustments
     ! units: Watt/m^2
     ! standard_name: surface_downward_heat_flux_in_sea_water
     ! cell_methods: xh:mean yh:mean
@@ -2399,8 +2399,8 @@
     ! units: W m-2
     ! standard_name: surface_downward_sensible_heat_flux
     ! cell_methods: xh:mean yh:mean
-"ocean_model", "heat_restore"  [Used]
-    ! long_name: Restoring surface heat flux into ocean
+"ocean_model", "heat_added"  [Unused]
+    ! long_name: Flux Adjustment or restoring surface heat flux into ocean
     ! units: Watt/m^2
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "total_heat_content_frunoff"  [Used]
@@ -2450,7 +2450,7 @@
     ! long_name: Area integrated surface heat flux from SW+LW+latent+sensible (via the coupler)
     ! units: Watt
 "ocean_model", "total_net_heat_surface"  [Used]
-    ! long_name: Area integrated surface heat flux from SW+LW+lat+sens+mass+frazil+restore
+    ! long_name: Area integrated surface heat flux from SW+LW+lat+sens+mass+frazil+restore or flux adjustments
     ! units: Watt
 "ocean_model", "total_hfds"  [Unused]
     ! long_name: Surface Ocean Heat Flux from SW+LW+latent+sensible+mass transfer+frazil Area Integrated
@@ -2504,14 +2504,14 @@
     ! long_name: Surface Downward Sensible Heat Flux Area Integrated
     ! units: W
     ! standard_name: surface_downward_sensible_heat_flux_area_integrated
-"ocean_model", "total_heat_restore"  [Used]
-    ! long_name: Area integrated surface heat flux from restoring
+"ocean_model", "total_heat_adjustment"  [Unused]
+    ! long_name: Area integrated surface heat flux from restoring and/or flux adjustment
     ! units: Watt
 "ocean_model", "net_heat_coupler_ga"  [Used]
     ! long_name: Area averaged surface heat flux from SW+LW+latent+sensible (via the coupler)
     ! units: W m-2
 "ocean_model", "net_heat_surface_ga"  [Used]
-    ! long_name: Area averaged surface heat flux from SW+LW+lat+sens+mass+frazil+restore
+    ! long_name: Area averaged surface heat flux from SW+LW+lat+sens+mass+frazil+restore or flux adjustments
     ! units: W m-2
 "ocean_model", "ave_hfds"  [Unused]
     ! long_name: Surface Ocean Heat Flux from SW+LW+latent+sensible+mass transfer+frazil Area Averaged
@@ -2561,8 +2561,8 @@
     ! long_name: Salt flux into ocean at surface from coupler
     ! units: kilogram/(meter^2 * second)
     ! cell_methods: xh:mean yh:mean
-"ocean_model", "salt_flux_restore"  [Unused]
-    ! long_name: Salt flux into ocean at surface due to restoring
+"ocean_model", "salt_flux_added"  [Unused]
+    ! long_name: Salt flux into ocean at surface due to restoring or flux adjustment
     ! units: kilogram/(meter^2 * second)
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "salt_flux_global_restoring_adjustment"  [Unused]
@@ -2593,6 +2593,6 @@
 "ocean_model", "total_salt_Flux_In"  [Used]
     ! long_name: Area integrated surface salt flux at surface from coupler
     ! units: kg
-"ocean_model", "total_salt_Flux_Restore"  [Used]
-    ! long_name: Area integrated surface salt flux due to restoring
+"ocean_model", "total_salt_Flux_Added"  [Unused]
+    ! long_name: Area integrated surface salt flux due to restoring or flux adjustment
     ! units: kg
