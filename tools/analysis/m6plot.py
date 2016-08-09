@@ -180,8 +180,6 @@ def xycompare(field1, field2, x=None, y=None, area=None,
     maskedField2 = regionalMasking(field2,yCoord,xCoord,latRange,lonRange)
     areaCopy = numpy.ma.array(area,mask=maskedField1.mask,copy=True)
   s1Min, s1Max, s1Mean, s1Std, s1RMS = myStats(maskedField1, area, debug=debug)
-  if ignore is not None: maskedField2 = numpy.ma.masked_array(field2, mask=[field2==ignore])
-  else: maskedField2 = field2.copy()
   s2Min, s2Max, s2Mean, s2Std, s2RMS = myStats(maskedField2, area, debug=debug)
   dMin, dMax, dMean, dStd, dRMS = myStats(maskedField1 - maskedField2, area, debug=debug)
   if s1Mean is not None: dRxy = corr(maskedField1 - s1Mean, maskedField2 - s2Mean, area)
