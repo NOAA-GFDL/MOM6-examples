@@ -4,11 +4,6 @@
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
-DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
-                                ! The time step used for the slow ice dynamics, including
-                                ! stepping the continuity equation and interactions
-                                ! between the ice mass field and velocities.  If 0 or
-                                ! negative the coupling time step will be used.
 ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
                                 ! The fixed bulk salinity of sea ice.
 ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
@@ -64,6 +59,14 @@ GRID_FILE = "ocean_hgrid.nc"    !
 
 ! === module SIS_fast_thermo ===
 ! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS_slow ===
+! This module updates the ice momentum and does ice transport.
+DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
+                                ! The time step used for the slow ice dynamics, including
+                                ! stepping the continuity equation and interactions
+                                ! between the ice mass field and velocities.  If 0 or
+                                ! negative the coupling time step will be used.
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,

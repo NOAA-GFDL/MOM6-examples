@@ -14,11 +14,6 @@ ICE_OCEAN_STRESS_STAGGER = "C"  ! default = "C"
                                 ! returned to the coupler.  Valid values include
                                 ! 'A', 'B', or 'C', with a default that follows the
                                 ! value of CGRID_ICE_DYNAMICS.
-DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
-                                ! The time step used for the slow ice dynamics, including
-                                ! stepping the continuity equation and interactions
-                                ! between the ice mass field and velocities.  If 0 or
-                                ! negative the coupling time step will be used.
 RHO_OCEAN = 1030.0              !   [kg m-3] default = 1030.0
                                 ! The nominal density of sea water as used by SIS.
 RHO_ICE = 905.0                 !   [kg m-3] default = 905.0
@@ -78,8 +73,6 @@ APPLY_SLP_TO_OCEAN = False      !   [Boolean] default = False
 MIN_H_FOR_TEMP_CALC = 0.0       !   [m] default = 0.0
                                 ! The minimum ice thickness at which to do temperature
                                 ! calculations.
-VERBOSE = False                 !   [Boolean] default = False
-                                ! If true, write out verbose diagnostics.
 DO_ICEBERGS = False             !   [Boolean] default = False
                                 ! If true, call the iceberg module.
 ADD_DIURNAL_SW = False          !   [Boolean] default = False
@@ -281,6 +274,16 @@ USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
 
 ! === module SIS_fast_thermo ===
 ! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS_slow ===
+! This module updates the ice momentum and does ice transport.
+DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
+                                ! The time step used for the slow ice dynamics, including
+                                ! stepping the continuity equation and interactions
+                                ! between the ice mass field and velocities.  If 0 or
+                                ! negative the coupling time step will be used.
+VERBOSE = False                 !   [Boolean] default = False
+                                ! If true, write out verbose diagnostics.
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,

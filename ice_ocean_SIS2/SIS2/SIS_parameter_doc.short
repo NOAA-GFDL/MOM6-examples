@@ -1,11 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module ice_model ===
-DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
-                                ! The time step used for the slow ice dynamics, including
-                                ! stepping the continuity equation and interactions
-                                ! between the ice mass field and velocities.  If 0 or
-                                ! negative the coupling time step will be used.
 ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
                                 ! The fixed bulk salinity of sea ice.
 ADD_DIURNAL_SW = True           !   [Boolean] default = False
@@ -61,6 +56,14 @@ GRID_FILE = "ocean_hgrid.nc"    !
 
 ! === module SIS_fast_thermo ===
 ! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS_slow ===
+! This module updates the ice momentum and does ice transport.
+DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
+                                ! The time step used for the slow ice dynamics, including
+                                ! stepping the continuity equation and interactions
+                                ! between the ice mass field and velocities.  If 0 or
+                                ! negative the coupling time step will be used.
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
