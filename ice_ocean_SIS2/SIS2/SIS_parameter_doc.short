@@ -1,8 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module ice_model ===
-ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
-                                ! The fixed bulk salinity of sea ice.
 ADD_DIURNAL_SW = True           !   [Boolean] default = False
                                 ! If true, add a synthetic diurnal cycle to the shortwave
                                 ! radiation.
@@ -56,6 +54,11 @@ GRID_FILE = "ocean_hgrid.nc"    !
 
 ! === module SIS_fast_thermo ===
 ! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS_slow_thermo ===
+! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
+ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
+                                ! The fixed bulk salinity of sea ice.
 
 ! === module SIS_slow ===
 ! This module updates the ice momentum and does ice transport.

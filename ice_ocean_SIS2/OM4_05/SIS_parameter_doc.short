@@ -4,11 +4,6 @@
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
-ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
-                                ! The fixed bulk salinity of sea ice.
-ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
-                                ! The initial salinity of sea ice as a fraction of the
-                                ! salinity of the seawater from which it formed.
 DO_ICEBERGS = True              !   [Boolean] default = False
                                 ! If true, call the iceberg module.
 ADD_DIURNAL_SW = True           !   [Boolean] default = False
@@ -78,6 +73,14 @@ ICE_DELTA_EDD_R_POND = 1.0      !   [perhaps nondimensional?] default = 0.0
 
 ! === module SIS_fast_thermo ===
 ! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS_slow_thermo ===
+! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
+ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
+                                ! The fixed bulk salinity of sea ice.
+ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
+                                ! The initial salinity of sea ice as a fraction of the
+                                ! salinity of the seawater from which it formed.
 
 ! === module SIS_slow ===
 ! This module updates the ice momentum and does ice transport.

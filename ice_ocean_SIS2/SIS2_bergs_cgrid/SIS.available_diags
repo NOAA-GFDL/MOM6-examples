@@ -82,9 +82,6 @@
 "ice_model", "SALTF"  [Used]
     ! long_name: ice to ocean salt flux
     ! units: kg/(m^2*s)
-"ice_model", "SN2IC"  [Used]
-    ! long_name: rate of snow to ice conversion
-    ! units: kg/(m^2*s)
 "ice_model", "TMELT"  [Used]
     ! long_name: upper surface melting energy flux
     ! units: W/m^2
@@ -142,18 +139,6 @@
 "ice_model", "alb_nir_dif"  [Unused]
     ! long_name: ice surface albedo nir_dif
     ! units: 0-1
-"ice_model", "LSRC"  [Used]
-    ! long_name: frozen water local source
-    ! units: kg/(m^2*yr)
-"ice_model", "LSNK"  [Used]
-    ! long_name: frozen water local sink
-    ! units: kg/(m^2*yr)
-"ice_model", "BSNK"  [Used]
-    ! long_name: frozen water local bottom sink
-    ! units: kg/(m^2*yr)
-"ice_model", "STRAIN_ANGLE"  [Unused]
-    ! long_name: strain angle
-    ! units: none
 "ice_model", "UO"  [Used]
     ! long_name: surface current - x component
     ! units: m/s
@@ -162,12 +147,6 @@
     ! units: m/s
 "ice_model", "SW_VIS"  [Unused]
     ! long_name: visible short wave heat flux
-    ! units: W/m^2
-"ice_model", "SW_DIR"  [Unused]
-    ! long_name: direct short wave heat flux
-    ! units: W/m^2
-"ice_model", "SW_DIF"  [Unused]
-    ! long_name: diffuse short wave heat flux
     ! units: W/m^2
 "ice_model", "SW_VIS_DIR"  [Unused]
     ! long_name: visible direct short wave heat flux
@@ -187,9 +166,6 @@
 "ice_model", "LWDN"  [Unused]
     ! long_name: downward longwave flux
     ! units: W/m^2
-"ice_model", "TA"  [Unused]
-    ! long_name: surface air temperature
-    ! units: C
 "ice_model", "SLP"  [Unused]
     ! long_name: sea level pressure
     ! units: Pa
@@ -202,18 +178,21 @@
 "ice_model", "SSH"  [Used]
     ! long_name: sea surface height
     ! units: m
-"ice_model", "OBI"  [Unused]
-    ! long_name: ice observed
-    ! units: 0 or 1
 "ice_model", "RDG_RATE"  [Unused]
     ! long_name: ice ridging rate
     ! units: 1/sec
-"ice_model", "RDG_OPEN"  [Unused]
-    ! long_name: opening due to ridging
-    ! units: 1/s
-"ice_model", "RDG_VOSH"  [Unused]
-    ! long_name: volume shifted from level to ridged ice
-    ! units: m^3/s
+"ice_model", "LSRC"  [Used]
+    ! long_name: frozen water local source
+    ! units: kg/(m^2*yr)
+"ice_model", "LSNK"  [Used]
+    ! long_name: frozen water local sink
+    ! units: kg/(m^2*yr)
+"ice_model", "BSNK"  [Used]
+    ! long_name: frozen water local bottom sink
+    ! units: kg/(m^2*yr)
+"ice_model", "SN2IC"  [Used]
+    ! long_name: rate of snow to ice conversion
+    ! units: kg/(m^2*s)
 "ice_model", "SIGI"  [Unused]
     ! long_name: first stress invariant
     ! units: none
