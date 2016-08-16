@@ -27,6 +27,14 @@ MOMENTUM_ROUGH_ICE = 1.0E-04    !   [m] default = 1.0E-04
 HEAT_ROUGH_ICE = 1.0E-04        !   [m] default = 1.0E-04
                                 ! The default roughness length scale for the turbulent
                                 ! transfer of heat into the ocean.
+CONSTANT_COSZEN_IC = 0.39127675446017 !   [nondim] default = 0.39127675446017
+                                ! A constant value to use to initialize the cosine of
+                                ! the solar zenith angle for the next step, or a negative
+                                ! number to use the current time and astronomy.
+DT_RADIATION = 1800.0           !   [s] default = 1800.0
+                                ! The time step with which the shortwave radiation and
+                                ! fields like albedos are updated.  Currently this is only
+                                ! used to initialize albedos when there is no restart file.
 ICE_KMELT = 240.0               !   [W m-2 K-1] default = 240.0
                                 ! A constant giving the proportionality of the ocean/ice
                                 ! base heat flux to the tempature difference, given by
