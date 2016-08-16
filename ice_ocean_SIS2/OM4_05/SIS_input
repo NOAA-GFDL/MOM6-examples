@@ -19,6 +19,11 @@ ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
 ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
                                 ! The initial salinity of sea ice as a fraction of the
                                 ! salinity of the seawater from which it formed.
+CONSTANT_COSZEN_IC = 0.0        ! A constant value to use to initialize the
+                                ! cosine of the solar zenith angle for the first
+                                ! radiation step, or a negative number to use
+                                ! the current time and astronomy.
+
 DO_ICEBERGS = True              !   [Boolean] default = False
                                 ! If true, call the iceberg module.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0

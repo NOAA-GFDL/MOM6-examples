@@ -47,6 +47,10 @@ SEND_LOG_TO_STDOUT = False      !    If true write out log information to stdout
 ICE_STATS_INTERVAL = 0.25       !    The interval in units of TIMEUNIT between
                                 ! writes of the globally summed ice statistics
                                 ! and conservation checks.
+CONSTANT_COSZEN_IC = 0.0        ! A constant value to use to initialize the
+                                ! cosine of the solar zenith angle for the first
+                                ! radiation step, or a negative number to use
+                                ! the current time and astronomy.
 
 !  Specify the time integration scheme for the ice dynamics.
 DT_ICE_DYNAMICS = 3600.0        ! The time step used for the slow ice dynamics, 
