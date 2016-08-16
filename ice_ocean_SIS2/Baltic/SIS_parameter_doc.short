@@ -4,10 +4,10 @@
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
-CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = 0.39127675446017
+CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of
-                                ! the solar zenith angle for the next step, or a negative
-                                ! number to use the current time and astronomy.
+                                ! the solar zenith angle for the first radiation step,
+                                ! or a negative number to use the current time and astronomy.
 ADD_DIURNAL_SW = True           !   [Boolean] default = False
                                 ! If true, add a synthetic diurnal cycle to the shortwave
                                 ! radiation.
