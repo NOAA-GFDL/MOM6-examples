@@ -11,9 +11,6 @@ CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
 ADD_DIURNAL_SW = True           !   [Boolean] default = False
                                 ! If true, add a synthetic diurnal cycle to the shortwave
                                 ! radiation.
-ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
-                                ! The interval in units of TIMEUNIT between writes of the
-                                ! globally summed ice statistics and conservation checks.
 
 ! === module MOM_domains ===
 TRIPOLAR_N = True               !   [Boolean] default = False
@@ -77,6 +74,9 @@ DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
                                 ! stepping the continuity equation and interactions
                                 ! between the ice mass field and velocities.  If 0 or
                                 ! negative the coupling time step will be used.
+ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
+                                ! The interval in units of TIMEUNIT between writes of the
+                                ! globally summed ice statistics and conservation checks.
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,

@@ -5,9 +5,6 @@ DT_RADIATION = 1.08E+04         !   [s] default = 7200.0
                                 ! The time step with which the shortwave radiation and
                                 ! fields like albedos are updated.  Currently this is only
                                 ! used to initialize albedos when there is no restart file.
-ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
-                                ! The interval in units of TIMEUNIT between writes of the
-                                ! globally summed ice statistics and conservation checks.
 
 ! === module MOM_domains ===
 TRIPOLAR_N = True               !   [Boolean] default = False
@@ -68,6 +65,9 @@ DT_ICE_DYNAMICS = 7200.0        !   [seconds] default = -1.0
                                 ! stepping the continuity equation and interactions
                                 ! between the ice mass field and velocities.  If 0 or
                                 ! negative the coupling time step will be used.
+ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
+                                ! The interval in units of TIMEUNIT between writes of the
+                                ! globally summed ice statistics and conservation checks.
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
