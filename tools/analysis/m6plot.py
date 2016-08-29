@@ -3,7 +3,7 @@ A method for producing a standardized pseudo-color plot of 2D data
 """
 
 import os
-try: 
+try:
   if os.environ['DISPLAY'] != None: pass
 except: 
   import matplotlib
@@ -15,13 +15,17 @@ import math
 import numpy, numpy.matlib
 import m6toolbox
 import VerticalSplitScale
+import cmocean
+
+try: from mpl_toolkits.basemap import Basemap
+except: print('Basemap module not found. Some regional plots may not function properly')
 
 def xyplot(field, x=None, y=None, area=None,
   xlabel=None, xunits=None, ylabel=None, yunits=None,
   title='', suptitle='',
   clim=None, colormap=None, extend=None, centerlabels=False,
   nbins=None, landcolor=[.5,.5,.5],
-  aspect=[16,9], resolution=576, axis=None,
+  aspect=[16,9], resolution=576, axis=None, sigma=2.,
   ignore=None, save=None, debug=False, show=False, interactive=False, logscale=False):
   """
   Renders plot of scalar field, field(x,y).
@@ -40,6 +44,7 @@ def xyplot(field, x=None, y=None, area=None,
   title        The title to place at the top of the panel. Default ''.
   suptitle     The super-title to place at the top of the figure. Default ''.
   clim         A tuple of (min,max) color range OR a list of contour levels. Default None.
+  sigma         Sigma range for difference plot autocolor levels. Default is to span a 2. sigma range
   colormap     The name of the colormap to use. Default None.
   extend       Can be one of 'both', 'neither', 'max', 'min'. Default None.
   centerlabels If True, will move the colorbar labels to the middle of the interval. Default False.
@@ -72,7 +77,7 @@ def xyplot(field, x=None, y=None, area=None,
   if nbins is None and (clim is None or len(clim)==2): nbins=35
   if colormap is None: colormap = chooseColorMap(sMin, sMax)
   if clim is None and sStd>0:
-    cmap, norm, extend = chooseColorLevels(sMean-2.*sStd, sMean+2.*sStd, colormap, clim=clim, nbins=nbins, extend=extend, logscale=logscale)
+    cmap, norm, extend = chooseColorLevels(sMean-sigma*sStd, sMean+sigma*sStd, colormap, clim=clim, nbins=nbins, extend=extend, logscale=logscale)
   else:
     cmap, norm, extend = chooseColorLevels(sMin, sMax, colormap, clim=clim, nbins=nbins, extend=extend, logscale=logscale)
 
@@ -107,8 +112,8 @@ def xycompare(field1, field2, x=None, y=None, area=None,
   title1='', title2='', title3='A - B', addplabel=True, suptitle='',
   clim=None, colormap=None, extend=None, centerlabels=False,
   dlim=None, dcolormap=None, dextend=None, centerdlabels=False,
-  nbins=None, landcolor=[.5,.5,.5],
-  aspect=None, resolution=None, axis=None, npanels=3,
+  nbins=None, landcolor=[.5,.5,.5], sector=None, webversion=False,
+  aspect=None, resolution=None, axis=None, npanels=3, sigma=2.,
   ignore=None, save=None, debug=False, show=False, interactive=False):
   """
   Renders n-panel plot of two scalar fields, field1(x,y) and field2(x,y).
@@ -130,7 +135,9 @@ def xycompare(field1, field2, x=None, y=None, area=None,
   title3        The title to place at the top of panel 1. Default 'A-B'.
   addplabel     Adds a 'A:' or 'B:' to the title1 and title2. Default True.
   suptitle      The super-title to place at the top of the figure. Default ''.
+  sector        Restrcit plot to a specific sector. Default 'None' (i.e. global).
   clim          A tuple of (min,max) color range OR a list of contour levels for the field plots. Default None.
+  sigma         Sigma range for difference plot autocolor levels. Default is to span a 2. sigma range
   colormap      The name of the colormap to use for the field plots. Default None.
   extend        Can be one of 'both', 'neither', 'max', 'min'. Default None.
   centerlabels  If True, will move the colorbar labels to the middle of the interval. Default False.
@@ -148,6 +155,7 @@ def xycompare(field1, field2, x=None, y=None, area=None,
   save          Name of file to save figure in. Default None.
   debug         If true, report stuff for debugging. Default False.
   show          If true, causes the figure to appear on screen. Used for testing. Default False.
+  webversion    If true, set options specific for displaying figures in a web browser. Default False.
   interactive   If true, adds interactive features such as zoom, close and cursor. Default False.
   """
 
@@ -158,12 +166,20 @@ def xycompare(field1, field2, x=None, y=None, area=None,
   if debug: print('x,y label/units=',xlabel,xunits,ylabel,yunits)
   xCoord, yCoord = createXYcoords(field1, x, y)
 
+  # Establish ranges for sectors
+  lonRange, latRange, hspace, titleOffset = sectorRanges(sector=sector)
+
   # Diagnose statistics
-  if ignore is not None: maskedField1 = numpy.ma.masked_array(field1, mask=[field1==ignore])
-  else: maskedField1 = field1.copy()
+  if sector == None or sector == 'global':
+    if ignore is not None: maskedField1 = numpy.ma.masked_array(field1, mask=[field1==ignore])
+    else: maskedField1 = field1.copy()
+    if ignore is not None: maskedField2 = numpy.ma.masked_array(field2, mask=[field2==ignore])
+    else: maskedField2 = field2.copy()
+  else:
+    maskedField1 = regionalMasking(field1,yCoord,xCoord,latRange,lonRange)
+    maskedField2 = regionalMasking(field2,yCoord,xCoord,latRange,lonRange)
+    areaCopy = numpy.ma.array(area,mask=maskedField1.mask,copy=True)
   s1Min, s1Max, s1Mean, s1Std, s1RMS = myStats(maskedField1, area, debug=debug)
-  if ignore is not None: maskedField2 = numpy.ma.masked_array(field2, mask=[field2==ignore])
-  else: maskedField2 = field2.copy()
   s2Min, s2Max, s2Mean, s2Std, s2RMS = myStats(maskedField2, area, debug=debug)
   dMin, dMax, dMean, dStd, dRMS = myStats(maskedField1 - maskedField2, area, debug=debug)
   if s1Mean is not None: dRxy = corr(maskedField1 - s1Mean, maskedField2 - s2Mean, area)
@@ -182,11 +198,16 @@ def xycompare(field1, field2, x=None, y=None, area=None,
   if colormap is None: colormap = chooseColorMap(s12Min, s12Max)
   cmap, norm, extend = chooseColorLevels(s12Min, s12Max, colormap, clim=clim, nbins=cBins, extend=extend)
 
-  def annotateStats(axis, sMin, sMax, sMean, sStd, sRMS):
-    axis.annotate('max=%.5g\nmin=%.5g'%(sMax,sMin), xy=(0.0,1.025), xycoords='axes fraction', verticalalignment='bottom', fontsize=10)
+  def annotateStats(axis, sMin, sMax, sMean, sStd, sRMS, webversion=False):
+    if webversion == True: fontsize=9
+    else: fontsize=10
+    axis.annotate('max=%.5g\nmin=%.5g'%(sMax,sMin), xy=(0.0,1.025), xycoords='axes fraction', \
+                  verticalalignment='bottom', fontsize=fontsize)
     if sMean is not None:
-      axis.annotate('mean=%.5g\nrms=%.5g'%(sMean,sRMS), xy=(1.0,1.025), xycoords='axes fraction', verticalalignment='bottom', horizontalalignment='right', fontsize=10)
-      axis.annotate(' sd=%.5g\n'%(sStd), xy=(1.0,1.025), xycoords='axes fraction', verticalalignment='bottom', horizontalalignment='left', fontsize=10)
+      axis.annotate('mean=%.5g\nrms=%.5g'%(sMean,sRMS), xy=(1.0,1.025), xycoords='axes fraction', \
+                    verticalalignment='bottom', horizontalalignment='right', fontsize=fontsize)
+      axis.annotate(' sd=%.5g\n'%(sStd), xy=(1.0,1.025), xycoords='axes fraction', verticalalignment='bottom', \
+                    horizontalalignment='left', fontsize=fontsize)
 
   if addplabel: preTitleA = 'A: '; preTitleB = 'B: '
   else: preTitleA = ''; preTitleB = ''
@@ -196,52 +217,95 @@ def xycompare(field1, field2, x=None, y=None, area=None,
 
   if npanels in [2,3]:
     axis = plt.subplot(npanels,1,1)
-    plt.pcolormesh(xCoord, yCoord, maskedField1, cmap=cmap, norm=norm)
-    if interactive: addStatusBar(xCoord, yCoord, maskedField1)
-    cb1 = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
+    if sector == None or sector == 'global':
+      plt.pcolormesh(xCoord, yCoord, maskedField1, cmap=cmap, norm=norm)
+      if interactive: addStatusBar(xCoord, yCoord, maskedField1)
+      cb1 = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
+      plt.xlim( xLims ); plt.ylim( yLims )
+      axis.set_xticklabels([''])
+    else:
+      plotBasemapPanel(maskedField1, sector, xCoord, yCoord, lonRange, latRange, \
+                       cmap, norm, interactive, extend)
     if centerlabels and len(clim)>2: cb1.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
     axis.set_axis_bgcolor(landcolor)
-    plt.xlim( xLims ); plt.ylim( yLims )
-    annotateStats(axis, s1Min, s1Max, s1Mean, s1Std, s1RMS)
-    axis.set_xticklabels([''])
+    annotateStats(axis, s1Min, s1Max, s1Mean, s1Std, s1RMS, webversion=webversion)
     if len(ylabel+yunits)>0: plt.ylabel(label(ylabel, yunits))
-    if len(title1)>0: plt.title(preTitleA+title1)
+    if len(title1)>0: 
+      if webversion == True: axis.annotate(preTitleA+title1, xy=(0.5,1.14), xycoords='axes fraction', \
+                                           verticalalignment='bottom', horizontalalignment='center', fontsize=12)
+      else:
+        plt.title(preTitleA+title1)
 
     axis = plt.subplot(npanels,1,2)
-    plt.pcolormesh(xCoord, yCoord, maskedField2, cmap=cmap, norm=norm)
-    if interactive: addStatusBar(xCoord, yCoord, maskedField2)
-    cb2 = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
+    if sector == None or sector == 'global':
+      plt.pcolormesh(xCoord, yCoord, maskedField2, cmap=cmap, norm=norm)
+      if interactive: addStatusBar(xCoord, yCoord, maskedField2)
+      cb2 = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
+      plt.xlim( xLims ); plt.ylim( yLims )
+      if npanels>2: axis.set_xticklabels([''])
+    else:
+      plotBasemapPanel(maskedField2, sector, xCoord, yCoord, lonRange, latRange, \
+                       cmap, norm, interactive, extend)
     if centerlabels and len(clim)>2: cb2.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
     axis.set_axis_bgcolor(landcolor)
-    plt.xlim( xLims ); plt.ylim( yLims )
-    annotateStats(axis, s2Min, s2Max, s2Mean, s2Std, s2RMS)
-    if npanels>2: axis.set_xticklabels([''])
+    annotateStats(axis, s2Min, s2Max, s2Mean, s2Std, s2RMS, webversion=webversion)
     if len(ylabel+yunits)>0: plt.ylabel(label(ylabel, yunits))
-    if len(title2)>0: plt.title(preTitleB+title2)
+    if len(title2)>0: 
+      if webversion == True: axis.annotate(preTitleB+title2, xy=(0.5,titleOffset), xycoords='axes fraction', \
+                                           verticalalignment='bottom', horizontalalignment='center', fontsize=12)
+      else:
+        plt.title(preTitleB+title2)
 
   if npanels in [1,3]:
     axis = plt.subplot(npanels,1,npanels)
-    if dcolormap is None: dcolormap = chooseColorMap(dMin, dMax)
-    if dlim is None and dStd>0:
-      cmap, norm, dextend = chooseColorLevels(dMean-2.*dStd, dMean+2.*dStd, dcolormap, clim=dlim, nbins=nbins, extend='both', autocenter=True)
+    if sector == None or sector == 'global':
+      if dcolormap is None: dcolormap = chooseColorMap(dMin, dMax)
+      if dlim is None and dStd>0:
+        cmap, norm, dextend = chooseColorLevels(dMean-sigma*dStd, dMean+sigma*dStd, dcolormap, clim=dlim, nbins=nbins, \
+                                                extend='both', autocenter=True)
+      else:
+        cmap, norm, dextend = chooseColorLevels(dMin, dMax, dcolormap, clim=dlim, nbins=nbins, extend=dextend, autocenter=True)
+      plt.pcolormesh(xCoord, yCoord, maskedField1 - maskedField2, cmap=cmap, norm=norm)
+      if interactive: addStatusBar(xCoord, yCoord, maskedField1 - maskedField2)
+      if dextend is None: dextend = extend
+      cb3 = plt.colorbar(fraction=.08, pad=0.02, extend=dextend) # was extend!
+      if centerdlabels and len(dlim)>2: cb3.set_ticks(  0.5*(dlim[:-1]+dlim[1:]) )
+      axis.set_axis_bgcolor(landcolor)
+      plt.xlim( xLims ); plt.ylim( yLims )
+      annotateStats(axis, dMin, dMax, dMean, dStd, dRMS, webversion=webversion)
+      if len(ylabel+yunits)>0: plt.ylabel(label(ylabel, yunits))
+      if len(title3)>0: plt.title(title3)
+    elif sector != None:
+      # Copy data array, mask, and compute stats / color levels
+      maskedDiffField = numpy.ma.array(maskedField1 - maskedField2)
+      dMin, dMax, dMean, dStd, dRMS = myStats(maskedDiffField, areaCopy, debug=debug)
+      if dcolormap is None: dcolormap = chooseColorMap(dMin, dMax,difference=True)
+      if dlim is None and dStd>0:
+        cmap, norm, dextend = chooseColorLevels(dMean-sigma*dStd, dMean+sigma*dStd, dcolormap, clim=dlim, nbins=nbins, \
+                                                extend='both', autocenter=True)
+      else:
+        cmap, norm, dextend = chooseColorLevels(dMin, dMax, dcolormap, clim=dlim, nbins=nbins, extend=dextend, autocenter=True)
+      # Set up Basemap projection
+      plotBasemapPanel(maskedField1 - maskedField2, sector, xCoord, yCoord, lonRange, latRange, \
+                       cmap, norm, interactive, dextend)
+      annotateStats(axis, dMin, dMax, dMean, dStd, dRMS, webversion=webversion)
+      if len(ylabel+yunits)>0: plt.ylabel(label(ylabel, yunits))
+      if len(title3)>0: 
+        if webversion == True: axis.annotate(title3, xy=(0.5,titleOffset), xycoords='axes fraction', verticalalignment='bottom',
+                                             horizontalalignment='center', fontsize=12)
+        else:
+          plt.title(title3)
     else:
-      cmap, norm, dextend = chooseColorLevels(dMin, dMax, dcolormap, clim=dlim, nbins=nbins, extend=dextend, autocenter=True)
-    plt.pcolormesh(xCoord, yCoord, maskedField1 - maskedField2, cmap=cmap, norm=norm)
-    if interactive: addStatusBar(xCoord, yCoord, maskedField1 - maskedField2)
-    if dextend is None: dextend = extend
-    cb3 = plt.colorbar(fraction=.08, pad=0.02, extend=dextend) # was extend!
-    if centerdlabels and len(dlim)>2: cb3.set_ticks(  0.5*(dlim[:-1]+dlim[1:]) )
-    axis.set_axis_bgcolor(landcolor)
-    plt.xlim( xLims ); plt.ylim( yLims )
-    annotateStats(axis, dMin, dMax, dMean, dStd, dRMS)
-    if len(ylabel+yunits)>0: plt.ylabel(label(ylabel, yunits))
-    if len(title3)>0: plt.title(title3)
+      raise ValueError('Invalid sector specified')
 
-  if dRxy is not None: axis.annotate(' r(A,B)=%.5g\n'%(dRxy), xy=(1.0,-1.1), xycoords='axes fraction', verticalalignment='top', horizontalalignment='center', fontsize=10)
-  if len(xlabel+xunits)>0: plt.xlabel(label(xlabel, xunits))
-  if len(suptitle)>0: plt.suptitle(suptitle)
+  if webversion: plt.subplots_adjust(hspace=hspace)
+  if webversion == True:
+    fig = plt.gcf()
+    fig.text(0.5,0.02,'Generated by m6plot on dora.gfdl.noaa.gov',fontsize=9,horizontalalignment='center')
 
-  if save is not None: plt.savefig(save)
+  plt.suptitle(suptitle,y=1.0)
+
+  if save is not None: plt.savefig(save,bbox_inches='tight')
   if interactive: addInteractiveCallbacks()
   if show: plt.show(block=False)
 
@@ -339,7 +403,7 @@ def yzcompare(field1, field2, y=None, z=None,
   title1='', title2='', title3='A - B', addplabel=True, suptitle='',
   clim=None, colormap=None, extend=None, centerlabels=False,
   dlim=None, dcolormap=None, dextend=None, centerdlabels=False,
-  nbins=None, landcolor=[.5,.5,.5],
+  nbins=None, landcolor=[.5,.5,.5], sigma=2.,
   aspect=None, resolution=None, axis=None, npanels=3,
   ignore=None, save=None, debug=False, show=False, interactive=False):
   """
@@ -363,6 +427,7 @@ def yzcompare(field1, field2, y=None, z=None,
   addplabel     Adds a 'A:' or 'B:' to the title1 and title2. Default True.
   suptitle      The super-title to place at the top of the figure. Default ''.
   clim          A tuple of (min,max) color range OR a list of contour levels for the field plots. Default None.
+  sigma         Sigma range for difference plot autocolor levels. Default is to span a 2. sigma range
   colormap      The name of the colormap to use for the field plots. Default None.
   extend        Can be one of 'both', 'neither', 'max', 'min'. Default None.
   centerlabels  If True, will move the colorbar labels to the middle of the interval. Default False.
@@ -466,7 +531,7 @@ def yzcompare(field1, field2, y=None, z=None,
     axis = plt.subplot(npanels,1,npanels)
     if dcolormap is None: dcolormap = chooseColorMap(dMin, dMax)
     if dlim is None and dStd>0:
-      cmap, norm, dextend = chooseColorLevels(dMean-2.*dStd, dMean+2.*dStd, dcolormap, clim=dlim, nbins=nbins, extend='both', autocenter=True)
+      cmap, norm, dextend = chooseColorLevels(dMean-sigma*dStd, dMean+sigma*dStd, dcolormap, clim=dlim, nbins=nbins, extend='both', autocenter=True)
     else:
       cmap, norm, dextend = chooseColorLevels(dMin, dMax, dcolormap, clim=dlim, nbins=nbins, extend=dextend, autocenter=True)
     plt.pcolormesh(yCoord, zCoord, field1 - field2, cmap=cmap, norm=norm)
@@ -574,11 +639,12 @@ def ztplot(field, t=None, z=None,
   if interactive: addInteractiveCallbacks()
   if show: plt.show(block=False)
 
-def chooseColorMap(sMin, sMax):
+def chooseColorMap(sMin, sMax, difference=None):
   """
   Based on the min/max extremes of the data, choose a colormap that fits the data.
   """
-  if sMin<0 and sMax>0: return 'dunnePM'
+  if difference == True: return 'dunnePM'
+  elif sMin<0 and sMax>0: return 'dunnePM'
   #elif sMax>0 and sMin<0.1*sMax: return 'hot'
   #elif sMin<0 and sMax>0.1*sMin: return 'hot_r'
   else: return 'dunneRainbow'
@@ -1030,9 +1096,199 @@ def dunne_pm(N=256):
   matplotlib.cm.register_cmap(cmap=cmap)
   return cmap
 
+def brownblue_cmap():
+  # The color map below is from the Light & Bartlein collection
+  # which is tested for several different forms of colorblindness
+  #
+  # Reference:
+  # A. Light & P.J. Bartlein, "The End of the Rainbow? Color Schemes for
+  # Improved Data Graphics," Eos,Vol. 85, No. 40, 5 October 2004.
+  # http://geog.uoregon.edu/datagraphics/EOS/Light-and-Bartlein.pdf
+
+  lb_brownblue_values = numpy.array([
+    [144,100, 44],
+    [187,120, 54],
+    [225,146, 65],
+    [248,184,139],
+    [244,218,200],
+    [255,255,255],   #[241,244,245],
+    [207,226,240],
+    [160,190,225],
+    [109,153,206],
+    [70, 99, 174],
+    [24, 79, 162]])
+
+  lb_brownblue_values = lb_brownblue_values/255.
+  lb_brownblue_values = lb_brownblue_values[::-1,:]
+
+  import matplotlib
+  cmap = matplotlib.colors.LinearSegmentedColormap.from_list('brownblue',lb_brownblue_values)
+  cmap.set_bad('w')
+  matplotlib.cm.register_cmap(cmap=cmap)
+  return cmap
+
+def parula_cmap():
+  parula_values = numpy.array([
+    [0.2081,0.1663,0.5292],
+    [0.2116,0.1898,0.5777],
+    [0.2123,0.2138,0.6270],
+    [0.2081,0.2386,0.6771],
+    [0.1959,0.2645,0.7279],
+    [0.1707,0.2919,0.7792],
+    [0.1253,0.3242,0.8303],
+    [0.0591,0.3598,0.8683],
+    [0.0117,0.3875,0.8820],
+    [0.0060,0.4086,0.8828],
+    [0.0165,0.4266,0.8786],
+    [0.0329,0.4430,0.8720],
+    [0.0498,0.4586,0.8641],
+    [0.0629,0.4737,0.8554],
+    [0.0723,0.4887,0.8467],
+    [0.0779,0.5040,0.8384],
+    [0.0793,0.5200,0.8312],
+    [0.0749,0.5375,0.8263],
+    [0.0641,0.5570,0.8240],
+    [0.0488,0.5772,0.8228],
+    [0.0343,0.5966,0.8199],
+    [0.0265,0.6137,0.8135],
+    [0.0239,0.6287,0.8038],
+    [0.0231,0.6418,0.7913],
+    [0.0228,0.6535,0.7768],
+    [0.0267,0.6642,0.7607],
+    [0.0384,0.6743,0.7436],
+    [0.0590,0.6838,0.7254],
+    [0.0843,0.6928,0.7062],
+    [0.1133,0.7015,0.6859],
+    [0.1453,0.7098,0.6646],
+    [0.1801,0.7177,0.6424],
+    [0.2178,0.7250,0.6193],
+    [0.2586,0.7317,0.5954],
+    [0.3022,0.7376,0.5712],
+    [0.3482,0.7424,0.5473],
+    [0.3953,0.7459,0.5244],
+    [0.4420,0.7481,0.5033],
+    [0.4871,0.7491,0.4840],
+    [0.5300,0.7491,0.4661],
+    [0.5709,0.7485,0.4494],
+    [0.6099,0.7473,0.4337],
+    [0.6473,0.7456,0.4188],
+    [0.6834,0.7435,0.4044],
+    [0.7184,0.7411,0.3905],
+    [0.7525,0.7384,0.3768],
+    [0.7858,0.7356,0.3633],
+    [0.8185,0.7327,0.3498],
+    [0.8507,0.7299,0.3360],
+    [0.8824,0.7274,0.3217],
+    [0.9139,0.7258,0.3063],
+    [0.9450,0.7261,0.2886],
+    [0.9739,0.7314,0.2666],
+    [0.9938,0.7455,0.2403],
+    [0.9990,0.7653,0.2164],
+    [0.9955,0.7861,0.1967],
+    [0.9880,0.8066,0.1794],
+    [0.9789,0.8271,0.1633],
+    [0.9697,0.8481,0.1475],
+    [0.9626,0.8705,0.1309],
+    [0.9589,0.8949,0.1132],
+    [0.9598,0.9218,0.0948],
+    [0.9661,0.9514,0.0755],
+    [0.9763,0.9831,0.0538]])
+
+  import matplotlib
+  cmap = matplotlib.colors.LinearSegmentedColormap.from_list('parula',parula_values)
+  cmap.set_bad('w')
+  matplotlib.cm.register_cmap(cmap=cmap)
+  return cmap
+
+def plotBasemapPanel(field, sector, xCoord, yCoord, lonRange, latRange, cmap, norm, interactive, extend):
+  if sector == 'arctic':  m = Basemap(projection='npstere',boundinglat=60,lon_0=-120,resolution='l')
+  elif sector == 'shACC': m = Basemap(projection='spstere',boundinglat=-45,lon_0=-120,resolution='l')
+  else:  m = Basemap(projection='mill',lon_0=-120.,resolution='l',llcrnrlon=lonRange[0], \
+             llcrnrlat=latRange[0], urcrnrlon=lonRange[1],urcrnrlat=latRange[1])
+  m.drawmapboundary(fill_color='0.85')
+  im0 = m.pcolormesh(numpy.minimum(xCoord,60.),yCoord,(field),shading='flat',cmap=cmap,norm=norm,latlon=True)
+  m.drawcoastlines()
+  if interactive: addStatusBar(xCoord, yCoord, field)
+  if extend is None: extend = extend
+  cb1 = m.colorbar(pad=0.15, extend=extend)
+  if sector == 'tropPac': drawNinoBoxes(m)
+
+
+def drawNinoBoxes(m,region='all'):
+  '''
+  Function to draw ENSO region boxes on a basemap instance
+  '''
+  if region == 'nino4' or region == 'all':
+    polyLon = [-200., -200., -150., -150., -200.]
+    polyLat = [-5., 5., 5., -5., -5.]
+    polyX, polyY = m(polyLon,polyLat)
+    m.plot(polyX, polyY, marker=None,color='k',linewidth=2.0)
+  if region == 'nino3' or region == 'all':
+    polyLon = [-150., -150., -90., -90., -150.]
+    polyLat = [-5., 5., 5., -5., -5.]
+    polyX, polyY = m(polyLon,polyLat)
+    m.plot(polyX, polyY, marker=None,color='k',linewidth=2.0)
+  if region == 'nino34' or region == 'all':
+    polyLon = [-170., -170., -120., -120., -170.]
+    polyLat = [-5., 5., 5., -5., -5.]
+    polyX, polyY = m(polyLon,polyLat)
+    m.plot(polyX, polyY, marker=None,color='r',linestyle='dashed',linewidth=2.0)
+  if region == 'nino12' or region == 'all':
+    polyLon = [-90., -90., -80., -80., -90.]
+    polyLat = [-10., 0., 0., -10., -10.]
+    polyX, polyY = m(polyLon,polyLat)
+    m.plot(polyX, polyY, marker=None,color='k',linewidth=2.0)
+
+
+def regionalMasking(field,yCoord,xCoord,latRange,lonRange):
+    maskedField = field.copy()
+    maskedField = numpy.ma.masked_where(numpy.less(yCoord[0:-1,0:-1],latRange[0]), maskedField)
+    maskedField = numpy.ma.masked_where(numpy.greater(yCoord[1::,1::],latRange[1]),maskedField)
+    maskedField = numpy.ma.masked_where(numpy.less(xCoord[0:-1,0:-1],lonRange[0]), maskedField)
+    maskedField = numpy.ma.masked_where(numpy.greater(xCoord[1::,1::],lonRange[1]),maskedField)
+    return maskedField
+
+def cmoceanRegisterColormaps():
+  import matplotlib
+  matplotlib.cm.register_cmap(name='algae',cmap=cmocean.cm.algae)
+  matplotlib.cm.register_cmap(name='thermal',cmap=cmocean.cm.thermal)
+  matplotlib.cm.register_cmap(name='haline',cmap=cmocean.cm.haline)
+  matplotlib.cm.register_cmap(name='solar',cmap=cmocean.cm.solar)
+  matplotlib.cm.register_cmap(name='ice',cmap=cmocean.cm.ice)
+  matplotlib.cm.register_cmap(name='gray',cmap=cmocean.cm.gray)
+  matplotlib.cm.register_cmap(name='oxy',cmap=cmocean.cm.oxy)
+  matplotlib.cm.register_cmap(name='deep',cmap=cmocean.cm.deep)
+  matplotlib.cm.register_cmap(name='dense',cmap=cmocean.cm.dense)
+  matplotlib.cm.register_cmap(name='algae',cmap=cmocean.cm.algae)
+  matplotlib.cm.register_cmap(name='matter',cmap=cmocean.cm.matter)
+  matplotlib.cm.register_cmap(name='turbid',cmap=cmocean.cm.turbid)
+  matplotlib.cm.register_cmap(name='speed',cmap=cmocean.cm.speed)
+  matplotlib.cm.register_cmap(name='amp',cmap=cmocean.cm.amp)
+  matplotlib.cm.register_cmap(name='tempo',cmap=cmocean.cm.tempo)
+  matplotlib.cm.register_cmap(name='phase',cmap=cmocean.cm.phase)
+  matplotlib.cm.register_cmap(name='balance',cmap=cmocean.cm.balance)
+  matplotlib.cm.register_cmap(name='delta',cmap=cmocean.cm.delta)
+  matplotlib.cm.register_cmap(name='curl',cmap=cmocean.cm.curl)
+
+
+def sectorRanges(sector=None):
+  # Should add definitions for tropInd, tropAtl, sAtl, nPac, allPac, allInd, and allAtlantic
+  if sector   == 'nAtl':    lonRange=(-100.,40.); latRange=(-15.,80.); hspace=0.25; titleOffset=1.14
+  elif sector == 'gomex':   lonRange=(-100.,-50.); latRange=(5.,35.); hspace=0.25; titleOffset=1.14
+  elif sector == 'tropPac': lonRange=(-270.,-75.); latRange=(-30.,30.); hspace=-0.2; titleOffset=1.17
+  elif sector == 'arctic':  lonRange=(-300,60); latRange=(60.,90.); hspace=0.25; titleOffset=1.14
+  elif sector == 'shACC':   lonRange=(-300,60); latRange=(-90,-45.); hspace=0.25; titleOffset=1.14
+  else: lonRange=None; latRange=None; hspace=0.25; titleOffset=1.14
+  return lonRange, latRange, hspace, titleOffset
+
 # Load new named colormaps
 c = dunne_rainbow()
 c = dunne_pm()
+c = brownblue_cmap()
+c = parula_cmap()
+
+# Register cmocean colormaps
+cmoceanRegisterColormaps()
 
 # Test
 if __name__ == '__main__':
