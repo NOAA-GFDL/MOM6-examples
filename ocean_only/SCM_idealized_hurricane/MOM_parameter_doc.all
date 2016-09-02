@@ -73,6 +73,10 @@ HMIX_SFC_PROP = 1.0             !   [m] default = 1.0
                                 ! If BULKMIXEDLAYER is false, HMIX_SFC_PROP is the depth
                                 ! over which to average to find surface properties like
                                 ! SST and SSS or density (but not surface velocities).
+HMIX_UV_SFC_PROP = 0.0          !   [m] default = 0.0
+                                ! If BULKMIXEDLAYER is false, HMIX_UV_SFC_PROP is the depth
+                                ! over which to average to find surface flow properties,
+                                ! SSU, SSV. A non-positive value indicates no averaging.
 MIN_Z_DIAG_INTERVAL = 2.16E+04  !   [s] default = 0.0
                                 ! The minimum amount of time in seconds between
                                 ! calculations of depth-space diagnostics. Making this
