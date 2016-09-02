@@ -1135,6 +1135,15 @@ DEBUG_KAPPA_SHEAR = False       !   [Boolean] default = False
                                 ! Caution: this option is _very_ verbose and should only
                                 ! be used in single-column mode!
 
+! === module MOM_CVMix_shear ===
+! Parameterization of shear-driven turbulence via CVMix (various options)
+USE_LMD94 = False               !   [Boolean] default = False
+                                ! If true, use the Large-McWilliams-Doney (JGR 1994)
+                                ! shear mixing parameterization.
+USE_PP81 = False                !   [Boolean] default = False
+                                ! If true, use the Pacanowski and Philander (JPO 1981)
+                                ! shear mixing parameterization.
+
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
 RECLAIM_FRAZIL = True           !   [Boolean] default = True
