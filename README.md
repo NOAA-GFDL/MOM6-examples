@@ -11,7 +11,9 @@ for analysis and preprocessing.
 
 Compile:  [![Build Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_build_copy)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_build_copy/)
 
-Run:      [![Run Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_run)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_run/)
+Fast Run:      [![Run Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_fast_run)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_fast_run/)
+
+Full Run:      [![Run Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_run)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_run/)
 
 Valgrind: [![Valgrind Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_runtime_analyzer)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_runtime_analyzer/)
 
