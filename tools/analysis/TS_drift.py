@@ -57,14 +57,14 @@ def main(cmdLineArgs,stream=None):
   m6plot.ztplot( T, timeT, zt, splitscale=[0., -1000., -6500.],
       suptitle=suptitle, title='Potential Temperature [C]',
       extend='both', colormap='dunnePM', autocenter=True,
-      save=objOut)
+      clim=cmdLineArgs.climT,save=objOut)
 
   if stream != None: objOut = stream[1]
   else: objOut = cmdLineArgs.outdir+'/S_drift.png'
   m6plot.ztplot( S, timeS, zt, splitscale=[0., -1000., -6500.],
       suptitle=suptitle, title='Salinity [psu]',
       extend='both', colormap='dunnePM', autocenter=True,
-      save=objOut)
+      clim=cmdLineArgs.climS,save=objOut)
 
 if __name__ == '__main__':
   run()
