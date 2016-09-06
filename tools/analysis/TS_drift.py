@@ -21,8 +21,6 @@ def run():
   main(cmdLineArgs)
 
 def main(cmdLineArgs,stream=None):
-  print cmdLineArgs.climT
-  
   rootGroupT = netCDF4.MFDataset( cmdLineArgs.annual_directory + '/*.thetao_xyave.nc' )
   rootGroupS = netCDF4.MFDataset( cmdLineArgs.annual_directory + '/*.so_xyave.nc' )
   if 'thetao_xyave' not in rootGroupT.variables: raise Exception('Could not find "thetao_xyave" files "%s"'%(cmdLineArgs.annual_directory))
