@@ -55,7 +55,7 @@ The top level directory structure groups source code and input files as follow:
 # Policies
 
 The repository policies (repository access, branches, procedures, ...) are the same as the
-[MOM6 source code policies](https://github.com/NOAA-GFDL/MOM6/wiki/MOM6-repository-policies).
+[MOM6 source code policies](https://github.com/NOAA-GFDL/MOM6-examples/wiki/MOM6-repository-policies).
 
 # Disclaimer
 
