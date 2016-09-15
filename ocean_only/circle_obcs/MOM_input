@@ -159,18 +159,16 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 600.0           !   [m]
                                 ! The maximum depth of the ocean.
-APPLY_OBC_U_FLATHER_EAST = True !   [Boolean] default = False
-                                ! Apply a Flather open boundary condition on the eastern
-                                ! side of the global domain
-APPLY_OBC_U_FLATHER_WEST = True !   [Boolean] default = False
-                                ! Apply a Flather open boundary condition on the western
-                                ! side of the global domain
-APPLY_OBC_V_FLATHER_NORTH = True !   [Boolean] default = False
-                                ! Apply a Flather open boundary condition on the northern
-                                ! side of the global domain
-APPLY_OBC_V_FLATHER_SOUTH = True !   [Boolean] default = False
-                                ! Apply a Flather open boundary condition on the southern
-                                ! side of the global domain
+OBC_NUMBER_OF_SEGMENTS = 4
+OBC_SEGMENT_001 = "J=N,I=N:0,FLATHER,ORLANSKI"
+OBC_SEGMENT_002 = "J=0,I=0:N,FLATHER,ORLANSKI"
+OBC_SEGMENT_003 = "I=N,J=0:N,FLATHER,ORLANSKI"
+OBC_SEGMENT_004 = "I=0,J=N:0,FLATHER,ORLANSKI"
+OBC_CONFIG = "None"             ! default = "None"
+                                ! A string that sets how the open boundary conditions are
+                                !  configured:
+                                !     USER - call a user modified routine.
+
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate

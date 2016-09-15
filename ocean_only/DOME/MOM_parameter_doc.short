@@ -110,6 +110,7 @@ TOPO_CONFIG = "DOME"            !
                                 !     DOME2D - use a shelf and slope configuration for the
                                 !       DOME2D gravity current/overflow test case.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     USER - call a user modified routine.
 
@@ -121,15 +122,13 @@ MAXIMUM_DEPTH = 3600.0          !   [m]
 
 ! === module MOM_open_boundary ===
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
-APPLY_OBC_V = True              !   [Boolean] default = False
-                                ! If true, open boundary conditions may be set at some
-                                ! v-points, with the configuration controlled by OBC_CONFIG
-OBC_CONFIG = "DOME"             ! default = "file"
+OBC_NUMBER_OF_SEGMENTS = 1      ! default = 0
+                                ! The number of open boundary segments.
+OBC_SEGMENT_001 = "J=N,I=110:100,SIMPLE" !
+                                ! Documentation needs to be dynamic?????
+OBC_CONFIG = "DOME"             ! default = "none"
                                 ! A string that sets how the open boundary conditions are
                                 !  configured:
-                                !     DOME - use a slope and channel configuration for the
-                                !       DOME sill-overflow test case.
-                                !     USER - call a user modified routine.
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -186,6 +185,7 @@ THICKNESS_CONFIG = "DOME"       !
                                 !     adjustment2d - TBD AJA.
                                 !     sloshing - TBD AJA.
                                 !     seamount - TBD AJA.
+                                !     soliton - Equatorial Rossby soliton.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
 SPONGE_CONFIG = "DOME"          ! default = "file"

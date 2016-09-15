@@ -205,9 +205,8 @@ SPONGE_CONFIG = "DOME"          ! default = "file"
                                 !     USER - call a user modified routine.
 !Total sponge columns = 2400    !
                                 ! The total number of columns where sponges are applied.
-APPLY_OBC_V = True              !   [Boolean] default = False
-                                ! If true, open boundary conditions may be set at some
-                                ! v-points, with the configuration controlled by OBC_CONFIG
+OBC_NUMBER_OF_SEGMENTS = 1
+OBC_SEGMENT_001 = "J=N,I=110:100,SIMPLE"
 OBC_CONFIG = "DOME"             ! default = "file"
                                 ! A string that sets how the open boundary conditions are
                                 !  configured:

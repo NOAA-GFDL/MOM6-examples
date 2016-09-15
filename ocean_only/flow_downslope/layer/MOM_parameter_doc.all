@@ -293,6 +293,7 @@ TOPO_CONFIG = "DOME2D"          !
                                 !     DOME2D - use a shelf and slope configuration for the
                                 !       DOME2D gravity current/overflow test case.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     USER - call a user modified routine.
 DOME2D_SHELF_WIDTH = 0.1        !   [nondim] default = 0.1
@@ -311,12 +312,16 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
 
 ! === module MOM_open_boundary ===
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
+OBC_NUMBER_OF_SEGMENTS = 0      ! default = 0
+                                ! The number of open boundary segments.
 APPLY_OBC_U = False             !   [Boolean] default = False
                                 ! If true, open boundary conditions may be set at some
                                 ! u-points, with the configuration controlled by OBC_CONFIG
 APPLY_OBC_V = False             !   [Boolean] default = False
                                 ! If true, open boundary conditions may be set at some
                                 ! v-points, with the configuration controlled by OBC_CONFIG
+OBC_CONFIG = "file"             ! default = "file"
+                                ! If set, open boundary configuration string
 APPLY_OBC_U_FLATHER_EAST = False !   [Boolean] default = False
                                 ! Apply a Flather open boundary condition on the eastern
                                 ! side of the global domain
@@ -412,6 +417,7 @@ THICKNESS_CONFIG = "DOME2D"     !
                                 !     adjustment2d - TBD AJA.
                                 !     sloshing - TBD AJA.
                                 !     seamount - TBD AJA.
+                                !     soliton - Equatorial Rossby soliton.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
 TS_CONFIG = "DOME2D"            !
@@ -450,6 +456,7 @@ VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 !     uniform - the flow is uniform (determined by
                                 !       parameters INITIAL_U_CONST and INITIAL_V_CONST).
                                 !     rossby_front - a mixed layer front in thermal wind balance.
+                                !     soliton - Equatorial Rossby soliton.
                                 !     USER - call a user modified routine.
 CONVERT_THICKNESS_UNITS = False !   [Boolean] default = False
                                 ! If true,  convert the thickness initial conditions from
