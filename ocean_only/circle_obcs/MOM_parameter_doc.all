@@ -380,19 +380,19 @@ TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
 OBC_RADIATION_MAX = 10.0        !   [m s-1] default = 10.0
                                 ! The maximum magnitude of the baroclinic radiation
                                 ! velocity (or speed of characteristics).  This is only
-                                ! used if one of the APPLY_OBC_[UV]_FLATHER_... is true.
+                                ! used if one of the open boundary segments is using Orlanski.
 OBC_RAD_VEL_WT = 0.3            !   [nondim] default = 0.3
                                 ! The relative weighting for the baroclinic radiation
                                 ! velocities (or speed of characteristics) at the new
                                 ! time level (1) or the running mean (0) for velocities.
                                 ! Valid values range from 0 to 1. This is only used if
-                                ! one of the APPLY_OBC_[UV]_FLATHER_...  is true.
+                                ! one of the open boundary segments is using Orlanski.
 OBC_RAD_THICK_WT = 0.2          !   [nondim] default = 0.2
                                 ! The relative weighting for the baroclinic radiation
                                 ! velocities (or speed of characteristics) at the new
                                 ! time level (1) or the running mean (0) for thicknesses.
                                 ! Valid values range from 0 to 1. This is only used if
-                                ! one of the APPLY_OBC_[UV]_FLATHER_...  is true.
+                                ! one of the open boundary segments is using Orlanski.
 READ_OBC_UV = False             !   [Boolean] default = False
                                 ! If true, read the values for the velocity open boundary
                                 ! conditions from the file specified by OBC_FILE.
