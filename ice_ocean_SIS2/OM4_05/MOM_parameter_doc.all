@@ -244,6 +244,8 @@ USE_OCMIP2_CFC = False          !   [Boolean] default = False
 USE_generic_tracer = False      !   [Boolean] default = False
                                 ! If true and _USE_GENERIC_TRACER is defined as a
                                 ! preprocessor macro, use the MOM_generic_tracer packages.
+USE_PSEUDO_SALT_TRACER = False  !   [Boolean] default = False
+                                ! If true, use the pseudo salt tracer, typically run as a diagnostic.
 
 ! === module ideal_age_example ===
 DO_IDEAL_AGE = True             !   [Boolean] default = True
@@ -1314,6 +1316,8 @@ KD_BBL_TR = 0.0                 !   [m2 s-1] default = 0.0
                                 ! allow for explicitly specified bottom fluxes. The
                                 ! entrainment at the bottom is at least sqrt(Kd_BBL_tr*dt)
                                 ! over the same distance.
+TRACER_TRIDIAG = False          !   [Boolean] default = False
+                                ! If true, use the passive tracer tridiagonal solver for T and S
 DIAG_MLD_DENSITY_DIFF = 0.1     !   [kg/m3] default = 0.1
                                 ! The density difference used to determine a diagnostic mixed
                                 ! layer depth, MLD_user, following the definition of Levitus 1982.
