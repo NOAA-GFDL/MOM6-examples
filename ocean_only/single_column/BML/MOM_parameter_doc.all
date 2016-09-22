@@ -867,6 +867,8 @@ COMPUTE_MONIN_OBUKHOV = False   !   [Boolean] default = False
                                 ! Monin-Obukhov depth.
 CS = 98.96                      !   [nondim] default = 98.96
                                 ! Parameter for computing velocity scale function.
+CS2 = 6.32739901508             !   [nondim] default = 6.32739901508
+                                ! Parameter for computing non-local term.
 DEEP_OBL_OFFSET = 0.0           !   [m] default = 0.0
                                 ! If non-zero, the distance above the bottom to which the OBL is clipped
                                 ! if it would otherwise reach the bottom. The smaller of this and 0.1D is used.
@@ -913,6 +915,11 @@ KPP_ZERO_DIFFUSIVITY = False    !   [Boolean] default = False
                                 ! If True, zeroes the KPP diffusivity and viscosity; for testing purpose.
 KPP_IS_ADDITIVE = True          !   [Boolean] default = True
                                 ! If true, adds KPP diffusivity to diffusivity from other schemes.If false, KPP is the only diffusivity wherever KPP is non-zero.
+KPP_SHORTWAVE_METHOD = "MXL_SW" ! default = "MXL_SW"
+                                ! Determines contribution of shortwave radiation to KPP surface buoyancy flux.  Options include:
+                                !   ALL_SW: use total shortwave radiation
+                                !   MXL_SW:  use shortwave radiation absorbed by mixing layer
+                                !   LV1_SW:  use shortwave radiation absorbed by top model layer
 CVMIX_ZERO_H_WORK_AROUND = 1.0E-05 !   [m] default = 0.0
                                 ! A minimum thickness used to avoid division by small numbers in the vicinity
                                 ! of vanished layers. This is independent of MIN_THICKNESS used in other parts of MOM.

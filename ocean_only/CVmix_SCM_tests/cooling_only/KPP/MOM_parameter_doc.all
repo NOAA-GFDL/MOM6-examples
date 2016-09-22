@@ -534,6 +534,7 @@ TS_CONFIG = "SCM_ideal_hurr"    !
                                 !     seamount - TBD AJA.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     SCM_ideal_hurr - used in the SCM idealized hurricane test.
+                                !     SCM_CVmix_tests - used in the SCM CVmix tests.
                                 !     USER - call a user modified routine.
 SCM_S_REF = 35.0                !   [1e-3] default = 35.0
                                 ! Reference salinity
@@ -982,6 +983,8 @@ COMPUTE_MONIN_OBUKHOV = False   !   [Boolean] default = False
                                 ! Monin-Obukhov depth.
 CS = 98.96                      !   [nondim] default = 98.96
                                 ! Parameter for computing velocity scale function.
+CS2 = 6.32739901508             !   [nondim] default = 6.32739901508
+                                ! Parameter for computing non-local term.
 DEEP_OBL_OFFSET = 0.0           !   [m] default = 0.0
                                 ! If non-zero, the distance above the bottom to which the OBL is clipped
                                 ! if it would otherwise reach the bottom. The smaller of this and 0.1D is used.
@@ -1028,6 +1031,11 @@ KPP_ZERO_DIFFUSIVITY = False    !   [Boolean] default = False
                                 ! If True, zeroes the KPP diffusivity and viscosity; for testing purpose.
 KPP_IS_ADDITIVE = True          !   [Boolean] default = True
                                 ! If true, adds KPP diffusivity to diffusivity from other schemes.If false, KPP is the only diffusivity wherever KPP is non-zero.
+KPP_SHORTWAVE_METHOD = "MXL_SW" ! default = "MXL_SW"
+                                ! Determines contribution of shortwave radiation to KPP surface buoyancy flux.  Options include:
+                                !   ALL_SW: use total shortwave radiation
+                                !   MXL_SW:  use shortwave radiation absorbed by mixing layer
+                                !   LV1_SW:  use shortwave radiation absorbed by top model layer
 CVMIX_ZERO_H_WORK_AROUND = 0.0  !   [m] default = 0.0
                                 ! A minimum thickness used to avoid division by small numbers in the vicinity
                                 ! of vanished layers. This is independent of MIN_THICKNESS used in other parts of MOM.
@@ -1280,6 +1288,12 @@ VAR_PEN_SW = False              !   [Boolean] default = False
                                 ! If true, use one of the CHL_A schemes specified by
                                 ! OPACITY_SCHEME to determine the e-folding depth of
                                 ! incoming short wave radiation.
+EXP_OPACITY_SCHEME = "SINGLE_EXP" ! default = "SINGLE_EXP"
+                                ! This character string specifies which exponential
+                                ! opacity scheme to utilize. Currently
+                                ! valid options include:
+                                !        SINGLE_EXP - Single Exponent decay.
+                                !        DOUBLE_EXP - Double Exponent decay.
 PEN_SW_SCALE = 0.0              !   [m] default = 0.0
                                 ! The vertical absorption e-folding depth of the
                                 ! penetrating shortwave radiation.

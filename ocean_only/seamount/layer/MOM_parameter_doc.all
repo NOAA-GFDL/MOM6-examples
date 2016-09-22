@@ -439,6 +439,7 @@ TS_CONFIG = "seamount"          !
                                 !     seamount - TBD AJA.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     SCM_ideal_hurr - used in the SCM idealized hurricane test.
+                                !     SCM_CVmix_tests - used in the SCM CVmix tests.
                                 !     USER - call a user modified routine.
 INITIAL_DENSITY_PROFILE = "linear" ! default = "linear"
                                 ! Initial profile shape. Valid values are "linear", "parabolic"
@@ -1268,6 +1269,12 @@ VAR_PEN_SW = False              !   [Boolean] default = False
                                 ! If true, use one of the CHL_A schemes specified by
                                 ! OPACITY_SCHEME to determine the e-folding depth of
                                 ! incoming short wave radiation.
+EXP_OPACITY_SCHEME = "SINGLE_EXP" ! default = "SINGLE_EXP"
+                                ! This character string specifies which exponential
+                                ! opacity scheme to utilize. Currently
+                                ! valid options include:
+                                !        SINGLE_EXP - Single Exponent decay.
+                                !        DOUBLE_EXP - Double Exponent decay.
 PEN_SW_SCALE = 15.0             !   [m] default = 0.0
                                 ! The vertical absorption e-folding depth of the
                                 ! penetrating shortwave radiation.
