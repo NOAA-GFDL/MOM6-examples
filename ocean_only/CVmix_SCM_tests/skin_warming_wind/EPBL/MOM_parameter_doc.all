@@ -1210,21 +1210,36 @@ ML_OMEGA_FRAC = 0.0             !   [nondim] default = 0.0
                                 ! When setting the decay scale for turbulence, use this
                                 ! fraction of the absolute rotation rate blended with the
                                 ! local value of f, as sqrt((1-of)*f^2 + of*4*omega^2).
-WSTAR_USTAR_COEF = 1.0          !   [units=nondim] default = 1.0
+WSTAR_USTAR_COEF = 1.0          !   [nondim] default = 1.0
                                 ! A ratio relating the efficiency with which convectively
                                 ! released energy is converted to a turbulent velocity,
                                 ! relative to mechanically forced TKE. Making this larger
                                 ! increases the BL diffusivity
-VSTAR_SCALE_FACTOR = 1.0        !   [units=nondim] default = 1.0
+VSTAR_SCALE_FACTOR = 1.0        !   [nondim] default = 1.0
                                 ! An overall nondimensional scaling factor for v*.
                                 ! Making this larger decreases the PBL diffusivity.
-EKMAN_SCALE_COEF = 1.0          !   [units=nondim] default = 1.0
+EKMAN_SCALE_COEF = 1.0          !   [nondim] default = 1.0
                                 ! A nondimensional scaling factor controlling the inhibition
                                 ! of the diffusive length scale by rotation. Making this larger
                                 ! decreases the PBL diffusivity.
 USE_MLD_ITERATION = False       !   [Boolean] default = False
-                                ! A logical that determines whether or not to use the
-                                ! MLD to set the EPBL length scale.
+                                ! A logical that specifies whether or not to use the
+                                ! distance to the bottom of the actively turblent boundary
+                                ! layer to help set the EPBL length scale.
+EPBL_MLD_TOLERANCE = 1.0        !   [meter] default = 1.0
+                                ! The tolerance for the iteratively determined mixed
+                                ! layer depth.  This is only used with USE_MLD_ITERATION.
+EPBL_MIN_MIX_LEN = 0.0          !   [meter] default = 0.0
+                                ! The minimum mixing length scale that will be used
+                                ! by ePBL.  The default (0) does not set a minimum.
+EPBL_ORIGINAL_PE_CALC = True    !   [Boolean] default = True
+                                ! If true, the ePBL code uses the original form of the
+                                ! potential energy change code.  Otherwise, the newer
+                                ! version that can work with successive increments to the
+                                ! diffusivity in upward or downward passes is used.
+EPBL_USTAR_MIN = 1.45842E-18    !   [meter second-1]
+                                ! The (tiny) minimum friction velocity used within the
+                                ! ePBL code, derived from OMEGA and ANGSTROM.
 
 ! === module MOM_regularize_layers ===
 REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False

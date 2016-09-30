@@ -581,6 +581,9 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
 ! The following parameters are used for auxiliary diabatic processes.
 
 ! === module MOM_energetic_PBL ===
+EPBL_USTAR_MIN = 1.45842E-18    !   [meter second-1]
+                                ! The (tiny) minimum friction velocity used within the
+                                ! ePBL code, derived from OMEGA and ANGSTROM.
 
 ! === module MOM_regularize_layers ===
 HMIX_MIN = 2.0                  !   [m] default = 0.0
