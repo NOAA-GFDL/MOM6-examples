@@ -1652,6 +1652,11 @@ EPBL_ORIGINAL_PE_CALC = True    !   [Boolean] default = True
                                 ! potential energy change code.  Otherwise, the newer
                                 ! version that can work with successive increments to the
                                 ! diffusivity in upward or downward passes is used.
+EPBL_TRANSITION_SCALE = 0.0     !   [nondim] default = 0.0
+                                ! A scale for the mixing length in the transition layer
+                                ! at the edge of the boundary layer as a fraction of the
+                                ! boundary layer thickness.  The default is 0, but a
+                                ! value of 0.1 might be better justified by observations.
 EPBL_USTAR_MIN = 1.45842E-18    !   [meter second-1]
                                 ! The (tiny) minimum friction velocity used within the
                                 ! ePBL code, derived from OMEGA and ANGSTROM.

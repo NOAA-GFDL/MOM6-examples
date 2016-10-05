@@ -229,6 +229,24 @@ ICE_CONDUCTIVITY = 2.03         !   [W m-1 K-1] default = 2.03
 DO_DELTA_EDDINGTON_SW = True    !   [Boolean] default = True
                                 ! If true, a delta-Eddington radiative transfer calculation
                                 ! for the shortwave radiation within the sea-ice.
+DO_POND = False                 !   [Boolean] default = False
+                                ! If true, calculate melt ponds and use them for
+                                ! shortwave radiation calculation.
+TDRAIN = -0.8                   !   [not defined] default = -0.8
+                                ! Melt ponds drain to sea level when ice average temp.
+                                ! exceeds TDRAIN (stand-in for mushy layer thermo)
+R_MIN_POND = 0.15               !   [not defined] default = 0.15
+                                ! Minimum retention rate of surface water sources in melt pond
+                                ! (retention scales linearly with ice cover)
+R_MAX_POND = 0.9                !   [not defined] default = 0.9
+                                ! Maximum retention rate of surface water sources in melt pond
+                                ! (retention scales linearly with ice cover)
+MIN_POND_FRAC = 0.2             !   [not defined] default = 0.2
+                                ! Minimum melt pond cover (by ponds at sea level)
+                                ! pond drains to this when ice is porous.
+MAX_POND_FRAC = 0.5             !   [not defined] default = 0.5
+                                ! Maximum melt pond cover - associated with pond volume
+                                ! that suppresses ice top to waterline
 ICE_TEMP_RANGE_ESTIMATE = 40.0  !   [degC] default = 40.0
                                 ! An estimate of the range of snow and ice temperatures
                                 ! that is used to evaluate whether an explicit diffusive
@@ -240,15 +258,15 @@ OLD_ICE_HEAT_CAPACITY = False   !   [Boolean] default = False
                                 ! If true, use an older linearization of the sea ice heat
                                 ! capacity for temperatures above the freezing point in the
                                 ! calculation of the initial ice temperature estimate.
-ICE_DELTA_EDD_R_ICE = 0.0       !   [perhaps nondimensional?] default = 0.0
+ICE_DELTA_EDD_R_ICE = 0.0       !   [nondimensional] default = 0.0
                                 ! A dreadfully documented tuning parameter for the radiative
                                 ! propeties of sea ice with the delta-Eddington radiative
                                 ! transfer calculation.
-ICE_DELTA_EDD_R_SNOW = 0.0      !   [perhaps nondimensional?] default = 0.0
+ICE_DELTA_EDD_R_SNOW = 0.0      !   [nondimensional] default = 0.0
                                 ! A dreadfully documented tuning parameter for the radiative
                                 ! propeties of snow on sea ice with the delta-Eddington
                                 ! radiative transfer calculation.
-ICE_DELTA_EDD_R_POND = 0.0      !   [perhaps nondimensional?] default = 0.0
+ICE_DELTA_EDD_R_POND = 0.0      !   [nondimensional] default = 0.0
                                 ! A dreadfully documented tuning parameter for the radiative
                                 ! propeties of meltwater ponds on sea ice with the delta-Eddington
                                 ! radiative transfer calculation.
