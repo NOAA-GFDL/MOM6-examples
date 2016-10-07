@@ -59,3 +59,22 @@ A framework for formally regression testing the offline capability still needs t
 However, as a simple way of testing whether the offline model is nominally behaving as expected,
 the total inventory of the advection test tracers (tr1, tr2, etc.) should be conserved between
 time steps except for the last 4 decimal places.
+
+----
+MOM_input parameters
+----
+OFFLINEDIR    ! default = ""
+              ! Input directory where the offline fields can be found
+OFF_SUM_FILE  ! default = ""
+              ! Filename where the accumulated fields can be found
+OFF_SNAP_FILE ! default = ""
+              ! Filename where snapshot fields can be found
+START_INDEX = ! default = 1
+              ! Which time index to start from
+NUMTIME =     ! default = 0
+              ! Number of timelevels in offline input files
+FIELDS_ARE_OFFSET !   [Boolean] default = False
+                  ! True if the time-averaged fields and snapshot fields are offset by one time level
+NUM_OFF_ITER   !
+               ! Number of iterations to subdivide the offline tracer advection and diffusion
+DT_OFFLINE     ! Length of the offline timestep
