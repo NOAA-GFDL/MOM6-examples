@@ -1,0 +1,445 @@
+! This file was written by the model and records all non-layout parameters used at run-time.
+
+! === module ice_model ===
+SPECIFIED_ICE = False           !   [Boolean] default = False
+                                ! If true, the ice is specified and there is no dynamics.
+CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
+                                ! If true, use a C-grid discretization of the sea-ice
+                                ! dynamics; if false use a B-grid discretization.
+USE_SLAB_ICE = False            !   [Boolean] default = False
+                                ! If true, use the very old slab-style ice.
+ICE_OCEAN_STRESS_STAGGER = "C"  ! default = "C"
+                                ! A case-insensitive character string to indicate the
+                                ! staggering of the stress field on the ocean that is
+                                ! returned to the coupler.  Valid values include
+                                ! 'A', 'B', or 'C', with a default that follows the
+                                ! value of CGRID_ICE_DYNAMICS.
+RHO_OCEAN = 1030.0              !   [kg m-3] default = 1030.0
+                                ! The nominal density of sea water as used by SIS.
+RHO_ICE = 905.0                 !   [kg m-3] default = 905.0
+                                ! The nominal density of sea ice as used by SIS.
+RHO_SNOW = 330.0                !   [kg m-3] default = 330.0
+                                ! The nominal density of snow as used by SIS.
+G_EARTH = 9.8                   !   [m s-2] default = 9.8
+                                ! The gravitational acceleration of the Earth.
+MOMENTUM_ROUGH_ICE = 1.0E-04    !   [m] default = 1.0E-04
+                                ! The default momentum roughness length scale for the ocean.
+HEAT_ROUGH_ICE = 1.0E-04        !   [m] default = 1.0E-04
+                                ! The default roughness length scale for the turbulent
+                                ! transfer of heat into the ocean.
+CONSTANT_COSZEN_IC = -1.0       !   [nondim] default = -1.0
+                                ! A constant value to use to initialize the cosine of
+                                ! the solar zenith angle for the first radiation step,
+                                ! or a negative number to use the current time and astronomy.
+DT_RADIATION = 3600.0           !   [s] default = 3600.0
+                                ! The time step with which the shortwave radiation and
+                                ! fields like albedos are updated.  Currently this is only
+                                ! used to initialize albedos when there is no restart file.
+ICE_KMELT = 240.0               !   [W m-2 K-1] default = 240.0
+                                ! A constant giving the proportionality of the ocean/ice
+                                ! base heat flux to the tempature difference, given by
+                                ! the product of the heat capacity per unit volume of sea
+                                ! water times a molecular diffusive piston velocity.
+SNOW_CONDUCT = 0.31             !   [W m-1 K-1] default = 0.31
+                                ! The conductivity of heat in snow.
+COLUMN_CHECK = False            !   [Boolean] default = False
+                                ! If true, add code to allow debugging of conservation
+                                ! column-by-column.  This does not change answers, but
+                                ! can increase model run time.
+IMBALANCE_TOLERANCE = 1.0E-09   !   [nondim] default = 1.0E-09
+                                ! The tolerance for imbalances to be flagged by COLUMN_CHECK.
+ICE_BOUNDS_CHECK = True         !   [Boolean] default = True
+                                ! If true, periodically check the values of ice and snow
+                                ! temperatures and thicknesses to ensure that they are
+                                ! sensible, and issue warnings if they are not.  This
+                                ! does not change answers, but can increase model run time.
+DEBUG = False                   !   [Boolean] default = False
+                                ! If true, write out verbose debugging data.
+FIRST_DIRECTION = 0             ! default = 0
+                                ! An integer that indicates which direction goes first
+                                ! in parts of the code that use directionally split
+                                ! updates, with even numbers (or 0) used for x- first
+                                ! and odd numbers used for y-first.
+ICE_SEES_ATMOS_WINDS = True     !   [Boolean] default = True
+                                ! If true, the sea ice is being given wind stresses with
+                                ! the atmospheric sign convention, and need to have their
+                                ! sign changed.
+APPLY_SLP_TO_OCEAN = False      !   [Boolean] default = False
+                                ! If true, apply the atmospheric sea level pressure to
+                                ! the ocean.
+MIN_H_FOR_TEMP_CALC = 0.0       !   [m] default = 0.0
+                                ! The minimum ice thickness at which to do temperature
+                                ! calculations.
+DO_ICEBERGS = False             !   [Boolean] default = False
+                                ! If true, call the iceberg module.
+ADD_DIURNAL_SW = True           !   [Boolean] default = False
+                                ! If true, add a synthetic diurnal cycle to the shortwave
+                                ! radiation.
+DO_SUN_ANGLE_FOR_ALB = False    !   [Boolean] default = False
+                                ! If true, find the sun angle for calculating the ocean
+                                ! albedo within the sea ice model.
+DO_RIDGING = False              !   [Boolean] default = False
+                                ! If true, call the ridging routines.
+RESTARTFILE = "ice_model.res.nc" ! default = "ice_model.res.nc"
+                                ! The name of the restart file.
+WRITE_GEOM = 1                  ! default = 1
+                                ! If =0, never write the geometry and vertical grid files.
+                                ! If =1, write the geometry and vertical grid files only for
+                                ! a new simulation. If =2, always write the geometry and
+                                ! vertical grid files. Other values are invalid.
+NCAT_ICE = 5                    !   [nondim] default = 5
+                                ! The number of sea ice thickness categories.
+NK_ICE = 4                      !   [nondim] default = 4
+                                ! The number of layers within the sea ice.
+NK_SNOW = 1                     !   [nondim] default = 1
+                                ! The number of layers within the snow atop the sea ice.
+H_TO_KG_M2 = 1.0                !   [kg m-2 H-1] default = 1.0
+                                ! A constant that translates thicknesses from the model's
+                                ! internal units of thickness to kg m-2.
+
+! === module MOM_domains ===
+REENTRANT_X = False             !   [Boolean] default = True
+                                ! If true, the domain is zonally reentrant.
+REENTRANT_Y = False             !   [Boolean] default = False
+                                ! If true, the domain is meridionally reentrant.
+TRIPOLAR_N = False              !   [Boolean] default = False
+                                ! Use tripolar connectivity at the northern edge of the
+                                ! domain.  With TRIPOLAR_N, NIGLOBAL must be even.
+NIGLOBAL = 23                   !
+                                ! The total number of thickness grid points in the
+                                ! x-direction in the physical domain. With STATIC_MEMORY_
+                                ! this is set in SIS2_memory.h at compile time.
+NJGLOBAL = 14                   !
+                                ! The total number of thickness grid points in the
+                                ! y-direction in the physical domain. With STATIC_MEMORY_
+                                ! this is set in SIS2_memory.h at compile time.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
+! === module SIS_initialize_fixed ===
+INPUTDIR = "INPUT"              ! default = "."
+                                ! The directory in which input files are found.
+
+! === module MOM_grid_init ===
+GRID_CONFIG = "mosaic"          !
+                                ! A character string that determines the method for
+                                ! defining the horizontal grid.  Current options are:
+                                !     mosaic - read the grid from a mosaic (supergrid)
+                                !              file set by GRID_FILE.
+                                !     cartesian - use a (flat) Cartesian grid.
+                                !     spherical - use a simple spherical grid.
+                                !     mercator - use a Mercator spherical grid.
+GRID_FILE = "ocean_hgrid.nc"    !
+                                ! Name of the file from which to read horizontal grid data.
+TOPO_CONFIG = "file"            ! default = "file"
+                                ! This specifies how bathymetry is specified:
+                                !     file - read bathymetric information from the file
+                                !       specified by (TOPO_FILE).
+                                !     flat - flat bottom set to MAXIMUM_DEPTH.
+                                !     bowl - an analytically specified bowl-shaped basin
+                                !       ranging between MAXIMUM_DEPTH and MINIMUM_DEPTH.
+                                !     spoon - a similar shape to 'bowl', but with an vertical
+                                !       wall at the southern face.
+                                !     halfpipe - a zonally uniform channel with a half-sine
+                                !       profile in the meridional direction.
+TOPO_FILE = "topog.nc"          ! default = "topog.nc"
+                                ! The file from which the bathymetry is read.
+TOPO_VARNAME = "depth"          ! default = "depth"
+                                ! The name of the bathymetry variable in TOPO_FILE.
+TOPO_EDITS_FILE = ""            ! default = ""
+                                ! The file from which to read a list of i,j,z topography overrides.
+!MAXIMUM_DEPTH = 608.4598627866924 !   [m]
+                                ! The (diagnosed) maximum depth of the ocean.
+MINIMUM_DEPTH = 0.0             !   [m] default = 0.0
+                                ! If MASKING_DEPTH is unspecified, then anything shallower than
+                                ! MINIMUM_DEPTH is assumed to be land and all fluxes are masked out.
+                                ! If MASKING_DEPTH is specified, then all depths shallower than
+                                ! MINIMUM_DEPTH but deeper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
+MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
+                                ! The depth below which to mask points as land points, for which all
+                                ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
+CHANNEL_CONFIG = "none"         ! default = "none"
+                                ! A parameter that determines which set of channels are
+                                ! restricted to specific  widths.  Options are:
+                                !     none - All channels have the grid width.
+                                !     global_1deg - Sets 16 specific channels appropriate
+                                !       for a 1-degree model, as used in CM2G.
+                                !     list - Read the channel locations and widths from a
+                                !       text file, like MOM_channel_list in the MOM_SIS
+                                !       test case.
+                                !     file - Read open face widths everywhere from a
+                                !       NetCDF file on the model grid.
+ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
+                                ! This specifies how the Coriolis parameter is specified:
+                                !     2omegasinlat - Use twice the planetary rotation rate
+                                !       times the sine of latitude.
+                                !     betaplane - Use a beta-plane or f-plane.
+                                !     USER - call a user modified routine.
+OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
+                                ! The rotation rate of the earth.
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file,
+                                ! otherwise a single restart file is generated
+
+! === module hor_grid ===
+! Parameters providing information about the lateral grid.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+AVAILABLE_DIAGS_FILE = "SIS.available_diags" ! default = "SIS.available_diags"
+                                ! A file into which to write a list of all available
+                                ! ocean diagnostics that can be included in a diag_table.
+LATENT_HEAT_FUSION = 3.34E+05   !   [J kg-1] default = 3.34E+05
+                                ! The latent heat of fusion as used by SIS.
+LATENT_HEAT_VAPOR = 2.5E+06     !   [J kg-1] default = 2.5E+06
+                                ! The latent heat of vaporization of water at 0C as used by SIS.
+CP_ICE = 2100.0                 !   [J kg-1 K-1] default = 2100.0
+                                ! The heat capacity of fresh ice, approximated as a
+                                ! constant.
+CP_SEAWATER = 4200.0            !   [J kg-1 K-1] default = 4200.0
+                                ! The heat capacity of sea water, approximated as a
+                                ! constant.
+CP_WATER = 4200.0               !   [J kg-1 K-1] default = 4200.0
+                                ! The heat capacity of water in sea-ice, approximated as
+                                ! a constant.  CP_WATER and CP_SEAWATER should be equal,
+                                ! but for computational convenience CP_WATER has often
+                                ! been set equal to CP_ICE instead.
+CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 2100.0
+                                ! The heat capacity of water in brine pockets within the
+                                ! sea-ice, approximated as a constant.  CP_BRINE and
+                                ! CP_WATER should be equal, but for computational
+                                ! convenience CP_BRINE has often been set equal to CP_ICE.
+DTFREEZE_DS = -0.054            !   [deg C PSU-1] default = -0.054
+                                ! The derivative of the freezing temperature with salinity.
+ENTHALPY_LIQUID_0 = 0.0         !   [J kg-1] default = 0.0
+                                ! The enthalpy of liquid fresh water at 0 C.  The solutions
+                                ! should be physically consistent when this is adjusted,
+                                ! because only the relative value is of physical meaning,
+                                ! but roundoff errors can change the solution.
+ENTHALPY_UNITS = 1.0            !   [J kg-1] default = 1.0
+                                ! A constant that rescales enthalpy from J/kg to a
+                                ! different scale in its internal representation.  Changing
+                                ! this by a power of 2 is useful for debugging, as answers
+                                ! should not change.  A negative values is taken as an inverse.
+SNOW_CONDUCTIVITY = 0.31        !   [W m-1 K-1] default = 0.31
+                                ! The conductivity of heat in snow.
+ICE_CONDUCTIVITY = 2.03         !   [W m-1 K-1] default = 2.03
+                                ! The conductivity of heat in ice.
+DO_DELTA_EDDINGTON_SW = True    !   [Boolean] default = True
+                                ! If true, a delta-Eddington radiative transfer calculation
+                                ! for the shortwave radiation within the sea-ice.
+ICE_TEMP_RANGE_ESTIMATE = 40.0  !   [degC] default = 40.0
+                                ! An estimate of the range of snow and ice temperatures
+                                ! that is used to evaluate whether an explicit diffusive
+                                ! form of the heat fluxes or an inversion based on the
+                                ! layer heat budget is more likely to be more accurate.
+                                ! Setting this to 0 causes the explicit diffusive form.
+                                ! to always be used.
+OLD_ICE_HEAT_CAPACITY = False   !   [Boolean] default = False
+                                ! If true, use an older linearization of the sea ice heat
+                                ! capacity for temperatures above the freezing point in the
+                                ! calculation of the initial ice temperature estimate.
+ICE_DELTA_EDD_R_ICE = 0.0       !   [perhaps nondimensional?] default = 0.0
+                                ! A dreadfully documented tuning parameter for the radiative
+                                ! propeties of sea ice with the delta-Eddington radiative
+                                ! transfer calculation.
+ICE_DELTA_EDD_R_SNOW = 0.0      !   [perhaps nondimensional?] default = 0.0
+                                ! A dreadfully documented tuning parameter for the radiative
+                                ! propeties of snow on sea ice with the delta-Eddington
+                                ! radiative transfer calculation.
+ICE_DELTA_EDD_R_POND = 0.0      !   [perhaps nondimensional?] default = 0.0
+                                ! A dreadfully documented tuning parameter for the radiative
+                                ! propeties of meltwater ponds on sea ice with the delta-Eddington
+                                ! radiative transfer calculation.
+
+! === module SIS_tracer_registry ===
+
+! === module SIS_tracer_flow_control ===
+USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
+                                ! If true, use the concentration based age tracer package.
+
+! === module SIS_fast_thermo ===
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS_slow_thermo ===
+! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
+ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
+                                ! The fixed bulk salinity of sea ice.
+ICE_RELATIVE_SALINITY = 0.0     !   [nondim] default = 0.0
+                                ! The initial salinity of sea ice as a fraction of the
+                                ! salinity of the seawater from which it formed.
+SIS2_FILLING_FRAZIL = True      !   [Boolean] default = False
+                                ! If true, apply frazil to fill as many categories as
+                                ! possible to fill in a uniform (minimum) amount of ice
+                                ! in all the thinnest categories. Otherwise the frazil is
+                                ! always assigned to a single category.
+FILLING_FRAZIL_TIMESCALE = 8.64E+04 !   [s] default = 0.0
+                                ! A timescale with which the filling frazil causes the
+                                ! thinest cells to attain similar thicknesses, or a negative
+                                ! number to apply the frazil flux uniformly.
+APPLY_ICE_LIMIT = False         !   [Boolean] default = False
+                                ! If true, restore the sea ice state toward climatology.
+DO_ICE_RESTORE = False          !   [Boolean] default = False
+                                ! If true, restore the sea ice state toward climatology.
+NUDGE_SEA_ICE = False           !   [Boolean] default = False
+                                ! If true, constrain the sea ice concentrations using observations.
+
+! === module SIS_slow ===
+! This module updates the ice momentum and does ice transport.
+DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
+                                ! The time step used for the slow ice dynamics, including
+                                ! stepping the continuity equation and interactions
+                                ! between the ice mass field and velocities.  If 0 or
+                                ! negative the coupling time step will be used.
+TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
+                                ! The time unit for ICE_STATS_INTERVAL.
+ICE_STATS_INTERVAL = 1.0        !   [days] default = 1.0
+                                ! The interval in units of TIMEUNIT between writes of the
+                                ! globally summed ice statistics and conservation checks.
+VERBOSE = False                 !   [Boolean] default = False
+                                ! If true, write out verbose diagnostics.
+DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
+                                ! The sub-cycling time step for iterating the rheology
+                                ! and ice momentum equations. If DT_RHEOLOGY is negative,
+                                ! the time step is set via NSTEPS_DYN.
+ICE_TDAMP_ELASTIC = 0.0         !   [s or nondim] default = -0.2
+                                ! The damping timescale associated with the elastic terms
+                                ! in the sea-ice dynamics equations (if positive) or the
+                                ! fraction of DT_ICE_DYNAMICS (if negative).
+WEAK_LOW_SHEAR_ICE = False      !   [Boolean] default = False
+                                ! If true, the divergent stresses go toward 0 in the C-grid
+                                ! dynamics when the shear magnitudes are very weak.
+                                ! Otherwise they go to -P_ice.  This setting is temporary.
+PROJECT_ICE_DRAG_VEL = True     !   [Boolean] default = True
+                                ! If true, project forward the ice velocity used in the
+                                ! drag calculation to avoid an instability that can occur
+                                ! when an finite stress is applied to thin ice moving with
+                                ! the velocity of the ocean.
+ICE_YIELD_ELLIPTICITY = 2.0     !   [Nondim] default = 2.0
+                                ! The ellipticity coefficient for the plastic yield curve
+                                ! in the sea-ice rheology.  For an infinite ellipticity
+                                ! (i.e., a cavitating fluid rheology), use 0.
+ICE_STRENGTH_PSTAR = 2.75E+04   !   [Pa] default = 2.75E+04
+                                ! A constant in the expression for the ice strength,
+                                ! P* in Hunke & Dukowicz 1997.
+ICE_STRENGTH_CSTAR = 20.0       !   [nondim] default = 20.0
+                                ! A constant in the exponent of the expression for the
+                                ! ice strength, c* in Hunke & Dukowicz 1997.
+ICE_CDRAG_WATER = 0.00324       !   [nondim] default = 0.00324
+                                ! The drag coefficient between the sea ice and water.
+MIN_OCN_INTERTIAL_H = 0.0       !   [m] default = 0.0
+                                ! A minimum ocean thickness used to limit the viscous coupling rate
+                                ! implied for the ocean by the ice-ocean stress. Only used if positive.
+ICE_DEL_SH_MIN_SCALE = 2.0      !   [nondim] default = 2.0
+                                ! A scaling factor for the lower bound on the shear rates
+                                ! used in the denominator of the stress calculation. This
+                                ! probably needs to be greater than 1.
+PROJECT_ICE_CONCENTRATION = True !   [Boolean] default = True
+                                ! If true, project the evolution of the ice concentration
+                                ! due to the convergence or divergence of the ice flow.
+CFL_TRUNCATE = 0.5              !   [nondim] default = 0.5
+                                ! The value of the CFL number that will cause ice velocity
+                                ! components to be truncated; instability can occur past 0.5.
+CFL_TRUNC_DYN_ITS = False       !   [Boolean] default = False
+                                ! If true, check the CFL number for every iteration of the
+                                ! rheology solver; otherwise only the final velocities that
+                                ! are used for transport are checked.
+DEBUG_REDUNDANT = False         !   [Boolean] default = False
+                                ! If true, debug redundant data points.
+U_TRUNC_FILE = ""               ! default = ""
+                                ! The absolute path to the file where the accelerations
+                                ! leading to zonal velocity truncations are written.
+                                ! Leave this empty for efficiency if this diagnostic is
+                                ! not needed.
+V_TRUNC_FILE = ""               ! default = ""
+                                ! The absolute path to the file where the accelerations
+                                ! leading to meridional velocity truncations are written.
+                                ! Leave this empty for efficiency if this diagnostic is
+                                ! not needed.
+MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
+                                ! The maximum number of colums of truncations that any PE
+                                ! will write out during a run.
+NSTEPS_ADV = 1                  ! default = 1
+                                ! The number of advective iterations for each slow time
+                                ! step.
+ICE_CHANNEL_VISCOSITY = 0.0     !   [m2 s-1] default = 0.0
+                                ! A viscosity used in one-cell wide channels to
+                                ! parameterize transport, especially with B-grid sea ice
+                                ! coupled to a C-grid ocean model.
+ICE_CHANNEL_SMAG_COEF = 0.15    !   [Nondim] default = 0.15
+                                ! A Smagorinsky coefficient for viscosity in channels.
+ICE_CHANNEL_CFL_LIMIT = 0.25    !   [Nondim] default = 0.25
+                                ! The CFL limit that is applied to the parameterized
+                                ! viscous transport in single-point channels.
+SEA_ICE_ROLL_FACTOR = 1.0       !   [Nondim] default = 1.0
+                                ! A factor by which the propensity of small amounts of
+                                ! thick sea-ice to become thinner by rolling is increased
+                                ! or 0 to disable rolling.  This can be thought of as the
+                                ! minimum number of ice floes in a grid cell divided by
+                                ! the horizontal floe aspect ratio.  Sensible values are
+                                ! 0 (no rolling) or larger than 1.
+CHECK_ICE_TRANSPORT_CONSERVATION = False !   [Boolean] default = False
+                                ! If true, use add multiple diagnostics of ice and snow
+                                ! mass conservation in the sea-ice transport code.  This
+                                ! is expensive and should be used sparingly.
+SIS_THICKNESS_ADVECTION_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme for thickness:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM    - Directionally split peicewise constant
+                                !   PLM    - Piecewise Linear Method
+                                !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
+SIS_CONTINUITY_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme used in continuity:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM       - Directionally split peicewise constant
+                                !   PPM:C2PD  - Positive definite PPM with 2nd order edge values
+                                !   PPM:C2MO  - Monotonic PPM with 2nd order edge values
+CONT_PPM_VOLUME_BASED_CFL = False !   [Boolean] default = False
+                                ! If true, use the ratio of the open face lengths to the
+                                ! tracer cell areas when estimating CFL numbers.
+
+! === module SIS_tracer_advect ===
+SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme for tracers:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM    - Directionally split peicewise constant
+                                !   PLM    - Piecewise Linear Method
+                                !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
+
+! === module SIS_sum_output ===
+WRITE_STOCKS = True             !   [Boolean] default = True
+                                ! If true, write the integrated tracer amounts to stdout
+                                ! when the statistics files are written.
+STDOUT_HEARTBEAT = True         !   [Boolean] default = True
+                                ! If true, periodically write sea ice statistics to
+                                ! stdout to allow the progress to be seen.
+MAXTRUNC = 0                    !   [truncations save_interval-1] default = 0
+                                ! The run will be stopped, and the day set to a very
+                                ! large value if the velocity is truncated more than
+                                ! MAXTRUNC times between  writing ice statistics.
+                                ! Set MAXTRUNC to 0 to stop if there is any truncation
+                                ! of sea ice velocities.
+STATISTICS_FILE = "seaice.stats" ! default = "seaice.stats"
+                                ! The file to use to write the globally integrated
+                                ! statistics.
+
+! === module MOM_file_parser ===
+SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
+                                ! If true, all log messages are also sent to stdout.
+REPORT_UNUSED_PARAMS = False    !   [Boolean] default = False
+                                ! If true, report any parameter lines that are not used
+                                ! in the run.
+FATAL_UNUSED_PARAMS = False     !   [Boolean] default = False
+                                ! If true, kill the run if there are any unused
+                                ! parameters.
+DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
+                                ! The basename for files where run-time parameters, their
+                                ! settings, units and defaults are documented. Blank will
+                                ! disable all parameter documentation.
+COMPLETE_DOCUMENTATION = True   !   [Boolean] default = True
+                                ! If true, all run-time parameters are
+                                ! documented in SIS_parameter_doc.all .
+MINIMAL_DOCUMENTATION = True    !   [Boolean] default = True
+                                ! If true, non-default run-time parameters are
+                                ! documented in SIS_parameter_doc.short .
