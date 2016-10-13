@@ -190,6 +190,9 @@ PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
 AVAILABLE_DIAGS_FILE = "SIS.available_diags" ! default = "SIS.available_diags"
                                 ! A file into which to write a list of all available
                                 ! ocean diagnostics that can be included in a diag_table.
+
+! === module SIS2_ice_thm ===
+! This module does updates of the sea-ice due to thermodynamic changes and calculates ice thermodynamic quantities.
 LATENT_HEAT_FUSION = 3.34E+05   !   [J kg-1] default = 3.34E+05
                                 ! The latent heat of fusion as used by SIS.
 LATENT_HEAT_VAPOR = 2.5E+06     !   [J kg-1] default = 2.5E+06
@@ -226,9 +229,6 @@ SNOW_CONDUCTIVITY = 0.31        !   [W m-1 K-1] default = 0.31
                                 ! The conductivity of heat in snow.
 ICE_CONDUCTIVITY = 2.03         !   [W m-1 K-1] default = 2.03
                                 ! The conductivity of heat in ice.
-DO_DELTA_EDDINGTON_SW = True    !   [Boolean] default = True
-                                ! If true, a delta-Eddington radiative transfer calculation
-                                ! for the shortwave radiation within the sea-ice.
 DO_POND = False                 !   [Boolean] default = False
                                 ! If true, calculate melt ponds and use them for
                                 ! shortwave radiation calculation.
@@ -258,6 +258,21 @@ OLD_ICE_HEAT_CAPACITY = False   !   [Boolean] default = False
                                 ! If true, use an older linearization of the sea ice heat
                                 ! capacity for temperatures above the freezing point in the
                                 ! calculation of the initial ice temperature estimate.
+
+! === module SIS_tracer_registry ===
+
+! === module SIS_tracer_flow_control ===
+USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
+                                ! If true, use the concentration based age tracer package.
+
+! === module SIS_fast_thermo ===
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS_optics ===
+! This module calculates the albedo and absorption profiles for shortwave radiation.
+DO_DELTA_EDDINGTON_SW = True    !   [Boolean] default = True
+                                ! If true, a delta-Eddington radiative transfer calculation
+                                ! for the shortwave radiation within the sea-ice.
 ICE_DELTA_EDD_R_ICE = 0.0       !   [nondimensional] default = 0.0
                                 ! A dreadfully documented tuning parameter for the radiative
                                 ! propeties of sea ice with the delta-Eddington radiative
@@ -270,15 +285,6 @@ ICE_DELTA_EDD_R_POND = 0.0      !   [nondimensional] default = 0.0
                                 ! A dreadfully documented tuning parameter for the radiative
                                 ! propeties of meltwater ponds on sea ice with the delta-Eddington
                                 ! radiative transfer calculation.
-
-! === module SIS_tracer_registry ===
-
-! === module SIS_tracer_flow_control ===
-USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
-                                ! If true, use the concentration based age tracer package.
-
-! === module SIS_fast_thermo ===
-! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
 
 ! === module SIS_slow_thermo ===
 ! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
