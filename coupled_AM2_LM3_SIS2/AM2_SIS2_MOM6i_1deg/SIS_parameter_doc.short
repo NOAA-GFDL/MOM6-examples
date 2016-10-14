@@ -49,11 +49,8 @@ GRID_FILE = "ocean_hgrid.nc"    !
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
-! === module SIS2_ice_thm ===
-! This module does updates of the sea-ice due to thermodynamic changes and calculates ice thermodynamic quantities.
-
-! === module SIS2_ice_thm ===
-! This module does updates of the sea-ice due to thermodynamic changes and calculates ice thermodynamic quantities.
+! === module SIS2_ice_thm (thermo) ===
+! This sub-module calculates ice thermodynamic quantities.
 
 ! === module SIS_tracer_registry ===
 
@@ -61,6 +58,9 @@ GRID_FILE = "ocean_hgrid.nc"    !
 
 ! === module SIS_fast_thermo ===
 ! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
 
 ! === module SIS_optics ===
 ! This module calculates the albedo and absorption profiles for shortwave radiation.
@@ -72,6 +72,9 @@ ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
 ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
                                 ! The initial salinity of sea ice as a fraction of the
                                 ! salinity of the seawater from which it formed.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
 
 ! === module SIS_dyn_trans ===
 ! This module updates the ice momentum and does ice transport.

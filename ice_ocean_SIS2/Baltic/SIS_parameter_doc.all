@@ -191,8 +191,8 @@ AVAILABLE_DIAGS_FILE = "SIS.available_diags" ! default = "SIS.available_diags"
                                 ! A file into which to write a list of all available
                                 ! ocean diagnostics that can be included in a diag_table.
 
-! === module SIS2_ice_thm ===
-! This module does updates of the sea-ice due to thermodynamic changes and calculates ice thermodynamic quantities.
+! === module SIS2_ice_thm (thermo) ===
+! This sub-module calculates ice thermodynamic quantities.
 LATENT_HEAT_FUSION = 3.34E+05   !   [J kg-1] default = 3.34E+05
                                 ! The latent heat of fusion as used by SIS.
 LATENT_HEAT_VAPOR = 2.5E+06     !   [J kg-1] default = 2.5E+06
@@ -226,8 +226,17 @@ ENTHALPY_UNITS = 1.0            !   [J kg-1] default = 1.0
                                 ! this by a power of 2 is useful for debugging, as answers
                                 ! should not change.  A negative values is taken as an inverse.
 
-! === module SIS2_ice_thm ===
-! This module does updates of the sea-ice due to thermodynamic changes and calculates ice thermodynamic quantities.
+! === module SIS_tracer_registry ===
+
+! === module SIS_tracer_flow_control ===
+USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
+                                ! If true, use the concentration based age tracer package.
+
+! === module SIS_fast_thermo ===
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
 SNOW_CONDUCTIVITY = 0.31        !   [W m-1 K-1] default = 0.31
                                 ! The conductivity of heat in snow.
 ICE_CONDUCTIVITY = 2.03         !   [W m-1 K-1] default = 2.03
@@ -261,15 +270,6 @@ OLD_ICE_HEAT_CAPACITY = False   !   [Boolean] default = False
                                 ! If true, use an older linearization of the sea ice heat
                                 ! capacity for temperatures above the freezing point in the
                                 ! calculation of the initial ice temperature estimate.
-
-! === module SIS_tracer_registry ===
-
-! === module SIS_tracer_flow_control ===
-USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
-                                ! If true, use the concentration based age tracer package.
-
-! === module SIS_fast_thermo ===
-! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
 
 ! === module SIS_optics ===
 ! This module calculates the albedo and absorption profiles for shortwave radiation.
@@ -311,6 +311,9 @@ DO_ICE_RESTORE = False          !   [Boolean] default = False
                                 ! If true, restore the sea ice state toward climatology.
 NUDGE_SEA_ICE = False           !   [Boolean] default = False
                                 ! If true, constrain the sea ice concentrations using observations.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
 
 ! === module SIS_dyn_trans ===
 ! This module updates the ice momentum and does ice transport.
