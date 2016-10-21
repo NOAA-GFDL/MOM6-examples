@@ -8,6 +8,11 @@ CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! dynamics; if false use a B-grid discretization.
 USE_SLAB_ICE = False            !   [Boolean] default = False
                                 ! If true, use the very old slab-style ice.
+SINGLE_ICE_STATE_TYPE = True    !   [Boolean] default = True
+                                ! If true, the fast and slow portions of the ice use a
+                                ! single common ice_state_type.  Otherwise they point to
+                                ! different ice_state_types that need to be explicitly
+                                ! copied back and forth.
 ICE_OCEAN_STRESS_STAGGER = "C"  ! default = "C"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the stress field on the ocean that is
