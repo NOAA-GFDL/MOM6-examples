@@ -1653,6 +1653,14 @@
     ! units: m2 sec-1
     ! standard_name: ocean_tracer_epineutral_laplacian_diffusivity
     ! cell_methods: xh:mean yh:mean
+"ocean_model", "KHDT_x"  [Unused]
+    ! long_name: Epipycnal tracer diffusivity operator at zonal faces of tracer cell
+    ! units: meter2
+    ! cell_methods: xq:point yh:mean
+"ocean_model", "KHDT_y"  [Unused]
+    ! long_name: Epipycnal tracer diffusivity operator at meridional faces of tracer cell
+    ! units: meter2
+    ! cell_methods: xh:mean yq:point
 "ocean_model", "T_vardec"  [Unused]
     ! long_name: ALE variance decay for temperature
     ! units: degC2 s-1
@@ -2038,6 +2046,22 @@
     ! long_name: Salinity
     ! units: PPT
     ! cell_methods: xh:mean yh:mean zl:mean
+"ocean_model", "uhtr"  [Unused]
+    ! long_name: Accumulated zonal thickness fluxes to advect tracers
+    ! units: kg
+    ! cell_methods: xq:point yh:mean zl:mean
+"ocean_model_z_new", "uhtr"  [Unused]
+    ! long_name: Accumulated zonal thickness fluxes to advect tracers
+    ! units: kg
+    ! cell_methods: xq:point yh:mean zl:mean
+"ocean_model", "vhtr"  [Unused]
+    ! long_name: Accumulated meridional thickness fluxes to advect tracers
+    ! units: kg
+    ! cell_methods: xh:mean yq:point zl:mean
+"ocean_model_z_new", "vhtr"  [Unused]
+    ! long_name: Accumulated meridional thickness fluxes to advect tracers
+    ! units: kg
+    ! cell_methods: xh:mean yq:point zl:mean
 "ocean_model", "T_advection_xy"  [Used]
     ! long_name: Horizontal convergence of residual mean heat advective fluxes
     ! units: W/m2
@@ -2132,6 +2156,10 @@
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_vertical_sum
     ! cell_methods: xh:mean yh:mean
+"ocean_model", "dzRegrid"  [Unused]
+    ! long_name: Change in interface height due to ALE regridding
+    ! units: meter
+    ! cell_methods: xh:mean yh:mean zi:point
 "ocean_model", "T_tendency_vert_remap"  [Used]
     ! long_name: Tendency from vertical remapping for tracer concentration T
     ! units: degC/s
@@ -2522,6 +2550,14 @@
 "ocean_model", "net_massin"  [Used]
     ! long_name: Net mass entering ocean due to precip, runoff, ice melt
     ! units: kilogram meter-2 second-1
+    ! cell_methods: xh:mean yh:mean
+"ocean_model", "massout_flux"  [Unused]
+    ! long_name: Net mass flux of freshwater out of the ocean (used in the boundary flux calculation)
+    ! units: kilogram meter-2
+    ! cell_methods: xh:mean yh:mean
+"ocean_model", "massin_flux"  [Unused]
+    ! long_name: Net mass mass flux of freshwater into the ocean (used in boundary flux calculation)
+    ! units: kilogram meter-2
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "total_PRCmE"  [Used]
     ! long_name: Area integrated net surface water flux (precip+melt+liq runoff+ice calving-evap)
