@@ -4,6 +4,11 @@
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
+SINGLE_ICE_STATE_TYPE = False   !   [Boolean] default = True
+                                ! If true, the fast and slow portions of the ice use a
+                                ! single common ice_state_type.  Otherwise they point to
+                                ! different ice_state_types that need to be explicitly
+                                ! copied back and forth.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of
                                 ! the solar zenith angle for the first radiation step,
@@ -50,6 +55,9 @@ GRID_FILE = "ocean_hgrid.nc"    !
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
+
+! === module SIS2_ice_thm (thermo) ===
+! This sub-module calculates ice thermodynamic quantities.
 
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.

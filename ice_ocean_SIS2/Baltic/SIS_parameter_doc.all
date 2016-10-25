@@ -8,7 +8,7 @@ CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! dynamics; if false use a B-grid discretization.
 USE_SLAB_ICE = False            !   [Boolean] default = False
                                 ! If true, use the very old slab-style ice.
-SINGLE_ICE_STATE_TYPE = True    !   [Boolean] default = True
+SINGLE_ICE_STATE_TYPE = False   !   [Boolean] default = True
                                 ! If true, the fast and slow portions of the ice use a
                                 ! single common ice_state_type.  Otherwise they point to
                                 ! different ice_state_types that need to be explicitly
@@ -233,6 +233,9 @@ ENTHALPY_UNITS = 1.0            !   [J kg-1] default = 1.0
                                 ! different scale in its internal representation.  Changing
                                 ! this by a power of 2 is useful for debugging, as answers
                                 ! should not change.  A negative values is taken as an inverse.
+
+! === module SIS2_ice_thm (thermo) ===
+! This sub-module calculates ice thermodynamic quantities.
 
 ! === module SIS_tracer_registry ===
 

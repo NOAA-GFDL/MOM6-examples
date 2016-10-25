@@ -21,6 +21,11 @@ INPUTDIR = "INPUT"
 CGRID_ICE_DYNAMICS = True       !   If true, use a C-grid discretization of the
                                 ! sea-ice dynamics; if false use a B-grid
                                 ! discretization.
+SINGLE_ICE_STATE_TYPE = False   !   [Boolean] default = True
+                                ! If true, the fast and slow portions of the ice use a
+                                ! single common ice_state_type.  Otherwise they point to
+                                ! different ice_state_types that need to be explicitly
+                                ! copied back and forth.
 
 !  Specify the numerical domain.
 NIGLOBAL = 23                   !    NIGLOBAL and NJGLOBAL are the number of thickness
