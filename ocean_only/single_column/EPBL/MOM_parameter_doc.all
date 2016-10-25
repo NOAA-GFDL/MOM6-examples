@@ -1341,6 +1341,10 @@ USE_MLD_ITERATION = False       !   [Boolean] default = False
                                 ! A logical that specifies whether or not to use the
                                 ! distance to the bottom of the actively turblent boundary
                                 ! layer to help set the EPBL length scale.
+MLD_ITERATION_GUESS = False     !   [Boolean] default = False
+                                ! A logical that specifies whether or not to use the
+                                ! previous timestep MLD as a first guess in the MLD iteration.
+                                ! The default is false to facilitate reproducibility.
 EPBL_MLD_TOLERANCE = 1.0        !   [meter] default = 1.0
                                 ! The tolerance for the iteratively determined mixed
                                 ! layer depth.  This is only used with USE_MLD_ITERATION.
@@ -1352,11 +1356,10 @@ EPBL_ORIGINAL_PE_CALC = True    !   [Boolean] default = True
                                 ! potential energy change code.  Otherwise, the newer
                                 ! version that can work with successive increments to the
                                 ! diffusivity in upward or downward passes is used.
-EPBL_TRANSITION_SCALE = 0.0     !   [nondim] default = 0.0
+EPBL_TRANSITION_SCALE = 0.1     !   [nondim] default = 0.1
                                 ! A scale for the mixing length in the transition layer
                                 ! at the edge of the boundary layer as a fraction of the
-                                ! boundary layer thickness.  The default is 0, but a
-                                ! value of 0.1 might be better justified by observations.
+                                ! boundary layer thickness.  The default is 0.1.
 EPBL_USTAR_MIN = 1.45842E-18    !   [meter second-1]
                                 ! The (tiny) minimum friction velocity used within the
                                 ! ePBL code, derived from OMEGA and ANGSTROM.
