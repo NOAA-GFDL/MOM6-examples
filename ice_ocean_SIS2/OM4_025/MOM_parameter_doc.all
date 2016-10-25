@@ -1658,6 +1658,14 @@ EPBL_TRANSITION_SCALE = 0.1     !   [nondim] default = 0.1
                                 ! A scale for the mixing length in the transition layer
                                 ! at the edge of the boundary layer as a fraction of the
                                 ! boundary layer thickness.  The default is 0.1.
+N2_DISSIPATION_POS = 0.0        !   [nondim] default = 0.0
+                                ! A scale for the dissipation of TKE due to stratification
+                                ! in the boundary layer, applied when local stratification
+                                ! is positive.  The default is 0, but should probably be ~0.4.
+N2_DISSIPATION_NEG = 0.0        !   [nondim] default = 0.0
+                                ! A scale for the dissipation of TKE due to stratification
+                                ! in the boundary layer, applied when local stratification
+                                ! is negative.  The default is 0, but should probably be ~1.
 EPBL_USTAR_MIN = 1.45842E-18    !   [meter second-1]
                                 ! The (tiny) minimum friction velocity used within the
                                 ! ePBL code, derived from OMEGA and ANGSTROM.
