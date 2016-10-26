@@ -1731,6 +1731,10 @@ N2_DISSIPATION_NEG = 0.0        !   [nondim] default = 0.0
                                 ! A scale for the dissipation of TKE due to stratification
                                 ! in the boundary layer, applied when local stratification
                                 ! is negative.  The default is 0, but should probably be ~1.
+USE_LT_LI2016 = False           !   [nondim] default = False
+                                ! A logical to use the Li et al. 2016 (submitted) formula to
+                                !  determine the enhancement of velocity due to Langmuir
+                                !  turbulence.
 EPBL_USTAR_MIN = 1.45842E-18    !   [meter second-1]
                                 ! The (tiny) minimum friction velocity used within the
                                 ! ePBL code, derived from OMEGA and ANGSTROM.
