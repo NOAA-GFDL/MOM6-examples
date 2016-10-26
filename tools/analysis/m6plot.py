@@ -15,10 +15,13 @@ import math
 import numpy, numpy.matlib
 import m6toolbox
 import VerticalSplitScale
-import cmocean
 
 try: from mpl_toolkits.basemap import Basemap
 except: print('Basemap module not found. Some regional plots may not function properly')
+try: import cmocean
+except: print('cmocean module not found. Some color maps may not render properly')
+
+from sys import modules
 
 def xyplot(field, x=None, y=None, area=None,
   xlabel=None, xunits=None, ylabel=None, yunits=None,
@@ -1288,7 +1291,8 @@ c = brownblue_cmap()
 c = parula_cmap()
 
 # Register cmocean colormaps
-cmoceanRegisterColormaps()
+if 'cmocean' in modules.keys():
+  cmoceanRegisterColormaps()
 
 # Test
 if __name__ == '__main__':

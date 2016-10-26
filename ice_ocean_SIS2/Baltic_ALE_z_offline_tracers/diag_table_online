@@ -1,0 +1,20 @@
+GOLD_SIS
+1 1 1 0 0 0
+#output files
+
+"off_snap_1day",    1, "days", 1, "days", "time"
+"off_sum_1day",	    1, "days", 1, "days", "time"
+
+# One day resolution
+"ocean_model","ea","ea_sum","off_sum_1day","all",sum,"none",1
+"ocean_model","eb","eb_sum","off_sum_1day","all",sum,"none",1
+"ocean_model","uhtr","uhtr","off_sum_1day","all",sum,"none",1
+"ocean_model","vhtr","vhtr","off_sum_1day","all",sum,"none",1
+"ocean_model","KHDT_x","khdt_x","off_sum_1day","all",sum,"none",1
+"ocean_model","KHDT_y","khdt_y","off_sum_1day","all",sum,"none",1
+"ocean_model","massout_flux","massout_flux","off_sum_1day","all",sum,"none",1
+"ocean_model","massin_flux","massin_flux","off_sum_1day","all",sum,"none",1
+
+"ocean_model","h","h_end","off_snap_1day","all",.false.,"none",1
+"ocean_model","temp","temp","off_snap_1day","all",.false.,"none",1
+"ocean_model","salt","salt","off_snap_1day","all",.false.,"none",1
