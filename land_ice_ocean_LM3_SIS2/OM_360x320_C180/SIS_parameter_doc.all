@@ -326,6 +326,11 @@ DT_ICE_DYNAMICS = 1200.0        !   [seconds] default = -1.0
                                 ! stepping the continuity equation and interactions
                                 ! between the ice mass field and velocities.  If 0 or
                                 ! negative the coupling time step will be used.
+ICEBERG_WINDSTRESS_BUG = True   !   [Boolean] default = True
+                                ! If true, use older code that applied an old ice-ocean
+                                ! stress to the icebergs in place of the current air-ice
+                                ! stress.  This option is here for backward compatibility,
+                                ! but should be avoided.  The default should be False.
 TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
                                 ! The time unit for ICE_STATS_INTERVAL.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
