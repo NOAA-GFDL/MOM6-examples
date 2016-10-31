@@ -18,6 +18,11 @@ CONSTANT_COSZEN_IC = 0.0        ! A constant value to use to initialize the
                                 ! the current time and astronomy.
 DO_ICEBERGS = True              !   [Boolean] default = False
                                 ! If true, call the iceberg module.
+ICEBERG_WINDSTRESS_BUG = True   !   [Boolean] default = False
+                                ! If true, use older code that applied an old ice-ocean
+                                ! stress to the icebergs in place of the current air-ocean
+                                ! stress.  This option is here for backward compatibility,
+                                ! but should be avoided.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between writes of the
                                 ! globally summed ice statistics and conservation checks.
