@@ -25,6 +25,9 @@ def pytest_generate_tests(metafunc):
     """
     Parameterize tests. Presently handles those that have 'exp' as an argument.
     """
+
+    print("Calling pytest_generate_tests")
+
     experiment_dict = create_experiments(metafunc.config.option.platform)
 
     if 'exp' in metafunc.fixturenames:
@@ -44,12 +47,13 @@ def pytest_generate_tests(metafunc):
 
         metafunc.parametrize('exp', exps, indirect=True)
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def exp(request):
     """
     Called before each test, use this to dump all the experiment data.
     """
     exp = request.param
+    print("pytest fixture exp: {}".format(exp))
 
     # Run the experiment to get latest code changes. This will do nothing if
     # the experiment has already been run.

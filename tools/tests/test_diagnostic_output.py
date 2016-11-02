@@ -10,6 +10,72 @@ import pytest
 
 DO_CHECKSUM_TEST = False
 
+# FIXME: why are these so different between the old and new z remapped diags.
+not_tested_z_diags = ['uh', 'vh']
+
+def compare_diags(diagA, diagB):
+
+    assert diagA.name == diagB.name
+
+    fa = Dataset(diagA.output)
+    fb = Dataset(diagB.output)
+
+    # Don't expect the time resolution to be the same.
+    small = fa
+    big = fb
+    if len(fa.variables['time']) > len(fb.variables['time']):
+        small = fb
+        big = fa
+
+    vs = small.variables[diagA.name][:]
+    ts = small.variables['time'][:]
+    vb = big.variables[diagA.name][:]
+    tb = big.variables['time'][:]
+
+    # The smaller must be a subset of the larger.
+    assert set(ts).issubset(set(tb))
+
+    # Get indices where time points are the same.
+    cmp_idxs = np.argwhere(np.in1d(tb, ts)).flatten()
+    vb = vb[cmp_idxs, :]
+
+    # Check that masks are identical
+    # FIXME: this doesn't work. The new diags use a mask which a straight
+    # extension of G%mask2d with no variation in the vertical, while the old
+    # diags masks include bathymetry and ice shelf depth.
+    # assert np.array_equal(vs.mask, vb.mask)
+
+    # Take into account that masks can be different (see above). Make one mask
+    # the combines the masked areas from both diags. Also sometimes the old
+    # diags don't have a mask.
+    if hasattr(vb, 'mask') or hasattr(vs, 'mask'):
+        if not hasattr(vb, 'mask'):
+            vb = np.ma.array(vb, mask=vs.mask)
+        if not hasattr(vs, 'mask'):
+            vs = np.ma.array(vs, mask=vb.mask)
+
+        new_mask = np.ma.mask_or(vb.mask, vs.mask)
+        vb.mask = new_mask
+        vs.mask = new_mask
+
+    # Min and max should be close
+    assert np.isclose(np.max(vs), np.max(vb), rtol=1e-2)
+    assert np.isclose(np.min(vs), np.min(vb), rtol=1e-2)
+            
+    # Difference at every grid point
+    # assert np.allclose(vs, vb, rtol=1e-2)
+
+    # Overall difference 
+    if diagA.name in ['u', 'v', 'uo', 'vo']:
+        # FIXME: investigate why these are so different.
+        assert np.isclose(np.sum(vb), np.sum(vs), rtol=5e-2)
+    else:
+        assert np.isclose(np.sum(vb), np.sum(vs), rtol=1e-2)
+
+    fa.close()
+    fb.close()
+
+
 @pytest.mark.usefixtures('prepare_to_test')
 class TestDiagnosticOutput:
 
@@ -47,6 +113,36 @@ class TestDiagnosticOutput:
                 if hasattr(data, 'mask'):
                     assert(not data.mask.all())
                 assert(not np.isnan(np.sum(data)))
+
+    @pytest.mark.z_remap
+    def test_z_remapping(self, exp):
+        """
+        Compare the new z space diagnostics (calculated using ALE remapping) to
+        the old z remapped diagnostics. We expect them to be very similar.
+        """
+
+        old_diags = []
+        new_diags = []
+        for d in exp.get_available_diags():
+            # Get new and old z diags.
+            if d.model[-5:] == '_zold' and d.name[-6:] != '_xyave':
+                old_diags.append(d)
+            elif d.model[-2:] == '_z':
+                new_diags.append(d)
+
+        assert len(old_diags) != 0
+        assert len(new_diags) != 0
+
+        old_diag_names = [d.name for d in old_diags]
+        new_diag_names = [d.name for d in new_diags]
+        assert set(old_diag_names).issubset(set(new_diag_names))
+
+        for old in old_diags:
+            for new in new_diags:
+                if new.name == old.name and new.name not in not_tested_z_diags:
+                    compare_diags(old, new)
+                    break
+
 
     @pytest.mark.skip(reason="This test is high maintenance. Also see DO_CHECKSUM_TEST.")
     def test_checksums(self, exp):
