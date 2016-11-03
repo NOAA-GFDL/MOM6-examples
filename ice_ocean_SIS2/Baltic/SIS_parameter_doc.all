@@ -195,21 +195,6 @@ PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
-
-! === module MOM_domains ===
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
-
-! === module SIS_initialize_fixed ===
-
-! === module MOM_grid_init ===
-
-! === module hor_grid ===
-! Parameters providing information about the lateral grid.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 AVAILABLE_DIAGS_FILE = "SIS.available_diags" ! default = "SIS.available_diags"
                                 ! A file into which to write a list of all available
                                 ! ocean diagnostics that can be included in a diag_table.
@@ -249,14 +234,29 @@ ENTHALPY_UNITS = 1.0            !   [J kg-1] default = 1.0
                                 ! this by a power of 2 is useful for debugging, as answers
                                 ! should not change.  A negative values is taken as an inverse.
 
-! === module SIS2_ice_thm (thermo) ===
-! This sub-module calculates ice thermodynamic quantities.
-
 ! === module SIS_tracer_registry ===
 
 ! === module SIS_tracer_flow_control ===
 USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
                                 ! If true, use the concentration based age tracer package.
+
+! === module MOM_domains ===
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
+! === module SIS_initialize_fixed ===
+
+! === module MOM_grid_init ===
+
+! === module hor_grid ===
+! Parameters providing information about the lateral grid.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
+! === module SIS2_ice_thm (thermo) ===
+! This sub-module calculates ice thermodynamic quantities.
 
 ! === module SIS_fast_thermo ===
 ! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
