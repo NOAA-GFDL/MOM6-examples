@@ -96,43 +96,11 @@ class Experiment:
 
         self.exec_path = None
 
-        # Lists of available and unfinished diagnostics.
-        self.available_diags = self._parse_available_diags()
-        self.unfinished_diags = [Diagnostic(m, d, self.path) \
-                                 for m, d in _unfinished_diags]
-        # Available diags is not what you think! Need to remove the unfinished
-        # diags.
-        self.available_diags = list(set(self.available_diags) - \
-                                    set(self.unfinished_diags))
-        # It helps with testing and human readability if this is sorted.
-        self.available_diags.sort(key=lambda d: d.full_name)
-
         # Whether this experiment has been run. Want to try to avoid
         # repeating this if possible.
         self.has_run = False
         # Another thing to avoid repeating.
         self.has_dumped_diags = False
-
-    def _parse_available_diags(self):
-        """
-        Create a list of available diags for the experiment by parsing
-        available_diags.000001 and SIS.available_diags.
-        """
-        mom_av_file = os.path.join(self.path, 'available_diags.000000')
-        sis_av_file = os.path.join(self.path, 'SIS.available_diags')
-
-        diags = []
-        for fname in [mom_av_file, sis_av_file]:
-            # If available diags file doesn't exist then just skip for now.
-            if not os.path.exists(fname):
-                continue
-            with open(fname) as f:
-                # Search or strings like: "ocean_model", "N2_u"  [Unused].
-                # Pull out the model name and variable name.
-                matches = re.findall('^\"(\w+)\", \"(\w+)\".*$',
-                                     f.read(), re.MULTILINE)
-                diags.extend([Diagnostic(m, d, self.path) for m, d in matches])
-        return diags
 
     def build_model(self):
         """
@@ -178,10 +146,47 @@ class Experiment:
 
         return ret
 
+    def _parse_available_diags(self):
+        """
+        Create a list of available diags for the experiment by parsing
+        available_diags.000001 and SIS.available_diags.
+        """
+        mom_av_file = os.path.join(self.path, 'available_diags.000000')
+        sis_av_file = os.path.join(self.path, 'SIS.available_diags')
+
+        diags = []
+        for fname in [mom_av_file, sis_av_file]:
+            # If available diags file doesn't exist then just skip for now.
+            if not os.path.exists(fname):
+                continue
+            with open(fname) as f:
+                # Search or strings like: "ocean_model", "N2_u"  [Unused].
+                # Pull out the model name and variable name.
+                matches = re.findall('^\"(\w+)\", \"(\w+)\".*$',
+                                     f.read(), re.MULTILINE)
+                diags.extend([Diagnostic(m, d, self.path) for m, d in matches])
+        return diags
+
     def get_available_diags(self):
         """
         Return a list of the available diagnostics for this experiment.
+
+        The experiment needs to have been run before calling this.
         """
+
+        assert self.has_run
+
+        # Lists of available and unfinished diagnostics.
+        self.available_diags = self._parse_available_diags()
+        self.unfinished_diags = [Diagnostic(m, d, self.path) \
+                                 for m, d in _unfinished_diags]
+        # Available diags is not what you think! Need to remove the unfinished
+        # diags.
+        self.available_diags = list(set(self.available_diags) - \
+                                    set(self.unfinished_diags))
+        # It helps with testing and human readability if this is sorted.
+        self.available_diags.sort(key=lambda d: d.full_name)
+
         return self.available_diags
 
     def get_unfinished_diags(self):
