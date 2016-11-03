@@ -5,6 +5,8 @@ import pytest
 from dump_all_diagnostics import dump_diags
 from experiment import create_experiments, exp_id_from_path
 
+experiment_dict = create_experiments()
+
 def pytest_addoption(parser):
     parser.addoption('--exps', default=None,
                      help="""comma-separated no spaces list of experiments to
@@ -15,11 +17,6 @@ def pytest_addoption(parser):
                      help="""Run on all experiments/test cases. By default
                              tests are run on a 'fast' subset of experiments.
                              Note that this overrides the --exps option.""")
-    parser.addoption('--platform', default='raijin',
-                     help="""Which machine we're on. This determines how
-                             the model is built. Currently supported options
-                             are 'raijin' and 'ubuntu'.""")
-
 
 def pytest_generate_tests(metafunc):
     """
@@ -27,8 +24,6 @@ def pytest_generate_tests(metafunc):
     """
 
     print("Calling pytest_generate_tests")
-
-    experiment_dict = create_experiments(metafunc.config.option.platform)
 
     if 'exp' in metafunc.fixturenames:
         if metafunc.config.option.full:
@@ -53,7 +48,6 @@ def exp(request):
     Called before each test, use this to dump all the experiment data.
     """
     exp = request.param
-    print("pytest fixture exp: {}".format(exp))
 
     # Run the experiment to get latest code changes. This will do nothing if
     # the experiment has already been run.
