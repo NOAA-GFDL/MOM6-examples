@@ -240,8 +240,28 @@ ENTHALPY_UNITS = 1.0            !   [J kg-1] default = 1.0
 USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
                                 ! If true, use the concentration based age tracer package.
 
-! === module SIS_fast_thermo ===
-! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+! === module SIS_slow_thermo ===
+! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
+ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
+                                ! The fixed bulk salinity of sea ice.
+ICE_RELATIVE_SALINITY = 0.0     !   [nondim] default = 0.0
+                                ! The initial salinity of sea ice as a fraction of the
+                                ! salinity of the seawater from which it formed.
+SIS2_FILLING_FRAZIL = True      !   [Boolean] default = False
+                                ! If true, apply frazil to fill as many categories as
+                                ! possible to fill in a uniform (minimum) amount of ice
+                                ! in all the thinnest categories. Otherwise the frazil is
+                                ! always assigned to a single category.
+FILLING_FRAZIL_TIMESCALE = 8.64E+04 !   [s] default = 0.0
+                                ! A timescale with which the filling frazil causes the
+                                ! thinest cells to attain similar thicknesses, or a negative
+                                ! number to apply the frazil flux uniformly.
+APPLY_ICE_LIMIT = False         !   [Boolean] default = False
+                                ! If true, restore the sea ice state toward climatology.
+DO_ICE_RESTORE = False          !   [Boolean] default = False
+                                ! If true, restore the sea ice state toward climatology.
+NUDGE_SEA_ICE = False           !   [Boolean] default = False
+                                ! If true, constrain the sea ice concentrations using observations.
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
@@ -278,50 +298,6 @@ OLD_ICE_HEAT_CAPACITY = False   !   [Boolean] default = False
                                 ! If true, use an older linearization of the sea ice heat
                                 ! capacity for temperatures above the freezing point in the
                                 ! calculation of the initial ice temperature estimate.
-
-! === module SIS_optics ===
-! This module calculates the albedo and absorption profiles for shortwave radiation.
-DO_DELTA_EDDINGTON_SW = True    !   [Boolean] default = True
-                                ! If true, a delta-Eddington radiative transfer calculation
-                                ! for the shortwave radiation within the sea-ice.
-ICE_DELTA_EDD_R_ICE = 0.0       !   [nondimensional] default = 0.0
-                                ! A dreadfully documented tuning parameter for the radiative
-                                ! propeties of sea ice with the delta-Eddington radiative
-                                ! transfer calculation.
-ICE_DELTA_EDD_R_SNOW = 0.0      !   [nondimensional] default = 0.0
-                                ! A dreadfully documented tuning parameter for the radiative
-                                ! propeties of snow on sea ice with the delta-Eddington
-                                ! radiative transfer calculation.
-ICE_DELTA_EDD_R_POND = 0.0      !   [nondimensional] default = 0.0
-                                ! A dreadfully documented tuning parameter for the radiative
-                                ! propeties of meltwater ponds on sea ice with the delta-Eddington
-                                ! radiative transfer calculation.
-
-! === module SIS_slow_thermo ===
-! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
-ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
-                                ! The fixed bulk salinity of sea ice.
-ICE_RELATIVE_SALINITY = 0.0     !   [nondim] default = 0.0
-                                ! The initial salinity of sea ice as a fraction of the
-                                ! salinity of the seawater from which it formed.
-SIS2_FILLING_FRAZIL = True      !   [Boolean] default = False
-                                ! If true, apply frazil to fill as many categories as
-                                ! possible to fill in a uniform (minimum) amount of ice
-                                ! in all the thinnest categories. Otherwise the frazil is
-                                ! always assigned to a single category.
-FILLING_FRAZIL_TIMESCALE = 8.64E+04 !   [s] default = 0.0
-                                ! A timescale with which the filling frazil causes the
-                                ! thinest cells to attain similar thicknesses, or a negative
-                                ! number to apply the frazil flux uniformly.
-APPLY_ICE_LIMIT = False         !   [Boolean] default = False
-                                ! If true, restore the sea ice state toward climatology.
-DO_ICE_RESTORE = False          !   [Boolean] default = False
-                                ! If true, restore the sea ice state toward climatology.
-NUDGE_SEA_ICE = False           !   [Boolean] default = False
-                                ! If true, constrain the sea ice concentrations using observations.
-
-! === module SIS2_ice_thm (updates) ===
-! This sub-module does updates of the sea-ice due to thermodynamic changes.
 
 ! === module SIS_dyn_trans ===
 ! This module updates the ice momentum and does ice transport.
@@ -466,6 +442,30 @@ MAXTRUNC = 0                    !   [truncations save_interval-1] default = 0
 STATISTICS_FILE = "seaice.stats" ! default = "seaice.stats"
                                 ! The file to use to write the globally integrated
                                 ! statistics.
+
+! === module SIS_fast_thermo ===
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
+
+! === module SIS_optics ===
+! This module calculates the albedo and absorption profiles for shortwave radiation.
+DO_DELTA_EDDINGTON_SW = True    !   [Boolean] default = True
+                                ! If true, a delta-Eddington radiative transfer calculation
+                                ! for the shortwave radiation within the sea-ice.
+ICE_DELTA_EDD_R_ICE = 0.0       !   [nondimensional] default = 0.0
+                                ! A dreadfully documented tuning parameter for the radiative
+                                ! propeties of sea ice with the delta-Eddington radiative
+                                ! transfer calculation.
+ICE_DELTA_EDD_R_SNOW = 0.0      !   [nondimensional] default = 0.0
+                                ! A dreadfully documented tuning parameter for the radiative
+                                ! propeties of snow on sea ice with the delta-Eddington
+                                ! radiative transfer calculation.
+ICE_DELTA_EDD_R_POND = 0.0      !   [nondimensional] default = 0.0
+                                ! A dreadfully documented tuning parameter for the radiative
+                                ! propeties of meltwater ponds on sea ice with the delta-Eddington
+                                ! radiative transfer calculation.
 
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
