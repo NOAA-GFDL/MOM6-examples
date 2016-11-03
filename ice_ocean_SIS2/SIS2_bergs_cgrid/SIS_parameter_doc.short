@@ -69,15 +69,6 @@ CP_BRINE = 3925.0               !   [J kg-1 K-1] default = 2100.0
 
 ! === module SIS_tracer_flow_control ===
 
-! === module SIS_fast_thermo ===
-! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
-
-! === module SIS2_ice_thm (updates) ===
-! This sub-module does updates of the sea-ice due to thermodynamic changes.
-
-! === module SIS_optics ===
-! This module calculates the albedo and absorption profiles for shortwave radiation.
-
 ! === module SIS_slow_thermo ===
 ! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
 ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
@@ -108,6 +99,15 @@ ICE_TDAMP_ELASTIC = 1000.0      !   [s or nondim] default = -0.2
 ! === module SIS_tracer_advect ===
 
 ! === module SIS_sum_output ===
+
+! === module SIS_fast_thermo ===
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
+
+! === module SIS_optics ===
+! This module calculates the albedo and absorption profiles for shortwave radiation.
 
 ! === module MOM_file_parser ===
 DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"

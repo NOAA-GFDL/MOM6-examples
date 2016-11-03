@@ -63,27 +63,6 @@ OMEGA = 7.292E-05               !   [s-1] default = 7.2921E-05
 
 ! === module SIS_tracer_flow_control ===
 
-! === module SIS_fast_thermo ===
-! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
-
-! === module SIS2_ice_thm (updates) ===
-! This sub-module does updates of the sea-ice due to thermodynamic changes.
-
-! === module SIS_optics ===
-! This module calculates the albedo and absorption profiles for shortwave radiation.
-ICE_DELTA_EDD_R_ICE = 1.0       !   [nondimensional] default = 0.0
-                                ! A dreadfully documented tuning parameter for the radiative
-                                ! propeties of sea ice with the delta-Eddington radiative
-                                ! transfer calculation.
-ICE_DELTA_EDD_R_SNOW = 1.0      !   [nondimensional] default = 0.0
-                                ! A dreadfully documented tuning parameter for the radiative
-                                ! propeties of snow on sea ice with the delta-Eddington
-                                ! radiative transfer calculation.
-ICE_DELTA_EDD_R_POND = 1.0      !   [nondimensional] default = 0.0
-                                ! A dreadfully documented tuning parameter for the radiative
-                                ! propeties of meltwater ponds on sea ice with the delta-Eddington
-                                ! radiative transfer calculation.
-
 ! === module SIS_slow_thermo ===
 ! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
 ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
@@ -152,6 +131,27 @@ MAXTRUNC = 200                  !   [truncations save_interval-1] default = 0
                                 ! MAXTRUNC times between  writing ice statistics.
                                 ! Set MAXTRUNC to 0 to stop if there is any truncation
                                 ! of sea ice velocities.
+
+! === module SIS_fast_thermo ===
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
+
+! === module SIS_optics ===
+! This module calculates the albedo and absorption profiles for shortwave radiation.
+ICE_DELTA_EDD_R_ICE = 1.0       !   [nondimensional] default = 0.0
+                                ! A dreadfully documented tuning parameter for the radiative
+                                ! propeties of sea ice with the delta-Eddington radiative
+                                ! transfer calculation.
+ICE_DELTA_EDD_R_SNOW = 1.0      !   [nondimensional] default = 0.0
+                                ! A dreadfully documented tuning parameter for the radiative
+                                ! propeties of snow on sea ice with the delta-Eddington
+                                ! radiative transfer calculation.
+ICE_DELTA_EDD_R_POND = 1.0      !   [nondimensional] default = 0.0
+                                ! A dreadfully documented tuning parameter for the radiative
+                                ! propeties of meltwater ponds on sea ice with the delta-Eddington
+                                ! radiative transfer calculation.
 
 ! === module MOM_file_parser ===
 DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
