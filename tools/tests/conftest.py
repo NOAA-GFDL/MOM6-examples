@@ -23,8 +23,6 @@ def pytest_generate_tests(metafunc):
     Parameterize tests. Presently handles those that have 'exp' as an argument.
     """
 
-    print("Calling pytest_generate_tests")
-
     if 'exp' in metafunc.fixturenames:
         if metafunc.config.option.full:
             # Run tests on all experiments.
@@ -49,13 +47,14 @@ def exp(request):
     """
     exp = request.param
 
-    # Run the experiment to get latest code changes. This will do nothing if
-    # the experiment has already been run.
+    # Run the experiment to get latest code changes, and updates to the
+    # available_diags. This will do nothing if the experiment has already been
+    # run.
     exp.run()
     # Dump all available diagnostics, if they haven't been already.
     if not exp.has_dumped_diags:
         # Before dumping we delete old ones if they exist.
-        diags = exp.get_available_diags()
+        diags = exp.parse_available_diags()
         for d in diags:
             try:
                 os.remove(d.output)
@@ -65,6 +64,20 @@ def exp(request):
         dump_diags(exp, diags)
         exp.has_dumped_diags = True
     return exp
+
+
+@pytest.fixture(scope='session')
+def exp_diags_not_dumped():
+
+    exp = experiment_dict['ice_ocean_SIS2/Baltic']
+
+    # Run the experiment to get latest code changes, and updates to the
+    # available_diags. This will do nothing if the experiment has already been
+    # run.
+    exp.run()
+
+    return exp
+
 
 def restore_after_test():
     """

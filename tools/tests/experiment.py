@@ -5,6 +5,7 @@ import sys
 import os
 import re
 import shlex
+import random
 import subprocess as sp
 import run_config as rc
 from model import Model
@@ -17,18 +18,33 @@ _mom_examples_path = os.path.normpath(os.path.join(_file_dir, '../../'))
 
 class Diagnostic:
 
-    def __init__(self, model, name, path):
+    def __init__(self, model, name, path, packed=True):
         self.model = model
         self.name = name
         self.full_name = '{}_{}'.format(model, name)
-        self.output = os.path.join(path, '00010101.{}.nc'.format(self.full_name))
+        self.run_path = path
+
+        # Hack to deal with FMS limitations, see https://github.com/NOAA-GFDL/FMS/issues/27
+        # Use fewer different files for diagnostics.
+        if packed:
+            letter = self.name[0]
+            self.packed_filename = '{}_{}'.format(self.model, letter)
+
+        self.unpacked_filename = '{}_{}'.format(self.model, self.name)
+
+        if packed:
+            self.filename = self.packed_filename
+        else:
+            self.filename = self.unpacked_filename
+
+        self.output = os.path.join(path, '00010101.{}.nc'.format(self.filename))
 
     def __eq__(self, other):
-        return ((self.model, self.name, self.output) ==
-                (other.model, other.name, other.output))
+        return ((self.model, self.name) ==
+                (other.model, other.name))
 
     def __hash__(self):
-        return hash(self.model + self.name + self.output)
+        return hash(self.full_name)
 
 
 # Unfinished diagnostics are those which have been registered but have not been
@@ -101,6 +117,7 @@ class Experiment:
         self.has_run = False
         # Another thing to avoid repeating.
         self.has_dumped_diags = False
+        self.diags_parsed = False
 
     def build_model(self):
         """
@@ -146,11 +163,19 @@ class Experiment:
 
         return ret
 
-    def _parse_available_diags(self):
+    def parse_available_diags(self, packed=True):
         """
-        Create a list of available diags for the experiment by parsing
-        available_diags.000001 and SIS.available_diags.
+        Return a list of the available diagnostics for this experiment by
+        parsing available_diags.000001 and SIS.available_diags.
+
+        The 'packed' argument is used to pack many diagnostics into a few
+        output files. Without this each diagnostic is in it's own file.
+
+        The experiment needs to have been run before calling this.
         """
+
+        assert self.has_run
+
         mom_av_file = os.path.join(self.path, 'available_diags.000000')
         sis_av_file = os.path.join(self.path, 'SIS.available_diags')
 
@@ -164,20 +189,14 @@ class Experiment:
                 # Pull out the model name and variable name.
                 matches = re.findall('^\"(\w+)\", \"(\w+)\".*$',
                                      f.read(), re.MULTILINE)
-                diags.extend([Diagnostic(m, d, self.path) for m, d in matches])
-        return diags
-
-    def get_available_diags(self):
-        """
-        Return a list of the available diagnostics for this experiment.
-
-        The experiment needs to have been run before calling this.
-        """
-
-        assert self.has_run
+                for m, d in matches:
+                    if m[-5:] == '_zold':
+                        diags.append(Diagnostic(m, d, self.path, packed=False))
+                    else:
+                        diags.append(Diagnostic(m, d, self.path, packed))
 
         # Lists of available and unfinished diagnostics.
-        self.available_diags = self._parse_available_diags()
+        self.available_diags = diags
         self.unfinished_diags = [Diagnostic(m, d, self.path) \
                                  for m, d in _unfinished_diags]
         # Available diags is not what you think! Need to remove the unfinished
@@ -187,7 +206,26 @@ class Experiment:
         # It helps with testing and human readability if this is sorted.
         self.available_diags.sort(key=lambda d: d.full_name)
 
+        self.diags_parsed = True
+
         return self.available_diags
+
+    def get_diags(self):
+
+        assert self.has_run
+        assert self.diags_parsed
+
+        return self.available_diags
+
+    def get_diags_dict(self):
+
+        diags = self.get_diags()
+
+        d = {}
+        for diag in diags:
+            d[diag.full_name] = diag
+
+        return d
 
     def get_unfinished_diags(self):
         """
