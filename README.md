@@ -17,6 +17,8 @@ Full Run:      [![Run Status](https://climate-cms.nci.org.au/jenkins/buildStatus
 
 Valgrind: [![Valgrind Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_runtime_analyzer)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_runtime_analyzer/)
 
+Diagnostics: [![Diagnostics Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_diagnostics)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_diagnostics/)
+
 (Click on icons for details)
 
 # Where to find information
