@@ -932,6 +932,12 @@ MIXEDLAYER_RESTRAT = False      !   [Boolean] default = False
                                 ! flow is imposed in the mixed layer. Can be used in ALE mode
                                 ! without restriction but in layer mode can only be used if
                                 ! BULKMIXEDLAYER is true.
+DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0
+                                ! The lower fraction of water column over which N2 is limited as monotonic
+                                ! for the purposes of calculating the equivalent barotropic wave speed.
+DIAG_EBT_MONO_N2_DEPTH = -1.0   !   [m] default = -1.0
+                                ! The depth below which N2 is limited as monotonic for the
+                                ! purposes of calculating the equivalent barotropic wave speed.
 
 ! === module MOM_diag_to_Z ===
 Z_OUTPUT_GRID_FILE = ""         ! default = ""

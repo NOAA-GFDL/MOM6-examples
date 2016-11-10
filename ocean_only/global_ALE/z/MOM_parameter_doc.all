@@ -1307,6 +1307,12 @@ MLE_TAIL_DH = 0.0               !   [nondim] default = 0.0
                                 ! Fraction by which to extend the mixed-layer restratification
                                 ! depth used for a smoother stream function at the base of
                                 ! the mixed-layer.
+DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0
+                                ! The lower fraction of water column over which N2 is limited as monotonic
+                                ! for the purposes of calculating the equivalent barotropic wave speed.
+DIAG_EBT_MONO_N2_DEPTH = -1.0   !   [m] default = -1.0
+                                ! The depth below which N2 is limited as monotonic for the
+                                ! purposes of calculating the equivalent barotropic wave speed.
 
 ! === module MOM_diag_to_Z ===
 Z_OUTPUT_GRID_FILE = "analysis_vgrid_lev35.v1.nc" ! default = ""

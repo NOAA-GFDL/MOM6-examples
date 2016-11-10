@@ -1067,6 +1067,12 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! geostrophic kinetic energy or 1 plus the square of the
                                 ! grid spacing over the deformation radius, as detailed
                                 ! by Fox-Kemper et al. (2010)
+DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0
+                                ! The lower fraction of water column over which N2 is limited as monotonic
+                                ! for the purposes of calculating the equivalent barotropic wave speed.
+DIAG_EBT_MONO_N2_DEPTH = -1.0   !   [m] default = -1.0
+                                ! The depth below which N2 is limited as monotonic for the
+                                ! purposes of calculating the equivalent barotropic wave speed.
 
 ! === module MOM_diag_to_Z ===
 Z_OUTPUT_GRID_FILE = "OM3_zgrid.nc" ! default = ""
