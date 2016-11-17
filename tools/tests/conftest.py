@@ -53,13 +53,7 @@ def exp(request):
     exp.run()
     # Dump all available diagnostics, if they haven't been already.
     if not exp.has_dumped_diags:
-        # Before dumping we delete old ones if they exist.
         diags = exp.parse_available_diags()
-        for d in diags:
-            try:
-                os.remove(d.output)
-            except OSError:
-                pass
 
         dump_diags(exp, diags)
         exp.has_dumped_diags = True
