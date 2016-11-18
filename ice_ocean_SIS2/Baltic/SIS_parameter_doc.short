@@ -4,6 +4,11 @@
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
+SINGLE_ICE_STATE_TYPE = False   !   [Boolean] default = True
+                                ! If true, the fast and slow portions of the ice use a
+                                ! single common ice_state_type.  Otherwise they point to
+                                ! different ice_state_types that need to be explicitly
+                                ! copied back and forth.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of
                                 ! the solar zenith angle for the first radiation step,
@@ -58,14 +63,23 @@ GRID_FILE = "ocean_hgrid.nc"    !
 
 ! === module SIS_tracer_flow_control ===
 
-! === module SIS_fast_thermo ===
-! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+! === module MOM_domains ===
 
-! === module SIS2_ice_thm (updates) ===
-! This sub-module does updates of the sea-ice due to thermodynamic changes.
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
 
-! === module SIS_optics ===
-! This module calculates the albedo and absorption profiles for shortwave radiation.
+! === module SIS_initialize_fixed ===
+
+! === module MOM_grid_init ===
+
+! === module hor_grid ===
+! Parameters providing information about the lateral grid.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
+! === module SIS2_ice_thm (thermo) ===
+! This sub-module calculates ice thermodynamic quantities.
 
 ! === module SIS_slow_thermo ===
 ! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
@@ -112,6 +126,15 @@ SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
 
 ! === module SIS_sum_output ===
+
+! === module SIS_fast_thermo ===
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
+
+! === module SIS_optics ===
+! This module calculates the albedo and absorption profiles for shortwave radiation.
 
 ! === module MOM_file_parser ===
 DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"

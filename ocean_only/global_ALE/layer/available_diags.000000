@@ -1066,6 +1066,22 @@
     ! long_name: j-component of CFL of first baroclinic gravity wave = dt*cg1*/dy
     ! units: nondim
     ! cell_methods: xh:mean yh:mean
+"ocean_model", "cg_ebt"  [Unused]
+    ! long_name: Equivalent barotropic gravity wave speed
+    ! units: meter second-1
+    ! cell_methods: xh:mean yh:mean
+"ocean_model", "Rd_ebt"  [Unused]
+    ! long_name: Equivalent barotropic deformation radius
+    ! units: meter
+    ! cell_methods: xh:mean yh:mean
+"ocean_model", "p_ebt"  [Unused]
+    ! long_name: Equivalent barotropic modal strcuture
+    ! units: nondim
+    ! cell_methods: xh:mean yh:mean zl:mean
+"ocean_model_z_new", "p_ebt"  [Unused]
+    ! long_name: Equivalent barotropic modal strcuture
+    ! units: nondim
+    ! cell_methods: xh:mean yh:mean zl:mean
 "ocean_model", "mass_wt"  [Unused]
     ! long_name: The column mass for calculating mass-weighted average properties
     ! units: kg m-2
@@ -2105,26 +2121,6 @@
 "ocean_model", "ustar"  [Used]
     ! long_name: Surface friction velocity = [(gustiness + tau_magnitude)/rho0]^(1/2)
     ! units: meter second-1
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "ustar_berg"  [Unused]
-    ! long_name: Friction velocity below iceberg
-    ! units: meter second-1
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "area_berg"  [Unused]
-    ! long_name: Area of grid cell covered by iceberg
-    ! units: m2/m2
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "mass_berg"  [Unused]
-    ! long_name: Mass of icebergs
-    ! units: kg/m2
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "ustar_ice_cover"  [Unused]
-    ! long_name: Friction velocity below iceberg and ice shelf together
-    ! units: meter second-1
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "frac_ice_cover"  [Unused]
-    ! long_name: Area of grid cell below iceberg and ice shelf together
-    ! units: m2/m2
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "p_surf"  [Used] (CMOR equivalent is "pso")
     ! long_name: Pressure at ice-ocean or atmosphere-ocean interface
