@@ -38,6 +38,13 @@ def dump_diags(exp, diags):
             fname = d.filename
             print('"{}", "{}", "{}", "{}", "all",' \
                   '.false., "none", 2'.format(m, n, n, fname, n), file=f)
+
+            # Since they will be replaced, remove old diags.
+            try:
+                os.remove(d.output)
+            except OSError:
+                pass
+
     return exp.force_run()
 
 def main():
