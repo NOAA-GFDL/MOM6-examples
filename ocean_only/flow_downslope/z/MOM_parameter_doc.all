@@ -600,12 +600,19 @@ SPONGE = False                  !   [Boolean] default = False
                                 ! If true, sponges may be applied anywhere in the domain.
                                 ! The exact location and properties of those sponges are
                                 ! specified via SPONGE_CONFIG.
+
+! === module MOM_diag_mediator ===
+NUM_DIAG_COORDS = 1             ! default = 1
+                                ! The number of diagnostic vertical coordinates to use.
+                                ! For each coordinate, an entry in DIAG_COORDS must be provided.
+DIAG_COORDS = "z Z ZSTAR"       ! default = "z Z ZSTAR"
+                                ! A list of string tuples associating diag_table modules to
+                                ! a coordinate definition used for diagnostics. Each string
+                                ! is of the form "MODULE_SUFFIX PARAMETER_SUFFIX COORDINATE_NAME".
 AVAILABLE_DIAGS_FILE = "available_diags.000000" ! default = "available_diags.000000"
                                 ! A file into which to write a list of all available
                                 ! ocean diagnostics that can be included in a diag_table.
-
-! === module MOM_diag_mediator ===
-DIAG_REMAP_Z_GRID_DEF = ""      ! default = ""
+DIAG_COORD_DEF_Z = "UNIFORM"    ! default = "UNIFORM"
                                 ! This sets the file and variable names that define the
                                 ! vertical grid used for diagnostic output remapping.
                                 !  It should look like:

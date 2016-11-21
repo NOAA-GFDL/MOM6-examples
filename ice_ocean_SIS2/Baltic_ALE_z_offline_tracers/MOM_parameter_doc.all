@@ -594,12 +594,19 @@ TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
                                 ! If true, cuts way the top of the column for initial conditions
                                 ! at the depth where the hydrostatic presure matches the imposed
                                 ! surface pressure which is read from file.
+
+! === module MOM_diag_mediator ===
+NUM_DIAG_COORDS = 1             ! default = 1
+                                ! The number of diagnostic vertical coordinates to use.
+                                ! For each coordinate, an entry in DIAG_COORDS must be provided.
+DIAG_COORDS = "z Z ZSTAR"       ! default = "z Z ZSTAR"
+                                ! A list of string tuples associating diag_table modules to
+                                ! a coordinate definition used for diagnostics. Each string
+                                ! is of the form "MODULE_SUFFIX PARAMETER_SUFFIX COORDINATE_NAME".
 AVAILABLE_DIAGS_FILE = "available_diags.000000" ! default = "available_diags.000000"
                                 ! A file into which to write a list of all available
                                 ! ocean diagnostics that can be included in a diag_table.
-
-! === module MOM_diag_mediator ===
-DIAG_REMAP_Z_GRID_DEF = ""      ! default = ""
+DIAG_COORD_DEF_Z = "UNIFORM"    ! default = "UNIFORM"
                                 ! This sets the file and variable names that define the
                                 ! vertical grid used for diagnostic output remapping.
                                 !  It should look like:
