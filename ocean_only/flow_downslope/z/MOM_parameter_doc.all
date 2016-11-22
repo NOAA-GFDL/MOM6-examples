@@ -407,26 +407,6 @@ REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 !  SLIGHT - stretched coordinates above continuous isopycnal
 REGRIDDING_COORDINATE_UNITS = "m" ! default = "m"
                                 ! Units of the regridding coordinuate.
-INTERPOLATION_SCHEME = "PQM_IH4IH3" ! default = "P1M_H2"
-                                ! This sets the interpolation scheme to use to
-                                ! determine the new grid. These parameters are
-                                ! only relevant when REGRIDDING_COORDINATE_MODE is
-                                ! set to a function of state. Otherwise, it is not
-                                ! used. It can be one of the following schemes:
-                                !  P1M_H2     (2nd-order accurate)
-                                !  P1M_H4     (2nd-order accurate)
-                                !  P1M_IH4    (2nd-order accurate)
-                                !  PLM        (2nd-order accurate)
-                                !  PPM_H4     (3rd-order accurate)
-                                !  PPM_IH4    (3rd-order accurate)
-                                !  P3M_IH4IH3 (4th-order accurate)
-                                !  P3M_IH6IH5 (4th-order accurate)
-                                !  PQM_IH4IH3 (4th-order accurate)
-                                !  PQM_IH6IH5 (5th-order accurate)
-REGRID_COMPRESSIBILITY_FRACTION = 0.0 !   [not defined] default = 0.0
-                                ! When interpolating potential density profiles we can add
-                                ! some artificial compressibility solely to make homogenous
-                                ! regions appear stratified.
 ALE_COORDINATE_CONFIG = "UNIFORM" ! default = "UNIFORM"
                                 ! Determines how to specify the coordinate
                                 ! resolution. Valid options are:
@@ -449,30 +429,6 @@ ALE_COORDINATE_CONFIG = "UNIFORM" ! default = "UNIFORM"
 MIN_THICKNESS = 0.001           !   [m] default = 0.001
                                 ! When regridding, this is the minimum layer
                                 ! thickness allowed.
-BOUNDARY_EXTRAPOLATION = True   !   [Boolean] default = False
-                                ! When defined, a proper high-order reconstruction
-                                ! scheme is used within boundary cells rather
-                                ! than PCM. E.g., if PPM is used for remapping, a
-                                ! PPM reconstruction will also be used within
-                                ! boundary cells.
-MAXIMUM_INT_DEPTH_CONFIG = "NONE" ! default = "NONE"
-                                ! Determines how to specify the maximum interface depths.
-                                ! Valid options are:
-                                !  NONE        - there are no maximum interface depths
-                                !  PARAM       - use the vector-parameter MAXIMUM_INTERFACE_DEPTHS
-                                !  FILE:string - read from a file. The string specifies
-                                !                the filename and variable name, separated
-                                !                by a comma or space, e.g. FILE:lev.nc,Z
-                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
-MAX_LAYER_THICKNESS_CONFIG = "NONE" ! default = "NONE"
-                                ! Determines how to specify the maximum layer thicknesses.
-                                ! Valid options are:
-                                !  NONE        - there are no maximum layer thicknesses
-                                !  PARAM       - use the vector-parameter MAX_LAYER_THICKNESS
-                                !  FILE:string - read from a file. The string specifies
-                                !                the filename and variable name, separated
-                                !                by a comma or space, e.g. FILE:lev.nc,Z
-                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
 REMAPPING_SCHEME = "PQM_IH4IH3" ! default = "PLM"
                                 ! This sets the reconstruction scheme used
                                 ! for vertical remapping for all variables.
