@@ -432,17 +432,20 @@ AVAILABLE_DIAGS_FILE = "available_diags.000000" ! default = "available_diags.000
                                 ! A file into which to write a list of all available
                                 ! ocean diagnostics that can be included in a diag_table.
 DIAG_COORD_DEF_Z = "UNIFORM"    ! default = "UNIFORM"
-                                ! This sets the file and variable names that define the
-                                ! vertical grid used for diagnostic output remapping.
-                                !  It should look like:
-                                !  FILE:<file>,<varI>,<varL> - where <file> is a file within
-                                !                              the INPUTDIR, <varI> is
-                                !                              the name of the variable that
-                                !                              contains interface positions,
-                                !                              <varL> is the name of the variable
-                                !                              that contains layer positions,
-                                ! UNIFORM                    - vertical grid is uniform
-                                !                              between surface and max depth.
+                                ! Determines how to specify the coordinate
+                                ! resolution. Valid options are:
+                                !  PARAM       - use the vector-parameter DIAG_COORD_RES_Z
+                                !  UNIFORM[:N] - uniformly distributed
+                                !  FILE:string - read from a file. The string specifies
+                                !                the filename and variable name, separated
+                                !                by a comma or space, e.g. FILE:lev.nc,dz
+                                !                or FILE:lev.nc,interfaces=zw
+                                !  WOA09[:N]   - the WOA09 vertical grid (approximately)
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
+                                !  HYBRID:string - read from a file. The string specifies
+                                !                the filename and two variable names, separated
+                                !                by a comma or space, for sigma-2 and dz. e.g.
+                                !                HYBRID:vgrid.nc,sigma2,dz
 
 ! === module MOM_MEKE ===
 USE_MEKE = False                !   [Boolean] default = False
