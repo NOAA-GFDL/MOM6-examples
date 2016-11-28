@@ -127,7 +127,7 @@ def dump_diags_for_coord(exp, coord):
         coord_diags = filter(is_sigma, available_diags)
     layer_diags = filter(is_layer, available_diags)
 
-    dump_diags(exp, coord_diags + layer_diags)
+    dump_diags(exp, list(coord_diags) + list(layer_diags))
 
     return coord_diags, layer_diags
 
@@ -210,6 +210,7 @@ class TestDiagnosticOutput:
                     compare_z_to_zold_diags(old, new)
                     break
 
+    @pytest.mark.skip(reason="Rho remapping not supported yet.")
     @pytest.mark.rho_remap
     def test_rho_remapping(self, exp_diags_not_dumped):
         """
@@ -221,6 +222,7 @@ class TestDiagnosticOutput:
         compare_rho_to_layer(rho_diags, layer_diags)
 
 
+    @pytest.mark.skip(reason="Sigma remapping not supported yet.")
     @pytest.mark.sigma_remap
     def test_sigma_remapping(self, exp_diags_not_dumped):
         """
