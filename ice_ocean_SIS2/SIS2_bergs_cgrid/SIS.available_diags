@@ -259,6 +259,15 @@
 "ice_model", "STRENGTH_hf"  [Unused]
     ! long_name: ice strength
     ! units: Pa*m
+"ice_model", "siu"  [Unused]
+    ! long_name: ice velocity - x component
+    ! units: m/s
+"ice_model", "siv"  [Unused]
+    ! long_name: ice velocity - y component
+    ! units: m/s
+"ice_model", "sispeed"  [Unused]
+    ! long_name: ice speed
+    ! units: m/s
 "ice_model", "IX_TRANS"  [Used]
     ! long_name: x-direction ice transport
     ! units: kg/s
@@ -283,6 +292,24 @@
 "ice_model", "HI"  [Used]
     ! long_name: ice thickness
     ! units: m-ice
+"ice_model", "sitimefrac"  [Unused]
+    ! long_name: time fraction of ice cover
+    ! units: 0-1
+"ice_model", "siconc"  [Unused]
+    ! long_name: ice concentration
+    ! units: 0-1
+"ice_model", "sithick"  [Unused]
+    ! long_name: ice thickness
+    ! units: m-ice
+"ice_model", "sivol"  [Unused]
+    ! long_name: ice volume
+    ! units: m-ice
+"ice_model", "sisnconc"  [Unused]
+    ! long_name: snow concentration
+    ! units: 0-1
+"ice_model", "sisnthick"  [Unused]
+    ! long_name: snow thickness
+    ! units: m-snow
 "ice_model", "T_bulkice"  [Unused]
     ! long_name: Volume-averaged ice temperature
     ! units: C
@@ -316,6 +343,9 @@
 "ice_model", "TS"  [Used]
     ! long_name: surface temperature
     ! units: C
+"ice_model", "sitemptop"  [Unused]
+    ! long_name: surface temperature
+    ! units: C
 "ice_model", "FA_X"  [Used]
     ! long_name: Air stress on ice on C-grid - x component
     ! units: Pa
@@ -326,10 +356,16 @@
     ! long_name: frozen water transport convergence
     ! units: kg/(m^2*yr)
 "ice_model", "MI"  [Used]
+    ! long_name: ice + snow mass
+    ! units: kg/m^2
+"ice_model", "simass"  [Unused]
     ! long_name: ice mass
     ! units: kg/m^2
+"ice_model", "sisnmass"  [Unused]
+    ! long_name: snow mass
+    ! units: kg/m^2
 "ice_model", "MIB"  [Unused]
-    ! long_name: ice + bergs mass
+    ! long_name: ice + snow + bergs mass
     ! units: kg/m^2
 "ice_model", "E2MELT"  [Unused]
     ! long_name: heat needed to melt ice
