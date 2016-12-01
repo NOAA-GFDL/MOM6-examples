@@ -704,7 +704,7 @@ BE = 0.7                        !   [nondim] default = 0.6
                                 ! BE is also applicable if SPLIT is false and USE_RK2
                                 ! is true.
 BEGW = 0.0                      !   [nondim] default = 0.0
-                                ! If SPILT is true, BEGW is a number from 0 to 1 that
+                                ! If SPLIT is true, BEGW is a number from 0 to 1 that
                                 ! controls the extent to which the treatment of gravity
                                 ! waves is forward-backward (0) or simulated backward
                                 ! Euler (1).  0 is almost always used.
@@ -836,6 +836,8 @@ LAPLACIAN = True                !   [Boolean] default = False
                                 ! If true, use a Laplacian horizontal viscosity.
 KH = 1.0E+04                    !   [m2 s-1] default = 0.0
                                 ! The background Laplacian horizontal viscosity.
+KH_BG_MIN = 0.0                 !   [m2 s-1] default = 0.0
+                                ! The minimum value allowed for Laplacian horizontal viscosity, KH.
 KH_VEL_SCALE = 0.003            !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the grid
                                 ! spacing to calculate the Laplacian viscosity.
@@ -856,6 +858,9 @@ HORVISC_BOUND_COEF = 0.8        !   [nondim] default = 0.8
                                 ! The nondimensional coefficient of the ratio of the
                                 ! viscosity bounds to the theoretical maximum for
                                 ! stability without considering other terms.
+USE_KH_BG_2D = False            !   [Boolean] default = False
+                                ! If true, read a file containing 2-d background harmonic
+                                ! viscosities. The final viscosity is the maximum of the other terms and this background value.
 
 ! === module MOM_vert_friction ===
 DIRECT_STRESS = True            !   [Boolean] default = False
