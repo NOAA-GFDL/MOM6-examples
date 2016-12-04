@@ -87,6 +87,24 @@ def section2quadmesh(x, z, q, representation='pcm'):
 
   return X, Z, Q
 
+def get_z(rg, depth, var_name):
+  """Returns 3d interface positions from netcdf group rg, based on dimension data for variable var_name"""
+  if 'e' in rg.variables: # First try native approach
+    if len(rg.variables['e'])==3: return rg.variables['e'][:]
+    elif len(rg.variables['e'])==4: return rg.variables['e'][0]
+  if var_name not in rg.variables: raise Exception('Variable "'+var_name+'" not found in netcdf file')
+  if rg.variables[var_name].shape<3: raise Exception('Variable "'+var_name+'" must have 3 or more dimensions')
+  vdim = rg.variables[var_name].dimensions[-3]
+  if vdim not in rg.variables: raise Exception('Variable "'+vdim+'" should be a [CF] dimension variable but is missing')
+  if 'edges' in rg.variables[vdim].ncattrs(): zvar = getattr(rg.variables[vdim],'edges')
+  elif 'zw' in rg.variables: zvar = 'zw'
+  else: raise Exception('Cannot figure out vertical coordinate from variable "'+var_name+'"')
+  if not len(rg.variables[zvar].shape)==1: raise Exception('Variable "'+zvar+'" was expected to be 1d')
+  zw = rg.variables[zvar][:]
+  Zmod = np.zeros((zw.shape[0], depth.shape[0], depth.shape[1] ))
+  for k in range(zw.shape[0]):
+    Zmod[k] = -np.minimum( depth, abs(zw[k]) )
+  return Zmod
 
 def rho_Wright97(S, T, P=0):
   """
