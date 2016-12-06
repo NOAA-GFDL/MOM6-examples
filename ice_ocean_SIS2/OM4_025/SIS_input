@@ -99,6 +99,8 @@ SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
                                 !   PCM       - Directionally split peicewise constant
                                 !   PPM:C2PD  - Positive definite PPM with 2nd order edge values
                                 !   PPM:C2MO  - Monotonic PPM with 2nd order edge values
+ADVECT_TSURF = False            ! If true, advect the surface skin temperature along with
+                                ! the ice.  This should be true for physical consistency.
 
 ! === module SIS_tracer_advect ===
 SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
