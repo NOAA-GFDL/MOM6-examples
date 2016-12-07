@@ -637,30 +637,6 @@
     ! long_name: Meridional Thickness Flux
     ! units: meter3 second-1
     ! cell_methods: xh:sum yq:point z_l:sum
-"ocean_model", "umo"  [Used]
-    ! long_name: Zonal Mass Transport (including SGS param)
-    ! units: kg/s
-    ! cell_methods: xq:point yh:sum zl:sum
-"ocean_model_z", "umo"  [Used]
-    ! long_name: Zonal Mass Transport (including SGS param)
-    ! units: kg/s
-    ! cell_methods: xq:point yh:sum z_l:sum
-"ocean_model", "vmo"  [Used]
-    ! long_name: Meridional Mass Transport (including SGS param)
-    ! units: kg/s
-    ! cell_methods: xh:sum yq:point zl:sum
-"ocean_model_z", "vmo"  [Used]
-    ! long_name: Meridional Mass Transport (including SGS param)
-    ! units: kg/s
-    ! cell_methods: xh:sum yq:point z_l:sum
-"ocean_model", "umo_2d"  [Used]
-    ! long_name: Zonal Mass Transport (including SGS param) Vertical Sum
-    ! units: kg/s
-    ! cell_methods: xq:point yh:sum
-"ocean_model", "vmo_2d"  [Used]
-    ! long_name: Meridional Mass Transport (including SGS param) Vertical Sum
-    ! units: kg/s
-    ! cell_methods: xh:sum yq:point
 "ocean_model", "CAu"  [Unused]
     ! long_name: Zonal Coriolis and Advective Acceleration
     ! units: meter second-2
@@ -2344,19 +2320,49 @@
 "ocean_model", "uhtr"  [Unused]
     ! long_name: Accumulated zonal thickness fluxes to advect tracers
     ! units: kg
-    ! cell_methods: xq:point yh:mean zl:mean
+    ! cell_methods: xq:point yh:sum zl:sum
 "ocean_model_z", "uhtr"  [Unused]
     ! long_name: Accumulated zonal thickness fluxes to advect tracers
     ! units: kg
-    ! cell_methods: xq:point yh:mean z_l:mean
+    ! cell_methods: xq:point yh:sum z_l:sum
 "ocean_model", "vhtr"  [Unused]
     ! long_name: Accumulated meridional thickness fluxes to advect tracers
     ! units: kg
-    ! cell_methods: xh:mean yq:point zl:mean
+    ! cell_methods: xh:sum yq:point zl:sum
 "ocean_model_z", "vhtr"  [Unused]
     ! long_name: Accumulated meridional thickness fluxes to advect tracers
     ! units: kg
-    ! cell_methods: xh:mean yq:point z_l:mean
+    ! cell_methods: xh:sum yq:point z_l:sum
+"ocean_model", "umo"  [Used]
+    ! long_name: Ocean Mass X Transport
+    ! units: kg/s
+    ! standard_name: ocean_mass_x_transport
+    ! cell_methods: xq:point yh:sum zl:sum
+"ocean_model_z", "umo"  [Used]
+    ! long_name: Ocean Mass X Transport
+    ! units: kg/s
+    ! standard_name: ocean_mass_x_transport
+    ! cell_methods: xq:point yh:sum z_l:sum
+"ocean_model", "vmo"  [Used]
+    ! long_name: Ocean Mass Y Transport
+    ! units: kg/s
+    ! standard_name: ocean_mass_y_transport
+    ! cell_methods: xh:sum yq:point zl:sum
+"ocean_model_z", "vmo"  [Used]
+    ! long_name: Ocean Mass Y Transport
+    ! units: kg/s
+    ! standard_name: ocean_mass_y_transport
+    ! cell_methods: xh:sum yq:point z_l:sum
+"ocean_model", "umo_2d"  [Used]
+    ! long_name: Ocean Mass X Transport Vertical Sum
+    ! units: kg/s
+    ! standard_name: ocean_mass_x_transport_vertical_sum
+    ! cell_methods: xq:point yh:sum
+"ocean_model", "vmo_2d"  [Used]
+    ! long_name: Ocean Mass Y Transport Vertical Sum
+    ! units: kg/s
+    ! standard_name: ocean_mass_y_transport_vertical_sum
+    ! cell_methods: xh:sum yq:point
 "ocean_model", "T_advection_xy"  [Used]
     ! long_name: Horizontal convergence of residual mean heat advective fluxes
     ! units: W/m2
