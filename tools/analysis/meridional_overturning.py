@@ -51,12 +51,12 @@ def main(cmdLineArgs,stream=None):
       raise ValueError('If specifying output streams, exactly two streams are needed for this analysis')
   
   rootGroup = netCDF4.MFDataset( cmdLineArgs.annual_file )
-  if 'vh' in rootGroup.variables:
-    varName = 'vh'; conversion_factor = 1.e-9
-  elif 'vmo' in rootGroup.variables:
+  if 'vmo' in rootGroup.variables:
     varName = 'vmo'; conversion_factor = 1.e-9
+  elif 'vh' in rootGroup.variables:
+    varName = 'vh'; conversion_factor = 1.e-6
+    if 'zw' in rootGroup.variables: conversion_factor = 1.e-9 # Backwards compatible for when we had wrong units for 'vh'
   else: raise Exception('Could not find "vh" or "vmo" in file "%s"'%(cmdLineArgs.annual_file))
-  if 'zw' not in rootGroup.variables: conversion_factor = 1.e-6
   if len(rootGroup.variables[varName].shape)==4: VHmod = rootGroup.variables[varName][:].mean(axis=0)
   else: VHmod = rootGroup.variables[varName][:]
   try: VHmod = VHmod.filled(0.)
