@@ -51,22 +51,17 @@ def main(cmdLineArgs,stream=None):
       raise ValueError('If specifying output streams, exactly two streams are needed for this analysis')
   
   rootGroup = netCDF4.MFDataset( cmdLineArgs.annual_file )
-  if 'vh' in rootGroup.variables:
-    varName = 'vh'; conversion_factor = 1.e-9
-  elif 'vmo' in rootGroup.variables:
+  if 'vmo' in rootGroup.variables:
     varName = 'vmo'; conversion_factor = 1.e-9
+  elif 'vh' in rootGroup.variables:
+    varName = 'vh'; conversion_factor = 1.e-6
+    if 'zw' in rootGroup.variables: conversion_factor = 1.e-9 # Backwards compatible for when we had wrong units for 'vh'
   else: raise Exception('Could not find "vh" or "vmo" in file "%s"'%(cmdLineArgs.annual_file))
   if len(rootGroup.variables[varName].shape)==4: VHmod = rootGroup.variables[varName][:].mean(axis=0)
   else: VHmod = rootGroup.variables[varName][:]
   try: VHmod = VHmod.filled(0.)
   except: pass
-  if 'e' in rootGroup.variables: Zmod = rootGroup.variables['e'][0]
-  elif 'zw' in rootGroup.variables:
-    zw = rootGroup.variables['zw'][:]
-    Zmod = numpy.zeros((zw.shape[0], depth.shape[0], depth.shape[1] ))
-    for k in range(zw.shape[0]):
-      Zmod[k] = -numpy.minimum( depth, abs(zw[k]) )
-  else: raise Exception('Neither a model-space output file or a z-space diagnostic file?')
+  Zmod = m6toolbox.get_z(rootGroup, depth, varName)
   
   def MOCpsi(vh, vmsk=None):
     """Sums 'vh' zonally and cumulatively in the vertical to yield an overturning stream function, psi(y,z)."""

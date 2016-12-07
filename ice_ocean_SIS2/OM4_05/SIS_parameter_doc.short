@@ -93,6 +93,9 @@ DT_RHEOLOGY = 50.0              !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
                                 ! the time step is set via NSTEPS_DYN.
+ADVECT_TSURF = False            !   [Boolean] default = True
+                                ! If true, advect the surface skin temperature along with
+                                ! the ice.  This should be true for physical consistency.
 SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind
