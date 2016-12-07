@@ -86,6 +86,9 @@ ICE_TDAMP_ELASTIC = 0.0         !   [s or nondim] default = -0.2
                                 ! The damping timescale associated with the elastic terms
                                 ! in the sea-ice dynamics equations (if positive) or the
                                 ! fraction of DT_ICE_DYNAMICS (if negative).
+ADVECT_TSURF = False            !   [Boolean] default = True
+                                ! If true, advect the surface skin temperature along with
+                                ! the ice.  This should be true for physical consistency.
 
 ! === module SIS_tracer_advect ===
 SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
