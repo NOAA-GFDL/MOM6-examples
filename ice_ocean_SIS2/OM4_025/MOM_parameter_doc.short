@@ -237,6 +237,28 @@ BOUNDARY_EXTRAPOLATION = True   !   [Boolean] default = False
                                 ! than PCM. E.g., if PPM is used for remapping, a
                                 ! PPM reconstruction will also be used within
                                 ! boundary cells.
+MAXIMUM_INT_DEPTH_CONFIG = "FNC1:5,8000.0,1.0,.01" ! default = "NONE"
+                                ! Determines how to specify the maximum interface depths.
+                                ! Valid options are:
+                                !  NONE        - there are no maximum interface depths
+                                !  PARAM       - use the vector-parameter MAXIMUM_INTERFACE_DEPTHS
+                                !  FILE:string - read from a file. The string specifies
+                                !                the filename and variable name, separated
+                                !                by a comma or space, e.g. FILE:lev.nc,Z
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
+!MAXIMUM_INT_DEPTHS = 0.0, 5.0, 12.75, 23.25, 36.49, 52.480000000000004, 71.22, 92.71000000000001, 116.94000000000001, 143.92000000000002, 173.65, 206.13, 241.36, 279.33000000000004, 320.05000000000007, 363.5200000000001, 409.7400000000001, 458.7000000000001, 510.4100000000001, 564.8700000000001, 622.0800000000002, 682.0300000000002, 744.7300000000002, 810.1800000000003, 878.3800000000003, 949.3300000000004, 1023.0200000000004, 1099.4600000000005, 1178.6500000000005, 1260.5900000000006, 1345.2700000000007, 1432.7000000000007, 1522.8800000000008, 1615.8100000000009, 1711.490000000001, 1809.910000000001, 1911.080000000001, 2015.0000000000011, 2121.670000000001, 2231.080000000001, 2343.2400000000007, 2458.1500000000005, 2575.8100000000004, 2696.2200000000003, 2819.3700000000003, 2945.2700000000004, 3073.9200000000005, 3205.3200000000006, 3339.4600000000005, 3476.3500000000004, 3615.9900000000002, 3758.38, 3903.52, 4051.4, 4202.03, 4355.41, 4511.54, 4670.41, 4832.03, 4996.4, 5163.5199999999995, 5333.379999999999, 5505.989999999999, 5681.3499999999985, 5859.459999999998, 6040.319999999998, 6223.919999999998, 6410.269999999999, 6599.369999999999, 6791.219999999999, 6985.8099999999995, 7183.15, 7383.24, 7586.08, 7791.67, 8000.0
+                                ! The list of maximum depths for each interface.
+MAX_LAYER_THICKNESS_CONFIG = "FNC1:400,31000.0,0.1,.01" ! default = "NONE"
+                                ! Determines how to specify the maximum layer thicknesses.
+                                ! Valid options are:
+                                !  NONE        - there are no maximum layer thicknesses
+                                !  PARAM       - use the vector-parameter MAX_LAYER_THICKNESS
+                                !  FILE:string - read from a file. The string specifies
+                                !                the filename and variable name, separated
+                                !                by a comma or space, e.g. FILE:lev.nc,Z
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
+!MAX_LAYER_THICKNESS = 400.0, 409.63, 410.32, 410.75, 411.07, 411.32, 411.52, 411.7, 411.86, 412.0, 412.13, 412.24, 412.35, 412.45, 412.54, 412.63, 412.71, 412.79, 412.86, 412.93, 413.0, 413.06, 413.12, 413.18, 413.24, 413.29, 413.34, 413.39, 413.44, 413.49, 413.54, 413.58, 413.62, 413.67, 413.71, 413.75, 413.78, 413.82, 413.86, 413.9, 413.93, 413.97, 414.0, 414.03, 414.06, 414.1, 414.13, 414.16, 414.19, 414.22, 414.24, 414.27, 414.3, 414.33, 414.35, 414.38, 414.41, 414.43, 414.46, 414.48, 414.51, 414.53, 414.55, 414.58, 414.6, 414.62, 414.65, 414.67, 414.69, 414.71, 414.73, 414.75, 414.77, 414.79, 414.83 !   [m]
+                                ! The list of maximum thickness for each layer.
 REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! This sets the reconstruction scheme used
                                 ! for vertical remapping for all variables.
@@ -557,6 +579,13 @@ INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
                                 ! If true, use an internal tidal dissipation scheme to
                                 ! drive diapycnal mixing, along the lines of St. Laurent
                                 ! et al. (2002) and Simmons et al. (2004).
+INT_TIDE_PROFILE = "POLZIN_09"  ! default = "STLAURENT_02"
+                                ! INT_TIDE_PROFILE selects the vertical profile of energy
+                                ! dissipation with INT_TIDE_DISSIPATION. Valid values are:
+                                !    STLAURENT_02 - Use the St. Laurent et al exponential
+                                !                   decay profile.
+                                !    POLZIN_09 - Use the Polzin WKB-streched algebraic
+                                !                   decay profile.
 INT_TIDE_DECAY_SCALE = 300.3003003003003 !   [m] default = 0.0
                                 ! The decay scale away from the bottom for tidal TKE with
                                 ! the new coding when INT_TIDE_DISSIPATION is used.
