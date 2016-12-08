@@ -406,7 +406,7 @@ def yzcompare(field1, field2, y=None, z=None,
   title1='', title2='', title3='A - B', addplabel=True, suptitle='',
   clim=None, colormap=None, extend=None, centerlabels=False,
   dlim=None, dcolormap=None, dextend=None, centerdlabels=False,
-  nbins=None, landcolor=[.5,.5,.5], sigma=2.,
+  nbins=None, landcolor=[.5,.5,.5], sigma=2., webversion=False,
   aspect=None, resolution=None, axis=None, npanels=3,
   ignore=None, save=None, debug=False, show=False, interactive=False):
   """
@@ -448,6 +448,7 @@ def yzcompare(field1, field2, y=None, z=None,
   save          Name of file to save figure in. Default None.
   debug         If true, report stuff for debugging. Default False.
   show          If true, causes the figure to appear on screen. Used for testing. Default False.
+  webversion    If true, set options specific for displaying figures in a web browser. Default False.
   interactive   If true, adds interactive features such as zoom, close and cursor. Default False.
   """
 
@@ -486,11 +487,16 @@ def yzcompare(field1, field2, y=None, z=None,
   if colormap is None: colormap = chooseColorMap(s12Min, s12Max)
   cmap, norm, extend = chooseColorLevels(s12Min, s12Max, colormap, clim=clim, nbins=cBins, extend=extend)
 
-  def annotateStats(axis, sMin, sMax, sMean, sStd, sRMS):
-    axis.annotate('max=%.5g\nmin=%.5g'%(sMax,sMin), xy=(0.0,1.025), xycoords='axes fraction', verticalalignment='bottom', fontsize=10)
+  def annotateStats(axis, sMin, sMax, sMean, sStd, sRMS, webversion=False):
+    if webversion == True: fontsize=9
+    else: fontsize=10
+    axis.annotate('max=%.5g\nmin=%.5g'%(sMax,sMin), xy=(0.0,1.025), xycoords='axes fraction', \
+                  verticalalignment='bottom', fontsize=fontsize)
     if sMean is not None:
-      axis.annotate('mean=%.5g\nrms=%.5g'%(sMean,sRMS), xy=(1.0,1.025), xycoords='axes fraction', verticalalignment='bottom', horizontalalignment='right', fontsize=10)
-      axis.annotate(' sd=%.5g\n'%(sStd), xy=(1.0,1.025), xycoords='axes fraction', verticalalignment='bottom', horizontalalignment='left', fontsize=10)
+      axis.annotate('mean=%.5g\nrms=%.5g'%(sMean,sRMS), xy=(1.0,1.025), xycoords='axes fraction', \
+                    verticalalignment='bottom', horizontalalignment='right', fontsize=fontsize)
+      axis.annotate(' sd=%.5g\n'%(sStd), xy=(1.0,1.025), xycoords='axes fraction', verticalalignment='bottom', \
+                    horizontalalignment='left', fontsize=fontsize)
 
   if addplabel: preTitleA = 'A: '; preTitleB = 'B: '
   else: preTitleA = ''; preTitleB = ''
@@ -510,7 +516,7 @@ def yzcompare(field1, field2, y=None, z=None,
     if splitscale is not None:
       for zzz in splitscale[1:-1]: plt.axhline(zzz,color='k',linestyle='--')
       axis.set_yscale('splitscale', zval=splitscale)
-    annotateStats(axis, s1Min, s1Max, s1Mean, s1Std, s1RMS)
+    annotateStats(axis, s1Min, s1Max, s1Mean, s1Std, s1RMS, webversion=webversion)
     axis.set_xticklabels([''])
     if len(zlabel+zunits)>0: plt.ylabel(label(zlabel, zunits))
     if len(title1)>0: plt.title(preTitleA+title1)
@@ -525,7 +531,7 @@ def yzcompare(field1, field2, y=None, z=None,
     if splitscale is not None:
       for zzz in splitscale[1:-1]: plt.axhline(zzz,color='k',linestyle='--')
       axis.set_yscale('splitscale', zval=splitscale)
-    annotateStats(axis, s2Min, s2Max, s2Mean, s2Std, s2RMS)
+    annotateStats(axis, s2Min, s2Max, s2Mean, s2Std, s2RMS, webversion=webversion)
     if npanels>2: axis.set_xticklabels([''])
     if len(zlabel+zunits)>0: plt.ylabel(label(zlabel, zunits))
     if len(title2)>0: plt.title(preTitleB+title2)
