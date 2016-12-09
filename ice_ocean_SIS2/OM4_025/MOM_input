@@ -338,7 +338,7 @@ CHANNEL_DRAG = True             !   [Boolean] default = False
                                 ! If true, the bottom drag is exerted directly on each
                                 ! layer proportional to the fraction of the bottom it
                                 ! overlies.
-PRANDTL_TURB = 1.0              !   [nondim] default = 0.0
+PRANDTL_TURB = 1.25             !   [nondim] default = 1.0
                                 ! The turbulent Prandtl number applied to shear
                                 ! instability.
 HBBL = 10.0                     !   [m]
@@ -516,6 +516,10 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary
                                 ! layer scheme to determine the diffusivity and viscosity
                                 ! in the surface boundary layer.
+EPBL_IS_ADDITIVE = False        !   [Boolean] default = True
+                                ! If true, the diffusivity from ePBL is added to all
+                                ! other diffusivities. Otherwise, the larger of kappa-
+                                ! shear and ePBL diffusivities are used.
 
 ! === module MOM_KPP ===
 ! This is the MOM wrapper to CVmix:KPP
@@ -607,11 +611,28 @@ PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
                                 ! faster but is inappropriate with ice-shelf cavities.
 
 ! === module MOM_energetic_PBL ===
-VSTAR_SCALE_FACTOR = 0.9410360288810284 !   [units=nondim] default = 1.0
-                                ! An overall nondimensional scaling factor for v*.
-                                ! Making this larger decreases the PBL diffusivity.
-                                ! The value here is set to 1/(MSTAR**1/3) for backward
-                                ! compatibility, but should be reexamined
+MSTAR = 1.0328                  !   [units=nondim] default = 1.2
+                                ! The ratio of the friction velocity cubed to the TKE
+                                ! input to the mixed layer.
+TKE_DECAY = 5.5                 !   [nondim] default = 2.5
+                                ! TKE_DECAY relates the vertical rate of decay of the
+                                ! TKE available for mechanical entrainment to the natural
+                                ! Ekman depth.
+ VSTAR_SCALE_FACTOR = 0.9410360288810284 !   [nondim] default = 1.0
+                                 ! An overall nondimensional scaling factor for v*.
+                                 ! Making this larger decreases the PBL diffusivity.
+USE_MLD_ITERATION = True        !   [Boolean] default = False
+                                ! A logical that specifies whether or not to use the
+                                ! distance to the bottom of the actively turblent boundary
+                                ! layer to help set the EPBL length scale.
+N2_DISSIPATION_POS = 0.4        !   [nondim] default = 0.0
+                                ! A scale for the dissipation of TKE due to stratification
+                                ! in the boundary layer, applied when local stratification
+                                ! is positive.  The default is 0, but should probably be ~0.4.
+N2_DISSIPATION_NEG = 1.0        !   [nondim] default = 0.0
+                                ! A scale for the dissipation of TKE due to stratification
+                                ! in the boundary layer, applied when local stratification
+                                ! is negative.  The default is 0, but should probably be ~1.
 
 ! === module MOM_regularize_layers ===
 

@@ -816,7 +816,7 @@ LINEAR_DRAG = False             !   [Boolean] default = False
 DOUBLE_DIFFUSION = False        !   [Boolean] default = False
                                 ! If true, increase diffusivitives for temperature or salt
                                 ! based on double-diffusive paramaterization from MOM4/KPP.
-PRANDTL_TURB = 1.0              !   [nondim] default = 1.0
+PRANDTL_TURB = 1.25             !   [nondim] default = 1.0
                                 ! The turbulent Prandtl number applied to shear
                                 ! instability.
 DYNAMIC_VISCOUS_ML = False      !   [Boolean] default = False
@@ -1315,7 +1315,7 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary
                                 ! layer scheme to determine the diffusivity and viscosity
                                 ! in the surface boundary layer.
-EPBL_IS_ADDITIVE = True         !   [Boolean] default = True
+EPBL_IS_ADDITIVE = False        !   [Boolean] default = True
                                 ! If true, the diffusivity from ePBL is added to all
                                 ! other diffusivities. Otherwise, the larger of kappa-
                                 ! shear and ePBL diffusivities are used.
@@ -1661,7 +1661,7 @@ USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
                                 ! heat carried by runoff, instead of using SST*CP*froz_runoff.
 
 ! === module MOM_energetic_PBL ===
-MSTAR = 1.2                     !   [units=nondim] default = 1.2
+MSTAR = 1.0328                  !   [units=nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE
                                 ! input to the mixed layer.
 NSTAR = 0.2                     !   [nondim] default = 0.2
@@ -1672,7 +1672,7 @@ MKE_TO_TKE_EFFIC = 0.0          !   [nondim] default = 0.0
                                 ! The efficiency with which mean kinetic energy released
                                 ! by mechanically forced entrainment of the mixed layer
                                 ! is converted to turbulent kinetic energy.
-TKE_DECAY = 2.5                 !   [nondim] default = 2.5
+TKE_DECAY = 5.5                 !   [nondim] default = 2.5
                                 ! TKE_DECAY relates the vertical rate of decay of the
                                 ! TKE available for mechanical entrainment to the natural
                                 ! Ekman depth.
@@ -1692,7 +1692,7 @@ EKMAN_SCALE_COEF = 1.0          !   [nondim] default = 1.0
                                 ! A nondimensional scaling factor controlling the inhibition
                                 ! of the diffusive length scale by rotation. Making this larger
                                 ! decreases the PBL diffusivity.
-USE_MLD_ITERATION = False       !   [Boolean] default = False
+USE_MLD_ITERATION = True        !   [Boolean] default = False
                                 ! A logical that specifies whether or not to use the
                                 ! distance to the bottom of the actively turblent boundary
                                 ! layer to help set the EPBL length scale.
@@ -1715,11 +1715,11 @@ EPBL_TRANSITION_SCALE = 0.1     !   [nondim] default = 0.1
                                 ! A scale for the mixing length in the transition layer
                                 ! at the edge of the boundary layer as a fraction of the
                                 ! boundary layer thickness.  The default is 0.1.
-N2_DISSIPATION_POS = 0.0        !   [nondim] default = 0.0
+N2_DISSIPATION_POS = 0.4        !   [nondim] default = 0.0
                                 ! A scale for the dissipation of TKE due to stratification
                                 ! in the boundary layer, applied when local stratification
                                 ! is positive.  The default is 0, but should probably be ~0.4.
-N2_DISSIPATION_NEG = 0.0        !   [nondim] default = 0.0
+N2_DISSIPATION_NEG = 1.0        !   [nondim] default = 0.0
                                 ! A scale for the dissipation of TKE due to stratification
                                 ! in the boundary layer, applied when local stratification
                                 ! is negative.  The default is 0, but should probably be ~1.
