@@ -5,9 +5,10 @@ import sys
 import os
 import re
 import shlex
-import string
+import random
 import subprocess as sp
 import run_config as rc
+from model import Model
 
 # Only support Python version >= 2.7
 assert(not(sys.version_info[0] == 2) or sys.version_info[1] >= 7)
@@ -17,22 +18,37 @@ _mom_examples_path = os.path.normpath(os.path.join(_file_dir, '../../'))
 
 class Diagnostic:
 
-    def __init__(self, model, name, path):
+    def __init__(self, model, name, path, packed=True):
         self.model = model
         self.name = name
         self.full_name = '{}_{}'.format(model, name)
-        self.output = os.path.join(path, '00010101.{}.nc'.format(self.full_name))
+        self.run_path = path
+
+        # Hack to deal with FMS limitations, see https://github.com/NOAA-GFDL/FMS/issues/27
+        # Use fewer different files for diagnostics.
+        if packed:
+            letter = self.name[0]
+            self.packed_filename = '{}_{}'.format(self.model, letter)
+
+        self.unpacked_filename = '{}_{}'.format(self.model, self.name)
+
+        if packed:
+            self.filename = self.packed_filename
+        else:
+            self.filename = self.unpacked_filename
+
+        self.output = os.path.join(path, '00010101.{}.nc'.format(self.filename))
 
     def __eq__(self, other):
-        return ((self.model, self.name, self.output) ==
-                (other.model, other.name, other.output))
+        return ((self.model, self.name) ==
+                (other.model, other.name))
 
     def __hash__(self):
-        return hash(self.model + self.name + self.output)
+        return hash(self.full_name)
 
 
 # Unfinished diagnostics are those which have been registered but have not been
-# implemented, so no post_data called. This list should to be updated as the
+# implemented, so no post_data called. This list should be updated as the
 # diags are completed.
 _unfinished_diags = [('ocean_model', 'uml_restrat'),
                      ('ocean_model', 'vml_restrat'),
@@ -41,8 +57,9 @@ _unfinished_diags = [('ocean_model', 'uml_restrat'),
                      ('ocean_model', 'fsitherm'),
                      ('ocean_model', 'total_seaice_melt'),
                      ('ocean_model', 'heat_restore'),
+                     ('ocean_model', 'heat_added'),
                      ('ocean_model', 'total_heat_restore'),
-                     ('ocean_model_z_new', 'TKE_to_Kd'),
+                     ('ocean_model', 'total_heat_adjustment'),
                      ('ice_model', 'Cor_ui'),
                      ('ice_model', 'Cor_vi'),
                      ('ice_model', 'OBI'),
@@ -62,11 +79,11 @@ def exp_id_from_path(path):
     path = os.path.normpath(path)
     path = path.replace(_mom_examples_path, '')
     # Remove possible '/' from front and back.
-    return string.strip(path, '/')
+    return path.strip('/')
 
 class Experiment:
 
-    def __init__(self, id, platform='gnu'):
+    def __init__(self, id, platform='raijin', compiler='gnu', build='DEBUG', memory_type='dynamic'):
         """
         Python representation of an experiment/test case.
 
@@ -74,84 +91,58 @@ class Experiment:
         """
 
         self.platform = platform
+        self.compiler = compiler
+        self.build = build
+        self.memory_type = memory_type
+
         id = id.split('/')
-        self.model = id[0]
+        self.model_name = id[0]
         self.name = id[1]
         if len(id) == 3:
             self.variation = id[2]
         else:
             self.variation = None
 
-        self.path = os.path.join(_mom_examples_path, self.model, self.name)
+        self.model = Model(self.model_name, _mom_examples_path)
+
+        self.path = os.path.join(_mom_examples_path, self.model_name,
+                                 self.name)
         if self.variation is not None:
             self.path = os.path.join(self.path, self.variation)
 
-        # Path to executable, may not exist yet.
-        rel_path = 'build/{}/{}/repro/MOM6'.format(self.platform, self.model)
-        self.exec_path = os.path.join(_mom_examples_path, rel_path)
+        self.exec_path = None
 
-        # Lists of available and unfinished diagnostics.
-        self.available_diags = self._parse_available_diags()
-        self.unfinished_diags = [Diagnostic(m, d, self.path) \
-                                 for m, d in _unfinished_diags]
-        # Available diags is not what you think! Need to remove the unfinished
-        # diags.
-        self.available_diags = list(set(self.available_diags) - \
-                                    set(self.unfinished_diags))
-        # It helps with testing and human readability if this is sorted.
-        self.available_diags.sort(key=lambda d: d.full_name)
-
-        # Whether this experiment has been run/built. Want to try to avoid
+        # Whether this experiment has been run. Want to try to avoid
         # repeating this if possible.
         self.has_run = False
         # Another thing to avoid repeating.
         self.has_dumped_diags = False
+        self.diags_parsed = False
 
-    def _parse_available_diags(self):
-        """
-        Create a list of available diags for the experiment by parsing
-        available_diags.000001 and SIS.available_diags.
-        """
-        mom_av_file = os.path.join(self.path, 'available_diags.000000')
-        sis_av_file = os.path.join(self.path, 'SIS.available_diags')
-
-        diags = []
-        for fname in [mom_av_file, sis_av_file]:
-            # If available diags file doesn't exist then just skip for now.
-            if not os.path.exists(fname):
-                continue
-            with open(fname) as f:
-                # Search or strings like: "ocean_model", "N2_u"  [Unused].
-                # Pull out the model name and variable name.
-                matches = re.findall('^\"(\w+)\", \"(\w+)\".*$',
-                                     f.read(), re.MULTILINE)
-                diags.extend([Diagnostic(m, d, self.path) for m, d in matches])
-        return diags
-
-    def force_build(self):
-        """
-        Do a clean build of the configuration.
-        """
-        raise NotImplementedError
-
-    def build(self):
+    def build_model(self):
         """
         Build the configuration for this experiment.
         """
-        raise NotImplementedError
+
+        if not self.exec_path:
+            ret, exe = self.model.build(self.platform, self.compiler, self.build, self.memory_type)
+            assert(ret == 0)
+            self.exec_path = exe
 
     def run(self):
         """
         Run the experiment if it hasn't already.
         """
+
         if not self.has_run:
-            self.force_run()
+            return self.force_run()
 
     def force_run(self):
         """
         Run the experiment.
         """
 
+        self.build_model()
         assert(os.path.exists(self.exec_path))
 
         ret = 0
@@ -172,11 +163,69 @@ class Experiment:
 
         return ret
 
-    def get_available_diags(self):
+    def parse_available_diags(self, packed=True):
         """
-        Return a list of the available diagnostics for this experiment.
+        Return a list of the available diagnostics for this experiment by
+        parsing available_diags.000001 and SIS.available_diags.
+
+        The 'packed' argument is used to pack many diagnostics into a few
+        output files. Without this each diagnostic is in it's own file.
+
+        The experiment needs to have been run before calling this.
         """
+
+        assert self.has_run
+
+        mom_av_file = os.path.join(self.path, 'available_diags.000000')
+        sis_av_file = os.path.join(self.path, 'SIS.available_diags')
+
+        diags = []
+        for fname in [mom_av_file, sis_av_file]:
+            # If available diags file doesn't exist then just skip for now.
+            if not os.path.exists(fname):
+                continue
+            with open(fname) as f:
+                # Search or strings like: "ocean_model", "N2_u"  [Unused].
+                # Pull out the model name and variable name.
+                matches = re.findall('^\"(\w+)\", \"(\w+)\".*$',
+                                     f.read(), re.MULTILINE)
+                for m, d in matches:
+                    if m[-5:] == '_zold':
+                        diags.append(Diagnostic(m, d, self.path, packed=False))
+                    else:
+                        diags.append(Diagnostic(m, d, self.path, packed))
+
+        # Lists of available and unfinished diagnostics.
+        self.available_diags = diags
+        self.unfinished_diags = [Diagnostic(m, d, self.path) \
+                                 for m, d in _unfinished_diags]
+        # Available diags is not what you think! Need to remove the unfinished
+        # diags.
+        self.available_diags = list(set(self.available_diags) - \
+                                    set(self.unfinished_diags))
+        # It helps with testing and human readability if this is sorted.
+        self.available_diags.sort(key=lambda d: d.full_name)
+
+        self.diags_parsed = True
+
         return self.available_diags
+
+    def get_diags(self):
+
+        assert self.has_run
+        assert self.diags_parsed
+
+        return self.available_diags
+
+    def get_diags_dict(self):
+
+        diags = self.get_diags()
+
+        d = {}
+        for diag in diags:
+            d[diag.full_name] = diag
+
+        return d
 
     def get_unfinished_diags(self):
         """
@@ -185,7 +234,7 @@ class Experiment:
         return self.unfinished_diags
 
 
-def discover_experiments():
+def create_experiments(platform='raijin'):
     """
     Return a dictionary of Experiment objects representing all the test cases.
     """
@@ -196,8 +245,5 @@ def discover_experiments():
         for fname in filenames:
             if fname == 'input.nml':
                 id = exp_id_from_path(path)
-                exps[id] = Experiment(id)
+                exps[id] = Experiment(id, platform)
     return exps
-
-# A dictionary of available experiments.
-experiment_dict = discover_experiments()

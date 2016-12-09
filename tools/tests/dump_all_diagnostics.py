@@ -29,14 +29,22 @@ def dump_diags(exp, diags):
     with open(os.path.join(exp.path, 'diag_table'), 'w') as f:
         print('All {} diags'.format(exp.name), file=f)
         print('1 1 1 0 0 0', file=f)
-        for d in diags:
-            print('"{}_{}", 0, "seconds", 1, "seconds",' \
-                  '"time"'.format(d.model, d.name), file=f)
+        for fname in list(set([d.filename for d in diags])):
+            print('"{}", 0, "seconds", 1, "seconds",' \
+                  '"time"'.format(fname), file=f)
         for d in diags:
             m = d.model
             n = d.name
-            print('"{}", "{}", "{}", "{}_{}", "all",' \
-                  '.false., "none", 2'.format(m, n, n, m, n), file=f)
+            fname = d.filename
+            print('"{}", "{}", "{}", "{}", "all",' \
+                  '.false., "none", 2'.format(m, n, n, fname, n), file=f)
+
+            # Since they will be replaced, remove old diags.
+            try:
+                os.remove(d.output)
+            except OSError:
+                pass
+
     return exp.force_run()
 
 def main():
