@@ -157,9 +157,13 @@ class Experiment:
             self.has_run = True
         except sp.CalledProcessError as e:
             ret = e.returncode
-            print(e.output, file=sys.stderr)
+            output = e.output
         finally:
             os.chdir(saved_path)
+
+        output = output.decode('utf-8')
+        if ret:
+            print(output, file=sys.stderr)
 
         return ret
 
