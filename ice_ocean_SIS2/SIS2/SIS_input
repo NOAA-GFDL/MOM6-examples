@@ -89,8 +89,15 @@ CONSTANT_COSZEN_IC = 0.0        ! A constant value to use to initialize the
                                 ! radiation step, or a negative number to use
                                 ! the current time and astronomy.
 
+EULERIAN_TSURF = False          ! If true, use previous calculations of the ice-top surface
+                                ! skin temperature for tsurf at the start of atmospheric
+                                ! time stepping, including interpolating between tsurf
+                                ! values from other categories in the same location.
+                                ! If true, EULERIAN_TSURF overrides ADVECT_TSURF.
 ADVECT_TSURF = True             ! If true, advect the surface skin temperature along with
                                 ! the ice.  This should be true for physical consistency.
+RECATEGORIZE_ICE = False        ! If true, readjust the distribution into ice thickness
+                                ! categories after advection.
 
 !  Specify the properties of the surface forcing.
 WIND_STAGGER = "B"              !  "A", "B", or "C" to indicate the

@@ -99,8 +99,15 @@ SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
                                 !   PCM       - Directionally split peicewise constant
                                 !   PPM:C2PD  - Positive definite PPM with 2nd order edge values
                                 !   PPM:C2MO  - Monotonic PPM with 2nd order edge values
+EULERIAN_TSURF = False          ! If true, use previous calculations of the ice-top surface
+                                ! skin temperature for tsurf at the start of atmospheric
+                                ! time stepping, including interpolating between tsurf
+                                ! values from other categories in the same location.
+                                ! If true, EULERIAN_TSURF overrides ADVECT_TSURF.
 ADVECT_TSURF = False            ! If true, advect the surface skin temperature along with
                                 ! the ice.  This should be true for physical consistency.
+RECATEGORIZE_ICE = False        ! If true, readjust the distribution into ice thickness
+                                ! categories after advection.
 
 ! === module SIS_tracer_advect ===
 SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"

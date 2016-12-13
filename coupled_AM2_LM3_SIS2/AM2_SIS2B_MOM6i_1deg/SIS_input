@@ -94,8 +94,15 @@ SNOW_ALBEDO = 0.88              !    The albedo of dry snow atop sea ice, ND.
 ICE_ALBEDO  = 0.68              !    The albedo of dry bare sea ice, ND.
 ICE_BULK_SALINITY = 5.0         !    The fixed bulk salinity of sea ice, in g/kg.
 
+EULERIAN_TSURF = False          ! If true, use previous calculations of the ice-top surface
+                                ! skin temperature for tsurf at the start of atmospheric
+                                ! time stepping, including interpolating between tsurf
+                                ! values from other categories in the same location.
+                                ! If true, EULERIAN_TSURF overrides ADVECT_TSURF.
 ADVECT_TSURF = False            ! If true, advect the surface skin temperature along with
                                 ! the ice.  This should be true for physical consistency.
+RECATEGORIZE_ICE = False        ! If true, readjust the distribution into ice thickness
+                                ! categories after advection.
 
 !  Specify the properties of the surface forcing.
 ICE_OCEAN_STRESS_STAGGER = "B"  ! default = "B"
