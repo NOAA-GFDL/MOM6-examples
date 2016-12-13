@@ -13,6 +13,13 @@ SINGLE_ICE_STATE_TYPE = True    !   [Boolean] default = True
                                 ! single common ice_state_type.  Otherwise they point to
                                 ! different ice_state_types that need to be explicitly
                                 ! copied back and forth.
+EULERIAN_TSURF = False          !   [Boolean] default = False
+                                ! If true, use previous calculations of the ice-top surface
+                                ! skin temperature for tsurf at the start of atmospheric
+                                ! time stepping, including interpolating between tsurf
+                                ! values from other categories in the same location.
+                                ! If true, EULERIAN_TSURF overrides ADVECT_TSURF.
+                                ! The default should be changed to true.
 ICE_OCEAN_STRESS_STAGGER = "C"  ! default = "C"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the stress field on the ocean that is
