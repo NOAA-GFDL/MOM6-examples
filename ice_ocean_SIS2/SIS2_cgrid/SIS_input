@@ -31,7 +31,6 @@ CGRID_ICE_DYNAMICS = True       !   If true, use a C-grid discretization of the
 NIGLOBAL = 360                  !    NIGLOBAL and NJGLOBAL are the number of thickness
 NJGLOBAL = 210                  !  grid points in the zonal and meridional
                                 !  directions of the physical domain.
-NK = 63                         !    The number of layers.
 NCAT_ICE = 5                    !    The number of sea ice thickness categories.
 NIHALO = 2                      !    NIHALO and NJHALO are the number of halo
 NJHALO = 2                      !  points on each side in the x- and y-directions.
@@ -49,8 +48,6 @@ TRIPOLAR_N = True               !    Use tripolar connectivity at the northern
                                 !  must be even.
 
 DEBUG = False                   !    If true, write out verbose debugging data.
-DEBUG_TRUNCATIONS = False       !    If true, calculate all diagnostics that are
-                                !  useful for debugging truncations.
 SEND_LOG_TO_STDOUT = False      !    If true write out log information to stdout.
 ICE_STATS_INTERVAL = 0.25       !    The interval in units of TIMEUNIT between
                                 ! writes of the globally summed ice statistics
@@ -95,8 +92,8 @@ CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 2100.0
                                 ! sea-ice, approximated as a constant.  CP_BRINE and
                                 ! CP_WATER should be equal, but for computational
                                 ! convenience CP_BRINE has often been set equal to CP_ICE.
-SNOW_ALBEDO = 0.88              !    The albedo of dry snow atop sea ice, ND.
-ICE_ALBEDO  = 0.68              !    The albedo of dry bare sea ice, ND.
+! SNOW_ALBEDO = 0.88              !    The albedo of dry snow atop sea ice, ND.
+! ICE_ALBEDO  = 0.68              !    The albedo of dry bare sea ice, ND.
 ICE_BULK_SALINITY = 0.0         !    The fixed bulk salinity of sea ice, in g/kg.
 ICE_RELATIVE_SALINITY = 0.10    !    The initial salinity of sea ice as a
                                 ! fraction of the salinity of the seawater from
@@ -115,9 +112,6 @@ RECATEGORIZE_ICE = True         ! If true, readjust the distribution into ice th
                                 ! categories after advection.
 
 !  Specify the properties of the surface forcing.
-WIND_STAGGER = "B"              !  "A", "B", or "C" to indicate the
-                                !  staggering of the wind stresses between the
-                                !  sea ice and ocean.
 ICE_OCEAN_STRESS_STAGGER = "C"  ! default = "B"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the stress field on the ocean that is
@@ -125,3 +119,12 @@ ICE_OCEAN_STRESS_STAGGER = "C"  ! default = "B"
                                 ! 'A', 'B', or 'C'.
 ADD_DIURNAL_SW = True           !    If true, add a synthetic diurnal cycle to
                                 !  the shortwave radiation.
+
+
+!  These are used for debugging the SIS_input files.
+REPORT_UNUSED_PARAMS = True     !   [Boolean] default = False
+                                ! If true, report any parameter lines that are not used
+                                ! in the run.
+FATAL_UNUSED_PARAMS = True      !   [Boolean] default = False
+                                ! If true, kill the run if there are any unused
+                                ! parameters.

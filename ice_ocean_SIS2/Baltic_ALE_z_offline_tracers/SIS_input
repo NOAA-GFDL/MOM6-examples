@@ -53,12 +53,6 @@ DT_ICE_DYNAMICS = 3600.0        ! The time step used for the slow ice dynamics,
                                 ! including stepping the continuity equation and
                                 ! interactions between the ice mass field and 
                                 ! velocities, in s.
-INTERSPERSED_ICE_THERMO = False ! If true, the sea ice thermodynamic updates are applied
-                                ! after the new velocities are determined, but before the
-                                ! transport occurs.  Otherwise, the ice thermodynamic
-                                ! updates occur at the start of the slow ice update and
-                                ! dynamics and continuity can occur together.
-                                ! The default should be changed to false.
 
 DT_RHEOLOGY = 100.0             ! The sub-cycling time step, in s, for iterating
                                 ! the rheology and ice momentum equations. If
@@ -131,3 +125,11 @@ ICE_OCEAN_STRESS_STAGGER = "C"  ! default = "B"
                                 ! 'A', 'B', or 'C'.
 ADD_DIURNAL_SW = True           !    If true, add a synthetic diurnal cycle to
                                 !  the shortwave radiation.
+
+!  These are used for debugging the SIS_input files.
+REPORT_UNUSED_PARAMS = True     !   [Boolean] default = False
+                                ! If true, report any parameter lines that are not used
+                                ! in the run.
+FATAL_UNUSED_PARAMS = True      !   [Boolean] default = False
+                                ! If true, kill the run if there are any unused
+                                ! parameters.

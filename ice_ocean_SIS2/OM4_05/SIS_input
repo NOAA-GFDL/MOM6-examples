@@ -1,10 +1,4 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
-GRID_CONFIG = "mosaic"          !    Method for defining horizontal grid
-                                !  = file|cartesian|spherical|mercator
-                                !  file - read grid from file "GRID_FILE"
-                                !  cartesian - a Cartesian grid
-                                !  spherical - a spherical grid
-                                !  mercator  - a Mercator grid
 OMEGA = 7.292e-5                !   The rotation rate of the earth in s-1.
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
@@ -118,3 +112,11 @@ DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
                                 ! The basename for files where run-time parameters, their
                                 ! settings, units and defaults are documented. Blank will
                                 ! disable all parameter documentation.
+
+!  These are used for debugging the SIS_input files.
+REPORT_UNUSED_PARAMS = True     !   [Boolean] default = False
+                                ! If true, report any parameter lines that are not used
+                                ! in the run.
+FATAL_UNUSED_PARAMS = True      !   [Boolean] default = False
+                                ! If true, kill the run if there are any unused
+                                ! parameters.
