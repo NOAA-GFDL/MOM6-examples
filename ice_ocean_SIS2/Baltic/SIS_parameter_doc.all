@@ -200,9 +200,9 @@ PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
-AVAILABLE_DIAGS_FILE = "SIS.available_diags" ! default = "SIS.available_diags"
+SIS_AVAILABLE_DIAGS_FILE = "SIS.available_diags" ! default = "SIS.available_diags"
                                 ! A file into which to write a list of all available
-                                ! ocean diagnostics that can be included in a diag_table.
+                                ! sea ice diagnostics that can be included in a diag_table.
 
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
@@ -254,6 +254,9 @@ USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
+SIS_FAST_AVAILABLE_DIAGS_FILE = "SIS_fast.available_diags" ! default = "SIS_fast.available_diags"
+                                ! A file into which to write a list of all available
+                                ! sea ice diagnostics that can be included in a diag_table.
 
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
