@@ -1,6 +1,13 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module ice_model ===
+EULERIAN_TSURF = True           !   [Boolean] default = False
+                                ! If true, use previous calculations of the ice-top surface
+                                ! skin temperature for tsurf at the start of atmospheric
+                                ! time stepping, including interpolating between tsurf
+                                ! values from other categories in the same location.
+                                ! If true, EULERIAN_TSURF overrides ADVECT_TSURF.
+                                ! The default should be changed to true.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of
                                 ! the solar zenith angle for the first radiation step,

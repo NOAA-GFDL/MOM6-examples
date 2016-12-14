@@ -4,6 +4,13 @@
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
+EULERIAN_TSURF = True           !   [Boolean] default = False
+                                ! If true, use previous calculations of the ice-top surface
+                                ! skin temperature for tsurf at the start of atmospheric
+                                ! time stepping, including interpolating between tsurf
+                                ! values from other categories in the same location.
+                                ! If true, EULERIAN_TSURF overrides ADVECT_TSURF.
+                                ! The default should be changed to true.
 ADD_DIURNAL_SW = True           !   [Boolean] default = False
                                 ! If true, add a synthetic diurnal cycle to the shortwave
                                 ! radiation.

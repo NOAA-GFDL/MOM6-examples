@@ -9,6 +9,13 @@ SINGLE_ICE_STATE_TYPE = False   !   [Boolean] default = True
                                 ! single common ice_state_type.  Otherwise they point to
                                 ! different ice_state_types that need to be explicitly
                                 ! copied back and forth.
+EULERIAN_TSURF = True           !   [Boolean] default = False
+                                ! If true, use previous calculations of the ice-top surface
+                                ! skin temperature for tsurf at the start of atmospheric
+                                ! time stepping, including interpolating between tsurf
+                                ! values from other categories in the same location.
+                                ! If true, EULERIAN_TSURF overrides ADVECT_TSURF.
+                                ! The default should be changed to true.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of
                                 ! the solar zenith angle for the first radiation step,
