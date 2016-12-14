@@ -79,10 +79,17 @@ RHO_ICE = 905.0                 !    RHO_ICE is the nominal density of sea ice
                                 !  used in SIS, in units of kg m-3.
 RHO_SNOW = 330.0                !    RHO_SNOW is the nominal density of snow
                                 !  used in SIS, in units of kg m-3.
-C_P_ICE = 2100.0                !    C_P_ICE is the heat capacity of fresh ice
-                                !  in J kg-1 K-1, approximated as a constant.
-C_P = 3925.0                    !    C_P is the heat capacity of sea water in
-                                !  J kg-1 K-1, approximated as a constant.
+CP_ICE = 2100.0                 !   [J kg-1 K-1] default = 2100.0
+                                ! The heat capacity of fresh ice, approximated as a
+                                ! constant.
+CP_SEAWATER = 4200.0            !   [J kg-1 K-1] default = 4200.0
+                                ! The heat capacity of sea water, approximated as a
+                                ! constant.
+CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 2100.0
+                                ! The heat capacity of water in brine pockets within the
+                                ! sea-ice, approximated as a constant.  CP_BRINE and
+                                ! CP_WATER should be equal, but for computational
+                                ! convenience CP_BRINE has often been set equal to CP_ICE.
 SNOW_ALBEDO = 0.88              !    The albedo of dry snow atop sea ice, ND.
 ICE_ALBEDO  = 0.68              !    The albedo of dry bare sea ice, ND.
 ICE_BULK_SALINITY = 5.0         !    The fixed bulk salinity of sea ice, in g/kg.
