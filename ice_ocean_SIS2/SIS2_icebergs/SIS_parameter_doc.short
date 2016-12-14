@@ -6,7 +6,6 @@ EULERIAN_TSURF = False          !   [Boolean] default = True
                                 ! skin temperature for tsurf at the start of atmospheric
                                 ! time stepping, including interpolating between tsurf
                                 ! values from other categories in the same location.
-                                ! If true, EULERIAN_TSURF overrides ADVECT_TSURF.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of
                                 ! the solar zenith angle for the first radiation step,
@@ -91,10 +90,6 @@ DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
                                 ! the time step is set via NSTEPS_DYN.
-ADVECT_TSURF = True             !   [Boolean] default = False
-                                ! If true, advect the surface skin temperature along with
-                                ! the ice.  If EULERIAN_TSURF is true, ADVECT_TSURF does
-                                ! not alter the solutions
 RECATEGORIZE_ICE = False        !   [Boolean] default = True
                                 ! If true, readjust the distribution into ice thickness
                                 ! categories after advection.

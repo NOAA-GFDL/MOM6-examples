@@ -18,7 +18,6 @@ EULERIAN_TSURF = True           !   [Boolean] default = True
                                 ! skin temperature for tsurf at the start of atmospheric
                                 ! time stepping, including interpolating between tsurf
                                 ! values from other categories in the same location.
-                                ! If true, EULERIAN_TSURF overrides ADVECT_TSURF.
 ICE_OCEAN_STRESS_STAGGER = "C"  ! default = "C"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the stress field on the ocean that is
@@ -313,10 +312,6 @@ ICE_TEMP_RANGE_ESTIMATE = 40.0  !   [degC] default = 40.0
                                 ! layer heat budget is more likely to be more accurate.
                                 ! Setting this to 0 causes the explicit diffusive form.
                                 ! to always be used.
-OLD_ICE_HEAT_CAPACITY = False   !   [Boolean] default = False
-                                ! If true, use an older linearization of the sea ice heat
-                                ! capacity for temperatures above the freezing point in the
-                                ! calculation of the initial ice temperature estimate.
 
 ! === module SIS_dyn_trans ===
 ! This module updates the ice momentum and does ice transport.
@@ -401,10 +396,6 @@ MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
 NSTEPS_ADV = 1                  ! default = 1
                                 ! The number of advective iterations for each slow time
                                 ! step.
-ADVECT_TSURF = False            !   [Boolean] default = False
-                                ! If true, advect the surface skin temperature along with
-                                ! the ice.  If EULERIAN_TSURF is true, ADVECT_TSURF does
-                                ! not alter the solutions
 RECATEGORIZE_ICE = True         !   [Boolean] default = True
                                 ! If true, readjust the distribution into ice thickness
                                 ! categories after advection.
