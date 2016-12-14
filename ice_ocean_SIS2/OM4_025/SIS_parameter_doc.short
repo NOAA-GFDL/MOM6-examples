@@ -4,13 +4,6 @@
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
                                 ! If true, use a C-grid discretization of the sea-ice
                                 ! dynamics; if false use a B-grid discretization.
-EULERIAN_TSURF = True           !   [Boolean] default = False
-                                ! If true, use previous calculations of the ice-top surface
-                                ! skin temperature for tsurf at the start of atmospheric
-                                ! time stepping, including interpolating between tsurf
-                                ! values from other categories in the same location.
-                                ! If true, EULERIAN_TSURF overrides ADVECT_TSURF.
-                                ! The default should be changed to true.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of
                                 ! the solar zenith angle for the first radiation step,
@@ -110,12 +103,6 @@ V_TRUNC_FILE = "SIS_V_truncations" ! default = ""
                                 ! leading to meridional velocity truncations are written.
                                 ! Leave this empty for efficiency if this diagnostic is
                                 ! not needed.
-ADVECT_TSURF = False            !   [Boolean] default = True
-                                ! If true, advect the surface skin temperature along with
-                                ! the ice.  This should be true for physical consistency.
-RECATEGORIZE_ICE = True         !   [Boolean] default = False
-                                ! If true, readjust the distribution into ice thickness
-                                ! categories after advection.
 SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind

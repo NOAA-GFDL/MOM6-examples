@@ -9,13 +9,6 @@ SINGLE_ICE_STATE_TYPE = False   !   [Boolean] default = True
                                 ! single common ice_state_type.  Otherwise they point to
                                 ! different ice_state_types that need to be explicitly
                                 ! copied back and forth.
-EULERIAN_TSURF = True           !   [Boolean] default = False
-                                ! If true, use previous calculations of the ice-top surface
-                                ! skin temperature for tsurf at the start of atmospheric
-                                ! time stepping, including interpolating between tsurf
-                                ! values from other categories in the same location.
-                                ! If true, EULERIAN_TSURF overrides ADVECT_TSURF.
-                                ! The default should be changed to true.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of
                                 ! the solar zenith angle for the first radiation step,
@@ -123,12 +116,6 @@ ICE_TDAMP_ELASTIC = 0.0         !   [s or nondim] default = -0.2
                                 ! The damping timescale associated with the elastic terms
                                 ! in the sea-ice dynamics equations (if positive) or the
                                 ! fraction of DT_ICE_DYNAMICS (if negative).
-ADVECT_TSURF = False            !   [Boolean] default = True
-                                ! If true, advect the surface skin temperature along with
-                                ! the ice.  This should be true for physical consistency.
-RECATEGORIZE_ICE = True         !   [Boolean] default = False
-                                ! If true, readjust the distribution into ice thickness
-                                ! categories after advection.
 
 ! === module SIS_tracer_advect ===
 SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
