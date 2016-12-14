@@ -106,6 +106,9 @@ V_TRUNC_FILE = "SIS_V_truncations" ! default = ""
 ADVECT_TSURF = False            !   [Boolean] default = True
                                 ! If true, advect the surface skin temperature along with
                                 ! the ice.  This should be true for physical consistency.
+RECATEGORIZE_ICE = True         !   [Boolean] default = False
+                                ! If true, readjust the distribution into ice thickness
+                                ! categories after advection.
 SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind

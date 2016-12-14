@@ -78,6 +78,9 @@ DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
                                 ! the time step is set via NSTEPS_DYN.
+RECATEGORIZE_ICE = True         !   [Boolean] default = False
+                                ! If true, readjust the distribution into ice thickness
+                                ! categories after advection.
 
 ! === module SIS_tracer_advect ===
 
