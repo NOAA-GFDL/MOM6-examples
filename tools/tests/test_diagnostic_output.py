@@ -64,7 +64,7 @@ def compare_z_to_zold_diags(diagA, diagB):
     vb = big.variables[diagA.name][:]
     tb = big.variables['time'][:]
 
-    # The smaller must be a subset of the larger.
+    # The smaller time axis must be a subset of the larger.
     assert set(ts).issubset(set(tb))
 
     # Get indices where time points are the same.
@@ -144,7 +144,7 @@ class TestDiagnosticOutput:
         for d in exp.get_unfinished_diags():
             if os.path.exists(d.output):
                 with Dataset(d.output) as f:
-                    assert not f.variables.has_key(d.name)
+                    assert d.name not in f.variables
 
         # Check that diags that should have been written out are.
         assert(len(exp.get_diags()) > 0)
@@ -156,10 +156,11 @@ class TestDiagnosticOutput:
 
             # Check that the output contains the expected variable
             with Dataset(d.output) as f:
-                if not f.variables.has_key(d.name):
+                if d.name not in f.variables:
                     print('Error: diagnostic {} not found in {}.'.format(d.name, d.output),
                           file=sys.stderr)
-                assert f.variables.has_key(d.name)
+
+                assert d.name in f.variables
 
 
     def test_valid(self, exp):
@@ -173,7 +174,7 @@ class TestDiagnosticOutput:
         """
         for d in exp.get_diags():
             with Dataset(d.output) as f:
-                assert(d.name in f.variables.keys())
+                assert d.name in f.variables
                 data = f.variables[d.name][:].copy()
                 assert(len(data) > 0)
 

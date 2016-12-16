@@ -55,8 +55,15 @@ def exp(request):
     if not exp.has_dumped_diags:
         diags = exp.parse_available_diags()
 
-        dump_diags(exp, diags)
+        # FIXME: to deal with FMS limitations have to run model multiple times.
+        # (https://github.com/NOAA-GFDL/FMS/issues/27) 
+        layer_diags = list(filter(lambda d : '_z_' not in d.full_name, diags))
+        z_diags = list(filter(lambda d : '_z_' in d.full_name, diags))
+
+        dump_diags(exp, z_diags)
+        dump_diags(exp, layer_diags)
         exp.has_dumped_diags = True
+
     return exp
 
 
