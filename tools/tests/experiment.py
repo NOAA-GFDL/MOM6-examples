@@ -24,7 +24,7 @@ class Diagnostic:
         self.full_name = '{}_{}'.format(model, name)
         self.run_path = path
 
-        # Hack to deal with FMS limitations, see https://github.com/NOAA-GFDL/FMS/issues/27
+        # FIXME: FMS limitations, see https://github.com/NOAA-GFDL/FMS/issues/27
         # Use fewer different files for diagnostics.
         if packed:
             letter = self.name[0]
@@ -167,7 +167,7 @@ class Experiment:
 
         return ret
 
-    def parse_available_diags(self, packed=True):
+    def parse_available_diags(self, packed=False):
         """
         Return a list of the available diagnostics for this experiment by
         parsing available_diags.000001 and SIS.available_diags.
@@ -203,10 +203,10 @@ class Experiment:
         self.available_diags = diags
         self.unfinished_diags = [Diagnostic(m, d, self.path) \
                                  for m, d in _unfinished_diags]
-        # Available diags is not what you think! Need to remove the unfinished
-        # diags.
+        # Remove unfinished diags.
         self.available_diags = list(set(self.available_diags) - \
                                     set(self.unfinished_diags))
+
         # It helps with testing and human readability if this is sorted.
         self.available_diags.sort(key=lambda d: d.full_name)
 
