@@ -124,6 +124,7 @@ TOPO_CONFIG = "file"            !
                                 !     DOME2D - use a shelf and slope configuration for the
                                 !       DOME2D gravity current/overflow test case.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     USER - call a user modified routine.
 MAXIMUM_DEPTH = 6000.0          !   [m]
@@ -196,8 +197,6 @@ ADJUST_THICKNESS = True         !   [Boolean] default = False
 ! === module MOM_diag_mediator ===
 
 ! === module MOM_MEKE ===
-
-! === module MOM_wave_speed ===
 
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
@@ -491,6 +490,9 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to
                                 ! estimate the Richardson number driven mixing.
+
+! === module MOM_CVMix_shear ===
+! Parameterization of shear-driven turbulence via CVMix (various options)
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
