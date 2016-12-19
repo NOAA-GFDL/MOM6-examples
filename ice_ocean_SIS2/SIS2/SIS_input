@@ -48,6 +48,13 @@ SEND_LOG_TO_STDOUT = False      !    If true write out log information to stdout
 ICE_STATS_INTERVAL = 0.25       !    The interval in units of TIMEUNIT between
                                 ! writes of the globally summed ice statistics
                                 ! and conservation checks.
+EULERIAN_TSURF = False          ! If true, use previous calculations of the ice-top surface
+                                ! skin temperature for tsurf at the start of atmospheric
+                                ! time stepping, including interpolating between tsurf
+                                ! values from other categories in the same location.
+RECATEGORIZE_ICE = False        ! If true, readjust the distribution into ice thickness
+                                ! categories after advection.
+
 
 !  Specify the time integration scheme.
 DT_ICE_DYNAMICS = 3600.0        ! The time step used for the slow ice dynamics, 
@@ -89,13 +96,6 @@ CONSTANT_COSZEN_IC = 0.0        ! A constant value to use to initialize the
                                 ! cosine of the solar zenith angle for the first
                                 ! radiation step, or a negative number to use
                                 ! the current time and astronomy.
-
-EULERIAN_TSURF = True           ! If true, use previous calculations of the ice-top surface
-                                ! skin temperature for tsurf at the start of atmospheric
-                                ! time stepping, including interpolating between tsurf
-                                ! values from other categories in the same location.
-RECATEGORIZE_ICE = True         ! If true, readjust the distribution into ice thickness
-                                ! categories after advection.
 
 !  Specify the properties of the surface forcing.
 ADD_DIURNAL_SW = True           !    If true, add a synthetic diurnal cycle to

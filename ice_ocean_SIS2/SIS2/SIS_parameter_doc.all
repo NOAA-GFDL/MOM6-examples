@@ -13,7 +13,7 @@ SINGLE_ICE_STATE_TYPE = True    !   [Boolean] default = True
                                 ! single common ice_state_type.  Otherwise they point to
                                 ! different ice_state_types that need to be explicitly
                                 ! copied back and forth.
-EULERIAN_TSURF = True           !   [Boolean] default = True
+EULERIAN_TSURF = False          !   [Boolean] default = True
                                 ! If true, use previous calculations of the ice-top surface
                                 ! skin temperature for tsurf at the start of atmospheric
                                 ! time stepping, including interpolating between tsurf
@@ -333,7 +333,7 @@ AIR_WATER_STRESS_TURN_ANGLE = 0.0 !   [degrees] default = 0.0
 NSTEPS_ADV = 1                  ! default = 1
                                 ! The number of advective iterations for each slow time
                                 ! step.
-RECATEGORIZE_ICE = True         !   [Boolean] default = True
+RECATEGORIZE_ICE = False        !   [Boolean] default = True
                                 ! If true, readjust the distribution into ice thickness
                                 ! categories after advection.
 SEA_ICE_ROLL_FACTOR = 1.0       !   [Nondim] default = 1.0

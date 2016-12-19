@@ -1,6 +1,11 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module ice_model ===
+EULERIAN_TSURF = False          !   [Boolean] default = True
+                                ! If true, use previous calculations of the ice-top surface
+                                ! skin temperature for tsurf at the start of atmospheric
+                                ! time stepping, including interpolating between tsurf
+                                ! values from other categories in the same location.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of
                                 ! the solar zenith angle for the first radiation step,
@@ -83,6 +88,9 @@ DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
                                 ! the time step is set via NSTEPS_DYN.
+RECATEGORIZE_ICE = False        !   [Boolean] default = True
+                                ! If true, readjust the distribution into ice thickness
+                                ! categories after advection.
 
 ! === module SIS_tracer_advect ===
 
