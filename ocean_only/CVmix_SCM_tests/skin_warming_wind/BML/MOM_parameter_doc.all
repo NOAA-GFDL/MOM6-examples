@@ -10,6 +10,10 @@ SPLIT = False                   !   [Boolean] default = True
                                 ! Use the split time stepping if true.
 USE_RK2 = False                 !   [Boolean] default = False
                                 ! If true, use RK2 instead of RK3 in the unsplit time stepping.
+CALC_RHO_FOR_SEA_LEVEL = False  !   [Boolean] default = False
+                                ! If true, the in-situ density is used to calculate the
+                                ! effective sea level that is returned to the coupler. If false,
+                                ! the Boussinesq parameter RHO_0 is used.
 ENABLE_THERMODYNAMICS = True    !   [Boolean] default = True
                                 ! If true, Temperature and salinity are used as state
                                 ! variables.

@@ -11,6 +11,10 @@ SPLIT = True                    !   [Boolean] default = True
 USE_LEGACY_SPLIT = False        !   [Boolean] default = False
                                 ! If true, use the full range of options available from
                                 ! the older GOLD-derived split time stepping code.
+CALC_RHO_FOR_SEA_LEVEL = False  !   [Boolean] default = False
+                                ! If true, the in-situ density is used to calculate the
+                                ! effective sea level that is returned to the coupler. If false,
+                                ! the Boussinesq parameter RHO_0 is used.
 ENABLE_THERMODYNAMICS = False   !   [Boolean] default = True
                                 ! If true, Temperature and salinity are used as state
                                 ! variables.
