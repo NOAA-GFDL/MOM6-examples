@@ -1186,6 +1186,21 @@ USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
 MSTAR = 1.2                     !   [units=nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE
                                 ! input to the mixed layer.
+MIX_LEN_EXPONENT = 2.0          !   [units=nondim] default = 2.0
+                                ! The exponent applied to the ratio of the distance to the MLD
+                                ! and the MLD depth which determines the shape of the mixing length.
+MSTAR_SLOPE = 1.0               !   [units=nondim] default = 1.0
+                                ! The slope of the linear relationship between mstar
+                                ! and the length scale ratio (used if MSTAR_FIXED=false).
+MSTAR_XINT = -0.25              !   [units=nondim] default = -0.25
+                                ! The value of the length scale ratio where the mstar
+                                ! is linear above (used if MSTAR_FIXED=false).
+MSTAR_AT_XINT = 0.13            !   [units=nondim] default = 0.13
+                                ! The value of mstar at MSTAR_XINT
+                                ! (used if MSTAR_FIXED=false).
+MSTAR_FIXED = True              !   [units=nondim] default = True
+                                ! True to use a fixed value of mstar, if false mstar depends
+                                ! on the composite Obhukov length and Ekman length.
 NSTAR = 0.2                     !   [nondim] default = 0.2
                                 ! The portion of the buoyant potential energy imparted by
                                 ! surface fluxes that is available to drive entrainment
@@ -1218,6 +1233,10 @@ USE_MLD_ITERATION = False       !   [Boolean] default = False
                                 ! A logical that specifies whether or not to use the
                                 ! distance to the bottom of the actively turblent boundary
                                 ! layer to help set the EPBL length scale.
+ORIG_MLD_ITERATION = True       !   [Boolean] default = True
+                                ! A logical that specifies whether or not to use the
+                                ! old method for determining MLD depth in iteration, which
+                                ! is limited to resolution.
 MLD_ITERATION_GUESS = False     !   [Boolean] default = False
                                 ! A logical that specifies whether or not to use the
                                 ! previous timestep MLD as a first guess in the MLD iteration.
