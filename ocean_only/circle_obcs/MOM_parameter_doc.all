@@ -287,6 +287,9 @@ OBC_FREESLIP_STRAIN = False     !   [Boolean] default = False
                                 ! If true, sets the normal gradient of tangential velocity to
                                 ! zero in the strain use in the stress tensor on open boundaries. This cannot
                                 ! be true if OBC_ZERO_STRAIN is True.
+OBC_ZERO_BIHARMONIC = False     !   [Boolean] default = False
+                                ! If true, zeros the Laplacian of flow on open boundaries in the biharmonic
+                                ! viscosity term.
 OBC_SEGMENT_001 = "J=N,I=N:0,LEGACY,ORLANSKI" !
                                 ! Documentation needs to be dynamic?????
 OBC_SEGMENT_002 = "J=0,I=0:N,LEGACY,ORLANSKI" !
