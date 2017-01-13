@@ -277,6 +277,12 @@ MAXIMUM_DEPTH = 3600.0          !   [m]
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
 OBC_NUMBER_OF_SEGMENTS = 1      ! default = 0
                                 ! The number of open boundary segments.
+OBC_ZERO_VORTICITY = False      !   [Boolean] default = False
+                                ! If true, sets relative vorticity to zero on open boundaries.
+OBC_FREESLIP_VORTICITY = False  !   [Boolean] default = False
+                                ! If true, sets the normal gradient of tangential velocity to
+                                ! zero in the relative vorticity on open boundaries. This cannot
+                                ! be true if OBC_ZERO_VORTICITY is True.
 OBC_SEGMENT_001 = "J=N,I=110:100,SIMPLE" !
                                 ! Documentation needs to be dynamic?????
 OBC_CONFIG = "DOME"             ! default = "none"
