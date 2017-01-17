@@ -80,6 +80,12 @@ APPLY_SLP_TO_OCEAN = False      !   [Boolean] default = False
 MIN_H_FOR_TEMP_CALC = 0.0       !   [m] default = 0.0
                                 ! The minimum ice thickness at which to do temperature
                                 ! calculations.
+MIN_OCEAN_PARTSIZE = 0.0        !   [nondim] default = 0.0
+                                ! The minimum value for the fractional open-ocean area.
+                                ! This can be 0, but for some purposes it may be useful
+                                ! to set this to a miniscule value (like 1e-40) that will
+                                ! be lost to roundoff during any sums so that the open
+                                ! ocean fluxes can be used in with new categories.
 DO_ICEBERGS = False             !   [Boolean] default = False
                                 ! If true, call the iceberg module.
 ADD_DIURNAL_SW = False          !   [Boolean] default = False
@@ -250,7 +256,7 @@ ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
 ICE_RELATIVE_SALINITY = 0.0     !   [nondim] default = 0.0
                                 ! The initial salinity of sea ice as a fraction of the
                                 ! salinity of the seawater from which it formed.
-SIS2_FILLING_FRAZIL = False     !   [Boolean] default = False
+SIS2_FILLING_FRAZIL = False     !   [Boolean] default = True
                                 ! If true, apply frazil to fill as many categories as
                                 ! possible to fill in a uniform (minimum) amount of ice
                                 ! in all the thinnest categories. Otherwise the frazil is
@@ -350,13 +356,13 @@ CHECK_ICE_TRANSPORT_CONSERVATION = False !   [Boolean] default = False
 SIS_THICKNESS_ADVECTION_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind
-                                !   PCM    - Directionally split peicewise constant
+                                !   PCM    - Directionally split piecewise constant
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
 SIS_CONTINUITY_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme used in continuity:
                                 !   UPWIND_2D - Non-directionally split upwind
-                                !   PCM       - Directionally split peicewise constant
+                                !   PCM       - Directionally split piecewise constant
                                 !   PPM:C2PD  - Positive definite PPM with 2nd order edge values
                                 !   PPM:C2MO  - Monotonic PPM with 2nd order edge values
 CONT_PPM_VOLUME_BASED_CFL = False !   [Boolean] default = False
@@ -367,7 +373,7 @@ CONT_PPM_VOLUME_BASED_CFL = False !   [Boolean] default = False
 SIS_TRACER_ADVECTION_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for tracers:
                                 !   UPWIND_2D - Non-directionally split upwind
-                                !   PCM    - Directionally split peicewise constant
+                                !   PCM    - Directionally split piecewise constant
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
 
