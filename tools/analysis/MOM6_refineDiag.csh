@@ -97,8 +97,8 @@ echo '====annual mean Eddy Kinetic Energy======'
 mkdir -p $out_dir/refineDiag_ocean_annual/EddyKineticEnergy
 set ocean_static_file = $yr1.ocean_static.nc
 if ( -e $yr1.ocean_static_no_mask_table.nc ) set ocean_static_file = $yr1.ocean_static_no_mask_table.nc
-$script_dir/EddyKineticEnergy.py  -g $ocean_static_file -o $out_dir/refineDiag_ocean_annual/EddyKineticEnergy/EKE_mean_${yr1}.png -l ${yr1} $yr1.ocean_5daily.nc
-$script_dir/calc_variance.py zos $yr1.ocean_5daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
+$script_dir/EddyKineticEnergy.py  -g $ocean_static_file -o $out_dir/refineDiag_ocean_annual/EddyKineticEnergy/EKE_mean_${yr1}.png -l ${yr1} $yr1.ocean_daily.nc
+$script_dir/calc_variance.py zos $yr1.ocean_daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
 
 echo "  ---------- end yearly analysis ----------  "
 
