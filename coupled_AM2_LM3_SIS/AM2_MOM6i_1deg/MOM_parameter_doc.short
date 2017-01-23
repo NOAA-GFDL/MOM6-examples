@@ -1,26 +1,4 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
-TRIPOLAR_N = True               !   [Boolean] default = False
-                                ! Use tripolar connectivity at the northern edge of the
-                                ! domain.  With TRIPOLAR_N, NIGLOBAL must be even.
-NIGLOBAL = 360                  !
-                                ! The total number of thickness grid points in the
-                                ! x-direction in the physical domain. With STATIC_MEMORY_
-                                ! this is set in MOM_memory.h at compile time.
-NJGLOBAL = 210                  !
-                                ! The total number of thickness grid points in the
-                                ! y-direction in the physical domain. With STATIC_MEMORY_
-                                ! this is set in MOM_memory.h at compile time.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
-
-! === module MOM_grid ===
-! Parameters providing information about the vertical grid.
-NK = 63                         !   [nondim]
-                                ! The number of model layers.
-
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
 
 ! === module MOM ===
 THICKNESSDIFFUSE = True         !   [Boolean] default = False
@@ -75,7 +53,32 @@ SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
 IC_OUTPUT_FILE = "GOLD_IC"      ! default = "MOM_IC"
                                 ! The file into which to write the initial conditions.
 
+! === module MOM_domains ===
+TRIPOLAR_N = True               !   [Boolean] default = False
+                                ! Use tripolar connectivity at the northern edge of the
+                                ! domain.  With TRIPOLAR_N, NIGLOBAL must be even.
+NIGLOBAL = 360                  !
+                                ! The total number of thickness grid points in the
+                                ! x-direction in the physical domain. With STATIC_MEMORY_
+                                ! this is set in MOM_memory.h at compile time.
+NJGLOBAL = 210                  !
+                                ! The total number of thickness grid points in the
+                                ! y-direction in the physical domain. With STATIC_MEMORY_
+                                ! this is set in MOM_memory.h at compile time.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+NK = 63                         !   [nondim]
+                                ! The number of model layers.
+
 ! === module MOM_tracer_registry ===
+
+! === module MOM_EOS ===
+
+! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
@@ -86,6 +89,8 @@ USE_OCMIP2_CFC = True           !   [Boolean] default = False
 ! === module ideal_age_example ===
 
 ! === module MOM_OCMIP2_CFC ===
+
+! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
 
@@ -114,9 +119,12 @@ TOPO_CONFIG = "file"            !
                                 !     benchmark - use the benchmark test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
+                                !     ISOMIP - use a slope and channel configuration for the
+                                !       ISOMIP test case.
                                 !     DOME2D - use a shelf and slope configuration for the
                                 !       DOME2D gravity current/overflow test case.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     USER - call a user modified routine.
 MAXIMUM_DEPTH = 6000.0          !   [m]
@@ -125,11 +133,29 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! If MASKING_DEPTH is unspecified, then anything shallower than
                                 ! MINIMUM_DEPTH is assumed to be land and all fluxes are masked out.
                                 ! If MASKING_DEPTH is specified, then all depths shallower than
-                                ! MINIMUM_DEPTH but depper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
+                                ! MINIMUM_DEPTH but deeper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
+
+! === module MOM_open_boundary ===
+! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
+CHANNEL_CONFIG = "global_1deg"  ! default = "none"
+                                ! A parameter that determines which set of channels are
+                                ! restricted to specific  widths.  Options are:
+                                !     none - All channels have the grid width.
+                                !     global_1deg - Sets 16 specific channels appropriate
+                                !       for a 1-degree model, as used in CM2G.
+                                !     list - Read the channel locations and widths from a
+                                !       text file, like MOM_channel_list in the MOM_SIS
+                                !       test case.
+                                !     file - Read open face widths everywhere from a
+                                !       NetCDF file on the model grid.
+
+! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           !
                                 ! This specifies how layers are to be defined:
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
+                                !     BFB - Custom coords for buoyancy-forced basin case
+                                !       based on SST_S, T_BOT and DRHO_DT.
                                 !     linear - linear based on interfaces not layers
                                 !     layer_ref - linear based on layer densities
                                 !     ts_ref - use reference temperature and salinity
@@ -143,21 +169,17 @@ COORD_CONFIG = "file"           !
                                 !     USER - call a user modified routine.
 COORD_FILE = "GOLD_IC.2010.11.15.nc" !
                                 ! The file from which the coordinate densities are read.
-CHANNEL_CONFIG = "global_1deg"  ! default = "none"
-                                ! A parameter that determines which set of channels are
-                                ! restricted to specific  widths.  Options are:
-                                !     none - All channels have the grid width.
-                                !     global_1deg - Sets 16 specific channels appropriate
-                                !       for a 1-degree model, as used in CM2G.
-                                !     list - Read the channel locations and widths from a
-                                !       text file, like MOM_channel_list in the MOM_SIS
-                                !       test case.
-                                !     file - Read open face widths everywhere from a
-                                !       NetCDF file on the model grid.
+
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+
+! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
                                 ! If true, intialize the layer thicknesses, temperatures,
                                 ! and salnities from a Z-space file on a latitude-
                                 ! longitude grid.
+
+! === module MOM_initialize_layers_from_Z ===
 TEMP_SALT_Z_INIT_FILE = "WOA05_pottemp_salt.nc" ! default = "temp_salt_z.nc"
                                 ! The name of the z-space input file used to initialize
                                 ! the layer thicknesses, temperatures and salinities.
@@ -172,9 +194,9 @@ ADJUST_THICKNESS = True         !   [Boolean] default = False
                                 ! topography is shallower than the thickness input file
                                 ! would indicate.
 
-! === module MOM_MEKE ===
+! === module MOM_diag_mediator ===
 
-! === module MOM_wave_speed ===
+! === module MOM_MEKE ===
 
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
@@ -211,10 +233,10 @@ CHANNEL_DRAG = True             !   [Boolean] default = False
 DYNAMIC_VISCOUS_ML = True       !   [Boolean] default = False
                                 ! If true, use a bulk Richardson number criterion to
                                 ! determine the mixed layer thickness for viscosity.
-ML_USE_OMEGA = True             !   [Boolean] default = False
-                                ! If true, use the absolute rotation rate instead of the
-                                ! vertical component of rotation when setting the decay
-                                ! scale for turbulence.
+ML_OMEGA_FRAC = 1.0             !   [nondim] default = 0.0
+                                ! When setting the decay scale for turbulence, use this
+                                ! fraction of the absolute rotation rate blended with the
+                                ! local value of f, as sqrt((1-of)*f^2 + of*4*omega^2).
 HBBL = 10.0                     !   [m]
                                 ! The thickness of a bottom boundary layer with a
                                 ! viscosity of KVBBL if BOTTOMDRAGLAW is not defined, or
@@ -232,6 +254,13 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! used with BOTTOMDRAGLAW. This might be
                                 ! Kv / (cdrag * drag_bg_vel) to give Kv as the minimum
                                 ! near-bottom viscosity.
+KV = 1.0E-04                    !   [m2 s-1]
+                                ! The background kinematic viscosity in the interior.
+                                ! The molecular value, ~1e-6 m2 s-1, may be used.
+
+! === module MOM_continuity ===
+
+! === module MOM_continuity_PPM ===
 ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.15E-09
                                 ! The tolerance for the differences between the
                                 ! barotropic and baroclinic estimates of the sea surface
@@ -243,6 +272,8 @@ VELOCITY_TOLERANCE = 1.0E-04    !   [m s-1] default = 3.0E+08
                                 ! The tolerance for barotropic velocity discrepancies
                                 ! between the barotropic solution and  the sum of the
                                 ! layer thicknesses.
+
+! === module MOM_CoriolisAdv ===
 CORIOLIS_EN_DIS = True          !   [Boolean] default = False
                                 ! If true, two estimates of the thickness fluxes are used
                                 ! to estimate the Coriolis term, and the one that
@@ -253,6 +284,10 @@ BOUND_CORIOLIS = True           !   [Boolean] default = False
                                 ! v-points, and similarly at v-points.  This option is
                                 ! always effectively false with CORIOLIS_EN_DIS defined and
                                 ! CORIOLIS_SCHEME set to SADOURNY75_ENERGY.
+
+! === module MOM_PressureForce ===
+
+! === module MOM_PressureForce_AFV ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -285,9 +320,6 @@ V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
                                 ! leading to meridional velocity truncations are written.
                                 ! Undefine this for efficiency if this diagnostic is not
                                 ! needed.
-KV = 1.0E-04                    !   [m2 s-1]
-                                ! The background kinematic viscosity in the interior.
-                                ! The molecular value, ~1e-6 m2 s-1, may be used.
 MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity
                                 ! components are truncated.
@@ -344,6 +376,8 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! geostrophic kinetic energy or 1 plus the square of the
                                 ! grid spacing over the deformation radius, as detailed
                                 ! by Fox-Kemper et al. (2010)
+
+! === module MOM_diag_to_Z ===
 Z_OUTPUT_GRID_FILE = "OM3_zgrid.nc" ! default = ""
                                 ! The file that specifies the vertical grid for
                                 ! depth-space diagnostics, or blank to disable
@@ -380,6 +414,8 @@ GEOTHERMAL_SCALE = 0.001        !   [W m-2 or various] default = 0.0
 GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
                                 ! The file from which the geothermal heating is to be
                                 ! read, or blank to use a constant heating rate.
+
+! === module MOM_set_diffusivity ===
 ML_RADIATION = True             !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind
                                 ! work to penetrate below the base of the mixed layer
@@ -451,6 +487,9 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to
                                 ! estimate the Richardson number driven mixing.
+
+! === module MOM_CVMix_shear ===
+! Parameterization of shear-driven turbulence via CVMix (various options)
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
@@ -553,7 +592,7 @@ MAX_P_SURF = 7.0E+04            !   [Pa] default = -1.0
                                 ! the ice-ocean heat fluxes are treated explicitly.  No
                                 ! limit is applied if a negative value is used.
 USE_LIMITED_PATM_SSH = False    !   [Boolean] default = True
-                                ! If true, return the the sea surface height with the
+                                ! If true, return the sea surface height with the
                                 ! correction for the atmospheric (and sea-ice) pressure
                                 ! limited by max_p_surf instead of the full atmospheric
                                 ! pressure.
@@ -570,9 +609,13 @@ GUST_2D_FILE = "gustiness_qscat.nc" !
                                 ! The file in which the wind gustiness is found in
                                 ! variable gustiness.
 
+! === module MOM_restart ===
+
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very
                                 ! large value if the velocity is truncated more than
                                 ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
                                 ! to stop if there is any truncation of velocities.
+
+! === module MOM_file_parser ===
