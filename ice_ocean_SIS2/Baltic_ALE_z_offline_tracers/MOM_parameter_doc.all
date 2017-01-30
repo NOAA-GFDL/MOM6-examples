@@ -1773,7 +1773,11 @@ LT_ENHANCE = 0                  !   [nondim] default = 0
                                 !  *Requires USE_LA_LI2016 to be set to True.
                                 ! Options: 0 - no LT enhancement
                                 !          1 - Van Roekel et al. 2014/Li et al., 2016
-                                !          2 - New LES net mixing based derivation
+                                !          2 - New LES net mixing based derivation (requires coefficients)
+LT_ENHANCE_COEF = 1.57          !   [nondim] default = 1.57
+                                ! Coefficient for Langmuir enhancement if LT_ENHANCE = 2
+LT_ENHANCE_EXP = -1.5           !   [nondim] default = -1.5
+                                ! Exponent for Langmuir enhancement if LT_ENHANCE = 2
 EPBL_USTAR_MIN = 1.45842E-18    !   [meter second-1]
                                 ! The (tiny) minimum friction velocity used within the
                                 ! ePBL code, derived from OMEGA and ANGSTROM.
