@@ -1319,6 +1319,9 @@ USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
 MIX_LEN_EXPONENT = 2.0          !   [units=nondim] default = 2.0
                                 ! The exponent applied to the ratio of the distance to the MLD
                                 ! and the MLD depth which determines the shape of the mixing length.
+MSTAR_CAP = -1.0                !   [units=nondim] default = -1.0
+                                ! Maximum value of mstar allowed in model if non-negative
+                                ! (used if MSTAR_FIXED=false).
 MSTAR_SLOPE = 1.0               !   [units=nondim] default = 1.0
                                 ! The slope of the linear relationship between mstar
                                 ! and the length scale ratio (used if MSTAR_FIXED=false).
