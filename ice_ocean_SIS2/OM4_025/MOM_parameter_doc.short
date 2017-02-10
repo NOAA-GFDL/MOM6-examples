@@ -514,7 +514,7 @@ MLE_USE_PBL_MLD = True          !   [Boolean] default = False
                                 ! depth provided by the active PBL parameterization. If false,
                                 ! MLE will estimate a MLD based on a density difference with the
                                 ! surface using the parameter MLE_DENSITY_DIFF.
-MLE_MLD_DECAY_TIME = 8.64E+05   !   [s] default = 0.0
+MLE_MLD_DECAY_TIME = 1.728E+05  !   [s] default = 0.0
                                 ! When MLE_USE_PBL_MLD is true, the PBL provided active miing layer
                                 ! depth is running mean average with this time-scale when the MLD
                                 ! is retreating. When the MLD deepens below the current running-mean
@@ -638,17 +638,7 @@ PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
 MSTAR = 1.0328                  !   [units=nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE
                                 ! input to the mixed layer.
-MIX_LEN_EXPONENT = 1.0          !   [units=nondim] default = 2.0
-                                ! The exponent applied to the ratio of the distance to the MLD
-                                ! and the MLD depth which determines the shape of the mixing length.
-MSTAR_FIXED = False             !   [units=nondim] default = True
-                                ! True to use a fixed value of mstar, if false mstar depends
-                                ! on the composite Obhukov length and Ekman length.
-NSTAR = 0.08                    !   [nondim] default = 0.2
-                                ! The portion of the buoyant potential energy imparted by
-                                ! surface fluxes that is available to drive entrainment
-                                ! at the base of mixed layer when that energy is positive.
-TKE_DECAY = 0.01                !   [nondim] default = 2.5
+TKE_DECAY = 5.5                 !   [nondim] default = 2.5
                                 ! TKE_DECAY relates the vertical rate of decay of the
                                 ! TKE available for mechanical entrainment to the natural
                                 ! Ekman depth.
@@ -656,14 +646,6 @@ USE_MLD_ITERATION = True        !   [Boolean] default = False
                                 ! A logical that specifies whether or not to use the
                                 ! distance to the bottom of the actively turblent boundary
                                 ! layer to help set the EPBL length scale.
-ORIG_MLD_ITERATION = False      !   [Boolean] default = True
-                                ! A logical that specifies whether or not to use the
-                                ! old method for determining MLD depth in iteration, which
-                                ! is limited to resolution.
-EPBL_TRANSITION_SCALE = 0.01    !   [nondim] default = 0.1
-                                ! A scale for the mixing length in the transition layer
-                                ! at the edge of the boundary layer as a fraction of the
-                                ! boundary layer thickness.  The default is 0.1.
 N2_DISSIPATION_POS = 0.4        !   [nondim] default = 0.0
                                 ! A scale for the dissipation of TKE due to stratification
                                 ! in the boundary layer, applied when local stratification

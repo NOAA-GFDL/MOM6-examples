@@ -1306,7 +1306,7 @@ MLE_USE_PBL_MLD = True          !   [Boolean] default = False
                                 ! depth provided by the active PBL parameterization. If false,
                                 ! MLE will estimate a MLD based on a density difference with the
                                 ! surface using the parameter MLE_DENSITY_DIFF.
-MLE_MLD_DECAY_TIME = 8.64E+05   !   [s] default = 0.0
+MLE_MLD_DECAY_TIME = 1.728E+05  !   [s] default = 0.0
                                 ! When MLE_USE_PBL_MLD is true, the PBL provided active miing layer
                                 ! depth is running mean average with this time-scale when the MLD
                                 ! is retreating. When the MLD deepens below the current running-mean
@@ -1686,7 +1686,7 @@ USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
 MSTAR = 1.0328                  !   [units=nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE
                                 ! input to the mixed layer.
-MIX_LEN_EXPONENT = 1.0          !   [units=nondim] default = 2.0
+MIX_LEN_EXPONENT = 2.0          !   [units=nondim] default = 2.0
                                 ! The exponent applied to the ratio of the distance to the MLD
                                 ! and the MLD depth which determines the shape of the mixing length.
 MSTAR_CAP = -1.0                !   [units=nondim] default = -1.0
@@ -1701,10 +1701,10 @@ MSTAR_XINT = -0.25              !   [units=nondim] default = -0.25
 MSTAR_AT_XINT = 0.13            !   [units=nondim] default = 0.13
                                 ! The value of mstar at MSTAR_XINT
                                 ! (used if MSTAR_FIXED=false).
-MSTAR_FIXED = False             !   [units=nondim] default = True
+MSTAR_FIXED = True              !   [units=nondim] default = True
                                 ! True to use a fixed value of mstar, if false mstar depends
                                 ! on the composite Obhukov length and Ekman length.
-NSTAR = 0.08                    !   [nondim] default = 0.2
+NSTAR = 0.2                     !   [nondim] default = 0.2
                                 ! The portion of the buoyant potential energy imparted by
                                 ! surface fluxes that is available to drive entrainment
                                 ! at the base of mixed layer when that energy is positive.
@@ -1712,7 +1712,7 @@ MKE_TO_TKE_EFFIC = 0.0          !   [nondim] default = 0.0
                                 ! The efficiency with which mean kinetic energy released
                                 ! by mechanically forced entrainment of the mixed layer
                                 ! is converted to turbulent kinetic energy.
-TKE_DECAY = 0.01                !   [nondim] default = 2.5
+TKE_DECAY = 5.5                 !   [nondim] default = 2.5
                                 ! TKE_DECAY relates the vertical rate of decay of the
                                 ! TKE available for mechanical entrainment to the natural
                                 ! Ekman depth.
@@ -1736,7 +1736,7 @@ USE_MLD_ITERATION = True        !   [Boolean] default = False
                                 ! A logical that specifies whether or not to use the
                                 ! distance to the bottom of the actively turblent boundary
                                 ! layer to help set the EPBL length scale.
-ORIG_MLD_ITERATION = False      !   [Boolean] default = True
+ORIG_MLD_ITERATION = True       !   [Boolean] default = True
                                 ! A logical that specifies whether or not to use the
                                 ! old method for determining MLD depth in iteration, which
                                 ! is limited to resolution.
@@ -1755,7 +1755,7 @@ EPBL_ORIGINAL_PE_CALC = True    !   [Boolean] default = True
                                 ! potential energy change code.  Otherwise, the newer
                                 ! version that can work with successive increments to the
                                 ! diffusivity in upward or downward passes is used.
-EPBL_TRANSITION_SCALE = 0.01    !   [nondim] default = 0.1
+EPBL_TRANSITION_SCALE = 0.1     !   [nondim] default = 0.1
                                 ! A scale for the mixing length in the transition layer
                                 ! at the edge of the boundary layer as a fraction of the
                                 ! boundary layer thickness.  The default is 0.1.
