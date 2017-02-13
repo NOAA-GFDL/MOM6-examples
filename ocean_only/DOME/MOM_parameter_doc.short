@@ -125,9 +125,6 @@ OBC_NUMBER_OF_SEGMENTS = 1      ! default = 0
                                 ! The number of open boundary segments.
 OBC_SEGMENT_001 = "J=N,I=110:100,SIMPLE" !
                                 ! Documentation needs to be dynamic?????
-OBC_CONFIG = "DOME"             ! default = "none"
-                                ! A string that sets how the open boundary conditions are
-                                !  configured:
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -199,6 +196,13 @@ SPONGE_CONFIG = "DOME"          ! default = "file"
                                 !     USER - call a user modified routine.
 !Total sponge columns = 2400    !
                                 ! The total number of columns where sponges are applied.
+OBC_USER_CONFIG = "DOME"        ! default = "none"
+                                ! A string that sets how the user code is invoked to set open
+                                !  boundary data:
+                                !    DOME - specified inflow on northern boundary
+                                !    tidal_bay - Flather with tidal forcing on eastern boundary
+                                !    supercritical - now only needed here for the allocations
+                                !    USER - user specified
 
 ! === module MOM_diag_mediator ===
 

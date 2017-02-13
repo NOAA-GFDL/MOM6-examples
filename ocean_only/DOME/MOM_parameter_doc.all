@@ -300,9 +300,6 @@ OBC_ZERO_BIHARMONIC = False     !   [Boolean] default = False
                                 ! viscosity term.
 OBC_SEGMENT_001 = "J=N,I=110:100,SIMPLE" !
                                 ! Documentation needs to be dynamic?????
-OBC_CONFIG = "DOME"             ! default = "none"
-                                ! A string that sets how the open boundary conditions are
-                                !  configured:
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
@@ -422,6 +419,13 @@ SPONGE_CONFIG = "DOME"          ! default = "file"
                                 !     USER - call a user modified routine.
 !Total sponge columns = 2400    !
                                 ! The total number of columns where sponges are applied.
+OBC_USER_CONFIG = "DOME"        ! default = "none"
+                                ! A string that sets how the user code is invoked to set open
+                                !  boundary data:
+                                !    DOME - specified inflow on northern boundary
+                                !    tidal_bay - Flather with tidal forcing on eastern boundary
+                                !    supercritical - now only needed here for the allocations
+                                !    USER - user specified
 
 ! === module MOM_diag_mediator ===
 NUM_DIAG_COORDS = 1             ! default = 1
