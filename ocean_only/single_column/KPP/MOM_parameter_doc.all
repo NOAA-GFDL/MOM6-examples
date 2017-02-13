@@ -156,6 +156,12 @@ NJGLOBAL = 2                    !
                                 ! The total number of thickness grid points in the
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
+DEBUG_CHKSUMS = False           !   [Boolean] default = False
+                                ! If true, checksums are performed on arrays in the
+                                ! various vec_chksum routines.
+DEBUG_REDUNDANT = False         !   [Boolean] default = False
+                                ! If true, debug redundant data points during calls to
+                                ! the various vec_chksum routines.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -1351,6 +1357,7 @@ TRACER_ADVECTION_SCHEME = "PLM" ! default = "PLM"
                                 ! The horizontal transport scheme for tracers:
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
+                                !   PPM    - Piecewise Parabolic Method (Colella-Woodward)
 
 ! === module MOM_tracer_hor_diff ===
 KHTR = 600.0                    !   [m2 s-1] default = 0.0

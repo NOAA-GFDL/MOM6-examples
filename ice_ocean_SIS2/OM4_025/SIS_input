@@ -12,21 +12,12 @@ ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
 ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
                                 ! The initial salinity of sea ice as a fraction of the
                                 ! salinity of the seawater from which it formed.
-SIS2_FILLING_FRAZIL = False     !   If true, apply frazil to fill as many categories as
-                                ! possible to fill in a uniform (minimum) amount of ice
-                                ! in all the thinnest categories. Otherwise the frazil is
-                                ! always assigned to a single category.
 CONSTANT_COSZEN_IC = 0.0        ! A constant value to use to initialize the
                                 ! cosine of the solar zenith angle for the first
                                 ! radiation step, or a negative number to use
                                 ! the current time and astronomy.
 DO_ICEBERGS = True              !   [Boolean] default = False
                                 ! If true, call the iceberg module.
-ICEBERG_WINDSTRESS_BUG = True   !   [Boolean] default = False
-                                ! If true, use older code that applied an old ice-ocean
-                                ! stress to the icebergs in place of the current air-ocean
-                                ! stress.  This option is here for backward compatibility,
-                                ! but should be avoided.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between writes of the
                                 ! globally summed ice statistics and conservation checks.
@@ -80,10 +71,10 @@ ICE_DELTA_EDD_R_POND = 1.0      !   [perhaps nondimensional?] default = 0.0
 CP_ICE = 2100.0                 !   [J kg-1 K-1] default = 2100.0
                                 ! The heat capacity of fresh ice, approximated as a
                                 ! constant.
-CP_SEAWATER = 4200.0            !   [J kg-1 K-1] default = 4200.0
+CP_SEAWATER = 3992.0            !   [J kg-1 K-1] default = 4200.0
                                 ! The heat capacity of sea water, approximated as a
                                 ! constant.
-CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 2100.0
+CP_BRINE = 3992.0               !   [J kg-1 K-1] default = 2100.0
                                 ! The heat capacity of water in brine pockets within the
                                 ! sea-ice, approximated as a constant.  CP_BRINE and
                                 ! CP_WATER should be equal, but for computational

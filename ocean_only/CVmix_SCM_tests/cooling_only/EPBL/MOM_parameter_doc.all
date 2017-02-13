@@ -156,6 +156,12 @@ NJGLOBAL = 2                    !
                                 ! The total number of thickness grid points in the
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
+DEBUG_CHKSUMS = False           !   [Boolean] default = False
+                                ! If true, checksums are performed on arrays in the
+                                ! various vec_chksum routines.
+DEBUG_REDUNDANT = False         !   [Boolean] default = False
+                                ! If true, debug redundant data points during calls to
+                                ! the various vec_chksum routines.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -1193,6 +1199,9 @@ MSTAR = 1.2                     !   [units=nondim] default = 1.2
 MIX_LEN_EXPONENT = 2.0          !   [units=nondim] default = 2.0
                                 ! The exponent applied to the ratio of the distance to the MLD
                                 ! and the MLD depth which determines the shape of the mixing length.
+MSTAR_CAP = -1.0                !   [units=nondim] default = -1.0
+                                ! Maximum value of mstar allowed in model if non-negative
+                                ! (used if MSTAR_FIXED=false).
 MSTAR_SLOPE = 1.0               !   [units=nondim] default = 1.0
                                 ! The slope of the linear relationship between mstar
                                 ! and the length scale ratio (used if MSTAR_FIXED=false).
@@ -1205,6 +1214,8 @@ MSTAR_AT_XINT = 0.13            !   [units=nondim] default = 0.13
 MSTAR_FIXED = True              !   [units=nondim] default = True
                                 ! True to use a fixed value of mstar, if false mstar depends
                                 ! on the composite Obhukov length and Ekman length.
+MSTAR_FLATCAP = True            !   [units=nondim] default = True
+                                ! Set false to use asmptotic cap or defaults to true to use flat cap.
 NSTAR = 0.2                     !   [nondim] default = 0.2
                                 ! The portion of the buoyant potential energy imparted by
                                 ! surface fluxes that is available to drive entrainment
@@ -1268,10 +1279,19 @@ N2_DISSIPATION_NEG = 0.0        !   [nondim] default = 0.0
                                 ! A scale for the dissipation of TKE due to stratification
                                 ! in the boundary layer, applied when local stratification
                                 ! is negative.  The default is 0, but should probably be ~1.
-USE_LT_LI2016 = False           !   [nondim] default = False
+USE_LA_LI2016 = False           !   [nondim] default = False
                                 ! A logical to use the Li et al. 2016 (submitted) formula to
-                                !  determine the enhancement of velocity due to Langmuir
-                                !  turbulence.
+                                !  determine the Langmuir number.
+LT_ENHANCE = 0                  !   [nondim] default = 0
+                                ! Integer for LT enhancement function mode.
+                                !  *Requires USE_LA_LI2016 to be set to True.
+                                ! Options: 0 - no LT enhancement
+                                !          1 - Van Roekel et al. 2014/Li et al., 2016
+                                !          2 - New LES net mixing based derivation (requires coefficients)
+LT_ENHANCE_COEF = 1.57          !   [nondim] default = 1.57
+                                ! Coefficient for Langmuir enhancement if LT_ENHANCE = 2
+LT_ENHANCE_EXP = -1.5           !   [nondim] default = -1.5
+                                ! Exponent for Langmuir enhancement if LT_ENHANCE = 2
 EPBL_USTAR_MIN = 1.45842E-18    !   [meter second-1]
                                 ! The (tiny) minimum friction velocity used within the
                                 ! ePBL code, derived from OMEGA and ANGSTROM.
@@ -1320,6 +1340,7 @@ TRACER_ADVECTION_SCHEME = "PLM" ! default = "PLM"
                                 ! The horizontal transport scheme for tracers:
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
+                                !   PPM    - Piecewise Parabolic Method (Colella-Woodward)
 
 ! === module MOM_tracer_hor_diff ===
 KHTR = 600.0                    !   [m2 s-1] default = 0.0

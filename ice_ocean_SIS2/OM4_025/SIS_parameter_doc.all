@@ -108,6 +108,15 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =1, write the geometry and vertical grid files only for
                                 ! a new simulation. If =2, always write the geometry and
                                 ! vertical grid files. Other values are invalid.
+INTERPOLATE_FLUXES = True       !   [Boolean] default = True
+                                ! If true, interpolate a linearized version of the fast
+                                ! fluxes into arealess categories.
+DEBUG_CHKSUMS = False           !   [Boolean] default = False
+                                ! If true, checksums are performed on arrays in the
+                                ! various vec_chksum routines.
+DEBUG_REDUNDANT = False         !   [Boolean] default = False
+                                ! If true, debug redundant data points during calls to
+                                ! the various vec_chksum routines.
 NCAT_ICE = 5                    !   [nondim] default = 5
                                 ! The number of sea ice thickness categories.
 NK_ICE = 4                      !   [nondim] default = 4
@@ -221,10 +230,10 @@ LATENT_HEAT_VAPOR = 2.5E+06     !   [J kg-1] default = 2.5E+06
 CP_ICE = 2100.0                 !   [J kg-1 K-1] default = 2100.0
                                 ! The heat capacity of fresh ice, approximated as a
                                 ! constant.
-CP_SEAWATER = 4200.0            !   [J kg-1 K-1] default = 4200.0
+CP_SEAWATER = 3992.0            !   [J kg-1 K-1] default = 4200.0
                                 ! The heat capacity of sea water, approximated as a
                                 ! constant.
-CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
+CP_BRINE = 3992.0               !   [J kg-1 K-1] default = 3992.0
                                 ! The heat capacity of water in brine pockets within the
                                 ! sea-ice, approximated as a constant.  CP_BRINE and
                                 ! CP_SEAWATER should be equal, but for computational
@@ -258,11 +267,15 @@ ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
 ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
                                 ! The initial salinity of sea ice as a fraction of the
                                 ! salinity of the seawater from which it formed.
-SIS2_FILLING_FRAZIL = False     !   [Boolean] default = True
+SIS2_FILLING_FRAZIL = True      !   [Boolean] default = True
                                 ! If true, apply frazil to fill as many categories as
                                 ! possible to fill in a uniform (minimum) amount of ice
                                 ! in all the thinnest categories. Otherwise the frazil is
                                 ! always assigned to a single category.
+FILLING_FRAZIL_TIMESCALE = 0.0  !   [s] default = 0.0
+                                ! A timescale with which the filling frazil causes the
+                                ! thinest cells to attain similar thicknesses, or a negative
+                                ! number to apply the frazil flux uniformly.
 APPLY_ICE_LIMIT = False         !   [Boolean] default = False
                                 ! If true, restore the sea ice state toward climatology.
 DO_ICE_RESTORE = False          !   [Boolean] default = False
@@ -309,7 +322,7 @@ DT_ICE_DYNAMICS = 1200.0        !   [seconds] default = -1.0
                                 ! stepping the continuity equation and interactions
                                 ! between the ice mass field and velocities.  If 0 or
                                 ! negative the coupling time step will be used.
-ICEBERG_WINDSTRESS_BUG = True   !   [Boolean] default = False
+ICEBERG_WINDSTRESS_BUG = False  !   [Boolean] default = False
                                 ! If true, use older code that applied an old ice-ocean
                                 ! stress to the icebergs in place of the current air-ocean
                                 ! stress.  This option is here for backward compatibility,
@@ -367,8 +380,6 @@ CFL_TRUNC_DYN_ITS = False       !   [Boolean] default = False
                                 ! If true, check the CFL number for every iteration of the
                                 ! rheology solver; otherwise only the final velocities that
                                 ! are used for transport are checked.
-DEBUG_REDUNDANT = False         !   [Boolean] default = False
-                                ! If true, debug redundant data points.
 U_TRUNC_FILE = "SIS_U_truncations" ! default = ""
                                 ! The absolute path to the file where the accelerations
                                 ! leading to zonal velocity truncations are written.

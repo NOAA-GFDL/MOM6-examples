@@ -89,6 +89,7 @@ TOPO_CONFIG = "flat"            !
                                 !     DOME2D - use a shelf and slope configuration for the
                                 !       DOME2D gravity current/overflow test case.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     USER - call a user modified routine.
 MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
@@ -145,6 +146,7 @@ THICKNESS_CONFIG = "uniform"    !
                                 !     adjustment2d - TBD AJA.
                                 !     sloshing - TBD AJA.
                                 !     seamount - TBD AJA.
+                                !     soliton - Equatorial Rossby soliton.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
 SPONGE = True                   !   [Boolean] default = False
@@ -167,8 +169,6 @@ SPONGE_CONFIG = "BFB"           ! default = "file"
 ! === module MOM_diag_mediator ===
 
 ! === module MOM_MEKE ===
-
-! === module MOM_wave_speed ===
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -260,6 +260,9 @@ KD = 1.0E-04                    !   [m2 s-1]
 
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
+
+! === module MOM_CVMix_shear ===
+! Parameterization of shear-driven turbulence via CVMix (various options)
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.

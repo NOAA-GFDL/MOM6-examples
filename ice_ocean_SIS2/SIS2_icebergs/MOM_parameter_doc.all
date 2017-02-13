@@ -11,6 +11,10 @@ SPLIT = True                    !   [Boolean] default = True
 USE_LEGACY_SPLIT = False        !   [Boolean] default = False
                                 ! If true, use the full range of options available from
                                 ! the older GOLD-derived split time stepping code.
+CALC_RHO_FOR_SEA_LEVEL = False  !   [Boolean] default = False
+                                ! If true, the in-situ density is used to calculate the
+                                ! effective sea level that is returned to the coupler. If false,
+                                ! the Boussinesq parameter RHO_0 is used.
 ENABLE_THERMODYNAMICS = True    !   [Boolean] default = True
                                 ! If true, Temperature and salinity are used as state
                                 ! variables.
@@ -22,11 +26,22 @@ DIABATIC_FIRST = False          !   [Boolean] default = False
                                 ! If true, apply diabatic and thermodynamic processes,
                                 ! including buoyancy forcing and mass gain or loss,
                                 ! before stepping the dynamics forward.
+USE_CONTEMP_ABSSAL = False      !   [Boolean] default = False
+                                ! If true, , the prognostics T&S are the conservative temperature
+                                ! and absolute salinity. Care should be taken to convert them
+                                ! to potential temperature and practical salinity before
+                                ! exchanging them with the coupler and/or reporting T&S diagnostics.
 ADIABATIC = False               !   [Boolean] default = False
                                 ! There are no diapycnal mass fluxes if ADIABATIC is
                                 ! true. This assumes that KD = KDML = 0.0 and that
                                 ! there is no buoyancy forcing, but makes the model
                                 ! faster by eliminating subroutine calls.
+OFFLINE_TRACER_MODE = False     !   [Boolean] default = False
+                                ! If true, barotropic and baroclinic dynamics, thermodynamics
+                                ! are all bypassed with all the fields necessary to integrate
+                                ! the tracer advection and diffusion equation are read in from
+                                ! files stored from a previous integration of the prognostic model.
+                                ! NOTE: This option only used in the ocean_solo_driver.
 USE_REGRIDDING = False          !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping).
                                 ! If False, use the layered isopycnal algorithm.
@@ -147,6 +162,12 @@ NJGLOBAL = 210                  !
                                 ! The total number of thickness grid points in the
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
+DEBUG_CHKSUMS = False           !   [Boolean] default = False
+                                ! If true, checksums are performed on arrays in the
+                                ! various vec_chksum routines.
+DEBUG_REDUNDANT = False         !   [Boolean] default = False
+                                ! If true, debug redundant data points during calls to
+                                ! the various vec_chksum routines.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -176,7 +197,7 @@ NK = 63                         !   [nondim]
 EQN_OF_STATE = "WRIGHT"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state
                                 ! should be used.  Currently, the valid choices are
-                                ! "LINEAR", "UNESCO", and "WRIGHT".
+                                ! "LINEAR", "UNESCO", "WRIGHT", "NEMO" and "TEOS10".
                                 ! This is only used if USE_EOS is true.
 EOS_QUADRATURE = False          !   [Boolean] default = False
                                 ! If true, always use the generic (quadrature) code

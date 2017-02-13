@@ -106,6 +106,15 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =1, write the geometry and vertical grid files only for
                                 ! a new simulation. If =2, always write the geometry and
                                 ! vertical grid files. Other values are invalid.
+INTERPOLATE_FLUXES = True       !   [Boolean] default = True
+                                ! If true, interpolate a linearized version of the fast
+                                ! fluxes into arealess categories.
+DEBUG_CHKSUMS = False           !   [Boolean] default = False
+                                ! If true, checksums are performed on arrays in the
+                                ! various vec_chksum routines.
+DEBUG_REDUNDANT = False         !   [Boolean] default = False
+                                ! If true, debug redundant data points during calls to
+                                ! the various vec_chksum routines.
 NCAT_ICE = 5                    !   [nondim] default = 5
                                 ! The number of sea ice thickness categories.
 NK_ICE = 4                      !   [nondim] default = 4
@@ -331,8 +340,6 @@ ICE_STRENGTH_CSTAR = 20.0       !   [nondim] default = 20.0
                                 ! ice strength, c* in Hunke & Dukowicz 1997.
 ICE_CDRAG_WATER = 0.00324       !   [nondim] default = 0.00324
                                 ! The drag coefficient between the sea ice and water.
-DEBUG_REDUNDANT = False         !   [Boolean] default = False
-                                ! If true, debug redundant data points.
 AIR_WATER_STRESS_TURN_ANGLE = 0.0 !   [degrees] default = 0.0
                                 ! An angle by which to rotate the velocities at the air-
                                 ! water boundary in calculating stresses.

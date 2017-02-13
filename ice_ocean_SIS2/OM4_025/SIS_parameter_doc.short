@@ -58,11 +58,9 @@ OMEGA = 7.292E-05               !   [s-1] default = 7.2921E-05
 
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
-CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
-                                ! The heat capacity of water in brine pockets within the
-                                ! sea-ice, approximated as a constant.  CP_BRINE and
-                                ! CP_SEAWATER should be equal, but for computational
-                                ! convenience CP_BRINE can be set equal to CP_ICE.
+CP_SEAWATER = 3992.0            !   [J kg-1 K-1] default = 4200.0
+                                ! The heat capacity of sea water, approximated as a
+                                ! constant.
 
 ! === module SIS_tracer_registry ===
 
@@ -75,11 +73,6 @@ ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
 ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
                                 ! The initial salinity of sea ice as a fraction of the
                                 ! salinity of the seawater from which it formed.
-SIS2_FILLING_FRAZIL = False     !   [Boolean] default = True
-                                ! If true, apply frazil to fill as many categories as
-                                ! possible to fill in a uniform (minimum) amount of ice
-                                ! in all the thinnest categories. Otherwise the frazil is
-                                ! always assigned to a single category.
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
@@ -91,11 +84,6 @@ DT_ICE_DYNAMICS = 1200.0        !   [seconds] default = -1.0
                                 ! stepping the continuity equation and interactions
                                 ! between the ice mass field and velocities.  If 0 or
                                 ! negative the coupling time step will be used.
-ICEBERG_WINDSTRESS_BUG = True   !   [Boolean] default = False
-                                ! If true, use older code that applied an old ice-ocean
-                                ! stress to the icebergs in place of the current air-ocean
-                                ! stress.  This option is here for backward compatibility,
-                                ! but should be avoided.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between writes of the
                                 ! globally summed ice statistics and conservation checks.
