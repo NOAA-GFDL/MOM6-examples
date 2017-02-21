@@ -106,6 +106,13 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =1, write the geometry and vertical grid files only for
                                 ! a new simulation. If =2, always write the geometry and
                                 ! vertical grid files. Other values are invalid.
+INTERPOLATE_FLUXES = True       !   [Boolean] default = True
+                                ! If true, interpolate a linearized version of the fast
+                                ! fluxes into arealess categories.
+REDO_FAST_ICE_UPDATE = False    !   [Boolean] default = False
+                                ! If true, recalculate the thermal updates from the fast
+                                ! dynamics on the slowly evolving ice state, rather than
+                                ! copying over the slow ice state to the fast ice state.
 DEBUG_CHKSUMS = False           !   [Boolean] default = False
                                 ! If true, checksums are performed on arrays in the
                                 ! various vec_chksum routines.
