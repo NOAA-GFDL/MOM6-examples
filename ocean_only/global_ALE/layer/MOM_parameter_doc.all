@@ -1179,6 +1179,10 @@ KHTH_SLOPE_MAX = 0.01           !   [nondim] default = 0.01
 KD_SMOOTH = 1.0E-06             !   [not defined] default = 1.0E-06
                                 ! A diapycnal diffusivity that is used to interpolate
                                 ! more sensible values of T & S into thin layers.
+KHTH_USE_FGNV_STREAMFUNCTION = False !   [Boolean] default = False
+                                ! If true, use the streamfunction formulation of
+                                ! Ferrari et al., 2010, which effectively emphasizes
+                                ! graver vertical modes by smoothing in the vertical.
 
 ! === module MOM_mixed_layer_restrat ===
 MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
