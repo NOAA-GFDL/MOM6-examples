@@ -451,6 +451,12 @@ STATISTICS_FILE = "seaice.stats" ! default = "seaice.stats"
 
 ! === module SIS_fast_thermo ===
 ! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+REORDER_0C_HEATFLUX = False     !   [Boolean] default = False
+                                ! If true, rearrange the calculation of the heat fluxes
+                                ! projected back to 0C to work on each contribution
+                                ! separately, so that they can be indentically replicated
+                                ! if there is a single fast timestep per coupled timestep
+                                ! and REDO_FAST_ICE_UPDATE=True.
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
