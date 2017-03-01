@@ -80,12 +80,6 @@ APPLY_SLP_TO_OCEAN = False      !   [Boolean] default = False
 MIN_H_FOR_TEMP_CALC = 0.0       !   [m] default = 0.0
                                 ! The minimum ice thickness at which to do temperature
                                 ! calculations.
-MIN_OCEAN_PARTSIZE = 0.0        !   [nondim] default = 0.0
-                                ! The minimum value for the fractional open-ocean area.
-                                ! This can be 0, but for some purposes it may be useful
-                                ! to set this to a miniscule value (like 1e-40) that will
-                                ! be lost to roundoff during any sums so that the open
-                                ! ocean fluxes can be used in with new categories.
 DO_ICEBERGS = False             !   [Boolean] default = False
                                 ! If true, call the iceberg module.
 ADD_DIURNAL_SW = True           !   [Boolean] default = False
@@ -128,6 +122,12 @@ NK_SNOW = 1                     !   [nondim] default = 1
 H_TO_KG_M2 = 1.0                !   [kg m-2 H-1] default = 1.0
                                 ! A constant that translates thicknesses from the model's
                                 ! internal units of thickness to kg m-2.
+MIN_OCEAN_PARTSIZE = 0.0        !   [nondim] default = 0.0
+                                ! The minimum value for the fractional open-ocean area.
+                                ! This can be 0, but for some purposes it may be useful
+                                ! to set this to a miniscule value (like 1e-40) that will
+                                ! be lost to roundoff during any sums so that the open
+                                ! ocean fluxes can be used in with new categories.
 
 ! === module MOM_domains ===
 REENTRANT_X = True              !   [Boolean] default = True
