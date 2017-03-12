@@ -283,6 +283,10 @@ MAXIMUM_DEPTH = 3600.0          !   [m]
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
 OBC_NUMBER_OF_SEGMENTS = 1      ! default = 0
                                 ! The number of open boundary segments.
+EXTEND_OBC_SEGMENTS = False     !   [Boolean] default = False
+                                ! If true, extend OBC segments. This option is used to recover
+                                ! legacy solutions dependent on an incomplete implementaion of OBCs.
+                                ! This option will be obsoleted in the future.
 OBC_ZERO_VORTICITY = False      !   [Boolean] default = False
                                 ! If true, sets relative vorticity to zero on open boundaries.
 OBC_FREESLIP_VORTICITY = False  !   [Boolean] default = False
