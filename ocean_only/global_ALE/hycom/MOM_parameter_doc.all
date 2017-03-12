@@ -1742,6 +1742,11 @@ USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
                                 ! heat carried by runoff, instead of using SST*CP*froz_runoff.
 
 ! === module MOM_energetic_PBL ===
+MSTAR_MODE = 0                  !   [units=nondim] default = 0
+                                ! An integer switch for how to compute MSTAR.
+                                !     0 for constant MSTAR
+                                !     1 for MSTAR w/ MLD in stabilizing limit
+                                !     2 for MSTAR w/ L_E/L_O in stabilizing limit.
 MSTAR = 1.2                     !   [units=nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE
                                 ! input to the mixed layer.
@@ -1750,21 +1755,19 @@ MIX_LEN_EXPONENT = 2.0          !   [units=nondim] default = 2.0
                                 ! and the MLD depth which determines the shape of the mixing length.
 MSTAR_CAP = -1.0                !   [units=nondim] default = -1.0
                                 ! Maximum value of mstar allowed in model if non-negative
-                                ! (used if MSTAR_FIXED=false).
+                                ! (used if MSTAR_MODE>0).
 MSTAR_SLOPE = 1.0               !   [units=nondim] default = 1.0
                                 ! The slope of the linear relationship between mstar
-                                ! and the length scale ratio (used if MSTAR_FIXED=false).
+                                ! and the length scale ratio (used if MSTAR_MODE=1).
 MSTAR_XINT = -0.25              !   [units=nondim] default = -0.25
                                 ! The value of the length scale ratio where the mstar
-                                ! is linear above (used if MSTAR_FIXED=false).
+                                ! is linear above (used if MSTAR_MODE=1).
 MSTAR_AT_XINT = 0.13            !   [units=nondim] default = 0.13
                                 ! The value of mstar at MSTAR_XINT
-                                ! (used if MSTAR_FIXED=false).
-MSTAR_FIXED = True              !   [units=nondim] default = True
-                                ! True to use a fixed value of mstar, if false mstar depends
-                                ! on the composite Obhukov length and Ekman length.
+                                ! (used if MSTAR_MODE=1).
 MSTAR_FLATCAP = True            !   [units=nondim] default = True
-                                ! Set false to use asmptotic cap or defaults to true to use flat cap.
+                                ! Set false to use asymptotic cap, defaults to true.
+                                ! (used only if MSTAR_MODE=1)
 NSTAR = 0.2                     !   [nondim] default = 0.2
                                 ! The portion of the buoyant potential energy imparted by
                                 ! surface fluxes that is available to drive entrainment
