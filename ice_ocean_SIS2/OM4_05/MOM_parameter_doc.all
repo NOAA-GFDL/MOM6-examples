@@ -1713,18 +1713,24 @@ MIX_LEN_EXPONENT = 2.0          !   [units=nondim] default = 2.0
 MSTAR_CAP = -1.0                !   [units=nondim] default = -1.0
                                 ! Maximum value of mstar allowed in model if non-negative
                                 ! (used if MSTAR_MODE>0).
-MSTAR_SLOPE = 1.0               !   [units=nondim] default = 1.0
+MSTAR_SLOPE = 0.85              !   [units=nondim] default = 0.85
                                 ! The slope of the linear relationship between mstar
                                 ! and the length scale ratio (used if MSTAR_MODE=1).
-MSTAR_XINT = -0.25              !   [units=nondim] default = -0.25
+MSTAR_XINT = -0.3               !   [units=nondim] default = -0.3
                                 ! The value of the length scale ratio where the mstar
                                 ! is linear above (used if MSTAR_MODE=1).
-MSTAR_AT_XINT = 0.13            !   [units=nondim] default = 0.13
+MSTAR_AT_XINT = 0.095           !   [units=nondim] default = 0.095
                                 ! The value of mstar at MSTAR_XINT
                                 ! (used if MSTAR_MODE=1).
 MSTAR_FLATCAP = True            !   [units=nondim] default = True
                                 ! Set false to use asymptotic cap, defaults to true.
                                 ! (used only if MSTAR_MODE=1)
+MSTAR2_COEF1 = 0.3              !   [units=nondim] default = 0.3
+                                ! Coefficient in computing mstar when rotation and
+                                !  stabilizing effects are both important (used if MSTAR_MODE=2)
+MSTAR2_COEF2 = 0.085            !   [units=nondim] default = 0.085
+                                ! Coefficient in computing mstar when only rotation limits
+                                !  the total mixing. (used only if MSTAR_MODE=2)
 NSTAR = 0.2                     !   [nondim] default = 0.2
                                 ! The portion of the buoyant potential energy imparted by
                                 ! surface fluxes that is available to drive entrainment
@@ -1791,16 +1797,34 @@ N2_DISSIPATION_NEG = 1.0        !   [nondim] default = 0.0
 USE_LA_LI2016 = False           !   [nondim] default = False
                                 ! A logical to use the Li et al. 2016 (submitted) formula to
                                 !  determine the Langmuir number.
+LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
+                                ! The depth (normalized by BLD) to average Stokes drift over in
+                                !  Lanmguir number calculation, where La = sqrt(ust/Stokes).
 LT_ENHANCE = 0                  !   [nondim] default = 0
                                 ! Integer for LT enhancement function mode.
                                 !  *Requires USE_LA_LI2016 to be set to True.
                                 ! Options: 0 - no LT enhancement
                                 !          1 - Van Roekel et al. 2014/Li et al., 2016
                                 !          2 - New LES net mixing based derivation (requires coefficients)
-LT_ENHANCE_COEF = 1.57          !   [nondim] default = 1.57
-                                ! Coefficient for Langmuir enhancement if LT_ENHANCE = 2
-LT_ENHANCE_EXP = -1.5           !   [nondim] default = -1.5
-                                ! Exponent for Langmuir enhancement if LT_ENHANCE = 2
+LT_ENHANCE_COEF = 0.447         !   [nondim] default = 0.447
+                                ! Coefficient for Langmuir enhancement if LT_ENHANCE > 1
+LT_ENHANCE_EXP = -1.33          !   [nondim] default = -1.33
+                                ! Exponent for Langmuir enhancement if LT_ENHANCE > 1
+LT_MOD_LAC1 = -0.87             !   [nondim] default = -0.87
+                                ! Coefficient for modification of Langmuir number due to
+                                !  MLD approaching Ekman depth if LT_ENHANCE=2.
+LT_MOD_LAC2 = 0.0               !   [nondim] default = 0.0
+                                ! Coefficient for modification of Langmuir number due to
+                                !  MLD approaching stable Obukhov depth if LT_ENHANCE=2.
+LT_MOD_LAC3 = 0.0               !   [nondim] default = 0.0
+                                ! Coefficient for modification of Langmuir number due to
+                                !  MLD approaching unstable Obukhov depth if LT_ENHANCE=2.
+LT_MOD_LAC4 = 0.95              !   [nondim] default = 0.95
+                                ! Coefficient for modification of Langmuir number due to
+                                !  ratio of Ekman to stable Obukhov depth if LT_ENHANCE=2.
+LT_MOD_LAC5 = 0.95              !   [nondim] default = 0.95
+                                ! Coefficient for modification of Langmuir number due to
+                                !  ratio of Ekman to unstable Obukhov depth if LT_ENHANCE=2.
 EPBL_USTAR_MIN = 1.45842E-18    !   [meter second-1]
                                 ! The (tiny) minimum friction velocity used within the
                                 ! ePBL code, derived from OMEGA and ANGSTROM.
