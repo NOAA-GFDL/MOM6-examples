@@ -2683,22 +2683,22 @@
     ! long_name: Convergence of Penetrative Shortwave Flux in Sea Water Layer
     ! units: Watt meter-2
     ! standard_name: net_rate_of_absorption_of_shortwave_energy_in_ocean_layer
-    ! cell_methods: xh:mean yh:mean zl:mean
+    ! cell_methods: xh:mean yh:mean zl:sum
 "ocean_model", "rsdoabsorb_xyave"  [Unused]
     ! long_name: Convergence of Penetrative Shortwave Flux in Sea Water Layer
     ! units: Watt meter-2
     ! standard_name: net_rate_of_absorption_of_shortwave_energy_in_ocean_layer
-    ! cell_methods: zl:mean
+    ! cell_methods: zl:sum
 "ocean_model_z", "rsdoabsorb"  [Unused]
     ! long_name: Convergence of Penetrative Shortwave Flux in Sea Water Layer
     ! units: Watt meter-2
     ! standard_name: net_rate_of_absorption_of_shortwave_energy_in_ocean_layer
-    ! cell_methods: xh:mean yh:mean z_l:mean
+    ! cell_methods: xh:mean yh:mean z_l:sum
 "ocean_model_z", "rsdoabsorb_xyave"  [Unused]
     ! long_name: Convergence of Penetrative Shortwave Flux in Sea Water Layer
     ! units: Watt meter-2
     ! standard_name: net_rate_of_absorption_of_shortwave_energy_in_ocean_layer
-    ! cell_methods: z_l:mean
+    ! cell_methods: z_l:sum
 "ocean_model", "rsdo"  [Used]
     ! long_name: Downwelling Shortwave Flux in Sea Water at Grid Cell Upper Interface
     ! units: Watt meter-2
@@ -2803,6 +2803,26 @@
 "ocean_model", "ePBL_OSBL"  [Unused]
     ! long_name: Boundary layer depth from the iteration.
     ! units: meter
+    ! cell_methods: xh:mean yh:mean
+"ocean_model", "MLD_EKMAN"  [Unused]
+    ! long_name: Boundary layer depth over Ekman length.
+    ! units: meter
+    ! cell_methods: xh:mean yh:mean
+"ocean_model", "MLD_OBUKHOV"  [Unused]
+    ! long_name: Boundary layer depth over Obukhov length.
+    ! units: meter
+    ! cell_methods: xh:mean yh:mean
+"ocean_model", "EKMAN_OBUKHOV"  [Unused]
+    ! long_name: Ekman length over Obukhov length.
+    ! units: meter
+    ! cell_methods: xh:mean yh:mean
+"ocean_model", "LA"  [Unused]
+    ! long_name: Langmuir number.
+    ! units: non-dim
+    ! cell_methods: xh:mean yh:mean
+"ocean_model", "LA_MOD"  [Unused]
+    ! long_name: Modified Langmuir number.
+    ! units: non-dim
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "deficit_ratio"  [Unused]
     ! long_name: Max face thickness deficit ratio
@@ -3667,19 +3687,19 @@
 "ocean_model", "T_advection_xy"  [Used]
     ! long_name: Horizontal convergence of residual mean heat advective fluxes
     ! units: W/m2
-    ! cell_methods: xh:mean yh:mean zl:mean
+    ! cell_methods: xh:mean yh:mean zl:sum
 "ocean_model", "T_advection_xy_xyave"  [Unused]
     ! long_name: Horizontal convergence of residual mean heat advective fluxes
     ! units: W/m2
-    ! cell_methods: zl:mean
+    ! cell_methods: zl:sum
 "ocean_model_z", "T_advection_xy"  [Unused]
     ! long_name: Horizontal convergence of residual mean heat advective fluxes
     ! units: W/m2
-    ! cell_methods: xh:mean yh:mean z_l:mean
+    ! cell_methods: xh:mean yh:mean z_l:sum
 "ocean_model_z", "T_advection_xy_xyave"  [Unused]
     ! long_name: Horizontal convergence of residual mean heat advective fluxes
     ! units: W/m2
-    ! cell_methods: z_l:mean
+    ! cell_methods: z_l:sum
 "ocean_model", "T_advection_xy_2d"  [Used]
     ! long_name: Vertical sum of horizontal convergence of residual mean heat advective fluxes
     ! units: W/m2
@@ -3861,19 +3881,19 @@
 "ocean_model", "Th_tendency_vert_remap"  [Used]
     ! long_name: Tendency from vertical remapping for heat
     ! units: W/m2
-    ! cell_methods: xh:mean yh:mean zl:mean
+    ! cell_methods: xh:mean yh:mean zl:sum
 "ocean_model", "Th_tendency_vert_remap_xyave"  [Unused]
     ! long_name: Tendency from vertical remapping for heat
     ! units: W/m2
-    ! cell_methods: zl:mean
+    ! cell_methods: zl:sum
 "ocean_model_z", "Th_tendency_vert_remap"  [Unused]
     ! long_name: Tendency from vertical remapping for heat
     ! units: W/m2
-    ! cell_methods: xh:mean yh:mean z_l:mean
+    ! cell_methods: xh:mean yh:mean z_l:sum
 "ocean_model_z", "Th_tendency_vert_remap_xyave"  [Unused]
     ! long_name: Tendency from vertical remapping for heat
     ! units: W/m2
-    ! cell_methods: z_l:mean
+    ! cell_methods: z_l:sum
 "ocean_model", "Th_tendency_vert_remap_2d"  [Used]
     ! long_name: Vertical sum of tendency from vertical remapping for heat
     ! units: W/m2
@@ -3897,19 +3917,19 @@
 "ocean_model", "Sh_tendency_vert_remap"  [Unused]
     ! long_name: Tendency from vertical remapping for tracer content S
     ! units: kg m-2 s-1
-    ! cell_methods: xh:mean yh:mean zl:mean
+    ! cell_methods: xh:mean yh:mean zl:sum
 "ocean_model", "Sh_tendency_vert_remap_xyave"  [Unused]
     ! long_name: Tendency from vertical remapping for tracer content S
     ! units: kg m-2 s-1
-    ! cell_methods: zl:mean
+    ! cell_methods: zl:sum
 "ocean_model_z", "Sh_tendency_vert_remap"  [Unused]
     ! long_name: Tendency from vertical remapping for tracer content S
     ! units: kg m-2 s-1
-    ! cell_methods: xh:mean yh:mean z_l:mean
+    ! cell_methods: xh:mean yh:mean z_l:sum
 "ocean_model_z", "Sh_tendency_vert_remap_xyave"  [Unused]
     ! long_name: Tendency from vertical remapping for tracer content S
     ! units: kg m-2 s-1
-    ! cell_methods: z_l:mean
+    ! cell_methods: z_l:sum
 "ocean_model", "Sh_tendency_vert_remap_2d"  [Unused]
     ! long_name: Vertical sum of tendency from vertical remapping for tracer content S
     ! units: kg m-2 s-1
@@ -3933,19 +3953,19 @@
 "ocean_model", "ageh_tendency_vert_remap"  [Unused]
     ! long_name: Tendency from vertical remapping for tracer content age
     ! units: kg m-2 s-1
-    ! cell_methods: xh:mean yh:mean zl:mean
+    ! cell_methods: xh:mean yh:mean zl:sum
 "ocean_model", "ageh_tendency_vert_remap_xyave"  [Unused]
     ! long_name: Tendency from vertical remapping for tracer content age
     ! units: kg m-2 s-1
-    ! cell_methods: zl:mean
+    ! cell_methods: zl:sum
 "ocean_model_z", "ageh_tendency_vert_remap"  [Unused]
     ! long_name: Tendency from vertical remapping for tracer content age
     ! units: kg m-2 s-1
-    ! cell_methods: xh:mean yh:mean z_l:mean
+    ! cell_methods: xh:mean yh:mean z_l:sum
 "ocean_model_z", "ageh_tendency_vert_remap_xyave"  [Unused]
     ! long_name: Tendency from vertical remapping for tracer content age
     ! units: kg m-2 s-1
-    ! cell_methods: z_l:mean
+    ! cell_methods: z_l:sum
 "ocean_model", "ageh_tendency_vert_remap_2d"  [Unused]
     ! long_name: Vertical sum of tendency from vertical remapping for tracer content age
     ! units: kg m-2 s-1

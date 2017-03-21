@@ -329,6 +329,10 @@ MAXIMUM_DEPTH = 20.0            !   [m]
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
 OBC_NUMBER_OF_SEGMENTS = 0      ! default = 0
                                 ! The number of open boundary segments.
+EXTEND_OBC_SEGMENTS = False     !   [Boolean] default = False
+                                ! If true, extend OBC segments. This option is used to recover
+                                ! legacy solutions dependent on an incomplete implementaion of OBCs.
+                                ! This option will be obsoleted in the future.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
@@ -454,6 +458,8 @@ ALE_COORDINATE_CONFIG = "UNIFORM" ! default = "UNIFORM"
                                 ! in z-coordinate mode, the parameter is a list of level
                                 ! thicknesses (in m). In sigma-coordinate mode, the list
                                 ! is of non-dimensional fractions of the water column.
+!TARGET_DENSITIES = 1000.0, 1000.2, 1000.4000000000001, 1000.6000000000001, 1000.8000000000002, 1001.0000000000002, 1001.2000000000003, 1001.4000000000003, 1001.6000000000004, 1001.8000000000004, 1002.0000000000005, 1002.2000000000005, 1002.4000000000005, 1002.6000000000006, 1002.8000000000006, 1003.0000000000007, 1003.2000000000007, 1003.4000000000008, 1003.6000000000008, 1003.8000000000009, 1004.0000000000009, 1004.200000000001, 1004.400000000001, 1004.600000000001, 1004.8000000000011, 1005.0 !   [kg m^-3]
+                                ! RHO target densities for interfaces
 MIN_THICKNESS = 1.0E-04         !   [m] default = 0.001
                                 ! When regridding, this is the minimum layer
                                 ! thickness allowed.

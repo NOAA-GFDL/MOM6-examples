@@ -371,6 +371,10 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
 OBC_NUMBER_OF_SEGMENTS = 0      ! default = 0
                                 ! The number of open boundary segments.
+EXTEND_OBC_SEGMENTS = False     !   [Boolean] default = False
+                                ! If true, extend OBC segments. This option is used to recover
+                                ! legacy solutions dependent on an incomplete implementaion of OBCs.
+                                ! This option will be obsoleted in the future.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
@@ -1323,6 +1327,9 @@ MLE_TAIL_DH = 0.0               !   [nondim] default = 0.0
                                 ! Fraction by which to extend the mixed-layer restratification
                                 ! depth used for a smoother stream function at the base of
                                 ! the mixed-layer.
+MLE_MLD_STRETCH = 1.0           !   [nondim] default = 1.0
+                                ! A scaling coefficient for stretching/shrinking the MLD
+                                ! used in the MLE scheme. This simply multiplies MLD wherever used.
 DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0
                                 ! The lower fraction of water column over which N2 is limited as monotonic
                                 ! for the purposes of calculating the equivalent barotropic wave speed.
@@ -1675,6 +1682,12 @@ EVAP_CFL_LIMIT = 0.8            !   [nondim] default = 0.8
                                 ! The largest fraction of a layer than can be lost to forcing
                                 ! (e.g. evaporation, sea-ice formation) in one time-step. The unused
                                 ! mass loss is passed down through the column.
+IGNORE_FLUXES_OVER_LAND = False !   [Boolean] default = False
+                                ! If true, the model does not check if fluxes are being applied
+                                ! over land points. This is needed when the ocean is coupled
+                                ! with ice shelves and sea ice, since the sea ice mask needs to
+                                ! be different than the ocean mask to avoid sea ice formation
+                                ! under ice shelves. This flag only works when use_ePBL = True.
 DO_RIVERMIX = False             !   [Boolean] default = False
                                 ! If true, apply additional mixing whereever there is
                                 ! runoff, so that it is mixed down to RIVERMIX_DEPTH
@@ -1687,6 +1700,11 @@ USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
                                 ! heat carried by runoff, instead of using SST*CP*froz_runoff.
 
 ! === module MOM_energetic_PBL ===
+MSTAR_MODE = 0                  !   [units=nondim] default = 0
+                                ! An integer switch for how to compute MSTAR.
+                                !     0 for constant MSTAR
+                                !     1 for MSTAR w/ MLD in stabilizing limit
+                                !     2 for MSTAR w/ L_E/L_O in stabilizing limit.
 MSTAR = 1.2                     !   [units=nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE
                                 ! input to the mixed layer.
@@ -1695,21 +1713,25 @@ MIX_LEN_EXPONENT = 2.0          !   [units=nondim] default = 2.0
                                 ! and the MLD depth which determines the shape of the mixing length.
 MSTAR_CAP = -1.0                !   [units=nondim] default = -1.0
                                 ! Maximum value of mstar allowed in model if non-negative
-                                ! (used if MSTAR_FIXED=false).
-MSTAR_SLOPE = 1.0               !   [units=nondim] default = 1.0
+                                ! (used if MSTAR_MODE>0).
+MSTAR_SLOPE = 0.85              !   [units=nondim] default = 0.85
                                 ! The slope of the linear relationship between mstar
-                                ! and the length scale ratio (used if MSTAR_FIXED=false).
-MSTAR_XINT = -0.25              !   [units=nondim] default = -0.25
+                                ! and the length scale ratio (used if MSTAR_MODE=1).
+MSTAR_XINT = -0.3               !   [units=nondim] default = -0.3
                                 ! The value of the length scale ratio where the mstar
-                                ! is linear above (used if MSTAR_FIXED=false).
-MSTAR_AT_XINT = 0.13            !   [units=nondim] default = 0.13
+                                ! is linear above (used if MSTAR_MODE=1).
+MSTAR_AT_XINT = 0.095           !   [units=nondim] default = 0.095
                                 ! The value of mstar at MSTAR_XINT
-                                ! (used if MSTAR_FIXED=false).
-MSTAR_FIXED = True              !   [units=nondim] default = True
-                                ! True to use a fixed value of mstar, if false mstar depends
-                                ! on the composite Obhukov length and Ekman length.
+                                ! (used if MSTAR_MODE=1).
 MSTAR_FLATCAP = True            !   [units=nondim] default = True
-                                ! Set false to use asmptotic cap or defaults to true to use flat cap.
+                                ! Set false to use asymptotic cap, defaults to true.
+                                ! (used only if MSTAR_MODE=1)
+MSTAR2_COEF1 = 0.3              !   [units=nondim] default = 0.3
+                                ! Coefficient in computing mstar when rotation and
+                                !  stabilizing effects are both important (used if MSTAR_MODE=2)
+MSTAR2_COEF2 = 0.085            !   [units=nondim] default = 0.085
+                                ! Coefficient in computing mstar when only rotation limits
+                                !  the total mixing. (used only if MSTAR_MODE=2)
 NSTAR = 0.2                     !   [nondim] default = 0.2
                                 ! The portion of the buoyant potential energy imparted by
                                 ! surface fluxes that is available to drive entrainment
@@ -1776,16 +1798,34 @@ N2_DISSIPATION_NEG = 0.0        !   [nondim] default = 0.0
 USE_LA_LI2016 = False           !   [nondim] default = False
                                 ! A logical to use the Li et al. 2016 (submitted) formula to
                                 !  determine the Langmuir number.
+LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
+                                ! The depth (normalized by BLD) to average Stokes drift over in
+                                !  Lanmguir number calculation, where La = sqrt(ust/Stokes).
 LT_ENHANCE = 0                  !   [nondim] default = 0
                                 ! Integer for LT enhancement function mode.
                                 !  *Requires USE_LA_LI2016 to be set to True.
                                 ! Options: 0 - no LT enhancement
                                 !          1 - Van Roekel et al. 2014/Li et al., 2016
                                 !          2 - New LES net mixing based derivation (requires coefficients)
-LT_ENHANCE_COEF = 1.57          !   [nondim] default = 1.57
-                                ! Coefficient for Langmuir enhancement if LT_ENHANCE = 2
-LT_ENHANCE_EXP = -1.5           !   [nondim] default = -1.5
-                                ! Exponent for Langmuir enhancement if LT_ENHANCE = 2
+LT_ENHANCE_COEF = 0.447         !   [nondim] default = 0.447
+                                ! Coefficient for Langmuir enhancement if LT_ENHANCE > 1
+LT_ENHANCE_EXP = -1.33          !   [nondim] default = -1.33
+                                ! Exponent for Langmuir enhancement if LT_ENHANCE > 1
+LT_MOD_LAC1 = -0.87             !   [nondim] default = -0.87
+                                ! Coefficient for modification of Langmuir number due to
+                                !  MLD approaching Ekman depth if LT_ENHANCE=2.
+LT_MOD_LAC2 = 0.0               !   [nondim] default = 0.0
+                                ! Coefficient for modification of Langmuir number due to
+                                !  MLD approaching stable Obukhov depth if LT_ENHANCE=2.
+LT_MOD_LAC3 = 0.0               !   [nondim] default = 0.0
+                                ! Coefficient for modification of Langmuir number due to
+                                !  MLD approaching unstable Obukhov depth if LT_ENHANCE=2.
+LT_MOD_LAC4 = 0.95              !   [nondim] default = 0.95
+                                ! Coefficient for modification of Langmuir number due to
+                                !  ratio of Ekman to stable Obukhov depth if LT_ENHANCE=2.
+LT_MOD_LAC5 = 0.95              !   [nondim] default = 0.95
+                                ! Coefficient for modification of Langmuir number due to
+                                !  ratio of Ekman to unstable Obukhov depth if LT_ENHANCE=2.
 EPBL_USTAR_MIN = 1.45842E-18    !   [meter second-1]
                                 ! The (tiny) minimum friction velocity used within the
                                 ! ePBL code, derived from OMEGA and ANGSTROM.

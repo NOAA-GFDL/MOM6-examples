@@ -80,12 +80,6 @@ APPLY_SLP_TO_OCEAN = False      !   [Boolean] default = False
 MIN_H_FOR_TEMP_CALC = 0.0       !   [m] default = 0.0
                                 ! The minimum ice thickness at which to do temperature
                                 ! calculations.
-MIN_OCEAN_PARTSIZE = 0.0        !   [nondim] default = 0.0
-                                ! The minimum value for the fractional open-ocean area.
-                                ! This can be 0, but for some purposes it may be useful
-                                ! to set this to a miniscule value (like 1e-40) that will
-                                ! be lost to roundoff during any sums so that the open
-                                ! ocean fluxes can be used in with new categories.
 DO_ICEBERGS = True              !   [Boolean] default = False
                                 ! If true, call the iceberg module.
 PASS_ICEBERG_AREA_TO_OCEAN = False !   [Boolean] default = False
@@ -130,6 +124,12 @@ NK_SNOW = 1                     !   [nondim] default = 1
 H_TO_KG_M2 = 1.0                !   [kg m-2 H-1] default = 1.0
                                 ! A constant that translates thicknesses from the model's
                                 ! internal units of thickness to kg m-2.
+MIN_OCEAN_PARTSIZE = 0.0        !   [nondim] default = 0.0
+                                ! The minimum value for the fractional open-ocean area.
+                                ! This can be 0, but for some purposes it may be useful
+                                ! to set this to a miniscule value (like 1e-40) that will
+                                ! be lost to roundoff during any sums so that the open
+                                ! ocean fluxes can be used in with new categories.
 
 ! === module MOM_domains ===
 REENTRANT_X = True              !   [Boolean] default = True
@@ -457,6 +457,12 @@ STATISTICS_FILE = "seaice.stats" ! default = "seaice.stats"
 
 ! === module SIS_fast_thermo ===
 ! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+REORDER_0C_HEATFLUX = False     !   [Boolean] default = False
+                                ! If true, rearrange the calculation of the heat fluxes
+                                ! projected back to 0C to work on each contribution
+                                ! separately, so that they can be indentically replicated
+                                ! if there is a single fast timestep per coupled timestep
+                                ! and REDO_FAST_ICE_UPDATE=True.
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
