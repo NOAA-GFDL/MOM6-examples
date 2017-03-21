@@ -7,16 +7,21 @@
 EXPDIR = /archive/John.Dunne/ulm_201505_awg_v20151106_mom6sis2_2015.12.17/CM4_c96L32_am4g7_2000_OMp5_DR_H3_MEKE/gfdl.ncrc2-intel-prod-openmp
 GRIDSPEC = /archive/gold/datasets/OM4_05/mosaic.v20151203.unpacked
 WOA = /archive/gold/datasets/OM4_05/obs/WOA05_ptemp_salt_annual.v2015.12.03.nc
+WOA_M = /archive/gold/datasets/OM4_05/obs/WOA05_ptemp_salt_monthly.v2015.12.03.nc
 
 # Settings for the 0.25 degree configuration
-#EXPDIR = /archive/Alistair.Adcroft/ulm_201505_awg_v20151106_mom6sis2_2016.01.16/CM4_c96L32_am4g7_2000_lowmix_hycom5_BS/gfdl.ncrc3-intel15-prod-openmp
+#EXPDIR = /archive/ogrp/verona_201701_awg_v20170208_g12_mom6_2017.03.17/CM4_c96L32_g12r17_2010_OM25_10d_s3lt_FK10/gfdl.ncrc4-intel15c3exec-prod-openmp
 #GRIDSPEC = /archive/gold/datasets/OM4_025/mosaic.v20140610.tar
 #WOA =  /archive/gold/datasets/OM4_025/obs/WOA05_ptemp_salt_annual.v20150310.nc
+#WOA_M = /archive/gold/datasets/OM4_025/obs/WOA05_ptemp_salt_monthly.v20150310.nc
 
-all: sst sss zonalT zonalS zave sections moc mld heattransport
+all: sst sst_monthly sss zonalT zonalS zave sections moc mld heattransport
 
 sst:
 	./SST_bias_WOA05.py -w $(WOA) -g $(GRIDSPEC) -l 0001-0005 $(EXPDIR)/pp/ocean_annual_z/av/annual_5yr/ocean_annual_z.0001-0005.ann.nc $(OUTOPTS)
+
+sst_monthly:
+	./SST_monthly_bias_WOA05.py -w $(WOA_M) -g $(GRIDSPEC) -l 0001-0005 $(EXPDIR)/pp/ocean_monthly/av/monthly_5yr/ocean_monthly.0001-0005.01.nc $(EXPDIR)/pp/ocean_monthly/av/monthly_5yr/ocean_monthly.0001-0005.08.nc $(OUTOPTS)
 
 sss:
 	./SSS_bias_WOA05.py -w $(WOA) -g $(GRIDSPEC) -l 0001-0005 $(EXPDIR)/pp/ocean_annual_z/av/annual_5yr/ocean_annual_z.0001-0005.ann.nc $(OUTOPTS)
