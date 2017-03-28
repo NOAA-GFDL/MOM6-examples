@@ -254,6 +254,10 @@ ENTHALPY_UNITS = 1.0            !   [J kg-1] default = 1.0
                                 ! different scale in its internal representation.  Changing
                                 ! this by a power of 2 is useful for debugging, as answers
                                 ! should not change.  A negative values is taken as an inverse.
+SUBLIMATION_BUG = False         !   [Boolean] default = False
+                                ! If true use an older calculation that omits the latent
+                                ! heat of fusion from the latent heat of sublimation.
+                                ! This variable should be obsoleted as soon as possible.
 
 ! === module SIS_tracer_registry ===
 
