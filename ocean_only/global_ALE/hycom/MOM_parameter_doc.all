@@ -1363,6 +1363,11 @@ MLE_USE_PBL_MLD = False         !   [Boolean] default = False
                                 ! depth provided by the active PBL parameterization. If false,
                                 ! MLE will estimate a MLD based on a density difference with the
                                 ! surface using the parameter MLE_DENSITY_DIFF.
+MLE_MLD_DECAY_TIME = 0.0        !   [s] default = 0.0
+                                ! The time-scale for a running-mean filter applied to the mixed-layer
+                                ! depth used in the MLE restratification parameterization. When
+                                ! the MLD deepens below the current running-mean the running-mean
+                                ! is instantaneously set to the current MLD.
 MLE_DENSITY_DIFF = 0.03         !   [kg/m3] default = 0.03
                                 ! Density difference used to detect the mixed-layer
                                 ! depth used for the mixed-layer eddy parameterization

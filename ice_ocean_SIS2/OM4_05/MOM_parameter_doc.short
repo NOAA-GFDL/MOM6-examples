@@ -521,10 +521,10 @@ MLE_USE_PBL_MLD = True          !   [Boolean] default = False
                                 ! MLE will estimate a MLD based on a density difference with the
                                 ! surface using the parameter MLE_DENSITY_DIFF.
 MLE_MLD_DECAY_TIME = 4.32E+05   !   [s] default = 0.0
-                                ! When MLE_USE_PBL_MLD is true, the PBL provided active miing layer
-                                ! depth is running mean average with this time-scale when the MLD
-                                ! is retreating. When the MLD deepens below the current running-mean
-                                ! the runn-mean is instantaneously set to the current MLD.
+                                ! The time-scale for a running-mean filter applied to the mixed-layer
+                                ! depth used in the MLE restratification parameterization. When
+                                ! the MLD deepens below the current running-mean the running-mean
+                                ! is instantaneously set to the current MLD.
 
 ! === module MOM_diag_to_Z ===
 Z_OUTPUT_GRID_FILE = "analysis_vgrid_lev35.v1.nc" ! default = ""
