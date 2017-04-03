@@ -53,8 +53,9 @@ def main(cmdLineArgs,stream=None):
   tvar = rootGroup.variables['time']
   times = [netCDF4.num2date(i,tvar.units,calendar=tvar.calendar.lower()) for i in tvar[:]]
   idx = list(set([i.month-1 for i in times]))
-  month_label = list(set([i.strftime('%b') for i in times]))
-  month_label = str('Months: ')+ str.join(', ',month_label)
+  month_label = [i.strftime('%b') for i in times]
+  month_label = month_label[:len(idx)]
+  month_label = str.join(', ',month_label)
 
   # read sst from model 
   if 'sst' in rootGroup.variables: varName = 'sst'
@@ -74,20 +75,19 @@ def main(cmdLineArgs,stream=None):
   # create title for plot
   if cmdLineArgs.suptitle != '':  suptitle = cmdLineArgs.suptitle + ' ' + cmdLineArgs.label
   else: suptitle = rootGroup.title + ' ' + cmdLineArgs.label
-  suptitle = suptitle+'\n'+month_label
 
   # invoke m6plot
   ci=m6plot.pmCI(0.25,4.5,.5)
   if stream is None: stream = cmdLineArgs.outdir+'/SST_bias_WOA05.png'
   m6plot.xyplot( Tmod - Tobs , x, y, area=area,
-      suptitle=suptitle, title='SST bias (w.r.t. WOA\'05) [$\degree$C]',
+      suptitle=suptitle, title=month_label+' SST bias (w.r.t. WOA\'05) [$\degree$C]',
       clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
       save=stream)
 
   m6plot.xycompare( Tmod, Tobs , x, y, area=area,
       suptitle=suptitle,
-      title1='SST [$\degree$C]',
-      title2='WOA\'05 SST [$\degree$C]',
+      title1=month_label+' SST [$\degree$C]',
+      title2='WOA\'05 '+month_label+' SST [$\degree$C]',
       clim=m6plot.linCI(-2,29,.5), colormap='dunneRainbow', extend='max',
       dlim=ci, dcolormap='dunnePM', dextend='both', centerdlabels=True,
       save=cmdLineArgs.outdir+'/SST_bias_WOA05.3_panel.png')

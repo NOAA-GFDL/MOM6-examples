@@ -1,6 +1,7 @@
 | Compile | Fast Run | Full Run | Valgrind | Diagnostics |
 |:-------:|:--------:|:--------:|:--------:|:-----------:|
 | [![Build Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_build_copy)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_build_copy/) | [![Fast Run Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_fast_run)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_fast_run/) | [![Run Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_run)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_run/) | [![Valgrind Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_runtime_analyzer)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_runtime_analyzer/) | [![Diagnostics Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_diagnostics)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_diagnostics/) |
+
 (Click on icons for details)
 
 # MOM6-examples
