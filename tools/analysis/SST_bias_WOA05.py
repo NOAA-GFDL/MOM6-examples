@@ -10,7 +10,7 @@ def run():
   try: import argparse
   except: raise Exception('This version of python is not new enough. python 2.7 or newer is required.')
   parser = argparse.ArgumentParser(description='''Script for plotting annual-average SST bias.''')
-  parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'temp'.''')
+  parser.add_argument('infile', type=str, help='''Annually-averaged file containing 3D 'temp'.''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
   parser.add_argument('-s','--suptitle', type=str, default='', help='''Super-title for experiment.  Default is to read from netCDF file.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
@@ -51,11 +51,11 @@ def main(cmdLineArgs,stream=False):
   if len(Tobs.shape)==3: Tobs = Tobs[0]
   else: Tobs = Tobs[:,0].mean(axis=0)
   
-  rootGroup = netCDF4.MFDataset( cmdLineArgs.annual_file )
+  rootGroup = netCDF4.MFDataset( cmdLineArgs.infile )
   if 'temp' in rootGroup.variables: varName = 'temp'
   elif 'ptemp' in rootGroup.variables: varName = 'ptemp'
   elif 'thetao' in rootGroup.variables: varName = 'thetao'
-  else: raise Exception('Could not find "temp", "ptemp" or "thetao" in file "%s"'%(cmdLineArgs.annual_file))
+  else: raise Exception('Could not find "temp", "ptemp" or "thetao" in file "%s"'%(cmdLineArgs.infile))
   if rootGroup.variables[varName].shape[0]>1: Tmod = rootGroup.variables[varName][:,0].mean(axis=0)
   else: Tmod = rootGroup.variables[varName][0,0]
   
