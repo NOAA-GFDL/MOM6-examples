@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
-import netCDF4
-import numpy
+import os, sys, io
 import m6plot
 import m6toolbox
-import os
-import sys
+import netCDF4
+import numpy
 
 def run():
   try: import argparse
@@ -22,7 +21,7 @@ def run():
   cmdLineArgs = parser.parse_args()
   main(cmdLineArgs)
 
-def main(cmdLineArgs,stream=None):
+def main(cmdLineArgs,stream=False):
   numpy.seterr(divide='ignore', invalid='ignore', over='ignore') # To avoid warnings
 
   if not os.path.exists(cmdLineArgs.gridspec): raise ValueError('Specified gridspec directory/tar file does not exist.')
@@ -63,12 +62,15 @@ def main(cmdLineArgs,stream=None):
   if cmdLineArgs.suptitle != '':  suptitle = cmdLineArgs.suptitle + ' ' + cmdLineArgs.label
   else: suptitle = rootGroup.title + ' ' + cmdLineArgs.label
 
+  imgbufs = []
   ci=m6plot.pmCI(0.25,4.5,.5)
-  if stream is None: stream = cmdLineArgs.outdir+'/SST_bias_WOA05.png'
+  if stream is True: img = io.BytesIO()
+  else: img = cmdLineArgs.outdir+'/SST_bias_WOA05.png'
   m6plot.xyplot( Tmod - Tobs , x, y, area=area,
       suptitle=suptitle, title='SST bias (w.r.t. WOA\'05) [$\degree$C]',
       clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
-      save=stream)
+      save=img)
+  if stream is True: imgbufs.append(img)
 
   m6plot.xycompare( Tmod, Tobs , x, y, area=area,
       suptitle=suptitle,
@@ -77,6 +79,9 @@ def main(cmdLineArgs,stream=None):
       clim=m6plot.linCI(-2,29,.5), colormap='dunneRainbow', extend='max',
       dlim=ci, dcolormap='dunnePM', dextend='both', centerdlabels=True,
       save=cmdLineArgs.outdir+'/SST_bias_WOA05.3_panel.png')
+
+  if stream is True:
+    return imgbufs
 
 if __name__ == '__main__':
   run()
