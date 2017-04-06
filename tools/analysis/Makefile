@@ -1,7 +1,11 @@
 # Makefile to test the analysis scripts called by frepp.
 
 # Uncomment this link to put files into a folder
-#OUTOPTS = -o tmp/
+# OUTOPTS = -o tmp/
+
+# Note that the matplotlib png checksums are repeatable, based on the lack of any
+# additional metadata encoded in the png file.  These checksums can be used to 
+# validate analysis figures.
 
 # Settings for the 0.5 degree configuration
 EXPDIR = /archive/John.Dunne/ulm_201505_awg_v20151106_mom6sis2_2015.12.17/CM4_c96L32_am4g7_2000_OMp5_DR_H3_MEKE/gfdl.ncrc2-intel-prod-openmp
@@ -15,7 +19,7 @@ WOA_M = /archive/gold/datasets/OM4_05/obs/WOA05_ptemp_salt_monthly.v2015.12.03.n
 #WOA =  /archive/gold/datasets/OM4_025/obs/WOA05_ptemp_salt_annual.v20150310.nc
 #WOA_M = /archive/gold/datasets/OM4_025/obs/WOA05_ptemp_salt_monthly.v20150310.nc
 
-all: sst sst_monthly sss zonalT zonalS zave sections moc mld heattransport
+all: sst sst_monthly sss zonalT zonalS zave sections moc mld heattransport checksums
 
 sst:
 	./SST_bias_WOA05.py -w $(WOA) -g $(GRIDSPEC) -l 0001-0005 $(EXPDIR)/pp/ocean_annual_z/av/annual_5yr/ocean_annual_z.0001-0005.ann.nc $(OUTOPTS)
@@ -51,5 +55,8 @@ mld:
 heattransport:
 	./poleward_heat_transport.py -l 0001-0005 -g $(GRIDSPEC) $(EXPDIR)/pp/ocean_annual/av/annual_5yr/ocean_annual.0001-0005.ann.nc $(OUTOPTS)
 
+checksums:
+	md5sum *.png > analysis_figure_checksums.txt 
+
 clean:
-	rm -f *.png 
+	rm -f *.png analysis_figure_checksums.txt
