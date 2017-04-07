@@ -56,7 +56,7 @@ heattransport:
 	./poleward_heat_transport.py -l 0001-0005 -g $(GRIDSPEC) $(EXPDIR)/pp/ocean_annual/av/annual_5yr/ocean_annual.0001-0005.ann.nc $(OUTOPTS)
 
 checksums:
-	md5sum *.png > analysis_figure_checksums.txt 
+	md5sum *.png > analysis_figure_checksums.md5
 
 clean:
-	rm -f *.png analysis_figure_checksums.txt
+	rm -f *.png analysis_figure_checksums.md5
