@@ -80,7 +80,7 @@ def main(cmdLineArgs,stream=False):
     plt.contourf(y, z, psi, levels=ci, cmap=cmap, extend='both')
     cbar = plt.colorbar()
     plt.contour(y, z, psi, levels=ci, colors='k', hold='on')
-    #plt.gca().set_yscale('splitscale',zval=[0.,-1000.,-6500.])
+    plt.gca().set_yscale('splitscale',zval=[0.,-2000.,-6500.])
     plt.title(title)
     cbar.set_label('[Sv]'); plt.ylabel('Elevation [m]')
 
