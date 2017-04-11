@@ -1773,6 +1773,9 @@ MIX_LEN_EXPONENT = 2.0          !   [units=nondim] default = 2.0
 MSTAR_CAP = -1.0                !   [units=nondim] default = -1.0
                                 ! Maximum value of mstar allowed in model if non-negative
                                 ! (used if MSTAR_MODE>0).
+MSTAR_CONV_ADJ = 0.0            !   [units=nondim] default = 0.0
+                                ! Factor used for reducing mstar during convection
+                                !  due to reduction of stable density gradient.
 MSTAR_SLOPE = 0.85              !   [units=nondim] default = 0.85
                                 ! The slope of the linear relationship between mstar
                                 ! and the length scale ratio (used if MSTAR_MODE=1).
@@ -1861,11 +1864,12 @@ LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
                                 ! The depth (normalized by BLD) to average Stokes drift over in
                                 !  Lanmguir number calculation, where La = sqrt(ust/Stokes).
 LT_ENHANCE = 0                  !   [nondim] default = 0
-                                ! Integer for LT enhancement function mode.
+                                ! Integer for Langmuir number mode.
                                 !  *Requires USE_LA_LI2016 to be set to True.
-                                ! Options: 0 - no LT enhancement
+                                ! Options: 0 - No Langmuir
                                 !          1 - Van Roekel et al. 2014/Li et al., 2016
-                                !          2 - New LES net mixing based derivation (requires coefficients)
+                                !          2 - Multiplied w/ adjusted La.
+                                !          3 - Added w/ adjusted La.
 LT_ENHANCE_COEF = 0.447         !   [nondim] default = 0.447
                                 ! Coefficient for Langmuir enhancement if LT_ENHANCE > 1
 LT_ENHANCE_EXP = -1.33          !   [nondim] default = -1.33
