@@ -433,10 +433,12 @@ INTERPOLATION_SCHEME = "P3M_IH4IH3" ! default = "P1M_H2"
                                 !  P3M_IH6IH5 (4th-order accurate)
                                 !  PQM_IH4IH3 (4th-order accurate)
                                 !  PQM_IH6IH5 (5th-order accurate)
-REGRID_COMPRESSIBILITY_FRACTION = 0.0 !   [not defined] default = 0.0
-                                ! When interpolating potential density profiles we can add
-                                ! some artificial compressibility solely to make homogenous
-                                ! regions appear stratified.
+BOUNDARY_EXTRAPOLATION = True   !   [Boolean] default = False
+                                ! When defined, a proper high-order reconstruction
+                                ! scheme is used within boundary cells rather
+                                ! than PCM. E.g., if PPM is used for remapping, a
+                                ! PPM reconstruction will also be used within
+                                ! boundary cells.
 ALE_COORDINATE_CONFIG = "UNIFORM" ! default = "UNIFORM"
                                 ! Determines how to specify the coordinate
                                 ! resolution. Valid options are:
@@ -460,15 +462,13 @@ ALE_COORDINATE_CONFIG = "UNIFORM" ! default = "UNIFORM"
                                 ! is of non-dimensional fractions of the water column.
 !TARGET_DENSITIES = 1000.0, 1000.2, 1000.4000000000001, 1000.6000000000001, 1000.8000000000002, 1001.0000000000002, 1001.2000000000003, 1001.4000000000003, 1001.6000000000004, 1001.8000000000004, 1002.0000000000005, 1002.2000000000005, 1002.4000000000005, 1002.6000000000006, 1002.8000000000006, 1003.0000000000007, 1003.2000000000007, 1003.4000000000008, 1003.6000000000008, 1003.8000000000009, 1004.0000000000009, 1004.200000000001, 1004.400000000001, 1004.600000000001, 1004.8000000000011, 1005.0 !   [kg m^-3]
                                 ! RHO target densities for interfaces
+REGRID_COMPRESSIBILITY_FRACTION = 0.0 !   [not defined] default = 0.0
+                                ! When interpolating potential density profiles we can add
+                                ! some artificial compressibility solely to make homogenous
+                                ! regions appear stratified.
 MIN_THICKNESS = 1.0E-04         !   [m] default = 0.001
                                 ! When regridding, this is the minimum layer
                                 ! thickness allowed.
-BOUNDARY_EXTRAPOLATION = True   !   [Boolean] default = False
-                                ! When defined, a proper high-order reconstruction
-                                ! scheme is used within boundary cells rather
-                                ! than PCM. E.g., if PPM is used for remapping, a
-                                ! PPM reconstruction will also be used within
-                                ! boundary cells.
 MAXIMUM_INT_DEPTH_CONFIG = "NONE" ! default = "NONE"
                                 ! Determines how to specify the maximum interface depths.
                                 ! Valid options are:
