@@ -2,10 +2,12 @@ from __future__ import unicode_literals
 
 import numpy as np
 from numpy import ma
+import matplotlib
 from matplotlib import scale as mscale
 from matplotlib import transforms as mtransforms
 from matplotlib.ticker import Formatter, FixedLocator, MaxNLocator, AutoLocator
 
+mpl_version = str(matplotlib.__version__).split('.')
 
 class VerticalSplitScale(mscale.ScaleBase):
     """
@@ -104,7 +106,10 @@ class VerticalSplitScale(mscale.ScaleBase):
         manually, determined automatically or changed through panning
         and zooming.
         """
-        return min(vmin, self.zval[0]), max(vmax, self.zval[-1])
+        if int(mpl_version[0]) < 2:
+          return min(vmin, self.zval[0]), max(vmax, self.zval[-1])
+        else:
+          return max(vmin, self.zval[0]), min(vmax, self.zval[-1])
 
     class VerticalSplitScaleTransform(mtransforms.Transform):
         # There are two value members that must be defined.

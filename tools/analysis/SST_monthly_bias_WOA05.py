@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import io
 import netCDF4
 import numpy
 import m6plot
@@ -11,18 +12,18 @@ def run():
   try: import argparse
   except: raise Exception('This version of python is not new enough. python 2.7 or newer is required.')
   parser = argparse.ArgumentParser(description='''Script for plotting annual-average SST bias.''')
-  parser.add_argument('monthly_file', type=str, nargs='+', help='''Annually-averaged file or csv list of files containing 2D 'sst'.''')
+  parser.add_argument('infile', type=str, nargs='+', help='''Annually-averaged file or csv list of files containing 2D 'sst'.''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
   parser.add_argument('-s','--suptitle', type=str, default='', help='''Super-title for experiment.  Default is to read from netCDF file.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
   parser.add_argument('-g','--gridspec', type=str, required=True,
     help='''Directory containing mosaic/grid-spec files (ocean_hgrid.nc and ocean_mask.nc).''')
-  parser.add_argument('-w','--woa', type=str, required=True,
+  parser.add_argument('-w','--woa_monthly', type=str, required=True,
     help='''File containing WOA (or obs) data to compare against.''')
   cmdLineArgs = parser.parse_args()
   main(cmdLineArgs)
 
-def main(cmdLineArgs,stream=None):
+def main(cmdLineArgs,stream=False):
   numpy.seterr(divide='ignore', invalid='ignore', over='ignore') # To avoid warnings
 
   if not os.path.exists(cmdLineArgs.gridspec): raise ValueError('Specified gridspec directory/tar file does not exist.')
@@ -47,7 +48,7 @@ def main(cmdLineArgs,stream=None):
 
 
   # open dataset
-  rootGroup = netCDF4.MFDataset( cmdLineArgs.monthly_file )
+  rootGroup = netCDF4.MFDataset( cmdLineArgs.infile )
 
   # gather months from input dataset
   tvar = rootGroup.variables['time']
@@ -60,15 +61,15 @@ def main(cmdLineArgs,stream=None):
   # read sst from model 
   if 'sst' in rootGroup.variables: varName = 'sst'
   elif 'tos' in rootGroup.variables: varName = 'tos'
-  else: raise Exception('Could not find "sst", "ptemp" or "tos" in file "%s"'%(cmdLineArgs.monthly_file))
+  else: raise Exception('Could not find "sst", "ptemp" or "tos" in file "%s"'%(cmdLineArgs.infile))
   if rootGroup.variables[varName].shape[0]>1: Tmod = rootGroup.variables[varName][:].mean(axis=0)
   else: Tmod = rootGroup.variables[varName][0]
 
   # read sst from obs
-  Tobs = netCDF4.Dataset( cmdLineArgs.woa )
+  Tobs = netCDF4.Dataset( cmdLineArgs.woa_monthly )
   if 'temp' in Tobs.variables: Tobs = Tobs.variables['temp']
   elif 'ptemp' in Tobs.variables: Tobs = Tobs.variables['ptemp']
-  else: raise Exception('Could not find "temp" or "ptemp" in file "%s"'%(cmdLineArgs.woa))
+  else: raise Exception('Could not find "temp" or "ptemp" in file "%s"'%(cmdLineArgs.woa_monthly))
   if len(Tobs.shape)==3: Tobs = Tobs[0]
   else: Tobs = Tobs[idx,0].mean(axis=0)
 
@@ -77,12 +78,15 @@ def main(cmdLineArgs,stream=None):
   else: suptitle = rootGroup.title + ' ' + cmdLineArgs.label
 
   # invoke m6plot
+  imgbufs = []
   ci=m6plot.pmCI(0.25,4.5,.5)
-  if stream is None: stream = cmdLineArgs.outdir+'/SST_bias_WOA05.png'
+  if stream is True: objOut = io.BytesIO()
+  else: objOut = cmdLineArgs.outdir+'/SST_bias_WOA05.png'
   m6plot.xyplot( Tmod - Tobs , x, y, area=area,
       suptitle=suptitle, title=month_label+' SST bias (w.r.t. WOA\'05) [$\degree$C]',
       clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
-      save=stream)
+      save=objOut)
+  if stream is True: imgbufs.append(objOut)
 
   m6plot.xycompare( Tmod, Tobs , x, y, area=area,
       suptitle=suptitle,
@@ -91,6 +95,9 @@ def main(cmdLineArgs,stream=None):
       clim=m6plot.linCI(-2,29,.5), colormap='dunneRainbow', extend='max',
       dlim=ci, dcolormap='dunnePM', dextend='both', centerdlabels=True,
       save=cmdLineArgs.outdir+'/SST_bias_WOA05.3_panel.png')
+
+  if stream is True:
+    return imgbufs
 
 if __name__ == '__main__':
   run()
