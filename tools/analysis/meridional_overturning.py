@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import io
 import netCDF4
 import numpy
 import m6plot
@@ -12,7 +13,7 @@ def run():
   try: import argparse
   except: raise Exception('This version of python is not new enough. python 2.7 or newer is required.')
   parser = argparse.ArgumentParser(description='''Script for plotting meridional overturning.''')
-  parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'vh' and 'e'.''')
+  parser.add_argument('infile', type=str, help='''Annually-averaged file containing 3D 'vh' and 'e'.''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
   parser.add_argument('-s','--suptitle', type=str, default='', help='''Super-title for experiment.  Default is to read from netCDF file.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
@@ -21,7 +22,7 @@ def run():
   cmdLineArgs = parser.parse_args()
   main(cmdLineArgs)
 
-def main(cmdLineArgs,stream=None):
+def main(cmdLineArgs,stream=False):
   if not os.path.exists(cmdLineArgs.gridspec): raise ValueError('Specified gridspec directory/tar file does not exist.')
   if os.path.isdir(cmdLineArgs.gridspec):
     x = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['x'][::2,::2]
@@ -46,17 +47,13 @@ def main(cmdLineArgs,stream=None):
   else:
     raise ValueError('Unable to extract grid information from gridspec directory/tar file.') 
 
-  if stream != None:
-    if len(stream) != 2:
-      raise ValueError('If specifying output streams, exactly two streams are needed for this analysis')
-  
-  rootGroup = netCDF4.MFDataset( cmdLineArgs.annual_file )
+  rootGroup = netCDF4.MFDataset( cmdLineArgs.infile )
   if 'vmo' in rootGroup.variables:
     varName = 'vmo'; conversion_factor = 1.e-9
   elif 'vh' in rootGroup.variables:
     varName = 'vh'; conversion_factor = 1.e-6
     if 'zw' in rootGroup.variables: conversion_factor = 1.e-9 # Backwards compatible for when we had wrong units for 'vh'
-  else: raise Exception('Could not find "vh" or "vmo" in file "%s"'%(cmdLineArgs.annual_file))
+  else: raise Exception('Could not find "vh" or "vmo" in file "%s"'%(cmdLineArgs.infile))
   if len(rootGroup.variables[varName].shape)==4: VHmod = rootGroup.variables[varName][:].mean(axis=0)
   else: VHmod = rootGroup.variables[varName][:]
   try: VHmod = VHmod.filled(0.)
@@ -83,7 +80,7 @@ def main(cmdLineArgs,stream=None):
     plt.contourf(y, z, psi, levels=ci, cmap=cmap, extend='both')
     cbar = plt.colorbar()
     plt.contour(y, z, psi, levels=ci, colors='k', hold='on')
-    plt.gca().set_yscale('splitscale',zval=[0,-2000,-6500])
+    plt.gca().set_yscale('splitscale',zval=[0.,-2000.,-6500.])
     plt.title(title)
     cbar.set_label('[Sv]'); plt.ylabel('Elevation [m]')
 
@@ -94,13 +91,15 @@ def main(cmdLineArgs,stream=None):
     plt.plot(y[j,i],z[j,i],'kx',hold=True)
     plt.text(y[j,i],z[j,i],'%.1f'%(psi[j,i]))
   
-  m6plot.setFigureSize(npanels=1)
-  cmap = plt.get_cmap('dunnePM')
-
   if cmdLineArgs.suptitle != '':  suptitle = cmdLineArgs.suptitle + ' ' + cmdLineArgs.label
   else: suptitle = rootGroup.title + ' ' + cmdLineArgs.label
 
+  imgbufs = []
+
   # Global MOC
+  m6plot.setFigureSize([16,9],576,debug=False)
+  axis = plt.gca()
+  cmap = plt.get_cmap('dunnePM')
   z = Zmod.min(axis=-1); psiPlot = MOCpsi(VHmod)*conversion_factor
   yy = y[1:,:].max(axis=-1)+0*z
   ci=m6plot.pmCI(0.,40.,5.)
@@ -110,13 +109,14 @@ def main(cmdLineArgs,stream=None):
   findExtrema(yy, z, psiPlot, max_lat=-30.)
   findExtrema(yy, z, psiPlot, min_lat=25.)
   findExtrema(yy, z, psiPlot, min_depth=2000., mult=-1.)
-  if stream != None:
-    plt.savefig(stream[0])
-  else:
-    plt.savefig(cmdLineArgs.outdir+'/MOC_global.png')
-  
+  if stream is True: objOut = io.BytesIO()
+  else: objOut = cmdLineArgs.outdir+'/MOC_global.png'
+  plt.savefig(objOut)
+  if stream is True: imgbufs.append(objOut)
+
   # Atlantic MOC
-  plt.clf()
+  m6plot.setFigureSize([16,9],576,debug=False)
+  cmap = plt.get_cmap('dunnePM')
   m = 0*basin_code; m[(basin_code==2) | (basin_code==4) | (basin_code==6) | (basin_code==7) | (basin_code==8)]=1
   ci=m6plot.pmCI(0.,22.,2.)
   z = (m*Zmod).min(axis=-1); psiPlot = MOCpsi(VHmod, vmsk=m*numpy.roll(m,-1,axis=-2))*conversion_factor
@@ -128,10 +128,13 @@ def main(cmdLineArgs,stream=None):
   findExtrema(yy, z, psiPlot, max_lat=-33.)
   findExtrema(yy, z, psiPlot)
   findExtrema(yy, z, psiPlot, min_lat=5.)
-  if stream != None:
-    plt.savefig(stream[1])
-  else:
-    plt.savefig(cmdLineArgs.outdir+'/MOC_Atlantic.png')
+  if stream is True: objOut = io.BytesIO()
+  else: objOut = cmdLineArgs.outdir+'/MOC_Atlantic.png'
+  plt.savefig(objOut,format='png')
+  if stream is True: imgbufs.append(objOut)
+
+  if stream is True:
+    return imgbufs
 
 if __name__ == '__main__':
   run()

@@ -1,17 +1,16 @@
 #!/usr/bin/env python
 
-import netCDF4
-import numpy
+import os, sys, io
 import m6plot
 import m6toolbox
-import os
-import sys
+import netCDF4
+import numpy
 
 def run():
   try: import argparse
   except: raise Exception('This version of python is not new enough. python 2.7 or newer is required.')
   parser = argparse.ArgumentParser(description='''Script for plotting annual-average SSS bias.''')
-  parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'salt'.''')
+  parser.add_argument('infile', type=str, help='''Annually-averaged file containing 3D 'salt'.''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
   parser.add_argument('-s','--suptitle', type=str, default='', help='''Super-title for experiment.  Default is to read from netCDF file.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
@@ -22,7 +21,7 @@ def run():
   cmdLineArgs = parser.parse_args()
   main(cmdLineArgs)
 
-def main(cmdLineArgs,stream=None):
+def main(cmdLineArgs,stream=False):
   numpy.seterr(divide='ignore', invalid='ignore', over='ignore') # To avoid warnings
 
   if not os.path.exists(cmdLineArgs.gridspec): raise ValueError('Specified gridspec directory/tar file does not exist.')
@@ -50,22 +49,25 @@ def main(cmdLineArgs,stream=None):
   if len(Sobs.shape)==3: Sobs = Sobs[0]
   else: Sobs = Sobs[:,0].mean(axis=0)
 
-  rootGroup = netCDF4.MFDataset( cmdLineArgs.annual_file )
+  rootGroup = netCDF4.MFDataset( cmdLineArgs.infile )
   if 'salt' in rootGroup.variables: varName = 'salt'
   elif 'so' in rootGroup.variables: varName = 'so'
-  else: raise Exception('Could not find "salt" or "so" in file "%s"'%(cmdLineArgs.annual_file))
+  else: raise Exception('Could not find "salt" or "so" in file "%s"'%(cmdLineArgs.infile))
   if rootGroup.variables[varName].shape[0]>1: Smod = rootGroup.variables[varName][:,0].mean(axis=0)
   else: Smod = rootGroup.variables[varName][0,0]
   
   if cmdLineArgs.suptitle != '':  suptitle = cmdLineArgs.suptitle + ' ' + cmdLineArgs.label
   else: suptitle = rootGroup.title + ' ' + cmdLineArgs.label
 
+  imgbufs = []
   ci=m6plot.pmCI(0.125,2.25,.25)
-  if stream is None: stream = cmdLineArgs.outdir+'/SSS_bias_WOA05.png'
+  if stream is True: img = io.BytesIO()
+  else: img = cmdLineArgs.outdir+'/SSS_bias_WOA05.png'
   m6plot.xyplot( Smod - Sobs , x, y, area=area,
       suptitle=suptitle, title='SSS bias (w.r.t. WOA\'05) [ppt]',
       clim=ci, colormap='dunnePM', centerlabels=True, extend='both',
-      save=stream)
+      save=img)
+  if stream is True: imgbufs.append(img)
   
   m6plot.xycompare( Smod, Sobs , x, y, area=area,
       suptitle=suptitle,
@@ -74,6 +76,9 @@ def main(cmdLineArgs,stream=None):
       clim=m6plot.linCI(20,30,10, 31,39,.5), colormap='dunneRainbow', extend='both',
       dlim=ci, dcolormap='dunnePM', dextend='both', centerdlabels=True,
       save=cmdLineArgs.outdir+'/SSS_bias_WOA05.3_panel.png')
+
+  if stream is True:
+    return imgbufs
 
 if __name__ == '__main__':
   run()

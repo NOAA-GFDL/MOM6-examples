@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import io
 import netCDF4
 import numpy
 import m6plot
@@ -14,7 +15,7 @@ def run():
   try: import argparse
   except: raise Exception('This version of python is not new enough. python 2.7 or newer is required.')
   parser = argparse.ArgumentParser(description='''Script for plotting plotting poleward heat transport.''')
-  parser.add_argument('annual_file', type=str, help='''Annually-averaged file containing 3D 'T_ady_2d' and 'T_diffy_2d'.''')
+  parser.add_argument('infile', type=str, help='''Annually-averaged file containing 3D 'T_ady_2d' and 'T_diffy_2d'.''')
   parser.add_argument('-l','--label', type=str, default='', help='''Label to add to the plot.''')
   parser.add_argument('-s','--suptitle', type=str, default='', help='''Super-title for experiment.  Default is to read from netCDF file.''')
   parser.add_argument('-o','--outdir', type=str, default='.', help='''Directory in which to place plots.''')
@@ -23,7 +24,7 @@ def run():
   cmdLineArgs = parser.parse_args()
   main(cmdLineArgs)
 
-def main(cmdLineArgs,stream=None):
+def main(cmdLineArgs,stream=False):
   if not os.path.exists(cmdLineArgs.gridspec): raise ValueError('Specified gridspec directory/tar file does not exist.')
   if os.path.isdir(cmdLineArgs.gridspec):
     x = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['x'][::2,::2]
@@ -48,16 +49,12 @@ def main(cmdLineArgs,stream=None):
   else:
     raise ValueError('Unable to extract grid information from gridspec directory/tar file.') 
 
-  if stream != None:
-    if len(stream) != 3:
-      raise ValueError('If specifying output streams, exactly three streams are needed for this analysis')
-  
-  rootGroup = netCDF4.MFDataset( cmdLineArgs.annual_file )
+  rootGroup = netCDF4.MFDataset( cmdLineArgs.infile )
   if 'T_ady_2d' in rootGroup.variables:
     varName = 'T_ady_2d'
     if len(rootGroup.variables[varName].shape)==3: advective = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
     else: advective = rootGroup.variables[varName][:].filled(0.)
-  else: raise Exception('Could not find "T_ady_2d" in file "%s"'%(cmdLineArgs.annual_file))
+  else: raise Exception('Could not find "T_ady_2d" in file "%s"'%(cmdLineArgs.infile))
   if 'T_diffy_2d' in rootGroup.variables:
     varName = 'T_diffy_2d'
     if len(rootGroup.variables[varName].shape)==3: diffusive = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
@@ -138,6 +135,8 @@ def main(cmdLineArgs,stream=None):
   if cmdLineArgs.suptitle != '':  suptitle = cmdLineArgs.suptitle + ' ' + cmdLineArgs.label
   else: suptitle = rootGroup.title + ' ' + cmdLineArgs.label
 
+  imgbufs = []
+
   # Global Heat Transport
   HTplot = heatTrans(advective,diffusive)
   yy = y[1:,:].max(axis=-1)
@@ -150,10 +149,10 @@ def main(cmdLineArgs,stream=None):
   plt.legend(loc=0,fontsize=10)
   annotateObs()
   if diffusive is None: annotatePlot('Warning: Diffusive component of transport is missing.')
-  if stream != None:
-    plt.savefig(stream[0])
-  else:
-    plt.savefig(cmdLineArgs.outdir+'/HeatTransport_global.png')
+  if stream is True: objOut = io.BytesIO()
+  else: objOut = cmdLineArgs.outdir+'/HeatTransport_global.png'
+  plt.savefig(objOut)
+  if stream is True: imgbufs.append(objOut)
 
   # Atlantic Heat Transport
   plt.clf()
@@ -170,11 +169,11 @@ def main(cmdLineArgs,stream=None):
   plt.legend(loc=0,fontsize=10)
   annotateObs()
   if diffusive is None: annotatePlot('Warning: Diffusive component of transport is missing.')
-  if stream != None:
-    plt.savefig(stream[1])
-  else:
-    plt.savefig(cmdLineArgs.outdir+'/HeatTransport_Atlantic.png')
-   
+  if stream is True: objOut = io.BytesIO()
+  else: objOut = cmdLineArgs.outdir+'/HeatTransport_Atlantic.png'
+  plt.savefig(objOut)
+  if stream is True: imgbufs.append(objOut)
+
   # Indo-Pacific Heat Transport
   plt.clf()
   m = 0*basin_code; m[(basin_code==3) | (basin_code==5)] = 1
@@ -190,10 +189,13 @@ def main(cmdLineArgs,stream=None):
   if diffusive is None: annotatePlot('Warning: Diffusive component of transport is missing.')
   plt.suptitle(suptitle)
   plt.legend(loc=0,fontsize=10)
-  if stream != None:
-    plt.savefig(stream[2])
-  else:
-    plt.savefig(cmdLineArgs.outdir+'/HeatTransport_IndoPac.png')
+  if stream is True: objOut = io.BytesIO()
+  else: objOut = cmdLineArgs.outdir+'/HeatTransport_IndoPac.png'
+  plt.savefig(objOut)
+  if stream is True: imgbufs.append(objOut)
+
+  if stream is True:
+    return imgbufs
  
 if __name__ == '__main__':
   run()
