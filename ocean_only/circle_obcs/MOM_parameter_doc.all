@@ -271,7 +271,10 @@ TOPO_CONFIG = "flat"            !
                                 !       ISOMIP test case.
                                 !     DOME2D - use a shelf and slope configuration for the
                                 !       DOME2D gravity current/overflow test case.
+                                !     Kelvin - flat but with rotated land mask.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     shelfwave - exponential slope for shelfwave test case.
+                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     USER - call a user modified routine.
 MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
@@ -336,6 +339,16 @@ F_0 = 0.0                       !   [s-1] default = 0.0
 BETA = 0.0                      !   [m-1 s-1] default = 0.0
                                 ! The northward gradient of the Coriolis parameter with
                                 ! the betaplane option.
+
+! === module MOM_boundary_update ===
+USE_FILE_OBC = False            !   [Boolean] default = False
+                                ! If true, use external files for the open boundary.
+USE_TIDAL_BAY_OBC = False       !   [Boolean] default = False
+                                ! If true, use the tidal_bay open boundary.
+USE_KELVIN_WAVE_OBC = False     !   [Boolean] default = False
+                                ! If true, use the Kelvin wave open boundary.
+USE_SHELFWAVE_OBC = False       !   [Boolean] default = False
+                                ! If true, use the shelfwave open boundary.
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "layer_ref"      !
@@ -445,18 +458,8 @@ OBC_USER_CONFIG = "none"        ! default = "none"
                                 !    tidal_bay - Flather with tidal forcing on eastern boundary
                                 !    supercritical - now only needed here for the allocations
                                 !    Kelvin - barotropic Kelvin wave forcing on the western boundary
+                                !    shelfwave - Flather with shelf wave forcing on western boundary
                                 !    USER - user specified
-READ_OBC_UV = False             !   [Boolean] default = False
-                                ! If true, read the values for the velocity open boundary
-                                ! conditions from the file specified by OBC_FILE.
-READ_OBC_ETA = False            !   [Boolean] default = False
-                                ! If true, read the values for the sea surface height
-                                ! open boundary conditions from the file specified by
-                                ! OBC_FILE.
-READ_OBC_TS = False             !   [Boolean] default = False
-                                ! If true, read the values for the temperature and
-                                ! salinity open boundary conditions from the file
-                                ! specified by OBC_FILE.
 
 ! === module MOM_diag_mediator ===
 NUM_DIAG_COORDS = 1             ! default = 1

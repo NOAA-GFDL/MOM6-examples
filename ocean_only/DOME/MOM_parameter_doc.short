@@ -109,7 +109,10 @@ TOPO_CONFIG = "DOME"            !
                                 !       ISOMIP test case.
                                 !     DOME2D - use a shelf and slope configuration for the
                                 !       DOME2D gravity current/overflow test case.
+                                !     Kelvin - flat but with rotated land mask.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     shelfwave - exponential slope for shelfwave test case.
+                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     USER - call a user modified routine.
 
@@ -134,6 +137,8 @@ ROTATION = "beta"               ! default = "2omegasinlat"
 F_0 = 1.0E-04                   !   [s-1] default = 0.0
                                 ! The reference value of the Coriolis parameter with the
                                 ! betaplane option.
+
+! === module MOM_boundary_update ===
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "layer_ref"      !
@@ -203,6 +208,7 @@ OBC_USER_CONFIG = "DOME"        ! default = "none"
                                 !    tidal_bay - Flather with tidal forcing on eastern boundary
                                 !    supercritical - now only needed here for the allocations
                                 !    Kelvin - barotropic Kelvin wave forcing on the western boundary
+                                !    shelfwave - Flather with shelf wave forcing on western boundary
                                 !    USER - user specified
 
 ! === module MOM_diag_mediator ===
