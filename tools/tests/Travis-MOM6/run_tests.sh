@@ -27,6 +27,8 @@ run_test symocn 1 circle_obcs
 
 # Checksum output
 md5sum MOM6-examples/ocean_only/{*,*/*}/ocean.stats > stats.md5
+echo ; echo Checksums
+cat stats.md5
 
 # Multi-core tests with symmetric executable
 run_test symocn 1 unit_tests
