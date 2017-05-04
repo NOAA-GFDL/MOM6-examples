@@ -32,9 +32,9 @@ def main(cmdLineArgs,stream=False):
   if 'so_xyave' not in rootGroupS.variables: raise Exception('Could not find "so_xyave" files "%s"'%(cmdLineArgs.infile))
 
   if 'zt' in rootGroupT.variables.keys():
-    zt = rootGroupT.variables['zt'][::-1] * -1
+    zt = rootGroupT.variables['zt'][:] * -1
   elif 'z_l' in rootGroupT.variables.keys():
-    zt = rootGroupT.variables['z_l'][::-1] * -1
+    zt = rootGroupT.variables['z_l'][:] * -1
   timeT = rootGroupT.variables['time']
   timeS = rootGroupS.variables['time']
   timeT = numpy.array([int(x.year) for x in netCDF4.num2date(timeT[:],timeT.units,calendar=timeT.calendar)])
