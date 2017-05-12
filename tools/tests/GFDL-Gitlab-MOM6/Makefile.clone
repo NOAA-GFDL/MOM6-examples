@@ -1,0 +1,77 @@
+# Executable targets: build/compiler/mode/mom6_memory/mom6_configuration/MOM6
+#
+#   compiler = gnu, intel, pgi, cray, ...
+#   mode = repro, debug, coverage, ...
+#   If mom6_memory = dynamic or dynamic_symmetric
+#     mom6_configuration = ocean_only, ice_ocean_SIS, ice_ocean_SIS2, land_ice_ocean_LM3_SIS2, coupled_AM2_LM3_SIS, coupled_AM2_LM3_SIS2
+#   If mom6_memory = static
+#     mom6_configuration = ocean_only/DOME ocean_only/benchmark ocean_only/double_gyre ...
+#
+# Intermediate targets:
+#   build/compiler/mode/%/lib%.a  for % = fms, icebergs, ice_ocean_extras, am2, lm3
+#   build/compiler/mode/mom6_memory/%/lib%.a  for % = mom6, sis2
+
+CONFIGS = MOM6-examples
+
+# Local relative paths to with source whose version is usually determined by sub-modules in MOM6-examples
+SRC_DIR = $(CONFIGS)/src
+FMS_SRC = $(SRC_DIR)/FMS
+MOM6_SRC = $(SRC_DIR)/MOM6
+SIS2_SRC = $(SRC_DIR)/SIS2
+ICE_OCEAN_EXTRAS_SRC = $(SRC_DIR)/ice_ocean_extras
+COUPLER_SRC = $(SRC_DIR)/coupler
+ICEBERGS_SRC = $(SRC_DIR)/icebergs
+ATMOS_NULL_SRC = $(SRC_DIR)/atmos_null
+LAND_NULL_SRC = $(SRC_DIR)/land_null
+MKMF_SRC = $(SRC_DIR)/mkmf
+LIST_PATHS = $(MKMF_SRC)/bin/list_paths
+MKMF = $(MKMF_SRC)/bin/mkmf
+BUILD = build
+SITE = ncrc
+
+# Local relative paths to source available behind GFDL firewall
+ICE_PARAM_SRC=$(SRC_DIR)/ice_param
+ATMOS_PARAM_SRC=$(SRC_DIR)/atmos_param_am3
+LM3_SRC=$(LM3)/land_param $(LM3)/land_lad2_cpp
+AM2_SRC=$(AM2)/atmos_drivers/coupled $(AM2)/atmos_fv_dynamics/driver/coupled $(AM2)/atmos_fv_dynamics/model $(AM2)/atmos_fv_dynamics/tools $(AM2)/atmos_shared_am3 $(ATMOS_PARAM_SRC)
+LM3=$(SRC_DIR)/LM3
+LM3_REPOS=$(LM3)/land_param $(LM3)/land_lad2
+AM2=$(SRC_DIR)/AM2
+AM2_REPOS=$(AM2)/atmos_drivers $(AM2)/atmos_fv_dynamics $(AM2)/atmos_shared_am3
+SIS1_SRC=$(SRC_DIR)/sis1
+CITY_TAG = verona_201701
+
+SHELL = bash
+
+# Rules for cloning
+clone: $(CONFIGS)
+clone_gfdl: $(CONFIGS) $(ICE_PARAM_SRC) $(ATMOS_PARAM_SRC) $(SIS1_SRC) $(LM3_SRC) $(AM2_REPOS) MOM6-examples/.datasets
+$(CONFIGS) $(SRC_DIR):
+	test -d $(CONFIGS) && (cd $(CONFIGS) git fetch) || git clone --recursive $(URL) $(CONFIGS)
+MOM6-examples/.datasets: /lustre/f1/pdata/gfdl_O/datasets | MOM6-examples
+	cd $(@D); ln -s $< $(@F)
+$(SRC_DIR)/AM2/atmos_shared_am3: URL = http://gitlab.gfdl.noaa.gov/fms/atmos_shared_am3.git
+$(SRC_DIR)/AM2/atmos_shared_am3: TAG = $(CITY_TAG)
+$(SRC_DIR)/AM2/atmos_drivers: URL = http://gitlab.gfdl.noaa.gov/fms/atmos_drivers.git
+$(SRC_DIR)/AM2/atmos_drivers: TAG = $(CITY_TAG)
+$(SRC_DIR)/AM2/atmos_fv_dynamics: URL = http://gitlab.gfdl.noaa.gov/fms/atmos_fv_dynamics.git
+$(SRC_DIR)/AM2/atmos_fv_dynamics: TAG = $(CITY_TAG)
+$(SRC_DIR)/LM3/land_param: URL = http://gitlab.gfdl.noaa.gov/fms/land_param.git
+$(SRC_DIR)/LM3/land_param: TAG = $(CITY_TAG)
+$(SRC_DIR)/LM3/land_lad2: URL = http://gitlab.gfdl.noaa.gov/fms/land_lad2.git
+$(SRC_DIR)/LM3/land_lad2: TAG = $(CITY_TAG)
+$(SRC_DIR)/atmos_param_am3: URL = http://gitlab.gfdl.noaa.gov/fms/atmos_param_am3.git
+$(SRC_DIR)/atmos_param_am3: TAG = $(CITY_TAG)
+$(SRC_DIR)/ice_param: URL = http://gitlab.gfdl.noaa.gov/fms/ice_param.git
+$(SRC_DIR)/ice_param: TAG = $(CITY_TAG)
+$(SRC_DIR)/sis1: URL = http://gitlab.gfdl.noaa.gov/fms/ice_sis.git
+$(SRC_DIR)/sis1: TAG = $(CITY_TAG)
+$(foreach r,AM2/atmos_shared_am3 AM2/atmos_drivers AM2/atmos_fv_dynamics sis1 LM3/land_param LM3/land_lad2 atmos_param_am3 ice_param,$(SRC_DIR)/$(r)): | $(SRC_DIR)
+	test -d $@ && (cd $@; git fetch) || git clone $(CLONE_OPTS) $(URL) $@
+	cd $@; git checkout $(TAG)
+#find $(LM3)/land_lad2 -type f -name \*.F90 -exec cpp -Duse_libMPI -Duse_netCDF -DSPMD -Duse_LARGEFILE -C -v -I $(FMS_SRC)/include -o '{}'.cpp {} \;
+$(SRC_DIR)/LM3/land_lad2_cpp: $(SRC_DIR)/LM3/land_lad2
+	find $(LM3)/land_lad2 -type f -name \*.F90 -exec cpp -Duse_libMPI -Duse_netCDF -nostdinc -C -v -I $(FMS_SRC)/include -o '{}'.cpp {} \;
+	find $(LM3)/land_lad2 -type f -name \*.F90.cpp -exec rename .F90.cpp .f90 {} \;
+	mkdir -p $(LM3)/land_lad2_cpp
+	find $(LM3)/land_lad2 -type f -name \*.f90 -exec mv {} $(LM3)/land_lad2_cpp/ \;
