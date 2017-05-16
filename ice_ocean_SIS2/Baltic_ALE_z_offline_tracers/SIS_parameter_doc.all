@@ -65,6 +65,10 @@ ICE_BOUNDS_CHECK = True         !   [Boolean] default = True
                                 ! does not change answers, but can increase model run time.
 DEBUG = False                   !   [Boolean] default = False
                                 ! If true, write out verbose debugging data.
+DEBUG_SLOW_ICE = False          !   [Boolean] default = False
+                                ! If true, write out verbose debugging data on the slow ice PEs.
+DEBUG_FAST_ICE = False          !   [Boolean] default = False
+                                ! If true, write out verbose debugging data on the fast ice PEs.
 FIRST_DIRECTION = 0             ! default = 0
                                 ! An integer that indicates which direction goes first
                                 ! in parts of the code that use directionally split
@@ -386,6 +390,9 @@ CFL_TRUNC_DYN_ITS = False       !   [Boolean] default = False
                                 ! If true, check the CFL number for every iteration of the
                                 ! rheology solver; otherwise only the final velocities that
                                 ! are used for transport are checked.
+DEBUG_EVP_SUBSTEPS = False      !   [Boolean] default = False
+                                ! If true, write out verbose debugging data for each of the
+                                ! steps within the EVP solver.
 U_TRUNC_FILE = ""               ! default = ""
                                 ! The absolute path to the file where the accelerations
                                 ! leading to zonal velocity truncations are written.
