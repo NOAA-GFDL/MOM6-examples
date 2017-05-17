@@ -22,7 +22,7 @@ showenv:
 	which python
 	-python --version
 
-forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mosaic_ocean.1440x1080/runoff.daitren.clim.v2011.02.10a.1440x1080.nc
+forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mosaic_ocean.1440x1080/runoff.daitren.clim.v2011.02.10a.1440x1080.nc geothermal_davies2013_v1.nc
 
 obs: WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
 
@@ -93,6 +93,15 @@ seawifs_1998-2006_smoothed_2X.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/da
 
 tidal_amplitude.nc: DATA interpTides.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpTides.py
+
+geothermal_davies2013_v1.nc: convert_Davies_2013/ggge20271-sup-0003-Data_Table1_Eq_lon_lat_Global_HF.nc regrid_geothermal.py
+	python regrid_geothermal.py
+
+convert_Davies_2013/ggge20271-sup-0003-Data_Table1_Eq_lon_lat_Global_HF.nc: | convert_Davies_2013
+	cd convert_Davies_2013; make
+
+convert_Davies_2013:
+	git clone https://github.com/adcroft/convert_Davies_2013.git
 
 DATA: tpxo7_atlas_netcdf.tar.Z
 	tar xzvf tpxo7_atlas_netcdf.tar.Z
@@ -194,6 +203,7 @@ md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.
 	echo Data >> $@
 	md5sum salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc >> $@
 	md5sum mosaic_ocean.1440x1080/runoff.daitren.clim.v2011.02.10a.1440x1080.nc >> $@
+	md5sum geothermal_davies2013_v1.nc >> $@
 	echo >> $@
 	echo Obs >> $@
 	md5sum WOA05_ptemp_salt_{monthly,annual}.nc >> $@
