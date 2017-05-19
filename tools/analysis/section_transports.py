@@ -37,8 +37,14 @@ def main(cmdLineArgs,stream=False):
       else: self.label = section[0]
       self.ylim = ylim
       for k in range(0,len(section)):
-        try: rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/120hr/20yr/*.'+var[k]+'.nc')
-        except: rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/120hr/5yr/*.'+var[k]+'.nc')
+        if os.path.isdir(cmdLineArgs.infile + section[k] + '/ts/120hr/20yr'):
+          rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/120hr/20yr/*.'+var[k]+'.nc')
+        elif os.path.isdir(cmdLineArgs.infile + section[k] + '/ts/120hr/5yr'):
+          rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/120hr/5yr/*.'+var[k]+'.nc')
+        elif os.path.isdir(cmdLineArgs.infile + section[k] + '/ts/daily/20yr'):
+          rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/daily/20yr/*.'+var[k]+'.nc')
+        else:
+           print('Unable to find suitable trasport data in ts/120hr or ts/daily') 
         if k == 0: total = numpy.ones(rootGroup.variables[var[k]][:].shape[0])*0.0
         if zlim is None: trans = rootGroup.variables[var[k]][:].sum(axis=1)  # Depth summation
         else:
