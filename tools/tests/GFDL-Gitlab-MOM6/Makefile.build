@@ -136,6 +136,7 @@ $(BUILD)/%/coupler/path_names: LIST_PATHS_ARGS = $(COUPLER_SRC)/
 $(foreach c, $(COMPILERS),$(foreach m,repro debug coverage,$(BUILD)/$(c)/$(m)/coupler/path_names)): $(COUPLER_SRC)/*
 $(BUILD)/%/coupler/Makefile: MKMF_OPTS = -p libcoupler.a -o '-I../fms -I../ice_ocean_extras -I../atmos_null -I../land_null -I../dynamic/mom6 -I../dynamic/sis2 -I../icebergs' -c '$(CPP_DEFS)'
 $(BUILD)/%/coupler/Makefile: CPP_DEFS = -Duse_AM3_physics
+$(BUILD)/%/coupler/Makefile: CPP_DEFS += -D_USE_LEGACY_LAND_
 $(eval $(call compile,coupler/,libcoupler.a,../../env,fms/libfms.a ice_ocean_extras/libice_ocean_extras.a atmos_null/libatmos_null.a land_null/libland_null.a dynamic/sis2/libsis2.a icebergs/libicebergs.a dynamic/mom6/libmom6.a))
 
 # build/compiler/mode/icebergs/libicebergs.a
@@ -259,7 +260,7 @@ define mom6-lm3-sis2-variables
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,coupler atmos_null lm3 ice_ocean_extras icebergs fms,-L../../$(l))
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,sis2 mom6,-L../$(l))
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,coupler atmos_null lm3 sis2 ice_ocean_extras icebergs mom6 fms,-l$(l))
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms' -l '$$(LIBS)' -c '$$(CPP_DEFS)' XXX
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms' -l '$$(LIBS)' -c '$$(CPP_DEFS)'
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/fms/libfms.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/icebergs/libicebergs.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/$(3)/sis2/libsis2.a
@@ -280,8 +281,9 @@ $(foreach c, $(COMPILERS),$(foreach m,repro debug coverage,$(BUILD)/$(1)/$(2)/$(
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,am2 lm3 sis1 ice_param fms,-L../../$(l))
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,mom6,-L../$(l))
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,am2 lm3 sis1 ice_param mom6 fms,-l$(l))
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms -I../../am2 -I../../lm3 -I../mom6 -I../../sis1 -I../../ice_param' -l '$$(LIBS)' -c '-Duse_AM3_physics'
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms -I../../am2 -I../../lm3 -I../mom6 -I../../sis1 -I../../ice_param' -l '$$(LIBS)' -c '$$(CPP_DEFS)'
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS += -Duse_AM3_physics
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS += -D_USE_LEGACY_LAND_
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/fms/libfms.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/sis1/libsis1.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/$(3)/mom6/libmom6.a
@@ -302,11 +304,11 @@ $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,sis2 mom6,-L../$(l))
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,am2 lm3 sis2 ice_param icebergs mom6 fms,-l$(l))
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms -I../../am2 -I../../lm3 -I../mom6 -I../sis2 -I../../icebergs -I../../ice_param' -l '$$(LIBS)' -c '$$(CPP_DEFS)'
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS += -Duse_AM3_physics
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS += -D_USE_LEGACY_LAND_
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/fms/libfms.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/icebergs/libicebergs.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/$(3)/sis2/libsis2.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/$(3)/mom6/libmom6.a
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/coupler/libcoupler.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/ice_param/libice_param.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/lm3/liblm3.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/am2/libam2.a

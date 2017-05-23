@@ -39,7 +39,7 @@ LM3_REPOS=$(LM3)/land_param $(LM3)/land_lad2
 AM2=$(SRC_DIR)/AM2
 AM2_REPOS=$(AM2)/atmos_drivers $(AM2)/atmos_fv_dynamics $(AM2)/atmos_shared_am3
 SIS1_SRC=$(SRC_DIR)/sis1
-CITY_TAG = verona_201701
+CITY_TAG = warsaw
 
 SHELL = bash
 
@@ -59,7 +59,7 @@ $(SRC_DIR)/AM2/atmos_fv_dynamics: TAG = $(CITY_TAG)
 $(SRC_DIR)/LM3/land_param: URL = http://gitlab.gfdl.noaa.gov/fms/land_param.git
 $(SRC_DIR)/LM3/land_param: TAG = $(CITY_TAG)
 $(SRC_DIR)/LM3/land_lad2: URL = http://gitlab.gfdl.noaa.gov/fms/land_lad2.git
-$(SRC_DIR)/LM3/land_lad2: TAG = $(CITY_TAG)
+$(SRC_DIR)/LM3/land_lad2: TAG = verona_201701
 $(SRC_DIR)/atmos_param_am3: URL = http://gitlab.gfdl.noaa.gov/fms/atmos_param_am3.git
 $(SRC_DIR)/atmos_param_am3: TAG = $(CITY_TAG)
 $(SRC_DIR)/ice_param: URL = http://gitlab.gfdl.noaa.gov/fms/ice_param.git
