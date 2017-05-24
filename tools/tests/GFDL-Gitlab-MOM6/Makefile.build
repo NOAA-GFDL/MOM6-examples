@@ -63,14 +63,13 @@ $(foreach c, $(COMPILERS),$(foreach m,repro debug coverage,$(eval $(call make-en
 ifeq ($(SITE),ncrc)
 $(BUILD)/gnu/env:
 	mkdir -p $(@D)
-	#echo 'module unload PrgEnv-intel netcdf ; module load gcc/4.9.3 PrgEnv-gnu cray-hdf5 cray-netcdf' > $@
-	echo 'module unload PrgEnv-pgi PrgEnv-intel PrgEnv-gnu ; module load gcc/4.9.3; module load PrgEnv-gnu; module unload netcdf; module load cray-hdf5 cray-netcdf' > $@
+	echo 'module unload PrgEnv-pgi PrgEnv-intel PrgEnv-gnu ; module load PrgEnv-gnu; module unload netcdf gcc; module load gcc/5.3.0 cray-hdf5 cray-netcdf' > $@
 $(BUILD)/intel/env:
 	mkdir -p $(@D)
-	echo 'module unload PrgEnv-pgi PrgEnv-intel PrgEnv-gnu; module load PrgEnv-intel; module unload netcdf; module load intel cray-hdf5 cray-netcdf' > $@
+	echo 'module unload PrgEnv-pgi PrgEnv-intel PrgEnv-gnu; module load PrgEnv-intel; module unload netcdf intel; module load intel/16.0.3.210 cray-hdf5 cray-netcdf' > $@
 $(BUILD)/pgi/env:
 	mkdir -p $(@D)
-	echo 'module unload PrgEnv-intel ; module load PrgEnv-pgi; module unload netcdf; module load cray-hdf5 cray-netcdf' > $@
+	echo 'module unload PrgEnv-intel ; module load PrgEnv-pgi; module unload netcdf pgi; module load pgi/16.5.0 cray-hdf5 cray-netcdf' > $@
 endif
 
 # path_names:
