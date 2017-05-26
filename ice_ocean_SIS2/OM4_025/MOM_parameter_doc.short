@@ -504,7 +504,7 @@ MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
                                 ! flow is imposed in the mixed layer. Can be used in ALE mode
                                 ! without restriction but in layer mode can only be used if
                                 ! BULKMIXEDLAYER is true.
-FOX_KEMPER_ML_RESTRAT_COEF = 5.0 !   [nondim] default = 0.0
+FOX_KEMPER_ML_RESTRAT_COEF = 15.0 !   [nondim] default = 0.0
                                 ! A nondimensional coefficient that is proportional to
                                 ! the ratio of the deformation radius to the dominant
                                 ! lengthscale of the submesoscale mixed layer
@@ -518,7 +518,7 @@ MLE_USE_PBL_MLD = True          !   [Boolean] default = False
                                 ! depth provided by the active PBL parameterization. If false,
                                 ! MLE will estimate a MLD based on a density difference with the
                                 ! surface using the parameter MLE_DENSITY_DIFF.
-MLE_MLD_DECAY_TIME = 1.728E+05  !   [s] default = 0.0
+MLE_MLD_DECAY_TIME = 2.592E+06  !   [s] default = 0.0
                                 ! The time-scale for a running-mean filter applied to the mixed-layer
                                 ! depth used in the MLE restratification parameterization. When
                                 ! the MLD deepens below the current running-mean the running-mean
@@ -639,25 +639,76 @@ PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
                                 ! faster but is inappropriate with ice-shelf cavities.
 
 ! === module MOM_energetic_PBL ===
-MSTAR = 1.0328                  !   [units=nondim] default = 1.2
+MSTAR_MODE = 2                  !   [units=nondim] default = 0
+                                ! An integer switch for how to compute MSTAR.
+                                !     0 for constant MSTAR
+                                !     1 for MSTAR w/ MLD in stabilizing limit
+                                !     2 for MSTAR w/ L_E/L_O in stabilizing limit.
+MSTAR = 0.0                     !   [units=nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE
                                 ! input to the mixed layer.
-TKE_DECAY = 5.5                 !   [nondim] default = 2.5
+MIX_LEN_EXPONENT = 1.0          !   [units=nondim] default = 2.0
+                                ! The exponent applied to the ratio of the distance to the MLD
+                                ! and the MLD depth which determines the shape of the mixing length.
+MSTAR_CAP = 10.0                !   [units=nondim] default = -1.0
+                                ! Maximum value of mstar allowed in model if non-negative
+                                ! (used if MSTAR_MODE>0).
+MSTAR_CONV_ADJ = 0.667          !   [units=nondim] default = 0.0
+                                ! Factor used for reducing mstar during convection
+                                !  due to reduction of stable density gradient.
+MSTAR2_COEF1 = 0.29             !   [units=nondim] default = 0.3
+                                ! Coefficient in computing mstar when rotation and
+                                !  stabilizing effects are both important (used if MSTAR_MODE=2)
+MSTAR2_COEF2 = 0.152            !   [units=nondim] default = 0.085
+                                ! Coefficient in computing mstar when only rotation limits
+                                !  the total mixing. (used only if MSTAR_MODE=2)
+NSTAR = 0.06                    !   [nondim] default = 0.2
+                                ! The portion of the buoyant potential energy imparted by
+                                ! surface fluxes that is available to drive entrainment
+                                ! at the base of mixed layer when that energy is positive.
+TKE_DECAY = 0.01                !   [nondim] default = 2.5
                                 ! TKE_DECAY relates the vertical rate of decay of the
                                 ! TKE available for mechanical entrainment to the natural
                                 ! Ekman depth.
+ML_OMEGA_FRAC = 0.001           !   [nondim] default = 0.0
+                                ! When setting the decay scale for turbulence, use this
+                                ! fraction of the absolute rotation rate blended with the
+                                ! local value of f, as sqrt((1-of)*f^2 + of*4*omega^2).
 USE_MLD_ITERATION = True        !   [Boolean] default = False
                                 ! A logical that specifies whether or not to use the
                                 ! distance to the bottom of the actively turblent boundary
                                 ! layer to help set the EPBL length scale.
-N2_DISSIPATION_POS = 0.4        !   [nondim] default = 0.0
-                                ! A scale for the dissipation of TKE due to stratification
-                                ! in the boundary layer, applied when local stratification
-                                ! is positive.  The default is 0, but should probably be ~0.4.
-N2_DISSIPATION_NEG = 1.0        !   [nondim] default = 0.0
-                                ! A scale for the dissipation of TKE due to stratification
-                                ! in the boundary layer, applied when local stratification
-                                ! is negative.  The default is 0, but should probably be ~1.
+ORIG_MLD_ITERATION = False      !   [Boolean] default = True
+                                ! A logical that specifies whether or not to use the
+                                ! old method for determining MLD depth in iteration, which
+                                ! is limited to resolution.
+EPBL_TRANSITION_SCALE = 0.01    !   [nondim] default = 0.1
+                                ! A scale for the mixing length in the transition layer
+                                ! at the edge of the boundary layer as a fraction of the
+                                ! boundary layer thickness.  The default is 0.1.
+USE_LA_LI2016 = True            !   [nondim] default = False
+                                ! A logical to use the Li et al. 2016 (submitted) formula to
+                                !  determine the Langmuir number.
+LT_ENHANCE = 3                  !   [nondim] default = 0
+                                ! Integer for Langmuir number mode.
+                                !  *Requires USE_LA_LI2016 to be set to True.
+                                ! Options: 0 - No Langmuir
+                                !          1 - Van Roekel et al. 2014/Li et al., 2016
+                                !          2 - Multiplied w/ adjusted La.
+                                !          3 - Added w/ adjusted La.
+LT_ENHANCE_COEF = 0.044         !   [nondim] default = 0.447
+                                ! Coefficient for Langmuir enhancement if LT_ENHANCE > 1
+LT_ENHANCE_EXP = -1.5           !   [nondim] default = -1.33
+                                ! Exponent for Langmuir enhancement if LT_ENHANCE > 1
+LT_MOD_LAC1 = 0.0               !   [nondim] default = -0.87
+                                ! Coefficient for modification of Langmuir number due to
+                                !  MLD approaching Ekman depth if LT_ENHANCE=2.
+LT_MOD_LAC4 = 0.0               !   [nondim] default = 0.95
+                                ! Coefficient for modification of Langmuir number due to
+                                !  ratio of Ekman to stable Obukhov depth if LT_ENHANCE=2.
+LT_MOD_LAC5 = 0.22              !   [nondim] default = 0.95
+                                ! Coefficient for modification of Langmuir number due to
+                                !  ratio of Ekman to unstable Obukhov depth if LT_ENHANCE=2.
 EPBL_USTAR_MIN = 1.45842E-18    !   [meter second-1]
                                 ! The (tiny) minimum friction velocity used within the
                                 ! ePBL code, derived from OMEGA and ANGSTROM.
@@ -725,6 +776,8 @@ MAX_DELTA_SRESTORE = 5.0        !   [PSU or g kg-1] default = 999.0
                                 ! The maximum salinity difference used in restoring terms.
 CD_TIDES = 0.0018               !   [nondim] default = 1.0E-04
                                 ! The drag coefficient that applies to the tides.
+GUST_CONST = 0.0                !   [Pa] default = 0.02
+                                ! The background gustiness in the winds.
 USE_RIGID_SEA_ICE = True        !   [Boolean] default = False
                                 ! If true, sea-ice is rigid enough to exert a
                                 ! nonhydrostatic pressure that resist vertical motion.
