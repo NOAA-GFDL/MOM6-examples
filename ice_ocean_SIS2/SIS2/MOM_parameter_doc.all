@@ -644,6 +644,11 @@ INTERPOLATE_RES_FN = True       !   [Boolean] default = True
                                 ! velocity points from the thickness points; otherwise
                                 ! interpolate the wave speed and calculate the resolution
                                 ! function independently at each point.
+USE_VISBECK_SLOPE_BUG = False   !   [Boolean] default = False
+                                ! If true, then retain a legacy bug in the calculation of weights
+                                ! applied to isoneutral slopes. There was an erroneous k-indexing
+                                ! for layer thicknesses. In addition, masking at coastlines was not
+                                ! used which introduced potential restart issues.  This flag will be \mdeprecated in a future release.
 GILL_EQUATORIAL_LD = False      !   [Boolean] default = False
                                 ! If true, uses Gill's definition of the baroclinic
                                 ! equatorial deformation radius, otherwise, if false, use
