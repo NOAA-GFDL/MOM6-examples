@@ -1060,9 +1060,11 @@ KH_VEL_SCALE = 0.0              !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the grid
                                 ! spacing to calculate the Laplacian viscosity.
                                 ! The final viscosity is the largest of this scaled
-                                ! viscosity, the Smagorinsky viscosity and KH.
+                                ! viscosity, the Smagorinsky and Leith viscosities, and KH.
 SMAGORINSKY_KH = False          !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
+LEITH_KH = False                !   [Boolean] default = False
+                                ! If true, use a Leith nonlinear eddy viscosity.
 BOUND_KH = True                 !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited
                                 ! to be stable.
@@ -1078,9 +1080,12 @@ AH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the cube of
                                 ! the grid spacing to calculate the biharmonic viscosity.
                                 ! The final viscosity is the largest of this scaled
-                                ! viscosity, the Smagorinsky viscosity and AH.
+                                ! viscosity, the Smagorinsky and Leith viscosities, and AH.
 SMAGORINSKY_AH = True           !   [Boolean] default = False
                                 ! If true, use a biharmonic Smagorinsky nonlinear eddy
+                                ! viscosity.
+LEITH_AH = False                !   [Boolean] default = False
+                                ! If true, use a biharmonic Leith nonlinear eddy
                                 ! viscosity.
 BOUND_AH = True                 !   [Boolean] default = True
                                 ! If true, the biharmonic coefficient is locally limited
