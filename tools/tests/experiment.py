@@ -8,6 +8,7 @@ import shlex
 import random
 import subprocess as sp
 import run_config as rc
+import fileinput
 from model import Model
 
 # Only support Python version >= 2.7
@@ -236,6 +237,40 @@ class Experiment:
         Return a list of the unfinished diagnostics for this experiment.
         """
         return self.unfinished_diags
+
+    def set_mom_input_option(self, option, value):
+        """
+        Set an option in the MOM_input file.
+        """
+
+        fname = os.path.join(self.path, 'MOM_input')
+        self.set_input_option(fname, option, value)
+
+    def set_sis_input_option(self, option, value):
+        """
+        Set an option in the SIS_input file.
+        """
+
+        fname = os.path.join(self.path, 'SIS_input')
+        self.set_input_option(fname, option, value)
+
+    def set_input_option(fname, option, value):
+
+        found = False
+        optstr = option + ' = ' + value + '\n'
+
+        fname = os.path.join(self.path, 'MOM_input')
+        with fileinput.FileInput(fname, inplace=True) as f:
+            for line in f:
+                if line.startswith(option):
+                    print(optstr, end='')
+                    found = True
+                else:
+                    print(line, end='')
+
+        if not found:
+            with open(fname, 'a') as f:
+                f.write(optstr)
 
 
 def create_experiments(platform='raijin'):
