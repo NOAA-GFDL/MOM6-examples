@@ -254,12 +254,11 @@ class Experiment:
         fname = os.path.join(self.path, 'SIS_input')
         self.set_input_option(fname, option, value)
 
-    def set_input_option(fname, option, value):
+    def set_input_option(self, fname, option, value):
 
         found = False
         optstr = option + ' = ' + value + '\n'
 
-        fname = os.path.join(self.path, 'MOM_input')
         with fileinput.FileInput(fname, inplace=True) as f:
             for line in f:
                 if line.startswith(option):

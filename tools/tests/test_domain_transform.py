@@ -44,6 +44,8 @@ class TestDomainTransform:
         exp.set_mom_input_option('TRANSFORM_TEST', 'True')
         exp.set_mom_input_option('DIFFUSE_ML_TO_INTERIOR', 'False')
         exp.set_mom_input_option('RESTORE_SALINITY', 'False')
+
+        exp.set_sis_input_option('DEBUG', 'True')
         exp.set_sis_input_option('TRANSFORM_TEST', 'True')
 
         modify_input_nml(exp, set_short_runtime=True)
@@ -63,7 +65,6 @@ class TestDomainTransform:
     def test_baltic_rotate180(self):
         pass
 
-    @pytest.mark.skip
     def test_double_gyre_transpose(self):
         """
         Test that the double gyre case gives identical results with a
@@ -76,7 +77,6 @@ class TestDomainTransform:
         exp.set_mom_input_option('DEBUG', 'True')
         exp.set_mom_input_option('TRANSFORM_TEST', 'True')
         exp.set_mom_input_option('DAYMAX', '1.0')
-        exp.set_mom_input_option('NIGLOBAL', '40')
 
         modify_input_nml(exp)
 
