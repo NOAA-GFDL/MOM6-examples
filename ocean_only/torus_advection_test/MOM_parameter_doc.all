@@ -290,6 +290,11 @@ SPONGE = False                  !   [Boolean] default = False
                                 ! specified from MOM_initialization.F90.
 MASK_TRACERS_IN_MASSLESS_LAYERS = False !   [Boolean] default = False
                                 ! If true, tracers will be masked out in massless layers.
+TRACERS_MAY_REINIT = False      !   [Boolean] default = False
+                                ! If true, tracers may go through the initialization code
+                                ! if they are not found in the restart files.  Otherwise
+                                ! it is a fatal error if the tracers are not found in the
+                                ! restart files of a restarted run.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."

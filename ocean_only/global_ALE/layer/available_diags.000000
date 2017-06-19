@@ -3039,6 +3039,22 @@
     ! long_name: Vertically Integrated Diffusive Meridional Flux of Salinity
     ! units: PPT meter3 second-1
     ! cell_methods: xh:mean yq:point
+"ocean_model", "h_pre_dyn"  [Unused]
+    ! long_name: Layer Thickness before dynamics step
+    ! units: meter
+    ! cell_methods: xh:mean yh:mean zl:mean
+"ocean_model", "h_pre_dyn_xyave"  [Unused]
+    ! long_name: Layer Thickness before dynamics step
+    ! units: meter
+    ! cell_methods: zl:mean
+"ocean_model_z", "h_pre_dyn"  [Unused]
+    ! long_name: Layer Thickness before dynamics step
+    ! units: meter
+    ! cell_methods: xh:mean yh:mean z_l:mean
+"ocean_model_z", "h_pre_dyn_xyave"  [Unused]
+    ! long_name: Layer Thickness before dynamics step
+    ! units: meter
+    ! cell_methods: z_l:mean
 "ocean_model", "u_predia"  [Unused]
     ! long_name: Zonal velocity before diabatic forcing
     ! units: meter second-1
@@ -3733,7 +3749,7 @@
     ! units: kilogram meter-2
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "massin_flux"  [Unused]
-    ! long_name: Net mass mass flux of freshwater into the ocean (used in boundary flux calculation)
+    ! long_name: Net mass flux of freshwater into the ocean (used in boundary flux calculation)
     ! units: kilogram meter-2
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "total_PRCmE"  [Used]
