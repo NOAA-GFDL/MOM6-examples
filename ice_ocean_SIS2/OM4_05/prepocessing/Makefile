@@ -22,7 +22,7 @@ showenv:
 	which python
 	-python --version
 
-forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mosaic_ocean.1080x768/runoff.daitren.clim.v2011.02.10a.1080x768.nc
+forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mosaic_ocean.1080x768/runoff.daitren.clim.v2011.02.10a.1080x768.nc geothermal_davies2013_v1.nc
 
 obs: WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
 
@@ -86,6 +86,14 @@ salt_restore.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/datasets/obs/WOA05_
 seawifs_1998-2006_smoothed_2X.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/datasets/global/siena_201204/INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc interpCHL.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpCHL.py
 	ncatted -h -a modulo,TIME,c,c,' ' seawifs_1998-2006_smoothed_2X.nc
+
+geothermal_davies2013_v1.nc: OM4_05_preprocessing_geothermal/geothermal_davies2013_v1.nc
+	cp $^ $@
+OM4_05_preprocessing_geothermal/geothermal_davies2013_v1.nc: OM4_05_preprocessing_geothermal/Makefile
+	cp ocean_hgrid.nc $(@D)/
+	cd $(@D); make
+OM4_05_preprocessing_geothermal/Makefile:
+	git clone https://github.com/adcroft/OM4_05_preprocessing_geothermal.git
 
 tidal_amplitude.nc: DATA interpTides.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpTides.py
@@ -174,7 +182,7 @@ mosaic_c192.1080x768/mosaic.nc: mosaic_ocean.1080x768/ocean_mosaic.nc ocean_topo
 %.cdl: %.nc
 	ncdump $< | egrep -v 'code_version|history' > $@
 
-md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc so_topog_gebco.nc ocean_topog.nc $(OCN_MOSAIC) $(C96_MOSAIC) $(C192_MOSAIC) basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
+md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc so_topog_gebco.nc ocean_topog.nc $(OCN_MOSAIC) $(C96_MOSAIC) $(C192_MOSAIC) basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc geothermal_davies2013_v1.nc
 	echo Grids > $@
 	md5sum *supergrid.nc ocean_hgrid.nc >> $@
 	echo >> $@
@@ -189,6 +197,7 @@ md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.
 	echo >> $@
 	echo Data >> $@
 	md5sum salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc >> $@
+	md5sum geothermal_davies2013_v1.nc >> $@
 	echo >> $@
 	echo Obs >> $@
 	md5sum WOA05_ptemp_salt_{monthly,annual}.nc >> $@
