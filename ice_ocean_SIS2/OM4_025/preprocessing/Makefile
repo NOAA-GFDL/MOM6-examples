@@ -108,9 +108,7 @@ tpxo7_atlas_netcdf.tar.Z:
 
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
-	(cd MIDAS; git checkout angle_fix)
-	(cd MIDAS; git clone https://github.com/angus-g/mom6-coordinate.git)
-	(cd MIDAS/mom6-coordinate; git submodule init; git submodule update; cd remapping; ./build.sh)
+	(cd MIDAS; git checkout fd8160cf259fd33009749ee8d7cb4e7281ed0293)
 
 local: MIDAS 
 	-rm -rf $</build/*
