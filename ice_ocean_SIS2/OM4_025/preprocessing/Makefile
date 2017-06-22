@@ -12,7 +12,7 @@
 SHELL=tcsh -f
 NP=8
 
-all: ocean_mosaic c96_mosaic c192_mosaic forcing obs
+all: ocean_grid ocean_mosaic c96_mosaic c192_mosaic forcing obs
 	md5sum -c md5sums.txt
 
 showenv:
@@ -27,11 +27,13 @@ forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mos
 obs: WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
 
 # Grids
-supergrid.nc: mercator_supergrid.nc ncap_supergrid.nc antarctic_spherical_supergrid.nc scap_supergrid.nc local
-	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python merge_grids.py
-
-mercator_supergrid.nc ncap_supergrid.nc antarctic_spherical_supergrid.nc scap_supergrid.nc: local
-	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python create_grids.py
+ocean_grid: ocean_hgrid.nc supergrid.nc mercator_supergrid.nc ncap_supergrid.nc antarctic_spherical_supergrid.nc scap_supergrid.nc
+ocean_hgrid.nc supergrid.nc mercator_supergrid.nc ncap_supergrid.nc antarctic_spherical_supergrid.nc scap_supergrid.nc: OM4_025_grid/ocean_hgrid.nc
+	cp OM4_025_grid/$@ $@
+OM4_025_grid/ocean_hgrid.nc: OM4_025_grid/Makefile
+	cd $(@D); make
+OM4_025_grid/Makefile:
+	git clone https://github.com/adcroft/OM4_025_grid.git
 
 # Topography
 interpolated_topog.nc: ncap_topog.nc ncap_topog_gebco.nc mercator_topog_gebco.nc so_topog_gebco.nc scap_topog_gebco.nc local
@@ -51,11 +53,6 @@ scap_topog_bedmap2.nc so_topog_bedmap2.nc: mercator_supergrid.nc ncap_supergrid.
 
 scap_topog_gebco.nc so_topog_gebco.nc: mercator_supergrid.nc ncap_supergrid.nc antarctic_spherical_supergrid.nc scap_supergrid.nc GEBCO_08_v1.nc local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python create_topo.py scap --use_gebco
-
-# Sets char tile='tile1'
-ocean_hgrid.nc: supergrid.nc
-	ncks -h -d ny,80, -d nyp,80, supergrid.nc ocean_hgrid.nc
-	./changeChar.py ocean_hgrid.nc tile tile1
 
 edit_topog.nc: interpolated_topog.nc
 	\cp interpolated_topog.nc edit_topog.nc
@@ -111,7 +108,9 @@ tpxo7_atlas_netcdf.tar.Z:
 
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
-	(cd MIDAS; git checkout 446ea813e2d64a4a10f8209deea905bed64bc1b0)
+	(cd MIDAS; git checkout angle_fix)
+	(cd MIDAS; git clone https://github.com/angus-g/mom6-coordinate.git)
+	(cd MIDAS/mom6-coordinate; git submodule init; git submodule update; cd remapping; ./build.sh)
 
 local: MIDAS 
 	-rm -rf $</build/*
