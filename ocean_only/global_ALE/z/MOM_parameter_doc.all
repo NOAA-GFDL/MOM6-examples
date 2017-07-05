@@ -742,18 +742,12 @@ USE_STORED_SLOPES = True        !   [Boolean] default = False
                                 ! If true, the isopycnal slopes are calculated once and
                                 ! stored for re-use. This uses more memory but avoids calling
                                 ! the equation of state more times than should be necessary.
-VISBECK_MAX_SLOPE = 0.0         !   [nondim] default = 0.0
-                                ! If non-zero, is an upper bound on slopes used in the
-                                ! Visbeck formula for diffusivity. This does not affect the
-                                ! isopycnal slope calculation used within thickness diffusion.
 KD_SMOOTH = 1.0E-06             !   [not defined] default = 1.0E-06
                                 ! A diapycnal diffusivity that is used to interpolate
                                 ! more sensible values of T & S into thin layers.
 VARMIX_KTOP = 2                 !   [nondim] default = 2
                                 ! The layer number at which to start vertical integration
                                 ! of S*N for purposes of finding the Eady growth rate.
-VISBECK_L_SCALE = 0.0           !   [m] default = 0.0
-                                ! The fixed length scale in the Visbeck formula.
 KH_RES_SCALE_COEF = 1.0         !   [nondim] default = 1.0
                                 ! A coefficient that determines how KhTh is scaled away if
                                 ! RESOLN_SCALED_... is true, as
@@ -1341,6 +1335,11 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
 FOX_KEMPER_ML_RESTRAT_COEF2 = 0.0 !   [nondim] default = 0.0
                                 ! As for FOX_KEMPER_ML_RESTRAT_COEF but used in a second application
                                 ! of the MLE restratification parameterization.
+MLE_FRONT_LENGTH = 0.0          !   [m] default = 0.0
+                                ! If non-zero, is the frontal-length scale used to calculate the
+                                ! upscaling of buoyancy gradients that is otherwise represented
+                                ! by the parameter FOX_KEMPER_ML_RESTRAT_COEF. If MLE_FRONT_LENGTH is
+                                ! non-zero, it is recommended to set FOX_KEMPER_ML_RESTRAT_COEF=1.0.
 MLE_USE_PBL_MLD = False         !   [Boolean] default = False
                                 ! If true, the MLE parameterization will use the mixed-layer
                                 ! depth provided by the active PBL parameterization. If false,
