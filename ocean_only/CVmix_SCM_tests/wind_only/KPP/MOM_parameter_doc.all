@@ -361,6 +361,7 @@ BETA = 0.0                      !   [m-1 s-1] default = 0.0
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "none"           !
                                 ! This specifies how layers are to be defined:
+                                !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
                                 !     BFB - Custom coords for buoyancy-forced basin case
@@ -376,6 +377,8 @@ COORD_CONFIG = "none"           !
                                 !     ts_profile - use temperature and salinity profiles
                                 !       (read from COORD_FILE) to set layer densities.
                                 !     USER - call a user modified routine.
+GFS = 9.80616                   !   [m s-2] default = 9.80616
+                                ! The reduced gravity at the free surface.
 BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! When defined, the reconstruction is extrapolated
                                 ! within boundary cells rather than assume PCM for the.
