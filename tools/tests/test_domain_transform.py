@@ -41,12 +41,12 @@ class TestDomainTransform:
 
         # Setup MOM_input for the test.
         exp.set_mom_input_option('DEBUG', 'True')
-        exp.set_mom_input_option('TRANSFORM_TEST', 'True')
+        exp.set_mom_input_option('TRANSFORM_TEST', 'TRANSPOSE')
         exp.set_mom_input_option('DIFFUSE_ML_TO_INTERIOR', 'False')
         exp.set_mom_input_option('RESTORE_SALINITY', 'False')
 
         exp.set_sis_input_option('DEBUG', 'True')
-        exp.set_sis_input_option('TRANSFORM_TEST', 'True')
+        exp.set_sis_input_option('TRANSFORM_TEST', 'TRANSPOSE')
 
         modify_input_nml(exp, set_short_runtime=True)
 
@@ -75,7 +75,7 @@ class TestDomainTransform:
 
         # Setup MOM_input for the test.
         exp.set_mom_input_option('DEBUG', 'True')
-        exp.set_mom_input_option('TRANSFORM_TEST', 'True')
+        exp.set_mom_input_option('TRANSFORM_TEST', 'TRANSPOSE')
         exp.set_mom_input_option('DAYMAX', '1.0')
 
         modify_input_nml(exp)
