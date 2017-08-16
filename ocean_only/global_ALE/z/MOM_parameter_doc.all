@@ -1950,6 +1950,12 @@ CHECK_DIFFUSIVE_CFL = False     !   [Boolean] default = False
 ! This module implements neutral diffusion of tracers
 USE_NEUTRAL_DIFFUSION = True    !   [Boolean] default = False
                                 ! If true, enables the neutral diffusion module.
+NDIFF_CONTINUOUS = True         !   [Boolean] default = True
+                                ! If true, uses a continuous reconstruction of T and S when
+                                ! finding neutral surfaces along which diffusion will happen.
+                                ! If false, a PPM discontinuous reconstruction of T and S
+                                ! is done which results in a higher order routine but exacts
+                                ! a higher computational cost.
 OBSOLETE_DIAGNOSTIC_IS_FATAL = True !   [Boolean] default = True
                                 ! If an obsolete diagnostic variable appears in the diag_table
                                 ! then cause a FATAL error rather than issue a WARNING.
