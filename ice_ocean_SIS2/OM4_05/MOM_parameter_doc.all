@@ -1975,6 +1975,10 @@ NDIFF_CONTINUOUS = True         !   [Boolean] default = True
                                 ! If false, a PPM discontinuous reconstruction of T and S
                                 ! is done which results in a higher order routine but exacts
                                 ! a higher computational cost.
+NDIFF_REF_PRES = -1.0           !   [not defined] default = -1.0
+                                ! The reference pressure (Pa) used for the derivatives of
+                                ! the equation of state. If negative (default), local
+                                ! pressure is used.
 OBSOLETE_DIAGNOSTIC_IS_FATAL = True !   [Boolean] default = True
                                 ! If an obsolete diagnostic variable appears in the diag_table
                                 ! then cause a FATAL error rather than issue a WARNING.
