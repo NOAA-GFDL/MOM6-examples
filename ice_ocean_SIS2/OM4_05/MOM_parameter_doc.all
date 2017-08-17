@@ -577,13 +577,21 @@ INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
 ! === module MOM_initialize_layers_from_Z ===
 TEMP_SALT_Z_INIT_FILE = "WOA05_pottemp_salt.nc" ! default = "temp_salt_z.nc"
                                 ! The name of the z-space input file used to initialize
-                                ! the layer thicknesses, temperatures and salinities.
+                                ! temperatures (T) and salinities (S). If T and S are not
+                                ! in the same file, TEMP_Z_INIT_FILE and SALT_Z_INIT_FILE
+                                ! must be set.
+TEMP_Z_INIT_FILE = "WOA05_pottemp_salt.nc" ! default = "WOA05_pottemp_salt.nc"
+                                ! The name of the z-space input file used to initialize
+                                ! temperatures, only.
+SALT_Z_INIT_FILE = "WOA05_pottemp_salt.nc" ! default = "WOA05_pottemp_salt.nc"
+                                ! The name of the z-space input file used to initialize
+                                ! temperatures, only.
 Z_INIT_FILE_PTEMP_VAR = "PTEMP" ! default = "ptemp"
                                 ! The name of the potential temperature variable in
-                                ! TEMP_SALT_Z_INIT_FILE.
+                                ! TEMP_Z_INIT_FILE.
 Z_INIT_FILE_SALT_VAR = "SALT"   ! default = "salt"
                                 ! The name of the salinity variable in
-                                ! TEMP_SALT_Z_INIT_FILE.
+                                ! SALT_Z_INIT_FILE.
 Z_INIT_HOMOGENIZE = False       !   [Boolean] default = False
                                 ! If True, then horizontally homogenize the interpolated
                                 ! initial conditions.
