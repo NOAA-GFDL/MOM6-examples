@@ -234,24 +234,9 @@ BOUND_CORIOLIS = True           !   [Boolean] default = False
                                 ! CORIOLIS_SCHEME set to SADOURNY75_ENERGY.
 
 ! === module MOM_hor_visc ===
-LAPLACIAN = True                !   [Boolean] default = False
-                                ! If true, use a Laplacian horizontal viscosity.
-KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
-                                ! The velocity scale which is multiplied by the grid
-                                ! spacing to calculate the Laplacian viscosity.
-                                ! The final viscosity is the largest of this scaled
-                                ! viscosity, the Smagorinsky viscosity and KH.
-AH_VEL_SCALE = 0.05             !   [m s-1] default = 0.0
-                                ! The velocity scale which is multiplied by the cube of
-                                ! the grid spacing to calculate the Laplacian viscosity.
-                                ! The final viscosity is the largest of this scaled
-                                ! viscosity, the Smagorinsky viscosity and AH.
-SMAGORINSKY_AH = True           !   [Boolean] default = False
-                                ! If true, use a biharmonic Smagorinsky nonlinear eddy
-                                ! viscosity.
-SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
-                                ! The nondimensional biharmonic Smagorinsky constant,
-                                ! typically 0.015 - 0.06.
+BIHARMONIC = False              !   [Boolean] default = True
+                                ! If true, use a biharmonic horizontal viscosity.
+                                ! BIHARMONIC may be used with LAPLACIAN.
 
 ! === module MOM_vert_friction ===
 U_TRUNC_FILE = "U_velocity_truncations" ! default = ""

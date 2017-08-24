@@ -2,6 +2,7 @@
 import os
 
 import pytest
+import subprocess as sp
 from dump_all_diagnostics import dump_diags
 from experiment import create_experiments, exp_id_from_path
 
@@ -47,6 +48,10 @@ def exp(request):
     """
     exp = request.param
 
+    # Make sure that the experiment has the original diag_table
+    diag_table = os.path.join(exp.path, 'diag_table')
+    sp.check_call(['git', 'checkout', diag_table])
+
     # Run the experiment to get latest code changes, and updates to the
     # available_diags. This will do nothing if the experiment has already been
     # run.
@@ -79,14 +84,6 @@ def exp_diags_not_dumped():
 
     return exp
 
-
-def restore_after_test():
-    """
-    Restore experiment state after running a test.
-
-    - The diag_table files needs to be switched back (?)
-    """
-    pass
 
 @pytest.fixture(scope='module')
 def prepare_to_test():
