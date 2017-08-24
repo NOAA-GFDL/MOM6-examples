@@ -24,7 +24,7 @@ The top level directory structure groups source code and input files as follow:
 
 | File/directory              | Purpose |
 | --------------              | ------- |
-| ```LICENSE.md```            | a copy of the Gnu general public license, version 3. |
+| ```LICENSE.md```            | a copy of the Gnu lesser general public license, version 3. |
 | ```README.md```             | this file with basic pointers to more information. |
 | ```src/```                  | source code for MOM6, SIS2 and FMS-shared code. |
 | ```tools/```                | tools for working with MOM6 (not source code and not necessarily supported). |
