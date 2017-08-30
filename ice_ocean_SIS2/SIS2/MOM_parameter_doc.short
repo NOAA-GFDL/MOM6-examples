@@ -76,20 +76,6 @@ NK = 63                         !   [nondim]
 
 ! === module MOM_tracer_registry ===
 
-! === module MOM_EOS ===
-
-! === module MOM_restart ===
-
-! === module MOM_tracer_flow_control ===
-USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
-                                ! If true, use the ideal_age_example tracer package.
-USE_OCMIP2_CFC = True           !   [Boolean] default = False
-                                ! If true, use the MOM_OCMIP2_CFC tracer package.
-
-! === module ideal_age_example ===
-
-! === module MOM_OCMIP2_CFC ===
-
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -152,6 +138,20 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
                                 !       test case.
                                 !     file - Read open face widths everywhere from a
                                 !       NetCDF file on the model grid.
+
+! === module MOM_EOS ===
+
+! === module MOM_restart ===
+
+! === module MOM_tracer_flow_control ===
+USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
+                                ! If true, use the ideal_age_example tracer package.
+USE_OCMIP2_CFC = True           !   [Boolean] default = False
+                                ! If true, use the MOM_OCMIP2_CFC tracer package.
+
+! === module ideal_age_example ===
+
+! === module MOM_OCMIP2_CFC ===
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           !

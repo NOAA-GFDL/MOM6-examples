@@ -54,18 +54,6 @@ NK = 25                         !   [nondim]
 
 ! === module MOM_tracer_registry ===
 
-! === module MOM_restart ===
-
-! === module MOM_tracer_flow_control ===
-USE_DOME_TRACER = True          !   [Boolean] default = False
-                                ! If true, use the DOME_tracer tracer package.
-
-! === module DOME_tracer ===
-SPONGE = True                   !   [Boolean] default = False
-                                ! If true, sponges may be applied anywhere in the domain.
-                                ! The exact location and properties of those sponges are
-                                ! specified from MOM_initialization.F90.
-
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -141,6 +129,18 @@ F_0 = 1.0E-04                   !   [s-1] default = 0.0
                                 ! betaplane option.
 
 ! === module MOM_boundary_update ===
+
+! === module MOM_restart ===
+
+! === module MOM_tracer_flow_control ===
+USE_DOME_TRACER = True          !   [Boolean] default = False
+                                ! If true, use the DOME_tracer tracer package.
+
+! === module DOME_tracer ===
+SPONGE = True                   !   [Boolean] default = False
+                                ! If true, sponges may be applied anywhere in the domain.
+                                ! The exact location and properties of those sponges are
+                                ! specified from MOM_initialization.F90.
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "layer_ref"      !

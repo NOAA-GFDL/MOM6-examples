@@ -176,43 +176,6 @@ NK = 2                          !   [nondim]
 
 ! === module MOM_tracer_registry ===
 
-! === module MOM_restart ===
-PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file,
-                                ! otherwise a single restart file is generated
-RESTARTFILE = "MOM.res"         ! default = "MOM.res"
-                                ! The name-root of the restart file.
-LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
-                                ! If true, use the file-size limits with NetCDF large
-                                ! file support (4Gb), otherwise the limit is 2Gb.
-MAX_FIELDS = 100                ! default = 100
-                                ! The maximum number of restart fields that can be used.
-
-! === module MOM_tracer_flow_control ===
-USE_USER_TRACER_EXAMPLE = False !   [Boolean] default = False
-                                ! If true, use the USER_tracer_example tracer package.
-USE_DOME_TRACER = False         !   [Boolean] default = False
-                                ! If true, use the DOME_tracer tracer package.
-USE_ISOMIP_TRACER = False       !   [Boolean] default = False
-                                ! If true, use the ISOMIP_tracer tracer package.
-USE_IDEAL_AGE_TRACER = False    !   [Boolean] default = False
-                                ! If true, use the ideal_age_example tracer package.
-USE_REGIONAL_DYES = False       !   [Boolean] default = False
-                                ! If true, use the regional_dyes tracer package.
-USE_OIL_TRACER = False          !   [Boolean] default = False
-                                ! If true, use the oil_tracer tracer package.
-USE_ADVECTION_TEST_TRACER = False !   [Boolean] default = False
-                                ! If true, use the advection_test_tracer tracer package.
-USE_OCMIP2_CFC = False          !   [Boolean] default = False
-                                ! If true, use the MOM_OCMIP2_CFC tracer package.
-USE_generic_tracer = False      !   [Boolean] default = False
-                                ! If true and _USE_GENERIC_TRACER is defined as a
-                                ! preprocessor macro, use the MOM_generic_tracer packages.
-USE_PSEUDO_SALT_TRACER = False  !   [Boolean] default = False
-                                ! If true, use the pseudo salt tracer, typically run as a diagnostic.
-USE_BOUNDARY_IMPULSE_TRACER = False !   [Boolean] default = False
-                                ! If true, use the boundary impulse tracer.
-
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -302,6 +265,43 @@ ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
                                 !     USER - call a user modified routine.
 OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
                                 ! The rotation rate of the earth.
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file,
+                                ! otherwise a single restart file is generated
+
+! === module MOM_restart ===
+RESTARTFILE = "MOM.res"         ! default = "MOM.res"
+                                ! The name-root of the restart file.
+LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
+                                ! If true, use the file-size limits with NetCDF large
+                                ! file support (4Gb), otherwise the limit is 2Gb.
+MAX_FIELDS = 100                ! default = 100
+                                ! The maximum number of restart fields that can be used.
+
+! === module MOM_tracer_flow_control ===
+USE_USER_TRACER_EXAMPLE = False !   [Boolean] default = False
+                                ! If true, use the USER_tracer_example tracer package.
+USE_DOME_TRACER = False         !   [Boolean] default = False
+                                ! If true, use the DOME_tracer tracer package.
+USE_ISOMIP_TRACER = False       !   [Boolean] default = False
+                                ! If true, use the ISOMIP_tracer tracer package.
+USE_IDEAL_AGE_TRACER = False    !   [Boolean] default = False
+                                ! If true, use the ideal_age_example tracer package.
+USE_REGIONAL_DYES = False       !   [Boolean] default = False
+                                ! If true, use the regional_dyes tracer package.
+USE_OIL_TRACER = False          !   [Boolean] default = False
+                                ! If true, use the oil_tracer tracer package.
+USE_ADVECTION_TEST_TRACER = False !   [Boolean] default = False
+                                ! If true, use the advection_test_tracer tracer package.
+USE_OCMIP2_CFC = False          !   [Boolean] default = False
+                                ! If true, use the MOM_OCMIP2_CFC tracer package.
+USE_generic_tracer = False      !   [Boolean] default = False
+                                ! If true and _USE_GENERIC_TRACER is defined as a
+                                ! preprocessor macro, use the MOM_generic_tracer packages.
+USE_PSEUDO_SALT_TRACER = False  !   [Boolean] default = False
+                                ! If true, use the pseudo salt tracer, typically run as a diagnostic.
+USE_BOUNDARY_IMPULSE_TRACER = False !   [Boolean] default = False
+                                ! If true, use the boundary impulse tracer.
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "gprime"         !
