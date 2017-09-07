@@ -95,23 +95,6 @@ NK = 75                         !   [nondim]
 
 ! === module MOM_tracer_registry ===
 
-! === module MOM_EOS ===
-TFREEZE_FORM = "MILLERO_78"     ! default = "LINEAR"
-                                ! TFREEZE_FORM determines which expression should be
-                                ! used for the freezing point.  Currently, the valid
-                                ! choices are "LINEAR", "MILLERO_78", "TEOS10"
-
-! === module MOM_restart ===
-PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file,
-                                ! otherwise a single restart file is generated
-
-! === module MOM_tracer_flow_control ===
-USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
-                                ! If true, use the ideal_age_example tracer package.
-
-! === module ideal_age_example ===
-
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -179,6 +162,23 @@ CHANNEL_CONFIG = "list"         ! default = "none"
                                 !       NetCDF file on the model grid.
 CHANNEL_LIST_FILE = "MOM_channels_FLOR" ! default = "MOM_channel_list"
                                 ! The file from which the list of narrowed channels is read.
+
+! === module MOM_EOS ===
+TFREEZE_FORM = "MILLERO_78"     ! default = "LINEAR"
+                                ! TFREEZE_FORM determines which expression should be
+                                ! used for the freezing point.  Currently, the valid
+                                ! choices are "LINEAR", "MILLERO_78", "TEOS10"
+
+! === module MOM_restart ===
+PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file,
+                                ! otherwise a single restart file is generated
+
+! === module MOM_tracer_flow_control ===
+USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
+                                ! If true, use the ideal_age_example tracer package.
+
+! === module ideal_age_example ===
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           !

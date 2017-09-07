@@ -78,28 +78,6 @@ NK = 50                         !   [nondim]
 
 ! === module MOM_tracer_registry ===
 
-! === module MOM_EOS ===
-
-! === module MOM_restart ===
-
-! === module MOM_tracer_flow_control ===
-USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
-                                ! If true, use the ideal_age_example tracer package.
-USE_ADVECTION_TEST_TRACER = True !   [Boolean] default = False
-                                ! If true, use the advection_test_tracer tracer package.
-
-! === module ideal_age_example ===
-
-! === module advection_test_tracer ===
-ADVECTION_TEST_X_ORIGIN = 19.5  !   [not defined] default = 0.0
-                                ! The x-coorindate of the center of the test-functions.
-ADVECTION_TEST_Y_ORIGIN = 60.5  !   [not defined] default = 0.0
-                                ! The y-coorindate of the center of the test-functions.
-ADVECTION_TEST_X_WIDTH = 1.0    !   [not defined] default = 0.0
-                                ! The x-width of the test-functions.
-ADVECTION_TEST_Y_WIDTH = 1.0    !   [not defined] default = 0.0
-                                ! The y-width of the test-functions.
-
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -162,6 +140,28 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
                                 !       test case.
                                 !     file - Read open face widths everywhere from a
                                 !       NetCDF file on the model grid.
+
+! === module MOM_EOS ===
+
+! === module MOM_restart ===
+
+! === module MOM_tracer_flow_control ===
+USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
+                                ! If true, use the ideal_age_example tracer package.
+USE_ADVECTION_TEST_TRACER = True !   [Boolean] default = False
+                                ! If true, use the advection_test_tracer tracer package.
+
+! === module ideal_age_example ===
+
+! === module advection_test_tracer ===
+ADVECTION_TEST_X_ORIGIN = 19.5  !   [not defined] default = 0.0
+                                ! The x-coorindate of the center of the test-functions.
+ADVECTION_TEST_Y_ORIGIN = 60.5  !   [not defined] default = 0.0
+                                ! The y-coorindate of the center of the test-functions.
+ADVECTION_TEST_X_WIDTH = 1.0    !   [not defined] default = 0.0
+                                ! The x-width of the test-functions.
+ADVECTION_TEST_Y_WIDTH = 1.0    !   [not defined] default = 0.0
+                                ! The y-width of the test-functions.
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           !
