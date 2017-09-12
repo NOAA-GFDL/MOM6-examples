@@ -10,7 +10,7 @@ DO_UNIT_TESTS = False           !   [Boolean] default = False
                                 ! If True, exercises unit tests at model start up.
 SPLIT = True                    !   [Boolean] default = True
                                 ! Use the split time stepping if true.
-USE_LEGACY_SPLIT = True         !   [Boolean] default = False
+USE_LEGACY_SPLIT = False        !   [Boolean] default = False
                                 ! If true, use the full range of options available from
                                 ! the older GOLD-derived split time stepping code.
 CALC_RHO_FOR_SEA_LEVEL = False  !   [Boolean] default = False
@@ -278,7 +278,7 @@ ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
                                 !     USER - call a user modified routine.
 OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
                                 ! The rotation rate of the earth.
-PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
                                 ! If true, each processor writes its own restart file,
                                 ! otherwise a single restart file is generated
 
@@ -747,17 +747,6 @@ BEGW = 0.0                      !   [nondim] default = 0.0
                                 ! Euler (1).  0 is almost always used.
                                 ! If SPLIT is false and USE_RK2 is true, BEGW can be
                                 ! between 0 and 0.5 to damp gravity waves.
-FLUX_BT_COUPLING = True         !   [Boolean] default = False
-                                ! If true, use mass fluxes to ensure consistency between
-                                ! the baroclinic and barotropic modes. This is only used
-                                ! if SPLIT is true.
-READJUST_BT_TRANS = True        !   [Boolean] default = False
-                                ! If true, make a barotropic adjustment to the layer
-                                ! velocities after the thermodynamic part of the step
-                                ! to ensure that the interaction between the thermodynamics
-                                ! and the continuity solver do not change the barotropic
-                                ! transport.  This is only used if FLUX_BT_COUPLING and
-                                ! SPLIT are true.
 SPLIT_BOTTOM_STRESS = False     !   [Boolean] default = False
                                 ! If true, provide the bottom stress calculated by the
                                 ! vertical viscosity to the barotropic solver.
@@ -815,7 +804,7 @@ CONT_PPM_VOLUME_BASED_CFL = False !   [Boolean] default = False
                                 ! If true, use the ratio of the open face lengths to the
                                 ! tracer cell areas when estimating CFL numbers.  The
                                 ! default is set by CONT_PPM_AGGRESS_ADJUST.
-CONTINUITY_CFL_LIMIT = 1.0      !   [nondim] default = 0.5
+CONTINUITY_CFL_LIMIT = 0.5      !   [nondim] default = 0.5
                                 ! The maximum CFL of the adjusted velocities.
 CONT_PPM_BETTER_ITER = False    !   [Boolean] default = True
                                 ! If true, stop corrective iterations using a velocity
@@ -999,14 +988,27 @@ MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the
                                 ! barotropic solver are limited to values that require
-                                ! less than 0.1*MAXVEL to be accommodated.
+                                ! less than maxCFL_BT_cont to be accommodated.
+BT_CONT_CORR_BOUNDS = True      !   [Boolean] default = True
+                                ! If true, and BOUND_BT_CORRECTION is true, use the
+                                ! BT_cont_type variables to set limits determined by
+                                ! MAXCFL_BT_CONT on the CFL number of the velocites
+                                ! that are likely to be driven by the corrective mass fluxes.
+ADJUST_BT_CONT = False          !   [Boolean] default = False
+                                ! If true, adjust the curve fit to the BT_cont type
+                                ! that is used by the barotropic solver to match the
+                                ! transport about which the flow is being linearized.
 GRADUAL_BT_ICS = False          !   [Boolean] default = False
                                 ! If true, adjust the initial conditions for the
                                 ! barotropic solver to the values from the layered
                                 ! solution over a whole timestep instead of instantly.
                                 ! This is a decent approximation to the inclusion of
                                 ! sum(u dh_dt) while also correcting for truncation errors.
-USE_BT_CONT_TYPE = False        !   [Boolean] default = True
+BT_USE_VISC_REM_U_UH0 = False   !   [Boolean] default = False
+                                ! If true, use the viscous remnants when estimating the
+                                ! barotropic velocities that were used to calculate uh0
+                                ! and vh0.  False is probably the better choice.
+USE_BT_CONT_TYPE = True         !   [Boolean] default = True
                                 ! If true, use a structure with elements that describe
                                 ! effective face areas from the summed continuity solver
                                 ! as a function the barotropic flow in coupling between
@@ -1020,12 +1022,6 @@ NONLIN_BT_CONT_UPDATE_PERIOD = 1 !   [nondim] default = 1
                                 ! If NONLINEAR_BT_CONTINUITY is true, this is the number
                                 ! of barotropic time steps between updates to the face
                                 ! areas, or 0 to update only before the barotropic stepping.
-RESCALE_BT_FACE_AREAS = True    !   [Boolean] default = False
-                                ! If true, the face areas used by the barotropic solver
-                                ! are rescaled to approximately reflect the open face
-                                ! areas of the interior layers.  This probably requires
-                                ! FLUX_BT_COUPLING to work, and should not be used with
-                                ! USE_BT_CONT_TYPE.
 BT_MASS_SOURCE_LIMIT = 0.0      !   [nondim] default = 0.0
                                 ! The fraction of the initial depth of the ocean that can
                                 ! be added to or removed from the bartropic solution
@@ -1048,7 +1044,7 @@ SADOURNY = True                 !   [Boolean] default = True
                                 ! the Arakawa & Hsu scheme is used.  If the internal
                                 ! deformation radius is not resolved, the Sadourny scheme
                                 ! should probably be used.
-BT_THICK_SCHEME = "HYBRID"      ! default = "FROM_BT_CONT"
+BT_THICK_SCHEME = "FROM_BT_CONT" ! default = "FROM_BT_CONT"
                                 ! A string describing the scheme that is used to set the
                                 ! open face areas used for barotropic transport and the
                                 ! relative weights of the accelerations. Valid values are:
@@ -1060,10 +1056,7 @@ BT_THICK_SCHEME = "HYBRID"      ! default = "FROM_BT_CONT"
                                 !       layers that straddle that depth
                                 !    FROM_BT_CONT - use the average thicknesses kept
                                 !       in the h_u and h_v fields of the BT_cont_type
-APPLY_BT_DRAG = True            !   [Boolean] default = True
-                                ! If defined, bottom drag is applied within the
-                                ! barotropic solver.
-BT_STRONG_DRAG = False          !   [Boolean] default = True
+BT_STRONG_DRAG = False          !   [Boolean] default = False
                                 ! If true, use a stronger estimate of the retarding
                                 ! effects of strong bottom drag, by making it implicit
                                 ! with the barotropic time-step instead of implicit with
@@ -1071,9 +1064,9 @@ BT_STRONG_DRAG = False          !   [Boolean] default = True
                                 ! barotropic steps.
 CLIP_BT_VELOCITY = False        !   [Boolean] default = False
                                 ! If true, limit any velocity components that exceed
-                                ! MAXVEL.  This should only be used as a desperate
+                                ! CFL_TRUNCATE.  This should only be used as a desperate
                                 ! debugging measure.
-MAXCFL_BT_CONT = 0.1            !   [nondim] default = 0.1
+MAXCFL_BT_CONT = 0.25           !   [nondim] default = 0.25
                                 ! The maximum permitted CFL number associated with the
                                 ! barotropic accelerations from the summed velocities
                                 ! times the time-derivatives of thicknesses.
@@ -1641,7 +1634,7 @@ OPACITY_SCHEME = "MANIZZA_05"   ! default = "MANIZZA_05"
                                 !        MOREL_88 - Use Morel, JGR, 1988.
 CHL_FROM_FILE = True            !   [Boolean] default = True
                                 ! If true, chl_a is read from a file.
-CHL_FILE = "/seawifs_1998-2006_GOLD_smoothed_2X.nc" !
+CHL_FILE = "seawifs_1998-2006_GOLD_smoothed_2X.nc" !
                                 ! CHL_FILE is the file containing chl_a concentrations in
                                 ! the variable CHL_A. It is used when VAR_PEN_SW and
                                 ! CHL_FROM_FILE are true.

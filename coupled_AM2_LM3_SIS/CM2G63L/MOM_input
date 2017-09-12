@@ -2,7 +2,8 @@
    the Modular Ocean Model (MOM6), a numerical ocean model developed at NOAA-GFDL.
    Where appropriate, parameters use usually given in MKS units.
 
-   This particular file is for the example in CM2G63L.
+   This particular file is for the example in CM2G63L, now modified to avoid
+   the use of the legacy barotropic solver.
 
    This MOM_input file typically contains only the non-default values that are
    needed to reproduce this example.  A full list of parameters for this example
@@ -52,7 +53,7 @@ NJGLOBAL = 210                  !
                                 ! STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
 !LAYOUT = 10, 6                 !
                                 ! The processor layout that was acutally used.
-IO_LAYOUT = 2, 2                ! default = 0
+IO_LAYOUT = 1, 1                ! default = 0
                                 ! The processor layout to be used, or 0,0 to automatically
                                 ! set the io_layout to be the same as the layout.
 
@@ -65,7 +66,7 @@ NK = 63                         !   [nondim]
 ! Parameters providing information about the vertical grid.
 
 ! === module MOM ===
-USE_LEGACY_SPLIT = True         !   [Boolean] default = False
+USE_LEGACY_SPLIT = False        !   [Boolean] default = False
                                 ! If true, use the full range of options available from
                                 ! the older GOLD-derived split time stepping code.
 THICKNESSDIFFUSE = True         !   [Boolean] default = False
@@ -110,7 +111,7 @@ SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! by IC_OUTPUT_FILE.
 
 ! === module MOM_tracer_registry ===
-PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
                                 ! If true, each processor writes its own restart file,
                                 ! otherwise a single restart file is generated
 
@@ -237,17 +238,6 @@ VISBECK_L_SCALE = 3.0E+04       !   [m] default = 0.0
                                 ! The fixed length scale in the Visbeck formula.
 
 ! === module MOM_wave_speed ===
-FLUX_BT_COUPLING = True         !   [Boolean] default = False
-                                ! If true, use mass fluxes to ensure consistency between
-                                ! the baroclinic and barotropic modes. This is only used
-                                ! if SPLIT is true.
-READJUST_BT_TRANS = True        !   [Boolean] default = False
-                                ! If true, make a barotropic adjustment to the layer
-                                ! velocities after the thermodynamic part of the step
-                                ! to ensure that the interaction between the thermodynamics
-                                ! and the continuity solver do not change the barotropic
-                                ! transport.  This is only used if FLUX_BT_COUPLING and
-                                ! SPLIT are true.
 MONOTONIC_CONTINUITY = True     !   [Boolean] default = False
                                 ! If true, CONTINUITY_PPM uses the Colella and Woodward
                                 ! monotonic limiter.  The default (false) is to use a
@@ -259,7 +249,7 @@ ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.15E-09
                                 ! tolerance for SSH is 4 times this value.  The default
                                 ! is 0.5*NK*ANGSTROM, and this should not be set less x
                                 ! than about 10^-15*MAXIMUM_DEPTH.
-CONTINUITY_CFL_LIMIT = 1.0      !   [nondim] default = 0.5
+CONTINUITY_CFL_LIMIT = 0.5      !   [nondim] default = 0.5
                                 ! The maximum CFL of the adjusted velocities.
 CONT_PPM_BETTER_ITER = False    !   [Boolean] default = True
                                 ! If true, stop corrective iterations using a velocity
@@ -289,7 +279,7 @@ KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! viscosity, the Smagorinsky viscosity and KH.
 AH_VEL_SCALE = 0.05             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the cube of
-                                ! the grid spacing to calculate the Laplacian viscosity.
+                                ! the grid spacing to calculate the biharmonic viscosity.
                                 ! The final viscosity is the largest of this scaled
                                 ! viscosity, the Smagorinsky viscosity and AH.
 SMAGORINSKY_AH = True           !   [Boolean] default = False
@@ -363,7 +353,7 @@ BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! The barotropic x-halo size that is actually used.
 !BT y-halo = 0                  !
                                 ! The barotropic y-halo size that is actually used.
-USE_BT_CONT_TYPE = False        !   [Boolean] default = True
+USE_BT_CONT_TYPE = True         !   [Boolean] default = True
                                 ! If true, use a structure with elements that describe
                                 ! effective face areas from the summed continuity solver
                                 ! as a function the barotropic flow in coupling between
@@ -373,23 +363,17 @@ NONLINEAR_BT_CONTINUITY = True  !   [Boolean] default = False
                                 ! If true, use nonlinear transports in the barotropic
                                 ! continuity equation.  This does not apply if
                                 ! USE_BT_CONT_TYPE is true.
-RESCALE_BT_FACE_AREAS = True    !   [Boolean] default = False
-                                ! If true, the face areas used by the barotropic solver
-                                ! are rescaled to approximately reflect the open face
-                                ! areas of the interior layers.  This probably requires
-                                ! FLUX_BT_COUPLING to work, and should not be used with
-                                ! USE_BT_CONT_TYPE.
-BT_THICK_SCHEME = "HYBRID" ! default = "FROM_BT_CONT"
+BT_THICK_SCHEME = "FROM_BT_CONT" ! default = "FROM_BT_CONT"
                                 ! A string describing the scheme that is used to set the
                                 ! open face areas used for barotropic transport and the
                                 ! relative weights of the accelerations. Valid values are:
                                 !    ARITHMETIC - arithmetic mean layer thicknesses
                                 !    HARMONIC - harmonic mean layer thicknesses
-                                !    HYBRID (the default) - use arithmetic means for
+                                !    HYBRID - use arithmetic means for
                                 !       layers above the shallowest bottom, the harmonic
                                 !       mean for layers below, and a weighted average for
                                 !       layers that straddle that depth
-                                !    FROM_BT_CONT - use the average thicknesses kept
+                                !    FROM_BT_CONT (the default) - use the average thicknesses kept
                                 !       in the h_u and h_v fields of the BT_cont_type
 BT_STRONG_DRAG = False          !   [Boolean] default = True
                                 ! If true, use a stronger estimate of the retarding
@@ -590,7 +574,7 @@ VAR_PEN_SW = True               !   [Boolean] default = False
                                 ! If true, use one of the CHL_A schemes specified by
                                 ! OPACITY_SCHEME to determine the e-folding depth of
                                 ! incoming short wave radiation.
-CHL_FILE = "/seawifs_1998-2006_GOLD_smoothed_2X.nc" !
+CHL_FILE = "seawifs_1998-2006_GOLD_smoothed_2X.nc" !
                                 ! CHL_FILE is the file containing chl_a concentrations in
                                 ! the variable CHL_A. It is used when VAR_PEN_SW and
                                 ! CHL_FROM_FILE are true.
