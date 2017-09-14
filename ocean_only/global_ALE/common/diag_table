@@ -82,7 +82,7 @@
 # Auxilary Tracers:
 #==================
 #"ocean_model","vintage","vintage","prog","all",.false.,"none",2
-"ocean_model","agescc","agescc","prog","all",.false.,"none",2
+#"ocean_model","agescc","agescc","prog","all",.false.,"none",2
 
 # Continuity Equation Terms:
 #===========================
@@ -134,13 +134,13 @@
 # T/S net tendency, lateral advection, and vertical remapping budget terms 
 #==================
 # hfds-hfsifrazil = boundary_forcing_heat_tendency_2d
-"ocean_model","rsdoabsorb"                     ,"rsdoabsorb",                      "tracer","all",.true.,"none",2
-"ocean_model","boundary_forcing_temp_tendency" ,"boundary_forcing_temp_tendency",  "tracer","all",.true.,"none",2
-"ocean_model","boundary_forcing_saln_tendency" ,"boundary_forcing_saln_tendency",  "tracer","all",.true.,"none",2
-"ocean_model","boundary_forcing_heat_tendency" ,"boundary_forcing_heat_tendency",  "tracer","all",.true.,"none",2
-"ocean_model","boundary_forcing_salt_tendency" ,"boundary_forcing_salt_tendency",  "tracer","all",.true.,"none",2
-"ocean_model","boundary_forcing_heat_tendency_2d" ,"boundary_forcing_heat_tendency_2d",  "tracer","all",.true.,"none",2
-"ocean_model","boundary_forcing_salt_tendency_2d" ,"boundary_forcing_salt_tendency_2d",  "tracer","all",.true.,"none",2
+#"ocean_model","rsdoabsorb"                     ,"rsdoabsorb",                      "tracer","all",.true.,"none",2
+#"ocean_model","boundary_forcing_temp_tendency" ,"boundary_forcing_temp_tendency",  "tracer","all",.true.,"none",2
+#"ocean_model","boundary_forcing_saln_tendency" ,"boundary_forcing_saln_tendency",  "tracer","all",.true.,"none",2
+#"ocean_model","boundary_forcing_heat_tendency" ,"boundary_forcing_heat_tendency",  "tracer","all",.true.,"none",2
+#"ocean_model","boundary_forcing_salt_tendency" ,"boundary_forcing_salt_tendency",  "tracer","all",.true.,"none",2
+#"ocean_model","boundary_forcing_heat_tendency_2d" ,"boundary_forcing_heat_tendency_2d",  "tracer","all",.true.,"none",2
+#"ocean_model","boundary_forcing_salt_tendency_2d" ,"boundary_forcing_salt_tendency_2d",  "tracer","all",.true.,"none",2
 
 # opottemptend_2d = T_advection_xy_2d + hfds + hfgeo + opottemppmdiff_2d
 # note: Th_tendency_vert_remap_2d = 0
@@ -154,11 +154,11 @@
 "ocean_model","S_advection_xy"      ,"S_advection_xy",           "tracer","all",.true.,"none",2
 "ocean_model","T_advection_xy_2d"   ,"T_advection_xy_2d",        "tracer","all",.true.,"none",2
 "ocean_model","S_advection_xy_2d"   ,"S_advection_xy_2d",        "tracer","all",.true.,"none",2
-"ocean_model","T_tendency_vert_remap","T_tendency_vert_remap",   "tracer","all",.true.,"none",2
+#"ocean_model","T_tendency_vert_remap","T_tendency_vert_remap",   "tracer","all",.true.,"none",2
 #"ocean_model","S_tendency_vert_remap","S_tendency_vert_remap",   "tracer","all",.true.,"none",2
-"ocean_model","Th_tendency_vert_remap","Th_tendency_vert_remap", "tracer","all",.true.,"none",2
+#"ocean_model","Th_tendency_vert_remap","Th_tendency_vert_remap", "tracer","all",.true.,"none",2
 #"ocean_model","Sh_tendency_vert_remap","Sh_tendency_vert_remap", "tracer","all",.true.,"none",2
-"ocean_model","Th_tendency_vert_remap_2d","Th_tendency_vert_remap_2d", "tracer","all",.true.,"none",2
+#"ocean_model","Th_tendency_vert_remap_2d","Th_tendency_vert_remap_2d", "tracer","all",.true.,"none",2
 #"ocean_model","Sh_tendency_vert_remap_2d","Sh_tendency_vert_remap_2d", "tracer","all",.true.,"none",2
 "ocean_model","frazil_heat_tendency","frazil_heat_tendency", "tracer","all",.true.,"none",2
 "ocean_model","frazil_heat_tendency_2d","frazil_heat_tendency_2d", "tracer","all",.true.,"none",2
@@ -166,9 +166,9 @@
 
 # neutral diffusion tendencies for T and S 
 #==================
-"ocean_model","opottemppmdiff","opottemppmdiff",                  "tracer","all",.true.,"none",2
+#"ocean_model","opottemppmdiff","opottemppmdiff",                  "tracer","all",.true.,"none",2
 #"ocean_model","osaltpmdiff","osaltpmdiff",                        "tracer","all",.true.,"none",2
-"ocean_model","opottemppmdiff_2d","opottemppmdiff_2d",             "tracer","all",.true.,"none",2
+#"ocean_model","opottemppmdiff_2d","opottemppmdiff_2d",             "tracer","all",.true.,"none",2
 #"ocean_model","osaltpmdiff_2d","osaltpmdiff_2d",                  "tracer","all",.true.,"none",2
 #"ocean_model","ndiff_tracer_conc_tendency_T","ndiff_tracer_conc_tendency_T","tracer","all",.true.,"none",2
 #"ocean_model","ndiff_tracer_conc_tendency_S","ndiff_tracer_conc_tendency_S","tracer","all",.true.,"none",2
@@ -176,12 +176,12 @@
 # diabatic diffusion tendencies for T and S
 # note: opottempdiff_2d = 0 
 #==================
-"ocean_model","opottempdiff"               ,"opottempdiff",               "tracer","all",.true.,"none",2
-"ocean_model","osaltdiff"                  ,"osaltdiff",                  "tracer","all",.true.,"none",2
-"ocean_model","opottempdiff_2d"          ,"opottempdiff_2d",          "tracer","all",.true.,"none",2
-"ocean_model","osaltdiff_2d"             ,"osaltdiff_2d",             "tracer","all",.true.,"none",2
-"ocean_model","diabatic_diff_temp_tendency","diabatic_diff_temp_tendency","tracer","all",.true.,"none",2
-"ocean_model","diabatic_diff_saln_tendency","diabatic_diff_saln_tendency","tracer","all",.true.,"none",2
+#"ocean_model","opottempdiff"               ,"opottempdiff",               "tracer","all",.true.,"none",2
+#"ocean_model","osaltdiff"                  ,"osaltdiff",                  "tracer","all",.true.,"none",2
+#"ocean_model","opottempdiff_2d"          ,"opottempdiff_2d",          "tracer","all",.true.,"none",2
+#"ocean_model","osaltdiff_2d"             ,"osaltdiff_2d",             "tracer","all",.true.,"none",2
+#"ocean_model","diabatic_diff_temp_tendency","diabatic_diff_temp_tendency","tracer","all",.true.,"none",2
+#"ocean_model","diabatic_diff_saln_tendency","diabatic_diff_saln_tendency","tracer","all",.true.,"none",2
 
 
 
@@ -283,7 +283,7 @@
 "ocean_model","salt_flux","salt_flux",                          "forcing","all",.true.,"none",2
 "ocean_model","Heat_PmE","Heat_PmE",                            "forcing","all",.true.,"none",2
 "ocean_model","frazil","frazil",                                "forcing","all",.true.,"none",2
-"ocean_model","heat_restore","heat_restore",                    "forcing","all",.true.,"none",2
+#"ocean_model","heat_restore","heat_restore",                    "forcing","all",.true.,"none",2
 #
 "ocean_model","heat_content_cond","heat_content_cond",          "forcing","all",.true.,"none",2
 "ocean_model","heat_content_lprec","heat_content_lprec",        "forcing","all",.true.,"none",2
@@ -324,10 +324,10 @@
 "ocean_model","total_lat_fprec"              ,"total_lat_fprec",              "forcing","all",.true.,"none",2
 "ocean_model","total_lat_frunoff"            ,"total_lat_frunoff",            "forcing","all",.true.,"none",2
 "ocean_model","total_sens"                   ,"total_sens",                   "forcing","all",.true.,"none",2
-"ocean_model","total_heat_restore"           ,"total_heat_restore",           "forcing","all",.true.,"none",2
+#"ocean_model","total_heat_restore"           ,"total_heat_restore",           "forcing","all",.true.,"none",2
 "ocean_model","total_salt_flux"              ,"total_salt_flux",              "forcing","all",.true.,"none",2
 "ocean_model","total_salt_flux_in"           ,"total_salt_flux_in",           "forcing","all",.true.,"none",2
-"ocean_model","total_salt_flux_restore"      ,"total_salt_flux_restore",      "forcing","all",.true.,"none",2
+#"ocean_model","total_salt_flux_restore"      ,"total_salt_flux_restore",      "forcing","all",.true.,"none",2
 #
 #
  "ocean_model",  "hfgeou",          "hfgeou",           "cmor2",        "all", "none", "none",2  # geothermal heat flux
@@ -338,13 +338,13 @@
  "ocean_model",  "hfsifrazil",      "hfsifrazil",       "cmor2",        "all", "mean", "none",2
 #"ocean_model",  "hfsithermds",     "hfsithermds",      "cmor2",        "all", "mean", "none",2  # computed in SIS2 
  "ocean_model",  "hfibthermds",     "hfibthermds",      "cmor2",        "all", "mean", "none",2  
- "ocean_model",  "hfsolidrunoffds", "hfsolidrunoffds",  "cmor2",        "all", "mean", "none",2  # =0 if ice = 0C  
+#"ocean_model",  "hfsolidrunoffds", "hfsolidrunoffds",  "cmor2",        "all", "mean", "none",2  # =0 if ice = 0C  
  "ocean_model",  "rlntds",          "rlntds",           "cmor2",        "all", "mean", "none",2 
  "ocean_model",  "hflso",           "hflso",            "cmor2",        "all", "mean", "none",2  
  "ocean_model",  "hfsso",           "hfsso",            "cmor2",        "all", "mean", "none",2  
  "ocean_model",  "rsntds",          "rsntds"            "cmor2",        "all", "mean", "none",2  
- "ocean_model",  "rsdoabsorb",      "rsdoabsorb"        "cmor2",        "all", "mean", "none",2 
- "ocean_model",  "rsdo",            "rsdo"              "cmor2",        "all", "mean", "none",2 
+#"ocean_model",  "rsdoabsorb",      "rsdoabsorb"        "cmor2",        "all", "mean", "none",2 
+#"ocean_model",  "rsdo",            "rsdo"              "cmor2",        "all", "mean", "none",2 
  "ocean_model",  "hfds",            "hfds"              "cmor2",        "all", "mean", "none",2 
 #
 #
@@ -365,7 +365,7 @@
 "ocean_model","hflso","hflso"               ,"cmor","all",.true.,"none",2  # GFDL Name: latent
 "ocean_model","friver","friver"             ,"cmor","all",.true.,"none",2  # GFDL Name: lrunoff
 #"ocean_model","rlds","rlds"                 ,"cmor","all",.true.,"none",2  # GFDL Name: LW
-"ocean_model","hfss","hfss"                 ,"cmor","all",.true.,"none",2  # GFDL Name: sensible
+#"ocean_model","hfss","hfss"                 ,"cmor","all",.true.,"none",2  # GFDL Name: sensible
 "ocean_model","hfds","hfds"                 ,"cmor","all",.true.,"none",2  # GFDL Name: net_heat_surface
 "ocean_model","sfdsi","sfdsi"               ,"cmor","all",.true.,"none",2  # GFDL Name: salt_flux
 "ocean_model","uo","uo"                     ,"cmor","all",.true.,"none",2	 # GFDL Name: u

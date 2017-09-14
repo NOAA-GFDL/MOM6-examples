@@ -1,1 +1,1 @@
-.datasets/OM4_05/mosaic.v20151203.unpacked/atmos_mosaic_tile1Xland_mosaic_tile1.nc
+.datasets/OM4_05/mosaic.v20170622.unpacked/atmos_mosaic_tile1Xland_mosaic_tile1.nc

@@ -1,1 +1,1 @@
-.datasets/OM4_05/mosaic.v20151203.unpacked/ocean_mosaic.nc
+.datasets/OM4_05/mosaic.v20170622.unpacked/ocean_mosaic.nc

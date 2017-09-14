@@ -222,7 +222,7 @@ EOS_QUADRATURE = False          !   [Boolean] default = False
 TFREEZE_FORM = "LINEAR"         ! default = "LINEAR"
                                 ! TFREEZE_FORM determines which expression should be
                                 ! used for the freezing point.  Currently, the valid
-                                ! choices are "LINEAR", "MILLERO_78".
+                                ! choices are "LINEAR", "MILLERO_78", "TEOS10"
 TFREEZE_S0_P0 = 0.0             !   [deg C] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR,
                                 ! this is the freezing potential temperature at
@@ -327,6 +327,7 @@ TOPO_CONFIG = "file"            !
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
                                 !     benchmark - use the benchmark test case topography.
+                                !     Neverland - use the Neverland test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -388,6 +389,7 @@ OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           !
                                 ! This specifies how layers are to be defined:
+                                !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
                                 !     BFB - Custom coords for buoyancy-forced basin case
@@ -423,13 +425,21 @@ INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
 ! === module MOM_initialize_layers_from_Z ===
 TEMP_SALT_Z_INIT_FILE = "WOA05_pottemp_salt.nc" ! default = "temp_salt_z.nc"
                                 ! The name of the z-space input file used to initialize
-                                ! the layer thicknesses, temperatures and salinities.
+                                ! temperatures (T) and salinities (S). If T and S are not
+                                ! in the same file, TEMP_Z_INIT_FILE and SALT_Z_INIT_FILE
+                                ! must be set.
+TEMP_Z_INIT_FILE = "WOA05_pottemp_salt.nc" ! default = "WOA05_pottemp_salt.nc"
+                                ! The name of the z-space input file used to initialize
+                                ! temperatures, only.
+SALT_Z_INIT_FILE = "WOA05_pottemp_salt.nc" ! default = "WOA05_pottemp_salt.nc"
+                                ! The name of the z-space input file used to initialize
+                                ! temperatures, only.
 Z_INIT_FILE_PTEMP_VAR = "PTEMP" ! default = "ptemp"
                                 ! The name of the potential temperature variable in
-                                ! TEMP_SALT_Z_INIT_FILE.
+                                ! TEMP_Z_INIT_FILE.
 Z_INIT_FILE_SALT_VAR = "SALT"   ! default = "salt"
                                 ! The name of the salinity variable in
-                                ! TEMP_SALT_Z_INIT_FILE.
+                                ! SALT_Z_INIT_FILE.
 Z_INIT_HOMOGENIZE = False       !   [Boolean] default = False
                                 ! If True, then horizontally homogenize the interpolated
                                 ! initial conditions.
@@ -650,15 +660,9 @@ USE_STORED_SLOPES = False       !   [Boolean] default = False
                                 ! If true, the isopycnal slopes are calculated once and
                                 ! stored for re-use. This uses more memory but avoids calling
                                 ! the equation of state more times than should be necessary.
-VISBECK_MAX_SLOPE = 0.0         !   [nondim] default = 0.0
-                                ! If non-zero, is an upper bound on slopes used in the
-                                ! Visbeck formula for diffusivity. This does not affect the
-                                ! isopycnal slope calculation used within thickness diffusion.
 VARMIX_KTOP = 2                 !   [nondim] default = 2
                                 ! The layer number at which to start vertical integration
                                 ! of S*N for purposes of finding the Eady growth rate.
-VISBECK_L_SCALE = 0.0           !   [m] default = 0.0
-                                ! The fixed length scale in the Visbeck formula.
 KH_RES_SCALE_COEF = 1.0         !   [nondim] default = 1.0
                                 ! A coefficient that determines how KhTh is scaled away if
                                 ! RESOLN_SCALED_... is true, as
@@ -684,6 +688,12 @@ INTERPOLATE_RES_FN = False      !   [Boolean] default = True
                                 ! velocity points from the thickness points; otherwise
                                 ! interpolate the wave speed and calculate the resolution
                                 ! function independently at each point.
+USE_VISBECK_SLOPE_BUG = False   !   [Boolean] default = False
+                                ! If true, then retain a legacy bug in the calculation of weights
+                                ! applied to isoneutral slopes. There was an erroneous k-indexing
+                                ! for layer thicknesses. In addition, masking at coastlines was not
+                                ! used which introduced potential restart issues.  This flag will be
+                                ! deprecated in a future release.
 GILL_EQUATORIAL_LD = True       !   [Boolean] default = False
                                 ! If true, uses Gill's definition of the baroclinic
                                 ! equatorial deformation radius, otherwise, if false, use
@@ -962,9 +972,14 @@ KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the grid
                                 ! spacing to calculate the Laplacian viscosity.
                                 ! The final viscosity is the largest of this scaled
-                                ! viscosity, the Smagorinsky viscosity and KH.
+                                ! viscosity, the Smagorinsky and Leith viscosities, and KH.
 SMAGORINSKY_KH = False          !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
+LEITH_KH = False                !   [Boolean] default = False
+                                ! If true, use a Leith nonlinear eddy viscosity.
+MODIFIED_LEITH = False          !   [Boolean] default = False
+                                ! If true, add a term to Leith viscosity which is
+                                ! proportional to the gradient of divergence.
 BOUND_KH = True                 !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited
                                 ! to be stable.
@@ -980,9 +995,12 @@ AH_VEL_SCALE = 0.05             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the cube of
                                 ! the grid spacing to calculate the biharmonic viscosity.
                                 ! The final viscosity is the largest of this scaled
-                                ! viscosity, the Smagorinsky viscosity and AH.
+                                ! viscosity, the Smagorinsky and Leith viscosities, and AH.
 SMAGORINSKY_AH = True           !   [Boolean] default = False
                                 ! If true, use a biharmonic Smagorinsky nonlinear eddy
+                                ! viscosity.
+LEITH_AH = False                !   [Boolean] default = False
+                                ! If true, use a biharmonic Leith nonlinear eddy
                                 ! viscosity.
 BOUND_AH = True                 !   [Boolean] default = True
                                 ! If true, the biharmonic coefficient is locally limited

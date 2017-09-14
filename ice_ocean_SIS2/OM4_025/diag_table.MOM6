@@ -37,7 +37,7 @@
  "ocean_model", "areacello",   "areacello",   "ocean_static", "all", "none", "none", 2
  "ocean_model", "deptho",      "deptho",      "ocean_static", "all", "none", "none", 2
 #"ocean_model", "basin",       "basin",       "ocean_static", "all", "none", "none", 2  # in /archive/gold/datasets/OM4_025/
- "ocean_model", "hfgeou",      "hfgeou"       "ocean_static", "all", "none", "none", 2  # for geothermal heat
+ "ocean_model", "hfgeou",      "hfgeou",      "ocean_static", "all", "none", "none", 2  # for static geothermal heat
 
 # Extra static geometry data beyond CMIP6/OMIP Table 2.1
  "ocean_model", "Coriolis",    "Coriolis",    "ocean_static", "all", "none", "none", 2
@@ -72,7 +72,7 @@
 #"ocean_model",   "masscello",    "masscello",        "ocean_month",         "all", "mean", "none",2
  "ocean_model",   "masso",        "masso",            "ocean_scalar_month",  "all", "mean", "none",2  # global sum masscello
  "ocean_model",   "masso",        "masso",            "ocean_scalar_annual", "all", "mean", "none",2  # global sum masscello
- "ocean_model",   "thkcello",     "thkcello",         "ocean_annual",        "all", "mean", "none",2  # Only needed in native space, a static field needs to be provided for CMIP6
+ "ocean_model",   "thkcello",     "thkcello",         "ocean_annual",        "all", "mean", "none",2  # Only needed in native space a static field needs to be provided for CMIP6
 #"ocean_model",   "thkcello",     "thkcello",         "ocean_month",         "all", "mean", "none",2
  "ocean_model",   "volo",         "volo",             "ocean_scalar_month",  "all", "mean", "none",2  # global sum thkcello
  "ocean_model",   "volo",         "volo",             "ocean_scalar_annual", "all", "mean", "none",2  # global sum thkcello
@@ -126,11 +126,11 @@
 #"ocean_model",   "cfc11",        "cfc11",            "ocean_annual",        "all", "mean", "none",2  # get from generic tracer module
 #"ocean_model",   "cfc12",        "cfc12",            "ocean_annual",        "all", "mean", "none",2  # get from generic tracer module
 #"ocean_model",   "sf6",          "sf6",              "ocean_annual",        "all", "mean", "none",2  # get from generic tracer module
- "ocean_model",   "mlotst"        "mlotst",           "ocean_annual",        "all", "mean", "none",2
- "ocean_model",   "mlotst"        "mlotst",           "ocean_month",         "all", "mean", "none",2
- "ocean_model",   "mlotstsq"      "mlotstsq",         "ocean_annual",        "all", "mean", "none",2
- "ocean_model",   "mlotstsq"      "mlotstsq",         "ocean_month",         "all", "mean", "none",2
-#"ocean_model",   "msftbarot"     "msftbarot",        "ocean_month",         "all", "mean", "none",2  # to be done offline
+ "ocean_model",   "mlotst",       "mlotst",           "ocean_annual",        "all", "mean", "none",2
+ "ocean_model",   "mlotst",       "mlotst",           "ocean_month",         "all", "mean", "none",2
+ "ocean_model",   "mlotstsq",     "mlotstsq",         "ocean_annual",        "all", "mean", "none",2
+ "ocean_model",   "mlotstsq",     "mlotstsq",         "ocean_month",         "all", "mean", "none",2
+#"ocean_model",   "msftbarot",    "msftbarot",        "ocean_month",         "all", "mean", "none",2  # to be done offline
 
 
 # -----------------------------------------------------------------------------------------
@@ -344,7 +344,7 @@
 
 # -----------------------------------------------------------------------------------------
 # CMIP6/OMIP Table K3: boundary heat fluxes
-#"ocean_model",  "hfgeou",          "hfgeou",           "ocean_annual",       "all", "mean", "none",2  # geothermal heat flux
+# "ocean_model",  "hfgeou",          "hfgeou",           "ocean_annual",       "all", "mean", "none",2  # geothermal heat flux is static 
  "ocean_model",  "hfrainds",        "hfrainds",         "ocean_annual",       "all", "mean", "none",2
  "ocean_model",  "hfevapds",        "hfevapds",         "ocean_annual",       "all", "mean", "none",2
  "ocean_model",  "hfrunoffds",      "hfrunoffds",       "ocean_annual",       "all", "mean", "none",2
@@ -355,14 +355,14 @@
  "ocean_model",  "rlntds",          "rlntds",           "ocean_annual",       "all", "mean", "none",2
  "ocean_model",  "hflso",           "hflso",            "ocean_annual",       "all", "mean", "none",2
  "ocean_model",  "hfsso",           "hfsso",            "ocean_annual",       "all", "mean", "none",2
- "ocean_model",  "rsntds",          "rsntds"            "ocean_annual",       "all", "mean", "none",2
- "ocean_model",  "rsdo",            "rsdo"              "ocean_annual",       "all", "mean", "none",2
- "ocean_model",  "hfds",            "hfds"              "ocean_annual",       "all", "mean", "none",2
+ "ocean_model",  "rsntds",          "rsntds",           "ocean_annual",       "all", "mean", "none",2
+ "ocean_model",  "rsdo",            "rsdo",             "ocean_annual",       "all", "mean", "none",2
+ "ocean_model",  "hfds",            "hfds",             "ocean_annual",       "all", "mean", "none",2
 
-#"ocean_model",  "hfgeou",          "hfgeou",           "ocean_month",        "all", "mean", "none",2  # geothermal heat flux
- "ocean_model",  "hfrainds",        "hfrainds",         "ocean_month",        "all", "mean", "none",2  # heat content of lprec,fprec,condensate
+# "ocean_model",  "hfgeou",          "hfgeou",           "ocean_month",        "all", "mean", "none",2  # geothermal heat flux is static 
+ "ocean_model",  "hfrainds",        "hfrainds",         "ocean_month",        "all", "mean", "none",2  # heat content of lprec fprec condensate
  "ocean_model",  "hfevapds",        "hfevapds",         "ocean_month",        "all", "mean", "none",2  # heat content of mass leaving ocean
- "ocean_model",  "hfrunoffds",      "hfrunoffds",       "ocean_month",        "all", "mean", "none",2  # heat content of lrunoff,frunoff
+ "ocean_model",  "hfrunoffds",      "hfrunoffds",       "ocean_month",        "all", "mean", "none",2  # heat content of lrunoff frunoff
  "ocean_model",  "hfsnthermds",     "hfsnthermds",      "ocean_month",        "all", "mean", "none",2  # latent heat to melt snow
  "ocean_model",  "hfsifrazil",      "hfsifrazil",       "ocean_month",        "all", "mean", "none",2  # frazil formation
 #"ocean_model",  "hfsithermds",     "hfsithermds",      "ocean_month",        "all", "mean", "none",2  # computed in SIS2
@@ -371,9 +371,9 @@
  "ocean_model",  "rlntds",          "rlntds",           "ocean_month",        "all", "mean", "none",2  # longwave down
  "ocean_model",  "hflso",           "hflso",            "ocean_month",        "all", "mean", "none",2  # latent heat for evap+melt
  "ocean_model",  "hfsso",           "hfsso",            "ocean_month",        "all", "mean", "none",2  # sensible from air-sea and ice-sea
- "ocean_model",  "rsntds",          "rsntds"            "ocean_month",        "all", "mean", "none",2  # shortwave
- "ocean_model",  "rsdo",            "rsdo"              "ocean_month",        "all", "mean", "none",2  # penetrative shortwave flux at interface
- "ocean_model",  "hfds",            "hfds"              "ocean_month",        "all", "mean", "none",2  # total heat entering ocean surface
+ "ocean_model",  "rsntds",          "rsntds",           "ocean_month",        "all", "mean", "none",2  # shortwave
+ "ocean_model",  "rsdo",            "rsdo",             "ocean_month",        "all", "mean", "none",2  # penetrative shortwave flux at interface
+ "ocean_model",  "hfds",            "hfds",             "ocean_month",        "all", "mean", "none",2  # total heat entering ocean surface
 
 # Extra heat flux terms beyond Table K3 from CMIP6/OMIP
  "ocean_model", "net_heat_coupler",       "net_heat_coupler",       "ocean_annual", "all", "mean", "none",2

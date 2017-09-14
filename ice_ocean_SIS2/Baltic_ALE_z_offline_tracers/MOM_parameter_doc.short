@@ -127,6 +127,7 @@ TOPO_CONFIG = "file"            !
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
                                 !     benchmark - use the benchmark test case topography.
+                                !     Neverland - use the Neverland test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -165,6 +166,7 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           !
                                 ! This specifies how layers are to be defined:
+                                !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
                                 !     BFB - Custom coords for buoyancy-forced basin case
@@ -237,13 +239,15 @@ INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
 ! === module MOM_initialize_layers_from_Z ===
 TEMP_SALT_Z_INIT_FILE = "WOA05_pottemp_salt.nc" ! default = "temp_salt_z.nc"
                                 ! The name of the z-space input file used to initialize
-                                ! the layer thicknesses, temperatures and salinities.
+                                ! temperatures (T) and salinities (S). If T and S are not
+                                ! in the same file, TEMP_Z_INIT_FILE and SALT_Z_INIT_FILE
+                                ! must be set.
 Z_INIT_FILE_PTEMP_VAR = "PTEMP" ! default = "ptemp"
                                 ! The name of the potential temperature variable in
-                                ! TEMP_SALT_Z_INIT_FILE.
+                                ! TEMP_Z_INIT_FILE.
 Z_INIT_FILE_SALT_VAR = "SALT"   ! default = "salt"
                                 ! The name of the salinity variable in
-                                ! TEMP_SALT_Z_INIT_FILE.
+                                ! SALT_Z_INIT_FILE.
 Z_INIT_ALE_REMAPPING = True     !   [Boolean] default = False
                                 ! If True, then remap straight to model coordinate from file.
 
@@ -368,12 +372,12 @@ KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the grid
                                 ! spacing to calculate the Laplacian viscosity.
                                 ! The final viscosity is the largest of this scaled
-                                ! viscosity, the Smagorinsky viscosity and KH.
+                                ! viscosity, the Smagorinsky and Leith viscosities, and KH.
 AH_VEL_SCALE = 0.05             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the cube of
                                 ! the grid spacing to calculate the biharmonic viscosity.
                                 ! The final viscosity is the largest of this scaled
-                                ! viscosity, the Smagorinsky viscosity and AH.
+                                ! viscosity, the Smagorinsky and Leith viscosities, and AH.
 SMAGORINSKY_AH = True           !   [Boolean] default = False
                                 ! If true, use a biharmonic Smagorinsky nonlinear eddy
                                 ! viscosity.

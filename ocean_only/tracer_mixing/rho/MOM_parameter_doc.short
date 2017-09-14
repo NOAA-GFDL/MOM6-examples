@@ -109,6 +109,7 @@ TOPO_CONFIG = "flat"            !
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
                                 !     benchmark - use the benchmark test case topography.
+                                !     Neverland - use the Neverland test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -139,6 +140,7 @@ ROTATION = "beta"               ! default = "2omegasinlat"
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "linear"         !
                                 ! This specifies how layers are to be defined:
+                                !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
                                 !     BFB - Custom coords for buoyancy-forced basin case
@@ -233,6 +235,7 @@ THICKNESS_CONFIG = "uniform"    !
                                 !     ISOMIP - use a configuration for the
                                 !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
+                                !     Neverland - use the Neverland test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
                                 !     circle_obcs - the circle_obcs test case is used.
@@ -265,7 +268,7 @@ TS_CONFIG = "baroclinic_zone"   !
                                 !     USER - call a user modified routine.
 
 ! === module baroclinic_zone_initialization ===
-! Initialization of an analytic baroclninic zone
+! Initialization of an analytic baroclinic zone
 BCZIC%
 S_REF = 34.75                   !   [ppt] default = 35.0
                                 ! Reference salinity

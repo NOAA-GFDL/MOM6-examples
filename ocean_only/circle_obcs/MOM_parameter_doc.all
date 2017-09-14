@@ -265,6 +265,7 @@ TOPO_CONFIG = "flat"            !
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
                                 !     benchmark - use the benchmark test case topography.
+                                !     Neverland - use the Neverland test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -306,13 +307,13 @@ OBC_FREESLIP_STRAIN = True      !   [Boolean] default = False
 OBC_ZERO_BIHARMONIC = True      !   [Boolean] default = False
                                 ! If true, zeros the Laplacian of flow on open boundaries in the biharmonic
                                 ! viscosity term.
-OBC_SEGMENT_001 = "J=N,I=N:0,LEGACY,ORLANSKI" !
+OBC_SEGMENT_001 = "J=N,I=N:0,FLATHER,ORLANSKI" !
                                 ! Documentation needs to be dynamic?????
-OBC_SEGMENT_002 = "J=0,I=0:N,LEGACY,ORLANSKI" !
+OBC_SEGMENT_002 = "J=0,I=0:N,FLATHER,ORLANSKI" !
                                 ! Documentation needs to be dynamic?????
-OBC_SEGMENT_003 = "I=N,J=0:N,LEGACY,ORLANSKI" !
+OBC_SEGMENT_003 = "I=N,J=0:N,FLATHER,ORLANSKI" !
                                 ! Documentation needs to be dynamic?????
-OBC_SEGMENT_004 = "I=0,J=N:0,LEGACY,ORLANSKI" !
+OBC_SEGMENT_004 = "I=0,J=N:0,FLATHER,ORLANSKI" !
                                 ! Documentation needs to be dynamic?????
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
@@ -354,6 +355,7 @@ USE_SHELFWAVE_OBC = False       !   [Boolean] default = False
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "layer_ref"      !
                                 ! This specifies how layers are to be defined:
+                                !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
                                 !     BFB - Custom coords for buoyancy-forced basin case
@@ -398,6 +400,7 @@ THICKNESS_CONFIG = "circle_obcs" !
                                 !     ISOMIP - use a configuration for the
                                 !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
+                                !     Neverland - use the Neverland test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
                                 !     circle_obcs - the circle_obcs test case is used.
@@ -409,7 +412,7 @@ THICKNESS_CONFIG = "circle_obcs" !
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
 
-! === module circle_obcs_initialize_thickness ===
+! === module circle_obcs_initialization ===
 DISK_RADIUS = 24.0              !   [kilometers]
                                 ! The radius of the initially elevated disk in the
                                 ! circle_obcs test case.
@@ -747,12 +750,17 @@ KH_VEL_SCALE = 0.003            !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the grid
                                 ! spacing to calculate the Laplacian viscosity.
                                 ! The final viscosity is the largest of this scaled
-                                ! viscosity, the Smagorinsky viscosity and KH.
+                                ! viscosity, the Smagorinsky and Leith viscosities, and KH.
 SMAGORINSKY_KH = True           !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
 SMAG_LAP_CONST = 0.15           !   [nondim] default = 0.0
                                 ! The nondimensional Laplacian Smagorinsky constant,
                                 ! often 0.15.
+LEITH_KH = False                !   [Boolean] default = False
+                                ! If true, use a Leith nonlinear eddy viscosity.
+MODIFIED_LEITH = False          !   [Boolean] default = False
+                                ! If true, add a term to Leith viscosity which is
+                                ! proportional to the gradient of divergence.
 BOUND_KH = True                 !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited
                                 ! to be stable.
@@ -768,9 +776,12 @@ AH_VEL_SCALE = 0.003            !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the cube of
                                 ! the grid spacing to calculate the biharmonic viscosity.
                                 ! The final viscosity is the largest of this scaled
-                                ! viscosity, the Smagorinsky viscosity and AH.
+                                ! viscosity, the Smagorinsky and Leith viscosities, and AH.
 SMAGORINSKY_AH = True           !   [Boolean] default = False
                                 ! If true, use a biharmonic Smagorinsky nonlinear eddy
+                                ! viscosity.
+LEITH_AH = False                !   [Boolean] default = False
+                                ! If true, use a biharmonic Leith nonlinear eddy
                                 ! viscosity.
 BOUND_AH = True                 !   [Boolean] default = True
                                 ! If true, the biharmonic coefficient is locally limited

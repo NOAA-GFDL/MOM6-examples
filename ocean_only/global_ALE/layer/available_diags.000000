@@ -146,14 +146,6 @@
     ! long_name: Inverse eddy time-scale, S*N, at v-points
     ! units: s^-1
     ! cell_methods: xh:mean yq:point
-"ocean_model", "L2u"  [Unused]
-    ! long_name: Length scale squared for mixing coefficient, at u-points
-    ! units: m^2
-    ! cell_methods: xq:point yh:mean
-"ocean_model", "L2v"  [Unused]
-    ! long_name: Length scale squared for mixing coefficient, at v-points
-    ! units: m^2
-    ! cell_methods: xh:mean yq:point
 "ocean_model", "Res_fn"  [Unused]
     ! long_name: Resolution function for scaling diffusivities
     ! units: Nondim
@@ -2818,46 +2810,6 @@
     ! units: ppt^2
     ! standard_name: square_of_sea_surface_salinity
     ! cell_methods: xh:mean yh:mean
-"ocean_model", "contemp"  [Unused]
-    ! long_name: Conservative Temperature
-    ! units: Celsius
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "contemp_xyave"  [Unused]
-    ! long_name: Conservative Temperature
-    ! units: Celsius
-    ! cell_methods: zl:mean
-"ocean_model_z", "contemp"  [Unused]
-    ! long_name: Conservative Temperature
-    ! units: Celsius
-    ! cell_methods: xh:mean yh:mean z_l:mean
-"ocean_model_z", "contemp_xyave"  [Unused]
-    ! long_name: Conservative Temperature
-    ! units: Celsius
-    ! cell_methods: z_l:mean
-"ocean_model", "abssalt"  [Unused]
-    ! long_name: Absolute Salinity
-    ! units: g/Kg
-    ! cell_methods: xh:mean yh:mean zl:mean
-"ocean_model", "abssalt_xyave"  [Unused]
-    ! long_name: Absolute Salinity
-    ! units: g/Kg
-    ! cell_methods: zl:mean
-"ocean_model_z", "abssalt"  [Unused]
-    ! long_name: Absolute Salinity
-    ! units: g/Kg
-    ! cell_methods: xh:mean yh:mean z_l:mean
-"ocean_model_z", "abssalt_xyave"  [Unused]
-    ! long_name: Absolute Salinity
-    ! units: g/Kg
-    ! cell_methods: z_l:mean
-"ocean_model", "conSST"  [Unused]
-    ! long_name: Sea Surface Conservative Temperature
-    ! units: Celsius
-    ! cell_methods: xh:mean yh:mean
-"ocean_model", "absSSS"  [Unused]
-    ! long_name: Sea Surface Absolute Salinity
-    ! units: g/Kg
-    ! cell_methods: xh:mean yh:mean
 "ocean_model", "frazil"  [Used] (CMOR equivalent is "hfsifrazil")
     ! long_name: Heat from frazil formation
     ! units: Watt meter-2
@@ -3733,7 +3685,7 @@
     ! units: kilogram meter-2
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "massin_flux"  [Unused]
-    ! long_name: Net mass mass flux of freshwater into the ocean (used in boundary flux calculation)
+    ! long_name: Net mass flux of freshwater into the ocean (used in boundary flux calculation)
     ! units: kilogram meter-2
     ! cell_methods: xh:mean yh:mean
 "ocean_model", "total_PRCmE"  [Used]

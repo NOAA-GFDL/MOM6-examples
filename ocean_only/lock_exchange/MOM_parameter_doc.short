@@ -106,6 +106,7 @@ TOPO_CONFIG = "flat"            !
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
                                 !     benchmark - use the benchmark test case topography.
+                                !     Neverland - use the Neverland test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -136,6 +137,7 @@ ROTATION = "beta"               ! default = "2omegasinlat"
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "layer_ref"      !
                                 ! This specifies how layers are to be defined:
+                                !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
                                 !     BFB - Custom coords for buoyancy-forced basin case
@@ -174,6 +176,7 @@ THICKNESS_CONFIG = "lock_exchange" !
                                 !     ISOMIP - use a configuration for the
                                 !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
+                                !     Neverland - use the Neverland test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
                                 !     circle_obcs - the circle_obcs test case is used.
@@ -184,6 +187,8 @@ THICKNESS_CONFIG = "lock_exchange" !
                                 !     soliton - Equatorial Rossby soliton.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
+
+! === module lock_exchange_initialize_thickness ===
 FRONT_DISPLACEMENT = 20.0       !   [m]
                                 ! The vertical displacement of interfaces across the front.
                                 ! A value larger in magnitude that MAX_DEPTH is truncated,

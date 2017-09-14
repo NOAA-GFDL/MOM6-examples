@@ -212,7 +212,7 @@ EOS_QUADRATURE = False          !   [Boolean] default = False
 TFREEZE_FORM = "LINEAR"         ! default = "LINEAR"
                                 ! TFREEZE_FORM determines which expression should be
                                 ! used for the freezing point.  Currently, the valid
-                                ! choices are "LINEAR", "MILLERO_78".
+                                ! choices are "LINEAR", "MILLERO_78", "TEOS10"
 TFREEZE_S0_P0 = 0.0             !   [deg C] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR,
                                 ! this is the freezing potential temperature at
@@ -305,6 +305,7 @@ TOPO_CONFIG = "flat"            !
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
                                 !     benchmark - use the benchmark test case topography.
+                                !     Neverland - use the Neverland test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -361,6 +362,7 @@ BETA = 0.0                      !   [m-1 s-1] default = 0.0
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "none"           !
                                 ! This specifies how layers are to be defined:
+                                !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
                                 !       specified by (COORD_FILE).
                                 !     BFB - Custom coords for buoyancy-forced basin case
@@ -376,6 +378,8 @@ COORD_CONFIG = "none"           !
                                 !     ts_profile - use temperature and salinity profiles
                                 !       (read from COORD_FILE) to set layer densities.
                                 !     USER - call a user modified routine.
+GFS = 9.80616                   !   [m s-2] default = 9.80616
+                                ! The reduced gravity at the free surface.
 BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! When defined, the reconstruction is extrapolated
                                 ! within boundary cells rather than assume PCM for the.
@@ -494,6 +498,7 @@ THICKNESS_CONFIG = "coord"      !
                                 !     ISOMIP - use a configuration for the
                                 !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
+                                !     Neverland - use the Neverland test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
                                 !     circle_obcs - the circle_obcs test case is used.
