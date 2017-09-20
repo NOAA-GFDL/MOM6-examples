@@ -87,7 +87,7 @@ def main(args):
     
     #-- msftyyz
     varname = 'vmo'
-    msftyyz = np.ma.ones((len(tax),3,len(z_l),len(yh)))*0.
+    msftyyz = np.ma.ones((len(tax),3,len(z_i),len(yh)))*0.
     msftyyz[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
     msftyyz[:,1,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=indo_pacific_mask)
     msftyyz[:,2,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:])
@@ -95,13 +95,13 @@ def main(args):
     msftyyz = np.ma.array(msftyyz,fill_value=1.e20)
     msftyyz.long_name = 'Ocean Y Overturning Mass Streamfunction'
     msftyyz.units = 'kg s-1'
-    msftyyz.cell_methods = 'z_l:sum yh:sum basin:mean time:mean'
+    msftyyz.cell_methods = 'z_i:sum yh:sum basin:mean time:mean'
     msftyyz.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyyz.standard_name = 'ocean_y_overturning_mass_streamfunction'
 
     #-- msftyzmpa
     varname = 'vhGM'
-    msftyzmpa = np.ma.ones((len(tax),3,len(z_l),len(yh)))*0.
+    msftyzmpa = np.ma.ones((len(tax),3,len(z_i),len(yh)))*0.
     msftyzmpa[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
     msftyzmpa[:,1,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=indo_pacific_mask)
     msftyzmpa[:,2,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:])
@@ -109,14 +109,14 @@ def main(args):
     msftyzmpa = np.ma.array(msftyzmpa,fill_value=1.e20)
     msftyzmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized mesoscale advection'
     msftyzmpa.units = 'kg s-1'
-    msftyzmpa.cell_methods = 'z_l:sum yh:sum basin:mean time:mean'
+    msftyzmpa.cell_methods = 'z_i:sum yh:sum basin:mean time:mean'
     msftyzmpa.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyzmpa.standard_name = 'ocean_meridional_overturning_mass_streamfunction_due_to_parameterized_'+\
                               'mesoscale_advection'
 
     #-- msftyzsmpa
     varname = 'vhml'
-    msftyzsmpa = np.ma.ones((len(tax),3,len(z_l),len(yh)))*0.
+    msftyzsmpa = np.ma.ones((len(tax),3,len(z_i),len(yh)))*0.
     msftyzsmpa[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
     msftyzsmpa[:,1,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=indo_pacific_mask)
     msftyzsmpa[:,2,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:])
@@ -124,7 +124,7 @@ def main(args):
     msftyzsmpa = np.ma.array(msftyzsmpa,fill_value=1.e20)
     msftyzsmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized submesoscale advection'
     msftyzsmpa.units = 'kg s-1'
-    msftyzsmpa.cell_methods = 'z_l:sum yh:sum basin:mean time:mean'
+    msftyzsmpa.cell_methods = 'z_i:sum yh:sum basin:mean time:mean'
     msftyzsmpa.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyzsmpa.standard_name = 'ocean_meridional_overturning_mass_streamfunction_due_to_parameterized_'+\
                                'submesoscale_advection'
@@ -176,13 +176,13 @@ def main(args):
     z_i_out  = f_out.createVariable('z_i',  np.float64, ('z_i'))
     nv_out  = f_out.createVariable('nv',  np.float64, ('nv'))
    
-    msftyyz_out = f_out.createVariable('msftyyz', np.float32, ('time', 'basin', 'z_l', 'yh'), fill_value=1.e20)
+    msftyyz_out = f_out.createVariable('msftyyz', np.float32, ('time', 'basin', 'z_i', 'yh'), fill_value=1.e20)
     msftyyz_out.missing_value = 1.e20
  
-    msftyzsmpa_out = f_out.createVariable('msftyzsmpa', np.float32, ('time', 'basin', 'z_l', 'yh'), fill_value=1.e20)
+    msftyzsmpa_out = f_out.createVariable('msftyzsmpa', np.float32, ('time', 'basin', 'z_i', 'yh'), fill_value=1.e20)
     msftyzsmpa_out.missing_value = 1.e20
  
-    msftyzmpa_out = f_out.createVariable('msftyzmpa', np.float32, ('time', 'basin', 'z_l', 'yh'), fill_value=1.e20)
+    msftyzmpa_out = f_out.createVariable('msftyzmpa', np.float32, ('time', 'basin', 'z_i', 'yh'), fill_value=1.e20)
     msftyzmpa_out.missing_value = 1.e20
  
     average_T1_out = f_out.createVariable('average_T1', np.float64, ('time'))

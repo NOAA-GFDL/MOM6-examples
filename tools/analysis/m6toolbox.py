@@ -190,11 +190,13 @@ def moc_maskedarray(vh,mask=None):
         _mask = np.ma.masked_where(np.not_equal(mask,1.),mask)
     else:
         _mask = 1.
-    _vh = np.ma.masked_where(np.ma.equal(vh,0.),vh)
-    _vh = _vh * _mask
-    _vh = _vh[:,::-1,:] # flip z-axis so running sum is from ocean floor to surface
-    _vh = np.ma.cumsum(np.ma.sum(_vh,axis=-1),axis=1)
-    _vh = _vh[:,::-1,:] # flip z-axis back to original order
+    _vh = vh * _mask
+    _vh_btm = np.ma.expand_dims(_vh[:,-1,:,:]*0.,axis=1)
+    _vh = np.ma.concatenate((_vh,_vh_btm),axis=1)
+    _vh = np.ma.sum(_vh,axis=-1)
+    _vh = _vh[:,::-1] # flip z-axis so running sum is from ocean floor to surface
+    _vh = np.ma.cumsum(_vh,axis=1)
+    _vh = _vh[:,::-1] # flip z-axis back to original order
     return _vh
 
 def nearestJI(x, y, xy0):
