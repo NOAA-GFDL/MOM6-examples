@@ -4,8 +4,10 @@
 "ocean_month_snap",       1, "months", 1, "days", "time"
 "ocean_month",            1, "months", 1, "days", "time"
 "ocean_month_z",          1, "months", 1, "days", "time"
+"ocean_month_rho2",       1, "months", 1, "days", "time"
 "ocean_annual",          12, "months", 1, "days", "time"
 "ocean_annual_z",        12, "months", 1, "days", "time"
+"ocean_annual_rho2",     12, "months", 1, "days", "time"
 "ocean_scalar_month",     1, "months", 1, "days", "time"
 "ocean_scalar_annual",   12, "months", 1, "days", "time"
 "ocean_static",          -1, "months", 1, "days", "time" # ocean_static is a protected name. Do not change this line.
@@ -189,6 +191,17 @@
  "ocean_model",  "ndiff_tracer_trans_y_2d_T","ndiff_tracer_trans_y_2d_T",  "ocean_annual",  "all", "mean", "none",2
  "ocean_model",  "ndiff_tracer_trans_x_2d_S","ndiff_tracer_trans_x_2d_S",  "ocean_annual",  "all", "mean", "none",2
  "ocean_model",  "ndiff_tracer_trans_y_2d_S","ndiff_tracer_trans_y_2d_S",  "ocean_annual",  "all", "mean", "none",2
+
+# Density space diagnostics (not necessarily using CMIP names but needed to generate CMIP output in post-processing)
+ "ocean_model_rho2","umo",       "umo",              "ocean_annual_rho2",  "all", "mean", "none",2
+ "ocean_model_rho2","uhGM",      "uhGM",             "ocean_annual_rho2",  "all", "mean", "none",2
+ "ocean_model_rho2","uhml",      "uhml",             "ocean_annual_rho2",  "all", "mean", "none",2
+ "ocean_model_rho2","vmo",       "vmo",              "ocean_annual_rho2",  "all", "mean", "none",2
+ "ocean_model_rho2","vhGM",      "vhGM",             "ocean_annual_rho2",  "all", "mean", "none",2
+ "ocean_model_rho2","vhml",      "vhml",             "ocean_annual_rho2",  "all", "mean", "none",2
+ "ocean_model_rho2","vmo",       "vmo",              "ocean_month_rho2",   "all", "mean", "none",2
+ "ocean_model_rho2","vhGM",      "vhGM",             "ocean_month_rho2",   "all", "mean", "none",2
+ "ocean_model_rho2","vhml",      "vhml",             "ocean_month_rho2",   "all", "mean", "none",2
 
 # -----------------------------------------------------------------------------------------
 # CMIP6/OMIP Table J1: in support of mass transport through straits
