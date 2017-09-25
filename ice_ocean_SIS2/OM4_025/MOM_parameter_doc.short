@@ -336,6 +336,14 @@ MEKE_GMCOEFF = 1.0              !   [nondim] default = -1.0
                                 ! used or calculated.
 MEKE_BGSRC = 1.0E-13            !   [W kg-1] default = 0.0
                                 ! A background energy source for MEKE.
+MEKE_KHMEKE_FAC = 1.0           !   [nondim] default = 0.0
+                                ! A factor that maps MEKE%Kh to Kh for MEKE itself.
+MEKE_ALPHA_RHINES = 0.15        !   [nondim] default = 0.05
+                                ! If positive, is a coefficient weighting the Rhines scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+MEKE_ALPHA_EADY = 0.15          !   [nondim] default = 0.05
+                                ! If positive, is a coefficient weighting the Eady length scale
+                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
 
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
