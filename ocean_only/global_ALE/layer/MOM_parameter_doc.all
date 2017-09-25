@@ -1186,6 +1186,10 @@ DTBT = -0.95                    !   [s or nondim] default = -0.98
                                 ! Setting DTBT to 0 is the same as setting it to -0.98.
                                 ! The value of DTBT that will actually be used is an
                                 ! integer fraction of DT, rounding down.
+BT_USE_OLD_CORIOLIS_BRACKET_BUG = False !   [Boolean] default = False
+                                ! If True, use an order of operations that is not bitwise
+                                ! rotationally symmetric in the meridional Coriolis term of
+                                ! the barotropic solver.
 
 ! === module MOM_thickness_diffuse ===
 KHTH = 600.0                    !   [m2 s-1] default = 0.0
