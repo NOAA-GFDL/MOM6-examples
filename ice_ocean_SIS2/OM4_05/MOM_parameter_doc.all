@@ -113,7 +113,7 @@ FRAZIL = True                   !   [Boolean] default = False
                                 ! the accumulated heat deficit is returned in the
                                 ! surface state.  FRAZIL is only used if
                                 ! ENABLE_THERMODYNAMICS is true.
-DO_GEOTHERMAL = False           !   [Boolean] default = False
+DO_GEOTHERMAL = True            !   [Boolean] default = False
                                 ! If true, apply geothermal heating.
 BOUND_SALINITY = True           !   [Boolean] default = False
                                 ! If true, limit salinity to being positive. (The sea-ice
@@ -1082,7 +1082,7 @@ KH = 0.0                        !   [m2 s-1] default = 0.0
                                 ! The background Laplacian horizontal viscosity.
 KH_BG_MIN = 0.0                 !   [m2 s-1] default = 0.0
                                 ! The minimum value allowed for Laplacian horizontal viscosity, KH.
-KH_VEL_SCALE = 0.0              !   [m s-1] default = 0.0
+KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the grid
                                 ! spacing to calculate the Laplacian viscosity.
                                 ! The final viscosity is the largest of this scaled
@@ -1351,7 +1351,7 @@ KHTH_USE_FGNV_STREAMFUNCTION = True !   [Boolean] default = False
                                 ! If true, use the streamfunction formulation of
                                 ! Ferrari et al., 2010, which effectively emphasizes
                                 ! graver vertical modes by smoothing in the vertical.
-FGNV_FILTER_SCALE = 1.0         !   [not defined] default = 1.0
+FGNV_FILTER_SCALE = 0.1         !   [not defined] default = 1.0
                                 ! A coefficient scaling the vertical smoothing term in the
                                 ! Ferrari et al., 2010, streamfunction formulation.
 FGNV_C_MIN = 0.0                !   [m s-1] default = 0.0
@@ -1368,7 +1368,7 @@ MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
                                 ! flow is imposed in the mixed layer. Can be used in ALE mode
                                 ! without restriction but in layer mode can only be used if
                                 ! BULKMIXEDLAYER is true.
-FOX_KEMPER_ML_RESTRAT_COEF = 30.0 !   [nondim] default = 0.0
+FOX_KEMPER_ML_RESTRAT_COEF = 1.0 !   [nondim] default = 0.0
                                 ! A nondimensional coefficient that is proportional to
                                 ! the ratio of the deformation radius to the dominant
                                 ! lengthscale of the submesoscale mixed layer
@@ -1380,7 +1380,7 @@ FOX_KEMPER_ML_RESTRAT_COEF = 30.0 !   [nondim] default = 0.0
 FOX_KEMPER_ML_RESTRAT_COEF2 = 0.0 !   [nondim] default = 0.0
                                 ! As for FOX_KEMPER_ML_RESTRAT_COEF but used in a second application
                                 ! of the MLE restratification parameterization.
-MLE_FRONT_LENGTH = 0.0          !   [m] default = 0.0
+MLE_FRONT_LENGTH = 200.0        !   [m] default = 0.0
                                 ! If non-zero, is the frontal-length scale used to calculate the
                                 ! upscaling of buoyancy gradients that is otherwise represented
                                 ! by the parameter FOX_KEMPER_ML_RESTRAT_COEF. If MLE_FRONT_LENGTH is
@@ -1454,7 +1454,7 @@ MIX_BOUNDARY_TRACERS = True     !   [Boolean] default = True
                                 ! If true, mix the passive tracers in massless layers at
                                 ! the bottom into the interior as though a diffusivity of
                                 ! KD_MIN_TR were operating.
-KD_MIN_TR = 2.0E-06             !   [m2 s-1] default = 2.0E-06
+KD_MIN_TR = 1.5E-06             !   [m2 s-1] default = 1.5E-06
                                 ! A minimal diffusivity that should always be applied to
                                 ! tracers, especially in massless layers near the bottom.
                                 ! The default is 0.1*KD.
@@ -1513,8 +1513,26 @@ CORRECT_DENSITY = True          !   [Boolean] default = True
 MAX_ENT_IT = 5                  ! default = 5
                                 ! The maximum number of iterations that may be used to
                                 ! calculate the interior diapycnal entrainment.
-TOLERANCE_ENT = 1.897366596101028E-05 !   [m] default = 1.897366596101028E-05
+TOLERANCE_ENT = 1.643167672515498E-05 !   [m] default = 1.643167672515498E-05
                                 ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_geothermal ===
+GEOTHERMAL_SCALE = 1.0          !   [W m-2 or various] default = 0.0
+                                ! The constant geothermal heat flux, a rescaling
+                                ! factor for the heat flux read from GEOTHERMAL_FILE, or
+                                ! 0 to disable the geothermal heating.
+GEOTHERMAL_FILE = "geothermal_davies2013_v1.nc" ! default = ""
+                                ! The file from which the geothermal heating is to be
+                                ! read, or blank to use a constant heating rate.
+GEOTHERMAL_THICKNESS = 0.1      !   [m] default = 0.1
+                                ! The thickness over which to apply geothermal heating.
+GEOTHERMAL_DRHO_DT_INPLACE = -0.01 !   [kg m-3 K-1] default = -0.01
+                                ! The value of drho_dT above which geothermal heating
+                                ! simply heats water in place instead of moving it between
+                                ! isopycnal layers.  This must be negative.
+GEOTHERMAL_VARNAME = "geothermal_hf" ! default = "geo_heat"
+                                ! The name of the geothermal heating variable in
+                                ! GEOTHERMAL_FILE.
 
 ! === module MOM_set_diffusivity ===
 FLUX_RI_MAX = 0.2               !   [not defined] default = 0.2
@@ -1576,11 +1594,11 @@ KD_TANH_LAT_FN = False          !   [Boolean] default = False
                                 ! like CM2.1/CM2M.  There is no physical justification
                                 ! for this form, and it can not be used with
                                 ! HENYEY_IGW_BACKGROUND.
-KD = 2.0E-05                    !   [m2 s-1]
+KD = 1.5E-05                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
                                 ! may be used.
-KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
+KD_MIN = 2.0E-06                !   [m2 s-1] default = 1.5E-07
                                 ! The minimum diapycnal diffusivity.
 KD_MAX = 0.1                    !   [m2 s-1] default = -1.0
                                 ! The maximum permitted increment for the diapycnal
@@ -1589,7 +1607,7 @@ KD_MAX = 0.1                    !   [m2 s-1] default = -1.0
 KD_ADD = 0.0                    !   [m2 s-1] default = 0.0
                                 ! A uniform diapycnal diffusivity that is added
                                 ! everywhere without any filtering or scaling.
-KDML = 2.0E-05                  !   [m2 s-1] default = 2.0E-05
+KDML = 1.5E-05                  !   [m2 s-1] default = 1.5E-05
                                 ! If BULKMIXEDLAYER is false, KDML is the elevated
                                 ! diapycnal diffusivity in the topmost HMIX of fluid.
                                 ! KDML is only used if BULKMIXEDLAYER is false.
@@ -1698,7 +1716,7 @@ SHEARMIX_RATE = 0.089           !   [nondim] default = 0.089
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to
                                 ! estimate the Richardson number driven mixing.
-KD_KAPPA_SHEAR_0 = 2.0E-05      !   [m2 s-1] default = 2.0E-05
+KD_KAPPA_SHEAR_0 = 1.5E-05      !   [m2 s-1] default = 1.5E-05
                                 ! The background diffusivity that is used to smooth the
                                 ! density and shear profiles before solving for the
                                 ! diffusivities. Defaults to value of KD.

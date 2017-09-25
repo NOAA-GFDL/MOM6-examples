@@ -38,6 +38,8 @@ FRAZIL = True                   !   [Boolean] default = False
                                 ! the accumulated heat deficit is returned in the
                                 ! surface state.  FRAZIL is only used if
                                 ! ENABLE_THERMODYNAMICS is true.
+DO_GEOTHERMAL = True            !   [Boolean] default = False
+                                ! If true, apply geothermal heating.
 BOUND_SALINITY = True           !   [Boolean] default = False
                                 ! If true, limit salinity to being positive. (The sea-ice
                                 ! model may ask for more salt than is available and
@@ -470,6 +472,11 @@ MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
                                 ! If true, use a Laplacian horizontal viscosity.
+KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
+                                ! The velocity scale which is multiplied by the grid
+                                ! spacing to calculate the Laplacian viscosity.
+                                ! The final viscosity is the largest of this scaled
+                                ! viscosity, the Smagorinsky and Leith viscosities, and KH.
 AH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the cube of
                                 ! the grid spacing to calculate the biharmonic viscosity.
@@ -550,6 +557,9 @@ KHTH_USE_FGNV_STREAMFUNCTION = True !   [Boolean] default = False
                                 ! If true, use the streamfunction formulation of
                                 ! Ferrari et al., 2010, which effectively emphasizes
                                 ! graver vertical modes by smoothing in the vertical.
+FGNV_FILTER_SCALE = 0.1         !   [not defined] default = 1.0
+                                ! A coefficient scaling the vertical smoothing term in the
+                                ! Ferrari et al., 2010, streamfunction formulation.
 
 ! === module MOM_mixed_layer_restrat ===
 MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
@@ -557,7 +567,7 @@ MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
                                 ! flow is imposed in the mixed layer. Can be used in ALE mode
                                 ! without restriction but in layer mode can only be used if
                                 ! BULKMIXEDLAYER is true.
-FOX_KEMPER_ML_RESTRAT_COEF = 30.0 !   [nondim] default = 0.0
+FOX_KEMPER_ML_RESTRAT_COEF = 1.0 !   [nondim] default = 0.0
                                 ! A nondimensional coefficient that is proportional to
                                 ! the ratio of the deformation radius to the dominant
                                 ! lengthscale of the submesoscale mixed layer
@@ -566,6 +576,11 @@ FOX_KEMPER_ML_RESTRAT_COEF = 30.0 !   [nondim] default = 0.0
                                 ! geostrophic kinetic energy or 1 plus the square of the
                                 ! grid spacing over the deformation radius, as detailed
                                 ! by Fox-Kemper et al. (2010)
+MLE_FRONT_LENGTH = 200.0        !   [m] default = 0.0
+                                ! If non-zero, is the frontal-length scale used to calculate the
+                                ! upscaling of buoyancy gradients that is otherwise represented
+                                ! by the parameter FOX_KEMPER_ML_RESTRAT_COEF. If MLE_FRONT_LENGTH is
+                                ! non-zero, it is recommended to set FOX_KEMPER_ML_RESTRAT_COEF=1.0.
 MLE_USE_PBL_MLD = True          !   [Boolean] default = False
                                 ! If true, the MLE parameterization will use the mixed-layer
                                 ! depth provided by the active PBL parameterization. If false,
@@ -609,6 +624,18 @@ CONVECTION%
 
 ! === module MOM_entrain_diffusive ===
 
+! === module MOM_geothermal ===
+GEOTHERMAL_SCALE = 1.0          !   [W m-2 or various] default = 0.0
+                                ! The constant geothermal heat flux, a rescaling
+                                ! factor for the heat flux read from GEOTHERMAL_FILE, or
+                                ! 0 to disable the geothermal heating.
+GEOTHERMAL_FILE = "geothermal_davies2013_v1.nc" ! default = ""
+                                ! The file from which the geothermal heating is to be
+                                ! read, or blank to use a constant heating rate.
+GEOTHERMAL_VARNAME = "geothermal_hf" ! default = "geo_heat"
+                                ! The name of the geothermal heating variable in
+                                ! GEOTHERMAL_FILE.
+
 ! === module MOM_set_diffusivity ===
 BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the
@@ -630,11 +657,11 @@ N2_FLOOR_IOMEGA2 = 0.0          !   [nondim] default = 1.0
                                 ! The floor applied to N2(k) scaled by Omega^2:
                                 !   If =0., N2(k) is simply positive definite.
                                 !   If =1., N2(k) > Omega^2 everywhere.
-KD = 2.0E-05                    !   [m2 s-1]
+KD = 1.5E-05                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
                                 ! may be used.
-KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
+KD_MIN = 2.0E-06                !   [m2 s-1] default = 1.5E-07
                                 ! The minimum diapycnal diffusivity.
 KD_MAX = 0.1                    !   [m2 s-1] default = -1.0
                                 ! The maximum permitted increment for the diapycnal
