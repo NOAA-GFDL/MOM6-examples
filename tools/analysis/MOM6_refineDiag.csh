@@ -100,6 +100,10 @@ if ( -e $yr1.ocean_static_no_mask_table.nc ) set ocean_static_file = $yr1.ocean_
 $script_dir/EddyKineticEnergy.py  -g $ocean_static_file -o $out_dir/refineDiag_ocean_annual/EddyKineticEnergy/EKE_mean_${yr1}.png -l ${yr1} $yr1.ocean_daily.nc
 $script_dir/calc_variance.py zos $yr1.ocean_daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
 
+echo '==== Offline Diagnostics ===='
+$script_dir/offline_overturning_z.py -b $ocean_static_file -r refineDiagDir $yr1.ocean_month_z.nc
+$script_dir/offline_overturning_rho.py -b $ocean_static_file -r refineDiagDir $yr1.ocean_month_rho2.nc
+
 echo "  ---------- end yearly analysis ----------  "
 
 echo "  -- end   MOM6_refineDiag.csh --  "

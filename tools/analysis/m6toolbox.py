@@ -193,7 +193,7 @@ def moc_maskedarray(vh,mask=None):
     _vh = vh * _mask
     _vh_btm = np.ma.expand_dims(_vh[:,-1,:,:]*0.,axis=1)
     _vh = np.ma.concatenate((_vh,_vh_btm),axis=1)
-    _vh = np.ma.sum(_vh,axis=-1)
+    _vh = np.ma.sum(_vh,axis=-1) * -1.
     _vh = _vh[:,::-1] # flip z-axis so running sum is from ocean floor to surface
     _vh = np.ma.cumsum(_vh,axis=1)
     _vh = _vh[:,::-1] # flip z-axis back to original order
