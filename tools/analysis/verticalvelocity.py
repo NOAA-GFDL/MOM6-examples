@@ -25,11 +25,11 @@ def calc_w_from_convergence(infile, gridspec, u_var, v_var, wrapx = True, wrapy 
     v_dat = v_dat.filled(0.)
 
     # Order of subtraction based on upwind sign convention and desire for w>0 to correspond with upwards velocity
-    w[tidx,:-1,:,:] += u_dat-np.roll(u_dat,1,axis=-1)
-    if not wrapx: # If not wrapping, then convergence on westernmost side is simply so add back the rolled value
-      w[tidx,:-1,:,0] += u_dat[:-1,:,-1]
-    w[tidx,:-1,:,:] += v_dat-np.roll(v_dat,1,axis=-2)
-    if not wrapy: # If not wrapping, convergence on westernmost side is -v
+    w[tidx,:-1,:,:] += np.roll(u_dat,1,axis=-1)-u_dat
+    if not wrapx: # If not wrapping, then convergence on westernmost side is simply so subtract back the rolled value
+      w[tidx,:-1,:,0] += -u_dat[:-1,:,-1]
+    w[tidx,:-1,:,:] += np.roll(v_dat,1,axis=-2)-v_dat
+    if not wrapy: # If not wrapping, convergence on westernmost side is v
       w[tidx,:-1,0,:] += -v_dat[:,-1,:]
     w[tidx,-1,:,:] = 0.
     # Do a double-flip so that we integrate from the bottom
