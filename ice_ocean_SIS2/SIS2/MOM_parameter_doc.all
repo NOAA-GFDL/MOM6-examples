@@ -10,9 +10,6 @@ DO_UNIT_TESTS = False           !   [Boolean] default = False
                                 ! If True, exercises unit tests at model start up.
 SPLIT = True                    !   [Boolean] default = True
                                 ! Use the split time stepping if true.
-USE_LEGACY_SPLIT = False        !   [Boolean] default = False
-                                ! If true, use the full range of options available from
-                                ! the older GOLD-derived split time stepping code.
 CALC_RHO_FOR_SEA_LEVEL = False  !   [Boolean] default = False
                                 ! If true, the in-situ density is used to calculate the
                                 ! effective sea level that is returned to the coupler. If false,
@@ -193,149 +190,6 @@ H_TO_M = 1.0                    !   [m H-1] default = 1.0
 NK = 63                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
-! === module MOM_EOS ===
-EQN_OF_STATE = "WRIGHT"         ! default = "WRIGHT"
-                                ! EQN_OF_STATE determines which ocean equation of state
-                                ! should be used.  Currently, the valid choices are
-                                ! "LINEAR", "UNESCO", "WRIGHT", "NEMO" and "TEOS10".
-                                ! This is only used if USE_EOS is true.
-EOS_QUADRATURE = False          !   [Boolean] default = False
-                                ! If true, always use the generic (quadrature) code
-                                ! code for the integrals of density.
-TFREEZE_FORM = "LINEAR"         ! default = "LINEAR"
-                                ! TFREEZE_FORM determines which expression should be
-                                ! used for the freezing point.  Currently, the valid
-                                ! choices are "LINEAR", "MILLERO_78", "TEOS10"
-TFREEZE_S0_P0 = 0.0             !   [deg C] default = 0.0
-                                ! When TFREEZE_FORM=LINEAR,
-                                ! this is the freezing potential temperature at
-                                ! S=0, P=0.
-DTFREEZE_DS = -0.054            !   [deg C PSU-1] default = -0.054
-                                ! When TFREEZE_FORM=LINEAR,
-                                ! this is the derivative of the freezing potential
-                                ! temperature with salinity.
-DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
-                                ! When TFREEZE_FORM=LINEAR,
-                                ! this is the derivative of the freezing potential
-                                ! temperature with pressure.
-
-! === module MOM_restart ===
-PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file,
-                                ! otherwise a single restart file is generated
-RESTARTFILE = "MOM.res"         ! default = "MOM.res"
-                                ! The name-root of the restart file.
-LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
-                                ! If true, use the file-size limits with NetCDF large
-                                ! file support (4Gb), otherwise the limit is 2Gb.
-MAX_FIELDS = 100                ! default = 100
-                                ! The maximum number of restart fields that can be used.
-
-! === module MOM_tracer_flow_control ===
-USE_USER_TRACER_EXAMPLE = False !   [Boolean] default = False
-                                ! If true, use the USER_tracer_example tracer package.
-USE_DOME_TRACER = False         !   [Boolean] default = False
-                                ! If true, use the DOME_tracer tracer package.
-USE_ISOMIP_TRACER = False       !   [Boolean] default = False
-                                ! If true, use the ISOMIP_tracer tracer package.
-USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
-                                ! If true, use the ideal_age_example tracer package.
-USE_REGIONAL_DYES = False       !   [Boolean] default = False
-                                ! If true, use the regional_dyes tracer package.
-USE_OIL_TRACER = False          !   [Boolean] default = False
-                                ! If true, use the oil_tracer tracer package.
-USE_ADVECTION_TEST_TRACER = False !   [Boolean] default = False
-                                ! If true, use the advection_test_tracer tracer package.
-USE_OCMIP2_CFC = True           !   [Boolean] default = False
-                                ! If true, use the MOM_OCMIP2_CFC tracer package.
-USE_generic_tracer = False      !   [Boolean] default = False
-                                ! If true and _USE_GENERIC_TRACER is defined as a
-                                ! preprocessor macro, use the MOM_generic_tracer packages.
-USE_PSEUDO_SALT_TRACER = False  !   [Boolean] default = False
-                                ! If true, use the pseudo salt tracer, typically run as a diagnostic.
-USE_BOUNDARY_IMPULSE_TRACER = False !   [Boolean] default = False
-                                ! If true, use the boundary impulse tracer.
-
-! === module ideal_age_example ===
-DO_IDEAL_AGE = True             !   [Boolean] default = True
-                                ! If true, use an ideal age tracer that is set to 0 age
-                                ! in the mixed layer and ages at unit rate in the interior.
-DO_IDEAL_VINTAGE = False        !   [Boolean] default = False
-                                ! If true, use an ideal vintage tracer that is set to an
-                                ! exponentially increasing value in the mixed layer and
-                                ! is conserved thereafter.
-DO_IDEAL_AGE_DATED = False      !   [Boolean] default = False
-                                ! If true, use an ideal age tracer that is everywhere 0
-                                ! before IDEAL_AGE_DATED_START_YEAR, but the behaves like
-                                ! the standard ideal age tracer - i.e. is set to 0 age in
-                                ! the mixed layer and ages at unit rate in the interior.
-AGE_IC_FILE = ""                ! default = ""
-                                ! The file in which the age-tracer initial values can be
-                                ! found, or an empty string for internal initialization.
-AGE_IC_FILE_IS_Z = False        !   [Boolean] default = False
-                                ! If true, AGE_IC_FILE is in depth space, not layer space
-MASK_MASSLESS_TRACERS = False   !   [Boolean] default = False
-                                ! If true, the tracers are masked out in massless layer.
-                                ! This can be a problem with time-averages.
-TRACERS_MAY_REINIT = False      !   [Boolean] default = False
-                                ! If true, tracers may go through the initialization code
-                                ! if they are not found in the restart files.  Otherwise
-                                ! it is a fatal error if the tracers are not found in the
-                                ! restart files of a restarted run.
-
-! === module MOM_OCMIP2_CFC ===
-CFC_IC_FILE = ""                ! default = ""
-                                ! The file in which the CFC initial values can be
-                                ! found, or an empty string for internal initialization.
-CFC_IC_FILE_IS_Z = False        !   [Boolean] default = False
-                                ! If true, CFC_IC_FILE is in depth space, not layer space
-CFC11_A1 = 3501.8               !   [nondim] default = 3501.8
-                                ! A coefficient in the Schmidt number of CFC11.
-CFC11_A2 = -210.31              !   [degC-1] default = -210.31
-                                ! A coefficient in the Schmidt number of CFC11.
-CFC11_A3 = 6.1851               !   [degC-2] default = 6.1851
-                                ! A coefficient in the Schmidt number of CFC11.
-CFC11_A4 = -0.07513             !   [degC-3] default = -0.07513
-                                ! A coefficient in the Schmidt number of CFC11.
-CFC12_A1 = 3845.4               !   [nondim] default = 3845.4
-                                ! A coefficient in the Schmidt number of CFC12.
-CFC12_A2 = -228.95              !   [degC-1] default = -228.95
-                                ! A coefficient in the Schmidt number of CFC12.
-CFC12_A3 = 6.1908               !   [degC-2] default = 6.1908
-                                ! A coefficient in the Schmidt number of CFC12.
-CFC12_A4 = -0.06743             !   [degC-3] default = -0.06743
-                                ! A coefficient in the Schmidt number of CFC12.
-CFC11_D1 = -229.9261            !   [none] default = -229.9261
-                                ! A coefficient in the solubility of CFC11.
-CFC11_D2 = 319.6552             !   [hK] default = 319.6552
-                                ! A coefficient in the solubility of CFC11.
-CFC11_D3 = 119.4471             !   [none] default = 119.4471
-                                ! A coefficient in the solubility of CFC11.
-CFC11_D4 = -1.39165             !   [hK-2] default = -1.39165
-                                ! A coefficient in the solubility of CFC11.
-CFC11_E1 = -0.142382            !   [PSU-1] default = -0.142382
-                                ! A coefficient in the solubility of CFC11.
-CFC11_E2 = 0.091459             !   [PSU-1 hK-1] default = 0.091459
-                                ! A coefficient in the solubility of CFC11.
-CFC11_E3 = -0.0157274           !   [PSU-1 hK-2] default = -0.0157274
-                                ! A coefficient in the solubility of CFC11.
-CFC12_D1 = -218.0971            !   [none] default = -218.0971
-                                ! A coefficient in the solubility of CFC12.
-CFC12_D2 = 298.9702             !   [hK] default = 298.9702
-                                ! A coefficient in the solubility of CFC12.
-CFC12_D3 = 113.8049             !   [none] default = 113.8049
-                                ! A coefficient in the solubility of CFC12.
-CFC12_D4 = -1.39165             !   [hK-2] default = -1.39165
-                                ! A coefficient in the solubility of CFC12.
-CFC12_E1 = -0.143566            !   [PSU-1] default = -0.143566
-                                ! A coefficient in the solubility of CFC12.
-CFC12_E2 = 0.091015             !   [PSU-1 hK-1] default = 0.091015
-                                ! A coefficient in the solubility of CFC12.
-CFC12_E3 = -0.0153924           !   [PSU-1 hK-2] default = -0.0153924
-                                ! A coefficient in the solubility of CFC12.
-
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -421,6 +275,151 @@ ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
                                 !     USER - call a user modified routine.
 OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
                                 ! The rotation rate of the earth.
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file,
+                                ! otherwise a single restart file is generated
+
+! === module MOM_tracer_registry ===
+
+! === module MOM_EOS ===
+EQN_OF_STATE = "WRIGHT"         ! default = "WRIGHT"
+                                ! EQN_OF_STATE determines which ocean equation of state
+                                ! should be used.  Currently, the valid choices are
+                                ! "LINEAR", "UNESCO", "WRIGHT", "NEMO" and "TEOS10".
+                                ! This is only used if USE_EOS is true.
+EOS_QUADRATURE = False          !   [Boolean] default = False
+                                ! If true, always use the generic (quadrature) code
+                                ! code for the integrals of density.
+TFREEZE_FORM = "LINEAR"         ! default = "LINEAR"
+                                ! TFREEZE_FORM determines which expression should be
+                                ! used for the freezing point.  Currently, the valid
+                                ! choices are "LINEAR", "MILLERO_78", "TEOS10"
+TFREEZE_S0_P0 = 0.0             !   [deg C] default = 0.0
+                                ! When TFREEZE_FORM=LINEAR,
+                                ! this is the freezing potential temperature at
+                                ! S=0, P=0.
+DTFREEZE_DS = -0.054            !   [deg C PSU-1] default = -0.054
+                                ! When TFREEZE_FORM=LINEAR,
+                                ! this is the derivative of the freezing potential
+                                ! temperature with salinity.
+DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
+                                ! When TFREEZE_FORM=LINEAR,
+                                ! this is the derivative of the freezing potential
+                                ! temperature with pressure.
+
+! === module MOM_restart ===
+RESTARTFILE = "MOM.res"         ! default = "MOM.res"
+                                ! The name-root of the restart file.
+LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
+                                ! If true, use the file-size limits with NetCDF large
+                                ! file support (4Gb), otherwise the limit is 2Gb.
+MAX_FIELDS = 100                ! default = 100
+                                ! The maximum number of restart fields that can be used.
+
+! === module MOM_tracer_flow_control ===
+USE_USER_TRACER_EXAMPLE = False !   [Boolean] default = False
+                                ! If true, use the USER_tracer_example tracer package.
+USE_DOME_TRACER = False         !   [Boolean] default = False
+                                ! If true, use the DOME_tracer tracer package.
+USE_ISOMIP_TRACER = False       !   [Boolean] default = False
+                                ! If true, use the ISOMIP_tracer tracer package.
+USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
+                                ! If true, use the ideal_age_example tracer package.
+USE_REGIONAL_DYES = False       !   [Boolean] default = False
+                                ! If true, use the regional_dyes tracer package.
+USE_OIL_TRACER = False          !   [Boolean] default = False
+                                ! If true, use the oil_tracer tracer package.
+USE_ADVECTION_TEST_TRACER = False !   [Boolean] default = False
+                                ! If true, use the advection_test_tracer tracer package.
+USE_OCMIP2_CFC = True           !   [Boolean] default = False
+                                ! If true, use the MOM_OCMIP2_CFC tracer package.
+USE_generic_tracer = False      !   [Boolean] default = False
+                                ! If true and _USE_GENERIC_TRACER is defined as a
+                                ! preprocessor macro, use the MOM_generic_tracer packages.
+USE_PSEUDO_SALT_TRACER = False  !   [Boolean] default = False
+                                ! If true, use the pseudo salt tracer, typically run as a diagnostic.
+USE_BOUNDARY_IMPULSE_TRACER = False !   [Boolean] default = False
+                                ! If true, use the boundary impulse tracer.
+USE_DYED_OBC_TRACER = False     !   [Boolean] default = False
+                                ! If true, use the dyed_obc_tracer tracer package.
+
+! === module ideal_age_example ===
+DO_IDEAL_AGE = True             !   [Boolean] default = True
+                                ! If true, use an ideal age tracer that is set to 0 age
+                                ! in the mixed layer and ages at unit rate in the interior.
+DO_IDEAL_VINTAGE = False        !   [Boolean] default = False
+                                ! If true, use an ideal vintage tracer that is set to an
+                                ! exponentially increasing value in the mixed layer and
+                                ! is conserved thereafter.
+DO_IDEAL_AGE_DATED = False      !   [Boolean] default = False
+                                ! If true, use an ideal age tracer that is everywhere 0
+                                ! before IDEAL_AGE_DATED_START_YEAR, but the behaves like
+                                ! the standard ideal age tracer - i.e. is set to 0 age in
+                                ! the mixed layer and ages at unit rate in the interior.
+AGE_IC_FILE = ""                ! default = ""
+                                ! The file in which the age-tracer initial values can be
+                                ! found, or an empty string for internal initialization.
+AGE_IC_FILE_IS_Z = False        !   [Boolean] default = False
+                                ! If true, AGE_IC_FILE is in depth space, not layer space
+MASK_MASSLESS_TRACERS = False   !   [Boolean] default = False
+                                ! If true, the tracers are masked out in massless layer.
+                                ! This can be a problem with time-averages.
+TRACERS_MAY_REINIT = False      !   [Boolean] default = False
+                                ! If true, tracers may go through the initialization code
+                                ! if they are not found in the restart files.  Otherwise
+                                ! it is a fatal error if the tracers are not found in the
+                                ! restart files of a restarted run.
+
+! === module MOM_OCMIP2_CFC ===
+CFC_IC_FILE = ""                ! default = ""
+                                ! The file in which the CFC initial values can be
+                                ! found, or an empty string for internal initialization.
+CFC_IC_FILE_IS_Z = False        !   [Boolean] default = False
+                                ! If true, CFC_IC_FILE is in depth space, not layer space
+CFC11_A1 = 3501.8               !   [nondim] default = 3501.8
+                                ! A coefficient in the Schmidt number of CFC11.
+CFC11_A2 = -210.31              !   [degC-1] default = -210.31
+                                ! A coefficient in the Schmidt number of CFC11.
+CFC11_A3 = 6.1851               !   [degC-2] default = 6.1851
+                                ! A coefficient in the Schmidt number of CFC11.
+CFC11_A4 = -0.07513             !   [degC-3] default = -0.07513
+                                ! A coefficient in the Schmidt number of CFC11.
+CFC12_A1 = 3845.4               !   [nondim] default = 3845.4
+                                ! A coefficient in the Schmidt number of CFC12.
+CFC12_A2 = -228.95              !   [degC-1] default = -228.95
+                                ! A coefficient in the Schmidt number of CFC12.
+CFC12_A3 = 6.1908               !   [degC-2] default = 6.1908
+                                ! A coefficient in the Schmidt number of CFC12.
+CFC12_A4 = -0.06743             !   [degC-3] default = -0.06743
+                                ! A coefficient in the Schmidt number of CFC12.
+CFC11_D1 = -229.9261            !   [none] default = -229.9261
+                                ! A coefficient in the solubility of CFC11.
+CFC11_D2 = 319.6552             !   [hK] default = 319.6552
+                                ! A coefficient in the solubility of CFC11.
+CFC11_D3 = 119.4471             !   [none] default = 119.4471
+                                ! A coefficient in the solubility of CFC11.
+CFC11_D4 = -1.39165             !   [hK-2] default = -1.39165
+                                ! A coefficient in the solubility of CFC11.
+CFC11_E1 = -0.142382            !   [PSU-1] default = -0.142382
+                                ! A coefficient in the solubility of CFC11.
+CFC11_E2 = 0.091459             !   [PSU-1 hK-1] default = 0.091459
+                                ! A coefficient in the solubility of CFC11.
+CFC11_E3 = -0.0157274           !   [PSU-1 hK-2] default = -0.0157274
+                                ! A coefficient in the solubility of CFC11.
+CFC12_D1 = -218.0971            !   [none] default = -218.0971
+                                ! A coefficient in the solubility of CFC12.
+CFC12_D2 = 298.9702             !   [hK] default = 298.9702
+                                ! A coefficient in the solubility of CFC12.
+CFC12_D3 = 113.8049             !   [none] default = 113.8049
+                                ! A coefficient in the solubility of CFC12.
+CFC12_D4 = -1.39165             !   [hK-2] default = -1.39165
+                                ! A coefficient in the solubility of CFC12.
+CFC12_E1 = -0.143566            !   [PSU-1] default = -0.143566
+                                ! A coefficient in the solubility of CFC12.
+CFC12_E2 = 0.091015             !   [PSU-1 hK-1] default = 0.091015
+                                ! A coefficient in the solubility of CFC12.
+CFC12_E3 = -0.0153924           !   [PSU-1 hK-2] default = -0.0153924
+                                ! A coefficient in the solubility of CFC12.
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           !
@@ -552,7 +551,7 @@ DIAG_COORDS = "z Z ZSTAR"       ! default = "z Z ZSTAR"
                                 ! A list of string tuples associating diag_table modules to
                                 ! a coordinate definition used for diagnostics. Each string
                                 ! is of the form "MODULE_SUFFIX PARAMETER_SUFFIX COORDINATE_NAME".
-DIAG_MISVAL = -1.0E+34          !   [not defined] default = -1.0E+34
+DIAG_MISVAL = 1.0E+20           !   [not defined] default = 1.0E+20
                                 ! Set the default missing value to use for diagnostics.
 AVAILABLE_DIAGS_FILE = "available_diags.000000" ! default = "available_diags.000000"
                                 ! A file into which to write a list of all available
@@ -1110,6 +1109,10 @@ DTBT = -0.95                    !   [s or nondim] default = -0.98
                                 ! Setting DTBT to 0 is the same as setting it to -0.98.
                                 ! The value of DTBT that will actually be used is an
                                 ! integer fraction of DT, rounding down.
+BT_USE_OLD_CORIOLIS_BRACKET_BUG = False !   [Boolean] default = False
+                                ! If True, use an order of operations that is not bitwise
+                                ! rotationally symmetric in the meridional Coriolis term of
+                                ! the barotropic solver.
 
 ! === module MOM_thickness_diffuse ===
 KHTH = 10.0                     !   [m2 s-1] default = 0.0

@@ -40,7 +40,8 @@
  "ocean_model", "areacello",   "areacello",   "ocean_static", "all", "none", "none", 2
  "ocean_model", "deptho",      "deptho",      "ocean_static", "all", "none", "none", 2
 #"ocean_model", "basin",       "basin",       "ocean_static", "all", "none", "none", 2  # in /archive/gold/datasets/OM4_025/
- "ocean_model", "hfgeou",      "hfgeou"       "ocean_static", "all", "none", "none", 2  # for static geothermal heat
+ "ocean_model", "hfgeou",      "hfgeou",      "ocean_static", "all", "none", "none", 2  # for static geothermal heat
+ "ocean_model", "sftof",       "sftof",       "ocean_static", "all", "none", "none", 2
 
 # Extra static geometry data beyond CMIP6/OMIP Table 2.1
  "ocean_model", "Coriolis",    "Coriolis",    "ocean_static", "all", "none", "none", 2
@@ -62,15 +63,21 @@
  "ocean_model", "dyCu",        "dyCu",        "ocean_static", "all", "none", "none", 2
  "ocean_model", "dxCv",        "dxCv",        "ocean_static", "all", "none", "none", 2
  "ocean_model", "dyCv",        "dyCv",        "ocean_static", "all", "none", "none", 2
-
+ "ocean_model", "areacello_cu","areacello_cu","ocean_static", "all", "none", "none", 2
+ "ocean_model", "areacello_cv","areacello_cv","ocean_static", "all", "none", "none", 2
+ "ocean_model", "areacello_bu","areacello_bu","ocean_static", "all", "none", "none", 2
 
 # -----------------------------------------------------------------------------------------
 # CMIP6/OMIP Table H1: scalar fields such as tracers, cell mass/volume, sea level, MLD
 # Generally save annuals, and sometimes monthly and daily.
+#"ocean_model_z", "volcello",     "volcello",         "ocean_annual_z",      "all", "mean", "none",2 # Cell measure for 3d data
+#"ocean_model_z", "volcello",     "volcello",         "ocean_month_z",       "all", "mean", "none",2 # Cell measure for 3d data
+#"ocean_model",   "volcello",     "volcello",         "ocean_annual",        "all", "mean", "none",2 # Cell measure for 3d data
+#"ocean_model",   "volcello",     "volcello",         "ocean_month",         "all", "mean", "none",2 # Cell measure for 3d data
  "ocean_model",   "pbo",          "pbo",              "ocean_annual",        "all", "mean", "none",2
-# "ocean_model",   "pbo",          "pbo",              "ocean_month",         "all", "mean", "none",2
+#"ocean_model",   "pbo",          "pbo",              "ocean_month",         "all", "mean", "none",2
  "ocean_model",   "pso",          "pso",              "ocean_annual",        "all", "mean", "none",2
-# "ocean_model",   "pso",          "pso",              "ocean_month",         "all", "mean", "none",2
+#"ocean_model",   "pso",          "pso",              "ocean_month",         "all", "mean", "none",2
  "ocean_model",   "masscello",    "masscello",        "ocean_annual",        "all", "mean", "none",2
 #"ocean_model",   "masscello",    "masscello",        "ocean_month",         "all", "mean", "none",2
  "ocean_model",   "masso",        "masso",            "ocean_scalar_month",  "all", "mean", "none",2  # global sum masscello
@@ -81,14 +88,14 @@
  "ocean_model",   "volo",         "volo",             "ocean_scalar_annual", "all", "mean", "none",2  # global sum thkcello
  "ocean_model",   "zos",          "zos",              "ocean_annual",        "all", "mean", "none",2
  "ocean_model",   "zos",          "zos",              "ocean_month",         "all", "mean", "none",2
-# "ocean_model",   "zos",          "zos",              "ocean_daily",         "all", "mean", "none",2
+#"ocean_model",   "zos",          "zos",              "ocean_daily",         "all", "mean", "none",2
  "ocean_model",   "zossq",        "zossq",            "ocean_annual",        "all", "mean", "none",2
-# "ocean_model",   "zossq",        "zossq",            "ocean_month",         "all", "mean", "none",2
+#"ocean_model",   "zossq",        "zossq",            "ocean_month",         "all", "mean", "none",2
 #"ocean_model",   "zostoga",      "zostoga",          "ocean_month",         "all", "mean", "none",2  # to be done offline
  "ocean_model",   "thetao",       "thetao",           "ocean_annual",        "all", "mean", "none",2  # if use pre-TEOS10
 #"ocean_model",   "thetao",       "thetao",           "ocean_month",         "all", "mean", "none",2  # if use pre-TEOS10
  "ocean_model_z", "thetao",       "thetao",           "ocean_annual_z",      "all", "mean", "none",2  # if use pre-TEOS10
-# "ocean_model_z", "thetao",       "thetao",           "ocean_month_z",       "all", "mean", "none",2  # if use pre-TEOS10
+#"ocean_model_z", "thetao",       "thetao",           "ocean_month_z",       "all", "mean", "none",2  # if use pre-TEOS10
  "ocean_model_z", "thetao_xyave", "thetao_xyave",     "ocean_annual_z",      "all", "mean", "none",2  # if use pre-TEOS10
  "ocean_model",   "thetaoga",     "thetaoga",         "ocean_scalar_month",  "all", "mean", "none",2  # global mean theta
  "ocean_model",   "thetaoga",     "thetaoga",         "ocean_scalar_annual", "all", "mean", "none",2  # global mean theta
@@ -98,41 +105,41 @@
 #"ocean_model",   "bigthetaoga",  "bigthetaoga",      "ocean_scalar_month",  "all", "mean", "none",2  # if use TEOS10
  "ocean_model",   "tos",          "tos",              "ocean_annual",        "all", "mean", "none",2
  "ocean_model",   "tos",          "tos",              "ocean_month",         "all", "mean", "none",2
-# "ocean_model",   "tos",          "tos",              "ocean_daily",         "all", "mean", "none",2
+#"ocean_model",   "tos",          "tos",              "ocean_daily",         "all", "mean", "none",2
  "ocean_model",   "tosga",        "tosga",            "ocean_scalar_annual", "all", "mean", "none",2
  "ocean_model",   "tosga",        "tosga",            "ocean_scalar_month",  "all", "mean", "none",2
-# "ocean_model",   "tossq",        "tossq",            "ocean_annual",        "all", "mean", "none",2
-# "ocean_model",   "tossq",        "tossq",            "ocean_month",         "all", "mean", "none",2
-# "ocean_model",   "tossq",        "tossq",            "ocean_daily",         "all", "mean", "none",2
+#"ocean_model",   "tossq",        "tossq",            "ocean_annual",        "all", "mean", "none",2
+#"ocean_model",   "tossq",        "tossq",            "ocean_month",         "all", "mean", "none",2
+#"ocean_model",   "tossq",        "tossq",            "ocean_daily",         "all", "mean", "none",2
  "ocean_model",   "tob",          "tob",              "ocean_annual",        "all", "mean", "none",2
-# "ocean_model",   "tob",          "tob",              "ocean_month",         "all", "mean", "none",2
+#"ocean_model",   "tob",          "tob",              "ocean_month",         "all", "mean", "none",2
  "ocean_model",   "so",           "so",               "ocean_annual",        "all", "mean", "none",2
 #"ocean_model",   "so",           "so",               "ocean_month",         "all", "mean", "none",2
  "ocean_model_z", "so",           "so",               "ocean_annual_z",      "all", "mean", "none",2
-# "ocean_model_z", "so",           "so",               "ocean_month_z",       "all", "mean", "none",2
+#"ocean_model_z", "so",           "so",               "ocean_month_z",       "all", "mean", "none",2
  "ocean_model_z", "so_xyave",     "so_xyave",         "ocean_annual_z",      "all", "mean", "none",2
  "ocean_model",   "soga",         "soga",             "ocean_scalar_annual", "all", "mean", "none",2
  "ocean_model",   "soga",         "soga",             "ocean_scalar_month",  "all", "mean", "none",2
  "ocean_model",   "sos",          "sos",              "ocean_annual",        "all", "mean", "none",2
  "ocean_model",   "sos",          "sos",              "ocean_month",         "all", "mean", "none",2
-# "ocean_model",   "sos",          "sos",              "ocean_daily",         "all", "mean", "none",2
+#"ocean_model",   "sos",          "sos",              "ocean_daily",         "all", "mean", "none",2
  "ocean_model",   "sosga",        "sosga",            "ocean_scalar_annual", "all", "mean", "none",2
  "ocean_model",   "sosga",        "sosga",            "ocean_scalar_month",  "all", "mean", "none",2
-# "ocean_model",   "sossq",        "sossq",            "ocean_annual",        "all", "mean", "none",2
-# "ocean_model",   "sossq",        "sossq",            "ocean_month",         "all", "mean", "none",2
-# "ocean_model",   "sossq",        "sossq",            "ocean_daily",         "all", "mean", "none",2
+#"ocean_model",   "sossq",        "sossq",            "ocean_annual",        "all", "mean", "none",2
+#"ocean_model",   "sossq",        "sossq",            "ocean_month",         "all", "mean", "none",2
+#"ocean_model",   "sossq",        "sossq",            "ocean_daily",         "all", "mean", "none",2
  "ocean_model",   "sob",          "sob",              "ocean_annual",        "all", "mean", "none",2
  "ocean_model",   "sob",          "sob",              "ocean_month",         "all", "mean", "none",2
  "ocean_model_z", "obvfsq",       "obvfsq",           "ocean_annual_z",      "all", "mean", "none",2
-# "ocean_model_z", "obvfsq",       "obvfsq",           "ocean_month_z",       "all", "mean", "none",2
+#"ocean_model_z", "obvfsq",       "obvfsq",           "ocean_month_z",       "all", "mean", "none",2
  "ocean_model_z", "agessc",       "agessc",           "ocean_annual_z",      "all", "mean", "none",2		
 #"ocean_model",   "cfc11",        "cfc11",            "ocean_annual",        "all", "mean", "none",2  # get from generic tracer module
 #"ocean_model",   "cfc12",        "cfc12",            "ocean_annual",        "all", "mean", "none",2  # get from generic tracer module
 #"ocean_model",   "sf6",          "sf6",              "ocean_annual",        "all", "mean", "none",2  # get from generic tracer module
  "ocean_model",   "mlotst"        "mlotst",           "ocean_annual",        "all", "mean", "none",2
  "ocean_model",   "mlotst"        "mlotst",           "ocean_month",         "all", "mean", "none",2
-# "ocean_model",   "mlotstsq"      "mlotstsq",         "ocean_annual",        "all", "mean", "none",2
-# "ocean_model",   "mlotstsq"      "mlotstsq",         "ocean_month",         "all", "mean", "none",2
+#"ocean_model",   "mlotstsq"      "mlotstsq",         "ocean_annual",        "all", "mean", "none",2
+#"ocean_model",   "mlotstsq"      "mlotstsq",         "ocean_month",         "all", "mean", "none",2
 #"ocean_model",   "msftbarot"     "msftbarot",        "ocean_month",         "all", "mean", "none",2  # to be done offline
 
 
@@ -145,26 +152,32 @@
 # Offline calculations needed for meridional overturning streamfunctions.
 #"ocean_model",  "uo",           "uo",               "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","uo",           "uo",               "ocean_annual_z",     "all", "mean", "none",2
-# "ocean_model_z","uo",           "uo",               "ocean_month_z",      "all", "mean", "none",2
+#"ocean_model_z","uo",           "uo",               "ocean_month_z",      "all", "mean", "none",2
 #"ocean_model",  "uo",           "uo",               "ocean_month",        "all", "mean", "none",2
 #"ocean_model",  "vo",           "vo",               "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","vo",           "vo",               "ocean_annual_z",     "all", "mean", "none",2
-# "ocean_model_z","vo",           "vo",               "ocean_month_z",      "all", "mean", "none",2
+#"ocean_model_z","vo",           "vo",               "ocean_month_z",      "all", "mean", "none",2
 #"ocean_model",  "vo",           "vo",               "ocean_month",        "all", "mean", "none",2
 #"ocean_model",  "umo",          "umo",              "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","umo",          "umo",              "ocean_annual_z",     "all", "mean", "none",2
+#"ocean_model_z","umo",          "umo",              "ocean_month_z",      "all", "mean", "none",2
 #"ocean_model",  "vmo",          "vmo",              "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","vmo",          "vmo",              "ocean_annual_z",     "all", "mean", "none",2
+#"ocean_model_z","vmo",          "vmo",              "ocean_month_z",      "all", "mean", "none",2
 #"ocean_model",  "wmo",          "wmo",              "ocean_annual",       "all", "mean", "none",2  # needs to be coded
 #"ocean_model",  "wmo",          "wmo",              "ocean_month",        "all", "mean", "none",2  # needs to be coded
 #"ocean_model",  "uhml",         "uhml",             "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","uhml",         "uhml",             "ocean_annual_z",     "all", "mean", "none",2
+#"ocean_model_z","uhml",         "uhml",             "ocean_month_z",      "all", "mean", "none",2
 #"ocean_model",  "vhml",         "vhml",             "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","vhml",         "vhml",             "ocean_annual_z",     "all", "mean", "none",2
+#"ocean_model_z","vhml",         "vhml",             "ocean_month_z",      "all", "mean", "none",2
 #"ocean_model",  "uhGM",         "uhGM",             "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","uhGM",         "uhGM",             "ocean_annual_z",     "all", "mean", "none",2
+#"ocean_model_z","uhGM",         "uhGM",             "ocean_month_z",      "all", "mean", "none",2
 #"ocean_model",  "vhGM",         "vhGM",             "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","vhGM",         "vhGM",             "ocean_annual_z",     "all", "mean", "none",2
+#"ocean_model_z","vhGM",         "vhGM",             "ocean_month_z",      "all", "mean", "none",2
  "ocean_model_z","uh",           "uh",               "ocean_annual_z",     "all", "mean", "none",2
  "ocean_model_z","vh",           "vh",               "ocean_annual_z",     "all", "mean", "none",2
  "ocean_model_z","T_adx",        "T_adx",            "ocean_annual_z",     "all", "mean", "none",2
@@ -180,6 +193,17 @@
  "ocean_model",  "ndiff_tracer_trans_x_2d_S","ndiff_tracer_trans_x_2d_S",  "ocean_annual",  "all", "mean", "none",2
  "ocean_model",  "ndiff_tracer_trans_y_2d_S","ndiff_tracer_trans_y_2d_S",  "ocean_annual",  "all", "mean", "none",2
 
+# Density space diagnostics (not necessarily using CMIP names but needed to generate CMIP output in post-processing)
+#"ocean_model_rho2","umo",       "umo",              "ocean_annual_rho2",  "all", "mean", "none",2
+#"ocean_model_rho2","uhGM",      "uhGM",             "ocean_annual_rho2",  "all", "mean", "none",2
+#"ocean_model_rho2","uhml",      "uhml",             "ocean_annual_rho2",  "all", "mean", "none",2
+#"ocean_model_rho2","vmo",       "vmo",              "ocean_annual_rho2",  "all", "mean", "none",2
+#"ocean_model_rho2","vhGM",      "vhGM",             "ocean_annual_rho2",  "all", "mean", "none",2
+#"ocean_model_rho2","vhml",      "vhml",             "ocean_annual_rho2",  "all", "mean", "none",2
+#"ocean_model_rho2","vmo",       "vmo",              "ocean_month_rho2",   "all", "mean", "none",2
+#"ocean_model_rho2","vhGM",      "vhGM",             "ocean_month_rho2",   "all", "mean", "none",2
+#"ocean_model_rho2","vhml",      "vhml",             "ocean_month_rho2",   "all", "mean", "none",2
+
 # -----------------------------------------------------------------------------------------
 # CMIP6/OMIP Table J1: in support of mass transport through straits
 # net transport of mass through straits is either done offline using
@@ -187,8 +211,8 @@
  "ocean_model",  "umo_2d",       "umo_2d",      "ocean_annual",        "all", "mean", "none",2
  "ocean_model",  "vmo_2d",       "vmo_2d",      "ocean_annual",        "all", "mean", "none",2
 
-# "ocean_model",  "umo_2d",       "umo_2d",      "ocean_month",         "all", "mean", "none",2
-# "ocean_model",  "vmo_2d",       "vmo_2d",      "ocean_month",         "all", "mean", "none",2
+#"ocean_model",  "umo_2d",       "umo_2d",      "ocean_month",         "all", "mean", "none",2
+#"ocean_model",  "vmo_2d",       "vmo_2d",      "ocean_month",         "all", "mean", "none",2
 
 
 # Sections for CMIP6/OMIP choke points Table J1
@@ -332,8 +356,8 @@
 # extra mass flux information beyond CMIP6/OMIP Table K1
  "ocean_model", "net_massout", "net_massout", "ocean_annual", "all", "mean", "none",2
  "ocean_model", "net_massin",  "net_massin",  "ocean_annual", "all", "mean", "none",2
-# "ocean_model", "net_massout", "net_massout", "ocean_month",  "all", "mean", "none",2
-# "ocean_model", "net_massin",  "net_massin",  "ocean_month",  "all", "mean", "none",2
+#"ocean_model", "net_massout", "net_massout", "ocean_month",  "all", "mean", "none",2
+#"ocean_model", "net_massin",  "net_massin",  "ocean_month",  "all", "mean", "none",2
 
 
 # -----------------------------------------------------------------------------------------
@@ -347,7 +371,7 @@
 
 # -----------------------------------------------------------------------------------------
 # CMIP6/OMIP Table K3: boundary heat fluxes
-# "ocean_model",  "hfgeou",          "hfgeou",           "ocean_annual",       "all", "mean", "none",2  # geothermal heat flux is static 
+#"ocean_model",  "hfgeou",          "hfgeou",           "ocean_annual",       "all", "mean", "none",2  # geothermal heat flux is static 
  "ocean_model",  "hfrainds",        "hfrainds",         "ocean_annual",       "all", "mean", "none",2
  "ocean_model",  "hfevapds",        "hfevapds",         "ocean_annual",       "all", "mean", "none",2
  "ocean_model",  "hfrunoffds",      "hfrunoffds",       "ocean_annual",       "all", "mean", "none",2
@@ -358,11 +382,11 @@
  "ocean_model",  "rlntds",          "rlntds",           "ocean_annual",       "all", "mean", "none",2
  "ocean_model",  "hflso",           "hflso",            "ocean_annual",       "all", "mean", "none",2
  "ocean_model",  "hfsso",           "hfsso",            "ocean_annual",       "all", "mean", "none",2
- "ocean_model",  "rsntds",          "rsntds"            "ocean_annual",       "all", "mean", "none",2
- "ocean_model",  "rsdo",            "rsdo"              "ocean_annual",       "all", "mean", "none",2
- "ocean_model",  "hfds",            "hfds"              "ocean_annual",       "all", "mean", "none",2
+ "ocean_model",  "rsntds",          "rsntds",           "ocean_annual",       "all", "mean", "none",2
+ "ocean_model",  "rsdo",            "rsdo",             "ocean_annual",       "all", "mean", "none",2
+ "ocean_model",  "hfds",            "hfds",             "ocean_annual",       "all", "mean", "none",2
 
-# "ocean_model",  "hfgeou",          "hfgeou",           "ocean_month",        "all", "mean", "none",2  # geothermal heat flux is static 
+#"ocean_model",  "hfgeou",          "hfgeou",           "ocean_month",        "all", "mean", "none",2  # geothermal heat flux is static 
  "ocean_model",  "hfrainds",        "hfrainds",         "ocean_month",        "all", "mean", "none",2  # heat content of lprec,fprec,condensate
  "ocean_model",  "hfevapds",        "hfevapds",         "ocean_month",        "all", "mean", "none",2  # heat content of mass leaving ocean
  "ocean_model",  "hfrunoffds",      "hfrunoffds",       "ocean_month",        "all", "mean", "none",2  # heat content of lrunoff,frunoff
@@ -374,9 +398,9 @@
  "ocean_model",  "rlntds",          "rlntds",           "ocean_month",        "all", "mean", "none",2  # longwave down
  "ocean_model",  "hflso",           "hflso",            "ocean_month",        "all", "mean", "none",2  # latent heat for evap+melt
  "ocean_model",  "hfsso",           "hfsso",            "ocean_month",        "all", "mean", "none",2  # sensible from air-sea and ice-sea
- "ocean_model",  "rsntds",          "rsntds"            "ocean_month",        "all", "mean", "none",2  # shortwave
-# "ocean_model",  "rsdo",            "rsdo"              "ocean_month",        "all", "mean", "none",2  # penetrative shortwave flux at interface
- "ocean_model",  "hfds",            "hfds"              "ocean_month",        "all", "mean", "none",2  # total heat entering ocean surface
+ "ocean_model",  "rsntds",          "rsntds",           "ocean_month",        "all", "mean", "none",2  # shortwave
+#"ocean_model",  "rsdo",            "rsdo",             "ocean_month",        "all", "mean", "none",2  # penetrative shortwave flux at interface
+ "ocean_model",  "hfds",            "hfds",             "ocean_month",        "all", "mean", "none",2  # total heat entering ocean surface
 
 # Extra heat flux terms beyond Table K3 from CMIP6/OMIP
  "ocean_model", "net_heat_coupler",       "net_heat_coupler",       "ocean_annual", "all", "mean", "none",2
@@ -442,8 +466,8 @@
  "ocean_model_z",  "S_advection_xy",               "S_advection_xy",                 "ocean_annual_z",   "all", "mean", "none",2
  "ocean_model_z",  "Th_tendency_vert_remap",       "Th_tendency_vert_remap",         "ocean_annual_z",   "all", "mean", "none",2
  "ocean_model_z",  "Sh_tendency_vert_remap",       "Sh_tendency_vert_remap",         "ocean_annual_z",   "all", "mean", "none",2
- "ocean_model",  "boundary_forcing_heat_tendency", "boundary_forcing_heat_tendency", "ocean_annual",     "all", "mean", "none",2
- "ocean_model",  "boundary_forcing_salt_tendency", "boundary_forcing_salt_tendency", "ocean_annual",     "all", "mean", "none",2
+ "ocean_model_z","boundary_forcing_heat_tendency", "boundary_forcing_heat_tendency", "ocean_annual_z",   "all", "mean", "none",2
+ "ocean_model_z","boundary_forcing_salt_tendency", "boundary_forcing_salt_tendency", "ocean_annual_z",   "all", "mean", "none",2
 
 # -----------------------------------------------------------------------------------------
 # CMIP6/OMIP Table M1: vertical tracer diffusivities and potential energy dissipation
@@ -467,10 +491,10 @@
 
 # -----------------------------------------------------------------------------------------
 # High-frequency
-# "ocean_model", "SSU",          "ssu",              "ocean_daily", "all", "mean", "none",2
-# "ocean_model", "SSV",          "ssv",              "ocean_daily", "all", "mean", "none",2
-# "ocean_model", "tos",          "tos_max",          "ocean_daily", "all", "max",  "none",2
-# "ocean_model", "tos",          "tos_min",          "ocean_daily", "all", "min",  "none",2
+#"ocean_model", "SSU",          "ssu",              "ocean_daily", "all", "mean", "none",2
+#"ocean_model", "SSV",          "ssv",              "ocean_daily", "all", "mean", "none",2
+#"ocean_model", "tos",          "tos_max",          "ocean_daily", "all", "max",  "none",2
+#"ocean_model", "tos",          "tos_min",          "ocean_daily", "all", "min",  "none",2
 
 # -----------------------------------------------------------------------------------------
 # various fields
@@ -478,14 +502,13 @@
  "ocean_model",   "e",                "e",                  "ocean_annual",   "all", "mean", "none",2
 #"ocean_model",   "e",                "e",                  "ocean_month",    "all", "mean", "none",2
  "ocean_model",   "speed",            "speed",              "ocean_annual",   "all", "mean", "none",2
-#"ocean_model",   "speed",            "speed_pow2",         "ocean_annual",   "all", "pow2", "none",2
  "ocean_model",   "KE",               "KE",                 "ocean_annual",   "all", "mean", "none",2
  "ocean_model",   "mass_wt",          "mass_wt",            "ocean_annual",   "all", "mean", "none",2
 
  "ocean_model",   "temp_layer_ave",   "temp_layer_ave",     "ocean_annual",   "all", "mean", "none",2
  "ocean_model",   "salt_layer_ave",   "salt_layer_ave",     "ocean_annual",   "all", "mean", "none",2
-# "ocean_model",   "temp_layer_ave",   "temp_layer_ave",     "ocean_month",    "all", "mean", "none",2
-# "ocean_model",   "salt_layer_ave",   "salt_layer_ave",     "ocean_month",    "all", "mean", "none",2
+#"ocean_model",   "temp_layer_ave",   "temp_layer_ave",     "ocean_month",    "all", "mean", "none",2
+#"ocean_model",   "salt_layer_ave",   "salt_layer_ave",     "ocean_month",    "all", "mean", "none",2
 
  "ocean_model_z", "Kd_interface",     "Kd_interface",       "ocean_annual_z", "all", "mean", "none",2
  "ocean_model_z", "Kd_shear",         "Kd_shear",           "ocean_annual_z", "all", "mean", "none",2
@@ -499,16 +522,16 @@
  "ocean_model",   "MLD_003",          "MLD_003",            "ocean_month",    "all", "mean", "none",2
  "ocean_model",   "MLD_003",          "MLD_003_min",        "ocean_annual",   "all", "min",  "none",2
  "ocean_model",   "MLD_003",          "MLD_003_max",        "ocean_annual",   "all", "max",  "none",2
-# "ocean_model",   "MLD_restrat",      "MLD_restrat",        "ocean_month",    "all", "mean", "none",2
-# "ocean_model",   "udml_restrat",     "udml_restrat",       "ocean_month",    "all", "mean", "none",2
-# "ocean_model",   "vdml_restrat",     "vdml_restrat",       "ocean_month",    "all", "mean", "none",2
-# "ocean_model",   "uml_restrat",      "uml_restrat",        "ocean_month",    "all", "mean", "none",2
-# "ocean_model",   "vml_restrat",      "vml_restrat",        "ocean_month",    "all", "mean", "none",2
+#"ocean_model",   "MLD_restrat",      "MLD_restrat",        "ocean_month",    "all", "mean", "none",2
+#"ocean_model",   "udml_restrat",     "udml_restrat",       "ocean_month",    "all", "mean", "none",2
+#"ocean_model",   "vdml_restrat",     "vdml_restrat",       "ocean_month",    "all", "mean", "none",2
+#"ocean_model",   "uml_restrat",      "uml_restrat",        "ocean_month",    "all", "mean", "none",2
+#"ocean_model",   "vml_restrat",      "vml_restrat",        "ocean_month",    "all", "mean", "none",2
 
  "ocean_model",   "LT_Enhancement",   "LT_Enhancement",     "ocean_annual",   "all", "mean", "none",2
  "ocean_model",   "MSTAR",            "MSTAR",              "ocean_annual",   "all", "mean", "none",2
-# "ocean_model",   "LT_Enhancement",   "LT_Enhancement",     "ocean_month",    "all", "mean", "none",2
-# "ocean_model",   "MSTAR",            "MSTAR",              "ocean_month",    "all", "mean", "none",2
+#"ocean_model",   "LT_Enhancement",   "LT_Enhancement",     "ocean_month",    "all", "mean", "none",2
+#"ocean_model",   "MSTAR",            "MSTAR",              "ocean_month",    "all", "mean", "none",2
 
 
 #"ocean_model",   "vintage",          "vintage",            "ocean_annual",   "all", "mean", "none",2
@@ -518,8 +541,6 @@
  "ocean_model",   "MEKE_KH",          "MEKE_KH",            "ocean_annual",   "all", "mean", "none",2
  "ocean_model",   "subML_N2",         "subML_N2",           "ocean_annual",   "all", "mean", "none",2
 
- "ocean_model",   "zos",              "zos_pow2",           "ocean_annual",   "all", "pow2", "none",2
- "ocean_model",   "tos",              "tos_pow2",           "ocean_annual",   "all", "pow2", "none",2
  "ocean_model",   "tos",              "tos_max",            "ocean_annual",   "all", "max",  "none",2
  "ocean_model",   "tos",              "tos_min",            "ocean_annual",   "all", "min",  "none",2
 
@@ -552,9 +573,9 @@
 
 # -----------------------------------------------------------------------------------------
 # Monthly snapshots
-# "ocean_model", "mass_wt",     "mass_wt",     "ocean_month_snap", "all", "none", "none",2
-# "ocean_model", "opottempmint","opottempmint","ocean_month_snap", "all", "none", "none",2
-# "ocean_model", "somint",      "somint",      "ocean_month_snap", "all", "none", "none",2
+#"ocean_model", "mass_wt",     "mass_wt",     "ocean_month_snap", "all", "none", "none",2
+#"ocean_model", "opottempmint","opottempmint","ocean_month_snap", "all", "none", "none",2
+#"ocean_model", "somint",      "somint",      "ocean_month_snap", "all", "none", "none",2
 
 # -----------------------------------------------------------------------------------------
 # tracer concentration time tendencies due to various processes

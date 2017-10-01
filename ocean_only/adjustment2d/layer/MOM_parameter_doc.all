@@ -10,9 +10,6 @@ DO_UNIT_TESTS = False           !   [Boolean] default = False
                                 ! If True, exercises unit tests at model start up.
 SPLIT = True                    !   [Boolean] default = True
                                 ! Use the split time stepping if true.
-USE_LEGACY_SPLIT = False        !   [Boolean] default = False
-                                ! If true, use the full range of options available from
-                                ! the older GOLD-derived split time stepping code.
 CALC_RHO_FOR_SEA_LEVEL = False  !   [Boolean] default = False
                                 ! If true, the in-situ density is used to calculate the
                                 ! effective sea level that is returned to the coupler. If false,
@@ -195,82 +192,6 @@ H_TO_M = 1.0                    !   [m H-1] default = 1.0
 NK = 25                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
-! === module MOM_EOS ===
-EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
-                                ! EQN_OF_STATE determines which ocean equation of state
-                                ! should be used.  Currently, the valid choices are
-                                ! "LINEAR", "UNESCO", "WRIGHT", "NEMO" and "TEOS10".
-                                ! This is only used if USE_EOS is true.
-RHO_T0_S0 = 1000.0              !   [kg m-3] default = 1000.0
-                                ! When EQN_OF_STATE=LINEAR,
-                                ! this is the density at T=0, S=0.
-DRHO_DT = 0.0                   !   [kg m-3 K-1] default = -0.2
-                                ! When EQN_OF_STATE=LINEAR,
-                                ! this is the partial derivative of density with
-                                ! temperature.
-DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
-                                ! When EQN_OF_STATE=LINEAR,
-                                ! this is the partial derivative of density with
-                                ! salinity.
-EOS_QUADRATURE = False          !   [Boolean] default = False
-                                ! If true, always use the generic (quadrature) code
-                                ! code for the integrals of density.
-TFREEZE_FORM = "LINEAR"         ! default = "LINEAR"
-                                ! TFREEZE_FORM determines which expression should be
-                                ! used for the freezing point.  Currently, the valid
-                                ! choices are "LINEAR", "MILLERO_78", "TEOS10"
-TFREEZE_S0_P0 = 0.0             !   [deg C] default = 0.0
-                                ! When TFREEZE_FORM=LINEAR,
-                                ! this is the freezing potential temperature at
-                                ! S=0, P=0.
-DTFREEZE_DS = -0.054            !   [deg C PSU-1] default = -0.054
-                                ! When TFREEZE_FORM=LINEAR,
-                                ! this is the derivative of the freezing potential
-                                ! temperature with salinity.
-DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
-                                ! When TFREEZE_FORM=LINEAR,
-                                ! this is the derivative of the freezing potential
-                                ! temperature with pressure.
-
-! === module MOM_restart ===
-PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file,
-                                ! otherwise a single restart file is generated
-RESTARTFILE = "MOM.res"         ! default = "MOM.res"
-                                ! The name-root of the restart file.
-LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
-                                ! If true, use the file-size limits with NetCDF large
-                                ! file support (4Gb), otherwise the limit is 2Gb.
-MAX_FIELDS = 100                ! default = 100
-                                ! The maximum number of restart fields that can be used.
-
-! === module MOM_tracer_flow_control ===
-USE_USER_TRACER_EXAMPLE = False !   [Boolean] default = False
-                                ! If true, use the USER_tracer_example tracer package.
-USE_DOME_TRACER = False         !   [Boolean] default = False
-                                ! If true, use the DOME_tracer tracer package.
-USE_ISOMIP_TRACER = False       !   [Boolean] default = False
-                                ! If true, use the ISOMIP_tracer tracer package.
-USE_IDEAL_AGE_TRACER = False    !   [Boolean] default = False
-                                ! If true, use the ideal_age_example tracer package.
-USE_REGIONAL_DYES = False       !   [Boolean] default = False
-                                ! If true, use the regional_dyes tracer package.
-USE_OIL_TRACER = False          !   [Boolean] default = False
-                                ! If true, use the oil_tracer tracer package.
-USE_ADVECTION_TEST_TRACER = False !   [Boolean] default = False
-                                ! If true, use the advection_test_tracer tracer package.
-USE_OCMIP2_CFC = False          !   [Boolean] default = False
-                                ! If true, use the MOM_OCMIP2_CFC tracer package.
-USE_generic_tracer = False      !   [Boolean] default = False
-                                ! If true and _USE_GENERIC_TRACER is defined as a
-                                ! preprocessor macro, use the MOM_generic_tracer packages.
-USE_PSEUDO_SALT_TRACER = False  !   [Boolean] default = False
-                                ! If true, use the pseudo salt tracer, typically run as a diagnostic.
-USE_BOUNDARY_IMPULSE_TRACER = False !   [Boolean] default = False
-                                ! If true, use the boundary impulse tracer.
-
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -366,6 +287,84 @@ F_0 = 0.0                       !   [s-1] default = 0.0
 BETA = 0.0                      !   [m-1 s-1] default = 0.0
                                 ! The northward gradient of the Coriolis parameter with
                                 ! the betaplane option.
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file,
+                                ! otherwise a single restart file is generated
+
+! === module MOM_tracer_registry ===
+
+! === module MOM_EOS ===
+EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
+                                ! EQN_OF_STATE determines which ocean equation of state
+                                ! should be used.  Currently, the valid choices are
+                                ! "LINEAR", "UNESCO", "WRIGHT", "NEMO" and "TEOS10".
+                                ! This is only used if USE_EOS is true.
+RHO_T0_S0 = 1000.0              !   [kg m-3] default = 1000.0
+                                ! When EQN_OF_STATE=LINEAR,
+                                ! this is the density at T=0, S=0.
+DRHO_DT = 0.0                   !   [kg m-3 K-1] default = -0.2
+                                ! When EQN_OF_STATE=LINEAR,
+                                ! this is the partial derivative of density with
+                                ! temperature.
+DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
+                                ! When EQN_OF_STATE=LINEAR,
+                                ! this is the partial derivative of density with
+                                ! salinity.
+EOS_QUADRATURE = False          !   [Boolean] default = False
+                                ! If true, always use the generic (quadrature) code
+                                ! code for the integrals of density.
+TFREEZE_FORM = "LINEAR"         ! default = "LINEAR"
+                                ! TFREEZE_FORM determines which expression should be
+                                ! used for the freezing point.  Currently, the valid
+                                ! choices are "LINEAR", "MILLERO_78", "TEOS10"
+TFREEZE_S0_P0 = 0.0             !   [deg C] default = 0.0
+                                ! When TFREEZE_FORM=LINEAR,
+                                ! this is the freezing potential temperature at
+                                ! S=0, P=0.
+DTFREEZE_DS = -0.054            !   [deg C PSU-1] default = -0.054
+                                ! When TFREEZE_FORM=LINEAR,
+                                ! this is the derivative of the freezing potential
+                                ! temperature with salinity.
+DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
+                                ! When TFREEZE_FORM=LINEAR,
+                                ! this is the derivative of the freezing potential
+                                ! temperature with pressure.
+
+! === module MOM_restart ===
+RESTARTFILE = "MOM.res"         ! default = "MOM.res"
+                                ! The name-root of the restart file.
+LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
+                                ! If true, use the file-size limits with NetCDF large
+                                ! file support (4Gb), otherwise the limit is 2Gb.
+MAX_FIELDS = 100                ! default = 100
+                                ! The maximum number of restart fields that can be used.
+
+! === module MOM_tracer_flow_control ===
+USE_USER_TRACER_EXAMPLE = False !   [Boolean] default = False
+                                ! If true, use the USER_tracer_example tracer package.
+USE_DOME_TRACER = False         !   [Boolean] default = False
+                                ! If true, use the DOME_tracer tracer package.
+USE_ISOMIP_TRACER = False       !   [Boolean] default = False
+                                ! If true, use the ISOMIP_tracer tracer package.
+USE_IDEAL_AGE_TRACER = False    !   [Boolean] default = False
+                                ! If true, use the ideal_age_example tracer package.
+USE_REGIONAL_DYES = False       !   [Boolean] default = False
+                                ! If true, use the regional_dyes tracer package.
+USE_OIL_TRACER = False          !   [Boolean] default = False
+                                ! If true, use the oil_tracer tracer package.
+USE_ADVECTION_TEST_TRACER = False !   [Boolean] default = False
+                                ! If true, use the advection_test_tracer tracer package.
+USE_OCMIP2_CFC = False          !   [Boolean] default = False
+                                ! If true, use the MOM_OCMIP2_CFC tracer package.
+USE_generic_tracer = False      !   [Boolean] default = False
+                                ! If true and _USE_GENERIC_TRACER is defined as a
+                                ! preprocessor macro, use the MOM_generic_tracer packages.
+USE_PSEUDO_SALT_TRACER = False  !   [Boolean] default = False
+                                ! If true, use the pseudo salt tracer, typically run as a diagnostic.
+USE_BOUNDARY_IMPULSE_TRACER = False !   [Boolean] default = False
+                                ! If true, use the boundary impulse tracer.
+USE_DYED_OBC_TRACER = False     !   [Boolean] default = False
+                                ! If true, use the dyed_obc_tracer tracer package.
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "linear"         !
@@ -508,7 +507,7 @@ DIAG_COORDS = "z Z ZSTAR"       ! default = "z Z ZSTAR"
                                 ! A list of string tuples associating diag_table modules to
                                 ! a coordinate definition used for diagnostics. Each string
                                 ! is of the form "MODULE_SUFFIX PARAMETER_SUFFIX COORDINATE_NAME".
-DIAG_MISVAL = -1.0E+34          !   [not defined] default = -1.0E+34
+DIAG_MISVAL = 1.0E+20           !   [not defined] default = 1.0E+20
                                 ! Set the default missing value to use for diagnostics.
 AVAILABLE_DIAGS_FILE = "available_diags.000000" ! default = "available_diags.000000"
                                 ! A file into which to write a list of all available
@@ -983,6 +982,10 @@ DTBT = 5.0                      !   [s or nondim] default = -0.98
                                 ! Setting DTBT to 0 is the same as setting it to -0.98.
                                 ! The value of DTBT that will actually be used is an
                                 ! integer fraction of DT, rounding down.
+BT_USE_OLD_CORIOLIS_BRACKET_BUG = False !   [Boolean] default = False
+                                ! If True, use an order of operations that is not bitwise
+                                ! rotationally symmetric in the meridional Coriolis term of
+                                ! the barotropic solver.
 
 ! === module MOM_thickness_diffuse ===
 KHTH = 1.0E-04                  !   [m2 s-1] default = 0.0
