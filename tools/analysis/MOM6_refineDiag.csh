@@ -91,18 +91,24 @@ ls -l
 
 set script_dir=${out_dir}/mom6/tools/analysis
 
-echo '==Run some example annual scripts. These are not reviewed by scientists.' 
+set ocean_static_file = $yr1.ocean_static.nc
+if ( -e $yr1.ocean_static_no_mask_table.nc ) set ocean_static_file = $yr1.ocean_static_no_mask_table.nc
+
+set basin_codes_file = $yr1.basin_codes.nc
 
 echo '====annual mean Eddy Kinetic Energy======'
 mkdir -p $out_dir/refineDiag_ocean_annual/EddyKineticEnergy
-set ocean_static_file = $yr1.ocean_static.nc
-if ( -e $yr1.ocean_static_no_mask_table.nc ) set ocean_static_file = $yr1.ocean_static_no_mask_table.nc
 $script_dir/EddyKineticEnergy.py  -g $ocean_static_file -o $out_dir/refineDiag_ocean_annual/EddyKineticEnergy/EKE_mean_${yr1}.png -l ${yr1} $yr1.ocean_daily.nc
-$script_dir/calc_variance.py zos $yr1.ocean_daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
+
+#-- ZOS temporarily commented out for now. This calculation needs to be merged into the 
+#   refinedDiag_ocean_month.py script
+#echo '====calculate zos as refineDiag===='
+#$script_dir/calc_variance.py zos $yr1.ocean_daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
 
 echo '==== Offline Diagnostics ===='
-$script_dir/offline_overturning_z.py -b $ocean_static_file -r refineDiagDir $yr1.ocean_month_z.nc
-$script_dir/offline_overturning_rho.py -b $ocean_static_file -r refineDiagDir $yr1.ocean_month_rho2.nc
+$script_dir/refineDiag_ocean_month.py -b $basin_codes_file -r refineDiagDir $yr1.ocean_month.nc
+$script_dir/refineDiag_ocean_month_z.py -b $basin_codes_file -r refineDiagDir $yr1.ocean_month_z.nc
+$script_dir/refineDiag_ocean_month_rho2.py -b $basin_codes_file -r refineDiagDir $yr1.ocean_month_rho2.nc
 
 echo "  ---------- end yearly analysis ----------  "
 
