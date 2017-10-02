@@ -8,25 +8,9 @@ import os
 import sys
 import matplotlib.pyplot as plt
 
-
-
 ##-- RefineDiag Script for CMIP6
 ##
-##   Variables we intend to provide in z-coordinates:
-## 
-##     msftyyz    -> vmo  (ocean_z)  * both 0.25 and 0.5 resolutions
-##     msftyzmpa  -> vhGM (ocean_z)  * applies only to 0.5 resolution
-##     msftyzsmpa -> vhml (ocean_z)  * both 0.25 and 0.5 resolutions
-##
-##
-##   Variables we intend to provide in rho-coordinates:
-##   (potenital density referenced to 2000 m)
-##
-##     msftyrho    -> vmo 
-##     msftyrhompa -> vhGM           * applies only to 0.5 resolution
-##
-##
-##   2-D variables we intent to provide:
+##   2-D variables we intend to provide:
 ##
 ##     hfy  ->  T_ady_2d + ndiff_tracer_trans_y_2d_T   * T_ady_2d needs to be converted to Watts (Cp = 3992.)
 ##                                                       ndiff_tracer_trans_y_2d_T already in Watts
@@ -35,13 +19,6 @@ import matplotlib.pyplot as plt
 ##
 ##     hfx  -> same recipie as above, expect for x-dimension
 ##     hfbasin -> summed line of hfy in each basin 
-## 
-##
-##   Outstanding issues
-##     1.) regirdding of vh, vhGM to rho-corrdinates
-##     2.) vhGM and vhML units need to be in kg s-1
-##     2.) save out RHO_0 and Cp somewhere in netCDF files to key off of
-##
 ## 
 ##   CMIP variables that will NOT be provided:
 ##
@@ -62,7 +39,20 @@ def run():
     args = parser.parse_args()
     main(args)
 
+def heat_trans_by_basin(x,mask=None):
+    if mask is not None:
+        varmask = np.sum(mask,axis=-1)
+        varmask = np.expand_dims(varmask,0)
+        varmask = np.where(np.equal(varmask,0.),True,False)
+    else:
+        mask = 1.
+        varmask = False
+    result = np.ma.sum((x*mask),axis=-1)
+    result.mask = varmask
+    return result
+
 def main(args):
+    nc_misval = 1.e20
     #-- Define Regions and their associated masks
     #   Note: The Atlantic should include other smaller bays/seas that are 
     #         included in the definition used in meridional_overturning.py
@@ -95,8 +85,6 @@ def main(args):
       print("Warning: diffusive term 'ndiff_tracer_trans_y_2d_T' not found. Check if this experiment is running with neutral diffusion.")
       diffusive = advective * 0.
     hfy = advective + diffusive
-    #hfy[hfy.mask] = 1.e20
-    #hfy = np.ma.array(hfy,fill_value=1.e20)
     hfy.long_name = 'Ocean Heat Y Transport'
     hfy.units = 'W'
     hfy.cell_methods = 'yq:point xh:mean time:mean'
@@ -111,14 +99,24 @@ def main(args):
       print("Warning: diffusive term 'ndiff_tracer_trans_x_2d_T' not found. Check if this experiment is running with neutral diffusion.")
       diffusive = advective * 0.
     hfx = advective + diffusive
-    #hfx[hfx.mask] = 1.e20
-    #hfx = np.ma.array(hfx,fill_value=1.e20)
     hfx.long_name = 'Ocean Heat X Transport'
     hfx.units = 'W'
     hfx.cell_methods = 'yh:mean xq:point time:mean'
     hfx.time_avg_info = 'average_T1,average_T2,average_DT'
     hfx.standard_name = 'ocean_heat_x_transport'
 
+    #-- hfbasin 
+    hfbasin = np.ma.ones((len(tax),3,len(yq)))*0.
+    hfbasin[:,0,:] = heat_trans_by_basin(hfy,mask=atlantic_arctic_mask)
+    hfbasin[:,1,:] = heat_trans_by_basin(hfy,mask=indo_pacific_mask)
+    hfbasin[:,2,:] = heat_trans_by_basin(hfy)
+    hfbasin[hfbasin.mask] = nc_misval
+    hfbasin = np.ma.array(hfbasin,fill_value=nc_misval)
+    hfbasin.long_name = 'Northward Ocean Heat Transport'
+    hfbasin.units = 'W'
+    hfbasin.cell_methods = 'xh:sum yq:sum basin:mean time:mean'
+    hfbasin.time_avg_info = 'average_T1,average_T2,average_DT'
+    hfbasin.standard_name = 'northward_ocean_heat_transport'
 
     #-- Read time bounds 
     nv = f_in.variables['nv']
@@ -162,7 +160,6 @@ def main(args):
     nv_dim  = f_out.createDimension('nv',  size=len(nv[:]))
     
     time_out = f_out.createVariable('time', np.float64, ('time'))
-    #basin_out = f_out.createVariable('basin', np.int32, ('basin'))
     yq_out   = f_out.createVariable('yq',   np.float64, ('yq'))
     region_out = f_out.createVariable('region', 'c', ('basin', 'strlen'))
     xh_out  = f_out.createVariable('xh',  np.float64, ('xh'))
@@ -173,6 +170,9 @@ def main(args):
  
     hfx_out = f_out.createVariable('hfx', np.float32, ('time', 'yq', 'xh'), fill_value=1.e20)
     hfx_out.missing_value = 1.e20
+ 
+    hfbasin_out = f_out.createVariable('hfbasin', np.float32, ('time', 'basin', 'yq'), fill_value=1.e20)
+    hfbasin_out.missing_value = 1.e20
  
     average_T1_out = f_out.createVariable('average_T1', np.float64, ('time'))
     average_T2_out = f_out.createVariable('average_T2', np.float64, ('time'))
@@ -189,7 +189,10 @@ def main(args):
     
     for k in hfx.__dict__.keys():
       if k[0] != '_': hfx_out.setncattr(k,hfx.__dict__[k])
-    
+
+    for k in hfbasin.__dict__.keys():
+      if k[0] != '_': hfbasin_out.setncattr(k,hfbasin.__dict__[k])
+
     average_T1_out.setncatts(average_T1.__dict__)
     average_T2_out.setncatts(average_T2.__dict__)
     average_DT_out.setncatts(average_DT.__dict__)
@@ -202,6 +205,7 @@ def main(args):
    
     hfy_out[:] = np.ma.array(hfy[:])
     hfx_out[:] = np.ma.array(hfx[:])
+    hfbasin_out[:] = np.ma.array(hfbasin[:])
  
     average_T1_out[:] = average_T1[:]
     average_T2_out[:] = average_T2[:]
