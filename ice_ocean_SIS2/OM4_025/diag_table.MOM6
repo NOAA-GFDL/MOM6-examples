@@ -71,6 +71,8 @@
 # Generally save annuals, and sometimes monthly and daily.
  "ocean_model_z", "volcello",     "volcello",         "ocean_annual_z",      "all", "mean", "none",2 # Cell measure for 3d data
  "ocean_model_z", "volcello",     "volcello",         "ocean_month_z",       "all", "mean", "none",2 # Cell measure for 3d data
+ "ocean_model_rho2", "volcello",  "volcello",         "ocean_annual_rho2",   "all", "mean", "none",2 # Cell measure for 3d data
+ "ocean_model_rho2", "volcello",  "volcello",         "ocean_month_rho2",    "all", "mean", "none",2 # Cell measure for 3d data
  "ocean_model",   "volcello",     "volcello",         "ocean_annual",        "all", "mean", "none",2 # Cell measure for 3d data
 #"ocean_model",   "volcello",     "volcello",         "ocean_month",         "all", "mean", "none",2 # Cell measure for 3d data
  "ocean_model",   "pbo",          "pbo",              "ocean_annual",        "all", "mean", "none",2
@@ -82,6 +84,8 @@
  "ocean_model",   "masso",        "masso",            "ocean_scalar_month",  "all", "mean", "none",2  # global sum masscello
  "ocean_model",   "masso",        "masso",            "ocean_scalar_annual", "all", "mean", "none",2  # global sum masscello
  "ocean_model",   "thkcello",     "thkcello",         "ocean_annual",        "all", "mean", "none",2  # Only needed in native space a static field needs to be provided for CMIP6
+ "ocean_model_rho2", "thkcello",  "thkcello",         "ocean_annual_rho2",   "all", "mean", "none",2  # Only needed in native space a static field needs to be provided for CMIP6
+ "ocean_model_rho2", "thkcello",  "thkcello",         "ocean_month_rho2",    "all", "mean", "none",2  # Only needed in native space a static field needs to be provided for CMIP6
 #"ocean_model",   "thkcello",     "thkcello",         "ocean_month",         "all", "mean", "none",2
  "ocean_model",   "volo",         "volo",             "ocean_scalar_month",  "all", "mean", "none",2  # global sum thkcello
  "ocean_model",   "volo",         "volo",             "ocean_scalar_annual", "all", "mean", "none",2  # global sum thkcello
@@ -162,7 +166,7 @@
  "ocean_model_z","vo",           "vo",               "ocean_month_z",      "all", "mean", "none",2
 #"ocean_model",  "vo",           "vo",               "ocean_month",        "all", "mean", "none",2
 #"ocean_model",  "umo",          "umo",              "ocean_annual",       "all", "mean", "none",2
- "ocean_model_z","umo",          "umo",              "ocean_annual_z",     "all", "mean", "none",2
+ "ocean_model_z","umo",          "umo",              "ocean_month_z",     "all", "mean", "none",2
 #"ocean_model_z","umo",          "umo",              "ocean_month_z",      "all", "mean", "none",2
 #"ocean_model",  "vmo",          "vmo",              "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","vmo",          "vmo",              "ocean_annual_z",     "all", "mean", "none",2
@@ -185,16 +189,16 @@
  "ocean_model_z","vh",           "vh",               "ocean_annual_z",     "all", "mean", "none",2
  "ocean_model_z","T_adx",        "T_adx",            "ocean_annual_z",     "all", "mean", "none",2
  "ocean_model_z","T_ady",        "T_ady",            "ocean_annual_z",     "all", "mean", "none",2
- "ocean_model",  "T_adx_2d",     "T_adx_2d",         "ocean_annual",       "all", "mean", "none",2
- "ocean_model",  "T_ady_2d",     "T_ady_2d",         "ocean_annual",       "all", "mean", "none",2
+ "ocean_model",  "T_adx_2d",     "T_adx_2d",         "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "T_ady_2d",     "T_ady_2d",         "ocean_month",        "all", "mean", "none",2
  "ocean_model_z","S_adx",        "S_adx",            "ocean_annual_z",     "all", "mean", "none",2
  "ocean_model_z","S_ady",        "S_ady",            "ocean_annual_z",     "all", "mean", "none",2
- "ocean_model",  "S_adx_2d",     "S_adx_2d",         "ocean_annual",       "all", "mean", "none",2
- "ocean_model",  "S_ady_2d",     "S_ady_2d",         "ocean_annual",       "all", "mean", "none",2
- "ocean_model",  "ndiff_tracer_trans_x_2d_T","ndiff_tracer_trans_x_2d_T",  "ocean_annual",  "all", "mean", "none",2
- "ocean_model",  "ndiff_tracer_trans_y_2d_T","ndiff_tracer_trans_y_2d_T",  "ocean_annual",  "all", "mean", "none",2
- "ocean_model",  "ndiff_tracer_trans_x_2d_S","ndiff_tracer_trans_x_2d_S",  "ocean_annual",  "all", "mean", "none",2
- "ocean_model",  "ndiff_tracer_trans_y_2d_S","ndiff_tracer_trans_y_2d_S",  "ocean_annual",  "all", "mean", "none",2
+ "ocean_model",  "S_adx_2d",     "S_adx_2d",         "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "S_ady_2d",     "S_ady_2d",         "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "ndiff_tracer_trans_x_2d_T","ndiff_tracer_trans_x_2d_T",  "ocean_month",  "all", "mean", "none",2
+ "ocean_model",  "ndiff_tracer_trans_y_2d_T","ndiff_tracer_trans_y_2d_T",  "ocean_month",  "all", "mean", "none",2
+ "ocean_model",  "ndiff_tracer_trans_x_2d_S","ndiff_tracer_trans_x_2d_S",  "ocean_month",  "all", "mean", "none",2
+ "ocean_model",  "ndiff_tracer_trans_y_2d_S","ndiff_tracer_trans_y_2d_S",  "ocean_month",  "all", "mean", "none",2
 
 # Density space diagnostics (not necessarily using CMIP names but needed to generate CMIP output in post-processing)
  "ocean_model_rho2","umo",       "umo",              "ocean_annual_rho2",  "all", "mean", "none",2
