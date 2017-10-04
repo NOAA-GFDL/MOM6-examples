@@ -68,7 +68,7 @@ def main(args):
     #   Note: The Atlantic should include other smaller bays/seas that are
     #         included in the definition used in meridional_overturning.py
 
-    region = np.array(['atlantic_arctic_ocean','indian_pacific_ocean','global_ocean'])
+    region = np.array(['atlantic_arctic_ocean          ','indian_pacific_ocean','global_ocean'])
 
     #-- Read basin masks
     f_basin = nc.Dataset(args.basinfile)
@@ -203,8 +203,7 @@ def main(args):
     time_dim = f_out.createDimension('time', size=None)
     basin_dim = f_out.createDimension('basin', size=3)
     strait_dim = f_out.createDimension('strait', size=len(straits))
-    strlen1_dim = f_out.createDimension('strlen1', size=21)
-    strlen2_dim = f_out.createDimension('strlen2', size=31)
+    strlen_dim = f_out.createDimension('strlen', size=31)
     xh_dim  = f_out.createDimension('xh',  size=len(xh[:]))
     yh_dim  = f_out.createDimension('yh',  size=len(yh[:]))
     yq_dim  = f_out.createDimension('yq',  size=len(yq[:]))
@@ -216,8 +215,8 @@ def main(args):
     xh_out   = f_out.createVariable('xh',   np.float64, ('xh'))
     yh_out   = f_out.createVariable('yh',   np.float64, ('yh'))
     yq_out   = f_out.createVariable('yq',   np.float64, ('yq'))
-    region_out = f_out.createVariable('region', 'c', ('basin', 'strlen1'))
-    strait_out = f_out.createVariable('strait', 'c', ('strait', 'strlen2'))
+    region_out = f_out.createVariable('region', 'c', ('basin', 'strlen'))
+    strait_out = f_out.createVariable('strait', 'c', ('strait', 'strlen'))
     z_l_out  = f_out.createVariable('z_l',  np.float64, ('z_l'))
     z_i_out  = f_out.createVariable('z_i',  np.float64, ('z_i'))
     nv_out  = f_out.createVariable('nv',  np.float64, ('nv'))
@@ -289,8 +288,6 @@ def main(args):
     average_DT_out[:] = average_DT[:]
     time_bnds_out[:]  = time_bnds[:]
 
-    print(region.shape)
-    print(strait_names.shape)
     region_out[:] = nc.stringtochar(region)
     strait_out[:] = nc.stringtochar(strait_names)
     f_out.close()

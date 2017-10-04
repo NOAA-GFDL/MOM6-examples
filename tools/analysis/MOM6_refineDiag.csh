@@ -104,7 +104,7 @@ $script_dir/EddyKineticEnergy.py  -g $ocean_static_file -o $out_dir/refineDiag_o
 
 echo '==== Offline Diagnostics ===='
 $script_dir/refineDiag_ocean_month.py -b $basin_codes_file -r refineDiagDir $yr1.ocean_month.nc
-$script_dir/refineDiag_ocean_month_z.py -b $basin_codes_file -r refineDiagDir -s $straitdir $yr1.ocean_month_z.nc
+$script_dir/refineDiag_ocean_month_z.py -b $basin_codes_file -r refineDiagDir -s ./ $yr1.ocean_month_z.nc
 $script_dir/refineDiag_ocean_month_rho2.py -b $basin_codes_file -r refineDiagDir $yr1.ocean_month_rho2.nc
 $script_dir/calc_variance.py zos $yr1.ocean_daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
 

@@ -75,7 +75,6 @@ for v in copy_vars+time_bounds_vars:
       if v in variable.dimensions:
         if not nc_in.dimensions[v].isunlimited():
           hv[:] = nc_in.variables[v][:]
-          print(str(v))
     if v in variable.dimensions:
       if nc_in.dimensions[v].isunlimited():
         intime = nc_in.variables[v]
