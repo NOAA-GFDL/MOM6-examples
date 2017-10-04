@@ -156,15 +156,15 @@ def main(args):
     wmo.standard_name = 'upward_ocean_mass_transport'
 
     #-- mfo
-    #_, mfo, straits = sum_transport_in_straits(args.straitdir, monthly_average = True)
-    #mfo[mfo].mask = nc_misval
-    #mfo = np.ma.array(mfo, fill_value=nc_misval)
-    #strait_names = np.array( [strait.cmor_name for strait in straits] )
-    #mfo.long_name = 'Sea Water Transport'
-    #mfo.units = 'kg s-1'
-    #mfo.cell_methods = 'time:mean'
-    #mfo.time_avg_info = 'average_T1,average_T2,average_DT'
-    #mfo.standard_name = 'sea_water_transport_across_line'
+    _, mfo, straits = sum_transport_in_straits(args.straitdir, monthly_average = True)
+    #mfo[mfo.mask] = nc_misval
+    mfo = np.ma.array(mfo, fill_value=nc_misval)
+    strait_names = np.array( [strait.cmor_name for strait in straits] )
+    mfo.long_name = 'Sea Water Transport'
+    mfo.units = 'kg s-1'
+    mfo.cell_methods = 'time:mean'
+    mfo.time_avg_info = 'average_T1,average_T2,average_DT'
+    mfo.standard_name = 'sea_water_transport_across_line'
 
     #-- Read time bounds
     nv = f_in.variables['nv']
@@ -202,8 +202,9 @@ def main(args):
 
     time_dim = f_out.createDimension('time', size=None)
     basin_dim = f_out.createDimension('basin', size=3)
-    #strait_dim = f_out.createDimension('strait', size=len(straits))
-    strlen_dim = f_out.createDimension('strlen', size=21)
+    strait_dim = f_out.createDimension('strait', size=len(straits))
+    strlen1_dim = f_out.createDimension('strlen1', size=21)
+    strlen2_dim = f_out.createDimension('strlen2', size=31)
     xh_dim  = f_out.createDimension('xh',  size=len(xh[:]))
     yh_dim  = f_out.createDimension('yh',  size=len(yh[:]))
     yq_dim  = f_out.createDimension('yq',  size=len(yq[:]))
@@ -212,11 +213,11 @@ def main(args):
     nv_dim  = f_out.createDimension('nv',  size=len(nv[:]))
 
     time_out = f_out.createVariable('time', np.float64, ('time'))
-    #basin_out = f_out.createVariable('basin', np.int32, ('basin'))
+    xh_out   = f_out.createVariable('xh',   np.float64, ('xh'))
     yh_out   = f_out.createVariable('yh',   np.float64, ('yh'))
     yq_out   = f_out.createVariable('yq',   np.float64, ('yq'))
-    region_out = f_out.createVariable('region', 'c', ('basin', 'strlen'))
-    #strait_out = f_out.createVariable('strait', 'c', ('strait', 'strlen'))
+    region_out = f_out.createVariable('region', 'c', ('basin', 'strlen1'))
+    strait_out = f_out.createVariable('strait', 'c', ('strait', 'strlen2'))
     z_l_out  = f_out.createVariable('z_l',  np.float64, ('z_l'))
     z_i_out  = f_out.createVariable('z_i',  np.float64, ('z_i'))
     nv_out  = f_out.createVariable('nv',  np.float64, ('nv'))
@@ -233,8 +234,8 @@ def main(args):
     wmo_out = f_out.createVariable('wmo', np.float32, ('time', 'z_i', 'yh', 'xh'), fill_value=nc_misval)
     wmo_out.missing_value = nc_misval
 
-    #mfo_out = f_out.createVariable('wmo', np.float32, ('time', 'strait'), fill_value=nc_misval)
-    #mfo_out.missing_value = nc_misval
+    mfo_out = f_out.createVariable('mfo', np.float32, ('time', 'strait'), fill_value=nc_misval)
+    mfo_out.missing_value = nc_misval
 
     average_T1_out = f_out.createVariable('average_T1', np.float64, ('time'))
     average_T2_out = f_out.createVariable('average_T2', np.float64, ('time'))
@@ -242,7 +243,7 @@ def main(args):
     time_bnds_out  = f_out.createVariable('time_bnds',  np.float64, ('time', 'nv'))
 
     time_out.setncatts(tax.__dict__)
-    #xh_out.setncatts(xh.__dict__)
+    xh_out.setncatts(xh.__dict__)
     yh_out.setncatts(yh.__dict__)
     yq_out.setncatts(yq.__dict__)
     z_l_out.setncatts(z_l.__dict__)
@@ -258,13 +259,19 @@ def main(args):
     for k in msftyzmpa.__dict__.keys():
       if k[0] != '_': msftyzmpa_out.setncattr(k,msftyzmpa.__dict__[k])
 
+    for k in mfo.__dict__.keys():
+      if k[0] != '_': mfo_out.setncattr(k,mfo.__dict__[k])
+
+    for k in wmo.__dict__.keys():
+      if k[0] != '_': wmo_out.setncattr(k,wmo.__dict__[k])
+
     average_T1_out.setncatts(average_T1.__dict__)
     average_T2_out.setncatts(average_T2.__dict__)
     average_DT_out.setncatts(average_DT.__dict__)
     time_bnds_out.setncatts(time_bnds.__dict__)
 
     time_out[:] = np.array(tax[:])
-    #xh_out[:] = np.array(xh[:])
+    xh_out[:] = np.array(xh[:])
     yh_out[:] = np.array(yh[:])
     yq_out[:] = np.array(yq[:])
     z_l_out[:] = np.array(z_l[:])
@@ -275,15 +282,17 @@ def main(args):
     msftyzsmpa_out[:] = np.ma.array(msftyzsmpa[:])
     msftyzmpa_out[:] = np.ma.array(msftyzmpa[:])
     wmo_out[:] = np.ma.array(wmo[:])
-    #mfo_out[:] = np.ma.array(mfo[:])
+    mfo_out[:] = np.array(mfo[:])
 
     average_T1_out[:] = average_T1[:]
     average_T2_out[:] = average_T2[:]
     average_DT_out[:] = average_DT[:]
     time_bnds_out[:]  = time_bnds[:]
 
+    print(region.shape)
+    print(strait_names.shape)
     region_out[:] = nc.stringtochar(region)
-    #strait_out[:] = nc.stringtochar(strait_names)
+    strait_out[:] = nc.stringtochar(strait_names)
     f_out.close()
 
     exit(0)

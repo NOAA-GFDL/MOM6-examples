@@ -19,20 +19,20 @@ def sum_transport_in_straits(runpath, monthly_average = False):
       if (len(u_file)==0 and len(v_file)==0):
         print("Warning: File not found for %s" % strait[sidx].mom6_name)
         continue
-      u_vargroup = Dataset(u_file[0]).variables
-      v_vargroup = Dataset(v_file[0]).variables
+      u_vargroup = Dataset(runpath+'/'+u_file[0]).variables
+      v_vargroup = Dataset(runpath+'/'+v_file[0]).variables
     elif strait[sidx].is_zonal:
       v_file = fn_filter(listdir(runpath), '*' + strait[sidx].mom6_name + '*.nc')
       if (len(v_file)==0):
         print("Warning: File not found for %s" % strait[sidx].mom6_name)
         continue
-      v_vargroup = Dataset(v_file[0]).variables
+      v_vargroup = Dataset(runpath+'/'+v_file[0]).variables
     elif strait[sidx].is_meridional:
       u_file = fn_filter(listdir(runpath), '*' + strait[sidx].mom6_name + '*.nc')
       if (len(u_file)==0):
         print("Warning: File not found for %s" % strait[sidx].mom6_name)
         continue
-      u_vargroup = Dataset(u_file[0]).variables
+      u_vargroup = Dataset(runpath+'/'+u_file[0]).variables
 
     # Need to find the first interface deeper than or equal to the requested z-limit. If deeper, then we'll need to scale the
     # bottommost part of the column
@@ -47,7 +47,7 @@ def sum_transport_in_straits(runpath, monthly_average = False):
       else:
         vmo = v_vargroup['vmo'][:,:,:,:]
       strait[sidx].transport += vmo.sum(axis=(1,2,3))
-      Dataset(v_file[0]).close()
+      Dataset(runpath+'/'+v_file[0]).close()
 
     if strait[sidx].is_meridional:
       strait[sidx].time = u_vargroup['time'][:]
@@ -60,7 +60,7 @@ def sum_transport_in_straits(runpath, monthly_average = False):
       else:
         umo = u_vargroup['umo'][:,:,:,:]
       strait[sidx].transport += umo.sum(axis=(1,2,3))
-      Dataset(u_file[0]).close()
+      Dataset(runpath+'/'+u_file[0]).close()
     if monthly_average:
       strait[sidx].transport = make_monthly_averages(strait[sidx].transport)
       strait[sidx].time = make_monthly_averages(strait[sidx].time)
