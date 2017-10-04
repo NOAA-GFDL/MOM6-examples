@@ -8,7 +8,7 @@ import os
 import sys
 import matplotlib.pyplot as plt
 from verticalvelocity import calc_w_from_convergence
-
+from strait_transport_timeseries import sum_transport_in_straits
 ##-- RefineDiag Script for CMIP6
 ##
 ##   Variables we intend to provide in z-coordinates:
@@ -56,6 +56,7 @@ def run():
     parser = argparse.ArgumentParser(description='''CMIP6 RefineDiag Script for OM4''')
     parser.add_argument('infile', type=str, help='''Input file''')
     parser.add_argument('-b','--basinfile', type=str, default='', required=True, help='''File containing OM4 basin masks''')
+    parser.add_argument('-s','--straitdir', type=str, default='', required=True, help='''Directory containing output for straits''')
     parser.add_argument('-o','--outfile', type=str, default=None, help='''Output file name''')
     parser.add_argument('-r','--refineDiagDir', type=str, default=None, help='''Path to refineDiagDir defined by FRE workflow)''')
     args = parser.parse_args()
@@ -144,6 +145,17 @@ def main(args):
     wmo.time_avg_info = 'average_T1,average_T2,average_DT'
     wmo.standard_name = 'upward_ocean_mass_transport'
 
+    #-- mfo
+    _, mfo, straits = sum_transport_in_straits(args.straitdir, monthly_average = True)
+    mfo[mfo].mask] = nc_misval
+    mfo = np.ma.array(mfo, fill_value=nc_misval)
+    strait_names = np.array( [strait.cmor_name for strait in straits] )
+    mfo.long_name = 'Sea Water Transport'
+    mfo.units = 'kg s-1'
+    mfo.cell_methods = 'time:mean'
+    mfo.time_avg_info = 'average_T1,average_T2,average_DT'
+    mfo.standard_name = 'sea_water_transport_across_line'
+
     #-- Read time bounds
     nv = f_in.variables['nv']
     average_T1 = f_in.variables['average_T1']
@@ -180,7 +192,8 @@ def main(args):
 
     time_dim = f_out.createDimension('time', size=None)
     basin_dim = f_out.createDimension('basin', size=3)
-    strlen_dim = f_out.createDimension('strlen', size=21)
+    strait_dim = f_out.createDimension('strait', size=len(straits))
+    strlen_dim = f_out.createDimension('strlen', size=31)
     xh_dim  = f_out.createDimension('xh',  size=len(xh[:]))
     yh_dim  = f_out.createDimension('yh',  size=len(yh[:]))
     z_l_dim = f_out.createDimension('z_l', size=len(z_l[:]))
@@ -191,6 +204,7 @@ def main(args):
     #basin_out = f_out.createVariable('basin', np.int32, ('basin'))
     yh_out   = f_out.createVariable('yh',   np.float64, ('yh'))
     region_out = f_out.createVariable('region', 'c', ('basin', 'strlen'))
+    strait_out = f_out.createVariable('strait', 'c', ('strait', 'strlen'))
     z_l_out  = f_out.createVariable('z_l',  np.float64, ('z_l'))
     z_i_out  = f_out.createVariable('z_i',  np.float64, ('z_i'))
     nv_out  = f_out.createVariable('nv',  np.float64, ('nv'))
@@ -206,6 +220,9 @@ def main(args):
 
     wmo_out = f_out.createVariable('wmo', np.float32, ('time', 'z_i', 'yh', 'xh'), fill_value=nc_misval)
     wmo_out.missing_value = nc_misval
+
+    mfo_out = f_out.createVariable('wmo', np.float32, ('time', 'strait'), fill_value=nc_misval)
+    mfo_out.missing_value = nc_misval
 
     average_T1_out = f_out.createVariable('average_T1', np.float64, ('time'))
     average_T2_out = f_out.createVariable('average_T2', np.float64, ('time'))
@@ -244,6 +261,7 @@ def main(args):
     msftyzsmpa_out[:] = np.ma.array(msftyzsmpa[:])
     msftyzmpa_out[:] = np.ma.array(msftyzmpa[:])
     wmo_out[:] = np.ma.array(wmo[:])
+    mfo_out[:] = np.ma.array(mfo[:])
 
     average_T1_out[:] = average_T1[:]
     average_T2_out[:] = average_T2[:]
@@ -251,7 +269,7 @@ def main(args):
     time_bnds_out[:]  = time_bnds[:]
 
     region_out[:] = nc.stringtochar(region)
-
+    strait_out[:] = nc.stringtochar(strait_names)
     f_out.close()
 
     exit(0)
