@@ -101,15 +101,15 @@ echo '====annual mean Eddy Kinetic Energy======'
 mkdir -p $out_dir/refineDiag_ocean_annual/EddyKineticEnergy
 $script_dir/EddyKineticEnergy.py  -g $ocean_static_file -o $out_dir/refineDiag_ocean_annual/EddyKineticEnergy/EKE_mean_${yr1}.png -l ${yr1} $yr1.ocean_daily.nc
 
-#-- ZOS temporarily commented out for now. This calculation needs to be merged into the
-#   refinedDiag_ocean_month.py script
-#echo '====calculate zos as refineDiag===='
-#$script_dir/calc_variance.py zos $yr1.ocean_daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
 
 echo '==== Offline Diagnostics ===='
 $script_dir/refineDiag_ocean_month.py -b $basin_codes_file -r refineDiagDir $yr1.ocean_month.nc
 $script_dir/refineDiag_ocean_month_z.py -b $basin_codes_file -r refineDiagDir -s $straitdir $yr1.ocean_month_z.nc
 $script_dir/refineDiag_ocean_month_rho2.py -b $basin_codes_file -r refineDiagDir $yr1.ocean_month_rho2.nc
+$script_dir/calc_variance.py zos $yr1.ocean_daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
+
+#-- Note: the calc_variance script should be called LAST, since it appends to the ocean_month_refined.nc file
+#         that is created first by the other scripts.
 
 echo "  ---------- end yearly analysis ----------  "
 
