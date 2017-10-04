@@ -49,14 +49,14 @@ def main(args):
     f_in = nc.Dataset(args.infile)
 
     #-- Read in existing dimensions from history netcdf file
-    yh  = f_in.variables['yh']
-    z_l = f_in.variables['z_l']
-    z_i = f_in.variables['z_i']
+    yq  = f_in.variables['yq']
+    rho2_l = f_in.variables['rho2_l']
+    rho2_i = f_in.variables['rho2_i']
     tax = f_in.variables['time']
     
     #-- msftyrho
     varname = 'vmo'
-    msftyrho = np.ma.ones((len(tax),3,len(z_i),len(yh)))*0.
+    msftyrho = np.ma.ones((len(tax),3,len(rho2_i),len(yq)))*0.
     msftyrho[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
     msftyrho[:,1,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=indo_pacific_mask)
     msftyrho[:,2,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:])
@@ -64,13 +64,13 @@ def main(args):
     msftyrho = np.ma.array(msftyrho,fill_value=1.e20)
     msftyrho.long_name = 'Ocean Y Overturning Mass Streamfunction'
     msftyrho.units = 'kg s-1'
-    msftyrho.cell_methods = 'z_i:sum yh:sum basin:mean time:mean'
+    msftyrho.cell_methods = 'rho2_i:sum yq:sum basin:mean time:mean'
     msftyrho.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyrho.standard_name = 'ocean_y_overturning_mass_streamfunction'
 
     #-- msftyrhompa
     varname = 'vhGM'
-    msftyrhompa = np.ma.ones((len(tax),3,len(z_i),len(yh)))*0.
+    msftyrhompa = np.ma.ones((len(tax),3,len(rho2_i),len(yq)))*0.
     msftyrhompa[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
     msftyrhompa[:,1,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=indo_pacific_mask)
     msftyrhompa[:,2,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:])
@@ -78,7 +78,7 @@ def main(args):
     msftyrhompa = np.ma.array(msftyrhompa,fill_value=1.e20)
     msftyrhompa.long_name = 'ocean Y overturning mass streamfunction due to parameterized mesoscale advection'
     msftyrhompa.units = 'kg s-1'
-    msftyrhompa.cell_methods = 'z_i:sum yh:sum basin:mean time:mean'
+    msftyrhompa.cell_methods = 'rho2_i:sum yq:sum basin:mean time:mean'
     msftyrhompa.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyrhompa.standard_name = 'ocean_y_overturning_mass_streamfunction_due_to_parameterized_'+\
                               'mesoscale_advection'
@@ -121,22 +121,22 @@ def main(args):
     time_dim = f_out.createDimension('time', size=None)
     basin_dim = f_out.createDimension('basin', size=3)
     strlen_dim = f_out.createDimension('strlen', size=21)
-    yh_dim  = f_out.createDimension('yh',  size=len(yh[:]))
-    z_l_dim = f_out.createDimension('z_l', size=len(z_l[:]))
-    z_i_dim = f_out.createDimension('z_i', size=len(z_i[:]))
+    yq_dim  = f_out.createDimension('yq',  size=len(yq[:]))
+    rho2_l_dim = f_out.createDimension('rho2_l', size=len(rho2_l[:]))
+    rho2_i_dim = f_out.createDimension('rho2_i', size=len(rho2_i[:]))
     nv_dim  = f_out.createDimension('nv',  size=len(nv[:]))
     
     time_out = f_out.createVariable('time', np.float64, ('time'))
-    yh_out   = f_out.createVariable('yh',   np.float64, ('yh'))
+    yq_out   = f_out.createVariable('yq',   np.float64, ('yq'))
     region_out = f_out.createVariable('region', 'c', ('basin', 'strlen'))
-    z_l_out  = f_out.createVariable('z_l',  np.float64, ('z_l'))
-    z_i_out  = f_out.createVariable('z_i',  np.float64, ('z_i'))
+    rho2_l_out  = f_out.createVariable('rho2_l',  np.float64, ('rho2_l'))
+    rho2_i_out  = f_out.createVariable('rho2_i',  np.float64, ('rho2_i'))
     nv_out  = f_out.createVariable('nv',  np.float64, ('nv'))
    
-    msftyrho_out = f_out.createVariable('msftyrho', np.float32, ('time', 'basin', 'z_i', 'yh'), fill_value=1.e20)
+    msftyrho_out = f_out.createVariable('msftyrho', np.float32, ('time', 'basin', 'rho2_i', 'yq'), fill_value=1.e20)
     msftyrho_out.missing_value = 1.e20
  
-    msftyrhompa_out = f_out.createVariable('msftyrhompa', np.float32, ('time', 'basin', 'z_i', 'yh'), fill_value=1.e20)
+    msftyrhompa_out = f_out.createVariable('msftyrhompa', np.float32, ('time', 'basin', 'rho2_i', 'yq'), fill_value=1.e20)
     msftyrhompa_out.missing_value = 1.e20
  
     average_T1_out = f_out.createVariable('average_T1', np.float64, ('time'))
@@ -145,9 +145,9 @@ def main(args):
     time_bnds_out  = f_out.createVariable('time_bnds',  np.float64, ('time', 'nv'))
     
     time_out.setncatts(tax.__dict__)
-    yh_out.setncatts(yh.__dict__)
-    z_l_out.setncatts(z_l.__dict__)
-    z_i_out.setncatts(z_i.__dict__)
+    yq_out.setncatts(yq.__dict__)
+    rho2_l_out.setncatts(rho2_l.__dict__)
+    rho2_i_out.setncatts(rho2_i.__dict__)
     nv_out.setncatts(nv.__dict__)
 
     for k in msftyrho.__dict__.keys():
@@ -162,9 +162,9 @@ def main(args):
     time_bnds_out.setncatts(time_bnds.__dict__)
    
     time_out[:] = np.array(tax[:])
-    yh_out[:] = np.array(yh[:])
-    z_l_out[:] = np.array(z_l[:])
-    z_i_out[:] = np.array(z_i[:])
+    yq_out[:] = np.array(yq[:])
+    rho2_l_out[:] = np.array(rho2_l[:])
+    rho2_i_out[:] = np.array(rho2_i[:])
     nv_out[:] = np.array(nv[:])
    
     msftyrho_out[:] = np.ma.array(msftyrho[:])
