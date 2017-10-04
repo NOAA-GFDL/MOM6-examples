@@ -51,7 +51,8 @@ def heat_trans_by_basin(x,mask=None,lat=None,minlat=None):
     result.mask = varmask
     if (minlat is not None) and (lat is not None):
         if len(lat.shape) == 1:
-            lat = np.expand_dims(lat,0)
+            lat = np.tile(lat,0)
+            lat = np.tile(lat,(len(x),1))
         result = np.ma.masked_where(np.less(lat,minlat),result)
     return result
 
