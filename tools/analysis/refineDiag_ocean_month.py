@@ -39,7 +39,7 @@ def run():
     args = parser.parse_args()
     main(args)
 
-def heat_trans_by_basin(x,mask=None):
+def heat_trans_by_basin(x,mask=None,lat=None,minlat=None):
     if mask is not None:
         varmask = np.sum(mask,axis=-1)
         varmask = np.expand_dims(varmask,0)
@@ -49,6 +49,10 @@ def heat_trans_by_basin(x,mask=None):
         varmask = False
     result = np.ma.sum((x*mask),axis=-1)
     result.mask = varmask
+    if (minlat is not None) and (lat is not None):
+        if len(lat.shape) == 1:
+            lat = np.expand_dims(lat,0)
+        result = np.ma.masked_where(np.less(lat,minlat),result)
     return result
 
 def main(args):
@@ -68,7 +72,7 @@ def main(args):
 
     indo_pacific_mask = basin_code * 0.
     indo_pacific_mask[(basin_code==3) | (basin_code==5)] = 1.
-    
+ 
     #-- Read model data
     f_in = nc.Dataset(args.infile)
 
@@ -108,13 +112,14 @@ def main(args):
     #-- hfbasin 
     hfbasin = np.ma.ones((len(tax),3,len(yq)))*0.
     hfbasin[:,0,:] = heat_trans_by_basin(hfy,mask=atlantic_arctic_mask)
-    hfbasin[:,1,:] = heat_trans_by_basin(hfy,mask=indo_pacific_mask)
+    hfbasin[:,1,:] = heat_trans_by_basin(hfy,mask=indo_pacific_mask,minlat=-34,lat=yq)
     hfbasin[:,2,:] = heat_trans_by_basin(hfy)
     hfbasin[hfbasin.mask] = nc_misval
     hfbasin = np.ma.array(hfbasin,fill_value=nc_misval)
     hfbasin.long_name = 'Northward Ocean Heat Transport'
     hfbasin.units = 'W'
     hfbasin.cell_methods = 'xh:sum yq:sum basin:mean time:mean'
+    hfbasin.comment = 'Indo-Pacific heat transport begins at 34 S'
     hfbasin.time_avg_info = 'average_T1,average_T2,average_DT'
     hfbasin.standard_name = 'northward_ocean_heat_transport'
 
