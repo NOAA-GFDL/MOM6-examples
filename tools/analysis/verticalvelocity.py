@@ -5,7 +5,7 @@
 # Written by Andrew Shao (andrew.shao@noaa.gov) 29 September 2017
 import numpy as np
 
-def calc_w_from_convergence(infile, gridspec, u_var, v_var, wrapx = True, wrapy = False):
+def calc_w_from_convergence(u_var, v_var, wrapx = True, wrapy = False):
 
   tmax = u_var.shape[0]
 
@@ -68,7 +68,7 @@ if __name__ == "__main__":
   u_var = netCDF4.Dataset(cmdLineArgs.infile).variables[cmdLineArgs.uname]
   v_var = netCDF4.Dataset(cmdLineArgs.infile).variables[cmdLineArgs.vname]
 
-  w = calc_w_from_convergence( cmdLineArgs.infile, cmdLineArgs.gridspec, u_var, v_var,
+  w = calc_w_from_convergence( u_var, v_var,
                                cmdLineArgs.wrapx, cmdLineArgs.wrapy )
   if len(cmdLineArgs.gridspec) > 0:
     area = netCDF4.Dataset(cmdLineArgs.gridspec).variables['areacello'][:,:]
