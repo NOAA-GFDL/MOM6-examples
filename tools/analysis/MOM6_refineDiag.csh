@@ -95,7 +95,6 @@ set ocean_static_file = $yr1.ocean_static.nc
 if ( -e $yr1.ocean_static_no_mask_table.nc ) set ocean_static_file = $yr1.ocean_static_no_mask_table.nc
 
 set basin_codes_file = $yr1.basin_codes.nc
-set strait_dir = "./"
 
 echo '====annual mean Eddy Kinetic Energy======'
 mkdir -p $out_dir/refineDiag_ocean_annual/EddyKineticEnergy
@@ -103,13 +102,15 @@ $script_dir/EddyKineticEnergy.py  -g $ocean_static_file -o $out_dir/refineDiag_o
 
 
 echo '==== Offline Diagnostics ===='
-$script_dir/refineDiag_ocean_month.py -b $basin_codes_file -r refineDiagDir $yr1.ocean_month.nc
-$script_dir/refineDiag_ocean_month_z.py -b $basin_codes_file -r refineDiagDir -s ./ $yr1.ocean_month_z.nc
-$script_dir/refineDiag_ocean_month_rho2.py -b $basin_codes_file -r refineDiagDir $yr1.ocean_month_rho2.nc
-$script_dir/calc_variance.py zos $yr1.ocean_daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
+$script_dir/refineDiag_ocean_month.py -b $basin_codes_file -r $refineDiagDir $yr1.ocean_month.nc
+$script_dir/refineDiag_ocean_month_z.py -b $basin_codes_file -r $refineDiagDir -s ./ $yr1.ocean_month_z.nc
+$script_dir/refineDiag_ocean_month_rho2.py -b $basin_codes_file -r $refineDiagDir $yr1.ocean_month_rho2.nc
+#$script_dir/calc_variance.py zos $yr1.ocean_daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
 
-#-- Note: the calc_variance script should be called LAST, since it appends to the ocean_month_refined.nc file
-#         that is created first by the other scripts.
+#-- Note: The calc_variance script pre-dated refineDiag efforts just prior to the start of the GFDL-CM4 DECK runs.
+#         Based on the diag_table, it looks like the calc_variance script is no longer needed and is now commented out.
+#         If it is reactivated, it should be called LAST, since it appends to the ocean_month_refined.nc file that is 
+#         created first by the other scripts.
 
 echo "  ---------- end yearly analysis ----------  "
 
