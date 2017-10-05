@@ -111,7 +111,7 @@ def main(args):
     msftyyz.long_name = 'Ocean Y Overturning Mass Streamfunction'
     msftyyz.units = 'kg s-1'
     msftyyz.coordinates = 'region'
-    msftyyz.cell_methods = 'z_i:sum yq:sum time:mean'
+    msftyyz.cell_methods = 'z_i:point yq:point time:mean'
     msftyyz.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyyz.standard_name = 'ocean_y_overturning_mass_streamfunction'
 
@@ -126,7 +126,7 @@ def main(args):
     msftyzmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized mesoscale advection'
     msftyzmpa.units = 'kg s-1'
     msftyzmpa.coordinates = 'region'
-    msftyzmpa.cell_methods = 'z_i:sum yq:sum time:mean'
+    msftyzmpa.cell_methods = 'z_i:point yq:point time:mean'
     msftyzmpa.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyzmpa.standard_name = 'ocean_y_overturning_mass_streamfunction_due_to_parameterized_'+\
                               'mesoscale_advection'
@@ -142,7 +142,7 @@ def main(args):
     msftyzsmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized submesoscale advection'
     msftyzsmpa.units = 'kg s-1'
     msftyzsmpa.coordinates = 'region'
-    msftyzsmpa.cell_methods = 'z_i:sum yq:sum time:mean'
+    msftyzsmpa.cell_methods = 'z_i:point yq:point time:mean'
     msftyzsmpa.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyzsmpa.standard_name = 'ocean_meridional_overturning_mass_streamfunction_due_to_parameterized_'+\
                                'submesoscale_advection'
@@ -154,9 +154,10 @@ def main(args):
     wmo = np.ma.array(wmo,fill_value=nc_misval)
     wmo.long_name = 'Upward mass transport from resolved and parameterized advective transport'
     wmo.units = 'kg s-1'
-    wmo.cell_methods = 'z_i:sum xh:sum yh:sum time:mean'
+    wmo.cell_methods = 'z_i:point xh:sum yh:sum time:mean'
     wmo.time_avg_info = 'average_T1,average_T2,average_DT'
     wmo.standard_name = 'upward_ocean_mass_transport'
+    wmo.cell_measures = 'area:areacello'
 
     #-- mfo
     _, mfo, straits = sum_transport_in_straits(args.straitdir, monthly_average = True)
@@ -202,7 +203,7 @@ def main(args):
 
     f_out     = nc.Dataset(args.outfile, 'w', format='NETCDF3_CLASSIC')
     f_out.setncatts(f_in.__dict__)
-    f_out.filename = args.outfile
+    f_out.filename = os.path.basename(args.outfile)
 
     time_dim = f_out.createDimension('time', size=None)
     basin_dim = f_out.createDimension('basin', size=3)

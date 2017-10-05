@@ -120,7 +120,7 @@ def main(args):
     hfbasin.long_name = 'Northward Ocean Heat Transport'
     hfbasin.units = 'W'
     hfbasin.coordinates = 'region'
-    hfbasin.cell_methods = 'yq:sum time:mean'
+    hfbasin.cell_methods = 'yq:point time:mean'
     hfbasin.comment = 'Indo-Pacific heat transport begins at 34 S'
     hfbasin.time_avg_info = 'average_T1,average_T2,average_DT'
     hfbasin.standard_name = 'northward_ocean_heat_transport'
@@ -157,8 +157,9 @@ def main(args):
     
     f_out     = nc.Dataset(args.outfile, 'w', format='NETCDF3_CLASSIC')
     f_out.setncatts(f_in.__dict__)
-    f_out.filename = args.outfile
-    
+    f_out.filename = os.path.basename(args.outfile)
+    f_out.delncattr('associated_files')  # not needed for these fields     
+
     time_dim = f_out.createDimension('time', size=None)
     basin_dim = f_out.createDimension('basin', size=3)
     strlen_dim = f_out.createDimension('strlen', size=21)

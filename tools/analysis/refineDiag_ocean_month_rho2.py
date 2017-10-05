@@ -65,7 +65,7 @@ def main(args):
     msftyrho.long_name = 'Ocean Y Overturning Mass Streamfunction'
     msftyrho.units = 'kg s-1'
     msftyrho.coordinates = 'region'
-    msftyrho.cell_methods = 'rho2_i:sum yq:sum time:mean'
+    msftyrho.cell_methods = 'rho2_i:point yq:point time:mean'
     msftyrho.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyrho.standard_name = 'ocean_y_overturning_mass_streamfunction'
 
@@ -80,7 +80,7 @@ def main(args):
     msftyrhompa.long_name = 'ocean Y overturning mass streamfunction due to parameterized mesoscale advection'
     msftyrhompa.units = 'kg s-1'
     msftyrhompa.coordinates = 'region'
-    msftyrhompa.cell_methods = 'rho2_i:sum yq:sum time:mean'
+    msftyrhompa.cell_methods = 'rho2_i:point yq:point time:mean'
     msftyrhompa.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyrhompa.standard_name = 'ocean_y_overturning_mass_streamfunction_due_to_parameterized_'+\
                               'mesoscale_advection'
@@ -118,8 +118,9 @@ def main(args):
     
     f_out     = nc.Dataset(args.outfile, 'w', format='NETCDF3_CLASSIC')
     f_out.setncatts(f_in.__dict__)
-    f_out.filename = args.outfile
-    
+    f_out.filename = os.path.basename(args.outfile)
+    f_out.delncattr('associated_files')  # not needed for these fields   
+ 
     time_dim = f_out.createDimension('time', size=None)
     basin_dim = f_out.createDimension('basin', size=3)
     strlen_dim = f_out.createDimension('strlen', size=21)
