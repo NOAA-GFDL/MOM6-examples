@@ -64,7 +64,7 @@ def main(args):
     msftyrho = np.ma.array(msftyrho,fill_value=1.e20)
     msftyrho.long_name = 'Ocean Y Overturning Mass Streamfunction'
     msftyrho.units = 'kg s-1'
-    msftyrho.cell_methods = 'rho2_i:sum yq:sum basin:mean time:mean'
+    msftyrho.cell_methods = 'rho2_i:sum yq:sum time:mean'
     msftyrho.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyrho.standard_name = 'ocean_y_overturning_mass_streamfunction'
 
@@ -78,7 +78,7 @@ def main(args):
     msftyrhompa = np.ma.array(msftyrhompa,fill_value=1.e20)
     msftyrhompa.long_name = 'ocean Y overturning mass streamfunction due to parameterized mesoscale advection'
     msftyrhompa.units = 'kg s-1'
-    msftyrhompa.cell_methods = 'rho2_i:sum yq:sum basin:mean time:mean'
+    msftyrhompa.cell_methods = 'rho2_i:sum yq:sum time:mean'
     msftyrhompa.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyrhompa.standard_name = 'ocean_y_overturning_mass_streamfunction_due_to_parameterized_'+\
                               'mesoscale_advection'

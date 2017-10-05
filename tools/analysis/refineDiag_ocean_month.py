@@ -119,7 +119,7 @@ def main(args):
     hfbasin = np.ma.array(hfbasin,fill_value=nc_misval)
     hfbasin.long_name = 'Northward Ocean Heat Transport'
     hfbasin.units = 'W'
-    hfbasin.cell_methods = 'xh:sum yq:sum basin:mean time:mean'
+    hfbasin.cell_methods = 'yq:sum time:mean'
     hfbasin.comment = 'Indo-Pacific heat transport begins at 34 S'
     hfbasin.time_avg_info = 'average_T1,average_T2,average_DT'
     hfbasin.standard_name = 'northward_ocean_heat_transport'

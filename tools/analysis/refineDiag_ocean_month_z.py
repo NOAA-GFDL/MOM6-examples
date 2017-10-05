@@ -110,7 +110,7 @@ def main(args):
     msftyyz = np.ma.array(msftyyz,fill_value=nc_misval)
     msftyyz.long_name = 'Ocean Y Overturning Mass Streamfunction'
     msftyyz.units = 'kg s-1'
-    msftyyz.cell_methods = 'z_i:sum yq:sum basin:mean time:mean'
+    msftyyz.cell_methods = 'z_i:sum yq:sum time:mean'
     msftyyz.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyyz.standard_name = 'ocean_y_overturning_mass_streamfunction'
 
@@ -124,7 +124,7 @@ def main(args):
     msftyzmpa = np.ma.array(msftyzmpa,fill_value=nc_misval)
     msftyzmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized mesoscale advection'
     msftyzmpa.units = 'kg s-1'
-    msftyzmpa.cell_methods = 'z_i:sum yq:sum basin:mean time:mean'
+    msftyzmpa.cell_methods = 'z_i:sum yq:sum time:mean'
     msftyzmpa.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyzmpa.standard_name = 'ocean_y_overturning_mass_streamfunction_due_to_parameterized_'+\
                               'mesoscale_advection'
@@ -139,7 +139,7 @@ def main(args):
     msftyzsmpa = np.ma.array(msftyzsmpa,fill_value=nc_misval)
     msftyzsmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized submesoscale advection'
     msftyzsmpa.units = 'kg s-1'
-    msftyzsmpa.cell_methods = 'z_i:sum yq:sum basin:mean time:mean'
+    msftyzsmpa.cell_methods = 'z_i:sum yq:sum time:mean'
     msftyzsmpa.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyzsmpa.standard_name = 'ocean_meridional_overturning_mass_streamfunction_due_to_parameterized_'+\
                                'submesoscale_advection'
