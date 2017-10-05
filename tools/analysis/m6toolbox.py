@@ -169,6 +169,36 @@ def maskFromDepth(depth, zCellTop):
   wet[depth>-zCellTop] = 1
   return wet
 
+def MOCpsi(vh, vmsk=None):
+  """Sums 'vh' zonally and cumulatively in the vertical to yield an overturning stream function, psi(y,z)."""
+  shape = list(vh.shape); shape[-3] += 1
+  psi = np.zeros(shape[:-1])
+  if len(shape)==3:
+    for k in range(shape[-3]-1,0,-1):
+      if vmsk is None: psi[k-1,:] = psi[k,:] - vh[k-1].sum(axis=-1)
+      else: psi[k-1,:] = psi[k,:] - (vmsk*vh[k-1]).sum(axis=-1)
+  else:
+    for n in range(shape[0]):
+      for k in range(shape[-3]-1,0,-1):
+        if vmsk is None: psi[n,k-1,:] = psi[n,k,:] - vh[n,k-1].sum(axis=-1)
+        else: psi[n,k-1,:] = psi[n,k,:] - (vmsk*vh[n,k-1]).sum(axis=-1)
+  return psi
+
+ 
+def moc_maskedarray(vh,mask=None):
+    if mask is not None:
+        _mask = np.ma.masked_where(np.not_equal(mask,1.),mask)
+    else:
+        _mask = 1.
+    _vh = vh * _mask
+    _vh_btm = np.ma.expand_dims(_vh[:,-1,:,:]*0.,axis=1)
+    _vh = np.ma.concatenate((_vh,_vh_btm),axis=1)
+    _vh = np.ma.sum(_vh,axis=-1) * -1.
+    _vh = _vh[:,::-1] # flip z-axis so running sum is from ocean floor to surface
+    _vh = np.ma.cumsum(_vh,axis=1)
+    _vh = _vh[:,::-1] # flip z-axis back to original order
+    return _vh
+
 def nearestJI(x, y, xy0):
   """
   Find (j,i) of cell with center nearest to (x0,y0).

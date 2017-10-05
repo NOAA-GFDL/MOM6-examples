@@ -2,6 +2,7 @@
 
 import netCDF4
 import numpy
+import os
 
 try: import argparse
 except: raise Exception('This version of python is not new enough. python 2.7 or newer is required.')
@@ -23,7 +24,25 @@ nt = shape[0];
 nxy = shape[1:]
 
 if args.verbose: print 'Creating',args.annual_file
-nc_out = netCDF4.Dataset( args.annual_file, 'w', format='NETCDF3_64BIT' )
+if os.path.exists(args.annual_file):
+    mode = 'r+'
+    append = True
+else:
+    mode = 'w'
+    append = False
+nc_out = netCDF4.Dataset( args.annual_file, mode, format='NETCDF3_CLASSIC' )
+
+if append is True:
+  if 'time' in nc_out.variables.keys():
+    time_var = 'time'
+  elif 'Time' in nc_out.variables.keys():
+    time_var = 'Time'
+  else:
+    nc_out.close()
+    raise ValueError('Time dimension could not be found in existing file.')
+  if len(nc_out.variables[time_var][:]) <= 1:
+    nc_out.close()
+    raise ValueError('Existing file has only one time value. Assuming this is annual output.  Aborting.')
 
 if nt==365: days_in_month =   [31,28,31,30,31,30,31,31,30,31,30,31]
 elif nt==366: days_in_month = [31,29,31,30,31,30,31,31,30,31,30,31]
@@ -32,12 +51,15 @@ else: raise Exception('First dimension appears to not match a days in a single y
 
 # Create dimensions
 for d in variable.dimensions:
-  if nc_in.dimensions[d].isunlimited(): nc_out.createDimension(d, None)
-  else: nc_out.createDimension(d, len(nc_in.dimensions[d]))
+  if d not in nc_out.dimensions:
+    if nc_in.dimensions[d].isunlimited(): nc_out.createDimension(d, None)
+    else: nc_out.createDimension(d, len(nc_in.dimensions[d]))
 
 # Copy global attributes
-for a in nc_in.ncattrs():
-  nc_out.__setattr__(a ,nc_in.__getattr__(a))
+if append is False:
+  for a in nc_in.ncattrs():
+    if a not in nc_out.dimensions:
+      nc_out.__setattr__(a ,nc_in.__getattr__(a))
 
 # Copy variables corresponding to dimensions used by variable
 copy_vars = list(variable.dimensions)
@@ -46,31 +68,49 @@ if 'time_avg_info' in variable.ncattrs():
 else: time_bounds_vars = []
 for v in copy_vars+time_bounds_vars:
   if v in nc_in.variables:
-    hv = nc_out.createVariable(v, nc_in.variables[v].dtype, nc_in.variables[v].dimensions)
-    for a in nc_in.variables[v].ncattrs():
-      hv.setncattr(a, nc_in.variables[v].__getattr__(a))
+    if v not in nc_out.variables:
+      hv = nc_out.createVariable(v, nc_in.variables[v].dtype, nc_in.variables[v].dimensions)
+      for a in nc_in.variables[v].ncattrs():
+        hv.setncattr(a, nc_in.variables[v].__getattr__(a))
+      if v in variable.dimensions:
+        if not nc_in.dimensions[v].isunlimited():
+          hv[:] = nc_in.variables[v][:]
     if v in variable.dimensions:
-      if not nc_in.dimensions[v].isunlimited():
-        hv[:] = nc_in.variables[v][:]
-      else:
+      if nc_in.dimensions[v].isunlimited():
         intime = nc_in.variables[v]
-        time = hv # Keep around for later
+        time = intime[:]  # Keep around for later
 
 # Create new variables
-new_mean = nc_out.createVariable(args.variable, variable.dtype, variable.dimensions)
-new_squared = nc_out.createVariable(args.variable+'_squared', variable.dtype, variable.dimensions)
-new_variance = nc_out.createVariable(args.variable+'_var', variable.dtype, variable.dimensions)
+if args.variable not in nc_out.variables:
+  new_mean = nc_out.createVariable(args.variable, variable.dtype, variable.dimensions)
+  do_mean = True
+else:
+  do_mean = False
+
+if args.variable+'_squared' not in nc_out.variables:
+  new_squared = nc_out.createVariable(args.variable+'_squared', variable.dtype, variable.dimensions)
+  do_squared = True
+else:
+  do_squared = False
+
+if args.variable+'_var' not in nc_out.variables:
+  new_variance = nc_out.createVariable(args.variable+'_var', variable.dtype, variable.dimensions)
+  do_variance = True
+else:
+  do_variance = False
+
+
 for a in variable.ncattrs():
-  new_mean.setncattr(a, variable.__getattr__(a))
+  if do_mean:  new_mean.setncattr(a, variable.__getattr__(a))
   if a == 'long_name':
-    new_squared.setncattr(a, 'Square of '+variable.__getattr__(a))
-    new_variance.setncattr(a, 'Variance of '+variable.__getattr__(a))
+    if do_squared:  new_squared.setncattr(a, 'Square of '+variable.__getattr__(a))
+    if do_variance:  new_variance.setncattr(a, 'Variance of '+variable.__getattr__(a))
   elif a == 'units':
-    new_squared.setncattr(a, '('+variable.__getattr__(a)+')^2')
-    new_variance.setncattr(a, '('+variable.__getattr__(a)+')^2')
+    if do_squared:  new_squared.setncattr(a, '('+variable.__getattr__(a)+')^2')
+    if do_variance:  new_variance.setncattr(a, '('+variable.__getattr__(a)+')^2')
   else:
-    new_squared.setncattr(a, variable.__getattr__(a))
-    new_variance.setncattr(a, variable.__getattr__(a))
+    if do_squared:  new_squared.setncattr(a, variable.__getattr__(a))
+    if do_variance:  new_variance.setncattr(a, variable.__getattr__(a))
 
 numpy.seterr(divide='ignore', invalid='ignore', over='ignore') # To avoid warnings
 record = -1
@@ -97,14 +137,15 @@ for month,days in enumerate(days_in_month):
       count += 1.
   mean_val = mean_val/count
   squared_val = squared_val/count
-  new_mean[month,:] = mean_val
-  new_squared[month,:] = squared_val
-  new_variance[month,:] = squared_val - mean_val**2
-  time[month] = time_val/count
-  if len(time_bounds_vars):
-    nc_out.variables[time_bounds_vars[0]][month] = b0
-    nc_out.variables[time_bounds_vars[1]][month] = b1
-    nc_out.variables[time_bounds_vars[2]][month] = count
+  if do_mean:  new_mean[month,:] = mean_val
+  if do_squared:  new_squared[month,:] = squared_val
+  if do_variance:  new_variance[month,:] = squared_val - mean_val**2
+  if append is False:
+    time[month] = time_val/count
+    if len(time_bounds_vars):
+      nc_out.variables[time_bounds_vars[0]][month] = b0
+      nc_out.variables[time_bounds_vars[1]][month] = b1
+      nc_out.variables[time_bounds_vars[2]][month] = count
 
 nc_out.close()
 nc_in.close()
