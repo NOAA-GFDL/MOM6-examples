@@ -110,6 +110,7 @@ def main(args):
     msftyyz = np.ma.array(msftyyz,fill_value=nc_misval)
     msftyyz.long_name = 'Ocean Y Overturning Mass Streamfunction'
     msftyyz.units = 'kg s-1'
+    msftyyz.coordinates = 'region'
     msftyyz.cell_methods = 'z_i:sum yq:sum time:mean'
     msftyyz.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyyz.standard_name = 'ocean_y_overturning_mass_streamfunction'
@@ -124,6 +125,7 @@ def main(args):
     msftyzmpa = np.ma.array(msftyzmpa,fill_value=nc_misval)
     msftyzmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized mesoscale advection'
     msftyzmpa.units = 'kg s-1'
+    msftyzmpa.coordinates = 'region'
     msftyzmpa.cell_methods = 'z_i:sum yq:sum time:mean'
     msftyzmpa.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyzmpa.standard_name = 'ocean_y_overturning_mass_streamfunction_due_to_parameterized_'+\
@@ -139,6 +141,7 @@ def main(args):
     msftyzsmpa = np.ma.array(msftyzsmpa,fill_value=nc_misval)
     msftyzsmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized submesoscale advection'
     msftyzsmpa.units = 'kg s-1'
+    msftyzsmpa.coordinates = 'region'
     msftyzsmpa.cell_methods = 'z_i:sum yq:sum time:mean'
     msftyzsmpa.time_avg_info = 'average_T1,average_T2,average_DT'
     msftyzsmpa.standard_name = 'ocean_meridional_overturning_mass_streamfunction_due_to_parameterized_'+\
@@ -162,6 +165,7 @@ def main(args):
     strait_names = np.array( [strait.cmor_name for strait in straits] )
     mfo.long_name = 'Sea Water Transport'
     mfo.units = 'kg s-1'
+    mfo.coordinates = 'strait'
     mfo.cell_methods = 'time:mean'
     mfo.time_avg_info = 'average_T1,average_T2,average_DT'
     mfo.standard_name = 'sea_water_transport_across_line'
@@ -263,6 +267,9 @@ def main(args):
 
     for k in wmo.__dict__.keys():
       if k[0] != '_': wmo_out.setncattr(k,wmo.__dict__[k])
+
+    region_out.setncattr('standard_name','region')
+    strait_out.setncattr('standard_name','region')
 
     average_T1_out.setncatts(average_T1.__dict__)
     average_T2_out.setncatts(average_T2.__dict__)

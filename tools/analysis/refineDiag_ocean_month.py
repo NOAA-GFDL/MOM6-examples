@@ -119,6 +119,7 @@ def main(args):
     hfbasin = np.ma.array(hfbasin,fill_value=nc_misval)
     hfbasin.long_name = 'Northward Ocean Heat Transport'
     hfbasin.units = 'W'
+    hfbasin.coordinates = 'region'
     hfbasin.cell_methods = 'yq:sum time:mean'
     hfbasin.comment = 'Indo-Pacific heat transport begins at 34 S'
     hfbasin.time_avg_info = 'average_T1,average_T2,average_DT'
@@ -198,6 +199,8 @@ def main(args):
 
     for k in hfbasin.__dict__.keys():
       if k[0] != '_': hfbasin_out.setncattr(k,hfbasin.__dict__[k])
+
+    region_out.setncattr('standard_name','region')
 
     average_T1_out.setncatts(average_T1.__dict__)
     average_T2_out.setncatts(average_T2.__dict__)
