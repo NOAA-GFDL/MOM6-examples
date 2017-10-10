@@ -18,8 +18,14 @@ import VerticalSplitScale
 
 try: from mpl_toolkits.basemap import Basemap
 except: print('Basemap module not found. Some regional plots may not function properly')
-try: import cmocean
-except: print('cmocean module not found. Some color maps may not render properly')
+
+try: 
+  import cmocean
+except: 
+  if "HTTP_USER_AGENT" in os.environ.keys():
+    pass
+  else:
+    print('cmocean module not found. Some color maps may not render properly')
 
 from sys import modules
 
