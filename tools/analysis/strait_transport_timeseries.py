@@ -103,11 +103,11 @@ def set_strait_info():
   strait.append(strait_type("fram_strait",                      "Fram_Strait",            is_zonal = True))
   strait.append(strait_type("gibraltar_strait",                 "Gibraltar_Strait",       is_meridional = True))
   strait.append(strait_type("iceland_faroe_channel",            "Iceland_Faroe",          is_meridional = True, is_zonal = True))
+  strait.append(strait_type("indonesian_throughflow",           "Indonesian_Throughflow", is_zonal = True))
   strait.append(strait_type("mozambique_channel",               "Mozambique_Channel",     is_zonal = True))
   strait.append(strait_type("pacific_equatorial_undercurrent",  "Pacific_undercurrent",   is_meridional = True, zlim = 350))
   strait.append(strait_type("taiwan_and_luzon_straits",         "Taiwan_Luzon",           is_meridional = True))
   strait.append(strait_type("agulhas_section",                  "Agulhas_section",        is_meridional = True))
-  strait.append(strait_type("indonesian_throughflow",           "Indonesian_Throughflow", is_zonal = True))
 
   return strait
 
