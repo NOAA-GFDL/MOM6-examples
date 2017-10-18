@@ -320,6 +320,9 @@ def genBasinMasks(x,y,depth,verbose=False):
   code[tmp>0] = 1
   wet = wet - tmp # Removed named points
 
+  if verbose: print('Remapping Persian Gulf points to the Indian Ocean for OMIP/CMIP6 ...')
+  code[code==11] = 5
+
   code[wet>0] = -9
   (j,i) = np.unravel_index( wet.argmax(), x.shape)
   if j:
