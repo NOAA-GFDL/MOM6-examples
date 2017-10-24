@@ -32,13 +32,13 @@ cat stats.md5
 
 # Multi-core tests with symmetric executable
 run_test symocn 1 unit_tests
-run_test symocn 4 double_gyre
+run_test symocn 2 double_gyre
 run_test symocn 2 flow_downslope/layer
 run_test symocn 2 flow_downslope/rho
 run_test symocn 2 flow_downslope/sigma
 run_test symocn 2 flow_downslope/z
-run_test symocn 4 benchmark
-run_test symocn 4 circle_obcs
+run_test symocn 2 benchmark
+run_test symocn 2 circle_obcs
 
 # Check that checksums match
 md5sum -c stats.md5
