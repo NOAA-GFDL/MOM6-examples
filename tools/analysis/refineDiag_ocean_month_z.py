@@ -92,7 +92,7 @@ def main(args):
     tax = f_in.variables['time']
 
     #-- Note: based on conversations with @adcroft, the overturning should be reported on the interfaces, z_i.
-    #   Also, the nominal latitude is insufficient for the basin-average fields.  Based on the methods in 
+    #   Also, the nominal latitude is insufficient for the basin-average fields.  Based on the methods in
     #   meridional_overturning.py, the latitude dimension should be:
     #
     #   y = netCDF4.Dataset(cmdLineArgs.gridspec+'/ocean_hgrid.nc').variables['y'][::2,::2]
@@ -101,75 +101,95 @@ def main(args):
     #   The quanity 'yy' above is numerically-equivalent to 'yq'
 
     #-- msftyyz
-    varname = 'vmo'
-    msftyyz = np.ma.ones((len(tax),3,len(z_i),len(yq)))*0.
-    msftyyz[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
-    msftyyz[:,1,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=indo_pacific_mask)
-    msftyyz[:,2,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:])
-    msftyyz[msftyyz.mask] = nc_misval
-    msftyyz = np.ma.array(msftyyz,fill_value=nc_misval)
-    msftyyz.long_name = 'Ocean Y Overturning Mass Streamfunction'
-    msftyyz.units = 'kg s-1'
-    msftyyz.coordinates = 'region'
-    msftyyz.cell_methods = 'z_i:point yq:point time:mean'
-    msftyyz.time_avg_info = 'average_T1,average_T2,average_DT'
-    msftyyz.standard_name = 'ocean_y_overturning_mass_streamfunction'
+    if 'vmo' in f_in.variables.keys():
+      varname = 'vmo'
+      msftyyz = np.ma.ones((len(tax),3,len(z_i),len(yq)))*0.
+      msftyyz[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
+      msftyyz[:,1,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=indo_pacific_mask)
+      msftyyz[:,2,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:])
+      msftyyz[msftyyz.mask] = nc_misval
+      msftyyz = np.ma.array(msftyyz,fill_value=nc_misval)
+      msftyyz.long_name = 'Ocean Y Overturning Mass Streamfunction'
+      msftyyz.units = 'kg s-1'
+      msftyyz.coordinates = 'region'
+      msftyyz.cell_methods = 'z_i:point yq:point time:mean'
+      msftyyz.time_avg_info = 'average_T1,average_T2,average_DT'
+      msftyyz.standard_name = 'ocean_y_overturning_mass_streamfunction'
+      do_msftyyz = True
+    else:
+      do_msftyyz = False
 
     #-- msftyzmpa
-    varname = 'vhGM'
-    msftyzmpa = np.ma.ones((len(tax),3,len(z_i),len(yq)))*0.
-    msftyzmpa[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
-    msftyzmpa[:,1,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=indo_pacific_mask)
-    msftyzmpa[:,2,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:])
-    msftyzmpa[msftyzmpa.mask] = nc_misval
-    msftyzmpa = np.ma.array(msftyzmpa,fill_value=nc_misval)
-    msftyzmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized mesoscale advection'
-    msftyzmpa.units = 'kg s-1'
-    msftyzmpa.coordinates = 'region'
-    msftyzmpa.cell_methods = 'z_i:point yq:point time:mean'
-    msftyzmpa.time_avg_info = 'average_T1,average_T2,average_DT'
-    msftyzmpa.standard_name = 'ocean_y_overturning_mass_streamfunction_due_to_parameterized_'+\
-                              'mesoscale_advection'
+    if 'vhGM' in f_in.variables.keys():
+      varname = 'vhGM'
+      msftyzmpa = np.ma.ones((len(tax),3,len(z_i),len(yq)))*0.
+      msftyzmpa[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
+      msftyzmpa[:,1,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=indo_pacific_mask)
+      msftyzmpa[:,2,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:])
+      msftyzmpa[msftyzmpa.mask] = nc_misval
+      msftyzmpa = np.ma.array(msftyzmpa,fill_value=nc_misval)
+      msftyzmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized mesoscale advection'
+      msftyzmpa.units = 'kg s-1'
+      msftyzmpa.coordinates = 'region'
+      msftyzmpa.cell_methods = 'z_i:point yq:point time:mean'
+      msftyzmpa.time_avg_info = 'average_T1,average_T2,average_DT'
+      msftyzmpa.standard_name = 'ocean_y_overturning_mass_streamfunction_due_to_parameterized_'+\
+                                'mesoscale_advection'
+      do_msftyzmpa = True
+    else:
+      do_msftyzmpa = False
 
     #-- msftyzsmpa
-    varname = 'vhml'
-    msftyzsmpa = np.ma.ones((len(tax),3,len(z_i),len(yq)))*0.
-    msftyzsmpa[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
-    msftyzsmpa[:,1,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=indo_pacific_mask)
-    msftyzsmpa[:,2,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:])
-    msftyzsmpa[msftyzsmpa.mask] = nc_misval
-    msftyzsmpa = np.ma.array(msftyzsmpa,fill_value=nc_misval)
-    msftyzsmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized submesoscale advection'
-    msftyzsmpa.units = 'kg s-1'
-    msftyzsmpa.coordinates = 'region'
-    msftyzsmpa.cell_methods = 'z_i:point yq:point time:mean'
-    msftyzsmpa.time_avg_info = 'average_T1,average_T2,average_DT'
-    msftyzsmpa.standard_name = 'ocean_meridional_overturning_mass_streamfunction_due_to_parameterized_'+\
-                               'submesoscale_advection'
+    if 'vhml' in f_in.variables.keys():
+      varname = 'vhml'
+      msftyzsmpa = np.ma.ones((len(tax),3,len(z_i),len(yq)))*0.
+      msftyzsmpa[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
+      msftyzsmpa[:,1,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=indo_pacific_mask)
+      msftyzsmpa[:,2,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:])
+      msftyzsmpa[msftyzsmpa.mask] = nc_misval
+      msftyzsmpa = np.ma.array(msftyzsmpa,fill_value=nc_misval)
+      msftyzsmpa.long_name = 'ocean Y overturning mass streamfunction due to parameterized submesoscale advection'
+      msftyzsmpa.units = 'kg s-1'
+      msftyzsmpa.coordinates = 'region'
+      msftyzsmpa.cell_methods = 'z_i:point yq:point time:mean'
+      msftyzsmpa.time_avg_info = 'average_T1,average_T2,average_DT'
+      msftyzsmpa.standard_name = 'ocean_meridional_overturning_mass_streamfunction_due_to_parameterized_'+\
+                                 'submesoscale_advection'
+      do_msftyzsmpa = True
+    else:
+      do_msftyzsmpa = False
 
     #-- wmo
-    varname = 'wmo'
-    wmo = calc_w_from_convergence(f_in.variables['umo'], f_in.variables['vmo'])
-    wmo[wmo.mask] = nc_misval
-    wmo = np.ma.array(wmo,fill_value=nc_misval)
-    wmo.long_name = 'Upward mass transport from resolved and parameterized advective transport'
-    wmo.units = 'kg s-1'
-    wmo.cell_methods = 'z_i:point xh:sum yh:sum time:mean'
-    wmo.time_avg_info = 'average_T1,average_T2,average_DT'
-    wmo.standard_name = 'upward_ocean_mass_transport'
-    wmo.cell_measures = 'area:areacello'
+    if all(x in f_in.variables.keys() for x in ['umo', 'vmo']):
+      varname = 'wmo'
+      wmo = calc_w_from_convergence(f_in.variables['umo'], f_in.variables['vmo'])
+      wmo[wmo.mask] = nc_misval
+      wmo = np.ma.array(wmo,fill_value=nc_misval)
+      wmo.long_name = 'Upward mass transport from resolved and parameterized advective transport'
+      wmo.units = 'kg s-1'
+      wmo.cell_methods = 'z_i:point xh:sum yh:sum time:mean'
+      wmo.time_avg_info = 'average_T1,average_T2,average_DT'
+      wmo.standard_name = 'upward_ocean_mass_transport'
+      wmo.cell_measures = 'area:areacello'
+      do_wmo = True
+    else:
+      do_wmo = False
 
     #-- mfo
-    _, mfo, straits = sum_transport_in_straits(args.straitdir, monthly_average = True)
-    #mfo[mfo.mask] = nc_misval
-    mfo = np.ma.array(mfo, fill_value=nc_misval)
-    strait_names = np.array( [strait.cmor_name for strait in straits] )
-    mfo.long_name = 'Sea Water Transport'
-    mfo.units = 'kg s-1'
-    mfo.coordinates = 'strait'
-    mfo.cell_methods = 'time:mean'
-    mfo.time_avg_info = 'average_T1,average_T2,average_DT'
-    mfo.standard_name = 'sea_water_transport_across_line'
+    try:
+      _, mfo, straits = sum_transport_in_straits(args.straitdir, monthly_average = True)
+      #mfo[mfo.mask] = nc_misval
+      mfo = np.ma.array(mfo, fill_value=nc_misval)
+      strait_names = np.array( [strait.cmor_name for strait in straits] )
+      mfo.long_name = 'Sea Water Transport'
+      mfo.units = 'kg s-1'
+      mfo.coordinates = 'strait'
+      mfo.cell_methods = 'time:mean'
+      mfo.time_avg_info = 'average_T1,average_T2,average_DT'
+      mfo.standard_name = 'sea_water_transport_across_line'
+      do_mfo = True
+    except:
+      do_mfo = False
 
     #-- Read time bounds
     nv = f_in.variables['nv']
@@ -178,129 +198,136 @@ def main(args):
     average_DT = f_in.variables['average_DT']
     time_bnds  = f_in.variables['time_bnds']
 
-    #-- Generate output filename
-    if args.outfile is None:
-      if hasattr(f_in,'filename'):
-          args.outfile = f_in.filename
-      else:
-          args.outfile = os.path.basename(args.infile)
-      args.outfile = args.outfile.split('.')
-      args.outfile[-2] = args.outfile[-2]+'_refined'
-      args.outfile = '.'.join(args.outfile)
+    if any([do_msftyyz, do_msftyzsmpa, do_msftyzmpa, do_wmo, do_mfo]):
+      #-- Generate output filename
+      if args.outfile is None:
+        if hasattr(f_in,'filename'):
+            args.outfile = f_in.filename
+        else:
+            args.outfile = os.path.basename(args.infile)
+        args.outfile = args.outfile.split('.')
+        args.outfile[-2] = args.outfile[-2]+'_refined'
+        args.outfile = '.'.join(args.outfile)
 
-    if args.refineDiagDir is not None:
-      args.outfile = args.refineDiagDir + '/' + args.outfile
+      if args.refineDiagDir is not None:
+        args.outfile = args.refineDiagDir + '/' + args.outfile
 
-    #-- Write output file
-    try:
-        os.remove(args.outfile)
-    except:
-        pass
+      #-- Write output file
+      try:
+          os.remove(args.outfile)
+      except:
+          pass
 
-    if os.path.exists(args.outfile):
-        raise IOError('Output netCDF file already exists.')
-        exit(1)
+      if os.path.exists(args.outfile):
+          raise IOError('Output netCDF file already exists.')
+          exit(1)
 
-    f_out     = nc.Dataset(args.outfile, 'w', format='NETCDF3_CLASSIC')
-    f_out.setncatts(f_in.__dict__)
-    f_out.filename = os.path.basename(args.outfile)
+      f_out     = nc.Dataset(args.outfile, 'w', format='NETCDF3_CLASSIC')
+      f_out.setncatts(f_in.__dict__)
+      f_out.filename = os.path.basename(args.outfile)
 
-    time_dim = f_out.createDimension('time', size=None)
-    basin_dim = f_out.createDimension('basin', size=3)
-    strait_dim = f_out.createDimension('strait', size=len(straits))
-    strlen_dim = f_out.createDimension('strlen', size=31)
-    xh_dim  = f_out.createDimension('xh',  size=len(xh[:]))
-    yh_dim  = f_out.createDimension('yh',  size=len(yh[:]))
-    yq_dim  = f_out.createDimension('yq',  size=len(yq[:]))
-    z_l_dim = f_out.createDimension('z_l', size=len(z_l[:]))
-    z_i_dim = f_out.createDimension('z_i', size=len(z_i[:]))
-    nv_dim  = f_out.createDimension('nv',  size=len(nv[:]))
+      time_dim = f_out.createDimension('time', size=None)
+      basin_dim = f_out.createDimension('basin', size=3)
+      strait_dim = f_out.createDimension('strait', size=len(straits))
+      strlen_dim = f_out.createDimension('strlen', size=31)
+      xh_dim  = f_out.createDimension('xh',  size=len(xh[:]))
+      yh_dim  = f_out.createDimension('yh',  size=len(yh[:]))
+      yq_dim  = f_out.createDimension('yq',  size=len(yq[:]))
+      z_l_dim = f_out.createDimension('z_l', size=len(z_l[:]))
+      z_i_dim = f_out.createDimension('z_i', size=len(z_i[:]))
+      nv_dim  = f_out.createDimension('nv',  size=len(nv[:]))
 
-    time_out = f_out.createVariable('time', np.float64, ('time'))
-    xh_out   = f_out.createVariable('xh',   np.float64, ('xh'))
-    yh_out   = f_out.createVariable('yh',   np.float64, ('yh'))
-    yq_out   = f_out.createVariable('yq',   np.float64, ('yq'))
-    region_out = f_out.createVariable('region', 'c', ('basin', 'strlen'))
-    strait_out = f_out.createVariable('strait', 'c', ('strait', 'strlen'))
-    z_l_out  = f_out.createVariable('z_l',  np.float64, ('z_l'))
-    z_i_out  = f_out.createVariable('z_i',  np.float64, ('z_i'))
-    nv_out  = f_out.createVariable('nv',  np.float64, ('nv'))
+      time_out = f_out.createVariable('time', np.float64, ('time'))
+      xh_out   = f_out.createVariable('xh',   np.float64, ('xh'))
+      yh_out   = f_out.createVariable('yh',   np.float64, ('yh'))
+      yq_out   = f_out.createVariable('yq',   np.float64, ('yq'))
+      region_out = f_out.createVariable('region', 'c', ('basin', 'strlen'))
+      strait_out = f_out.createVariable('strait', 'c', ('strait', 'strlen'))
+      z_l_out  = f_out.createVariable('z_l',  np.float64, ('z_l'))
+      z_i_out  = f_out.createVariable('z_i',  np.float64, ('z_i'))
+      nv_out  = f_out.createVariable('nv',  np.float64, ('nv'))
 
-    msftyyz_out = f_out.createVariable('msftyyz', np.float32, ('time', 'basin', 'z_i', 'yq'), fill_value=nc_misval)
-    msftyyz_out.missing_value = nc_misval
+      if do_msftyyz:
+        msftyyz_out = f_out.createVariable('msftyyz', np.float32, ('time', 'basin', 'z_i', 'yq'), fill_value=nc_misval)
+        msftyyz_out.missing_value = nc_misval
+        for k in msftyyz.__dict__.keys():
+          if k[0] != '_': msftyyz_out.setncattr(k,msftyyz.__dict__[k])
 
-    msftyzsmpa_out = f_out.createVariable('msftyzsmpa', np.float32, ('time', 'basin', 'z_i', 'yq'), fill_value=nc_misval)
-    msftyzsmpa_out.missing_value = nc_misval
+      if do_msftyzsmpa:
+        msftyzsmpa_out = f_out.createVariable('msftyzsmpa', np.float32, ('time', 'basin', 'z_i', 'yq'), fill_value=nc_misval)
+        msftyzsmpa_out.missing_value = nc_misval
+        for k in msftyzsmpa.__dict__.keys():
+          if k[0] != '_': msftyzsmpa_out.setncattr(k,msftyzsmpa.__dict__[k])
 
-    msftyzmpa_out = f_out.createVariable('msftyzmpa', np.float32, ('time', 'basin', 'z_i', 'yq'), fill_value=nc_misval)
-    msftyzmpa_out.missing_value = nc_misval
+      if do_msftyzmpa:
+        msftyzmpa_out = f_out.createVariable('msftyzmpa', np.float32, ('time', 'basin', 'z_i', 'yq'), fill_value=nc_misval)
+        msftyzmpa_out.missing_value = nc_misval
+        for k in msftyzmpa.__dict__.keys():
+          if k[0] != '_': msftyzmpa_out.setncattr(k,msftyzmpa.__dict__[k])
 
-    wmo_out = f_out.createVariable('wmo', np.float32, ('time', 'z_i', 'yh', 'xh'), fill_value=nc_misval)
-    wmo_out.missing_value = nc_misval
+      if do_wmo:
+        wmo_out = f_out.createVariable('wmo', np.float32, ('time', 'z_i', 'yh', 'xh'), fill_value=nc_misval)
+        wmo_out.missing_value = nc_misval
+        for k in wmo.__dict__.keys():
+          if k[0] != '_': wmo_out.setncattr(k,wmo.__dict__[k])
 
-    mfo_out = f_out.createVariable('mfo', np.float32, ('time', 'strait'), fill_value=nc_misval)
-    mfo_out.missing_value = nc_misval
+      if do_mfo:
+        mfo_out = f_out.createVariable('mfo', np.float32, ('time', 'strait'), fill_value=nc_misval)
+        mfo_out.missing_value = nc_misval
+        for k in mfo.__dict__.keys():
+          if k[0] != '_': mfo_out.setncattr(k,mfo.__dict__[k])
 
-    average_T1_out = f_out.createVariable('average_T1', np.float64, ('time'))
-    average_T2_out = f_out.createVariable('average_T2', np.float64, ('time'))
-    average_DT_out = f_out.createVariable('average_DT', np.float64, ('time'))
-    time_bnds_out  = f_out.createVariable('time_bnds',  np.float64, ('time', 'nv'))
+      average_T1_out = f_out.createVariable('average_T1', np.float64, ('time'))
+      average_T2_out = f_out.createVariable('average_T2', np.float64, ('time'))
+      average_DT_out = f_out.createVariable('average_DT', np.float64, ('time'))
+      time_bnds_out  = f_out.createVariable('time_bnds',  np.float64, ('time', 'nv'))
 
-    time_out.setncatts(tax.__dict__)
-    xh_out.setncatts(xh.__dict__)
-    yh_out.setncatts(yh.__dict__)
-    yq_out.setncatts(yq.__dict__)
-    z_l_out.setncatts(z_l.__dict__)
-    z_i_out.setncatts(z_i.__dict__)
-    nv_out.setncatts(nv.__dict__)
+      time_out.setncatts(tax.__dict__)
+      xh_out.setncatts(xh.__dict__)
+      yh_out.setncatts(yh.__dict__)
+      yq_out.setncatts(yq.__dict__)
+      z_l_out.setncatts(z_l.__dict__)
+      z_i_out.setncatts(z_i.__dict__)
+      nv_out.setncatts(nv.__dict__)
 
-    for k in msftyyz.__dict__.keys():
-      if k[0] != '_': msftyyz_out.setncattr(k,msftyyz.__dict__[k])
+      region_out.setncattr('standard_name','region')
+      strait_out.setncattr('standard_name','region')
 
-    for k in msftyzsmpa.__dict__.keys():
-      if k[0] != '_': msftyzsmpa_out.setncattr(k,msftyzsmpa.__dict__[k])
+      average_T1_out.setncatts(average_T1.__dict__)
+      average_T2_out.setncatts(average_T2.__dict__)
+      average_DT_out.setncatts(average_DT.__dict__)
+      time_bnds_out.setncatts(time_bnds.__dict__)
 
-    for k in msftyzmpa.__dict__.keys():
-      if k[0] != '_': msftyzmpa_out.setncattr(k,msftyzmpa.__dict__[k])
+      time_out[:] = np.array(tax[:])
+      xh_out[:] = np.array(xh[:])
+      yh_out[:] = np.array(yh[:])
+      yq_out[:] = np.array(yq[:])
+      z_l_out[:] = np.array(z_l[:])
+      z_i_out[:] = np.array(z_i[:])
+      nv_out[:] = np.array(nv[:])
 
-    for k in mfo.__dict__.keys():
-      if k[0] != '_': mfo_out.setncattr(k,mfo.__dict__[k])
+      if do_msftyyz:    msftyyz_out[:] = np.ma.array(msftyyz[:])
+      if do_msftyzsmpa: msftyzsmpa_out[:] = np.ma.array(msftyzsmpa[:])
+      if do_msftyzmpa:  msftyzmpa_out[:] = np.ma.array(msftyzmpa[:])
+      if do_wmo:        wmo_out[:] = np.ma.array(wmo[:])
+      if do_mfo:        mfo_out[:] = np.array(mfo[:])
 
-    for k in wmo.__dict__.keys():
-      if k[0] != '_': wmo_out.setncattr(k,wmo.__dict__[k])
+      average_T1_out[:] = average_T1[:]
+      average_T2_out[:] = average_T2[:]
+      average_DT_out[:] = average_DT[:]
+      time_bnds_out[:]  = time_bnds[:]
 
-    region_out.setncattr('standard_name','region')
-    strait_out.setncattr('standard_name','region')
+      region_out[:] = nc.stringtochar(region)
+      strait_out[:] = nc.stringtochar(strait_names)
 
-    average_T1_out.setncatts(average_T1.__dict__)
-    average_T2_out.setncatts(average_T2.__dict__)
-    average_DT_out.setncatts(average_DT.__dict__)
-    time_bnds_out.setncatts(time_bnds.__dict__)
+      f_out.close()
+      exit(0)
 
-    time_out[:] = np.array(tax[:])
-    xh_out[:] = np.array(xh[:])
-    yh_out[:] = np.array(yh[:])
-    yq_out[:] = np.array(yq[:])
-    z_l_out[:] = np.array(z_l[:])
-    z_i_out[:] = np.array(z_i[:])
-    nv_out[:] = np.array(nv[:])
+    else:
+      print('RefineDiag for ocean_month_rho2 yielded no output.')
+      exit(1)
 
-    msftyyz_out[:] = np.ma.array(msftyyz[:])
-    msftyzsmpa_out[:] = np.ma.array(msftyzsmpa[:])
-    msftyzmpa_out[:] = np.ma.array(msftyzmpa[:])
-    wmo_out[:] = np.ma.array(wmo[:])
-    mfo_out[:] = np.array(mfo[:])
 
-    average_T1_out[:] = average_T1[:]
-    average_T2_out[:] = average_T2[:]
-    average_DT_out[:] = average_DT[:]
-    time_bnds_out[:]  = time_bnds[:]
-
-    region_out[:] = nc.stringtochar(region)
-    strait_out[:] = nc.stringtochar(strait_names)
-    f_out.close()
-
-    exit(0)
 
 if __name__ == '__main__':
   run()
