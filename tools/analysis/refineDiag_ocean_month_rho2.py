@@ -144,7 +144,7 @@ def main(args):
       rho2_i_out  = f_out.createVariable('rho2_i',  np.float64, ('rho2_i'))
       nv_out  = f_out.createVariable('nv',  np.float64, ('nv'))
 
-      if do_msftyrho_out:
+      if do_msftyrho:
         msftyrho_out = f_out.createVariable('msftyrho', np.float32, ('time', 'basin', 'rho2_i', 'yq'), fill_value=1.e20)
         msftyrho_out.missing_value = 1.e20
         for k in msftyrho.__dict__.keys():
