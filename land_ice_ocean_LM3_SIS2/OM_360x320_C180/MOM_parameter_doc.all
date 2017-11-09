@@ -1922,6 +1922,10 @@ TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
 ENERGYSAVEDAYS = 0.25           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
+ENERGYSAVEDAYS_GEOMETRIC = 0.0  !   [days] default = 0.0
+                                ! The starting interval in units of TIMEUNIT for the first call
+                                ! to save the energies of the run and other globally summed diagnostics.
+                                ! The interval increases by a factor of 2. after each call to write_energy.
 OCEAN_SURFACE_STAGGER = "C"     ! default = "C"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the surface velocity field that is
