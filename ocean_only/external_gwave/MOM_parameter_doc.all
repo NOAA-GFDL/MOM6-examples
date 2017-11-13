@@ -409,6 +409,7 @@ THICKNESS_CONFIG = "external_gwave" !
                                 !     coord - determined by ALE coordinate.
                                 !     uniform - uniform thickness layers evenly distributed
                                 !       between the surface and MAXIMUM_DEPTH.
+                                !     list - read a list of positive interface depths.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a configuration for the
@@ -931,6 +932,10 @@ BT_STRONG_DRAG = False          !   [Boolean] default = False
                                 ! with the barotropic time-step instead of implicit with
                                 ! the baroclinic time-step and dividing by the number of
                                 ! barotropic steps.
+BT_LINEAR_WAVE_DRAG = False     !   [Boolean] default = False
+                                ! If true, apply a linear drag to the barotropic velocities,
+                                ! using rates set by lin_drag_u & _vdivided by the depth of
+                                ! the ocean.  This was introduced to facilitate tide modeling.
 CLIP_BT_VELOCITY = False        !   [Boolean] default = False
                                 ! If true, limit any velocity components that exceed
                                 ! CFL_TRUNCATE.  This should only be used as a desperate

@@ -186,6 +186,7 @@ THICKNESS_CONFIG = "file"       !
                                 !     coord - determined by ALE coordinate.
                                 !     uniform - uniform thickness layers evenly distributed
                                 !       between the surface and MAXIMUM_DEPTH.
+                                !     list - read a list of positive interface depths.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a configuration for the
@@ -230,11 +231,6 @@ TS_CONFIG = "file"              !
                                 !     USER - call a user modified routine.
 TS_FILE = "GOLD_IC.2010.11.15.nc" !
                                 ! The initial condition file for temperature.
-CONVERT_THICKNESS_UNITS = True  !   [Boolean] default = False
-                                ! If true,  convert the thickness initial conditions from
-                                ! units of m to kg m-2 or vice versa, depending on whether
-                                ! BOUSSINESQ is defined. This does not apply if a restart
-                                ! file is read.
 
 ! === module MOM_diag_mediator ===
 
