@@ -255,6 +255,8 @@ OBC_FREESLIP_STRAIN = True      !   [Boolean] default = False
 OBC_ZERO_BIHARMONIC = True      !   [Boolean] default = False
                                 ! If true, zeros the Laplacian of flow on open boundaries in the biharmonic
                                 ! viscosity term.
+MASK_OUTSIDE_OBCS = False       !   [Boolean] default = False
+                                ! If true, set the areas outside open boundaries to be land.
 OBC_SEGMENT_001 = "J=N,I=N:0,FLATHER,ORLANSKI" !
                                 ! Documentation needs to be dynamic?????
 OBC_SEGMENT_002 = "J=0,I=0:N,FLATHER,ORLANSKI" !
