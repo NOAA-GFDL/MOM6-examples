@@ -52,7 +52,9 @@ def main(cmdLineArgs,stream=False):
   rootGroup = netCDF4.MFDataset( cmdLineArgs.infile )
   if 'T_ady_2d' in rootGroup.variables:
     varName = 'T_ady_2d'
-    if len(rootGroup.variables[varName].shape)==3: advective = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
+    if len(rootGroup.variables[varName].shape)==3:
+      advective = rootGroup.variables[varName]
+      advective.data = advective[:].mean(axis=0).filled(0.)
     else: advective = rootGroup.variables[varName][:].filled(0.)
   else: raise Exception('Could not find "T_ady_2d" in file "%s"'%(cmdLineArgs.infile))
   if 'T_diffy_2d' in rootGroup.variables:
@@ -65,10 +67,19 @@ def main(cmdLineArgs,stream=False):
 
   def heatTrans(advective, diffusive=None, vmask=None):
     """Converts vertically integrated temperature advection into heat transport"""
-    rho0 = 1.035e3; Cp = 3989.
-    if diffusive != None: HT = advective + diffusive
-    else: HT = advective
-    HT = HT * (rho0 * Cp); HT = HT * 1.e-15  # convert to PW
+    if diffusive != None:
+      HT = advective[:] + diffusive[:]
+    else:
+      HT = advective[:]
+    if advective.units == "Celsius meter3 second-1":
+      rho0 = 1.035e3
+      Cp = 3989.
+      HT = HT * (rho0 * Cp)
+      HT = HT * 1.e-15  # convert to PW
+    elif advective.units == "W m-2":
+      HT = HT * 1.e-15
+    else:
+      print('Unknown units')
     if vmask != None: HT = HT*vmask
     HT = HT.sum(axis=-1); HT = HT.squeeze() # sum in x-direction
     return HT
