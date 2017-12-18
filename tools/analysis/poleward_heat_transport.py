@@ -52,15 +52,14 @@ def main(cmdLineArgs,stream=False):
   rootGroup = netCDF4.MFDataset( cmdLineArgs.infile )
   if 'T_ady_2d' in rootGroup.variables:
     varName = 'T_ady_2d'
-    if len(rootGroup.variables[varName].shape)==3:
-      advective = rootGroup.variables[varName]
-      advective.data = advective[:].mean(axis=0).filled(0.)
-    else: advective = rootGroup.variables[varName][:].filled(0.)
-  else: raise Exception('Could not find "T_ady_2d" in file "%s"'%(cmdLineArgs.infile))
+    advective = rootGroup.variables[varName]
+    advective.data = advective[:].filled(0.)
+  else:
+    raise Exception('Could not find "T_ady_2d" in file "%s"'%(cmdLineArgs.infile))
+
   if 'T_diffy_2d' in rootGroup.variables:
     varName = 'T_diffy_2d'
-    if len(rootGroup.variables[varName].shape)==3: diffusive = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
-    else: diffusive = rootGroup.variables[varName][:].filled(0.)
+    diffusive = rootGroup.variables[varName][:].filled(0.)
   else: 
     diffusive = None
     warnings.warn('Diffusive temperature term not found. This will result in an underestimation of the heat transport.')
@@ -71,6 +70,8 @@ def main(cmdLineArgs,stream=False):
       HT = advective[:] + diffusive[:]
     else:
       HT = advective[:]
+    if len(HT.shape) == 3:
+      HT = HT.mean(axis=0)
     if advective.units == "Celsius meter3 second-1":
       rho0 = 1.035e3
       Cp = 3989.
