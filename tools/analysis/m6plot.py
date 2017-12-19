@@ -554,10 +554,10 @@ def yzcompare(field1, field2, y=None, z=None,
     cb3 = plt.colorbar(fraction=.08, pad=0.02, extend=dextend)
     if centerdlabels and len(dlim)>2: cb3.set_ticks(  0.5*(dlim[:-1]+dlim[1:]) )
     axis.set_axis_bgcolor(landcolor)
-    plt.xlim( xLims ); plt.ylim( yLims )
     if splitscale is not None:
       for zzz in splitscale[1:-1]: plt.axhline(zzz,color='k',linestyle='--')
       axis.set_yscale('splitscale', zval=splitscale)
+    plt.xlim( xLims ); plt.ylim( yLims )
     annotateStats(axis, dMin, dMax, dMean, dStd, dRMS)
     if len(zlabel+zunits)>0: plt.ylabel(label(zlabel, zunits))
 
