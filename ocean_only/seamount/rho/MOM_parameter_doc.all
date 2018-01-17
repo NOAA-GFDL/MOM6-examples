@@ -543,6 +543,9 @@ REMAP_BOUND_INTERMEDIATE_VALUES = False !   [Boolean] default = False
                                 ! If true, the values on the intermediate grid used for remapping
                                 ! are forced to be bounded, which might not be the case due to
                                 ! round off.
+REMAP_BOUNDARY_EXTRAP = False   !   [Boolean] default = False
+                                ! If true, values at the interfaces of boundary cells are
+                                ! extrapolated instead of piecewise constant
 REMAP_AFTER_INITIALIZATION = True !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after
                                 ! initialization so that the state is ALE consistent. This is a
