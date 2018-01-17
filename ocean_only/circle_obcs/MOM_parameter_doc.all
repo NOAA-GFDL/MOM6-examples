@@ -320,6 +320,8 @@ USE_KELVIN_WAVE_OBC = False     !   [Boolean] default = False
                                 ! If true, use the Kelvin wave open boundary.
 USE_SHELFWAVE_OBC = False       !   [Boolean] default = False
                                 ! If true, use the shelfwave open boundary.
+USE_DYED_CHANNEL_OBC = False    !   [Boolean] default = False
+                                ! If true, use the dyed channel open boundary.
 
 ! === module MOM_tracer_registry ===
 
@@ -461,6 +463,7 @@ OBC_USER_CONFIG = "none"        ! default = "none"
                                 ! A string that sets how the user code is invoked to set open
                                 !  boundary data:
                                 !    DOME - specified inflow on northern boundary
+                                !    dyed_channel - supercritical with dye on the inflow boundary
                                 !    dyed_obcs - circle_obcs with dyes on the open boundaries
                                 !    Kelvin - barotropic Kelvin wave forcing on the western boundary
                                 !    shelfwave - Flather with shelf wave forcing on western boundary
@@ -872,6 +875,11 @@ CFL_TRUNCATE_RAMP_TIME = 0.0    !   [s] default = 0.0
 CFL_TRUNCATE_START = 0.0        !   [nondim] default = 0.0
                                 ! The start value of the truncation CFL number used when
                                 ! ramping up CFL_TRUNC.
+VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
+                                ! A negligibly small velocity magnitude below which velocity
+                                ! components are set to 0.  A reasonable value might be
+                                ! 1e-30 m/s, which is less than an Angstrom divided by
+                                ! the age of the universe.
 
 ! === module MOM_PointAccel ===
 MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
