@@ -22,7 +22,7 @@ showenv:
 	which python
 	-python --version
 
-forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mosaic_ocean.1080x768/runoff.daitren.clim.v2011.02.10a.1080x768.nc geothermal_davies2013_v1.nc
+forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mosaic_ocean.1080x768/runoff.daitren.clim.v2011.02.10a.1080x768.nc mosaic_ocean.1080x768/runoff.daitren.iaf.v2011.02.10.1080x768.nc geothermal_davies2013_v1.nc
 
 obs: WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
 
@@ -56,7 +56,7 @@ so_topog_gebco.nc: antarctic_spherical_supergrid.nc GEBCO_08_v1.nc local
 
 edit_topog.nc: interpolated_topog.nc
 	\cp $< $@
-	./apply_edits.py OM4_topography_edits.nc edit_topog.nc
+	./apply_edits.py topo_edits_010518.nc edit_topog.nc
 topog.nc: edit_topog.nc
 	./ice9.py edit_topog.nc --output topog.nc
 
@@ -107,7 +107,7 @@ MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
 	(cd MIDAS; git checkout fd8160cf259fd33009749ee8d7cb4e7281ed0293)
 
-local: MIDAS 
+local: MIDAS
 	-rm -rf $</build/*
 	mkdir -p $@
 	cd $<; make -f Makefile_GFDL INSTALL_PATH=../local
@@ -121,7 +121,8 @@ FRE_NCTOOLS = fre_nctools/tools
 fre_nctools:
 	echo $@
 	git clone http://gitlab.gfdl.noaa.gov/fre/fre-nctools.git $@
-	(cd $@; git checkout user/z1l/dev)
+	(cd $@; git checkout 168f6a5a2717bc80961da6ba751509cd8c7ace0d)
+#	(cd $@; git checkout user/z1l/dev)
 fre_nctools/tools: fre_nctools
 fre_nctools/tools/make_solo_mosaic/make_solo_mosaic fre_nctools/tools/make_quick_mosaic/make_quick_mosaic \
 fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic fre_nctools/tools/make_coupler_mosaic/make_coupler_mosaic_parallel\
@@ -159,6 +160,12 @@ mosaic_ocean.1080x768/runoff_tmp.nc: fre_nctools/tools/runoff_regrid/runoff_regr
 mosaic_ocean.1080x768/runoff.daitren.clim.v2011.02.10a.1080x768.nc: mosaic_ocean.1080x768/runoff_tmp.nc
 	(cd $(@D); ncks -h -3 runoff_tmp.nc $(@F))
 	(cd $(@D); ncatted -h -O -a 'modulo,Time,c,c, ' $(@F))
+
+mosaic_ocean.1080x768/runoff_tmp2.nc: fre_nctools/tools/runoff_regrid/runoff_regrid_parallel mosaic_ocean.1080x768/ocean_mosaic.nc mosaic_ocean.1080x768/ocean_topog.nc
+	(cd $(@D); time mpirun -np $(NP) ../fre_nctools/tools/runoff_regrid/runoff_regrid_parallel --input_file /archive/gold/datasets/CORE/IAF_v2.0/runoff.daitren.iaf.v2011.02.10.nc --input_fld_name runoff --output_mosaic ocean_mosaic.nc --output_topog ocean_topog.nc --output_file $(@F))
+mosaic_ocean.1080x768/runoff.daitren.iaf.v2011.02.10.1080x768.nc: mosaic_ocean.1080x768/runoff_tmp2.nc
+	(cd $(@D); ncks -h -3 runoff_tmp2.nc $(@F))
+
 
 $(filter-out mosaic_c96.1080x768/mosaic.nc,$(C96_MOSAIC:.cdl=.nc)): mosaic_c96.1080x768/mosaic.nc
 mosaic_c96.1080x768/mosaic.nc: mosaic_ocean.1080x768/ocean_mosaic.nc ocean_topog.nc $(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel
