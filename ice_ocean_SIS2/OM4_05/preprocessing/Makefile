@@ -76,9 +76,10 @@ WOA05_ptemp_salt_monthly.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/dataset
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpWOA05.py
 	ncatted -h -a modulo,TIME,c,c,' ' WOA05_ptemp_salt_monthly.nc
 
-salt_restore.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/datasets/obs/WOA05_pottemp_salt.nc interpSaltRestore.py local
+salt_restore.nc: ocean_hgrid.nc ocean_topog.nc woa13_decav_s_0-10m.mon_01v2.nc interpSaltRestore.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpSaltRestore.py
-	ncatted -h -a modulo,TIME,c,c,' ' salt_restore.nc
+	ncatted -h -a modulo,time,c,c,' ' salt_restore.nc
+
 
 seawifs_1998-2006_smoothed_2X.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/datasets/global/siena_201204/INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc interpCHL.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpCHL.py
@@ -106,7 +107,7 @@ tpxo7_atlas_netcdf.tar.Z:
 
 woa13_decav_s_0-10m.mon_01v2.nc:
 #	wget http://amaterasu.ees.hokudai.ac.jp/~tsujino/JRA55-do-suppl/woa13v2/woa13_decav_s_0-10m.mon_01v2.nc
-	cp /archive/mjh/gold/datasets/JRA55-do-suppl/woa13v2/woa13_decav_s_0-10m.mon_01v2.v20180124.nc $@
+	cp /archive/mjh/gold/datasets/JRA55-do-suppl/$@ .
 
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
