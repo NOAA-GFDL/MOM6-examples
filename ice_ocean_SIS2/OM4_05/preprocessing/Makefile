@@ -95,13 +95,18 @@ OM4_05_preprocessing_geothermal/Makefile:
 tidal_amplitude.nc: DATA interpTides.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpTides.py
 
-DATA: tpxo7_atlas_netcdf.tar.Z
+
+DATA: tpxo7_atlas_netcdf.tar.Z woa13_decav_s_0-10m.mon_01v2.nc
 	tar xzvf tpxo7_atlas_netcdf.tar.Z
 	touch DATA
 
 tpxo7_atlas_netcdf.tar.Z:
 #	wget ftp://ftp.oce.orst.edu/dist/tides/Global/tpxo7_atlas_netcdf.tar.Z
 	cp /archive/gold/datasets/obs/tpxo7_atlas_netcdf.tar.Z .
+
+woa13_decav_s_0-10m.mon_01v2.nc:
+#	wget http://amaterasu.ees.hokudai.ac.jp/~tsujino/JRA55-do-suppl/woa13v2/woa13_decav_s_0-10m.mon_01v2.nc
+	cp /archive/mjh/gold/datasets/JRA55-do-suppl/woa13v2/woa13_decav_s_0-10m.mon_01v2.v20180124.nc $@
 
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
@@ -130,7 +135,7 @@ fre_nctools/tools/runoff_regrid/runoff_regrid fre_nctools/tools/runoff_regrid/ru
 	(cd $(@D); make SITE=pan -f fre-nctools.mk $(@F))
 
 OCN_MOSAIC = $(foreach f,atmos_mosaic_tile1Xland_mosaic_tile1.cdl atmos_mosaic_tile1Xocean_mosaic_tile1.cdl grid_spec.cdl land_mask.cdl\
-                         land_mosaic_tile1Xocean_mosaic_tile1.cdl ocean_mask.cdl ocean_mosaic.cdl,mosaic_ocean.1080x768/$f)
+                         land_mosaic_tile1Xocean_mosaic_tile1.cdl ocean_mask.cdl ocean_mosaic.cdl runoff.daitren.clim.v2011.02.10a.1080x768.nc runoff.daitren.iaf.v2011.02.10.1080x768.nc,mosaic_ocean.1080x768/$f)
 C96_MOSAIC = $(foreach f,C96_grid.tile1.nc C96_grid.tile2.nc C96_grid.tile3.nc C96_grid.tile4.nc C96_grid.tile5.nc C96_grid.tile6.nc C96_mosaic.nc\
                          C96_mosaic_tile1XC96_mosaic_tile1.cdl C96_mosaic_tile1Xocean_mosaic_tile1.cdl C96_mosaic_tile2XC96_mosaic_tile2.cdl C96_mosaic_tile2Xocean_mosaic_tile1.cdl\
                          C96_mosaic_tile3XC96_mosaic_tile3.cdl C96_mosaic_tile3Xocean_mosaic_tile1.cdl C96_mosaic_tile4XC96_mosaic_tile4.cdl C96_mosaic_tile4Xocean_mosaic_tile1.cdl\
@@ -202,6 +207,7 @@ md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.
 	echo Data >> $@
 	md5sum salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc >> $@
 	md5sum geothermal_davies2013_v1.nc >> $@
+	md5sum woa13_decav_s_0-10m.mon_01v2.nc  >> $@
 	echo >> $@
 	echo Obs >> $@
 	md5sum WOA05_ptemp_salt_{monthly,annual}.nc >> $@
