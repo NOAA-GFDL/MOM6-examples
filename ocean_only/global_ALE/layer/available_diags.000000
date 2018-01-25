@@ -1304,14 +1304,6 @@
     ! long_name: Surface meridional velocity component of mixed layer restratification
     ! units: m s-1
     ! cell_methods: xh:mean yq:point
-"ocean_model", "temp_layer_ave"  [Used]
-    ! long_name: Layer Average Ocean Temperature
-    ! units: degC
-    ! cell_methods: zl:mean
-"ocean_model", "salt_layer_ave"  [Used]
-    ! long_name: Layer Average Ocean Salinity
-    ! units: psu
-    ! cell_methods: zl:mean
 "ocean_model", "masscello"  [Used]
     ! long_name: Mass per unit area of liquid ocean grid cell
     ! units: kg m-2
@@ -1356,6 +1348,24 @@
     ! units: m
     ! standard_name: cell_thickness
     ! cell_methods: z_l:sum
+"ocean_model", "tob"  [Unused]
+    ! long_name: Sea Water Potential Temperature at Sea Floor
+    ! units: degC
+    ! standard_name: sea_water_potential_temperature_at_sea_floor
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "sob"  [Unused]
+    ! long_name: Sea Water Salinity at Sea Floor
+    ! units: psu
+    ! standard_name: sea_water_salinity_at_sea_floor
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "temp_layer_ave"  [Used]
+    ! long_name: Layer Average Ocean Temperature
+    ! units: degC
+    ! cell_methods: zl:mean
+"ocean_model", "salt_layer_ave"  [Used]
+    ! long_name: Layer Average Ocean Salinity
+    ! units: psu
+    ! cell_methods: zl:mean
 "ocean_model", "thetaoga"  [Used]
     ! long_name: Global Mean Ocean Potential Temperature
     ! units: degC
@@ -2730,6 +2740,97 @@
     ! long_name: Epipycnal tracer diffusivity operator at meridional faces of tracer cell
     ! units: m2
     ! cell_methods: xh:mean yq:point
+"ocean_model", "volo"  [Used]
+    ! long_name: Total volume of liquid ocean
+    ! units: m3
+    ! standard_name: sea_water_volume
+"ocean_model", "zos"  [Used]
+    ! long_name: Sea surface height above geoid
+    ! units: m
+    ! standard_name: sea_surface_height_above_geoid
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "zossq"  [Used]
+    ! long_name: Square of sea surface height above geoid
+    ! units: m2
+    ! standard_name: square_of_sea_surface_height_above_geoid
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "SSH"  [Used]
+    ! long_name: Sea Surface Height
+    ! units: m
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "ssh_ga"  [Used]
+    ! long_name: Area averaged sea surface height
+    ! units: m
+    ! standard_name: area_averaged_sea_surface_height
+"ocean_model", "SSU"  [Used]
+    ! long_name: Sea Surface Zonal Velocity
+    ! units: m s-1
+    ! cell_methods: xq:point yh:mean
+"ocean_model", "SSV"  [Used]
+    ! long_name: Sea Surface Meridional Velocity
+    ! units: m s-1
+    ! cell_methods: xh:mean yq:point
+"ocean_model", "speed"  [Used]
+    ! long_name: Sea Surface Speed
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "SST"  [Used] (CMOR equivalent is "tos")
+    ! long_name: Sea Surface Temperature
+    ! units: degC
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "tos"  [Unused] (native name is "SST")
+    ! long_name: Sea Surface Temperature
+    ! units: degC
+    ! standard_name: sea_surface_temperature
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "SST_sq"  [Unused] (CMOR equivalent is "tossq")
+    ! long_name: Sea Surface Temperature Squared
+    ! units: degC2
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "tossq"  [Unused] (native name is "SST_sq")
+    ! long_name: Square of Sea Surface Temperature
+    ! units: degC2
+    ! standard_name: square_of_sea_surface_temperature
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "SSS"  [Used] (CMOR equivalent is "sos")
+    ! long_name: Sea Surface Salinity
+    ! units: psu
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "sos"  [Unused] (native name is "SSS")
+    ! long_name: Sea Surface Salinity
+    ! units: psu
+    ! standard_name: sea_surface_salinity
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "SSS_sq"  [Unused] (CMOR equivalent is "sossq")
+    ! long_name: Sea Surface Salinity Squared
+    ! units: psu
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "sossq"  [Unused] (native name is "SSS_sq")
+    ! long_name: Square of Sea Surface Salinity
+    ! units: psu
+    ! standard_name: square_of_sea_surface_salinity
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "frazil"  [Used] (CMOR equivalent is "hfsifrazil")
+    ! long_name: Heat from frazil formation
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "hfsifrazil"  [Used] (native name is "frazil")
+    ! long_name: Heat Flux into Sea Water due to Frazil Ice Formation
+    ! units: W m-2
+    ! standard_name: heat_flux_into_sea_water_due_to_frazil_ice_formation
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "salt_deficit"  [Unused]
+    ! long_name: Salt sink in ocean due to ice flux
+    ! units: psu m-2 s-1
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "Heat_PmE"  [Used]
+    ! long_name: Heat flux into ocean from mass flux into ocean
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "internal_heat"  [Unused]
+    ! long_name: Heat flux into ocean from geothermal or other internal sources
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "u"  [Used] (CMOR equivalent is "uo")
     ! long_name: Zonal velocity
     ! units: m s-1
@@ -2818,110 +2919,9 @@
     ! long_name: Layer Thickness
     ! units: m
     ! cell_methods: z_l:sum
-"ocean_model", "volo"  [Used]
-    ! long_name: Total volume of liquid ocean
-    ! units: m3
-    ! standard_name: sea_water_volume
-"ocean_model", "zos"  [Used]
-    ! long_name: Sea surface height above geoid
-    ! units: m
-    ! standard_name: sea_surface_height_above_geoid
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "zossq"  [Used]
-    ! long_name: Square of sea surface height above geoid
-    ! units: m2
-    ! standard_name: square_of_sea_surface_height_above_geoid
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "SSH"  [Used]
-    ! long_name: Sea Surface Height
-    ! units: m
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "ssh_ga"  [Used]
-    ! long_name: Area averaged sea surface height
-    ! units: m
-    ! standard_name: area_averaged_sea_surface_height
 "ocean_model", "SSH_inst"  [Unused]
     ! long_name: Instantaneous Sea Surface Height
     ! units: m
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "SSU"  [Used]
-    ! long_name: Sea Surface Zonal Velocity
-    ! units: m s-1
-    ! cell_methods: xq:point yh:mean
-"ocean_model", "SSV"  [Used]
-    ! long_name: Sea Surface Meridional Velocity
-    ! units: m s-1
-    ! cell_methods: xh:mean yq:point
-"ocean_model", "speed"  [Used]
-    ! long_name: Sea Surface Speed
-    ! units: m s-1
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "tob"  [Unused]
-    ! long_name: Sea Water Potential Temperature at Sea Floor
-    ! units: degC
-    ! standard_name: sea_water_potential_temperature_at_sea_floor
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "sob"  [Unused]
-    ! long_name: Sea Water Salinity at Sea Floor
-    ! units: psu
-    ! standard_name: sea_water_salinity_at_sea_floor
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "SST"  [Used] (CMOR equivalent is "tos")
-    ! long_name: Sea Surface Temperature
-    ! units: degC
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "tos"  [Unused] (native name is "SST")
-    ! long_name: Sea Surface Temperature
-    ! units: degC
-    ! standard_name: sea_surface_temperature
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "SST_sq"  [Unused] (CMOR equivalent is "tossq")
-    ! long_name: Sea Surface Temperature Squared
-    ! units: degC2
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "tossq"  [Unused] (native name is "SST_sq")
-    ! long_name: Square of Sea Surface Temperature
-    ! units: degC2
-    ! standard_name: square_of_sea_surface_temperature
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "SSS"  [Used] (CMOR equivalent is "sos")
-    ! long_name: Sea Surface Salinity
-    ! units: psu
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "sos"  [Unused] (native name is "SSS")
-    ! long_name: Sea Surface Salinity
-    ! units: psu
-    ! standard_name: sea_surface_salinity
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "SSS_sq"  [Unused] (CMOR equivalent is "sossq")
-    ! long_name: Sea Surface Salinity Squared
-    ! units: psu
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "sossq"  [Unused] (native name is "SSS_sq")
-    ! long_name: Square of Sea Surface Salinity
-    ! units: psu
-    ! standard_name: square_of_sea_surface_salinity
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "frazil"  [Used] (CMOR equivalent is "hfsifrazil")
-    ! long_name: Heat from frazil formation
-    ! units: W m-2
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "hfsifrazil"  [Used] (native name is "frazil")
-    ! long_name: Heat Flux into Sea Water due to Frazil Ice Formation
-    ! units: W m-2
-    ! standard_name: heat_flux_into_sea_water_due_to_frazil_ice_formation
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "salt_deficit"  [Unused]
-    ! long_name: Salt sink in ocean due to ice flux
-    ! units: psu m-2 s-1
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "Heat_PmE"  [Used]
-    ! long_name: Heat flux into ocean from mass flux into ocean
-    ! units: W m-2
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "internal_heat"  [Unused]
-    ! long_name: Heat flux into ocean from geothermal or other internal sources
-    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "uhtr"  [Unused]
     ! long_name: Accumulated zonal thickness fluxes to advect tracers
