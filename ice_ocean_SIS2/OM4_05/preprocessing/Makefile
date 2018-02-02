@@ -192,7 +192,7 @@ mosaic_c192.1080x768/mosaic.nc: mosaic_ocean.1080x768/ocean_mosaic.nc ocean_topo
 %.cdl: %.nc
 	ncdump $< | egrep -v 'code_version|history' > $@
 
-md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc so_topog_gebco.nc ocean_topog.nc $(OCN_MOSAIC) $(C96_MOSAIC) $(C192_MOSAIC) basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc geothermal_davies2013_v1.nc
+md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc so_topog_gebco.nc ocean_topog.nc $(OCN_MOSAIC) $(C96_MOSAIC) $(C192_MOSAIC) basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc geothermal_davies2013_v1.nc mosaic_ocean.1080x768/runoff.daitren.iaf.v2011.02.10.1080x768.nc mosaic_ocean.1080x768/runoff.daitren.clim.v2011.02.10a.1080x768.nc
 	echo Grids > $@
 	md5sum *supergrid.nc ocean_hgrid.nc >> $@
 	echo >> $@
@@ -209,6 +209,8 @@ md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.
 	md5sum salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc >> $@
 	md5sum geothermal_davies2013_v1.nc >> $@
 	md5sum woa13_decav_s_0-10m.mon_01v2.nc  >> $@
+	md5sum mosaic_ocean.1080x768/runoff.daitren.iaf.v2011.02.10.1080x768.nc >> $@
+	md5sum mosaic_ocean.1080x768/runoff.daitren.clim.v2011.02.10a.1080x768.nc >> $@
 	echo >> $@
 	echo Obs >> $@
 	md5sum WOA05_ptemp_salt_{monthly,annual}.nc >> $@
