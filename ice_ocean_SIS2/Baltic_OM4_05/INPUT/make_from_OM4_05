@@ -2,17 +2,18 @@
 # This script is intended to make a subset of the OM4_05 grid to make a test case for the Baltic region (closed boundaries)
 
 # Some routines may need
-module load fre-nctools nco
+module use -a /ncrc/home2/fms/local/modulefiles
+module load fre-nctools/bronx-12 nco
 
 # Set some environment variables
-set OM4_INPUT="/archive/gold/datasets/OM4_05/INPUT/"
-set OM4_MOSAIC="/archive/gold/datasets/OM4_05/INPUT/mosaic.v20151203.unpacked/"
+set OM4_INPUT=".datasets/OM4_05/INPUT/"
+set OM4_MOSAIC=".datasets/OM4_05/mosaic.v20151203.unpacked/"
 set NX_MIN=612
 set NX_MAX=660
 set NY_MIN=410
 set NY_MAX=462
 
- First make a subset of the supergrid
+# First make a subset of the supergrid
 ncks -O -d nx,1224,1321 -d ny,820,925 -d nxp,1224,1322 -d nyp,820,926 $OM4_MOSAIC/ocean_hgrid.nc ocean_hgrid.nc
 
 # Regrid the topography
