@@ -43,6 +43,8 @@ def main(cmdLineArgs,stream=False):
           rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/120hr/5yr/*.'+var[k]+'.nc')
         elif os.path.isdir(cmdLineArgs.infile + section[k] + '/ts/daily/20yr'):
           rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/daily/20yr/*.'+var[k]+'.nc')
+        elif os.path.isdir(cmdLineArgs.infile + section[k] + '/ts/daily/5yr'):
+          rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/daily/5yr/*.'+var[k]+'.nc')
         elif os.path.isdir(cmdLineArgs.infile + section[k] + '/ts/monthly/5yr'):
           rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/monthly/5yr/*.'+var[k]+'.nc')
         else:

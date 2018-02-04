@@ -613,6 +613,16 @@ KHTR_MAX = 900.0                !   [m2 s-1] default = 0.0
 USE_NEUTRAL_DIFFUSION = True    !   [Boolean] default = False
                                 ! If true, enables the neutral diffusion module.
 
+! === module MOM_sum_output ===
+MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
+                                ! The run will be stopped, and the day set to a very
+                                ! large value if the velocity is truncated more than
+                                ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
+                                ! to stop if there is any truncation of velocities.
+ENERGYSAVEDAYS = 0.5            !   [days] default = 1.0
+                                ! The interval in units of TIMEUNIT between saves of the
+                                ! energies of the run and other globally summed diagnostics.
+
 ! === module ocean_model_init ===
 RESTART_CONTROL = 3             ! default = 1
                                 ! An integer whose bits encode which restart files are
@@ -620,9 +630,6 @@ RESTART_CONTROL = 3             ! default = 1
                                 ! (bit 0) for a non-time-stamped file.  A restart file
                                 ! will be saved at the end of the run segment for any
                                 ! non-negative value.
-ENERGYSAVEDAYS = 0.5            !   [days] default = 1.0
-                                ! The interval in units of TIMEUNIT between saves of the
-                                ! energies of the run and other globally summed diagnostics.
 
 ! === module MOM_surface_forcing ===
 READ_GUST_2D = True             !   [Boolean] default = False
@@ -633,12 +640,5 @@ GUST_2D_FILE = "gustiness_qscat.nc" !
                                 ! variable gustiness.
 
 ! === module MOM_restart ===
-
-! === module MOM_sum_output ===
-MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
-                                ! The run will be stopped, and the day set to a very
-                                ! large value if the velocity is truncated more than
-                                ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
-                                ! to stop if there is any truncation of velocities.
 
 ! === module MOM_file_parser ===

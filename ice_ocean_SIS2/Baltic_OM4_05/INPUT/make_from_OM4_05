@@ -1,0 +1,32 @@
+#!/bin/tcsh
+# This script is intended to make a subset of the OM4_05 grid to make a test case for the Baltic region (closed boundaries)
+
+# Some routines may need
+module use -a /ncrc/home2/fms/local/modulefiles
+module load fre-nctools/bronx-12 nco
+
+# Set some environment variables
+set OM4_INPUT=".datasets/OM4_05/INPUT/"
+set OM4_MOSAIC=".datasets/OM4_05/mosaic.v20151203.unpacked/"
+set NX_MIN=612
+set NX_MAX=660
+set NY_MIN=410
+set NY_MAX=462
+
+# First make a subset of the supergrid
+ncks -O -d nx,1224,1321 -d ny,820,925 -d nxp,1224,1322 -d nyp,820,926 $OM4_MOSAIC/ocean_hgrid.nc ocean_hgrid.nc
+
+# Regrid the topography
+ncks -O -d nx,$NX_MIN,$NX_MAX -d ny,$NY_MIN,$NY_MAX $OM4_MOSAIC/ocean_topog.nc ocean_topog.nc
+ncap2 -A -s 'defdim("ntiles",1)' ocean_topog.nc ocean_topog.nc
+
+# Make ocean, land, mosaic
+make_solo_mosaic --num_tiles 1 --dir . --mosaic_name ocean_mosaic --tile_file ocean_hgrid.nc --periodx 360
+make_quick_mosaic --input_mosaic ocean_mosaic.nc --mosaic_name grid_spec --ocean_topog ocean_topog.nc
+
+# Process input files
+ncks -O -d ny,$NY_MIN,$NY_MAX -d nx,$NX_MIN,$NX_MAX $OM4_INPUT/tidal_amplitude.v2015.12.03.nc tidal_amplitude.v2015.12.03.nc
+ncks -O -d LAT,$NY_MIN,$NY_MAX -d LON,$NX_MIN,$NX_MAX $OM4_INPUT/seawifs_1998-2006_smoothed_2X.v2015.12.03.nc seawifs_1998-2006_smoothed_2X.v2015.12.03.nc
+ncks -O -d LAT,$NY_MIN,$NY_MAX -d LON,$NX_MIN,$NX_MAX $OM4_INPUT/salt_restore.v2015.12.03.nc salt_restore.v2015.12.03.nc
+ncks -O -d grid_y_T,$NY_MIN,$NY_MAX -d grid_x_T,$NX_MIN,$NX_MAX $OM4_INPUT/runoff.daitren.clim.v2011.02.10a.720x576.nc runoff.daitren.clim.v2011.02.10a.720x576.nc
+ncks -O -d j,$NY_MIN,$NY_MAX -d i,$NX_MIN,$NX_MAX $OM4_INPUT/geothermal_davies2013_v1.nc geothermal_davies2013_v1.nc 
