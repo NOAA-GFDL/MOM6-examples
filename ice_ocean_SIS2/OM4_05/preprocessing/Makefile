@@ -97,17 +97,15 @@ tidal_amplitude.nc: DATA interpTides.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpTides.py
 
 
-DATA: tpxo7_atlas_netcdf.tar.Z woa13_decav_s_0-10m.mon_01v2.nc
+DATA: tpxo7_atlas_netcdf.tar.Z
 	tar xzvf tpxo7_atlas_netcdf.tar.Z
 	touch DATA
 
 tpxo7_atlas_netcdf.tar.Z:
-#	wget ftp://ftp.oce.orst.edu/dist/tides/Global/tpxo7_atlas_netcdf.tar.Z
-	cp /archive/gold/datasets/obs/tpxo7_atlas_netcdf.tar.Z .
+	wget ftp://ftp.oce.orst.edu/dist/tides/Global/tpxo7_atlas_netcdf.tar.Z
 
 woa13_decav_s_0-10m.mon_01v2.nc:
-#	wget http://amaterasu.ees.hokudai.ac.jp/~tsujino/JRA55-do-suppl/woa13v2/woa13_decav_s_0-10m.mon_01v2.nc
-
+	wget http://amaterasu.ees.hokudai.ac.jp/~tsujino/JRA55-do-suppl/woa13v2/woa13_decav_s_0-10m.mon_01v2.nc
 
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
@@ -120,7 +118,7 @@ local: MIDAS
 	touch $@
 
 bedmap2.nc GEBCO_08_v1.nc IBCAO_V3_500m_RR.grd:
-#	cp /archive/gold/datasets/topography/$@ .
+	cp /archive/gold/datasets/topography/$@ .
 
 FRE_NCTOOLS = fre_nctools/tools
 
