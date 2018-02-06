@@ -1,1 +1,26 @@
-../../OM4_05/INPUT/analysis_vgrid_lev35.v1.cdl
+netcdf analysis_vgrid_lev35.v1 {
+dimensions:
+	zt = 35 ;
+	zw = 36 ;
+variables:
+	double zw(zw) ;
+		zw:comment = "Used for diagnostics only, based on WOA09 standard levels" ;
+		zw:long_name = "Diagnostic depth coordinate interface position" ;
+		zw:units = "m" ;
+	double zt(zt) ;
+		zt:comment = "Used for diagnostics only, based on WOA09 standard levels" ;
+		zt:long_name = "Diagnostic depth coordinate level position" ;
+		zt:units = "m" ;
+
+// global attributes:
+		:filename = "analysis_vgrid_lev35.v1.nc" ;
+data:
+
+ zw = 0, 5, 15, 25, 40, 62.5, 87.5, 112.5, 137.5, 175, 225, 275, 350, 450, 
+    550, 650, 750, 850, 950, 1050, 1150, 1250, 1350, 1450, 1625, 1875, 2250, 
+    2750, 3250, 3750, 4250, 4750, 5250, 5750, 6250, 6750 ;
+
+ zt = 2.5, 10, 20, 30, 50, 75, 100, 125, 150, 200, 250, 300, 400, 500, 600, 
+    700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1750, 2000, 2500, 
+    3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500 ;
+}
