@@ -207,7 +207,6 @@ md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.
 	echo Data >> $@
 	md5sum salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc >> $@
 	md5sum geothermal_davies2013_v1.nc >> $@
-	md5sum woa13_decav_s_0-10m.mon_01v2.nc  >> $@
 	md5sum mosaic_ocean.720x576/runoff.daitren.iaf.v2011.02.10.720x576.nc >> $@
 	md5sum mosaic_ocean.720x576/runoff.daitren.clim.v2011.02.10a.720x576.nc >> $@
 	echo >> $@
