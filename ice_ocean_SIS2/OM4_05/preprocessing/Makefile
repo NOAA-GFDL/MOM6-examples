@@ -56,9 +56,10 @@ so_topog_gebco.nc: antarctic_spherical_supergrid.nc GEBCO_08_v1.nc local
 
 edit_topog.nc: interpolated_topog.nc
 	\cp $< $@
-	./apply_edits.py topo_edits_010518.nc edit_topog.nc
+	./apply_edits.py topo_edits_020718.nc edit_topog.nc
 topog.nc: edit_topog.nc
-	./ice9.py edit_topog.nc --output topog.nc
+#	./ice9.py edit_topog.nc --output topog.nc
+	\cp $< $@
 
 ocean_topog.nc: topog.nc
 	\cp $< $@
