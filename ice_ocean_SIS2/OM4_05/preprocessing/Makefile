@@ -77,7 +77,7 @@ WOA05_ptemp_salt_monthly.nc: ocean_hgrid.nc ocean_topog.nc  interpWOA05.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpWOA05.py
 	ncatted -h -a modulo,TIME,c,c,' ' WOA05_ptemp_salt_monthly.nc
 
-salt_restore.nc: ocean_hgrid.nc ocean_topog.nc woa13_decav_s_0-10m.mon_01v2.nc interpSaltRestore.py local
+salt_restore.nc: ocean_hgrid.nc ocean_topog.nc PHC2_salx.2004_08_03.nc interpSaltRestore.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpSaltRestore.py
 	ncatted -h -a modulo,time,c,c,' ' salt_restore.nc
 
@@ -106,9 +106,8 @@ tpxo7_atlas_netcdf.tar.Z:
 #	wget ftp://ftp.oce.orst.edu/dist/tides/Global/tpxo7_atlas_netcdf.tar.Z
 	cp /archive/gold/datasets/obs/tpxo7_atlas_netcdf.tar.Z .
 
-woa13_decav_s_0-10m.mon_01v2.nc:
-#	wget http://amaterasu.ees.hokudai.ac.jp/~tsujino/JRA55-do-suppl/woa13v2/woa13_decav_s_0-10m.mon_01v2.nc
-
+PHC2_salx.2004_08_03.nc:
+#	wget http://data1.gfdl.noaa.gov/~nnz/mom4/COREv1/support_data/PHC2_salx.2004_08_03.nc
 
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
