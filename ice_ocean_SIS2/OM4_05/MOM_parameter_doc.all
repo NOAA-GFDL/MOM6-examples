@@ -1,4 +1,4 @@
-! This file was written by the model and records all non-layout parameters used at run-time.
+! This file was written by the model and records all non-layout or debugging parameters used at run-time.
 
 ! === module MOM ===
 VERBOSITY = 2                   ! default = 2
@@ -26,7 +26,7 @@ DIABATIC_FIRST = False          !   [Boolean] default = False
                                 ! including buoyancy forcing and mass gain or loss,
                                 ! before stepping the dynamics forward.
 USE_CONTEMP_ABSSAL = False      !   [Boolean] default = False
-                                ! If true, , the prognostics T&S are the conservative temperature
+                                ! If true, the prognostics T&S are the conservative temperature
                                 ! and absolute salinity. Care should be taken to convert them
                                 ! to potential temperature and practical salinity before
                                 ! exchanging them with the coupler and/or reporting T&S diagnostics.
@@ -243,6 +243,7 @@ TOPO_CONFIG = "file"            !
                                 !       DOME2D gravity current/overflow test case.
                                 !     Kelvin - flat but with rotated land mask.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     dumbbell - Sloshing channel with reservoirs on both ends.
                                 !     shelfwave - exponential slope for shelfwave test case.
                                 !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
@@ -266,10 +267,6 @@ MINIMUM_DEPTH = 9.5             !   [m] default = 0.0
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
 OBC_NUMBER_OF_SEGMENTS = 0      ! default = 0
                                 ! The number of open boundary segments.
-EXTEND_OBC_SEGMENTS = False     !   [Boolean] default = False
-                                ! If true, extend OBC segments. This option is used to recover
-                                ! legacy solutions dependent on an incomplete implementaion of OBCs.
-                                ! This option will be obsoleted in the future.
 MASKING_DEPTH = 0.0             !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
@@ -543,6 +540,9 @@ REMAP_BOUND_INTERMEDIATE_VALUES = False !   [Boolean] default = False
                                 ! If true, the values on the intermediate grid used for remapping
                                 ! are forced to be bounded, which might not be the case due to
                                 ! round off.
+REMAP_BOUNDARY_EXTRAP = False   !   [Boolean] default = False
+                                ! If true, values at the interfaces of boundary cells are
+                                ! extrapolated instead of piecewise constant
 REMAP_AFTER_INITIALIZATION = False !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after
                                 ! initialization so that the state is ALE consistent. This is a
@@ -1198,6 +1198,11 @@ CFL_TRUNCATE_RAMP_TIME = 0.0    !   [s] default = 0.0
 CFL_TRUNCATE_START = 0.0        !   [nondim] default = 0.0
                                 ! The start value of the truncation CFL number used when
                                 ! ramping up CFL_TRUNC.
+VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
+                                ! A negligibly small velocity magnitude below which velocity
+                                ! components are set to 0.  A reasonable value might be
+                                ! 1e-30 m/s, which is less than an Angstrom divided by
+                                ! the age of the universe.
 
 ! === module MOM_PointAccel ===
 MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
@@ -2034,15 +2039,36 @@ OBSOLETE_DIAGNOSTIC_IS_FATAL = True !   [Boolean] default = True
                                 ! If an obsolete diagnostic variable appears in the diag_table
                                 ! then cause a FATAL error rather than issue a WARNING.
 
-! === module ocean_model_init ===
-RESTART_CONTROL = 1             ! default = 1
-                                ! An integer whose bits encode which restart files are
-                                ! written. Add 2 (bit 1) for a time-stamped file, and odd
-                                ! (bit 0) for a non-time-stamped file.  A restart file
-                                ! will be saved at the end of the run segment for any
-                                ! non-negative value.
+! === module MOM_sum_output ===
+CALCULATE_APE = True            !   [Boolean] default = True
+                                ! If true, calculate the available potential energy of
+                                ! the interfaces.  Setting this to false reduces the
+                                ! memory footprint of high-PE-count models dramatically.
+WRITE_STOCKS = True             !   [Boolean] default = True
+                                ! If true, write the integrated tracer amounts to stdout
+                                ! when the energy files are written.
+MAXTRUNC = 100000               !   [truncations save_interval-1] default = 0
+                                ! The run will be stopped, and the day set to a very
+                                ! large value if the velocity is truncated more than
+                                ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
+                                ! to stop if there is any truncation of velocities.
+MAX_ENERGY = 0.0                !   [m2 s-2] default = 0.0
+                                ! The maximum permitted average energy per unit mass; the
+                                ! model will be stopped if there is more energy than
+                                ! this.  If zero or negative, this is set to 10*MAXVEL^2.
+ENERGYFILE = "ocean.stats"      ! default = "ocean.stats"
+                                ! The file to use to write the energies and globally
+                                ! summed diagnostics.
+DATE_STAMPED_STDOUT = True      !   [Boolean] default = True
+                                ! If true, use dates (not times) in messages to stdout
 TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
-                                ! The time unit for ENERGYSAVEDAYS.
+                                ! The time unit in seconds a number of input fields
+READ_DEPTH_LIST = False         !   [Boolean] default = False
+                                ! Read the depth list from a file if it exists or
+                                ! create that file otherwise.
+DEPTH_LIST_MIN_INC = 1.0E-10    !   [m] default = 1.0E-10
+                                ! The minimum increment between the depths of the
+                                ! entries in the depth-list file.
 ENERGYSAVEDAYS = 0.5            !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
@@ -2050,6 +2076,14 @@ ENERGYSAVEDAYS_GEOMETRIC = 0.0  !   [days] default = 0.0
                                 ! The starting interval in units of TIMEUNIT for the first call
                                 ! to save the energies of the run and other globally summed diagnostics.
                                 ! The interval increases by a factor of 2. after each call to write_energy.
+
+! === module ocean_model_init ===
+RESTART_CONTROL = 1             ! default = 1
+                                ! An integer whose bits encode which restart files are
+                                ! written. Add 2 (bit 1) for a time-stamped file, and odd
+                                ! (bit 0) for a non-time-stamped file.  A restart file
+                                ! will be saved at the end of the run segment for any
+                                ! non-negative value.
 OCEAN_SURFACE_STAGGER = "C"     ! default = "C"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the surface velocity field that is
@@ -2089,6 +2123,9 @@ ADJUST_NET_SRESTORE_BY_SCALING = False !   [Boolean] default = False
 ADJUST_NET_FRESH_WATER_TO_ZERO = True !   [Boolean] default = False
                                 ! If true, adjusts the net fresh-water forcing seen
                                 ! by the ocean (including restoring) to zero.
+USE_NET_FW_ADJUSTMENT_SIGN_BUG = True !   [Boolean] default = True
+                                ! If true, use the wrong sign for the adjustment to
+                                ! the net fresh-water.
 ADJUST_NET_FRESH_WATER_BY_SCALING = False !   [Boolean] default = False
                                 ! If true, adjustments to net fresh water to achieve zero net are
                                 ! made by scaling values without moving the zero contour.
@@ -2159,35 +2196,6 @@ ALLOW_FLUX_ADJUSTMENTS = False  !   [Boolean] default = False
                                 ! data_table using the component name 'OCN'.
 
 ! === module MOM_restart ===
-
-! === module MOM_sum_output ===
-CALCULATE_APE = True            !   [Boolean] default = True
-                                ! If true, calculate the available potential energy of
-                                ! the interfaces.  Setting this to false reduces the
-                                ! memory footprint of high-PE-count models dramatically.
-WRITE_STOCKS = True             !   [Boolean] default = True
-                                ! If true, write the integrated tracer amounts to stdout
-                                ! when the energy files are written.
-MAXTRUNC = 100000               !   [truncations save_interval-1] default = 0
-                                ! The run will be stopped, and the day set to a very
-                                ! large value if the velocity is truncated more than
-                                ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
-                                ! to stop if there is any truncation of velocities.
-MAX_ENERGY = 0.0                !   [m2 s-2] default = 0.0
-                                ! The maximum permitted average energy per unit mass; the
-                                ! model will be stopped if there is more energy than
-                                ! this.  If zero or negative, this is set to 10*MAXVEL^2.
-ENERGYFILE = "ocean.stats"      ! default = "ocean.stats"
-                                ! The file to use to write the energies and globally
-                                ! summed diagnostics.
-DATE_STAMPED_STDOUT = True      !   [Boolean] default = True
-                                ! If true, use dates (not times) in messages to stdout
-READ_DEPTH_LIST = False         !   [Boolean] default = False
-                                ! Read the depth list from a file if it exists or
-                                ! create that file otherwise.
-DEPTH_LIST_MIN_INC = 1.0E-10    !   [m] default = 1.0E-10
-                                ! The minimum increment between the depths of the
-                                ! entries in the depth-list file.
 
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False

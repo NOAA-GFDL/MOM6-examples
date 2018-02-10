@@ -52,23 +52,35 @@ def main(cmdLineArgs,stream=False):
   rootGroup = netCDF4.MFDataset( cmdLineArgs.infile )
   if 'T_ady_2d' in rootGroup.variables:
     varName = 'T_ady_2d'
-    if len(rootGroup.variables[varName].shape)==3: advective = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
-    else: advective = rootGroup.variables[varName][:].filled(0.)
-  else: raise Exception('Could not find "T_ady_2d" in file "%s"'%(cmdLineArgs.infile))
+    advective = rootGroup.variables[varName]
+    advective.data = advective[:].filled(0.)
+  else:
+    raise Exception('Could not find "T_ady_2d" in file "%s"'%(cmdLineArgs.infile))
+
   if 'T_diffy_2d' in rootGroup.variables:
     varName = 'T_diffy_2d'
-    if len(rootGroup.variables[varName].shape)==3: diffusive = rootGroup.variables[varName][:].mean(axis=0).filled(0.)
-    else: diffusive = rootGroup.variables[varName][:].filled(0.)
+    diffusive = rootGroup.variables[varName][:].filled(0.)
   else: 
     diffusive = None
     warnings.warn('Diffusive temperature term not found. This will result in an underestimation of the heat transport.')
 
   def heatTrans(advective, diffusive=None, vmask=None):
     """Converts vertically integrated temperature advection into heat transport"""
-    rho0 = 1.035e3; Cp = 3989.
-    if diffusive != None: HT = advective + diffusive
-    else: HT = advective
-    HT = HT * (rho0 * Cp); HT = HT * 1.e-15  # convert to PW
+    if diffusive != None:
+      HT = advective[:] + diffusive[:]
+    else:
+      HT = advective[:]
+    if len(HT.shape) == 3:
+      HT = HT.mean(axis=0)
+    if advective.units == "Celsius meter3 second-1":
+      rho0 = 1.035e3
+      Cp = 3989.
+      HT = HT * (rho0 * Cp)
+      HT = HT * 1.e-15  # convert to PW
+    elif advective.units == "W m-2":
+      HT = HT * 1.e-15
+    else:
+      print('Unknown units')
     if vmask != None: HT = HT*vmask
     HT = HT.sum(axis=-1); HT = HT.squeeze() # sum in x-direction
     return HT

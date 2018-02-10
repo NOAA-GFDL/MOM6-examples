@@ -1,4 +1,4 @@
-! This file was written by the model and records all non-layout parameters used at run-time.
+! This file was written by the model and records all non-layout or debugging parameters used at run-time.
 
 ! === module MOM ===
 VERBOSITY = 2                   ! default = 2
@@ -26,7 +26,7 @@ DIABATIC_FIRST = True           !   [Boolean] default = False
                                 ! including buoyancy forcing and mass gain or loss,
                                 ! before stepping the dynamics forward.
 USE_CONTEMP_ABSSAL = False      !   [Boolean] default = False
-                                ! If true, , the prognostics T&S are the conservative temperature
+                                ! If true, the prognostics T&S are the conservative temperature
                                 ! and absolute salinity. Care should be taken to convert them
                                 ! to potential temperature and practical salinity before
                                 ! exchanging them with the coupler and/or reporting T&S diagnostics.
@@ -243,6 +243,7 @@ TOPO_CONFIG = "file"            !
                                 !       DOME2D gravity current/overflow test case.
                                 !     Kelvin - flat but with rotated land mask.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     dumbbell - Sloshing channel with reservoirs on both ends.
                                 !     shelfwave - exponential slope for shelfwave test case.
                                 !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
@@ -266,10 +267,6 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
 OBC_NUMBER_OF_SEGMENTS = 0      ! default = 0
                                 ! The number of open boundary segments.
-EXTEND_OBC_SEGMENTS = False     !   [Boolean] default = False
-                                ! If true, extend OBC segments. This option is used to recover
-                                ! legacy solutions dependent on an incomplete implementaion of OBCs.
-                                ! This option will be obsoleted in the future.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
@@ -536,6 +533,9 @@ REMAP_BOUND_INTERMEDIATE_VALUES = False !   [Boolean] default = False
                                 ! If true, the values on the intermediate grid used for remapping
                                 ! are forced to be bounded, which might not be the case due to
                                 ! round off.
+REMAP_BOUNDARY_EXTRAP = False   !   [Boolean] default = False
+                                ! If true, values at the interfaces of boundary cells are
+                                ! extrapolated instead of piecewise constant
 REMAP_AFTER_INITIALIZATION = False !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after
                                 ! initialization so that the state is ALE consistent. This is a
@@ -1224,6 +1224,11 @@ CFL_TRUNCATE_RAMP_TIME = 7200.0 !   [s] default = 0.0
 CFL_TRUNCATE_START = 0.0        !   [nondim] default = 0.0
                                 ! The start value of the truncation CFL number used when
                                 ! ramping up CFL_TRUNC.
+VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
+                                ! A negligibly small velocity magnitude below which velocity
+                                ! components are set to 0.  A reasonable value might be
+                                ! 1e-30 m/s, which is less than an Angstrom divided by
+                                ! the age of the universe.
 
 ! === module MOM_PointAccel ===
 MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
@@ -2030,6 +2035,44 @@ OBSOLETE_DIAGNOSTIC_IS_FATAL = True !   [Boolean] default = True
                                 ! If an obsolete diagnostic variable appears in the diag_table
                                 ! then cause a FATAL error rather than issue a WARNING.
 
+! === module MOM_sum_output ===
+CALCULATE_APE = True            !   [Boolean] default = True
+                                ! If true, calculate the available potential energy of
+                                ! the interfaces.  Setting this to false reduces the
+                                ! memory footprint of high-PE-count models dramatically.
+WRITE_STOCKS = True             !   [Boolean] default = True
+                                ! If true, write the integrated tracer amounts to stdout
+                                ! when the energy files are written.
+MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
+                                ! The run will be stopped, and the day set to a very
+                                ! large value if the velocity is truncated more than
+                                ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
+                                ! to stop if there is any truncation of velocities.
+MAX_ENERGY = 0.0                !   [m2 s-2] default = 0.0
+                                ! The maximum permitted average energy per unit mass; the
+                                ! model will be stopped if there is more energy than
+                                ! this.  If zero or negative, this is set to 10*MAXVEL^2.
+ENERGYFILE = "ocean.stats"      ! default = "ocean.stats"
+                                ! The file to use to write the energies and globally
+                                ! summed diagnostics.
+DATE_STAMPED_STDOUT = True      !   [Boolean] default = True
+                                ! If true, use dates (not times) in messages to stdout
+TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
+                                ! The time unit in seconds a number of input fields
+READ_DEPTH_LIST = False         !   [Boolean] default = False
+                                ! Read the depth list from a file if it exists or
+                                ! create that file otherwise.
+DEPTH_LIST_MIN_INC = 1.0E-10    !   [m] default = 1.0E-10
+                                ! The minimum increment between the depths of the
+                                ! entries in the depth-list file.
+ENERGYSAVEDAYS = 0.5            !   [days] default = 1.0
+                                ! The interval in units of TIMEUNIT between saves of the
+                                ! energies of the run and other globally summed diagnostics.
+ENERGYSAVEDAYS_GEOMETRIC = 0.0  !   [days] default = 0.0
+                                ! The starting interval in units of TIMEUNIT for the first call
+                                ! to save the energies of the run and other globally summed diagnostics.
+                                ! The interval increases by a factor of 2. after each call to write_energy.
+
 ! === module MOM_surface_forcing ===
 VARIABLE_WINDS = True           !   [Boolean] default = True
                                 ! If true, the winds vary in time after the initialization.
@@ -2143,50 +2186,6 @@ GUST_2D_FILE = "gustiness_qscat.nc" !
 ICE_SHELF = False               !   [Boolean] default = False
                                 ! If true, enables the ice shelf model.
 
-! === module MOM_sum_output ===
-CALCULATE_APE = True            !   [Boolean] default = True
-                                ! If true, calculate the available potential energy of
-                                ! the interfaces.  Setting this to false reduces the
-                                ! memory footprint of high-PE-count models dramatically.
-WRITE_STOCKS = True             !   [Boolean] default = True
-                                ! If true, write the integrated tracer amounts to stdout
-                                ! when the energy files are written.
-MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
-                                ! The run will be stopped, and the day set to a very
-                                ! large value if the velocity is truncated more than
-                                ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
-                                ! to stop if there is any truncation of velocities.
-MAX_ENERGY = 0.0                !   [m2 s-2] default = 0.0
-                                ! The maximum permitted average energy per unit mass; the
-                                ! model will be stopped if there is more energy than
-                                ! this.  If zero or negative, this is set to 10*MAXVEL^2.
-ENERGYFILE = "ocean.stats"      ! default = "ocean.stats"
-                                ! The file to use to write the energies and globally
-                                ! summed diagnostics.
-DATE_STAMPED_STDOUT = True      !   [Boolean] default = True
-                                ! If true, use dates (not times) in messages to stdout
-TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
-                                ! The time unit in seconds a number of input fields
-READ_DEPTH_LIST = False         !   [Boolean] default = False
-                                ! Read the depth list from a file if it exists or
-                                ! create that file otherwise.
-DEPTH_LIST_MIN_INC = 1.0E-10    !   [m] default = 1.0E-10
-                                ! The minimum increment between the depths of the
-                                ! entries in the depth-list file.
-
-! === module MOM_write_cputime ===
-MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
-                                ! The maximum amount of cpu time per processor for which
-                                ! MOM should run before saving a restart file and
-                                ! quitting with a return value that indicates that a
-                                ! further run is required to complete the simulation.
-                                ! If automatic restarts are not desired, use a negative
-                                ! value for MAXCPU.  MAXCPU has units of wall-clock
-                                ! seconds, so the actual CPU time used is larger by a
-                                ! factor of the number of processors used.
-CPU_TIME_FILE = "CPU_stats"     ! default = "CPU_stats"
-                                ! The file into which CPU time is written.
-
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 7200.0             !   [s] default = 3600.0
                                 ! The time step for changing forcing, coupling with other
@@ -2207,9 +2206,23 @@ RESTINT = 365.0                 !   [days] default = 0.0
                                 ! The interval between saves of the restart file in units
                                 ! of TIMEUNIT.  Use 0 (the default) to not save
                                 ! incremental restart files at all.
-ENERGYSAVEDAYS = 0.5            !   [days] default = 0.0833333333333333
-                                ! The interval in units of TIMEUNIT between saves of the
-                                ! energies of the run and other globally summed diagnostics.
+WRITE_CPU_STEPS = 1000          ! default = 1000
+                                ! The number of coupled timesteps between writing the cpu
+                                ! time. If this is not positive, do not check cpu time, and
+                                ! the segment run-length can not be set via an elapsed CPU time.
+
+! === module MOM_write_cputime ===
+MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
+                                ! The maximum amount of cpu time per processor for which
+                                ! MOM should run before saving a restart file and
+                                ! quitting with a return value that indicates that a
+                                ! further run is required to complete the simulation.
+                                ! If automatic restarts are not desired, use a negative
+                                ! value for MAXCPU.  MAXCPU has units of wall-clock
+                                ! seconds, so the actual CPU time used is larger by a
+                                ! factor of the number of processors used.
+CPU_TIME_FILE = "CPU_stats"     ! default = "CPU_stats"
+                                ! The file into which CPU time is written.
 
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
