@@ -94,7 +94,7 @@ OM4_05_preprocessing_geothermal/geothermal_davies2013_v1.nc: OM4_05_preprocessin
 OM4_05_preprocessing_geothermal/Makefile:
 	git clone https://github.com/adcroft/OM4_05_preprocessing_geothermal.git
 
-tidal_amplitude.nc: DATA interpTides.py local
+tidal_amplitude.nc: DATA interpTides.py ocean_topog.nc local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpTides.py
 
 
