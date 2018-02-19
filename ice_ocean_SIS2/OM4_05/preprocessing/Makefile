@@ -79,7 +79,8 @@ WOA05_ptemp_salt_monthly.nc: ocean_hgrid.nc ocean_topog.nc  interpWOA05.py local
 
 salt_restore.nc: ocean_hgrid.nc ocean_topog.nc PHC2_salx.2004_08_03.nc interpSaltRestore.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpSaltRestore.py
-	ncatted -h -a modulo,time,c,c,' ' salt_restore.nc
+#	ncatted -h -a modulo,time,c,c,' ' salt_restore.nc
+#	ncatted -h -a units,time,m,c,'days since 1900-01-01 00:00:00' salt_restore.nc
 
 
 seawifs_1998-2006_smoothed_2X.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/datasets/global/siena_201204/INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc interpCHL.py local
