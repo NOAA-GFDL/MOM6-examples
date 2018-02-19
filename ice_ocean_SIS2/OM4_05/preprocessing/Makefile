@@ -59,10 +59,12 @@ edit_topog.nc: interpolated_topog.nc
 	./apply_edits.py topo_edits_020718.nc edit_topog.nc
 topog.nc: edit_topog.nc
 #	./ice9.py edit_topog.nc --output topog.nc
+
 	\cp $< $@
 
 ocean_topog.nc: topog.nc
 	\cp $< $@
+	setenv PYTHONPATH ./local/lib/python; python add_h2.py
 #	./addDimension.py ocean_topog.nc ntiles 1
 
 basin_codes.nc: ocean_topog.nc
