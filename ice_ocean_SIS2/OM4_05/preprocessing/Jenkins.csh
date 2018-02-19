@@ -15,7 +15,6 @@ module load mpich2
 cp -n /archive/gold/datasets/obs/tpxo7_atlas_netcdf.tar.Z .
 cp -n /archive/gold/datasets/obs/WOA05_pottemp_salt.nc .
 cp -n /archive/gold/datasets/topography/{bedmap2.nc,GEBCO_08_v1.nc,IBCAO_V3_500m_RR.grd} .
-#cp -n /archive/pcmdi/repo/JRA-55/JRA55-do-v1.2/woa13_decav_s_0-10m/woa13_decav_s_0-10m.mon01v2.nc .
 cp -n /archive/gold/datasets/CORE/PHC2_salx/PHC2_salx.2004_08_03.corrected.nc PHC2_salx.2004_08_03.nc
 make OM4_05_preprocessing_geothermal/Makefile
 (cd OM4_05_preprocessing_geothermal/ ; make convert_Davies_2013)
