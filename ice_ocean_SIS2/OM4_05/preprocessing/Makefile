@@ -56,9 +56,10 @@ so_topog_gebco.nc: antarctic_spherical_supergrid.nc GEBCO_08_v1.nc local
 
 edit_topog.nc: interpolated_topog.nc
 	\cp $< $@
-	./apply_edits.py topo_edits_010518.nc edit_topog.nc
+	./apply_edits.py topo_edits_020718.nc edit_topog.nc
 topog.nc: edit_topog.nc
-	./ice9.py edit_topog.nc --output topog.nc
+#	./ice9.py edit_topog.nc --output topog.nc
+	\cp $< $@
 
 ocean_topog.nc: topog.nc
 	\cp $< $@
@@ -76,7 +77,7 @@ WOA05_ptemp_salt_monthly.nc: ocean_hgrid.nc ocean_topog.nc  interpWOA05.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpWOA05.py
 	ncatted -h -a modulo,TIME,c,c,' ' WOA05_ptemp_salt_monthly.nc
 
-salt_restore.nc: ocean_hgrid.nc ocean_topog.nc woa13_decav_s_0-10m.mon_01v2.nc interpSaltRestore.py local
+salt_restore.nc: ocean_hgrid.nc ocean_topog.nc PHC2_salx.2004_08_03.nc interpSaltRestore.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpSaltRestore.py
 	ncatted -h -a modulo,time,c,c,' ' salt_restore.nc
 
@@ -93,7 +94,7 @@ OM4_05_preprocessing_geothermal/geothermal_davies2013_v1.nc: OM4_05_preprocessin
 OM4_05_preprocessing_geothermal/Makefile:
 	git clone https://github.com/adcroft/OM4_05_preprocessing_geothermal.git
 
-tidal_amplitude.nc: DATA interpTides.py local
+tidal_amplitude.nc: DATA interpTides.py ocean_topog.nc local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpTides.py
 
 
@@ -104,8 +105,8 @@ DATA: tpxo7_atlas_netcdf.tar.Z
 tpxo7_atlas_netcdf.tar.Z:
 	wget ftp://ftp.oce.orst.edu/dist/tides/Global/tpxo7_atlas_netcdf.tar.Z
 
-woa13_decav_s_0-10m.mon_01v2.nc:
-	wget http://amaterasu.ees.hokudai.ac.jp/~tsujino/JRA55-do-suppl/woa13v2/woa13_decav_s_0-10m.mon_01v2.nc
+PHC2_salx.2004_08_03.nc:
+#	wget http://data1.gfdl.noaa.gov/~nnz/mom4/COREv1/support_data/PHC2_salx.2004_08_03.nc
 
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
@@ -206,7 +207,6 @@ md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.
 	echo Data >> $@
 	md5sum salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc >> $@
 	md5sum geothermal_davies2013_v1.nc >> $@
-	md5sum woa13_decav_s_0-10m.mon_01v2.nc  >> $@
 	md5sum mosaic_ocean.720x576/runoff.daitren.iaf.v2011.02.10.720x576.nc >> $@
 	md5sum mosaic_ocean.720x576/runoff.daitren.clim.v2011.02.10a.720x576.nc >> $@
 	echo >> $@

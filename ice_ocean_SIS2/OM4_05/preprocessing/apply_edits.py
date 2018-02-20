@@ -53,7 +53,7 @@ def createGUI(edits_file, topo_file, var='depth'):
   if rg.variables[var].shape[0] != enj: raise Exception('j-dimension mismatch!')
   if rg.variables[var].shape[1] != eni: raise Exception('i-dimension mismatch!')
 
-  depth = rg.variables[var][:,:]
+  depth = -rg.variables[var][:,:]
 
   if ( 'iEdit' in rg.variables and 'jEdit' in rg.variables and 'zEdit' in rg.variables):
     # Undo existing edits
@@ -80,10 +80,13 @@ def createGUI(edits_file, topo_file, var='depth'):
     old_depths[n] = depth[j,i]
     depth[j,i] = z
 
+  # zero out land points
+  depth[depth<0.]=0.
   rg.variables[var][:] = depth
   rg.variables['iEdit'][:] = iEdit
   rg.variables['jEdit'][:] = jEdit
   rg.variables['zEdit'][:] = old_depths
+
 
   rg.close()
 

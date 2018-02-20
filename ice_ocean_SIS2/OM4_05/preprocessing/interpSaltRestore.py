@@ -6,11 +6,12 @@ import numpy as np
 
 sgrid=supergrid(file='ocean_hgrid.nc')
 grid=quadmesh(supergrid=sgrid,cyclic=True)
-fnam='woa13_decav_s_0-10m.mon_01v2.nc'
-grid_in=quadmesh(fnam,var='s_u10a',cyclic=True)
-S=state(fnam,grid=grid_in,fields=['s_u10a'])
-S.rename_field('s_u10a','salt')
+fnam='PHC2_salx.2004_08_03.nc'
+grid_in=quadmesh(fnam,var='SALT',cyclic=True)
+S=state(fnam,grid=grid_in,fields=['SALT'])
+S.rename_field('SALT','salt')
 vd=S.var_dict['salt']
+vd['tax_data']=[15., 45.,76.,106.,136.,168.,198.,228.,258.,288.,320.,350.]
 vd['dates']=nc.num2date(vd['tax_data'],units='days since 1900-01-01 00:00:00',calendar='julian')
 vd['tbax_data'][0]=0. # align start date
 vd['date_bounds']=nc.num2date(vd['tbax_data'],units='days since 1900-01-01 00:00:00',calendar='julian')
