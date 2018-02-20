@@ -19,7 +19,8 @@ cp -n /archive/gold/datasets/CORE/PHC2_salx/PHC2_salx.2004_08_03.corrected.nc PH
 make OM4_05_preprocessing_geothermal/Makefile
 (cd OM4_05_preprocessing_geothermal/ ; make convert_Davies_2013)
 cp -n /archive/gold/datasets/obs/convert_Davies_2013/ggge20271-sup-0003-Data_Table1_Eq_lon_lat_Global_HF.csv OM4_05_preprocessing_geothermal/convert_Davies_2013/
-
+cp -n /archive/gold/datasets/CORE/NYF_v2.0/runoff.daitren.clim.v2011.02.10.nc .
+cp -n /archive/gold/datasets/CORE/IAF_v2.0/runoff.daitren.iaf.v2011.02.10.nc .
 # Work around for environment problem inside MIDAS
 setenv PYTHONPATH $cwd/local/lib
 
