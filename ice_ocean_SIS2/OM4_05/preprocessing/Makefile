@@ -22,7 +22,7 @@ showenv:
 	which python
 	-python --version
 
-forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mosaic_ocean.720x576/runoff.daitren.clim.v2011.02.10a.720x576.nc mosaic_ocean.720x576/runoff.daitren.iaf.v2011.02.10.720x576.nc geothermal_davies2013_v1.nc
+forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mosaic_ocean.720x576/runoff.daitren.clim.v2011.02.10.720x576.nc mosaic_ocean.720x576/runoff.daitren.iaf.v2011.02.10.720x576.nc geothermal_davies2013_v1.nc
 
 obs: WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
 
@@ -59,10 +59,12 @@ edit_topog.nc: interpolated_topog.nc
 	./apply_edits.py topo_edits_020718.nc edit_topog.nc
 topog.nc: edit_topog.nc
 #	./ice9.py edit_topog.nc --output topog.nc
+
 	\cp $< $@
 
 ocean_topog.nc: topog.nc
 	\cp $< $@
+	setenv PYTHONPATH ./local/lib/python; python add_h2.py
 #	./addDimension.py ocean_topog.nc ntiles 1
 
 basin_codes.nc: ocean_topog.nc
@@ -79,7 +81,8 @@ WOA05_ptemp_salt_monthly.nc: ocean_hgrid.nc ocean_topog.nc  interpWOA05.py local
 
 salt_restore.nc: ocean_hgrid.nc ocean_topog.nc PHC2_salx.2004_08_03.nc interpSaltRestore.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpSaltRestore.py
-	ncatted -h -a modulo,time,c,c,' ' salt_restore.nc
+#	ncatted -h -a modulo,time,c,c,' ' salt_restore.nc
+#	ncatted -h -a units,time,m,c,'days since 1900-01-01 00:00:00' salt_restore.nc
 
 
 seawifs_1998-2006_smoothed_2X.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/datasets/global/siena_201204/INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc interpCHL.py local
@@ -135,7 +138,7 @@ fre_nctools/tools/runoff_regrid/runoff_regrid fre_nctools/tools/runoff_regrid/ru
 	(cd $(@D); make SITE=pan -f fre-nctools.mk $(@F))
 
 OCN_MOSAIC = $(foreach f,atmos_mosaic_tile1Xland_mosaic_tile1.cdl atmos_mosaic_tile1Xocean_mosaic_tile1.cdl grid_spec.cdl land_mask.cdl\
-                         land_mosaic_tile1Xocean_mosaic_tile1.cdl ocean_mask.cdl ocean_mosaic.cdl runoff.daitren.clim.v2011.02.10a.720x576.nc runoff.daitren.iaf.v2011.02.10.720x576.nc,mosaic_ocean.720x576/$f)
+                         land_mosaic_tile1Xocean_mosaic_tile1.cdl ocean_mask.cdl ocean_mosaic.cdl runoff.daitren.clim.v2011.02.10.720x576.nc runoff.daitren.iaf.v2011.02.10.720x576.nc,mosaic_ocean.720x576/$f)
 C96_MOSAIC = $(foreach f,C96_grid.tile1.nc C96_grid.tile2.nc C96_grid.tile3.nc C96_grid.tile4.nc C96_grid.tile5.nc C96_grid.tile6.nc C96_mosaic.nc\
                          C96_mosaic_tile1XC96_mosaic_tile1.cdl C96_mosaic_tile1Xocean_mosaic_tile1.cdl C96_mosaic_tile2XC96_mosaic_tile2.cdl C96_mosaic_tile2Xocean_mosaic_tile1.cdl\
                          C96_mosaic_tile3XC96_mosaic_tile3.cdl C96_mosaic_tile3Xocean_mosaic_tile1.cdl C96_mosaic_tile4XC96_mosaic_tile4.cdl C96_mosaic_tile4Xocean_mosaic_tile1.cdl\
@@ -161,16 +164,16 @@ mosaic_ocean.720x576/grid_spec.nc: mosaic_ocean.720x576/ocean_mosaic.nc $(FRE_NC
 	(cd $(@D); ../$(FRE_NCTOOLS)/make_quick_mosaic/make_quick_mosaic --reproduce_siena --input_mosaic ocean_mosaic.nc --mosaic_name grid_spec --ocean_topog ocean_topog.nc )
 
 mosaic_ocean.720x576/runoff_tmp.nc: fre_nctools/tools/runoff_regrid/runoff_regrid_parallel mosaic_ocean.720x576/ocean_mosaic.nc mosaic_ocean.720x576/ocean_topog.nc
-	(cd $(@D); time mpirun -np $(NP) ../fre_nctools/tools/runoff_regrid/runoff_regrid_parallel --input_file /archive/gold/datasets/CORE/NYF_v2.0/runoff.daitren.clim.v2011.02.10.nc --input_fld_name runoff --output_mosaic ocean_mosaic.nc --output_topog ocean_topog.nc --output_file $(@F))
-mosaic_ocean.720x576/runoff.daitren.clim.v2011.02.10a.720x576.nc: mosaic_ocean.720x576/runoff_tmp.nc
+	(cd $(@D); time mpirun -np $(NP) ../fre_nctools/tools/runoff_regrid/runoff_regrid_parallel --input_file ../runoff.daitren.clim.v2011.02.10.nc --input_fld_name runoff --output_mosaic ocean_mosaic.nc --output_topog ocean_topog.nc --output_file $(@F))
+mosaic_ocean.720x576/runoff.daitren.clim.v2011.02.10.720x576.nc: mosaic_ocean.720x576/runoff_tmp.nc
 	(cd $(@D); ncks -h -3 runoff_tmp.nc $(@F))
 	(cd $(@D); ncatted -h -O -a 'modulo,Time,c,c, ' $(@F))
 
 mosaic_ocean.720x576/runoff_tmp2.nc: fre_nctools/tools/runoff_regrid/runoff_regrid_parallel mosaic_ocean.720x576/ocean_mosaic.nc mosaic_ocean.720x576/ocean_topog.nc
-	(cd $(@D); time mpirun -np $(NP) ../fre_nctools/tools/runoff_regrid/runoff_regrid_parallel --input_file /archive/gold/datasets/CORE/IAF_v2.0/runoff.daitren.iaf.v2011.02.10.nc --input_fld_name runoff --output_mosaic ocean_mosaic.nc --output_topog ocean_topog.nc --output_file $(@F))
+	(cd $(@D); time mpirun -np $(NP) ../fre_nctools/tools/runoff_regrid/runoff_regrid_parallel --input_file ../runoff.daitren.iaf.v2011.02.10.nc --input_fld_name runoff --output_mosaic ocean_mosaic.nc --output_topog ocean_topog.nc --output_file $(@F))
 mosaic_ocean.720x576/runoff.daitren.iaf.v2011.02.10.720x576.nc: mosaic_ocean.720x576/runoff_tmp2.nc
 	(cd $(@D); ncks -h -3 runoff_tmp2.nc $(@F))
-
+	(cd $(@D); ncatted -h -O -a 'modulo,Time,c,c, ' $(@F))
 
 $(filter-out mosaic_c96.720x576/mosaic.nc,$(C96_MOSAIC:.cdl=.nc)): mosaic_c96.720x576/mosaic.nc
 mosaic_c96.720x576/mosaic.nc: mosaic_ocean.720x576/ocean_mosaic.nc ocean_topog.nc $(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel
@@ -191,7 +194,7 @@ mosaic_c192.720x576/mosaic.nc: mosaic_ocean.720x576/ocean_mosaic.nc ocean_topog.
 %.cdl: %.nc
 	ncdump $< | egrep -v 'code_version|history' > $@
 
-md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc so_topog_gebco.nc ocean_topog.nc $(OCN_MOSAIC) $(C96_MOSAIC) $(C192_MOSAIC) basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc geothermal_davies2013_v1.nc mosaic_ocean.720x576/runoff.daitren.iaf.v2011.02.10.720x576.nc mosaic_ocean.720x576/runoff.daitren.clim.v2011.02.10a.720x576.nc
+md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc so_topog_gebco.nc ocean_topog.nc $(OCN_MOSAIC) $(C96_MOSAIC) $(C192_MOSAIC) basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc geothermal_davies2013_v1.nc mosaic_ocean.720x576/runoff.daitren.iaf.v2011.02.10.720x576.nc mosaic_ocean.720x576/runoff.daitren.clim.v2011.02.10.720x576.nc
 	echo Grids > $@
 	md5sum *supergrid.nc ocean_hgrid.nc >> $@
 	echo >> $@
@@ -207,8 +210,6 @@ md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.
 	echo Data >> $@
 	md5sum salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc >> $@
 	md5sum geothermal_davies2013_v1.nc >> $@
-	md5sum mosaic_ocean.720x576/runoff.daitren.iaf.v2011.02.10.720x576.nc >> $@
-	md5sum mosaic_ocean.720x576/runoff.daitren.clim.v2011.02.10a.720x576.nc >> $@
 	echo >> $@
 	echo Obs >> $@
 	md5sum WOA05_ptemp_salt_{monthly,annual}.nc >> $@
