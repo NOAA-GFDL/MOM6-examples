@@ -873,6 +873,9 @@ KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! spacing to calculate the Laplacian viscosity.
                                 ! The final viscosity is the largest of this scaled
                                 ! viscosity, the Smagorinsky and Leith viscosities, and KH.
+KH_SIN_LAT = 0.0                !   [m2 s-1] default = 0.0
+                                ! The amplitude of a latidutinally-dependent background
+                                ! viscosity of the form KH_SIN_LAT*(SIN(LAT)**KH_PWR_OF_SINE).
 SMAGORINSKY_KH = False          !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
 LEITH_KH = False                !   [Boolean] default = False
@@ -1026,11 +1029,6 @@ NONLIN_BT_CONT_UPDATE_PERIOD = 1 !   [nondim] default = 1
                                 ! If NONLINEAR_BT_CONTINUITY is true, this is the number
                                 ! of barotropic time steps between updates to the face
                                 ! areas, or 0 to update only before the barotropic stepping.
-BT_MASS_SOURCE_LIMIT = 0.0      !   [nondim] default = 0.0
-                                ! The fraction of the initial depth of the ocean that can
-                                ! be added to or removed from the bartropic solution
-                                ! within a thermodynamic time step.  By default this is 0
-                                ! for no correction.
 BT_PROJECT_VELOCITY = False     !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project
                                 ! out the velocity tendancy by 1+BEBT when calculating the

@@ -1112,6 +1112,9 @@ KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! spacing to calculate the Laplacian viscosity.
                                 ! The final viscosity is the largest of this scaled
                                 ! viscosity, the Smagorinsky and Leith viscosities, and KH.
+KH_SIN_LAT = 0.0                !   [m2 s-1] default = 0.0
+                                ! The amplitude of a latidutinally-dependent background
+                                ! viscosity of the form KH_SIN_LAT*(SIN(LAT)**KH_PWR_OF_SINE).
 SMAGORINSKY_KH = False          !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
 LEITH_KH = False                !   [Boolean] default = False
@@ -1269,11 +1272,6 @@ NONLINEAR_BT_CONTINUITY = False !   [Boolean] default = False
                                 ! If true, use nonlinear transports in the barotropic
                                 ! continuity equation.  This does not apply if
                                 ! USE_BT_CONT_TYPE is true.
-BT_MASS_SOURCE_LIMIT = 0.0      !   [nondim] default = 0.0
-                                ! The fraction of the initial depth of the ocean that can
-                                ! be added to or removed from the bartropic solution
-                                ! within a thermodynamic time step.  By default this is 0
-                                ! for no correction.
 BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project
                                 ! out the velocity tendancy by 1+BEBT when calculating the
@@ -2196,6 +2194,10 @@ DAYMAX = 1.0                    !   [days]
                                 ! TIMEUNIT seconds.  This also sets the potential end
                                 ! time of the present run segment if the end time is
                                 ! not set via ocean_solo_nml in input.nml.
+SINGLE_STEPPING_CALL = True     !   [Boolean] default = True
+                                ! If true, advance the state of MOM with a single step
+                                ! including both dynamics and thermodynamics.  If false
+                                ! the two phases are advanced with separate calls.
 RESTART_CONTROL = 3             ! default = 1
                                 ! An integer whose bits encode which restart files are
                                 ! written. Add 2 (bit 1) for a time-stamped file, and odd
