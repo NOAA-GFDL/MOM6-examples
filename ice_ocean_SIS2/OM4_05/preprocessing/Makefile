@@ -61,8 +61,9 @@ topog.nc: edit_topog.nc
 	\cp $< $@
 
 ocean_topog.nc: topog.nc
-	\cp $< $@
+	ncks -h --fix_rec_dmn nEdits $< $@
 	setenv PYTHONPATH ./local/lib/python; python add_h2.py
+	setenv PYTHONPATH ./local/lib/python; ./addDimension.py ocean_topog.nc ntiles 1
 
 basin_codes.nc: ocean_topog.nc
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python make_basin_mask.py
@@ -78,8 +79,8 @@ WOA05_ptemp_salt_monthly.nc: ocean_hgrid.nc ocean_topog.nc  interpWOA05.py local
 
 salt_restore.nc: ocean_hgrid.nc ocean_topog.nc PHC2_salx.2004_08_03.nc interpSaltRestore.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpSaltRestore.py
-#	ncatted -h -a modulo,time,c,c,' ' salt_restore.nc
-#	ncatted -h -a units,time,m,c,'days since 1900-01-01 00:00:00' salt_restore.nc
+	ncatted -h -a modulo,time,c,c,' ' salt_restore.nc
+	ncatted -h -a units,time,m,c,'days since 0001-01-01 00:00:00' salt_restore.nc
 
 
 seawifs_1998-2006_smoothed_2X.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/datasets/global/siena_201204/INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc interpCHL.py local
@@ -171,6 +172,8 @@ mosaic_ocean.720x576/runoff_tmp2.nc: fre_nctools/tools/runoff_regrid/runoff_regr
 mosaic_ocean.720x576/runoff.daitren.iaf.v2011.02.10.720x576.nc: mosaic_ocean.720x576/runoff_tmp2.nc
 	(cd $(@D); ncks -h -3 runoff_tmp2.nc $(@F))
 	(cd $(@D); ncatted -h -O -a 'modulo,Time,c,c, ' $(@F))
+	(cd $(@D); ncatted -h -O -a modulo_beg,Time,a,c,"1948-01-01 00:00:00" $(@F))
+	(cd $(@D); ncatted -h -O -a modulo_end,Time,a,c,"2008-01-01 00:00:00" $(@F))
 
 $(filter-out mosaic_c96.720x576/mosaic.nc,$(C96_MOSAIC:.cdl=.nc)): mosaic_c96.720x576/mosaic.nc
 mosaic_c96.720x576/mosaic.nc: mosaic_ocean.720x576/ocean_mosaic.nc ocean_topog.nc $(FRE_NCTOOLS)/make_coupler_mosaic/make_coupler_mosaic_parallel
