@@ -58,14 +58,11 @@ edit_topog.nc: interpolated_topog.nc
 	\cp $< $@
 	./apply_edits.py topo_edits_020718.nc edit_topog.nc
 topog.nc: edit_topog.nc
-#	./ice9.py edit_topog.nc --output topog.nc
-
 	\cp $< $@
 
 ocean_topog.nc: topog.nc
 	\cp $< $@
 	setenv PYTHONPATH ./local/lib/python; python add_h2.py
-#	./addDimension.py ocean_topog.nc ntiles 1
 
 basin_codes.nc: ocean_topog.nc
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python make_basin_mask.py
@@ -109,7 +106,7 @@ tpxo7_atlas_netcdf.tar.Z:
 	wget ftp://ftp.oce.orst.edu/dist/tides/Global/tpxo7_atlas_netcdf.tar.Z
 
 PHC2_salx.2004_08_03.nc:
-#	wget http://data1.gfdl.noaa.gov/~nnz/mom4/COREv1/support_data/PHC2_salx.2004_08_03.nc
+	wget http://data1.gfdl.noaa.gov/~nnz/mom4/COREv1/support_data/PHC2_salx.2004_08_03.nc
 
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
@@ -193,6 +190,10 @@ mosaic_c192.720x576/mosaic.nc: mosaic_ocean.720x576/ocean_mosaic.nc ocean_topog.
 
 %.cdl: %.nc
 	ncdump $< | egrep -v 'code_version|history' > $@
+
+clean:
+	-rm -rf fre_nctools local MIDAS OM4_05_* DATA mosaic_*
+	-rm -f *grid.nc salt*.nc seaw*.nc tidal_*.nc WOA*.nc geoth*.nc *topog*.nc PHC*.nc basin*.nc logfile* input.nml runoff*.nc
 
 md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc so_topog_gebco.nc ocean_topog.nc $(OCN_MOSAIC) $(C96_MOSAIC) $(C192_MOSAIC) basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc geothermal_davies2013_v1.nc mosaic_ocean.720x576/runoff.daitren.iaf.v2011.02.10.720x576.nc mosaic_ocean.720x576/runoff.daitren.clim.v2011.02.10.720x576.nc
 	echo Grids > $@
