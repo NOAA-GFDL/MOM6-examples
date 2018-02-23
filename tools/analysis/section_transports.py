@@ -45,6 +45,8 @@ def main(cmdLineArgs,stream=False):
           rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/daily/20yr/*.'+var[k]+'.nc')
         elif os.path.isdir(cmdLineArgs.infile + section[k] + '/ts/daily/5yr'):
           rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/daily/5yr/*.'+var[k]+'.nc')
+        elif os.path.isdir(cmdLineArgs.infile + section[k] + '/ts/monthly/5yr'):
+          rootGroup = netCDF4.MFDataset( cmdLineArgs.infile + section[k] + '/ts/monthly/5yr/*.'+var[k]+'.nc')
         else:
            print('Unable to find suitable trasport data in ts/120hr or ts/daily') 
         if k == 0: total = numpy.ones(rootGroup.variables[var[k]][:].shape[0])*0.0

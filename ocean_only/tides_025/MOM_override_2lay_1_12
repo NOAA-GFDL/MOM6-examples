@@ -1,0 +1,21 @@
+!   This is the override file to run a 1/12 degree 2-layer tide test case with
+! drag.  Because of their size, the required grid, topography and drag files
+! are not routinely distributed with the other MOM6 example datasets.
+#override NK = 2
+#override THICKNESS_CONFIG = "list"
+INTERFACE_IC_FILE = "interface_IC_2layer.nc"
+INTERFACE_IC_VAR = "eta"
+
+#override GRID_FILE = "regional_0.08.mom6.nc"
+#override TOPO_EDITS_FILE = ""
+#override TOPO_FILE = "depth_GLBc0.08_14mom6.nc"
+#override NIGLOBAL = 4500
+#override NJGLOBAL = 3527
+
+#override DT = 300.0
+#override DT_THERM = 1800.0
+
+BT_LINEAR_WAVE_DRAG = True
+BT_WAVE_DRAG_FILE = "tidal.JSLH.14.lim24_mom6.nc"
+BT_WAVE_DRAG_VAR = "rh"
+BW_WAVE_DRAG_SCALE = 1.0
