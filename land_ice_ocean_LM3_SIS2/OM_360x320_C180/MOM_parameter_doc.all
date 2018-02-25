@@ -1947,6 +1947,10 @@ ENERGYSAVEDAYS_GEOMETRIC = 0.0  !   [days] default = 0.0
                                 ! The interval increases by a factor of 2. after each call to write_energy.
 
 ! === module ocean_model_init ===
+SINGLE_STEPPING_CALL = True     !   [Boolean] default = True
+                                ! If true, advance the state of MOM with a single step
+                                ! including both dynamics and thermodynamics.  If false,
+                                ! the two phases are advanced with separate calls.
 RESTART_CONTROL = 1             ! default = 1
                                 ! An integer whose bits encode which restart files are
                                 ! written. Add 2 (bit 1) for a time-stamped file, and odd
