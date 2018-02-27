@@ -1388,6 +1388,22 @@
     ! units: m
     ! standard_name: cell_thickness
     ! cell_methods: z_l:sum
+"ocean_model", "h_pre_sync"  [Unused]
+    ! long_name: Cell thickness from the previous timestep
+    ! units: m
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "h_pre_sync_xyave"  [Unused]
+    ! long_name: Cell thickness from the previous timestep
+    ! units: m
+    ! cell_methods: zl:sum
+"ocean_model_z", "h_pre_sync"  [Unused]
+    ! long_name: Cell thickness from the previous timestep
+    ! units: m
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "h_pre_sync_xyave"  [Unused]
+    ! long_name: Cell thickness from the previous timestep
+    ! units: m
+    ! cell_methods: z_l:sum
 "ocean_model", "tob"  [Unused]
     ! long_name: Sea Water Potential Temperature at Sea Floor
     ! units: degC
@@ -1665,19 +1681,19 @@
 "ocean_model", "dhdt"  [Unused]
     ! long_name: Thickness tendency
     ! units: m s-1
-    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
 "ocean_model", "dhdt_xyave"  [Unused]
     ! long_name: Thickness tendency
     ! units: m s-1
-    ! cell_methods: zl:mean
+    ! cell_methods: zl:sum
 "ocean_model_z", "dhdt"  [Unused]
     ! long_name: Thickness tendency
     ! units: m s-1
-    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
 "ocean_model_z", "dhdt_xyave"  [Unused]
     ! long_name: Thickness tendency
     ! units: m s-1
-    ! cell_methods: z_l:mean
+    ! cell_methods: z_l:sum
 "ocean_model", "h_rho"  [Used]
     ! long_name: Layer thicknesses in pure potential density coordinates
     ! units: m
@@ -2370,6 +2386,22 @@
     ! units: m2 s-1
     ! standard_name: ocean_vertical_salt_diffusivity
     ! cell_methods: z_i:point
+"ocean_model", "diabatic_diff_h"  [Unused]
+    ! long_name: Cell thickness used during diabatic diffusion
+    ! units: m
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "diabatic_diff_h_xyave"  [Unused]
+    ! long_name: Cell thickness used during diabatic diffusion
+    ! units: m
+    ! cell_methods: zl:sum
+"ocean_model_z", "diabatic_diff_h"  [Unused]
+    ! long_name: Cell thickness used during diabatic diffusion
+    ! units: m
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "diabatic_diff_h_xyave"  [Unused]
+    ! long_name: Cell thickness used during diabatic diffusion
+    ! units: m
+    ! cell_methods: z_l:sum
 "ocean_model", "diabatic_diff_temp_tendency"  [Unused]
     ! long_name: Diabatic diffusion temperature tendency
     ! units: degC s-1
@@ -2492,6 +2524,38 @@
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_dianeutral_mixing_depth_integrated
     ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "boundary_forcing_h"  [Unused]
+    ! long_name: Cell thickness after applying boundary forcing
+    ! units: m
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "boundary_forcing_h_xyave"  [Unused]
+    ! long_name: Cell thickness after applying boundary forcing
+    ! units: m
+    ! cell_methods: zl:sum
+"ocean_model_z", "boundary_forcing_h"  [Unused]
+    ! long_name: Cell thickness after applying boundary forcing
+    ! units: m
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "boundary_forcing_h_xyave"  [Unused]
+    ! long_name: Cell thickness after applying boundary forcing
+    ! units: m
+    ! cell_methods: z_l:sum
+"ocean_model", "boundary_forcing_h_tendency"  [Unused]
+    ! long_name: Cell thickness tendency due to boundary forcing
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "boundary_forcing_h_tendency_xyave"  [Unused]
+    ! long_name: Cell thickness tendency due to boundary forcing
+    ! units: m s-1
+    ! cell_methods: zl:sum
+"ocean_model_z", "boundary_forcing_h_tendency"  [Unused]
+    ! long_name: Cell thickness tendency due to boundary forcing
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "boundary_forcing_h_tendency_xyave"  [Unused]
+    ! long_name: Cell thickness tendency due to boundary forcing
+    ! units: m s-1
+    ! cell_methods: z_l:sum
 "ocean_model", "boundary_forcing_temp_tendency"  [Unused]
     ! long_name: Boundary forcing temperature tendency
     ! units: degC s-1
@@ -2564,6 +2628,26 @@
     ! long_name: Depth integrated boundary forcing of ocean salt
     ! units: kg m-2 s-1
     ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "frazil_h"  [Unused]
+    ! long_name: Cell Thickness
+    ! units: m
+    ! standard_name: cell_thickness
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "frazil_h_xyave"  [Unused]
+    ! long_name: Cell Thickness
+    ! units: m
+    ! standard_name: cell_thickness
+    ! cell_methods: zl:sum
+"ocean_model_z", "frazil_h"  [Unused]
+    ! long_name: Cell Thickness
+    ! units: m
+    ! standard_name: cell_thickness
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "frazil_h_xyave"  [Unused]
+    ! long_name: Cell Thickness
+    ! units: m
+    ! standard_name: cell_thickness
+    ! cell_methods: z_l:sum
 "ocean_model", "frazil_temp_tendency"  [Used]
     ! long_name: Temperature tendency due to frazil formation
     ! units: degC s-1
@@ -3392,6 +3476,38 @@
     ! units: kg s-1
     ! standard_name: ocean_mass_y_transport_vertical_sum
     ! cell_methods: xh:sum yq:point
+"ocean_model", "dynamics_h"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "dynamics_h_xyave"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: zl:sum
+"ocean_model_z", "dynamics_h"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "dynamics_h_xyave"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: z_l:sum
+"ocean_model", "dynamics_h_tendency"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "dynamics_h_tendency_xyave"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: zl:sum
+"ocean_model_z", "dynamics_h_tendency"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "dynamics_h_tendency_xyave"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: z_l:sum
 "ocean_model", "temp"  [Used] (CMOR equivalent is "thetao")
     ! long_name: Potential Temperature
     ! units: degC
@@ -3544,47 +3660,47 @@
     ! long_name: Net time tendency for potential temperature
     ! units: degC s-1
     ! cell_methods: z_l:mean
-"ocean_model", "T_dfxy_cont_tendency"  [Unused] (CMOR equivalent is "opottemptendpmdiff")
+"ocean_model", "T_dfxy_cont_tendency"  [Unused] (CMOR equivalent is "opottemppmdiff")
     ! long_name: Lateral or neutral diffusion tracer concentration tendency for T
     ! units: W m-2
     ! cell_methods: xh:sum yh:sum zl:sum area:sum
-"ocean_model", "T_dfxy_cont_tendency_xyave"  [Unused] (CMOR equivalent is "opottemptendpmdiff_xyave")
+"ocean_model", "T_dfxy_cont_tendency_xyave"  [Unused] (CMOR equivalent is "opottemppmdiff_xyave")
     ! long_name: Lateral or neutral diffusion tracer concentration tendency for T
     ! units: W m-2
     ! cell_methods: zl:sum
-"ocean_model", "opottemptendpmdiff"  [Unused] (native name is "T_dfxy_cont_tendency")
+"ocean_model", "opottemppmdiff"  [Unused] (native name is "T_dfxy_cont_tendency")
     ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized mesoscale diffusion
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_mesoscale_diffusion
     ! cell_methods: xh:sum yh:sum zl:sum area:sum
-"ocean_model", "opottemptendpmdiff_xyave"  [Unused] (native name is "T_dfxy_cont_tendency_xyave")
+"ocean_model", "opottemppmdiff_xyave"  [Unused] (native name is "T_dfxy_cont_tendency_xyave")
     ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized mesoscale diffusion
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_mesoscale_diffusion
     ! cell_methods: zl:sum
-"ocean_model_z", "T_dfxy_cont_tendency"  [Unused] (CMOR equivalent is "opottemptendpmdiff")
+"ocean_model_z", "T_dfxy_cont_tendency"  [Unused] (CMOR equivalent is "opottemppmdiff")
     ! long_name: Lateral or neutral diffusion tracer concentration tendency for T
     ! units: W m-2
     ! cell_methods: xh:sum yh:sum z_l:sum area:sum
-"ocean_model_z", "T_dfxy_cont_tendency_xyave"  [Unused] (CMOR equivalent is "opottemptendpmdiff_xyave")
+"ocean_model_z", "T_dfxy_cont_tendency_xyave"  [Unused] (CMOR equivalent is "opottemppmdiff_xyave")
     ! long_name: Lateral or neutral diffusion tracer concentration tendency for T
     ! units: W m-2
     ! cell_methods: z_l:sum
-"ocean_model_z", "opottemptendpmdiff"  [Unused] (native name is "T_dfxy_cont_tendency")
+"ocean_model_z", "opottemppmdiff"  [Unused] (native name is "T_dfxy_cont_tendency")
     ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized mesoscale diffusion
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_mesoscale_diffusion
     ! cell_methods: xh:sum yh:sum z_l:sum area:sum
-"ocean_model_z", "opottemptendpmdiff_xyave"  [Unused] (native name is "T_dfxy_cont_tendency_xyave")
+"ocean_model_z", "opottemppmdiff_xyave"  [Unused] (native name is "T_dfxy_cont_tendency_xyave")
     ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized mesoscale diffusion
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_mesoscale_diffusion
     ! cell_methods: z_l:sum
-"ocean_model", "T_dfxy_cont_tendency_2d"  [Unused] (CMOR equivalent is "opottemptendpmdiff_2d")
+"ocean_model", "T_dfxy_cont_tendency_2d"  [Unused] (CMOR equivalent is "opottemppmdiff_2d")
     ! long_name: Depth integrated lateral or neutral diffusion tracer concentration tendency for T
     ! units: W m-2
     ! cell_methods: xh:sum yh:sum area:sum
-"ocean_model", "opottemptendpmdiff_2d"  [Unused] (native name is "T_dfxy_cont_tendency_2d")
+"ocean_model", "opottemppmdiff_2d"  [Unused] (native name is "T_dfxy_cont_tendency_2d")
     ! long_name: Tendency of sea water potential temperature expressed as heat content due to parameterized mesoscale diffusion
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_due_to_parameterized_mesoscale_diffusion
@@ -3605,47 +3721,47 @@
     ! long_name: Lateral (neutral) tracer concentration tendency for T
     ! units: degC s-1
     ! cell_methods: z_l:mean
-"ocean_model", "Th_tendency"  [Unused] (CMOR equivalent is "opottemptendtend")
+"ocean_model", "Th_tendency"  [Unused] (CMOR equivalent is "opottemptend")
     ! long_name: Net time tendency for heat
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean zl:sum area:mean
-"ocean_model", "Th_tendency_xyave"  [Unused] (CMOR equivalent is "opottemptendtend_xyave")
+"ocean_model", "Th_tendency_xyave"  [Unused] (CMOR equivalent is "opottemptend_xyave")
     ! long_name: Net time tendency for heat
     ! units: W m-2
     ! cell_methods: zl:sum
-"ocean_model", "opottemptendtend"  [Unused] (native name is "Th_tendency")
+"ocean_model", "opottemptend"  [Used] (native name is "Th_tendency")
     ! long_name: Tendency of Sea Water Potential Temperature Expressed as Heat Content
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content
     ! cell_methods: xh:mean yh:mean zl:sum area:mean
-"ocean_model", "opottemptendtend_xyave"  [Unused] (native name is "Th_tendency_xyave")
+"ocean_model", "opottemptend_xyave"  [Unused] (native name is "Th_tendency_xyave")
     ! long_name: Tendency of Sea Water Potential Temperature Expressed as Heat Content
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content
     ! cell_methods: zl:sum
-"ocean_model_z", "Th_tendency"  [Unused] (CMOR equivalent is "opottemptendtend")
+"ocean_model_z", "Th_tendency"  [Unused] (CMOR equivalent is "opottemptend")
     ! long_name: Net time tendency for heat
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean z_l:sum area:mean
-"ocean_model_z", "Th_tendency_xyave"  [Unused] (CMOR equivalent is "opottemptendtend_xyave")
+"ocean_model_z", "Th_tendency_xyave"  [Unused] (CMOR equivalent is "opottemptend_xyave")
     ! long_name: Net time tendency for heat
     ! units: W m-2
     ! cell_methods: z_l:sum
-"ocean_model_z", "opottemptendtend"  [Unused] (native name is "Th_tendency")
+"ocean_model_z", "opottemptend"  [Unused] (native name is "Th_tendency")
     ! long_name: Tendency of Sea Water Potential Temperature Expressed as Heat Content
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content
     ! cell_methods: xh:mean yh:mean z_l:sum area:mean
-"ocean_model_z", "opottemptendtend_xyave"  [Unused] (native name is "Th_tendency_xyave")
+"ocean_model_z", "opottemptend_xyave"  [Unused] (native name is "Th_tendency_xyave")
     ! long_name: Tendency of Sea Water Potential Temperature Expressed as Heat Content
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content
     ! cell_methods: z_l:sum
-"ocean_model", "Th_tendency_2d"  [Unused] (CMOR equivalent is "opottemptendtend_2d")
+"ocean_model", "Th_tendency_2d"  [Unused] (CMOR equivalent is "opottemptend_2d")
     ! long_name: Vertical sum of net time tendency for heat
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "opottemptendtend_2d"  [Unused] (native name is "Th_tendency_2d")
+"ocean_model", "opottemptend_2d"  [Used] (native name is "Th_tendency_2d")
     ! long_name: Tendency of Sea Water Potential Temperature Expressed as Heat Content Vertical Sum
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_vertical_sum
@@ -3870,47 +3986,47 @@
     ! long_name: Net time tendency for salinity
     ! units: psu s-1
     ! cell_methods: z_l:mean
-"ocean_model", "S_dfxy_cont_tendency"  [Unused] (CMOR equivalent is "osalttendpmdiff")
+"ocean_model", "S_dfxy_cont_tendency"  [Unused] (CMOR equivalent is "osaltpmdiff")
     ! long_name: Lateral or neutral diffusion tracer concentration tendency for S
     ! units: kg m-2 s-1
     ! cell_methods: xh:sum yh:sum zl:sum area:sum
-"ocean_model", "S_dfxy_cont_tendency_xyave"  [Unused] (CMOR equivalent is "osalttendpmdiff_xyave")
+"ocean_model", "S_dfxy_cont_tendency_xyave"  [Unused] (CMOR equivalent is "osaltpmdiff_xyave")
     ! long_name: Lateral or neutral diffusion tracer concentration tendency for S
     ! units: kg m-2 s-1
     ! cell_methods: zl:sum
-"ocean_model", "osalttendpmdiff"  [Unused] (native name is "S_dfxy_cont_tendency")
+"ocean_model", "osaltpmdiff"  [Unused] (native name is "S_dfxy_cont_tendency")
     ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized mesoscale diffusion
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_mesoscale_diffusion
     ! cell_methods: xh:sum yh:sum zl:sum area:sum
-"ocean_model", "osalttendpmdiff_xyave"  [Unused] (native name is "S_dfxy_cont_tendency_xyave")
+"ocean_model", "osaltpmdiff_xyave"  [Unused] (native name is "S_dfxy_cont_tendency_xyave")
     ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized mesoscale diffusion
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_mesoscale_diffusion
     ! cell_methods: zl:sum
-"ocean_model_z", "S_dfxy_cont_tendency"  [Unused] (CMOR equivalent is "osalttendpmdiff")
+"ocean_model_z", "S_dfxy_cont_tendency"  [Unused] (CMOR equivalent is "osaltpmdiff")
     ! long_name: Lateral or neutral diffusion tracer concentration tendency for S
     ! units: kg m-2 s-1
     ! cell_methods: xh:sum yh:sum z_l:sum area:sum
-"ocean_model_z", "S_dfxy_cont_tendency_xyave"  [Unused] (CMOR equivalent is "osalttendpmdiff_xyave")
+"ocean_model_z", "S_dfxy_cont_tendency_xyave"  [Unused] (CMOR equivalent is "osaltpmdiff_xyave")
     ! long_name: Lateral or neutral diffusion tracer concentration tendency for S
     ! units: kg m-2 s-1
     ! cell_methods: z_l:sum
-"ocean_model_z", "osalttendpmdiff"  [Unused] (native name is "S_dfxy_cont_tendency")
+"ocean_model_z", "osaltpmdiff"  [Unused] (native name is "S_dfxy_cont_tendency")
     ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized mesoscale diffusion
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_mesoscale_diffusion
     ! cell_methods: xh:sum yh:sum z_l:sum area:sum
-"ocean_model_z", "osalttendpmdiff_xyave"  [Unused] (native name is "S_dfxy_cont_tendency_xyave")
+"ocean_model_z", "osaltpmdiff_xyave"  [Unused] (native name is "S_dfxy_cont_tendency_xyave")
     ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized mesoscale diffusion
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_mesoscale_diffusion
     ! cell_methods: z_l:sum
-"ocean_model", "S_dfxy_cont_tendency_2d"  [Unused] (CMOR equivalent is "osalttendpmdiff_2d")
+"ocean_model", "S_dfxy_cont_tendency_2d"  [Unused] (CMOR equivalent is "osaltpmdiff_2d")
     ! long_name: Depth integrated lateral or neutral diffusion tracer concentration tendency for S
     ! units: kg m-2 s-1
     ! cell_methods: xh:sum yh:sum area:sum
-"ocean_model", "osalttendpmdiff_2d"  [Unused] (native name is "S_dfxy_cont_tendency_2d")
+"ocean_model", "osaltpmdiff_2d"  [Unused] (native name is "S_dfxy_cont_tendency_2d")
     ! long_name: Tendency of sea water salinity expressed as salt content due to parameterized mesoscale diffusion
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_due_to_parameterized_mesoscale_diffusion
@@ -3931,47 +4047,47 @@
     ! long_name: Lateral (neutral) tracer concentration tendency for S
     ! units: psu s-1
     ! cell_methods: z_l:mean
-"ocean_model", "Sh_tendency"  [Unused] (CMOR equivalent is "osalttendtend")
+"ocean_model", "Sh_tendency"  [Unused] (CMOR equivalent is "osalttend")
     ! long_name: Net time tendency for salt
     ! units: kg m-2 s-1
     ! cell_methods: xh:mean yh:mean zl:sum area:mean
-"ocean_model", "Sh_tendency_xyave"  [Unused] (CMOR equivalent is "osalttendtend_xyave")
+"ocean_model", "Sh_tendency_xyave"  [Unused] (CMOR equivalent is "osalttend_xyave")
     ! long_name: Net time tendency for salt
     ! units: kg m-2 s-1
     ! cell_methods: zl:sum
-"ocean_model", "osalttendtend"  [Unused] (native name is "Sh_tendency")
+"ocean_model", "osalttend"  [Used] (native name is "Sh_tendency")
     ! long_name: Tendency of Sea Water Salinity Expressed as Salt Content
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content
     ! cell_methods: xh:mean yh:mean zl:sum area:mean
-"ocean_model", "osalttendtend_xyave"  [Unused] (native name is "Sh_tendency_xyave")
+"ocean_model", "osalttend_xyave"  [Unused] (native name is "Sh_tendency_xyave")
     ! long_name: Tendency of Sea Water Salinity Expressed as Salt Content
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content
     ! cell_methods: zl:sum
-"ocean_model_z", "Sh_tendency"  [Unused] (CMOR equivalent is "osalttendtend")
+"ocean_model_z", "Sh_tendency"  [Unused] (CMOR equivalent is "osalttend")
     ! long_name: Net time tendency for salt
     ! units: kg m-2 s-1
     ! cell_methods: xh:mean yh:mean z_l:sum area:mean
-"ocean_model_z", "Sh_tendency_xyave"  [Unused] (CMOR equivalent is "osalttendtend_xyave")
+"ocean_model_z", "Sh_tendency_xyave"  [Unused] (CMOR equivalent is "osalttend_xyave")
     ! long_name: Net time tendency for salt
     ! units: kg m-2 s-1
     ! cell_methods: z_l:sum
-"ocean_model_z", "osalttendtend"  [Unused] (native name is "Sh_tendency")
+"ocean_model_z", "osalttend"  [Unused] (native name is "Sh_tendency")
     ! long_name: Tendency of Sea Water Salinity Expressed as Salt Content
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content
     ! cell_methods: xh:mean yh:mean z_l:sum area:mean
-"ocean_model_z", "osalttendtend_xyave"  [Unused] (native name is "Sh_tendency_xyave")
+"ocean_model_z", "osalttend_xyave"  [Unused] (native name is "Sh_tendency_xyave")
     ! long_name: Tendency of Sea Water Salinity Expressed as Salt Content
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content
     ! cell_methods: z_l:sum
-"ocean_model", "Sh_tendency_2d"  [Unused] (CMOR equivalent is "osalttendtend_2d")
+"ocean_model", "Sh_tendency_2d"  [Unused] (CMOR equivalent is "osalttend_2d")
     ! long_name: Vertical sum of net time tendency for salt
     ! units: kg m-2 s-1
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "osalttendtend_2d"  [Unused] (native name is "Sh_tendency_2d")
+"ocean_model", "osalttend_2d"  [Used] (native name is "Sh_tendency_2d")
     ! long_name: Tendency of Sea Water Salinity Expressed as Salt Content Vertical Sum
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_vertical_sum
@@ -4432,6 +4548,38 @@
     ! long_name: Change in interface height due to ALE regridding
     ! units: m
     ! cell_methods: z_i:point
+"ocean_model", "vert_remap_h"  [Unused]
+    ! long_name: layer thicknesses after ALE regridding and remapping
+    ! units: m
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "vert_remap_h_xyave"  [Unused]
+    ! long_name: layer thicknesses after ALE regridding and remapping
+    ! units: m
+    ! cell_methods: zl:sum
+"ocean_model_z", "vert_remap_h"  [Unused]
+    ! long_name: layer thicknesses after ALE regridding and remapping
+    ! units: m
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "vert_remap_h_xyave"  [Unused]
+    ! long_name: layer thicknesses after ALE regridding and remapping
+    ! units: m
+    ! cell_methods: z_l:sum
+"ocean_model", "vert_remap_h_tendency"  [Unused]
+    ! long_name: Layer thicknesses tendency due to ALE regridding and remapping
+    ! units: m
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "vert_remap_h_tendency_xyave"  [Unused]
+    ! long_name: Layer thicknesses tendency due to ALE regridding and remapping
+    ! units: m
+    ! cell_methods: zl:sum
+"ocean_model_z", "vert_remap_h_tendency"  [Unused]
+    ! long_name: Layer thicknesses tendency due to ALE regridding and remapping
+    ! units: m
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "vert_remap_h_tendency_xyave"  [Unused]
+    ! long_name: Layer thicknesses tendency due to ALE regridding and remapping
+    ! units: m
+    ! cell_methods: z_l:sum
 "ocean_model", "taux"  [Used] (CMOR equivalent is "tauuo")
     ! long_name: Zonal surface stress from ocean interactions with atmos and ice
     ! units: Pa
