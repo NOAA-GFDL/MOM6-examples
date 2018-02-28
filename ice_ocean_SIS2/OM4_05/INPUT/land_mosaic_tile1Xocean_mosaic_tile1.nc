@@ -1,1 +1,1 @@
-.datasets/OM4_05/mosaic.v20170622.unpacked/land_mosaic_tile1Xocean_mosaic_tile1.nc
+.datasets/OM4_05/mosaic_ocean.v20180227.unpacked/land_mosaic_tile1Xocean_mosaic_tile1.nc

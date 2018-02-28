@@ -1,1 +1,1 @@
-.datasets/OM4_05/mosaic.v20170622.unpacked/basin_codes.nc
+.datasets/OM4_05/mosaic_ocean.v20180227.unpacked/basin_codes.nc
