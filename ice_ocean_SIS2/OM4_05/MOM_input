@@ -130,6 +130,7 @@ TOPO_CONFIG = "file"            !
                                 !       DOME2D gravity current/overflow test case.
                                 !     Kelvin - flat but with rotated land mask.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     dumbbell - Sloshing channel with reservoirs on both ends.
                                 !     shelfwave - exponential slope for shelfwave test case.
                                 !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
@@ -391,25 +392,11 @@ USE_STORED_SLOPES = True        !   [Boolean] default = False
                                 ! If true, the isopycnal slopes are calculated once and
                                 ! stored for re-use. This uses more memory but avoids calling
                                 ! the equation of state more times than should be necessary.
-KH_RES_SCALE_COEF = 1.0         !   [nondim] default = 1.0
-                                ! A coefficient that determines how KhTh is scaled away if
-                                ! RESOLN_SCALED_... is true, as
 KH_RES_FN_POWER = 100           !   [nondim] default = 2
                                 ! The power of dx/Ld in the Kh resolution function.  Any
                                 ! positive integer may be used, although even integers
                                 ! are more efficient to calculate.  Setting this greater
                                 ! than 100 results in a step-function being used.
-VISC_RES_SCALE_COEF = 1.0       !   [nondim] default = 1.0
-                                ! A coefficient that determines how Kh is scaled away if
-                                ! RESOLN_SCALED_... is true, as
-                                ! F = 1 / (1 + (KH_RES_SCALE_COEF*Rd/dx)^KH_RES_FN_POWER).
-                                ! This function affects lateral viscosity, Kh, and not KhTh.
-VISC_RES_FN_POWER = 100         !   [nondim] default = 100
-                                ! The power of dx/Ld in the Kh resolution function.  Any
-                                ! positive integer may be used, although even integers
-                                ! are more efficient to calculate.  Setting this greater
-                                ! than 100 results in a step-function being used.
-                                ! This function affects lateral viscosity, Kh, and not KhTh.
 INTERPOLATE_RES_FN = False      !   [Boolean] default = True
                                 ! If true, interpolate the resolution function to the
                                 ! velocity points from the thickness points; otherwise
@@ -502,8 +489,6 @@ MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
                                 ! If true, use a Laplacian horizontal viscosity.
-KH = 0.0                        !   [m2 s-1] default = 0.0
-                                ! The background Laplacian horizontal viscosity.
 KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the grid
                                 ! spacing to calculate the Laplacian viscosity.
@@ -525,10 +510,10 @@ SMAGORINSKY_AH = True           !   [Boolean] default = False
 SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
                                 ! The nondimensional biharmonic Smagorinsky constant,
                                 ! typically 0.015 - 0.06.
-USE_KH_BG_2D = True             !   [Boolean] default = False
+!USE_KH_BG_2D = True             !   [Boolean] default = False
                                 ! If true, read a file containing 2-d background harmonic
                                 ! viscosities. The final viscosity is the maximum of the other terms and this background value.
-KH_BG_2D_FILENAME = "Kh3_background_2d.nc" ! default = "KH_background_2d.nc"
+!KH_BG_2D_FILENAME = "Kh3_background_2d.nc" ! default = "KH_background_2d.nc"
                                 ! The filename containing a 2d map of "Kh".
 
 
@@ -760,12 +745,6 @@ PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
                                 ! If true, use a pressure dependent freezing temperature
                                 ! when making frazil. The default is false, which will be
                                 ! faster but is inappropriate with ice-shelf cavities.
-USE_RIVER_HEAT_CONTENT = False  !   [Boolean] default = False
-                                ! If true, use the fluxes%runoff_Hflx field to set the
-                                ! heat carried by runoff, instead of using SST*CP*liq_runoff.
-USE_CALVING_HEAT_CONTENT = False!   [Boolean] default = False
-                                ! If true, use the fluxes%calving_Hflx field to set the
-                                ! heat carried by runoff, instead of using SST*CP*froz_runoff.
 
 ! === module MOM_energetic_PBL ===
 MSTAR_MODE = 2                  !   [units=nondim] default = 0
@@ -876,11 +855,16 @@ CHECK_DIFFUSIVE_CFL = True      !   [Boolean] default = False
 USE_NEUTRAL_DIFFUSION = True    !   [Boolean] default = False
                                 ! If true, enables the neutral diffusion module.
 
-! === module ocean_model_init ===
+! === module MOM_sum_output ===
+MAXTRUNC = 100000               !   [truncations save_interval-1] default = 0
+                                ! The run will be stopped, and the day set to a very
+                                ! large value if the velocity is truncated more than
+                                ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
+                                ! to stop if there is any truncation of velocities.
 ENERGYSAVEDAYS = 30.0           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
-ENERGYSAVEDAYS_GEOMETRIC = 1.0  !   [days] default = 0.0
+ENERGYSAVEDAYS_GEOMETRIC = 0.25 !   [days] default = 0.0
                                 ! The starting interval in units of TIMEUNIT for the first call
                                 ! to save the energies of the run and other globally summed diagnostics.
                                 ! The interval increases by a factor of 2. after each call to write_energy.
@@ -905,12 +889,5 @@ SEA_ICE_RIGID_MASS = 100.0      !   [kg m-2] default = 1000.0
                                 ! starts to exhibit rigidity
 
 ! === module MOM_restart ===
-
-! === module MOM_sum_output ===
-MAXTRUNC = 100000               !   [truncations save_interval-1] default = 0
-                                ! The run will be stopped, and the day set to a very
-                                ! large value if the velocity is truncated more than
-                                ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
-                                ! to stop if there is any truncation of velocities.
 
 ! === module MOM_file_parser ===

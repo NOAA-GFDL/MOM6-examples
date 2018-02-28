@@ -735,9 +735,9 @@ MEKE_USCALE = 0.0               !   [m s-1] default = 0.0
 MEKE_VISC_DRAG = True           !   [Boolean] default = True
                                 ! If true, use the vertvisc_type to calculate the bottom
                                 ! drag acting on MEKE.
-MEKE_KHTH_FAC = 1.0             !   [nondim] default = 0.0
+MEKE_KHTH_FAC = 0.5             !   [nondim] default = 0.0
                                 ! A factor that maps MEKE%Kh to KhTh.
-MEKE_KHTR_FAC = 0.0             !   [nondim] default = 0.0
+MEKE_KHTR_FAC = 0.5             !   [nondim] default = 0.0
                                 ! A factor that maps MEKE%Kh to KhTr.
 MEKE_KHMEKE_FAC = 1.0           !   [nondim] default = 0.0
                                 ! A factor that maps MEKE%Kh to Kh for MEKE itself.
@@ -748,7 +748,7 @@ MEKE_RD_MAX_SCALE = False       !   [nondim] default = False
                                 ! If true, the length scale used by MEKE is the minimum of
                                 ! the deformation radius or grid-spacing. Only used if
                                 ! MEKE_OLD_LSCALE=True
-MEKE_VISCOSITY_COEFF = 0.0      !   [nondim] default = 0.0
+MEKE_VISCOSITY_COEFF = 1.0      !   [nondim] default = 0.0
                                 ! If non-zero, is the scaling coefficient in the expression for
                                 ! viscosity used to parameterize lateral momentum mixing by
                                 ! unresolved eddies represented by MEKE. Can be negative to
@@ -1094,8 +1094,11 @@ KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
 KH_SIN_LAT = 0.0                !   [m2 s-1] default = 0.0
                                 ! The amplitude of a latidutinally-dependent background
                                 ! viscosity of the form KH_SIN_LAT*(SIN(LAT)**KH_PWR_OF_SINE).
-SMAGORINSKY_KH = False          !   [Boolean] default = False
+SMAGORINSKY_KH = True           !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
+SMAG_LAP_CONST = 0.15           !   [nondim] default = 0.0
+                                ! The nondimensional Laplacian Smagorinsky constant,
+                                ! often 0.15.
 LEITH_KH = False                !   [Boolean] default = False
                                 ! If true, use a Leith nonlinear eddy viscosity.
 MODIFIED_LEITH = False          !   [Boolean] default = False
@@ -1810,10 +1813,10 @@ DO_RIVERMIX = False             !   [Boolean] default = False
                                 ! If true, apply additional mixing whereever there is
                                 ! runoff, so that it is mixed down to RIVERMIX_DEPTH
                                 ! if the ocean is that deep.
-USE_RIVER_HEAT_CONTENT = True   !   [Boolean] default = False
+USE_RIVER_HEAT_CONTENT = False  !   [Boolean] default = False
                                 ! If true, use the fluxes%runoff_Hflx field to set the
                                 ! heat carried by runoff, instead of using SST*CP*liq_runoff.
-USE_CALVING_HEAT_CONTENT = True !   [Boolean] default = False
+USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
                                 ! If true, use the fluxes%calving_Hflx field to set the
                                 ! heat carried by runoff, instead of using SST*CP*froz_runoff.
 
@@ -2002,7 +2005,7 @@ TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "PLM"
                                 !   PPM    - Piecewise Parabolic Method (Colella-Woodward)
 
 ! === module MOM_tracer_hor_diff ===
-KHTR = 200.0                    !   [m2 s-1] default = 0.0
+KHTR = 50.0                     !   [m2 s-1] default = 0.0
                                 ! The background along-isopycnal tracer diffusivity.
 KHTR_MIN = 0.0                  !   [m2 s-1] default = 0.0
                                 ! The minimum along-isopycnal tracer diffusivity.
@@ -2072,10 +2075,10 @@ READ_DEPTH_LIST = False         !   [Boolean] default = False
 DEPTH_LIST_MIN_INC = 1.0E-10    !   [m] default = 1.0E-10
                                 ! The minimum increment between the depths of the
                                 ! entries in the depth-list file.
-ENERGYSAVEDAYS = 0.5            !   [days] default = 1.0
+ENERGYSAVEDAYS = 30.0           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
-ENERGYSAVEDAYS_GEOMETRIC = 0.0  !   [days] default = 0.0
+ENERGYSAVEDAYS_GEOMETRIC = 0.25 !   [days] default = 0.0
                                 ! The starting interval in units of TIMEUNIT for the first call
                                 ! to save the energies of the run and other globally summed diagnostics.
                                 ! The interval increases by a factor of 2. after each call to write_energy.
