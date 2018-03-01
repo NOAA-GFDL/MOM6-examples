@@ -1091,9 +1091,12 @@ KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! spacing to calculate the Laplacian viscosity.
                                 ! The final viscosity is the largest of this scaled
                                 ! viscosity, the Smagorinsky and Leith viscosities, and KH.
-KH_SIN_LAT = 0.0                !   [m2 s-1] default = 0.0
+KH_SIN_LAT = 2000.0             !   [m2 s-1] default = 0.0
                                 ! The amplitude of a latidutinally-dependent background
                                 ! viscosity of the form KH_SIN_LAT*(SIN(LAT)**KH_PWR_OF_SINE).
+KH_PWR_OF_SINE = 4.0            !   [nondim] default = 4.0
+                                ! The power used to raise SIN(LAT) when using a latidutinally-
+                                ! dependent background viscosity.
 SMAGORINSKY_KH = True           !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
 SMAG_LAP_CONST = 0.15           !   [nondim] default = 0.0

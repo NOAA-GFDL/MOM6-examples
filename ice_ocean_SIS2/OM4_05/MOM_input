@@ -494,6 +494,9 @@ KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! spacing to calculate the Laplacian viscosity.
                                 ! The final viscosity is the largest of this scaled
                                 ! viscosity, the Smagorinsky and Leith viscosities, and KH.
+KH_SIN_LAT = 2000.0             !   [m2 s-1] default = 0.0
+                                ! The amplitude of a latidutinally-dependent background
+                                ! viscosity of the form KH_SIN_LAT*(SIN(LAT)**KH_PWR_OF_SINE).
 SMAGORINSKY_KH = True           !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
 SMAG_LAP_CONST = 0.15           !   [nondim] default = 0.0
@@ -510,12 +513,6 @@ SMAGORINSKY_AH = True           !   [Boolean] default = False
 SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
                                 ! The nondimensional biharmonic Smagorinsky constant,
                                 ! typically 0.015 - 0.06.
-!USE_KH_BG_2D = True             !   [Boolean] default = False
-                                ! If true, read a file containing 2-d background harmonic
-                                ! viscosities. The final viscosity is the maximum of the other terms and this background value.
-!KH_BG_2D_FILENAME = "Kh3_background_2d.nc" ! default = "KH_background_2d.nc"
-                                ! The filename containing a 2d map of "Kh".
-
 
 ! === module MOM_vert_friction ===
 U_TRUNC_FILE = "U_velocity_truncations" ! default = ""
