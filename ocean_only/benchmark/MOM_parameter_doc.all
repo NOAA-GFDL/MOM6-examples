@@ -330,6 +330,11 @@ LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
                                 ! file support (4Gb), otherwise the limit is 2Gb.
 MAX_FIELDS = 100                ! default = 100
                                 ! The maximum number of restart fields that can be used.
+RESTART_CHECKSUMS_REQUIRED = True !   [Boolean] default = True
+                                ! If true, require the restart checksums to match and error out otherwise.
+                                ! Users may want to avoid this comparison if for example the restarts are
+                                ! made from a run with a different mask_table than the current run,
+                                ! in which case the checksums will not match and cause crash.
 
 ! === module MOM_tracer_flow_control ===
 USE_USER_TRACER_EXAMPLE = False !   [Boolean] default = False
@@ -984,11 +989,6 @@ NONLIN_BT_CONT_UPDATE_PERIOD = 1 !   [nondim] default = 1
                                 ! If NONLINEAR_BT_CONTINUITY is true, this is the number
                                 ! of barotropic time steps between updates to the face
                                 ! areas, or 0 to update only before the barotropic stepping.
-BT_MASS_SOURCE_LIMIT = 0.0      !   [nondim] default = 0.0
-                                ! The fraction of the initial depth of the ocean that can
-                                ! be added to or removed from the bartropic solution
-                                ! within a thermodynamic time step.  By default this is 0
-                                ! for no correction.
 BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project
                                 ! out the velocity tendancy by 1+BEBT when calculating the
@@ -1652,6 +1652,14 @@ FLUXCONST = 0.5                 !   [m day-1]
                                 ! The constant that relates the restoring surface fluxes
                                 ! to the relative surface anomalies (akin to a piston
                                 ! velocity).  Note the non-MKS units.
+FLUXCONST_T = 0.5               !   [m day-1] default = 0.5
+                                ! The constant that relates the restoring surface temperature
+                                ! flux to the relative surface anomaly (akin to a piston
+                                ! velocity).  Note the non-MKS units.
+FLUXCONST_S = 0.5               !   [m day-1] default = 0.5
+                                ! The constant that relates the restoring surface salinity
+                                ! flux to the relative surface anomaly (akin to a piston
+                                ! velocity).  Note the non-MKS units.
 SST_NORTH = 27.0                !   [deg C] default = 0.0
                                 ! With buoy_config linear, the sea surface temperature
                                 ! at the northern end of the domain toward which to
@@ -1688,6 +1696,10 @@ DAYMAX = 1.0                    !   [days]
                                 ! TIMEUNIT seconds.  This also sets the potential end
                                 ! time of the present run segment if the end time is
                                 ! not set via ocean_solo_nml in input.nml.
+SINGLE_STEPPING_CALL = True     !   [Boolean] default = True
+                                ! If true, advance the state of MOM with a single step
+                                ! including both dynamics and thermodynamics.  If false
+                                ! the two phases are advanced with separate calls.
 RESTART_CONTROL = 3             ! default = 1
                                 ! An integer whose bits encode which restart files are
                                 ! written. Add 2 (bit 1) for a time-stamped file, and odd

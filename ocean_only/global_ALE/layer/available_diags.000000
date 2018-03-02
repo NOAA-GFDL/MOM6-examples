@@ -1348,6 +1348,22 @@
     ! units: m
     ! standard_name: cell_thickness
     ! cell_methods: z_l:sum
+"ocean_model", "h_pre_sync"  [Unused]
+    ! long_name: Cell thickness from the previous timestep
+    ! units: m
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "h_pre_sync_xyave"  [Unused]
+    ! long_name: Cell thickness from the previous timestep
+    ! units: m
+    ! cell_methods: zl:sum
+"ocean_model_z", "h_pre_sync"  [Unused]
+    ! long_name: Cell thickness from the previous timestep
+    ! units: m
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "h_pre_sync_xyave"  [Unused]
+    ! long_name: Cell thickness from the previous timestep
+    ! units: m
+    ! cell_methods: z_l:sum
 "ocean_model", "tob"  [Unused]
     ! long_name: Sea Water Potential Temperature at Sea Floor
     ! units: degC
@@ -1390,6 +1406,94 @@
     ! long_name: Sea Surface Salinity
     ! units: psu
     ! standard_name: sea_surface_salinity
+"ocean_model", "u"  [Used] (CMOR equivalent is "uo")
+    ! long_name: Zonal velocity
+    ! units: m s-1
+    ! cell_methods: xq:point yh:mean zl:mean
+"ocean_model", "u_xyave"  [Unused] (CMOR equivalent is "uo_xyave")
+    ! long_name: Zonal velocity
+    ! units: m s-1
+    ! cell_methods: zl:mean
+"ocean_model", "uo"  [Used] (native name is "u")
+    ! long_name: Sea Water X Velocity
+    ! units: m s-1
+    ! standard_name: sea_water_x_velocity
+    ! cell_methods: xq:point yh:mean zl:mean
+"ocean_model", "uo_xyave"  [Unused] (native name is "u_xyave")
+    ! long_name: Sea Water X Velocity
+    ! units: m s-1
+    ! standard_name: sea_water_x_velocity
+    ! cell_methods: zl:mean
+"ocean_model_z", "u"  [Used] (CMOR equivalent is "uo")
+    ! long_name: Zonal velocity
+    ! units: m s-1
+    ! cell_methods: xq:point yh:mean z_l:mean
+"ocean_model_z", "u_xyave"  [Unused] (CMOR equivalent is "uo_xyave")
+    ! long_name: Zonal velocity
+    ! units: m s-1
+    ! cell_methods: z_l:mean
+"ocean_model_z", "uo"  [Used] (native name is "u")
+    ! long_name: Sea Water X Velocity
+    ! units: m s-1
+    ! standard_name: sea_water_x_velocity
+    ! cell_methods: xq:point yh:mean z_l:mean
+"ocean_model_z", "uo_xyave"  [Unused] (native name is "u_xyave")
+    ! long_name: Sea Water X Velocity
+    ! units: m s-1
+    ! standard_name: sea_water_x_velocity
+    ! cell_methods: z_l:mean
+"ocean_model", "v"  [Used] (CMOR equivalent is "vo")
+    ! long_name: Meridional velocity
+    ! units: m s-1
+    ! cell_methods: xh:mean yq:point zl:mean
+"ocean_model", "v_xyave"  [Unused] (CMOR equivalent is "vo_xyave")
+    ! long_name: Meridional velocity
+    ! units: m s-1
+    ! cell_methods: zl:mean
+"ocean_model", "vo"  [Used] (native name is "v")
+    ! long_name: Sea Water Y Velocity
+    ! units: m s-1
+    ! standard_name: sea_water_y_velocity
+    ! cell_methods: xh:mean yq:point zl:mean
+"ocean_model", "vo_xyave"  [Unused] (native name is "v_xyave")
+    ! long_name: Sea Water Y Velocity
+    ! units: m s-1
+    ! standard_name: sea_water_y_velocity
+    ! cell_methods: zl:mean
+"ocean_model_z", "v"  [Used] (CMOR equivalent is "vo")
+    ! long_name: Meridional velocity
+    ! units: m s-1
+    ! cell_methods: xh:mean yq:point z_l:mean
+"ocean_model_z", "v_xyave"  [Unused] (CMOR equivalent is "vo_xyave")
+    ! long_name: Meridional velocity
+    ! units: m s-1
+    ! cell_methods: z_l:mean
+"ocean_model_z", "vo"  [Used] (native name is "v")
+    ! long_name: Sea Water Y Velocity
+    ! units: m s-1
+    ! standard_name: sea_water_y_velocity
+    ! cell_methods: xh:mean yq:point z_l:mean
+"ocean_model_z", "vo_xyave"  [Unused] (native name is "v_xyave")
+    ! long_name: Sea Water Y Velocity
+    ! units: m s-1
+    ! standard_name: sea_water_y_velocity
+    ! cell_methods: z_l:mean
+"ocean_model", "h"  [Used]
+    ! long_name: Layer Thickness
+    ! units: m
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "h_xyave"  [Unused]
+    ! long_name: Layer Thickness
+    ! units: m
+    ! cell_methods: zl:sum
+"ocean_model_z", "h"  [Unused]
+    ! long_name: Layer Thickness
+    ! units: m
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "h_xyave"  [Unused]
+    ! long_name: Layer Thickness
+    ! units: m
+    ! cell_methods: z_l:sum
 "ocean_model", "e"  [Used]
     ! long_name: Interface Height Relative to Mean Sea Level
     ! units: m
@@ -1537,19 +1641,19 @@
 "ocean_model", "dhdt"  [Unused]
     ! long_name: Thickness tendency
     ! units: m s-1
-    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
 "ocean_model", "dhdt_xyave"  [Unused]
     ! long_name: Thickness tendency
     ! units: m s-1
-    ! cell_methods: zl:mean
+    ! cell_methods: zl:sum
 "ocean_model_z", "dhdt"  [Unused]
     ! long_name: Thickness tendency
     ! units: m s-1
-    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
 "ocean_model_z", "dhdt_xyave"  [Unused]
     ! long_name: Thickness tendency
     ! units: m s-1
-    ! cell_methods: z_l:mean
+    ! cell_methods: z_l:sum
 "ocean_model", "h_rho"  [Used]
     ! long_name: Layer thicknesses in pure potential density coordinates
     ! units: m
@@ -2226,6 +2330,42 @@
     ! units: m2 s-1
     ! standard_name: ocean_vertical_salt_diffusivity
     ! cell_methods: z_i:point
+"ocean_model", "diabatic_diff_h"  [Unused]
+    ! long_name: Cell thickness used during diabatic diffusion
+    ! units: m
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "diabatic_diff_h_xyave"  [Unused]
+    ! long_name: Cell thickness used during diabatic diffusion
+    ! units: m
+    ! cell_methods: zl:sum
+"ocean_model_z", "diabatic_diff_h"  [Unused]
+    ! long_name: Cell thickness used during diabatic diffusion
+    ! units: m
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "diabatic_diff_h_xyave"  [Unused]
+    ! long_name: Cell thickness used during diabatic diffusion
+    ! units: m
+    ! cell_methods: z_l:sum
+"ocean_model", "frazil_h"  [Unused]
+    ! long_name: Cell Thickness
+    ! units: m
+    ! standard_name: cell_thickness
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "frazil_h_xyave"  [Unused]
+    ! long_name: Cell Thickness
+    ! units: m
+    ! standard_name: cell_thickness
+    ! cell_methods: zl:sum
+"ocean_model_z", "frazil_h"  [Unused]
+    ! long_name: Cell Thickness
+    ! units: m
+    ! standard_name: cell_thickness
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "frazil_h_xyave"  [Unused]
+    ! long_name: Cell Thickness
+    ! units: m
+    ! standard_name: cell_thickness
+    ! cell_methods: z_l:sum
 "ocean_model", "frazil_temp_tendency"  [Used]
     ! long_name: Temperature tendency due to frazil formation
     ! units: degC s-1
@@ -2831,92 +2971,52 @@
     ! long_name: Heat flux into ocean from geothermal or other internal sources
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "u"  [Used] (CMOR equivalent is "uo")
-    ! long_name: Zonal velocity
+"ocean_model", "u_dyn"  [Unused]
+    ! long_name: Zonal velocity after the dynamics update
     ! units: m s-1
     ! cell_methods: xq:point yh:mean zl:mean
-"ocean_model", "u_xyave"  [Unused] (CMOR equivalent is "uo_xyave")
-    ! long_name: Zonal velocity
+"ocean_model", "u_dyn_xyave"  [Unused]
+    ! long_name: Zonal velocity after the dynamics update
     ! units: m s-1
     ! cell_methods: zl:mean
-"ocean_model", "uo"  [Used] (native name is "u")
-    ! long_name: Sea Water X Velocity
-    ! units: m s-1
-    ! standard_name: sea_water_x_velocity
-    ! cell_methods: xq:point yh:mean zl:mean
-"ocean_model", "uo_xyave"  [Unused] (native name is "u_xyave")
-    ! long_name: Sea Water X Velocity
-    ! units: m s-1
-    ! standard_name: sea_water_x_velocity
-    ! cell_methods: zl:mean
-"ocean_model_z", "u"  [Used] (CMOR equivalent is "uo")
-    ! long_name: Zonal velocity
+"ocean_model_z", "u_dyn"  [Unused]
+    ! long_name: Zonal velocity after the dynamics update
     ! units: m s-1
     ! cell_methods: xq:point yh:mean z_l:mean
-"ocean_model_z", "u_xyave"  [Unused] (CMOR equivalent is "uo_xyave")
-    ! long_name: Zonal velocity
+"ocean_model_z", "u_dyn_xyave"  [Unused]
+    ! long_name: Zonal velocity after the dynamics update
     ! units: m s-1
     ! cell_methods: z_l:mean
-"ocean_model_z", "uo"  [Used] (native name is "u")
-    ! long_name: Sea Water X Velocity
-    ! units: m s-1
-    ! standard_name: sea_water_x_velocity
-    ! cell_methods: xq:point yh:mean z_l:mean
-"ocean_model_z", "uo_xyave"  [Unused] (native name is "u_xyave")
-    ! long_name: Sea Water X Velocity
-    ! units: m s-1
-    ! standard_name: sea_water_x_velocity
-    ! cell_methods: z_l:mean
-"ocean_model", "v"  [Used] (CMOR equivalent is "vo")
-    ! long_name: Meridional velocity
+"ocean_model", "v_dyn"  [Unused]
+    ! long_name: Meridional velocity after the dynamics update
     ! units: m s-1
     ! cell_methods: xh:mean yq:point zl:mean
-"ocean_model", "v_xyave"  [Unused] (CMOR equivalent is "vo_xyave")
-    ! long_name: Meridional velocity
+"ocean_model", "v_dyn_xyave"  [Unused]
+    ! long_name: Meridional velocity after the dynamics update
     ! units: m s-1
     ! cell_methods: zl:mean
-"ocean_model", "vo"  [Used] (native name is "v")
-    ! long_name: Sea Water Y Velocity
-    ! units: m s-1
-    ! standard_name: sea_water_y_velocity
-    ! cell_methods: xh:mean yq:point zl:mean
-"ocean_model", "vo_xyave"  [Unused] (native name is "v_xyave")
-    ! long_name: Sea Water Y Velocity
-    ! units: m s-1
-    ! standard_name: sea_water_y_velocity
-    ! cell_methods: zl:mean
-"ocean_model_z", "v"  [Used] (CMOR equivalent is "vo")
-    ! long_name: Meridional velocity
+"ocean_model_z", "v_dyn"  [Unused]
+    ! long_name: Meridional velocity after the dynamics update
     ! units: m s-1
     ! cell_methods: xh:mean yq:point z_l:mean
-"ocean_model_z", "v_xyave"  [Unused] (CMOR equivalent is "vo_xyave")
-    ! long_name: Meridional velocity
+"ocean_model_z", "v_dyn_xyave"  [Unused]
+    ! long_name: Meridional velocity after the dynamics update
     ! units: m s-1
     ! cell_methods: z_l:mean
-"ocean_model_z", "vo"  [Used] (native name is "v")
-    ! long_name: Sea Water Y Velocity
-    ! units: m s-1
-    ! standard_name: sea_water_y_velocity
-    ! cell_methods: xh:mean yq:point z_l:mean
-"ocean_model_z", "vo_xyave"  [Unused] (native name is "v_xyave")
-    ! long_name: Sea Water Y Velocity
-    ! units: m s-1
-    ! standard_name: sea_water_y_velocity
-    ! cell_methods: z_l:mean
-"ocean_model", "h"  [Used]
-    ! long_name: Layer Thickness
+"ocean_model", "h_dyn"  [Unused]
+    ! long_name: Layer Thickness after the dynamics update
     ! units: m
     ! cell_methods: xh:mean yh:mean zl:sum area:mean
-"ocean_model", "h_xyave"  [Unused]
-    ! long_name: Layer Thickness
+"ocean_model", "h_dyn_xyave"  [Unused]
+    ! long_name: Layer Thickness after the dynamics update
     ! units: m
     ! cell_methods: zl:sum
-"ocean_model_z", "h"  [Unused]
-    ! long_name: Layer Thickness
+"ocean_model_z", "h_dyn"  [Unused]
+    ! long_name: Layer Thickness after the dynamics update
     ! units: m
     ! cell_methods: xh:mean yh:mean z_l:sum area:mean
-"ocean_model_z", "h_xyave"  [Unused]
-    ! long_name: Layer Thickness
+"ocean_model_z", "h_dyn_xyave"  [Unused]
+    ! long_name: Layer Thickness after the dynamics update
     ! units: m
     ! cell_methods: z_l:sum
 "ocean_model", "SSH_inst"  [Unused]
@@ -3005,6 +3105,38 @@
     ! units: kg s-1
     ! standard_name: ocean_mass_y_transport_vertical_sum
     ! cell_methods: xh:sum yq:point
+"ocean_model", "dynamics_h"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "dynamics_h_xyave"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: zl:sum
+"ocean_model_z", "dynamics_h"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "dynamics_h_xyave"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: z_l:sum
+"ocean_model", "dynamics_h_tendency"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+"ocean_model", "dynamics_h_tendency_xyave"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: zl:sum
+"ocean_model_z", "dynamics_h_tendency"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean z_l:sum area:mean
+"ocean_model_z", "dynamics_h_tendency_xyave"  [Unused]
+    ! long_name: Change in layer thicknesses due to horizontal dynamics
+    ! units: m s-1
+    ! cell_methods: z_l:sum
 "ocean_model", "temp"  [Used] (CMOR equivalent is "thetao")
     ! long_name: Potential Temperature
     ! units: degC

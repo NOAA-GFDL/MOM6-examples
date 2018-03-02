@@ -130,6 +130,7 @@ TOPO_CONFIG = "file"            !
                                 !       DOME2D gravity current/overflow test case.
                                 !     Kelvin - flat but with rotated land mask.
                                 !     seamount - Gaussian bump for spontaneous motion test case.
+                                !     dumbbell - Sloshing channel with reservoirs on both ends.
                                 !     shelfwave - exponential slope for shelfwave test case.
                                 !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
@@ -348,10 +349,17 @@ MEKE_GMCOEFF = 1.0              !   [nondim] default = -1.0
                                 ! used or calculated.
 MEKE_BGSRC = 1.0E-13            !   [W kg-1] default = 0.0
                                 ! A background energy source for MEKE.
-MEKE_KHTH_FAC = 1.0             !   [nondim] default = 0.0
+MEKE_KHTH_FAC = 0.5             !   [nondim] default = 0.0
                                 ! A factor that maps MEKE%Kh to KhTh.
+MEKE_KHTR_FAC = 0.5             !   [nondim] default = 0.0
+                                ! A factor that maps MEKE%Kh to KhTr.
 MEKE_KHMEKE_FAC = 1.0           !   [nondim] default = 0.0
                                 ! A factor that maps MEKE%Kh to Kh for MEKE itself.
+MEKE_VISCOSITY_COEFF = 1.0      !   [nondim] default = 0.0
+                                ! If non-zero, is the scaling coefficient in the expression for
+                                ! viscosity used to parameterize lateral momentum mixing by
+                                ! unresolved eddies represented by MEKE. Can be negative to
+                                ! represent backscatter from the unresolved eddies.
 MEKE_ALPHA_RHINES = 0.15        !   [nondim] default = 0.05
                                 ! If positive, is a coefficient weighting the Rhines scale
                                 ! in the expression for mixing length used in MEKE-derived diffusiviity.
@@ -486,6 +494,14 @@ KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! spacing to calculate the Laplacian viscosity.
                                 ! The final viscosity is the largest of this scaled
                                 ! viscosity, the Smagorinsky and Leith viscosities, and KH.
+KH_SIN_LAT = 2000.0             !   [m2 s-1] default = 0.0
+                                ! The amplitude of a latidutinally-dependent background
+                                ! viscosity of the form KH_SIN_LAT*(SIN(LAT)**KH_PWR_OF_SINE).
+SMAGORINSKY_KH = True           !   [Boolean] default = False
+                                ! If true, use a Smagorinsky nonlinear eddy viscosity.
+SMAG_LAP_CONST = 0.15           !   [nondim] default = 0.0
+                                ! The nondimensional Laplacian Smagorinsky constant,
+                                ! often 0.15.
 AH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the cube of
                                 ! the grid spacing to calculate the biharmonic viscosity.
@@ -726,12 +742,6 @@ PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
                                 ! If true, use a pressure dependent freezing temperature
                                 ! when making frazil. The default is false, which will be
                                 ! faster but is inappropriate with ice-shelf cavities.
-USE_RIVER_HEAT_CONTENT = True   !   [Boolean] default = False
-                                ! If true, use the fluxes%runoff_Hflx field to set the
-                                ! heat carried by runoff, instead of using SST*CP*liq_runoff.
-USE_CALVING_HEAT_CONTENT = True !   [Boolean] default = False
-                                ! If true, use the fluxes%calving_Hflx field to set the
-                                ! heat carried by runoff, instead of using SST*CP*froz_runoff.
 
 ! === module MOM_energetic_PBL ===
 MSTAR_MODE = 2                  !   [units=nondim] default = 0
@@ -830,7 +840,7 @@ TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "PLM"
                                 !   PPM    - Piecewise Parabolic Method (Colella-Woodward)
 
 ! === module MOM_tracer_hor_diff ===
-KHTR = 200.0                    !   [m2 s-1] default = 0.0
+KHTR = 50.0                     !   [m2 s-1] default = 0.0
                                 ! The background along-isopycnal tracer diffusivity.
 CHECK_DIFFUSIVE_CFL = True      !   [Boolean] default = False
                                 ! If true, use enough iterations the diffusion to ensure
@@ -842,10 +852,19 @@ CHECK_DIFFUSIVE_CFL = True      !   [Boolean] default = False
 USE_NEUTRAL_DIFFUSION = True    !   [Boolean] default = False
                                 ! If true, enables the neutral diffusion module.
 
-! === module ocean_model_init ===
-ENERGYSAVEDAYS = 0.5            !   [days] default = 1.0
+! === module MOM_sum_output ===
+MAXTRUNC = 100000               !   [truncations save_interval-1] default = 0
+                                ! The run will be stopped, and the day set to a very
+                                ! large value if the velocity is truncated more than
+                                ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
+                                ! to stop if there is any truncation of velocities.
+ENERGYSAVEDAYS = 30.0           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
+ENERGYSAVEDAYS_GEOMETRIC = 0.25 !   [days] default = 0.0
+                                ! The starting interval in units of TIMEUNIT for the first call
+                                ! to save the energies of the run and other globally summed diagnostics.
+                                ! The interval increases by a factor of 2. after each call to write_energy.
 
 ! === module MOM_surface_forcing ===
 MAX_P_SURF = 0.0                !   [Pa] default = -1.0
@@ -867,12 +886,5 @@ SEA_ICE_RIGID_MASS = 100.0      !   [kg m-2] default = 1000.0
                                 ! starts to exhibit rigidity
 
 ! === module MOM_restart ===
-
-! === module MOM_sum_output ===
-MAXTRUNC = 100000               !   [truncations save_interval-1] default = 0
-                                ! The run will be stopped, and the day set to a very
-                                ! large value if the velocity is truncated more than
-                                ! MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
-                                ! to stop if there is any truncation of velocities.
 
 ! === module MOM_file_parser ===
