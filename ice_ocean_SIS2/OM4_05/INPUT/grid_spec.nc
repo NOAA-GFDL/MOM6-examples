@@ -1,1 +1,1 @@
-.datasets/OM4_05/mosaic.v20170622.unpacked/grid_spec.nc
+.datasets/OM4_05/mosaic_ocean.v20180227.unpacked/grid_spec.nc
