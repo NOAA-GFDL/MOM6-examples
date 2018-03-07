@@ -395,21 +395,6 @@ DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
                                 ! all interfaces.
 GFS = 10.0                      !   [m s-2] default = 10.0
                                 ! The reduced gravity at the free surface.
-BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
-                                ! When defined, the reconstruction is extrapolated
-                                ! within boundary cells rather than assume PCM for the.
-                                ! calculation of pressure. e.g. if PPM is used, a
-                                ! PPM reconstruction will also be used within
-                                ! boundary cells.
-RECONSTRUCT_FOR_PRESSURE = True !   [Boolean] default = True
-                                ! If True, use vertical reconstruction of T/S within
-                                ! the integrals of teh FV pressure gradient calculation.
-                                ! If False, use the constant-by-layer algorithm.
-                                ! By default, this is True when using ALE and False otherwise.
-PRESSURE_RECONSTRUCTION_SCHEME = 1 ! default = 1
-                                ! Type of vertical reconstruction of T/S to use in integrals
-                                ! within the FV pressure gradient calculation. 1: PLM reconstruction.
-                                !  2: PPM reconstruction.
 REMAP_UV_USING_OLD_ALG = True   !   [Boolean] default = True
                                 ! If true, uses the old remapping-via-a-delta-z method for
                                 ! remapping u and v. If false, uses the new method that remaps
@@ -921,8 +906,24 @@ ANALYTIC_FV_PGF = True          !   [Boolean] default = True
 
 ! === module MOM_PressureForce_AFV ===
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = False !   [Boolean] default = False
-                                ! If true, use mass weighting when interpolation T/S for
-                                ! top/bottom integrals in AFV pressure gradient calculation.
+                                ! If true, use mass weighting when interpolating T/S for
+                                ! integrals near the bathymetry in AFV pressure gradient
+                                ! calculations.
+RECONSTRUCT_FOR_PRESSURE = True !   [Boolean] default = True
+                                ! If True, use vertical reconstruction of T & S within
+                                ! the integrals of the FV pressure gradient calculation.
+                                ! If False, use the constant-by-layer algorithm.
+                                ! The default is set by USE_REGRIDDING.
+PRESSURE_RECONSTRUCTION_SCHEME = 1 ! default = 1
+                                ! Order of vertical reconstruction of T/S to use in the
+                                ! integrals within the FV pressure gradient calculation. 0: PCM or no reconstruction.
+                                !  1: PLM reconstruction.
+                                !  2: PPM reconstruction.
+BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
+                                ! If true, the reconstruction of T & S for pressure in
+                                ! boundary cells is extrapolated, rather than using PCM
+                                ! in these cells. If true, the same order polynomial is
+                                ! used as is used for the interior cells.
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False

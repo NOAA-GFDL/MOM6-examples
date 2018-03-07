@@ -707,8 +707,24 @@ ANALYTIC_FV_PGF = True          !   [Boolean] default = True
 
 ! === module MOM_PressureForce_AFV ===
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = False !   [Boolean] default = False
-                                ! If true, use mass weighting when interpolation T/S for
-                                ! top/bottom integrals in AFV pressure gradient calculation.
+                                ! If true, use mass weighting when interpolating T/S for
+                                ! integrals near the bathymetry in AFV pressure gradient
+                                ! calculations.
+RECONSTRUCT_FOR_PRESSURE = False !   [Boolean] default = False
+                                ! If True, use vertical reconstruction of T & S within
+                                ! the integrals of the FV pressure gradient calculation.
+                                ! If False, use the constant-by-layer algorithm.
+                                ! The default is set by USE_REGRIDDING.
+PRESSURE_RECONSTRUCTION_SCHEME = 1 ! default = 1
+                                ! Order of vertical reconstruction of T/S to use in the
+                                ! integrals within the FV pressure gradient calculation. 0: PCM or no reconstruction.
+                                !  1: PLM reconstruction.
+                                !  2: PPM reconstruction.
+BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
+                                ! If true, the reconstruction of T & S for pressure in
+                                ! boundary cells is extrapolated, rather than using PCM
+                                ! in these cells. If true, the same order polynomial is
+                                ! used as is used for the interior cells.
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = False               !   [Boolean] default = False
