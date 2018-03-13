@@ -6,7 +6,7 @@ import numpy as np
 
 sgrid=supergrid(file='ocean_hgrid.nc')
 grid=quadmesh(supergrid=sgrid,cyclic=True)
-fnam='PHC2_salx.2004_08_03.nc'
+fnam='PHC2_salx.2004_08_03.corrected.nc'
 grid_in=quadmesh(fnam,var='SALT',cyclic=True)
 S=state(fnam,grid=grid_in,fields=['SALT'])
 S.rename_field('SALT','salt')

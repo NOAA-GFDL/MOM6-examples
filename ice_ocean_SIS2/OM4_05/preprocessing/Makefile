@@ -77,7 +77,7 @@ WOA05_ptemp_salt_monthly.nc: ocean_hgrid.nc ocean_topog.nc  interpWOA05.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpWOA05.py
 	ncatted -h -a modulo,TIME,c,c,' ' WOA05_ptemp_salt_monthly.nc
 
-salt_restore.nc: ocean_hgrid.nc ocean_topog.nc PHC2_salx.2004_08_03.nc interpSaltRestore.py local
+salt_restore.nc: ocean_hgrid.nc ocean_topog.nc PHC2_salx.2004_08_03.corrected.nc interpSaltRestore.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpSaltRestore.py
 	ncatted -h -a modulo,time,c,c,' ' salt_restore.nc
 	ncatted -h -a units,time,m,c,'days since 0001-01-01 00:00:00' salt_restore.nc
@@ -105,6 +105,14 @@ DATA: tpxo7_atlas_netcdf.tar.Z
 
 tpxo7_atlas_netcdf.tar.Z:
 	wget ftp://ftp.oce.orst.edu/dist/tides/Global/tpxo7_atlas_netcdf.tar.Z
+
+PHC2_salx.2004_08_03.corrected.nc: PHC2_salx.2004_08_03.nc
+	ncap2 -h -O -s 'time(:)={15,45,76,106,136,168,198,228,258,288,320,350}' PHC2_salx.2004_08_03.nc PHC2_salx.2004_08_03.corrected.nc
+	ncatted -h -O -a units,time,o,c,'days since 1900-01-01 00:00:00' PHC2_salx.2004_08_03.corrected.nc
+	ncatted -h -O -a long_name,time,o,c,'Day of year' PHC2_salx.2004_08_03.corrected.nc
+	ncatted -h -O -a calendar,time,c,c,'julian' PHC2_salx.2004_08_03.corrected.nc
+	ncatted -h -O -a modulo,time,c,c,' ' PHC2_salx.2004_08_03.corrected.nc
+	ncatted -h -O -a calendar_type,time,c,c,'julian' PHC2_salx.2004_08_03.corrected.nc
 
 PHC2_salx.2004_08_03.nc:
 	wget http://data1.gfdl.noaa.gov/~nnz/mom4/COREv1/support_data/PHC2_salx.2004_08_03.nc
