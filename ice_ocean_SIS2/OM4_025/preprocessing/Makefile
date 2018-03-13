@@ -22,7 +22,7 @@ showenv:
 	which python
 	-python --version
 
-forcing: salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mosaic_ocean.1440x1080/runoff.daitren.clim.v2011.02.10a.1440x1080.nc geothermal_davies2013_v1.nc
+forcing: salt_restore.nc salt_restore_PHC2.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc mosaic_ocean.1440x1080/runoff.daitren.clim.v2011.02.10a.1440x1080.nc geothermal_davies2013_v1.nc
 
 obs: WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc
 
@@ -80,9 +80,16 @@ WOA05_ptemp_salt_monthly.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/dataset
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpWOA05.py
 	ncatted -h -a modulo,TIME,c,c,' ' WOA05_ptemp_salt_monthly.nc
 
-salt_restore.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/datasets/obs/WOA05_pottemp_salt.nc interpSaltRestore.py local
-	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpSaltRestore.py
+# This salt_restore file is based on WOA05 and was used for most of OM4 development
+salt_restore.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/datasets/obs/WOA05_pottemp_salt.nc interpSaltRestore_WOA05.py local
+	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpSaltRestore_WOA05.py
 	ncatted -h -a modulo,TIME,c,c,' ' salt_restore.nc
+
+# This salt_restore file is the one specified by the OMIP protocol
+salt_restore_PHC2.nc: ocean_hgrid.nc ocean_topog.nc PHC2_salx.2004_08_03.corrected.nc interpSaltRestore_PHC2.py local
+	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpSaltRestore_PHC2.py
+	ncatted -h -a modulo,time,c,c,' ' salt_restore_PHC2.nc
+	ncatted -h -a units,time,m,c,'days since 0001-01-01 00:00:00' salt_restore_PHC2.nc
 
 seawifs_1998-2006_smoothed_2X.nc: ocean_hgrid.nc ocean_topog.nc /archive/gold/datasets/global/siena_201204/INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc interpCHL.py local
 	unlimit stacksize; setenv PYTHONPATH ./local/lib/python; python interpCHL.py
@@ -106,11 +113,22 @@ DATA: tpxo7_atlas_netcdf.tar.Z
 tpxo7_atlas_netcdf.tar.Z:
 	wget ftp://ftp.oce.orst.edu/dist/tides/Global/tpxo7_atlas_netcdf.tar.Z
 
+PHC2_salx.2004_08_03.corrected.nc: PHC2_salx.2004_08_03.nc
+	ncap2 -h -O -s 'time(:)={15,45,76,106,136,168,198,228,258,288,320,350}' PHC2_salx.2004_08_03.nc PHC2_salx.2004_08_03.corrected.nc
+	ncatted -h -O -a units,time,o,c,'days since 1900-01-01 00:00:00' PHC2_salx.2004_08_03.corrected.nc
+	ncatted -h -O -a long_name,time,o,c,'Day of year' PHC2_salx.2004_08_03.corrected.nc
+	ncatted -h -O -a calendar,time,c,c,'julian' PHC2_salx.2004_08_03.corrected.nc
+	ncatted -h -O -a modulo,time,c,c,' ' PHC2_salx.2004_08_03.corrected.nc
+	ncatted -h -O -a calendar_type,time,c,c,'julian' PHC2_salx.2004_08_03.corrected.nc
+
+PHC2_salx.2004_08_03.nc:
+	wget http://data1.gfdl.noaa.gov/~nnz/mom4/COREv1/support_data/PHC2_salx.2004_08_03.nc
+
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
 	(cd MIDAS; git checkout fd8160cf259fd33009749ee8d7cb4e7281ed0293)
 
-local: MIDAS 
+local: MIDAS
 	-rm -rf $</build/*
 	mkdir -p $@
 	cd $<; make -f Makefile_GFDL INSTALL_PATH=../local
@@ -183,7 +201,7 @@ mosaic_c192.1440x1080/mosaic.nc: mosaic_ocean.1440x1080/ocean_mosaic.nc ocean_to
 %.cdl: %.nc
 	ncdump $< | egrep -v 'code_version|history' > $@
 
-md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc scap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc scap_topog_gebco.nc so_topog_gebco.nc ocean_topog.nc $(OCN_MOSAIC) $(C96_MOSAIC) $(C192_MOSAIC) basin_codes.nc salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc mosaic_ocean.1440x1080/runoff.daitren.clim.v2011.02.10a.1440x1080.nc geothermal_davies2013_v1.nc
+md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.nc ncap_supergrid.nc scap_supergrid.nc supergrid.nc interpolated_topog.nc mercator_topog_gebco.nc ncap_topog_gebco.nc ncap_topog.nc scap_topog_gebco.nc so_topog_gebco.nc ocean_topog.nc $(OCN_MOSAIC) $(C96_MOSAIC) $(C192_MOSAIC) basin_codes.nc salt_restore.nc salt_restore_PHC2.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc WOA05_ptemp_salt_monthly.nc WOA05_ptemp_salt_annual.nc mosaic_ocean.1440x1080/runoff.daitren.clim.v2011.02.10a.1440x1080.nc geothermal_davies2013_v1.nc
 	echo Grids > $@
 	md5sum *supergrid.nc ocean_hgrid.nc >> $@
 	echo >> $@
@@ -197,7 +215,7 @@ md5sums.txt: ocean_hgrid.nc antarctic_spherical_supergrid.nc mercator_supergrid.
 	md5sum $(C192_MOSAIC) >> $@
 	echo >> $@
 	echo Data >> $@
-	md5sum salt_restore.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc >> $@
+	md5sum salt_restore.nc salt_restore_PHC2.nc seawifs_1998-2006_smoothed_2X.nc tidal_amplitude.nc >> $@
 	md5sum mosaic_ocean.1440x1080/runoff.daitren.clim.v2011.02.10a.1440x1080.nc >> $@
 	md5sum geothermal_davies2013_v1.nc >> $@
 	echo >> $@
