@@ -297,15 +297,21 @@ INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
                                 ! longitude grid.
 
 ! === module MOM_initialize_layers_from_Z ===
-TEMP_SALT_Z_INIT_FILE = "WOA05_pottemp_salt.nc" ! default = "temp_salt_z.nc"
+TEMP_SALT_Z_INIT_FILE = ""      ! default = "temp_salt_z.nc"
                                 ! The name of the z-space input file used to initialize
                                 ! temperatures (T) and salinities (S). If T and S are not
                                 ! in the same file, TEMP_Z_INIT_FILE and SALT_Z_INIT_FILE
                                 ! must be set.
-Z_INIT_FILE_PTEMP_VAR = "PTEMP" ! default = "ptemp"
+TEMP_Z_INIT_FILE = "woa13_decav_ptemp_monthly_fulldepth_01.nc" ! default = ""
+                                ! The name of the z-space input file used to initialize
+                                ! temperatures, only.
+SALT_Z_INIT_FILE = "woa13_decav_s_monthly_fulldepth_01.nc" ! default = ""
+                                ! The name of the z-space input file used to initialize
+                                ! temperatures, only.
+Z_INIT_FILE_PTEMP_VAR = "ptemp_an" ! default = "ptemp"
                                 ! The name of the potential temperature variable in
                                 ! TEMP_Z_INIT_FILE.
-Z_INIT_FILE_SALT_VAR = "SALT"   ! default = "salt"
+Z_INIT_FILE_SALT_VAR = "s_an"   ! default = "salt"
                                 ! The name of the salinity variable in
                                 ! SALT_Z_INIT_FILE.
 Z_INIT_ALE_REMAPPING = True     !   [Boolean] default = False
@@ -483,8 +489,9 @@ BOUND_CORIOLIS = True           !   [Boolean] default = False
 
 ! === module MOM_PressureForce_AFV ===
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
-                                ! If true, use mass weighting when interpolation T/S for
-                                ! top/bottom integrals in AFV pressure gradient calculation.
+                                ! If true, use mass weighting when interpolating T/S for
+                                ! integrals near the bathymetry in AFV pressure gradient
+                                ! calculations.
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -829,7 +836,8 @@ CHL_FILE = "seawifs-clim-1997-2010.720x576.v20180328.nc" !
                                 ! CHL_FILE is the file containing chl_a concentrations in
                                 ! the variable CHL_A. It is used when VAR_PEN_SW and
                                 ! CHL_FROM_FILE are true.
-CHL_VARNAME = "chlor_a"
+CHL_VARNAME = "chlor_a"         ! default = "CHL_A"
+                                ! Name of CHL_A variable in CHL_FILE.
 PEN_SW_NBANDS = 3               ! default = 1
                                 ! The number of bands of penetrating shortwave radiation.
 
