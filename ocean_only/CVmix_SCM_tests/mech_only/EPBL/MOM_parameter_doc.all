@@ -1,13 +1,6 @@
 ! This file was written by the model and records all non-layout or debugging parameters used at run-time.
 
 ! === module MOM ===
-VERBOSITY = 2                   ! default = 2
-                                ! Integer controlling level of messaging
-                                !   0 = Only FATAL messages
-                                !   2 = Only FATAL, WARNING, NOTE [default]
-                                !   9 = All)
-DO_UNIT_TESTS = False           !   [Boolean] default = False
-                                ! If True, exercises unit tests at model start up.
 SPLIT = False                   !   [Boolean] default = True
                                 ! Use the split time stepping if true.
 USE_RK2 = False                 !   [Boolean] default = False
@@ -63,11 +56,6 @@ BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
                                 ! If true, there are separate values for the basin depths
                                 ! at velocity points.  Otherwise the effects of topography
                                 ! are entirely determined from thickness points.
-DEBUG = False                   !   [Boolean] default = False
-                                ! If true, write out verbose debugging data.
-DEBUG_TRUNCATIONS = False       !   [Boolean] default = False
-                                ! If true, calculate all diagnostics that are useful for
-                                ! debugging truncations.
 DT = 1200.0                     !   [s]
                                 ! The (baroclinic) dynamics time step.  The time-step that
                                 ! is actually used will be an integer fraction of the
@@ -158,12 +146,6 @@ NJGLOBAL = 2                    !
                                 ! The total number of thickness grid points in the
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
-DEBUG_CHKSUMS = False           !   [Boolean] default = False
-                                ! If true, checksums are performed on arrays in the
-                                ! various vec_chksum routines.
-DEBUG_REDUNDANT = False         !   [Boolean] default = False
-                                ! If true, debug redundant data points during calls to
-                                ! the various vec_chksum routines.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -856,16 +838,6 @@ DIRECT_STRESS = False           !   [Boolean] default = False
                                 ! If true, the wind stress is distributed over the
                                 ! topmost HMIX_STRESS of fluid (like in HYCOM), and KVML
                                 ! may be set to a very small value.
-U_TRUNC_FILE = "U_velocity_truncations" ! default = ""
-                                ! The absolute path to a file into which the accelerations
-                                ! leading to zonal velocity truncations are written.
-                                ! Undefine this for efficiency if this diagnostic is not
-                                ! needed.
-V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
-                                ! The absolute path to a file into which the accelerations
-                                ! leading to meridional velocity truncations are written.
-                                ! Undefine this for efficiency if this diagnostic is not
-                                ! needed.
 HARMONIC_VISC = True            !   [Boolean] default = False
                                 ! If true, use the harmonic mean thicknesses for
                                 ! calculating the vertical viscosity.
@@ -907,9 +879,6 @@ VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
                                 ! the age of the universe.
 
 ! === module MOM_PointAccel ===
-MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
-                                ! The maximum number of colums of truncations that any PE
-                                ! will write out during a run.
 
 ! === module MOM_thickness_diffuse ===
 KHTH = 0.0                      !   [m2 s-1] default = 0.0
@@ -983,8 +952,6 @@ AGGREGATE_FW_FORCING = True     !   [Boolean] default = True
                                 ! and applied as either incoming or outgoing depending on the sign of the net.
                                 ! If false, the net incoming fresh water flux is added to the model and
                                 ! thereafter the net outgoing is removed from the updated state.into the first non-vanished layer for which the column remains stable
-DEBUG_CONSERVATION = False      !   [Boolean] default = False
-                                ! If true, monitor conservation and extrema.
 MIX_BOUNDARY_TRACERS = True     !   [Boolean] default = True
                                 ! If true, mix the passive tracers in massless layers at
                                 ! the bottom into the interior as though a diffusivity of
@@ -1207,10 +1174,6 @@ KAPPA_SHEAR_ELIM_MASSLESS = True !   [Boolean] default = True
 MAX_KAPPA_SHEAR_IT = 13         !   [nondim] default = 13
                                 ! The maximum number of iterations that may be used to
                                 ! estimate the time-averaged diffusivity.
-DEBUG_KAPPA_SHEAR = False       !   [Boolean] default = False
-                                ! If true, write debugging data for the kappa-shear code.
-                                ! Caution: this option is _very_ verbose and should only
-                                ! be used in single-column mode!
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
@@ -1576,12 +1539,6 @@ CPU_TIME_FILE = "CPU_stats"     ! default = "CPU_stats"
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
                                 ! If true, all log messages are also sent to stdout.
-REPORT_UNUSED_PARAMS = False    !   [Boolean] default = False
-                                ! If true, report any parameter lines that are not used
-                                ! in the run.
-FATAL_UNUSED_PARAMS = False     !   [Boolean] default = False
-                                ! If true, kill the run if there are any unused
-                                ! parameters.
 DOCUMENT_FILE = "MOM_parameter_doc" ! default = "MOM_parameter_doc"
                                 ! The basename for files where run-time parameters, their
                                 ! settings, units and defaults are documented. Blank will
