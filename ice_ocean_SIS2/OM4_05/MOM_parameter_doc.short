@@ -845,7 +845,8 @@ KHTR = 50.0                     !   [m2 s-1] default = 0.0
 CHECK_DIFFUSIVE_CFL = True      !   [Boolean] default = False
                                 ! If true, use enough iterations the diffusion to ensure
                                 ! that the diffusive equivalent of the CFL limit is not
-                                ! violated.  If false, always use 1 iteration.
+                                ! violated.  If false, always use the greater of 1 or
+                                ! MAX_TR_DIFFUSION_CFL iteration.
 
 ! === module MOM_neutral_diffusion ===
 ! This module implements neutral diffusion of tracers
