@@ -515,7 +515,7 @@ REMAP_BOUND_INTERMEDIATE_VALUES = False !   [Boolean] default = False
 REMAP_BOUNDARY_EXTRAP = False   !   [Boolean] default = False
                                 ! If true, values at the interfaces of boundary cells are
                                 ! extrapolated instead of piecewise constant
-REMAP_AFTER_INITIALIZATION = False !   [Boolean] default = True
+REMAP_AFTER_INITIALIZATION = True !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after
                                 ! initialization so that the state is ALE consistent. This is a
                                 ! legacy step and should not be needed if the initialization is
@@ -568,10 +568,10 @@ Z_INIT_ALE_REMAPPING = True     !   [Boolean] default = False
 Z_INIT_REMAPPING_SCHEME = "PPM_IH4" ! default = "PPM_IH4"
                                 ! The remapping scheme to use if using Z_INIT_ALE_REMAPPING
                                 ! is True.
-Z_INIT_REMAP_GENERAL = True     !   [Boolean] default = False
+Z_INIT_REMAP_GENERAL = False    !   [Boolean] default = False
                                 ! If false, only initializes to z* coordinates.
                                 ! If true, allows initialization directly to general coordinates.
-Z_INIT_REMAP_FULL_COLUMN = True !   [Boolean] default = True
+Z_INIT_REMAP_FULL_COLUMN = False !   [Boolean] default = False
                                 ! If false, only reconstructs profiles for valid data points.
                                 ! If true, inserts vanished layers below the valid data.
 Z_INIT_REMAP_OLD_ALG = True     !   [Boolean] default = True
@@ -2107,7 +2107,7 @@ ADJUST_NET_SRESTORE_BY_SCALING = False !   [Boolean] default = False
 ADJUST_NET_FRESH_WATER_TO_ZERO = True !   [Boolean] default = False
                                 ! If true, adjusts the net fresh-water forcing seen
                                 ! by the ocean (including restoring) to zero.
-USE_NET_FW_ADJUSTMENT_SIGN_BUG = True !   [Boolean] default = True
+USE_NET_FW_ADJUSTMENT_SIGN_BUG = False !   [Boolean] default = True
                                 ! If true, use the wrong sign for the adjustment to
                                 ! the net fresh-water.
 ADJUST_NET_FRESH_WATER_BY_SCALING = False !   [Boolean] default = False
