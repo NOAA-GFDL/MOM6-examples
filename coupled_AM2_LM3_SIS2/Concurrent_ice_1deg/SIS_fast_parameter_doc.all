@@ -52,23 +52,11 @@ ICE_KMELT = 240.0               !   [W m-2 K-1] default = 240.0
                                 ! water times a molecular diffusive piston velocity.
 SNOW_CONDUCT = 0.31             !   [W m-1 K-1] default = 0.31
                                 ! The conductivity of heat in snow.
-COLUMN_CHECK = False            !   [Boolean] default = False
-                                ! If true, add code to allow debugging of conservation
-                                ! column-by-column.  This does not change answers, but
-                                ! can increase model run time.
-IMBALANCE_TOLERANCE = 1.0E-09   !   [nondim] default = 1.0E-09
-                                ! The tolerance for imbalances to be flagged by COLUMN_CHECK.
 ICE_BOUNDS_CHECK = True         !   [Boolean] default = True
                                 ! If true, periodically check the values of ice and snow
                                 ! temperatures and thicknesses to ensure that they are
                                 ! sensible, and issue warnings if they are not.  This
                                 ! does not change answers, but can increase model run time.
-DEBUG = False                   !   [Boolean] default = False
-                                ! If true, write out verbose debugging data.
-DEBUG_SLOW_ICE = False          !   [Boolean] default = False
-                                ! If true, write out verbose debugging data on the slow ice PEs.
-DEBUG_FAST_ICE = False          !   [Boolean] default = False
-                                ! If true, write out verbose debugging data on the fast ice PEs.
 FIRST_DIRECTION = 0             ! default = 0
                                 ! An integer that indicates which direction goes first
                                 ! in parts of the code that use directionally split
@@ -111,12 +99,6 @@ REDO_FAST_ICE_UPDATE = True     !   [Boolean] default = True
                                 ! If true, recalculate the thermal updates from the fast
                                 ! dynamics on the slowly evolving ice state, rather than
                                 ! copying over the slow ice state to the fast ice state.
-DEBUG_CHKSUMS = False           !   [Boolean] default = False
-                                ! If true, checksums are performed on arrays in the
-                                ! various vec_chksum routines.
-DEBUG_REDUNDANT = False         !   [Boolean] default = False
-                                ! If true, debug redundant data points during calls to
-                                ! the various vec_chksum routines.
 
 ! === module MOM_domains ===
 REENTRANT_X = True              !   [Boolean] default = True
@@ -323,12 +305,6 @@ ICE_DELTA_EDD_R_POND = 0.0      !   [nondimensional] default = 0.0
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
                                 ! If true, all log messages are also sent to stdout.
-REPORT_UNUSED_PARAMS = False    !   [Boolean] default = False
-                                ! If true, report any parameter lines that are not used
-                                ! in the run.
-FATAL_UNUSED_PARAMS = False     !   [Boolean] default = False
-                                ! If true, kill the run if there are any unused
-                                ! parameters.
 DOCUMENT_FILE = "SIS_fast_parameter_doc" ! default = "MOM_parameter_doc"
                                 ! The basename for files where run-time parameters, their
                                 ! settings, units and defaults are documented. Blank will
