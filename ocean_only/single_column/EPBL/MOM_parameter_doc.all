@@ -841,6 +841,10 @@ CFL_TRUNCATE_RAMP_TIME = 0.0    !   [s] default = 0.0
 CFL_TRUNCATE_START = 0.0        !   [nondim] default = 0.0
                                 ! The start value of the truncation CFL number used when
                                 ! ramping up CFL_TRUNC.
+STOKES_MIXING_COMBINED = False  !   [Boolean] default = False
+                                ! Flag to use Stokes drift Mixing via the Lagrangian
+                                !  current (Eulerian plus Stokes drift).
+                                !  Still needs work and testing, so not recommended for use.
 VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
                                 ! A negligibly small velocity magnitude below which velocity
                                 ! components are set to 0.  A reasonable value might be
@@ -1037,6 +1041,12 @@ KPP_SHORTWAVE_METHOD = "MXL_SW" ! default = "MXL_SW"
 CVMIX_ZERO_H_WORK_AROUND = 0.0  !   [m] default = 0.0
                                 ! A minimum thickness used to avoid division by small numbers in the vicinity
                                 ! of vanished layers. This is independent of MIN_THICKNESS used in other parts of MOM.
+USE_KPP_LT_K = False            ! default = False
+                                ! Flag for Langmuir turbulence enhancement of turbulentmixing coefficient.
+STOKES_MIXING = False           ! default = False
+                                ! Flag for Langmuir turbulence enhancement of turbulentmixing coefficient.
+USE_KPP_LT_VT2 = False          ! default = False
+                                ! Flag for Langmuir turbulence enhancement of Vt2in Bulk Richardson Number.
 %KPP
 SALT_REJECT_BELOW_ML = False    !   [Boolean] default = False
                                 ! If true, place salt from brine rejection below the mixed layer,
@@ -1378,35 +1388,8 @@ N2_DISSIPATION_NEG = 0.0        !   [nondim] default = 0.0
 USE_LA_LI2016 = False           !   [nondim] default = False
                                 ! A logical to use the Li et al. 2016 (submitted) formula to
                                 !  determine the Langmuir number.
-LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
-                                ! The depth (normalized by BLD) to average Stokes drift over in
-                                !  Lanmguir number calculation, where La = sqrt(ust/Stokes).
-LT_ENHANCE = 0                  !   [nondim] default = 0
-                                ! Integer for Langmuir number mode.
-                                !  *Requires USE_LA_LI2016 to be set to True.
-                                ! Options: 0 - No Langmuir
-                                !          1 - Van Roekel et al. 2014/Li et al., 2016
-                                !          2 - Multiplied w/ adjusted La.
-                                !          3 - Added w/ adjusted La.
-LT_ENHANCE_COEF = 0.447         !   [nondim] default = 0.447
-                                ! Coefficient for Langmuir enhancement if LT_ENHANCE > 1
-LT_ENHANCE_EXP = -1.33          !   [nondim] default = -1.33
-                                ! Exponent for Langmuir enhancement if LT_ENHANCE > 1
-LT_MOD_LAC1 = -0.87             !   [nondim] default = -0.87
-                                ! Coefficient for modification of Langmuir number due to
-                                !  MLD approaching Ekman depth if LT_ENHANCE=2.
-LT_MOD_LAC2 = 0.0               !   [nondim] default = 0.0
-                                ! Coefficient for modification of Langmuir number due to
-                                !  MLD approaching stable Obukhov depth if LT_ENHANCE=2.
-LT_MOD_LAC3 = 0.0               !   [nondim] default = 0.0
-                                ! Coefficient for modification of Langmuir number due to
-                                !  MLD approaching unstable Obukhov depth if LT_ENHANCE=2.
-LT_MOD_LAC4 = 0.95              !   [nondim] default = 0.95
-                                ! Coefficient for modification of Langmuir number due to
-                                !  ratio of Ekman to stable Obukhov depth if LT_ENHANCE=2.
-LT_MOD_LAC5 = 0.95              !   [nondim] default = 0.95
-                                ! Coefficient for modification of Langmuir number due to
-                                !  ratio of Ekman to unstable Obukhov depth if LT_ENHANCE=2.
+EPBL_LT = False                 !   [nondim] default = False
+                                ! A logical to use a LT parameterization.
 EPBL_USTAR_MIN = 1.45842E-18    !   [m s-1]
                                 ! The (tiny) minimum friction velocity used within the
                                 ! ePBL code, derived from OMEGA and ANGSTROM.
@@ -1571,6 +1554,11 @@ GUST_2D_FILE = "forcing_monthly.nc" !
 ! === module MOM_restart ===
 ICE_SHELF = False               !   [Boolean] default = False
                                 ! If true, enables the ice shelf model.
+USE_WAVES = False               !   [Boolean] default = False
+                                ! If true, enables surface wave modules.
+LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
+                                ! The depth (normalized by BLD) to average Stokes drift over in
+                                !  Lanmguir number calculation, where La = sqrt(ust/Stokes).
 
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 3600.0             !   [s] default = 3600.0

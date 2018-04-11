@@ -1188,6 +1188,10 @@ CFL_TRUNCATE_RAMP_TIME = 0.0    !   [s] default = 0.0
 CFL_TRUNCATE_START = 0.0        !   [nondim] default = 0.0
                                 ! The start value of the truncation CFL number used when
                                 ! ramping up CFL_TRUNC.
+STOKES_MIXING_COMBINED = False  !   [Boolean] default = False
+                                ! Flag to use Stokes drift Mixing via the Lagrangian
+                                !  current (Eulerian plus Stokes drift).
+                                !  Still needs work and testing, so not recommended for use.
 VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
                                 ! A negligibly small velocity magnitude below which velocity
                                 ! components are set to 0.  A reasonable value might be
@@ -1888,9 +1892,6 @@ N2_DISSIPATION_NEG = 0.0        !   [nondim] default = 0.0
 USE_LA_LI2016 = True            !   [nondim] default = False
                                 ! A logical to use the Li et al. 2016 (submitted) formula to
                                 !  determine the Langmuir number.
-LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
-                                ! The depth (normalized by BLD) to average Stokes drift over in
-                                !  Lanmguir number calculation, where La = sqrt(ust/Stokes).
 LT_ENHANCE = 3                  !   [nondim] default = 0
                                 ! Integer for Langmuir number mode.
                                 !  *Requires USE_LA_LI2016 to be set to True.
@@ -2180,6 +2181,11 @@ ALLOW_FLUX_ADJUSTMENTS = False  !   [Boolean] default = False
                                 ! data_table using the component name 'OCN'.
 
 ! === module MOM_restart ===
+USE_WAVES = False               !   [Boolean] default = False
+                                ! If true, enables surface wave modules.
+LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
+                                ! The depth (normalized by BLD) to average Stokes drift over in
+                                !  Lanmguir number calculation, where La = sqrt(ust/Stokes).
 
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
