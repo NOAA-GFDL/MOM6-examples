@@ -1577,7 +1577,13 @@ DIFFUSE_ML_TO_INTERIOR = True   !   [Boolean] default = False
 CHECK_DIFFUSIVE_CFL = False     !   [Boolean] default = False
                                 ! If true, use enough iterations the diffusion to ensure
                                 ! that the diffusive equivalent of the CFL limit is not
-                                ! violated.  If false, always use 1 iteration.
+                                ! violated.  If false, always use the greater of 1 or
+                                ! MAX_TR_DIFFUSION_CFL iteration.
+MAX_TR_DIFFUSION_CFL = -1.0     !   [nondim] default = -1.0
+                                ! If positive, locally limit the along-isopycnal tracer
+                                ! diffusivity to keep the diffusive CFL locally at or
+                                ! below this value.  The number of diffusive iterations
+                                ! is often this value or the next greater integer.
 ML_KHTR_SCALE = 0.0             !   [nondim] default = 1.0
                                 ! With Diffuse_ML_interior, the ratio of the truly
                                 ! horizontal diffusivity in the mixed layer to the
