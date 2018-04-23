@@ -22,10 +22,9 @@ DT_THERM = 3600.0               !   [s] default = 1200.0
 DTBT_RESET_PERIOD = 8.64E+04    !   [s] default = 3600.0
                                 ! The period between recalculations of DTBT (if DTBT <= 0).
                                 ! If DTBT_RESET_PERIOD is negative, DTBT is set based
-                                ! only on information available at initialization.  If
-                                ! dynamic, DTBT will be set at least every forcing time
-                                ! step, and if 0, every dynamics time step.  The default is
-                                ! set by DT_THERM.  This is only used if SPLIT is true.
+                                ! only on information available at initialization.  If 0,
+                                ! DTBT will be set every dynamics time step. The default
+                                ! is set by DT_THERM.  This is only used if SPLIT is true.
 
 ! === module MOM_domains ===
 REENTRANT_X = False             !   [Boolean] default = True
