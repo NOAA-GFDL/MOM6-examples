@@ -321,21 +321,21 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! in the surface boundary layer.
 
 ! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
+! This is the MOM wrapper to CVMix:KPP
+! See http://cvmix.github.io/
 USE_KPP = True                  !   [Boolean] default = False
-                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
+                                ! If true, turns on the [CVMix] KPP scheme of Large et al., 1994,
                                 ! to calculate diffusivities and non-local transport in the OBL.
 KPP%
 PASSIVE = True                  !   [Boolean] default = False
                                 ! If True, puts KPP into a passive-diagnostic mode.
 %KPP
 
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-CONVECTION%
-%CONVECTION
+! === module MOM_tidal_mixing ===
+! Vertical Tidal Mixing Parameterization
+
+! === module MOM_CVMix_conv ===
+! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -357,6 +357,9 @@ ML_OMEGA_FRAC = 1.0             !   [nondim] default = 0.0
                                 ! When setting the decay scale for turbulence, use this
                                 ! fraction of the absolute rotation rate blended with the
                                 ! local value of f, as sqrt((1-of)*f^2 + of*4*omega^2).
+
+! === module MOM_bkgnd_mixing ===
+! Adding static vertical background mixing coefficients
 KD = 2.0E-05                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
