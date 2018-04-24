@@ -52,23 +52,11 @@ ICE_KMELT = 240.0               !   [W m-2 K-1] default = 240.0
                                 ! water times a molecular diffusive piston velocity.
 SNOW_CONDUCT = 0.31             !   [W m-1 K-1] default = 0.31
                                 ! The conductivity of heat in snow.
-COLUMN_CHECK = False            !   [Boolean] default = False
-                                ! If true, add code to allow debugging of conservation
-                                ! column-by-column.  This does not change answers, but
-                                ! can increase model run time.
-IMBALANCE_TOLERANCE = 1.0E-09   !   [nondim] default = 1.0E-09
-                                ! The tolerance for imbalances to be flagged by COLUMN_CHECK.
 ICE_BOUNDS_CHECK = True         !   [Boolean] default = True
                                 ! If true, periodically check the values of ice and snow
                                 ! temperatures and thicknesses to ensure that they are
                                 ! sensible, and issue warnings if they are not.  This
                                 ! does not change answers, but can increase model run time.
-DEBUG = False                   !   [Boolean] default = False
-                                ! If true, write out verbose debugging data.
-DEBUG_SLOW_ICE = False          !   [Boolean] default = False
-                                ! If true, write out verbose debugging data on the slow ice PEs.
-DEBUG_FAST_ICE = False          !   [Boolean] default = False
-                                ! If true, write out verbose debugging data on the fast ice PEs.
 FIRST_DIRECTION = 0             ! default = 0
                                 ! An integer that indicates which direction goes first
                                 ! in parts of the code that use directionally split
@@ -111,12 +99,6 @@ REDO_FAST_ICE_UPDATE = False    !   [Boolean] default = False
                                 ! If true, recalculate the thermal updates from the fast
                                 ! dynamics on the slowly evolving ice state, rather than
                                 ! copying over the slow ice state to the fast ice state.
-DEBUG_CHKSUMS = False           !   [Boolean] default = False
-                                ! If true, checksums are performed on arrays in the
-                                ! various vec_chksum routines.
-DEBUG_REDUNDANT = False         !   [Boolean] default = False
-                                ! If true, debug redundant data points during calls to
-                                ! the various vec_chksum routines.
 NCAT_ICE = 5                    !   [nondim] default = 5
                                 ! The number of sea ice thickness categories.
 NK_ICE = 4                      !   [nondim] default = 4
@@ -338,8 +320,6 @@ TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between writes of the
                                 ! globally summed ice statistics and conservation checks.
-VERBOSE = False                 !   [Boolean] default = False
-                                ! If true, write out verbose diagnostics.
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
                                 ! The sub-cycling time step for iterating the rheology
                                 ! and ice momentum equations. If DT_RHEOLOGY is negative,
@@ -368,10 +348,6 @@ SEA_ICE_ROLL_FACTOR = 1.0       !   [Nondim] default = 1.0
                                 ! minimum number of ice floes in a grid cell divided by
                                 ! the horizontal floe aspect ratio.  Sensible values are
                                 ! 0 (no rolling) or larger than 1.
-CHECK_ICE_TRANSPORT_CONSERVATION = False !   [Boolean] default = False
-                                ! If true, use add multiple diagnostics of ice and snow
-                                ! mass conservation in the sea-ice transport code.  This
-                                ! is expensive and should be used sparingly.
 SIS_THICKNESS_ADVECTION_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind
@@ -449,12 +425,6 @@ ICE_DELTA_EDD_R_POND = 0.0      !   [nondimensional] default = 0.0
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
                                 ! If true, all log messages are also sent to stdout.
-REPORT_UNUSED_PARAMS = True     !   [Boolean] default = False
-                                ! If true, report any parameter lines that are not used
-                                ! in the run.
-FATAL_UNUSED_PARAMS = True      !   [Boolean] default = False
-                                ! If true, kill the run if there are any unused
-                                ! parameters.
 DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
                                 ! The basename for files where run-time parameters, their
                                 ! settings, units and defaults are documented. Blank will
