@@ -355,14 +355,14 @@ KHTH = 1.0E-04                  !   [m2 s-1] default = 0.0
 ! The following parameters are used for diabatic processes.
 
 ! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
+! This is the MOM wrapper to CVMix:KPP
+! See http://cvmix.github.io/
 
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-CONVECTION%
-%CONVECTION
+! === module MOM_tidal_mixing ===
+! Vertical Tidal Mixing Parameterization
+
+! === module MOM_CVMix_conv ===
+! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -372,6 +372,9 @@ TOLERANCE_ENT = 1.0E-05         !   [m] default = 3.464101615137755E-05
                                 ! The tolerance with which to solve for entrainment values.
 
 ! === module MOM_set_diffusivity ===
+
+! === module MOM_bkgnd_mixing ===
+! Adding static vertical background mixing coefficients
 KD = 1.0E-04                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,

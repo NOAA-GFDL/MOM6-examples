@@ -407,14 +407,35 @@ Z_OUTPUT_GRID_FILE = "analysis_vgrid_lev35.v1.nc" ! default = ""
 ! The following parameters are used for diabatic processes.
 
 ! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
+! This is the MOM wrapper to CVMix:KPP
+! See http://cvmix.github.io/
 
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-CONVECTION%
-%CONVECTION
+! === module MOM_tidal_mixing ===
+! Vertical Tidal Mixing Parameterization
+INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
+                                ! If true, use an internal tidal dissipation scheme to
+                                ! drive diapycnal mixing, along the lines of St. Laurent
+                                ! et al. (2002) and Simmons et al. (2004).
+INT_TIDE_DECAY_SCALE = 300.3003003003003 !   [m] default = 500.0
+                                ! The decay scale away from the bottom for tidal TKE with
+                                ! the new coding when INT_TIDE_DISSIPATION is used.
+KAPPA_ITIDES = 6.28319E-04      !   [m-1] default = 6.283185307179586E-04
+                                ! A topographic wavenumber used with INT_TIDE_DISSIPATION.
+                                ! The default is 2pi/10 km, as in St.Laurent et al. 2002.
+KAPPA_H2_FACTOR = 0.75          !   [nondim] default = 1.0
+                                ! A scaling factor for the roughness amplitude with nINT_TIDE_DISSIPATION.
+TKE_ITIDE_MAX = 0.1             !   [W m-2] default = 1000.0
+                                ! The maximum internal tide energy source availble to mix
+                                ! above the bottom boundary layer with INT_TIDE_DISSIPATION.
+READ_TIDEAMP = True             !   [Boolean] default = False
+                                ! If true, read a file (given by TIDEAMP_FILE) containing
+                                ! the tidal amplitude with INT_TIDE_DISSIPATION.
+H2_FILE = "sgs_h2.nc"           !
+                                ! The path to the file containing the sub-grid-scale
+                                ! topographic roughness amplitude with INT_TIDE_DISSIPATION.
+
+! === module MOM_CVMix_conv ===
+! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -441,45 +462,23 @@ USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
                                 ! If true, uses a simple, imprecise but non-coordinate dependent, model
                                 ! of BBL mixing diffusivity based on Law of the Wall. Otherwise, uses
                                 ! the original BBL scheme.
-HENYEY_IGW_BACKGROUND = True    !   [Boolean] default = False
-                                ! If true, use a latitude-dependent scaling for the near
-                                ! surface background diffusivity, as described in
-                                ! Harrison & Hallberg, JPO 2008.
-N2_FLOOR_IOMEGA2 = 0.0          !   [nondim] default = 1.0
-                                ! The floor applied to N2(k) scaled by Omega^2:
-                                !   If =0., N2(k) is simply positive definite.
-                                !   If =1., N2(k) > Omega^2 everywhere.
+
+! === module MOM_bkgnd_mixing ===
+! Adding static vertical background mixing coefficients
 KD = 2.0E-05                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
                                 ! may be used.
 KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
                                 ! The minimum diapycnal diffusivity.
+HENYEY_IGW_BACKGROUND = True    !   [Boolean] default = False
+                                ! If true, use a latitude-dependent scaling for the near
+                                ! surface background diffusivity, as described in
+                                ! Harrison & Hallberg, JPO 2008.
 KD_MAX = 0.1                    !   [m2 s-1] default = -1.0
                                 ! The maximum permitted increment for the diapycnal
                                 ! diffusivity from TKE-based parameterizations, or a
                                 ! negative value for no limit.
-INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
-                                ! If true, use an internal tidal dissipation scheme to
-                                ! drive diapycnal mixing, along the lines of St. Laurent
-                                ! et al. (2002) and Simmons et al. (2004).
-INT_TIDE_DECAY_SCALE = 300.3003003003003 !   [m] default = 0.0
-                                ! The decay scale away from the bottom for tidal TKE with
-                                ! the new coding when INT_TIDE_DISSIPATION is used.
-KAPPA_ITIDES = 6.28319E-04      !   [m-1] default = 6.283185307179586E-04
-                                ! A topographic wavenumber used with INT_TIDE_DISSIPATION.
-                                ! The default is 2pi/10 km, as in St.Laurent et al. 2002.
-KAPPA_H2_FACTOR = 0.75          !   [nondim] default = 1.0
-                                ! A scaling factor for the roughness amplitude with nINT_TIDE_DISSIPATION.
-TKE_ITIDE_MAX = 0.1             !   [W m-2] default = 1000.0
-                                ! The maximum internal tide energy source availble to mix
-                                ! above the bottom boundary layer with INT_TIDE_DISSIPATION.
-READ_TIDEAMP = True             !   [Boolean] default = False
-                                ! If true, read a file (given by TIDEAMP_FILE) containing
-                                ! the tidal amplitude with INT_TIDE_DISSIPATION.
-H2_FILE = "sgs_h2.nc"           !
-                                ! The path to the file containing the sub-grid-scale
-                                ! topographic roughness amplitude with INT_TIDE_DISSIPATION.
 
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008

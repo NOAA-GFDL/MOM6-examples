@@ -223,7 +223,7 @@ TS_CONFIG = "SCM_ideal_hurr"    !
                                 !     dumbbell - sloshing channel ICs.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     SCM_ideal_hurr - used in the SCM idealized hurricane test.
-                                !     SCM_CVmix_tests - used in the SCM CVmix tests.
+                                !     SCM_CVMix_tests - used in the SCM CVMix tests.
                                 !     USER - call a user modified routine.
 SCM_SST_REF = 29.25             !   [C]
                                 ! Reference surface temperature
@@ -331,10 +331,10 @@ MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
 ! The following parameters are used for diabatic processes.
 
 ! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
+! This is the MOM wrapper to CVMix:KPP
+! See http://cvmix.github.io/
 USE_KPP = True                  !   [Boolean] default = False
-                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
+                                ! If true, turns on the [CVMix] KPP scheme of Large et al., 1994,
                                 ! to calculate diffusivities and non-local transport in the OBL.
 KPP%
 APPLY_NONLOCAL_TRANSPORT = False !   [Boolean] default = True
@@ -343,11 +343,11 @@ APPLY_NONLOCAL_TRANSPORT = False !   [Boolean] default = True
                                 ! purely for diagnostic purposes.
 %KPP
 
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-CONVECTION%
-%CONVECTION
+! === module MOM_tidal_mixing ===
+! Vertical Tidal Mixing Parameterization
+
+! === module MOM_CVMix_conv ===
+! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -357,6 +357,9 @@ TOLERANCE_ENT = 1.0E-05         !   [m] default = 1.0E-08
                                 ! The tolerance with which to solve for entrainment values.
 
 ! === module MOM_set_diffusivity ===
+
+! === module MOM_bkgnd_mixing ===
+! Adding static vertical background mixing coefficients
 KD = 0.0                        !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
