@@ -30,6 +30,9 @@ ADIABATIC = False               !   [Boolean] default = False
                                 ! true. This assumes that KD = KDML = 0.0 and that
                                 ! there is no buoyancy forcing, but makes the model
                                 ! faster by eliminating subroutine calls.
+USE_LEGACY_DIABATIC_DRIVER = True !   [Boolean] default = True
+                                ! If true, use the a legacy version of the diabatic subroutine.
+                                ! This is temporary and is needed avoid change in answers.
 OFFLINE_TRACER_MODE = False     !   [Boolean] default = False
                                 ! If true, barotropic and baroclinic dynamics, thermodynamics
                                 ! are all bypassed with all the fields necessary to integrate
@@ -1004,6 +1007,9 @@ APPLY_NONLOCAL_TRANSPORT = True !   [Boolean] default = True
                                 ! If True, applies the non-local transport to heat and scalars.
                                 ! If False, calculates the non-local transport and tendencies but
                                 ! purely for diagnostic purposes.
+SMOOTH_BLD = False              !   [Boolean] default = False
+                                ! If True, applies a 1-1-4-1-1 Laplacian filter one time on HBLT.
+                                ! computed via CVMix to reduce any horizontal two-grid-point noise.
 RI_CRIT = 0.3                   !   [nondim] default = 0.3
                                 ! Critical bulk Richardson number used to define depth of the
                                 ! surface Ocean Boundary Layer (OBL).
