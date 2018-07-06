@@ -331,13 +331,16 @@ Z_OUTPUT_GRID_FILE = "zgrid.nc" ! default = ""
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 
-! === module MOM_KPP ===
+! === module MOM_CVMix_KPP ===
 ! This is the MOM wrapper to CVMix:KPP
 ! See http://cvmix.github.io/
 USE_KPP = True                  !   [Boolean] default = False
                                 ! If true, turns on the [CVMix] KPP scheme of Large et al., 1994,
                                 ! to calculate diffusivities and non-local transport in the OBL.
 KPP%
+INTERP_TYPE = "cubic"           ! default = "quadratic"
+                                ! Type of interpolation to determine the OBL depth.
+                                ! Allowed types are: linear, quadratic, cubic.
 %KPP
 
 ! === module MOM_tidal_mixing ===
