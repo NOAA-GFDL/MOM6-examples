@@ -213,7 +213,6 @@ TOPO_CONFIG = "flat"            !
                                 !     seamount - Gaussian bump for spontaneous motion test case.
                                 !     dumbbell - Sloshing channel with reservoirs on both ends.
                                 !     shelfwave - exponential slope for shelfwave test case.
-                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     dense - Denmark Strait-like dense water formation and overflow.
                                 !     USER - call a user modified routine.
@@ -455,6 +454,9 @@ THICKNESS_CONFIG = "circle_obcs" !
 ! === module circle_obcs_initialization ===
 DISK_RADIUS = 24.0              !   [kilometers]
                                 ! The radius of the initially elevated disk in the
+                                ! circle_obcs test case.
+DISK_X_OFFSET = 0.0             !   [kilometers] default = 0.0
+                                ! The x-offset of the initially elevated disk in the
                                 ! circle_obcs test case.
 VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 ! A string that determines how the initial velocities
