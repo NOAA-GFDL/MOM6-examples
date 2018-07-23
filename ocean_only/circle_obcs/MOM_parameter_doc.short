@@ -106,14 +106,6 @@ MAXIMUM_DEPTH = 600.0           !   [m]
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
 OBC_NUMBER_OF_SEGMENTS = 4      ! default = 0
                                 ! The number of open boundary segments.
-OBC_FREESLIP_VORTICITY = True   !   [Boolean] default = False
-                                ! If true, sets the normal gradient of tangential velocity to
-                                ! zero in the relative vorticity on open boundaries. This cannot
-                                ! be true if another OBC_XXX_VORTICITY option is True.
-OBC_FREESLIP_STRAIN = True      !   [Boolean] default = False
-                                ! If true, sets the normal gradient of tangential velocity to
-                                ! zero in the strain use in the stress tensor on open boundaries. This cannot
-                                ! be true if another OBC_XXX_STRAIN option is True.
 OBC_ZERO_BIHARMONIC = True      !   [Boolean] default = False
                                 ! If true, zeros the Laplacian of flow on open boundaries in the biharmonic
                                 ! viscosity term.
