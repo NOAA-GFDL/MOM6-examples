@@ -625,10 +625,6 @@ OCEAN_SURFACE_STAGGER = "B"     ! default = "C"
                                 ! staggering of the surface velocity field that is
                                 ! returned to the coupler.  Valid values include
                                 ! 'A', 'B', or 'C'.
-RESTORE_SALINITY = True         !   [Boolean] default = False
-                                ! If true, the coupled driver will add a globally-balanced
-                                ! fresh-water flux that drives sea-surface salinity
-                                ! toward specified values.
 
 ! === module MOM_surface_forcing ===
 MAX_P_SURF = 7.0E+04            !   [Pa] default = -1.0
@@ -638,6 +634,10 @@ MAX_P_SURF = 7.0E+04            !   [Pa] default = -1.0
                                 ! limit the water that can be frozen out of the ocean and
                                 ! the ice-ocean heat fluxes are treated explicitly.  No
                                 ! limit is applied if a negative value is used.
+RESTORE_SALINITY = True         !   [Boolean] default = False
+                                ! If true, the coupled driver will add a globally-balanced
+                                ! fresh-water flux that drives sea-surface salinity
+                                ! toward specified values.
 ADJUST_NET_FRESH_WATER_TO_ZERO = True !   [Boolean] default = False
                                 ! If true, adjusts the net fresh-water forcing seen
                                 ! by the ocean (including restoring) to zero.
