@@ -842,10 +842,6 @@ ENERGYSAVEDAYS = 0.5            !   [days] default = 1.0
                                 ! energies of the run and other globally summed diagnostics.
 
 ! === module ocean_model_init ===
-RESTORE_SALINITY = True         !   [Boolean] default = False
-                                ! If true, the coupled driver will add a globally-balanced
-                                ! fresh-water flux that drives sea-surface salinity
-                                ! toward specified values.
 
 ! === module MOM_surface_forcing ===
 MAX_P_SURF = 0.0                !   [Pa] default = -1.0
@@ -855,6 +851,10 @@ MAX_P_SURF = 0.0                !   [Pa] default = -1.0
                                 ! limit the water that can be frozen out of the ocean and
                                 ! the ice-ocean heat fluxes are treated explicitly.  No
                                 ! limit is applied if a negative value is used.
+RESTORE_SALINITY = True         !   [Boolean] default = False
+                                ! If true, the coupled driver will add a globally-balanced
+                                ! fresh-water flux that drives sea-surface salinity
+                                ! toward specified values.
 ADJUST_NET_FRESH_WATER_TO_ZERO = True !   [Boolean] default = False
                                 ! If true, adjusts the net fresh-water forcing seen
                                 ! by the ocean (including restoring) to zero.

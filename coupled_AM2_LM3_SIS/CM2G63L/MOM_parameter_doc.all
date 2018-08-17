@@ -1774,14 +1774,6 @@ OCEAN_SURFACE_STAGGER = "B"     ! default = "C"
                                 ! staggering of the surface velocity field that is
                                 ! returned to the coupler.  Valid values include
                                 ! 'A', 'B', or 'C'.
-RESTORE_SALINITY = False        !   [Boolean] default = False
-                                ! If true, the coupled driver will add a globally-balanced
-                                ! fresh-water flux that drives sea-surface salinity
-                                ! toward specified values.
-RESTORE_TEMPERATURE = False     !   [Boolean] default = False
-                                ! If true, the coupled driver will add a
-                                ! heat flux that drives sea-surface temperauture
-                                ! toward specified values.
 ICE_SHELF = False               !   [Boolean] default = False
                                 ! If true, enables the ice shelf model.
 ICEBERGS_APPLY_RIGID_BOUNDARY = False !   [Boolean] default = False
@@ -1799,6 +1791,14 @@ MAX_P_SURF = 7.0E+04            !   [Pa] default = -1.0
                                 ! limit the water that can be frozen out of the ocean and
                                 ! the ice-ocean heat fluxes are treated explicitly.  No
                                 ! limit is applied if a negative value is used.
+RESTORE_SALINITY = False        !   [Boolean] default = False
+                                ! If true, the coupled driver will add a globally-balanced
+                                ! fresh-water flux that drives sea-surface salinity
+                                ! toward specified values.
+RESTORE_TEMPERATURE = False     !   [Boolean] default = False
+                                ! If true, the coupled driver will add a
+                                ! heat flux that drives sea-surface temperauture
+                                ! toward specified values.
 ADJUST_NET_SRESTORE_TO_ZERO = False !   [Boolean] default = False
                                 ! If true, adjusts the salinity restoring seen to zero
                                 ! whether restoring is via a salt flux or virtual precip.
@@ -1819,6 +1819,11 @@ USE_LIMITED_PATM_SSH = False    !   [Boolean] default = True
                                 ! correction for the atmospheric (and sea-ice) pressure
                                 ! limited by max_p_surf instead of the full atmospheric
                                 ! pressure.
+APPROX_NET_MASS_SRC = False     !   [Boolean] default = False
+                                ! If true, use the net mass sources from the ice-ocean
+                                ! boundary type without any further adjustments to drive
+                                ! the ocean dynamics.  The actual net mass source may differ
+                                ! due to internal corrections.
 WIND_STAGGER = "B"              ! default = "C"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the input wind stress field.  Valid
