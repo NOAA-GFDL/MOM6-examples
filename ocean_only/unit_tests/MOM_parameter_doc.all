@@ -243,6 +243,10 @@ ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
                                 !     USER - call a user modified routine.
 OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
                                 ! The rotation rate of the earth.
+GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = True
+                                ! If true, use an older algorithm to calculate the sine and
+                                ! cosines needed rotate between grid-oriented directions and
+                                ! true north and east.  Differences arise at the tripolar fold.
 PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
                                 ! If true, each processor writes its own restart file,
                                 ! otherwise a single restart file is generated
