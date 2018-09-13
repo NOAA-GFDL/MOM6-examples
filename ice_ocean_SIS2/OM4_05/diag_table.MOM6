@@ -166,6 +166,8 @@
 #"ocean_model",  "vo",           "vo",               "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","vo",           "vo",               "ocean_annual_z",     "all", "mean", "none",2
  "ocean_model_z","vo",           "vo",               "ocean_month_z",      "all", "mean", "none",2
+ "ocean_model_rho2","vo",        "vo",               "ocean_annual_rho2",  "all", "mean", "none",2                               
+ "ocean_model_rho2","vo",        "vo",               "ocean_month_rho2",   "all", "mean", "none",2                               
 #"ocean_model",  "vo",           "vo",               "ocean_month",        "all", "mean", "none",2
 #"ocean_model",  "umo",          "umo",              "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","umo",          "umo",              "ocean_annual_z",     "all", "mean", "none",2
@@ -457,6 +459,7 @@
  "ocean_model", "Heat_PmE",               "Heat_PmE",               "ocean_annual", "all", "mean", "none",2
  "ocean_model", "nonpenSW",               "nonpenSW",               "ocean_annual", "all", "mean", "none",2
 #"ocean_model", "internal_heat",          "internal_heat",          "ocean_annual", "all", "mean", "none",2
+ "ocean_model", "heat_content_vprec",     "heat_content_vprec",     "ocean_annual", "all", "mean", "none",2
 
  "ocean_model", "net_heat_coupler",       "net_heat_coupler",       "ocean_month", "all", "mean", "none",2
  "ocean_model", "heat_content_massin",    "heat_content_massin",    "ocean_month", "all", "mean", "none",2
@@ -468,6 +471,7 @@
  "ocean_model", "Heat_PmE",               "Heat_PmE",               "ocean_month", "all", "mean", "none",2
  "ocean_model", "nonpenSW",               "nonpenSW",               "ocean_month", "all", "mean", "none",2
 #"ocean_model", "internal_heat",          "internal_heat",          "ocean_month", "all", "mean", "none",2
+ "ocean_model", "heat_content_vprec",     "heat_content_vprec",     "ocean_month", "all", "mean", "none",2
 
 
 # -----------------------------------------------------------------------------------------
@@ -497,7 +501,8 @@
  "ocean_model_z",  "rsdoabsorb",                   "rsdoabsorb",                     "ocean_annual_z",   "all", "mean", "none",2
  "ocean_model_z",  "opottemptend",                 "opottemptend",                   "ocean_annual_z",   "all", "mean", "none",2
 #"ocean_model_z",  "opottemprmadvect",             "opottemprmadvect",               "ocean_annual_z",   "all", "mean", "none",2 # T_advection_xy+Th_tendency_vert_remap
- "ocean_model",    "opottemppmdiff",               "opottemppmdiff",                 "ocean_annual",     "all", "mean", "none",2
+#"ocean_model",    "opottemppmdiff",               "opottemppmdiff",                 "ocean_annual",     "all", "mean", "none",2
+ "ocean_model_z",  "opottemppmdiff",               "opottemppmdiff",                 "ocean_annual_z",   "all", "mean", "none",2
  "ocean_model_z",  "opottempdiff",                 "opottempdiff",                   "ocean_annual_z",   "all", "mean", "none",2
  "ocean_model_z",  "osalttend",                    "osalttend",                      "ocean_annual_z",   "all", "mean", "none",2
 #"ocean_model_z",  "osaltrmadvect",                "osaltrmadvect",                  "ocean_annual_z",   "all", "mean", "none",2 # S_advection_xy+Sh_tendency_vert_remap
@@ -520,15 +525,13 @@
 
 # -----------------------------------------------------------------------------------------
 # CMIP6/OMIP Table N1: lateral viscosity and diffusivities and impact on kinetic energy
- "ocean_model",  "diftrblo",     "diftrblo",         "ocean_annual",        "all", "mean", "none",2
- "ocean_model",  "diftrelo",     "diftrelo",         "ocean_annual",        "all", "mean", "none",2  # when neutral tracer diffusion
- "ocean_model",  "difmxylo",     "difmxylo",         "ocean_annual",        "all", "mean", "none",2  # save if use Laplacian visc
- "ocean_model",  "difmxybo",     "difmxybo",         "ocean_annual",        "all", "mean", "none",2
- "ocean_model",  "dispkexyfo",   "dispkexyfo",       "ocean_annual",        "all", "mean", "none",2
- "ocean_model",  "tnkebto",      "tnkebto",          "ocean_annual",        "all", "mean", "none",2
- "ocean_model_z","difmxybo",     "difmxybo",         "ocean_annual_z",      "all", "mean", "none",2
- "ocean_model_z","dispkexyfo",   "dispkexyfo",       "ocean_annual_z",      "all", "mean", "none",2
+ "ocean_model",  "dispkexyfo",   "dispkexyfo",       "ocean_annual",        "all", "mean", "none",2  # depth-integrated 2-d field
+ "ocean_model",  "tnkebto",      "tnkebto",          "ocean_annual",        "all", "mean", "none",2  # depth-integrated 2-d field
+ "ocean_model",  "diftrelo",     "diftrelo",         "ocean_annual",        "all", "mean", "none",2  # 2-d field, save if using neutral tracer diffusion
 
+ "ocean_model_z", "diftrblo",    "diftrblo",         "ocean_annual_z",      "all", "mean", "none",2  
+ "ocean_model_z", "difmxybo",    "difmxybo",         "ocean_annual_z",      "all", "mean", "none",2
+ "ocean_model_z", "difmxylo",    "difmxylo",         "ocean_annual_z",      "all", "mean", "none",2  # save if using Laplacian visc
 
 #############################################################################################
 ###### Diagnostics in addition to CMIP6/OMIP request#########################################
@@ -602,7 +605,6 @@
  "ocean_model", "LwLatSens_ga",        "LwLatSens_ga",       "ocean_scalar_month",  "all", "mean",  "none",1  # global mean LW+lat+sens
  "ocean_model", "ssh_ga",              "ssh_ga",             "ocean_scalar_month",  "all", "mean",  "none",1  # global mean ssh
  "ocean_model", "precip_ga",           "precip_ga",          "ocean_scalar_month",  "all", "mean",  "none",1  # global mean precip
-
 # Annual time series
  "ocean_model", "ave_wfo",             "ave_wfo",             "ocean_scalar_annual",  "all", "mean",  "none",1  # global mean prcme
  "ocean_model", "ave_evs",             "ave_evs",             "ocean_scalar_annual",  "all", "mean",  "none",1  # global mean evaporation
@@ -615,7 +617,6 @@
  "ocean_model", "LwLatSens_ga",        "LwLatSens_ga",        "ocean_scalar_annual",  "all", "mean",  "none",1  # global mean LW + latent + sensible
  "ocean_model", "ssh_ga",              "ssh_ga",              "ocean_scalar_annual",  "all", "mean",  "none",1  # global mean ssh
  "ocean_model", "precip_ga",           "precip_ga",           "ocean_scalar_annual",  "all", "mean",  "none",1  # global mean precip
-
 # -----------------------------------------------------------------------------------------
 # Monthly snapshots
  "ocean_model", "mass_wt",     "mass_wt",     "ocean_month_snap", "all", "none", "none",2
