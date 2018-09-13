@@ -34,10 +34,9 @@ MIN_Z_DIAG_INTERVAL = 2.16E+04  !   [s] default = 0.0
 DTBT_RESET_PERIOD = -1.0        !   [s] default = 3600.0
                                 ! The period between recalculations of DTBT (if DTBT <= 0).
                                 ! If DTBT_RESET_PERIOD is negative, DTBT is set based
-                                ! only on information available at initialization.  If
-                                ! dynamic, DTBT will be set at least every forcing time
-                                ! step, and if 0, every dynamics time step.  The default is
-                                ! set by DT_THERM.  This is only used if SPLIT is true.
+                                ! only on information available at initialization.  If 0,
+                                ! DTBT will be set every dynamics time step. The default
+                                ! is set by DT_THERM.  This is only used if SPLIT is true.
 FRAZIL = True                   !   [Boolean] default = False
                                 ! If true, water freezes if it gets too cold, and the
                                 ! the accumulated heat deficit is returned in the
@@ -131,7 +130,6 @@ TOPO_CONFIG = "file"            !
                                 !     seamount - Gaussian bump for spontaneous motion test case.
                                 !     dumbbell - Sloshing channel with reservoirs on both ends.
                                 !     shelfwave - exponential slope for shelfwave test case.
-                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     dense - Denmark Strait-like dense water formation and overflow.
                                 !     USER - call a user modified routine.
@@ -492,49 +490,12 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! layer scheme to determine the diffusivity and viscosity
                                 ! in the surface boundary layer.
 
-! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
+! === module MOM_CVMix_KPP ===
+! This is the MOM wrapper to CVMix:KPP
+! See http://cvmix.github.io/
 
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-CONVECTION%
-%CONVECTION
-
-! === module MOM_entrain_diffusive ===
-
-! === module MOM_set_diffusivity ===
-BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
-                                ! If true, take the maximum of the diffusivity from the
-                                ! BBL mixing and the other diffusivities. Otherwise,
-                                ! diffusiviy from the BBL_mixing is simply added.
-USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
-                                ! If true, uses a simple, imprecise but non-coordinate dependent, model
-                                ! of BBL mixing diffusivity based on Law of the Wall. Otherwise, uses
-                                ! the original BBL scheme.
-SIMPLE_TKE_TO_KD = True         !   [Boolean] default = False
-                                ! If true, uses a simple estimate of Kd/TKE that will
-                                ! work for arbitrary vertical coordinates. If false,
-                                ! calculates Kd/TKE and bounds based on exact energetics/nfor an isopycnal layer-formulation.
-HENYEY_IGW_BACKGROUND = True    !   [Boolean] default = False
-                                ! If true, use a latitude-dependent scaling for the near
-                                ! surface background diffusivity, as described in
-                                ! Harrison & Hallberg, JPO 2008.
-N2_FLOOR_IOMEGA2 = 0.0          !   [nondim] default = 1.0
-                                ! The floor applied to N2(k) scaled by Omega^2:
-                                !   If =0., N2(k) is simply positive definite.
-                                !   If =1., N2(k) > Omega^2 everywhere.
-KD = 2.0E-05                    !   [m2 s-1]
-                                ! The background diapycnal diffusivity of density in the
-                                ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
-                                ! may be used.
-KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
-                                ! The minimum diapycnal diffusivity.
-KD_MAX = 0.1                    !   [m2 s-1] default = -1.0
-                                ! The maximum permitted increment for the diapycnal
-                                ! diffusivity from TKE-based parameterizations, or a
-                                ! negative value for no limit.
+! === module MOM_tidal_mixing ===
+! Vertical Tidal Mixing Parameterization
 INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
                                 ! If true, use an internal tidal dissipation scheme to
                                 ! drive diapycnal mixing, along the lines of St. Laurent
@@ -564,6 +525,42 @@ H2_FILE = "topog.nc"            !
                                 ! The path to the file containing the sub-grid-scale
                                 ! topographic roughness amplitude with INT_TIDE_DISSIPATION.
 
+! === module MOM_CVMix_conv ===
+! Parameterization of enhanced mixing due to convection via CVMix
+
+! === module MOM_entrain_diffusive ===
+
+! === module MOM_set_diffusivity ===
+BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
+                                ! If true, take the maximum of the diffusivity from the
+                                ! BBL mixing and the other diffusivities. Otherwise,
+                                ! diffusiviy from the BBL_mixing is simply added.
+USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
+                                ! If true, uses a simple, imprecise but non-coordinate dependent, model
+                                ! of BBL mixing diffusivity based on Law of the Wall. Otherwise, uses
+                                ! the original BBL scheme.
+SIMPLE_TKE_TO_KD = True         !   [Boolean] default = False
+                                ! If true, uses a simple estimate of Kd/TKE that will
+                                ! work for arbitrary vertical coordinates. If false,
+                                ! calculates Kd/TKE and bounds based on exact energetics/nfor an isopycnal layer-formulation.
+
+! === module MOM_bkgnd_mixing ===
+! Adding static vertical background mixing coefficients
+KD = 2.0E-05                    !   [m2 s-1]
+                                ! The background diapycnal diffusivity of density in the
+                                ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
+                                ! may be used.
+KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
+                                ! The minimum diapycnal diffusivity.
+HENYEY_IGW_BACKGROUND = True    !   [Boolean] default = False
+                                ! If true, use a latitude-dependent scaling for the near
+                                ! surface background diffusivity, as described in
+                                ! Harrison & Hallberg, JPO 2008.
+KD_MAX = 0.1                    !   [m2 s-1] default = -1.0
+                                ! The maximum permitted increment for the diapycnal
+                                ! diffusivity from TKE-based parameterizations, or a
+                                ! negative value for no limit.
+
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
 USE_JACKSON_PARAM = True        !   [Boolean] default = False
@@ -575,6 +572,9 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
+
+! === module MOM_CVMix_ddiff ===
+! Parameterization of mixing due to double diffusion processes via CVMix
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
