@@ -138,6 +138,9 @@ GRID_CONFIG = "mosaic"          !
                                 !     mercator - use a Mercator spherical grid.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
+USE_TRIPOLAR_GEOLONB_BUG = True !   [Boolean] default = True
+                                ! If true, use older code that incorrectly sets the longitude
+                                ! in some points along the tripolar fold to be off by 360 degrees.
 TOPO_CONFIG = "file"            ! default = "file"
                                 ! This specifies how bathymetry is specified:
                                 !     file - read bathymetric information from the file
@@ -184,6 +187,10 @@ ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
                                 !     USER - call a user modified routine.
 OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
                                 ! The rotation rate of the earth.
+GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = True
+                                ! If true, use an older algorithm to calculate the sine and
+                                ! cosines needed rotate between grid-oriented directions and
+                                ! true north and east.  Differences arise at the tripolar fold.
 
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
