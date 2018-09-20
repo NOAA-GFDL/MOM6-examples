@@ -27,10 +27,9 @@ from strait_transport_timeseries import sum_transport_in_straits
 ##
 ##   2-D variables we intent to provide:
 ##
-##     hfy  ->  T_ady_2d + ndiff_tracer_trans_y_2d_T   * T_ady_2d needs to be converted to Watts (Cp = 3992.)
-##                                                       ndiff_tracer_trans_y_2d_T already in Watts
-##                                                       advective term in both 0.25 and 0.5 resolutions
-##                                                       diffusive term only in 0.5 resolution
+##     hfy  ->  T_ady_2d + T_diffy_2d   * T_ady_2d and T_diffy_2d already in Watts
+##                                        advective term in both 0.25 and 0.5 resolutions
+##                                        diffusive term only in 0.5 resolution
 ##
 ##     hfx  -> same recipie as above, expect for x-dimension
 ##     hfbasin -> summed line of hfy in each basin
