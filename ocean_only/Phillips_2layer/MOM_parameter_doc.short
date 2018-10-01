@@ -22,10 +22,9 @@ DT_THERM = 1800.0               !   [s] default = 600.0
 DTBT_RESET_PERIOD = 8.64E+04    !   [s] default = 1800.0
                                 ! The period between recalculations of DTBT (if DTBT <= 0).
                                 ! If DTBT_RESET_PERIOD is negative, DTBT is set based
-                                ! only on information available at initialization.  If
-                                ! dynamic, DTBT will be set at least every forcing time
-                                ! step, and if 0, every dynamics time step.  The default is
-                                ! set by DT_THERM.  This is only used if SPLIT is true.
+                                ! only on information available at initialization.  If 0,
+                                ! DTBT will be set every dynamics time step. The default
+                                ! is set by DT_THERM.  This is only used if SPLIT is true.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given
                                 ! by IC_OUTPUT_FILE.
@@ -101,7 +100,6 @@ TOPO_CONFIG = "flat"            !
                                 !     seamount - Gaussian bump for spontaneous motion test case.
                                 !     dumbbell - Sloshing channel with reservoirs on both ends.
                                 !     shelfwave - exponential slope for shelfwave test case.
-                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     dense - Denmark Strait-like dense water formation and overflow.
                                 !     USER - call a user modified routine.
@@ -377,15 +375,15 @@ KHTH = 8000.0                   !   [m2 s-1] default = 0.0
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 
-! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
+! === module MOM_CVMix_KPP ===
+! This is the MOM wrapper to CVMix:KPP
+! See http://cvmix.github.io/
 
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-CONVECTION%
-%CONVECTION
+! === module MOM_tidal_mixing ===
+! Vertical Tidal Mixing Parameterization
+
+! === module MOM_CVMix_conv ===
+! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -395,6 +393,9 @@ TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.449489742783178E-05
                                 ! The tolerance with which to solve for entrainment values.
 
 ! === module MOM_set_diffusivity ===
+
+! === module MOM_bkgnd_mixing ===
+! Adding static vertical background mixing coefficients
 KD = 1.0E-04                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
@@ -407,6 +408,9 @@ KD_MIN = 1.0E-06                !   [m2 s-1] default = 1.0E-06
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
+
+! === module MOM_CVMix_ddiff ===
+! Parameterization of mixing due to double diffusion processes via CVMix
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.

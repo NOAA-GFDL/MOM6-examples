@@ -52,7 +52,7 @@ NJGLOBAL = 210                  !
                                 ! STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
 !LAYOUT = 8, 8                  !
                                 ! The processor layout that was acutally used.
-IO_LAYOUT = 1, 1                ! default = 0
+IO_LAYOUT = 2, 2                ! default = 0
                                 ! The processor layout to be used, or 0,0 to automatically
                                 ! set the io_layout to be the same as the layout.
 
@@ -116,6 +116,9 @@ CHECK_BAD_SURFACE_VALS = True   !   [Boolean] default = False
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given
                                 ! by IC_OUTPUT_FILE.
+PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file,
+                                ! otherwise a single restart file is generated
 
 ! === module MOM_tracer_registry ===
 TFREEZE_DP = -7.75E-08         !   [deg C Pa-1] default = 0.0

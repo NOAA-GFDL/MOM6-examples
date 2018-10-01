@@ -28,6 +28,9 @@ ADIABATIC = False               !   [Boolean] default = False
                                 ! true. This assumes that KD = KDML = 0.0 and that
                                 ! there is no buoyancy forcing, but makes the model
                                 ! faster by eliminating subroutine calls.
+USE_LEGACY_DIABATIC_DRIVER = True !   [Boolean] default = True
+                                ! If true, use the a legacy version of the diabatic subroutine.
+                                ! This is temporary and is needed avoid change in answers.
 OFFLINE_TRACER_MODE = False     !   [Boolean] default = False
                                 ! If true, barotropic and baroclinic dynamics, thermodynamics
                                 ! are all bypassed with all the fields necessary to integrate
@@ -84,10 +87,9 @@ INTERPOLATE_P_SURF = False      !   [Boolean] default = False
 DTBT_RESET_PERIOD = 0.0         !   [s] default = 7200.0
                                 ! The period between recalculations of DTBT (if DTBT <= 0).
                                 ! If DTBT_RESET_PERIOD is negative, DTBT is set based
-                                ! only on information available at initialization.  If
-                                ! dynamic, DTBT will be set at least every forcing time
-                                ! step, and if 0, every dynamics time step.  The default is
-                                ! set by DT_THERM.  This is only used if SPLIT is true.
+                                ! only on information available at initialization.  If 0,
+                                ! DTBT will be set every dynamics time step. The default
+                                ! is set by DT_THERM.  This is only used if SPLIT is true.
 FRAZIL = True                   !   [Boolean] default = False
                                 ! If true, water freezes if it gets too cold, and the
                                 ! the accumulated heat deficit is returned in the
@@ -132,6 +134,11 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =1, write the geometry and vertical grid files only for
                                 ! a new simulation. If =2, always write the geometry and
                                 ! vertical grid files. Other values are invalid.
+ENSEMBLE_OCEAN = False          !   [Boolean] default = False
+                                ! If False, The model is being run in serial mode as a single realization.
+                                ! If True, The current model realization is part of a larger ensemble
+                                ! and at the end of step MOM, we will perform a gather of the ensemble
+                                ! members for statistical evaluation and/or data assimilation.
 
 ! === module MOM_domains ===
 REENTRANT_X = False             !   [Boolean] default = True
@@ -210,7 +217,6 @@ TOPO_CONFIG = "file"            !
                                 !     seamount - Gaussian bump for spontaneous motion test case.
                                 !     dumbbell - Sloshing channel with reservoirs on both ends.
                                 !     shelfwave - exponential slope for shelfwave test case.
-                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     dense - Denmark Strait-like dense water formation and overflow.
                                 !     USER - call a user modified routine.
@@ -703,6 +709,12 @@ HTBL_SHELF = 10.0               !   [m] default = 10.0
 KV = 1.0E-04                    !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior.
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
+ADD_KV_SLOW = False             !   [Boolean] default = False
+                                ! If true, the background vertical viscosity in the interior
+                                ! (i.e., tidal + background + shear + convenction) is addded
+                                ! when computing the coupling coefficient. The purpose of this
+                                ! flag is to be able to recover previous answers and it will likely
+                                ! be removed in the future since this option should always be true.
 KV_BBL_MIN = 1.0E-04            !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the bottom boundary layer.
 KV_TBL_MIN = 1.0E-04            !   [m2 s-1] default = 1.0E-04
@@ -895,6 +907,9 @@ BOUND_KH = True                 !   [Boolean] default = True
 BETTER_BOUND_KH = True          !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited
                                 ! to be stable with a better bounding than just BOUND_KH.
+ANISOTROPIC_VISCOSITY = False   !   [Boolean] default = False
+                                ! If true, allow anistropic viscosity in the Laplacian
+                                ! horizontal viscosity.
 BIHARMONIC = True               !   [Boolean] default = True
                                 ! If true, use a biharmonic horizontal viscosity.
                                 ! BIHARMONIC may be used with LAPLACIAN.
@@ -976,6 +991,10 @@ CFL_TRUNCATE_RAMP_TIME = 0.0    !   [s] default = 0.0
 CFL_TRUNCATE_START = 0.0        !   [nondim] default = 0.0
                                 ! The start value of the truncation CFL number used when
                                 ! ramping up CFL_TRUNC.
+STOKES_MIXING_COMBINED = False  !   [Boolean] default = False
+                                ! Flag to use Stokes drift Mixing via the Lagrangian
+                                !  current (Eulerian plus Stokes drift).
+                                !  Still needs work and testing, so not recommended for use.
 VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
                                 ! A negligibly small velocity magnitude below which velocity
                                 ! components are set to 0.  A reasonable value might be
@@ -1210,30 +1229,82 @@ DIAG_MLD_DENSITY_DIFF = 0.1     !   [kg/m3] default = 0.1
                                 ! The MLD is the depth at which the density is larger than the
                                 ! surface density by the specified amount.
 
-! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
+! === module MOM_CVMix_KPP ===
+! This is the MOM wrapper to CVMix:KPP
+! See http://cvmix.github.io/
 USE_KPP = False                 !   [Boolean] default = False
-                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
+                                ! If true, turns on the [CVMix] KPP scheme of Large et al., 1994,
                                 ! to calculate diffusivities and non-local transport in the OBL.
 SALT_REJECT_BELOW_ML = False    !   [Boolean] default = False
                                 ! If true, place salt from brine rejection below the mixed layer,
                                 ! into the first non-vanished layer for which the column remains stable
 
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-USE_CONVECTION = False          !   [Boolean] default = False
-                                ! If true, turns on the diffusive convection scheme that
-                                ! increases diapycnal diffusivities at statically unstable
-                                ! interfaces. Relevant parameters are contained in the
-                                ! CONVECTION% parameter block.
-CONVECTION%
-PASSIVE = False                 !   [Boolean] default = False
-                                ! If True, puts KPP into a passive-diagnostic mode.
-KD_CONV = 1.0                   !   [m2/s] default = 1.0
-                                ! DIffusivity used in statically unstable regions of column.
-%CONVECTION
+! === module MOM_tidal_mixing ===
+! Vertical Tidal Mixing Parameterization
+USE_CVMix_TIDAL = False         !   [Boolean] default = False
+                                ! If true, turns on tidal mixing via CVMix
+INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
+                                ! If true, use an internal tidal dissipation scheme to
+                                ! drive diapycnal mixing, along the lines of St. Laurent
+                                ! et al. (2002) and Simmons et al. (2004).
+INT_TIDE_PROFILE = "STLAURENT_02" ! default = "STLAURENT_02"
+                                ! INT_TIDE_PROFILE selects the vertical profile of energy
+                                ! dissipation with INT_TIDE_DISSIPATION. Valid values are:
+                                !    STLAURENT_02 - Use the St. Laurent et al exponential
+                                !                   decay profile.
+                                !    POLZIN_09 - Use the Polzin WKB-streched algebraic
+                                !                   decay profile.
+LEE_WAVE_DISSIPATION = False    !   [Boolean] default = False
+                                ! If true, use an lee wave driven dissipation scheme to
+                                ! drive diapycnal mixing, along the lines of Nikurashin
+                                ! (2010) and using the St. Laurent et al. (2002)
+                                ! and Simmons et al. (2004) vertical profile
+INT_TIDE_LOWMODE_DISSIPATION = False !   [Boolean] default = False
+                                ! If true, consider mixing due to breaking low modes that
+                                ! have been remotely generated; as with itidal drag on the
+                                ! barotropic tide, use an internal tidal dissipation scheme to
+                                ! drive diapycnal mixing, along the lines of St. Laurent
+                                ! et al. (2002) and Simmons et al. (2004).
+INT_TIDE_DECAY_SCALE = 300.3003003003003 !   [m] default = 500.0
+                                ! The decay scale away from the bottom for tidal TKE with
+                                ! the new coding when INT_TIDE_DISSIPATION is used.
+MU_ITIDES = 0.2                 !   [nondim] default = 0.2
+                                ! A dimensionless turbulent mixing efficiency used with
+                                ! INT_TIDE_DISSIPATION, often 0.2.
+GAMMA_ITIDES = 0.3333           !   [nondim] default = 0.3333
+                                ! The fraction of the internal tidal energy that is
+                                ! dissipated locally with INT_TIDE_DISSIPATION.
+                                ! THIS NAME COULD BE BETTER.
+MIN_ZBOT_ITIDES = 0.0           !   [m] default = 0.0
+                                ! Turn off internal tidal dissipation when the total
+                                ! ocean depth is less than this value.
+KAPPA_ITIDES = 6.28319E-04      !   [m-1] default = 6.283185307179586E-04
+                                ! A topographic wavenumber used with INT_TIDE_DISSIPATION.
+                                ! The default is 2pi/10 km, as in St.Laurent et al. 2002.
+UTIDE = 0.0                     !   [m s-1] default = 0.0
+                                ! The constant tidal amplitude used with INT_TIDE_DISSIPATION.
+KAPPA_H2_FACTOR = 0.75          !   [nondim] default = 1.0
+                                ! A scaling factor for the roughness amplitude with nINT_TIDE_DISSIPATION.
+TKE_ITIDE_MAX = 0.1             !   [W m-2] default = 1000.0
+                                ! The maximum internal tide energy source availble to mix
+                                ! above the bottom boundary layer with INT_TIDE_DISSIPATION.
+READ_TIDEAMP = True             !   [Boolean] default = False
+                                ! If true, read a file (given by TIDEAMP_FILE) containing
+                                ! the tidal amplitude with INT_TIDE_DISSIPATION.
+TIDEAMP_FILE = "tideamp.nc"     ! default = "tideamp.nc"
+                                ! The path to the file containing the spatially varying
+                                ! tidal amplitudes with INT_TIDE_DISSIPATION.
+H2_FILE = "sgs_h2.nc"           !
+                                ! The path to the file containing the sub-grid-scale
+                                ! topographic roughness amplitude with INT_TIDE_DISSIPATION.
+
+! === module MOM_CVMix_conv ===
+! Parameterization of enhanced mixing due to convection via CVMix
+USE_CVMix_CONVECTION = False    !   [Boolean] default = False
+                                ! If true, turns on the enhanced mixing due to convection
+                                ! via CVMix. This scheme increases diapycnal diffs./viscs.
+                                !  at statically unstable interfaces. Relevant parameters are
+                                ! contained in the CVMix_CONVECTION% parameter block.
 
 ! === module MOM_entrain_diffusive ===
 CORRECT_DENSITY = True          !   [Boolean] default = True
@@ -1318,9 +1389,22 @@ SIMPLE_TKE_TO_KD = False        !   [Boolean] default = False
                                 ! If true, uses a simple estimate of Kd/TKE that will
                                 ! work for arbitrary vertical coordinates. If false,
                                 ! calculates Kd/TKE and bounds based on exact energetics/nfor an isopycnal layer-formulation.
+
+! === module MOM_bkgnd_mixing ===
+! Adding static vertical background mixing coefficients
+KD = 2.0E-05                    !   [m2 s-1]
+                                ! The background diapycnal diffusivity of density in the
+                                ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
+                                ! may be used.
+KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
+                                ! The minimum diapycnal diffusivity.
+PRANDTL_BKGND = 1.0             !   [nondim] default = 1.0
+                                ! Turbulent Prandtl number used to convert vertical
+                                ! background diffusivities into viscosities.
 BRYAN_LEWIS_DIFFUSIVITY = False !   [Boolean] default = False
                                 ! If true, use a Bryan & Lewis (JGR 1979) like tanh
                                 ! profile of background diapycnal diffusivity with depth.
+                                ! This is done via CVMix.
 HENYEY_IGW_BACKGROUND = True    !   [Boolean] default = False
                                 ! If true, use a latitude-dependent scaling for the near
                                 ! surface background diffusivity, as described in
@@ -1333,21 +1417,11 @@ HENYEY_N0_2OMEGA = 20.0         !   [nondim] default = 20.0
                                 ! The ratio of the typical Buoyancy frequency to twice
                                 ! the Earth's rotation period, used with the Henyey
                                 ! scaling from the mixing.
-N2_FLOOR_IOMEGA2 = 0.0          !   [nondim] default = 1.0
-                                ! The floor applied to N2(k) scaled by Omega^2:
-                                !   If =0., N2(k) is simply positive definite.
-                                !   If =1., N2(k) > Omega^2 everywhere.
 KD_TANH_LAT_FN = False          !   [Boolean] default = False
                                 ! If true, use a tanh dependence of Kd_sfc on latitude,
                                 ! like CM2.1/CM2M.  There is no physical justification
                                 ! for this form, and it can not be used with
                                 ! HENYEY_IGW_BACKGROUND.
-KD = 2.0E-05                    !   [m2 s-1]
-                                ! The background diapycnal diffusivity of density in the
-                                ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
-                                ! may be used.
-KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
-                                ! The minimum diapycnal diffusivity.
 KD_MAX = -1.0                   !   [m2 s-1] default = -1.0
                                 ! The maximum permitted increment for the diapycnal
                                 ! diffusivity from TKE-based parameterizations, or a
@@ -1355,28 +1429,6 @@ KD_MAX = -1.0                   !   [m2 s-1] default = -1.0
 KD_ADD = 0.0                    !   [m2 s-1] default = 0.0
                                 ! A uniform diapycnal diffusivity that is added
                                 ! everywhere without any filtering or scaling.
-INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
-                                ! If true, use an internal tidal dissipation scheme to
-                                ! drive diapycnal mixing, along the lines of St. Laurent
-                                ! et al. (2002) and Simmons et al. (2004).
-INT_TIDE_PROFILE = "STLAURENT_02" ! default = "STLAURENT_02"
-                                ! INT_TIDE_PROFILE selects the vertical profile of energy
-                                ! dissipation with INT_TIDE_DISSIPATION. Valid values are:
-                                !    STLAURENT_02 - Use the St. Laurent et al exponential
-                                !                   decay profile.
-                                !    POLZIN_09 - Use the Polzin WKB-streched algebraic
-                                !                   decay profile.
-LEE_WAVE_DISSIPATION = False    !   [Boolean] default = False
-                                ! If true, use an lee wave driven dissipation scheme to
-                                ! drive diapycnal mixing, along the lines of Nikurashin
-                                ! (2010) and using the St. Laurent et al. (2002)
-                                ! and Simmons et al. (2004) vertical profile
-INT_TIDE_LOWMODE_DISSIPATION = False !   [Boolean] default = False
-                                ! If true, consider mixing due to breaking low modes that
-                                ! have been remotely generated; as with itidal drag on the
-                                ! barotropic tide, use an internal tidal dissipation scheme to
-                                ! drive diapycnal mixing, along the lines of St. Laurent
-                                ! et al. (2002) and Simmons et al. (2004).
 USER_CHANGE_DIFFUSIVITY = False !   [Boolean] default = False
                                 ! If true, call user-defined code to change the diffusivity.
 DISSIPATION_MIN = 0.0           !   [W m-3] default = 0.0
@@ -1392,44 +1444,15 @@ DISSIPATION_N1 = 6.0E-04        !   [J m-3] default = 0.0
                                 ! bound of Kd (a floor): B in eps_min = A + B*N
 DISSIPATION_KD_MIN = 0.0        !   [m2 s-1] default = 0.0
                                 ! The minimum vertical diffusivity applied as a floor.
-INT_TIDE_DECAY_SCALE = 300.3003003003003 !   [m] default = 0.0
-                                ! The decay scale away from the bottom for tidal TKE with
-                                ! the new coding when INT_TIDE_DISSIPATION is used.
-MU_ITIDES = 0.2                 !   [nondim] default = 0.2
-                                ! A dimensionless turbulent mixing efficiency used with
-                                ! INT_TIDE_DISSIPATION, often 0.2.
-GAMMA_ITIDES = 0.3333           !   [nondim] default = 0.3333
-                                ! The fraction of the internal tidal energy that is
-                                ! dissipated locally with INT_TIDE_DISSIPATION.
-                                ! THIS NAME COULD BE BETTER.
-MIN_ZBOT_ITIDES = 0.0           !   [m] default = 0.0
-                                ! Turn off internal tidal dissipation when the total
-                                ! ocean depth is less than this value.
-KAPPA_ITIDES = 6.28319E-04      !   [m-1] default = 6.283185307179586E-04
-                                ! A topographic wavenumber used with INT_TIDE_DISSIPATION.
-                                ! The default is 2pi/10 km, as in St.Laurent et al. 2002.
-UTIDE = 0.0                     !   [m s-1] default = 0.0
-                                ! The constant tidal amplitude used with INT_TIDE_DISSIPATION.
-KAPPA_H2_FACTOR = 0.75          !   [nondim] default = 1.0
-                                ! A scaling factor for the roughness amplitude with nINT_TIDE_DISSIPATION.
-TKE_ITIDE_MAX = 0.1             !   [W m-2] default = 1000.0
-                                ! The maximum internal tide energy source availble to mix
-                                ! above the bottom boundary layer with INT_TIDE_DISSIPATION.
-READ_TIDEAMP = True             !   [Boolean] default = False
-                                ! If true, read a file (given by TIDEAMP_FILE) containing
-                                ! the tidal amplitude with INT_TIDE_DISSIPATION.
-TIDEAMP_FILE = "tideamp.nc"     ! default = "tideamp.nc"
-                                ! The path to the file containing the spatially varying
-                                ! tidal amplitudes with INT_TIDE_DISSIPATION.
-H2_FILE = "sgs_h2.nc"           !
-                                ! The path to the file containing the sub-grid-scale
-                                ! topographic roughness amplitude with INT_TIDE_DISSIPATION.
 
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
 USE_JACKSON_PARAM = True        !   [Boolean] default = False
                                 ! If true, use the Jackson-Hallberg-Legg (JPO 2008)
                                 ! shear mixing parameterization.
+VERTEX_SHEAR = False            !   [Boolean] default = False
+                                ! If true, do the calculations of the shear-driven mixing
+                                ! at the cell vertices (i.e., the vorticity points).
 RINO_CRIT = 0.25                !   [nondim] default = 0.25
                                 ! The critical Richardson number for shear mixing.
 SHEARMIX_RATE = 0.089           !   [nondim] default = 0.089
@@ -1492,6 +1515,13 @@ USE_LMD94 = False               !   [Boolean] default = False
 USE_PP81 = False                !   [Boolean] default = False
                                 ! If true, use the Pacanowski and Philander (JPO 1981)
                                 ! shear mixing parameterization.
+
+! === module MOM_CVMix_ddiff ===
+! Parameterization of mixing due to double diffusion processes via CVMix
+USE_CVMIX_DDIFF = False         !   [Boolean] default = False
+                                ! If true, turns on double diffusive processes via CVMix.
+                                ! Note that double diffusive processes on viscosity are ignored
+                                ! in CVMix, see http://cvmix.github.io/ for justification.
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
@@ -1744,14 +1774,6 @@ OCEAN_SURFACE_STAGGER = "C"     ! default = "C"
                                 ! staggering of the surface velocity field that is
                                 ! returned to the coupler.  Valid values include
                                 ! 'A', 'B', or 'C'.
-RESTORE_SALINITY = True         !   [Boolean] default = False
-                                ! If true, the coupled driver will add a globally-balanced
-                                ! fresh-water flux that drives sea-surface salinity
-                                ! toward specified values.
-RESTORE_TEMPERATURE = False     !   [Boolean] default = False
-                                ! If true, the coupled driver will add a
-                                ! heat flux that drives sea-surface temperauture
-                                ! toward specified values.
 ICE_SHELF = False               !   [Boolean] default = False
                                 ! If true, enables the ice shelf model.
 ICEBERGS_APPLY_RIGID_BOUNDARY = False !   [Boolean] default = False
@@ -1769,6 +1791,14 @@ MAX_P_SURF = 7.0E+04            !   [Pa] default = -1.0
                                 ! limit the water that can be frozen out of the ocean and
                                 ! the ice-ocean heat fluxes are treated explicitly.  No
                                 ! limit is applied if a negative value is used.
+RESTORE_SALINITY = True         !   [Boolean] default = False
+                                ! If true, the coupled driver will add a globally-balanced
+                                ! fresh-water flux that drives sea-surface salinity
+                                ! toward specified values.
+RESTORE_TEMPERATURE = False     !   [Boolean] default = False
+                                ! If true, the coupled driver will add a
+                                ! heat flux that drives sea-surface temperauture
+                                ! toward specified values.
 ADJUST_NET_SRESTORE_TO_ZERO = True !   [Boolean] default = True
                                 ! If true, adjusts the salinity restoring seen to zero
                                 ! whether restoring is via a salt flux or virtual precip.
@@ -1792,6 +1822,11 @@ USE_LIMITED_PATM_SSH = False    !   [Boolean] default = True
                                 ! correction for the atmospheric (and sea-ice) pressure
                                 ! limited by max_p_surf instead of the full atmospheric
                                 ! pressure.
+APPROX_NET_MASS_SRC = False     !   [Boolean] default = False
+                                ! If true, use the net mass sources from the ice-ocean
+                                ! boundary type without any further adjustments to drive
+                                ! the ocean dynamics.  The actual net mass source may differ
+                                ! due to internal corrections.
 WIND_STAGGER = "C"              ! default = "C"
                                 ! A case-insensitive character string to indicate the
                                 ! staggering of the input wind stress field.  Valid
@@ -1845,6 +1880,11 @@ ALLOW_FLUX_ADJUSTMENTS = False  !   [Boolean] default = False
                                 ! data_table using the component name 'OCN'.
 
 ! === module MOM_restart ===
+USE_WAVES = False               !   [Boolean] default = False
+                                ! If true, enables surface wave modules.
+LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
+                                ! The depth (normalized by BLD) to average Stokes drift over in
+                                !  Lanmguir number calculation, where La = sqrt(ust/Stokes).
 
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False

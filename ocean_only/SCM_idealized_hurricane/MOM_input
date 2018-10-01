@@ -341,6 +341,9 @@ APPLY_NONLOCAL_TRANSPORT = False !   [Boolean] default = True
                                 ! If True, applies the non-local transport to heat and scalars.
                                 ! If False, calculates the non-local transport and tendencies but
                                 ! purely for diagnostic purposes.
+INTERP_TYPE = "cubic"           ! default = "quadratic"
+                                ! Type of interpolation to determine the OBL depth.
+                                ! Allowed types are: linear, quadratic, cubic.
 %KPP
 
 ! === module MOM_diffConvection ===
