@@ -215,8 +215,16 @@ OBC_USER_CONFIG = "DOME"        ! default = "file"
                                 !     USER - call a user modified routine.
 OBC_ZERO_VORTICITY = True       !   [Boolean] default = False
                                 ! If true, sets relative vorticity to zero on open boundaries.
+OBC_FREESLIP_VORTICITY = False  !   [Boolean] default = True
+                                ! If true, sets the normal gradient of tangential velocity to
+                                ! zero in the relative vorticity on open boundaries. This cannot
+                                ! be true if another OBC_XXX_VORTICITY option is True.
 OBC_ZERO_STRAIN = True          !   [Boolean] default = False
                                 ! If true, sets the strain used in the stress tensor to zero on open boundaries.
+OBC_FREESLIP_STRAIN = False     !   [Boolean] default = True
+                                ! If true, sets the normal gradient of tangential velocity to
+                                ! zero in the strain use in the stress tensor on open boundaries. This cannot
+                                ! be true if another OBC_XXX_STRAIN option is True.
 
 ! === module MOM_MEKE ===
 CDRAG = 0.002                   !   [nondim] default = 0.003

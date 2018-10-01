@@ -30,6 +30,9 @@ ADIABATIC = True                !   [Boolean] default = False
                                 ! true. This assumes that KD = KDML = 0.0 and that
                                 ! there is no buoyancy forcing, but makes the model
                                 ! faster by eliminating subroutine calls.
+USE_LEGACY_DIABATIC_DRIVER = True !   [Boolean] default = True
+                                ! If true, use the a legacy version of the diabatic subroutine.
+                                ! This is temporary and is needed avoid change in answers.
 OFFLINE_TRACER_MODE = False     !   [Boolean] default = False
                                 ! If true, barotropic and baroclinic dynamics, thermodynamics
                                 ! are all bypassed with all the fields necessary to integrate
@@ -108,6 +111,11 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =1, write the geometry and vertical grid files only for
                                 ! a new simulation. If =2, always write the geometry and
                                 ! vertical grid files. Other values are invalid.
+ENSEMBLE_OCEAN = False          !   [Boolean] default = False
+                                ! If False, The model is being run in serial mode as a single realization.
+                                ! If True, The current model realization is part of a larger ensemble
+                                ! and at the end of step MOM, we will perform a gather of the ensemble
+                                ! members for statistical evaluation and/or data assimilation.
 
 ! === module MOM_domains ===
 REENTRANT_X = True              !   [Boolean] default = True
@@ -201,7 +209,6 @@ TOPO_CONFIG = "flat"            !
                                 !     seamount - Gaussian bump for spontaneous motion test case.
                                 !     dumbbell - Sloshing channel with reservoirs on both ends.
                                 !     shelfwave - exponential slope for shelfwave test case.
-                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     dense - Denmark Strait-like dense water formation and overflow.
                                 !     USER - call a user modified routine.
@@ -484,6 +491,12 @@ HTBL_SHELF = 1.0                !   [m] default = 1.0
 KV = 1.0                        !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior.
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
+ADD_KV_SLOW = False             !   [Boolean] default = False
+                                ! If true, the background vertical viscosity in the interior
+                                ! (i.e., tidal + background + shear + convenction) is addded
+                                ! when computing the coupling coefficient. The purpose of this
+                                ! flag is to be able to recover previous answers and it will likely
+                                ! be removed in the future since this option should always be true.
 KV_BBL_MIN = 1.0                !   [m2 s-1] default = 1.0
                                 ! The minimum viscosities in the bottom boundary layer.
 KV_TBL_MIN = 1.0                !   [m2 s-1] default = 1.0
@@ -702,6 +715,10 @@ CFL_TRUNCATE_RAMP_TIME = 0.0    !   [s] default = 0.0
 CFL_TRUNCATE_START = 0.0        !   [nondim] default = 0.0
                                 ! The start value of the truncation CFL number used when
                                 ! ramping up CFL_TRUNC.
+STOKES_MIXING_COMBINED = False  !   [Boolean] default = False
+                                ! Flag to use Stokes drift Mixing via the Lagrangian
+                                !  current (Eulerian plus Stokes drift).
+                                !  Still needs work and testing, so not recommended for use.
 VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
                                 ! A negligibly small velocity magnitude below which velocity
                                 ! components are set to 0.  A reasonable value might be
@@ -870,6 +887,11 @@ READ_GUST_2D = False            !   [Boolean] default = False
 ! === module MOM_restart ===
 ICE_SHELF = False               !   [Boolean] default = False
                                 ! If true, enables the ice shelf model.
+USE_WAVES = False               !   [Boolean] default = False
+                                ! If true, enables surface wave modules.
+LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
+                                ! The depth (normalized by BLD) to average Stokes drift over in
+                                !  Lanmguir number calculation, where La = sqrt(ust/Stokes).
 
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 8.64E+04           !   [s] default = 8.64E+04

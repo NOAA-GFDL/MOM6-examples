@@ -93,7 +93,6 @@ TOPO_CONFIG = "flat"            !
                                 !     seamount - Gaussian bump for spontaneous motion test case.
                                 !     dumbbell - Sloshing channel with reservoirs on both ends.
                                 !     shelfwave - exponential slope for shelfwave test case.
-                                !     supercritical - flat but with 8.95 degree land mask.
                                 !     Phillips - ACC-like idealized topography used in the Phillips config.
                                 !     dense - Denmark Strait-like dense water formation and overflow.
                                 !     USER - call a user modified routine.
@@ -306,28 +305,31 @@ Z_OUTPUT_GRID_FILE = "../zgrid.nc" ! default = ""
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 
-! === module MOM_KPP ===
-! This is the MOM wrapper to CVmix:KPP
-! See http://code.google.com/p/cvmix/
+! === module MOM_CVMix_KPP ===
+! This is the MOM wrapper to CVMix:KPP
+! See http://cvmix.github.io/
 USE_KPP = True                  !   [Boolean] default = False
-                                ! If true, turns on the [CVmix] KPP scheme of Large et al., 1994,
+                                ! If true, turns on the [CVMix] KPP scheme of Large et al., 1994,
                                 ! to calculate diffusivities and non-local transport in the OBL.
 KPP%
-NLT_SHAPE = "PARABOLIC"         ! default = "CVMIX"
+INTERP_TYPE = "cubic"           ! default = "quadratic"
+                                ! Type of interpolation to determine the OBL depth.
+                                ! Allowed types are: linear, quadratic, cubic.
+NLT_SHAPE = "PARABOLIC"         ! default = "CVMix"
                                 ! MOM6 method to set nonlocal transport profile.
                                 ! Over-rides the result from CVMix.  Allowed values are:
-                                !    CVMIX     - Uses the profiles from CVmix specified by MATCH_TECHNIQUE
+                                !    CVMix     - Uses the profiles from CVMix specified by MATCH_TECHNIQUE
                                 !    LINEAR    - A linear profile, 1-sigma
                                 !    PARABOLIC - A parablic profile, (1-sigma)^2
                                 !    CUBIC     - A cubic profile, (1-sigma)^2(1+2*sigma)
                                 !    CUBIC_LMD - The original KPP profile
 %KPP
 
-! === module MOM_diffConvection ===
-! This module implements enhanced diffusivity as a
-! function of static stability, N^2.
-CONVECTION%
-%CONVECTION
+! === module MOM_tidal_mixing ===
+! Vertical Tidal Mixing Parameterization
+
+! === module MOM_CVMix_conv ===
+! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -349,6 +351,9 @@ ML_OMEGA_FRAC = 1.0             !   [nondim] default = 0.0
                                 ! When setting the decay scale for turbulence, use this
                                 ! fraction of the absolute rotation rate blended with the
                                 ! local value of f, as sqrt((1-of)*f^2 + of*4*omega^2).
+
+! === module MOM_bkgnd_mixing ===
+! Adding static vertical background mixing coefficients
 KD = 2.0E-05                    !   [m2 s-1]
                                 ! The background diapycnal diffusivity of density in the
                                 ! interior. Zero or the molecular value, ~1e-7 m2 s-1,
@@ -367,6 +372,9 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
+
+! === module MOM_CVMix_ddiff ===
+! Parameterization of mixing due to double diffusion processes via CVMix
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
