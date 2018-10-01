@@ -12,10 +12,9 @@ import matplotlib.pyplot as plt
 ##
 ##   2-D variables we intend to provide:
 ##
-##     hfy  ->  T_ady_2d + ndiff_tracer_trans_y_2d_T   * T_ady_2d needs to be converted to Watts (Cp = 3992.)
-##                                                       ndiff_tracer_trans_y_2d_T already in Watts
-##                                                       advective term in both 0.25 and 0.5 resolutions
-##                                                       diffusive term only in 0.5 resolution
+##     hfy  ->  T_ady_2d + T_diffy_2d   * T_ady_2d and T_diffy_2d already in Watts
+##                                        advective term in both 0.25 and 0.5 resolutions
+##                                        diffusive term only in 0.5 resolution
 ##
 ##     hfx  -> same recipie as above, expect for x-dimension
 ##     hfbasin -> summed line of hfy in each basin
@@ -85,10 +84,10 @@ def main(args):
     #-- hfy
     if 'T_ady_2d' in f_in.variables.keys():
       advective = f_in.variables['T_ady_2d'][:]
-      if 'ndiff_tracer_trans_y_2d_T' in f_in.variables.keys():
-        diffusive = f_in.variables['ndiff_tracer_trans_y_2d_T'][:]
+      if 'T_diffy_2d' in f_in.variables.keys():
+        diffusive = f_in.variables['T_diffy_2d'][:]
       else:
-        print("Warning: diffusive term 'ndiff_tracer_trans_y_2d_T' not found. Check if this experiment is running with neutral diffusion.")
+        print("Warning: diffusive term 'T_diffy_2d' not found. Check if this experiment is running with neutral diffusion.")
         diffusive = advective * 0.
       hfy = advective + diffusive
       hfy.long_name = 'Ocean Heat Y Transport'
@@ -103,10 +102,10 @@ def main(args):
     #-- hfx
     if 'T_adx_2d' in f_in.variables.keys():
       advective = f_in.variables['T_adx_2d'][:]
-      if 'ndiff_tracer_trans_x_2d_T' in f_in.variables.keys():
-        diffusive = f_in.variables['ndiff_tracer_trans_x_2d_T'][:]
+      if 'T_diffx_2d' in f_in.variables.keys():
+        diffusive = f_in.variables['T_diffx_2d'][:]
       else:
-        print("Warning: diffusive term 'ndiff_tracer_trans_x_2d_T' not found. Check if this experiment is running with neutral diffusion.")
+        print("Warning: diffusive term 'T_diffx_2d' not found. Check if this experiment is running with neutral diffusion.")
         diffusive = advective * 0.
       hfx = advective + diffusive
       hfx.long_name = 'Ocean Heat X Transport'
