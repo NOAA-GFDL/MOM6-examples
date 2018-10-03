@@ -100,7 +100,7 @@ tpxo7_atlas_netcdf.tar.Z:
 
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
-	(cd MIDAS; git checkout 446ea813e2d64a4a10f8209deea905bed64bc1b0)
+	(cd MIDAS; git checkout a067a11693d97d7993c2c6522e118490666eeae0)
 
 local: MIDAS 
 	-rm -rf $</build/*
