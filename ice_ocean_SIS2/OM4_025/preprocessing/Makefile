@@ -126,7 +126,7 @@ PHC2_salx.2004_08_03.nc:
 
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
-	(cd MIDAS; git checkout 3ccbec6c9)
+	(cd MIDAS; git checkout a067a11693d)
 
 local: MIDAS
 	-rm -rf $</build/*
