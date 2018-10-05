@@ -77,6 +77,11 @@ THERMO_SPANS_COUPLING = False   !   [Boolean] default = False
                                 ! The actual thermodynamic timestep that is used in this
                                 ! case is the largest integer multiple of the coupling
                                 ! timestep that is less than or equal to DT_THERM.
+HFREEZE = -1.0                  !   [m] default = -1.0
+                                ! If HFREEZE > 0, melt potential will be computed. The actual depth
+                                ! over which melt potential is computed will be min(HFREEZE, OBLD),
+                                ! where OBLD is the boundary layer depth. If HFREEZE <= 0 (default),
+                                ! melt potential will not be computed.
 MIN_Z_DIAG_INTERVAL = 0.0       !   [s] default = 0.0
                                 ! The minimum amount of time in seconds between
                                 ! calculations of depth-space diagnostics. Making this
@@ -990,13 +995,16 @@ KD = 0.0                        !   [m2 s-1]
                                 ! may be used.
 KD_MIN = 0.0                    !   [m2 s-1] default = 0.0
                                 ! The minimum diapycnal diffusivity.
-PRANDTL_BKGND = 1.0             !   [nondim] default = 1.0
-                                ! Turbulent Prandtl number used to convert vertical
-                                ! background diffusivities into viscosities.
 BRYAN_LEWIS_DIFFUSIVITY = False !   [Boolean] default = False
                                 ! If true, use a Bryan & Lewis (JGR 1979) like tanh
                                 ! profile of background diapycnal diffusivity with depth.
                                 ! This is done via CVMix.
+HORIZ_VARYING_BACKGROUND = False !   [Boolean] default = False
+                                ! If true, apply vertically uniform, latitude-dependent background
+                                ! diffusivity, as described in Danabasoglu et al., 2012
+PRANDTL_BKGND = 1.0             !   [nondim] default = 1.0
+                                ! Turbulent Prandtl number used to convert vertical
+                                ! background diffusivities into viscosities.
 HENYEY_IGW_BACKGROUND = False   !   [Boolean] default = False
                                 ! If true, use a latitude-dependent scaling for the near
                                 ! surface background diffusivity, as described in
