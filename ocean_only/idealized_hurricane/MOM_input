@@ -42,11 +42,13 @@ ALE_COORDINATE_CONFIG = "FILE:vgrid.nc,dz"
 THICKNESS_CONFIG = "coord"
 ROTATION = "betaplane"
 F_0 = 6.8103E-05
-TS_CONFIG = "SCM_ideal_hurr"
-SALT_REF = 35.0
-TEMP_REF = 30.0
-INTERIOR_DTDZ = 0.04
-REF_LAYER_DEPTH = 32.0
+TS_CONFIG = "SCM_CVMix_tests"
+SCM_TEMP_MLD = 32.0             !   [m] default = 0.0
+                                ! Initial temp mixed layer depth
+SCM_L1_TEMP = 29.25             !   [C] default = 20.0
+                                ! Layer 1 surface temperature
+SCM_L2_TEMP = 29.25             !   [C] default = 20.0
+                                ! Layer 2 surface temperature
 
 VARIABLE_WINDS = True
 BUOY_CONFIG = const
@@ -92,6 +94,6 @@ EPBL_IS_ADDITIVE = False
 
 
 DT_FORCING = 300.0
-DAYMAX = 5.0
+DAYMAX = 0.1
 RESTART_CONTROL = 3
-ENERGYSAVEDAYS = 1.0
+ENERGYSAVEDAYS = 0.1
