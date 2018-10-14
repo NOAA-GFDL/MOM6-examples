@@ -1,0 +1,38 @@
+"MOM Experiment"
+1 1 1 0 0 0
+"prog",1,"hours",1,"days","Time"
+"visc",1,"hours",1,"days","Time"
+"surffluxes",1,"hours",1,"days","Time"
+
+#This is the field section of the diag_table.
+
+# Prognostic Ocean fields:
+#=========================
+
+"ocean_model","u","u","prog","all",.true.,"none",2
+"ocean_model","v","v","prog","all",.true.,"none",2
+"ocean_model","h","h","prog","all",.true.,"none",1
+"ocean_model","e","e","prog","all",.true.,"none",2
+"ocean_model","temp","temp","prog","all",.true.,"none",2
+"ocean_model","umo","umo","prog","all",.true.,"none",2
+"ocean_model","vmo","vmo","prog","all",.true.,"none",2
+"ocean_model","SSH","SSH","prog","all",.true.,"none",2
+"ocean_model","SST","SST","prog","all",.true.,"none",2
+"ocean_model","SSU","SSU","prog","all",.true.,"none",2
+"ocean_model","SSV","SSV","prog","all",.true.,"none",2
+
+
+# Viscosity Ocean fields:
+#=========================
+"ocean_model","Kv_u","Kv_u","visc","all",.true.,"none",2
+"ocean_model","Kv_v","Kv_v","visc","all",.true.,"none",2
+"ocean_model","Kd_interface","Kd_interface","visc","all",.true.,"none",2
+
+
+# Surface Forcing:
+#=================
+"ocean_model","taux","taux","surffluxes","all",.true.,"none",2
+"ocean_model","tauy","tauy","surffluxes","all",.true.,"none",2
+"ocean_model","ustar","ustar","surffluxes","all",.true.,"none",2
+"ocean_model","net_heat_surface","net_heat_surface","surffluxes","all",.true.,"none",2
+#
