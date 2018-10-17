@@ -17,7 +17,7 @@ NIGLOBAL = 300                  !
                                 ! The total number of thickness grid points in the
                                 ! x-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
-NJGLOBAL = 200                  !
+NJGLOBAL = 180                  !
                                 ! The total number of thickness grid points in the
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
@@ -51,7 +51,7 @@ AXIS_UNITS = "km"               ! default = "degrees"
 SOUTHLAT = 0.0                  !   [km]
                                 ! The southern latitude of the domain or the equivalent
                                 ! starting value for the y-axis.
-LENLAT = 2000.0                 !   [km]
+LENLAT = 1800.0                 !   [km]
                                 ! The latitudinal or y-direction length of the domain.
 LENLON = 3000.0                 !   [km]
                                 ! The longitudinal or x-direction length of the domain.
@@ -214,10 +214,12 @@ TS_CONFIG = "SCM_CVMix_tests"   !
                                 !     USER - call a user modified routine.
 SCM_TEMP_MLD = 32.0             !   [m] default = 0.0
                                 ! Initial temp mixed layer depth
-SCM_L1_TEMP = 29.25             !   [C] default = 20.0
+SCM_L1_TEMP = 30.0              !   [C] default = 20.0
                                 ! Layer 1 surface temperature
-SCM_L2_TEMP = 29.25             !   [C] default = 20.0
+SCM_L2_TEMP = 30.0              !   [C] default = 20.0
                                 ! Layer 2 surface temperature
+SCM_L2_DTDZ = 0.04              !   [C/m] default = 0.0
+                                ! Initial temperature stratification in layer 2
 
 ! === module MOM_diag_mediator ===
 
@@ -285,10 +287,6 @@ DTBT = 30.0                     !   [s or nondim] default = -0.98
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-EPBL_IS_ADDITIVE = False        !   [Boolean] default = True
-                                ! If true, the diffusivity from ePBL is added to all
-                                ! other diffusivities. Otherwise, the larger of kappa-
-                                ! shear and ePBL diffusivities are used.
 
 ! === module MOM_CVMix_KPP ===
 ! This is the MOM wrapper to CVMix:KPP
@@ -297,6 +295,9 @@ USE_KPP = True                  !   [Boolean] default = False
                                 ! If true, turns on the [CVMix] KPP scheme of Large et al., 1994,
                                 ! to calculate diffusivities and non-local transport in the OBL.
 KPP%
+RI_CRIT = 0.25                  !   [nondim] default = 0.3
+                                ! Critical bulk Richardson number used to define depth of the
+                                ! surface Ocean Boundary Layer (OBL).
 %KPP
 
 ! === module MOM_tidal_mixing ===
@@ -346,7 +347,7 @@ VERTEX_SHEAR = True             !   [Boolean] default = False
 ! This module implements neutral diffusion of tracers
 
 ! === module MOM_sum_output ===
-ENERGYSAVEDAYS = 0.1            !   [days] default = 1.0
+ENERGYSAVEDAYS = 0.05           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
 
@@ -366,9 +367,9 @@ WIND_CONFIG = "ideal_hurr"      !
 ! === module idealized_hurricane ===
 IDL_HURR_MAX_WIND = 50.0        !   [m/s] default = 65.0
                                 ! Maximum wind speed used in the idealized hurricanewind profile.
-IDL_HURR_X0 = 2.5E+06           !   [m] default = 0.0
+IDL_HURR_X0 = 3.432E+06         !   [m] default = 0.0
                                 ! Idealized Hurricane initial X position
-IDL_HURR_Y0 = 1.0E+06           !   [m] default = 0.0
+IDL_HURR_Y0 = 9.0E+05           !   [m] default = 0.0
                                 ! Idealized Hurricane initial Y position
 IDL_HURR_SCM_BR_BENCH = True    ! default = False
                                 ! Single column mode benchmark case switch, which is invoking a modification (bug) in the wind profile meant to reproduce a previous implementation.
@@ -376,7 +377,7 @@ IDL_HURR_SCM_BR_BENCH = True    ! default = False
 ! === module MOM_restart ===
 
 ! === module MOM_main (MOM_driver) ===
-DAYMAX = 0.1                    !   [days]
+DAYMAX = 0.05                   !   [days]
                                 ! The final time of the whole simulation, in units of
                                 ! TIMEUNIT seconds.  This also sets the potential end
                                 ! time of the present run segment if the end time is

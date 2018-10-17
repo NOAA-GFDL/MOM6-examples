@@ -83,6 +83,11 @@ HMIX_UV_SFC_PROP = 0.0          !   [m] default = 0.0
                                 ! If BULKMIXEDLAYER is false, HMIX_UV_SFC_PROP is the depth
                                 ! over which to average to find surface flow properties,
                                 ! SSU, SSV. A non-positive value indicates no averaging.
+HFREEZE = -1.0                  !   [m] default = -1.0
+                                ! If HFREEZE > 0, melt potential will be computed. The actual depth
+                                ! over which melt potential is computed will be min(HFREEZE, OBLD),
+                                ! where OBLD is the boundary layer depth. If HFREEZE <= 0 (default),
+                                ! melt potential will not be computed.
 MIN_Z_DIAG_INTERVAL = 0.0       !   [s] default = 0.0
                                 ! The minimum amount of time in seconds between
                                 ! calculations of depth-space diagnostics. Making this
@@ -154,7 +159,7 @@ NIGLOBAL = 300                  !
                                 ! The total number of thickness grid points in the
                                 ! x-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
-NJGLOBAL = 200                  !
+NJGLOBAL = 180                  !
                                 ! The total number of thickness grid points in the
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in MOM_memory.h at compile time.
@@ -202,7 +207,7 @@ AXIS_UNITS = "km"               ! default = "degrees"
 SOUTHLAT = 0.0                  !   [km]
                                 ! The southern latitude of the domain or the equivalent
                                 ! starting value for the y-axis.
-LENLAT = 2000.0                 !   [km]
+LENLAT = 1800.0                 !   [km]
                                 ! The latitudinal or y-direction length of the domain.
 WESTLON = 0.0                   !   [km] default = 0.0
                                 ! The western longitude of the domain or the equivalent
@@ -526,13 +531,13 @@ SCM_SALT_MLD = 0.0              !   [m] default = 0.0
                                 ! Initial salt mixed layer depth
 SCM_L1_SALT = 35.0              !   [1e-3] default = 35.0
                                 ! Layer 2 surface salinity
-SCM_L1_TEMP = 29.25             !   [C] default = 20.0
+SCM_L1_TEMP = 30.0              !   [C] default = 20.0
                                 ! Layer 1 surface temperature
 SCM_L2_SALT = 35.0              !   [1e-3] default = 35.0
                                 ! Layer 2 surface salinity
-SCM_L2_TEMP = 29.25             !   [C] default = 20.0
+SCM_L2_TEMP = 30.0              !   [C] default = 20.0
                                 ! Layer 2 surface temperature
-SCM_L2_DTDZ = 0.0               !   [C/m] default = 0.0
+SCM_L2_DTDZ = 0.04              !   [C/m] default = 0.0
                                 ! Initial temperature stratification in layer 2
 SCM_L2_DSDZ = 0.0               !   [PPT/m] default = 0.0
                                 ! Initial salinity stratification in layer 2
@@ -1159,7 +1164,7 @@ ENERGETICS_SFC_PBL = False      !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary
                                 ! layer scheme to determine the diffusivity and viscosity
                                 ! in the surface boundary layer.
-EPBL_IS_ADDITIVE = False        !   [Boolean] default = True
+EPBL_IS_ADDITIVE = True         !   [Boolean] default = True
                                 ! If true, the diffusivity from ePBL is added to all
                                 ! other diffusivities. Otherwise, the larger of kappa-
                                 ! shear and ePBL diffusivities are used.
@@ -1222,7 +1227,7 @@ APPLY_NONLOCAL_TRANSPORT = True !   [Boolean] default = True
 N_SMOOTH = 0                    ! default = 0
                                 ! The number of times the 1-1-4-1-1 Laplacian filter is applied on
                                 ! OBL depth.
-RI_CRIT = 0.3                   !   [nondim] default = 0.3
+RI_CRIT = 0.25                  !   [nondim] default = 0.3
                                 ! Critical bulk Richardson number used to define depth of the
                                 ! surface Ocean Boundary Layer (OBL).
 VON_KARMAN = 0.4                !   [nondim] default = 0.4
@@ -1383,13 +1388,16 @@ KDML = 1.0E-07                  !   [m2 s-1] default = 1.0E-07
                                 ! If BULKMIXEDLAYER is false, KDML is the elevated
                                 ! diapycnal diffusivity in the topmost HMIX of fluid.
                                 ! KDML is only used if BULKMIXEDLAYER is false.
-PRANDTL_BKGND = 1.0             !   [nondim] default = 1.0
-                                ! Turbulent Prandtl number used to convert vertical
-                                ! background diffusivities into viscosities.
 BRYAN_LEWIS_DIFFUSIVITY = False !   [Boolean] default = False
                                 ! If true, use a Bryan & Lewis (JGR 1979) like tanh
                                 ! profile of background diapycnal diffusivity with depth.
                                 ! This is done via CVMix.
+HORIZ_VARYING_BACKGROUND = False !   [Boolean] default = False
+                                ! If true, apply vertically uniform, latitude-dependent background
+                                ! diffusivity, as described in Danabasoglu et al., 2012
+PRANDTL_BKGND = 1.0             !   [nondim] default = 1.0
+                                ! Turbulent Prandtl number used to convert vertical
+                                ! background diffusivities into viscosities.
 HENYEY_IGW_BACKGROUND = False   !   [Boolean] default = False
                                 ! If true, use a latitude-dependent scaling for the near
                                 ! surface background diffusivity, as described in
@@ -1632,7 +1640,7 @@ READ_DEPTH_LIST = False         !   [Boolean] default = False
 DEPTH_LIST_MIN_INC = 1.0E-10    !   [m] default = 1.0E-10
                                 ! The minimum increment between the depths of the
                                 ! entries in the depth-list file.
-ENERGYSAVEDAYS = 0.1            !   [days] default = 1.0
+ENERGYSAVEDAYS = 0.05           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
 ENERGYSAVEDAYS_GEOMETRIC = 0.0  !   [days] default = 0.0
@@ -1686,9 +1694,9 @@ IDL_HURR_TRAN_SPEED = 5.0       !   [m/s] default = 5.0
                                 ! Translation speed of hurricane used in the idealizedhurricane wind profile.
 IDL_HURR_TRAN_DIR = 180.0       !   [degrees] default = 180.0
                                 ! Translation direction (towards) of hurricane used in the idealized hurricane wind profile.
-IDL_HURR_X0 = 2.5E+06           !   [m] default = 0.0
+IDL_HURR_X0 = 3.432E+06         !   [m] default = 0.0
                                 ! Idealized Hurricane initial X position
-IDL_HURR_Y0 = 1.0E+06           !   [m] default = 0.0
+IDL_HURR_Y0 = 9.0E+05           !   [m] default = 0.0
                                 ! Idealized Hurricane initial Y position
 IDL_HURR_TAU_CURR_REL = False   ! default = False
                                 ! Current relative stress switchused in the idealized hurricane wind profile.
@@ -1713,7 +1721,7 @@ DT_FORCING = 300.0              !   [s] default = 300.0
                                 ! The time step for changing forcing, coupling with other
                                 ! components, or potentially writing certain diagnostics.
                                 ! The default value is given by DT.
-DAYMAX = 0.1                    !   [days]
+DAYMAX = 0.05                   !   [days]
                                 ! The final time of the whole simulation, in units of
                                 ! TIMEUNIT seconds.  This also sets the potential end
                                 ! time of the present run segment if the end time is
