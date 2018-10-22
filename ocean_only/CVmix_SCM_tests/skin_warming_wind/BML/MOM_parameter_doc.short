@@ -179,7 +179,7 @@ THICKNESS_CONFIG = "uniform"    !
                                 !     soliton - Equatorial Rossby soliton.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
-TS_CONFIG = "SCM_ideal_hurr"    !
+TS_CONFIG = "SCM_CVMix_tests"   !
                                 ! A string that determines how the initial tempertures
                                 ! and salinities are specified for a new run:
                                 !     file - read velocities from the file specified
@@ -197,15 +197,12 @@ TS_CONFIG = "SCM_ideal_hurr"    !
                                 !     seamount - no motion test with seamount ICs.
                                 !     dumbbell - sloshing channel ICs.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
-                                !     SCM_ideal_hurr - used in the SCM idealized hurricane test.
                                 !     SCM_CVMix_tests - used in the SCM CVMix tests.
                                 !     USER - call a user modified routine.
-SCM_SST_REF = 15.0              !   [C]
-                                ! Reference surface temperature
-SCM_DTDZ = 0.0                  !   [C/m]
-                                ! Initial temperature stratification below mixed layer
-SCM_MLD = 0.0                   !   [m]
-                                ! Initial mixed layer depth
+SCM_L1_TEMP = 15.0              !   [C] default = 20.0
+                                ! Layer 1 surface temperature
+SCM_L2_TEMP = 15.0              !   [C] default = 20.0
+                                ! Layer 2 surface temperature
 
 ! === module MOM_diag_mediator ===
 
