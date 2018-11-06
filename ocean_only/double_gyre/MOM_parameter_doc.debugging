@@ -6,6 +6,15 @@ VERBOSITY = 2                   ! default = 2
                                 !   9 = All)
 DO_UNIT_TESTS = False           !   [Boolean] default = False
                                 ! If True, exercises unit tests at model start up.
+Z_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's
+                                ! intenal units of depths and heights.  Valid values range from -300 to 300.
+L_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's
+                                ! intenal units of lateral distances.  Valid values range from -300 to 300.
+T_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's
+                                ! intenal units of time.  Valid values range from -300 to 300.
 DEBUG = False                   !   [Boolean] default = False
                                 ! If true, write out verbose debugging data.
 DEBUG_TRUNCATIONS = False       !   [Boolean] default = False
@@ -20,9 +29,6 @@ DEBUG_REDUNDANT = False         !   [Boolean] default = False
 H_RESCALE_POWER = 0             !   [nondim] default = 0
                                 ! An integer power of 2 that is used to rescale the model's
                                 ! intenal units of thickness.  Valid values range from -300 to 300.
-Z_RESCALE_POWER = 0             !   [nondim] default = 0
-                                ! An integer power of 2 that is used to rescale the model's
-                                ! intenal units of depths and heights.  Valid values range from -300 to 300.
 U_TRUNC_FILE = ""               ! default = ""
                                 ! The absolute path to a file into which the accelerations
                                 ! leading to zonal velocity truncations are written.
