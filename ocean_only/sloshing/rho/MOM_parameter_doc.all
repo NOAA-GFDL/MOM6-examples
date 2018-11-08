@@ -563,6 +563,13 @@ THICKNESS_CONFIG = "sloshing"   !
                                 !     soliton - Equatorial Rossby soliton.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
+
+! === module sloshing_initialization ===
+SLOSHING_IC_AMPLITUDE = 75.0    !   [m] default = 75.0
+                                ! Initial amplitude of sloshing internal interface height
+                                ! displacements it the sloshing test case.
+SLOSHING_IC_BUG = True          !   [Boolean] default = True
+                                ! If true, use code with a bug to set the sloshing initial conditions.
 TS_CONFIG = "sloshing"          !
                                 ! A string that determines how the initial tempertures
                                 ! and salinities are specified for a new run:
