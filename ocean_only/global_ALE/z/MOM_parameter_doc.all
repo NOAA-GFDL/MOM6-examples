@@ -705,6 +705,10 @@ MEKE_ADVECTION_FACTOR = 0.0     !   [nondim] default = 0.0
                                 ! A scale factor in front of advection of eddy energy. Zero turns advection off.
                                 ! Using unity would be normal but other values could accomodate a mismatch
                                 ! between the advecting barotropic flow and the vertical structure of MEKE.
+MEKE_TOPOGRAPHIC_BETA = 0.0     !   [nondim] default = 0.0
+                                ! A scale factor to determine how much topographic beta is weighed in
+                                ! computing beta in the expression of Rhines scale. Use 1 if full
+                                ! topographic beta effect is considered; use 0 if it's completely ignored.
 CDRAG = 0.003                   !   [nondim] default = 0.003
                                 ! CDRAG is the drag coefficient relating the magnitude of
                                 ! the velocity field to the bottom stress.
