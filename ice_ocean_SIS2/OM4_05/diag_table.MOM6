@@ -1,6 +1,8 @@
 # MOM6 ocean diagnostics files
-
+1 1 1 0 0 0
 "ocean_daily",            1, "days",   1, "days", "time"
+"ocean_sfc",              1, "days",   1, "days", "time"
+"ocean_frc",              1, "days",   1, "days", "time"
 "ocean_month_snap",       1, "months", 1, "days", "time"
 "ocean_month",            1, "months", 1, "days", "time"
 "ocean_month_z",          1, "months", 1, "days", "time"
@@ -36,6 +38,7 @@
 
 # -----------------------------------------------------------------------------------------
 # CMIP6/OMIP Table G1: static information
+ "ocean_model", "area_t",      "area_t",      "ocean_static", "all", "none", "none", 1
  "ocean_model", "areacello",   "areacello",   "ocean_static", "all", "none", "none", 2
  "ocean_model", "deptho",      "deptho",      "ocean_static", "all", "none", "none", 2
 #"ocean_model", "basin",       "basin",       "ocean_static", "all", "none", "none", 2  # in /archive/gold/datasets/OM4_025/
@@ -52,7 +55,7 @@
  "ocean_model", "geolat_u",    "geolat_u",    "ocean_static", "all", "none", "none", 2
  "ocean_model", "geolon_v",    "geolon_v",    "ocean_static", "all", "none", "none", 2
  "ocean_model", "geolat_v",    "geolat_v",    "ocean_static", "all", "none", "none", 2
- "ocean_model", "wet",         "wet",         "ocean_static", "all", "none", "none", 2
+ "ocean_model", "wet",         "wet",         "ocean_static", "all", "none", "none", 1
  "ocean_model", "wet_c",       "wet_c",       "ocean_static", "all", "none", "none", 2
  "ocean_model", "wet_u",       "wet_u",       "ocean_static", "all", "none", "none", 2
  "ocean_model", "wet_v",       "wet_v",       "ocean_static", "all", "none", "none", 2
@@ -135,7 +138,7 @@
  "ocean_model",   "sob",          "sob",              "ocean_month",         "all", "mean", "none",2
  "ocean_model_z", "obvfsq",       "obvfsq",           "ocean_annual_z",      "all", "mean", "none",2
  "ocean_model_z", "obvfsq",       "obvfsq",           "ocean_month_z",       "all", "mean", "none",2
- "ocean_model_z", "agessc",       "agessc",           "ocean_annual_z",      "all", "mean", "none",2		
+ "ocean_model_z", "agessc",       "agessc",           "ocean_annual_z",      "all", "mean", "none",2
 #"ocean_model",   "cfc11",        "cfc11",            "ocean_annual",        "all", "mean", "none",2  # get from generic tracer module
 #"ocean_model",   "cfc12",        "cfc12",            "ocean_annual",        "all", "mean", "none",2  # get from generic tracer module
 #"ocean_model",   "sf6",          "sf6",              "ocean_annual",        "all", "mean", "none",2  # get from generic tracer module
@@ -223,6 +226,47 @@
  "ocean_model",  "umo_2d",       "umo_2d",      "ocean_month",         "all", "mean", "none",2
  "ocean_model",  "vmo_2d",       "vmo_2d",      "ocean_month",         "all", "mean", "none",2
 
+# diagnostics needed for the surface fluxes analysis
+# 1) snapshots
+ "ocean_model","SST","SST"             ,"ocean_sfc","all",.false.,"none",1
+ "ocean_model","mass_wt","mass_wt"     ,"ocean_sfc","all",.false.,"none",1
+ "ocean_model","temp_int","temp_int"   ,"ocean_sfc","all",.false.,"none",1
+ "ocean_model","salt_int","salt_int"   ,"ocean_sfc","all",.false.,"none",1
+# 2) forcing fields
+# mass/vol
+ "ocean_model","PRCmE","PRCmE"                                    ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","lprec","lprec"                                    ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","fprec","fprec"                                    ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","evap","evap"                                      ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","vprec","vprec"                                    ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","lrunoff","lrunoff"                                ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","frunoff","frunoff"                                ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","net_massout","net_massout"                        ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","net_massin","net_massin"                          ,"ocean_frc","all",.true.,"none",1
+# heat
+ "ocean_model","net_heat_coupler","net_heat_coupler"              ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","net_heat_surface","net_heat_surface"              ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","frazil","frazil"                                  ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","sensible","sensible"                              ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","latent","latent"                                  ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","melth","melth"                                    ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","LwLatSens","LwLatSens"                            ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","SW","SW"                                          ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","LW","LW"                                          ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","Heat_PmE","Heat_PmE"                              ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","heat_content_lrunoff","heat_content_lrunoff"      ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","heat_content_frunoff","heat_content_frunoff"      ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","heat_content_lprec","heat_content_lprec"          ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","heat_content_fprec","heat_content_fprec"          ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","heat_content_vprec","heat_content_vprec"          ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","heat_content_cond","heat_content_cond"            ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","heat_content_massout","heat_content_massout"      ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","heat_content_massin","heat_content_massin"        ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","heat_content_surfwater","heat_content_surfwater"  ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","internal_heat","internal_heat"                    ,"ocean_frc","all",.true.,"none",1
+# salt
+ "ocean_model","salt_flux","salt_flux"                            ,"ocean_frc","all",.true.,"none",1
+ "ocean_model","salt_flux_in","salt_flux_in"                      ,"ocean_frc","all",.true.,"none",1
 
 # Sections for CMIP6/OMIP choke points Table J1
 # A/ In bipolar Arctic, the lat/lon values are taken from the "nominal" grid values
