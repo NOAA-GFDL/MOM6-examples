@@ -4100,6 +4100,16 @@
     ! units: kg m-2 s-1
     ! standard_name: water_evaporation_flux
     ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "seaice_melt"  [Unused] (CMOR equivalent is "fsitherm")
+    ! long_name: water flux to ocean from snow/sea ice melting(> 0) or formation(< 0)
+    ! units: kg m-2 s-1
+    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics
+    ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "fsitherm"  [Unused] (native name is "seaice_melt")
+    ! long_name: water flux to ocean from sea ice melt(> 0) or form(< 0)
+    ! units: kg m-2 s-1
+    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics
+    ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "precip"  [Unused]
     ! long_name: Liquid + frozen precipitation into ocean
     ! units: kg m-2 s-1
@@ -4180,6 +4190,14 @@
     ! long_name: Evaporation Where Ice Free Ocean over Sea Area Integrated
     ! units: kg s-1
     ! standard_name: water_evaporation_flux_area_integrated
+"ocean_model", "total_icemelt"  [Unused]
+    ! long_name: Area integrated sea ice melt (>0) or form (<0)
+    ! units: kg s-1
+    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics_area_integrated
+"ocean_model", "total_fsitherm"  [Unused]
+    ! long_name: Water Melt/Form from Sea Ice Area Integrated
+    ! units: kg s-1
+    ! standard_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics_area_integrated
 "ocean_model", "total_precip"  [Used]
     ! long_name: Area integrated liquid+frozen precip into ocean
     ! units: kg s-1
@@ -4283,6 +4301,10 @@
     ! long_name: Heat content (relative to 0degC) of frozen prec entering ocean
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "heat_content_icemelt"  [Unused]
+    ! long_name: Heat content (relative to 0degC) of water flux due to sea ice melting/freezing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "heat_content_vprec"  [Used]
     ! long_name: Heat content (relative to 0degC) of virtual precip entering ocean
     ! units: W m-2
@@ -4314,16 +4336,16 @@
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "net_heat_coupler"  [Used]
-    ! long_name: Surface ocean heat flux from SW+LW+latent+sensible (via the coupler)
+    ! long_name: Surface ocean heat flux from SW+LW+latent+sensible+seaice_melt_heat (via the coupler)
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "net_heat_surface"  [Used] (CMOR equivalent is "hfds")
-    ! long_name: Surface ocean heat flux from SW+LW+lat+sens+mass transfer+frazil+restore or flux adjustments
+    ! long_name: Surface ocean heat flux from SW+LW+lat+sens+mass transfer+frazil+restore+seaice_melt_heat or flux adjustments
     ! units: W m-2
     ! standard_name: surface_downward_heat_flux_in_sea_water
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "hfds"  [Used] (native name is "net_heat_surface")
-    ! long_name: Surface ocean heat flux from SW+LW+latent+sensible+masstransfer+frazil
+    ! long_name: Surface ocean heat flux from SW+LW+latent+sensible+masstransfer+frazil+seaice_melt_heat
     ! units: W m-2
     ! standard_name: surface_downward_heat_flux_in_sea_water
     ! cell_methods: xh:mean yh:mean area:mean
@@ -4400,6 +4422,11 @@
     ! units: W m-2
     ! standard_name: surface_downward_sensible_heat_flux
     ! cell_methods: xh:mean yh:mean area:mean
+"ocean_model", "seaice_melt_heat"  [Unused]
+    ! long_name: Heat flux into ocean due to snow and sea ice melt/freeze
+    ! units: W m-2
+    ! standard_name: snow_ice_melt_heat_flux
+    ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "heat_added"  [Unused]
     ! long_name: Flux Adjustment or restoring surface heat flux into ocean
     ! units: W m-2
@@ -4428,6 +4455,9 @@
 "ocean_model", "total_heat_content_fprec"  [Used]
     ! long_name: Area integrated heat content (relative to 0C) of frozen precip
     ! units: W
+"ocean_model", "total_heat_content_icemelt"  [Unused]
+    ! long_name: Area integrated heat content (relative to 0C) of water flux due sea ice melting/freezing
+    ! units: W
 "ocean_model", "total_heat_content_vprec"  [Used]
     ! long_name: Area integrated heat content (relative to 0C) of virtual precip
     ! units: W
@@ -4448,7 +4478,7 @@
     ! long_name: Area integrated heat content (relative to 0C) of water entering ocean
     ! units: W
 "ocean_model", "total_net_heat_coupler"  [Used]
-    ! long_name: Area integrated surface heat flux from SW+LW+latent+sensible (via the coupler)
+    ! long_name: Area integrated surface heat flux from SW+LW+latent+sensible+seaice_melt_heat (via the coupler)
     ! units: W
 "ocean_model", "total_net_heat_surface"  [Used]
     ! long_name: Area integrated surface heat flux from SW+LW+lat+sens+mass+frazil+restore or flux adjustments
@@ -4508,11 +4538,14 @@
 "ocean_model", "total_heat_adjustment"  [Unused]
     ! long_name: Area integrated surface heat flux from restoring and/or flux adjustment
     ! units: W
+"ocean_model", "total_seaice_melt_heat"  [Unused]
+    ! long_name: Area integrated surface heat flux from snow and sea ice melt
+    ! units: W
 "ocean_model", "net_heat_coupler_ga"  [Used]
-    ! long_name: Area averaged surface heat flux from SW+LW+latent+sensible (via the coupler)
+    ! long_name: Area averaged surface heat flux from SW+LW+latent+sensible+seaice_melt_heat (via the coupler)
     ! units: W m-2
 "ocean_model", "net_heat_surface_ga"  [Used]
-    ! long_name: Area averaged surface heat flux from SW+LW+lat+sens+mass+frazil+restore or flux adjustments
+    ! long_name: Area averaged surface heat flux from SW+LW+lat+sens+mass+frazil+restore+seaice_melt_heat or flux adjustments
     ! units: W m-2
 "ocean_model", "ave_hfds"  [Unused]
     ! long_name: Surface Ocean Heat Flux from SW+LW+latent+sensible+mass transfer+frazil Area Averaged
