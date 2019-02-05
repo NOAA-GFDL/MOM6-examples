@@ -2000,7 +2000,7 @@
     ! long_name: Equivalent barotropic modal strcuture
     ! units: nondim
     ! cell_methods: z_l:mean
-"ocean_model", "mass_wt"  [Unused]
+"ocean_model", "mass_wt"  [Used]
     ! long_name: The column mass for calculating mass-weighted average properties
     ! units: kg m-2
     ! cell_methods: xh:mean yh:mean area:mean
@@ -2055,38 +2055,6 @@
 "ocean_model_zold", "vh"  [Unused]
     ! long_name: Meridional Mass Transport (including SGS param) in Depth Space
     ! units: m3 s-1
-"ocean_model", "ea"  [Unused]
-    ! long_name: Layer entrainment from above per timestep
-    ! units: m
-    ! cell_methods: xh:mean yh:mean zl:mean area:mean
-"ocean_model", "ea_xyave"  [Unused]
-    ! long_name: Layer entrainment from above per timestep
-    ! units: m
-    ! cell_methods: zl:mean
-"ocean_model_z", "ea"  [Unused]
-    ! long_name: Layer entrainment from above per timestep
-    ! units: m
-    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
-"ocean_model_z", "ea_xyave"  [Unused]
-    ! long_name: Layer entrainment from above per timestep
-    ! units: m
-    ! cell_methods: z_l:mean
-"ocean_model", "eb"  [Unused]
-    ! long_name: Layer entrainment from below per timestep
-    ! units: m
-    ! cell_methods: xh:mean yh:mean zl:mean area:mean
-"ocean_model", "eb_xyave"  [Unused]
-    ! long_name: Layer entrainment from below per timestep
-    ! units: m
-    ! cell_methods: zl:mean
-"ocean_model_z", "eb"  [Unused]
-    ! long_name: Layer entrainment from below per timestep
-    ! units: m
-    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
-"ocean_model_z", "eb_xyave"  [Unused]
-    ! long_name: Layer entrainment from below per timestep
-    ! units: m
-    ! cell_methods: z_l:mean
 "ocean_model", "ea_t"  [Unused]
     ! long_name: Layer (heat) entrainment from above per timestep
     ! units: m
@@ -2151,6 +2119,54 @@
     ! long_name: Layer (salt) entrainment from below per timestep
     ! units: m
     ! cell_methods: z_l:mean
+"ocean_model", "ea"  [Unused]
+    ! long_name: Layer entrainment from above per timestep
+    ! units: m
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model", "ea_xyave"  [Unused]
+    ! long_name: Layer entrainment from above per timestep
+    ! units: m
+    ! cell_methods: zl:mean
+"ocean_model_z", "ea"  [Unused]
+    ! long_name: Layer entrainment from above per timestep
+    ! units: m
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z", "ea_xyave"  [Unused]
+    ! long_name: Layer entrainment from above per timestep
+    ! units: m
+    ! cell_methods: z_l:mean
+"ocean_model", "eb"  [Unused]
+    ! long_name: Layer entrainment from below per timestep
+    ! units: m
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model", "eb_xyave"  [Unused]
+    ! long_name: Layer entrainment from below per timestep
+    ! units: m
+    ! cell_methods: zl:mean
+"ocean_model_z", "eb"  [Unused]
+    ! long_name: Layer entrainment from below per timestep
+    ! units: m
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z", "eb_xyave"  [Unused]
+    ! long_name: Layer entrainment from below per timestep
+    ! units: m
+    ! cell_methods: z_l:mean
+"ocean_model", "wd"  [Used]
+    ! long_name: Diapycnal velocity
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+"ocean_model", "wd_xyave"  [Unused]
+    ! long_name: Diapycnal velocity
+    ! units: m s-1
+    ! cell_methods: zi:point
+"ocean_model_z", "wd"  [Unused]
+    ! long_name: Diapycnal velocity
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean z_i:point area:mean
+"ocean_model_z", "wd_xyave"  [Unused]
+    ! long_name: Diapycnal velocity
+    ! units: m s-1
+    ! cell_methods: z_i:point
 "ocean_model", "dudt_dia"  [Unused]
     ! long_name: Zonal Acceleration from Diapycnal Mixing
     ! units: m s-2
@@ -3476,7 +3492,7 @@
     ! long_name: Heat flux into ocean from mass flux into ocean
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "internal_heat"  [Unused]
+"ocean_model", "internal_heat"  [Used]
     ! long_name: Heat flux into ocean from geothermal or other internal sources
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
@@ -4984,7 +5000,7 @@
     ! units: W m-2
     ! standard_name: temperature_flux_due_to_evaporation_expressed_as_heat_flux_out_of_sea_water
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "heat_content_massin"  [Unused]
+"ocean_model", "heat_content_massin"  [Used]
     ! long_name: Heat content (relative to 0degC) of net mass entering ocean ocean
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
@@ -5075,7 +5091,7 @@
     ! units: W m-2
     ! standard_name: surface_downward_sensible_heat_flux
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "heat_added"  [Unused]
+"ocean_model", "heat_added"  [Used]
     ! long_name: Flux Adjustment or restoring surface heat flux into ocean
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean

@@ -1,6 +1,9 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module MOM ===
+
+! === module MOM_unit_scaling ===
+! Parameters for doing unit scaling of variables.
 THICKNESSDIFFUSE = True         !   [Boolean] default = False
                                 ! If true, interface heights are diffused with a
                                 ! coefficient of KHTH.
@@ -196,6 +199,8 @@ THICKNESS_CONFIG = "benchmark"  !
                                 !     soliton - Equatorial Rossby soliton.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
+
+! === module benchmark_initialize_thickness ===
 TS_CONFIG = "benchmark"         !
                                 ! A string that determines how the initial tempertures
                                 ! and salinities are specified for a new run:
@@ -214,7 +219,6 @@ TS_CONFIG = "benchmark"         !
                                 !     seamount - no motion test with seamount ICs.
                                 !     dumbbell - sloshing channel ICs.
                                 !     rossby_front - a mixed layer front in thermal wind balance.
-                                !     SCM_ideal_hurr - used in the SCM idealized hurricane test.
                                 !     SCM_CVMix_tests - used in the SCM CVMix tests.
                                 !     USER - call a user modified routine.
 
