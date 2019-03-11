@@ -66,7 +66,7 @@ def main(cmdLineArgs,stream=False):
 
   def heatTrans(advective, diffusive=None, vmask=None):
     """Converts vertically integrated temperature advection into heat transport"""
-    if diffusive != None:
+    if diffusive is not None:
       HT = advective[:] + diffusive[:]
     else:
       HT = advective[:]
@@ -81,7 +81,7 @@ def main(cmdLineArgs,stream=False):
       HT = HT * 1.e-15
     else:
       print('Unknown units')
-    if vmask != None: HT = HT*vmask
+    if vmask is not None: HT = HT*vmask
     HT = HT.sum(axis=-1); HT = HT.squeeze() # sum in x-direction
     return HT
 
