@@ -90,6 +90,8 @@ RESTARTFILE = "ice_model.res.nc" ! default = "ice_model.res.nc"
 FAST_ICE_RESTARTFILE = "ice_model.res.nc" ! default = "ice_model.res.nc"
                                 ! The name of the restart file for those elements of the
                                 ! the sea ice that are handled by the fast ice PEs.
+APPLY_MASKS_AFTER_RESTART = True !   [Boolean] default = True
+                                ! If true, applies masks to mH_ice,mH_snow and part_size after a restart.
 WRITE_GEOM = 1                  ! default = 1
                                 ! If =0, never write the geometry and vertical grid files.
                                 ! If =1, write the geometry and vertical grid files only for
@@ -320,11 +322,24 @@ DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
                                 ! stepping the continuity equation and interactions
                                 ! between the ice mass field and velocities.  If 0 or
                                 ! negative the coupling time step will be used.
+MERGED_CONTINUITY = False       !   [Boolean] default = False
+                                ! If true, update the continuity equations for the ice, snow,
+                                ! and melt pond water together summed across categories, with
+                                ! proportionate fluxes for each part. Otherwise the media are
+                                ! updated separately.
+NSTEPS_ADV = 1                  ! default = 1
+                                ! The number of advective iterations for each slow dynamics
+                                ! time step.
 ICEBERG_WINDSTRESS_BUG = False  !   [Boolean] default = False
                                 ! If true, use older code that applied an old ice-ocean
                                 ! stress to the icebergs in place of the current air-ocean
                                 ! stress.  This option is here for backward compatibility,
                                 ! but should be avoided.
+WARSAW_SUM_ORDER = True         !   [Boolean] default = True
+                                ! If true, use the order of sums in the Warsaw version of SIS2.
+                                ! The default is the opposite of MERGED_CONTINUITY.
+                                ! This option exists for backward compatibilty but may
+                                ! eventually be obsoleted.
 TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
                                 ! The time unit for ICE_STATS_INTERVAL.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
@@ -345,9 +360,6 @@ ICE_CDRAG_WATER = 0.00324       !   [nondim] default = 0.00324
 AIR_WATER_STRESS_TURN_ANGLE = 0.0 !   [degrees] default = 0.0
                                 ! An angle by which to rotate the velocities at the air-
                                 ! water boundary in calculating stresses.
-NSTEPS_ADV = 1                  ! default = 1
-                                ! The number of advective iterations for each slow time
-                                ! step.
 RECATEGORIZE_ICE = False        !   [Boolean] default = True
                                 ! If true, readjust the distribution into ice thickness
                                 ! categories after advection.
@@ -364,6 +376,9 @@ SIS_THICKNESS_ADVECTION_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
                                 !   PCM    - Directionally split piecewise constant
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
+INCONSISTENT_COVER_BUG = True   !   [Boolean] default = True
+                                ! If true, omit a recalculation of the fractional ice-free
+                                ! areal coverage after the adjustment of the ice categories.
 SIS_CONTINUITY_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme used in continuity:
                                 !   UPWIND_2D - Non-directionally split upwind
@@ -398,6 +413,9 @@ MAXTRUNC = 0                    !   [truncations save_interval-1] default = 0
 STATISTICS_FILE = "seaice.stats" ! default = "seaice.stats"
                                 ! The file to use to write the globally integrated
                                 ! statistics.
+
+! === module SIS_ice_diagnostics ===
+! This module handles sea-ice state diagnostics.
 
 ! === module SIS_fast_thermo ===
 ! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
