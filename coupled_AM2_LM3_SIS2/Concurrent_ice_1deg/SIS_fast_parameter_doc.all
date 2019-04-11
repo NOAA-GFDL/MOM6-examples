@@ -90,6 +90,8 @@ RESTARTFILE = "ice_model.res.nc" ! default = "ice_model.res.nc"
 FAST_ICE_RESTARTFILE = "ice_model_fast.res.nc" ! default = "ice_model_fast.res.nc"
                                 ! The name of the restart file for those elements of the
                                 ! the sea ice that are handled by the fast ice PEs.
+APPLY_MASKS_AFTER_RESTART = True !   [Boolean] default = True
+                                ! If true, applies masks to mH_ice,mH_snow and part_size after a restart.
 WRITE_GEOM = 1                  ! default = 1
                                 ! If =0, never write the geometry and vertical grid files.
                                 ! If =1, write the geometry and vertical grid files only for
