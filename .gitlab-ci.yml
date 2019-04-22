@@ -5,12 +5,12 @@ parameter_files:
   script:
     # Install / update testing scripts
     - git clone https://github.com/adcroft/MRS.git build_MRS
-    - (cd build_MRS; git checkout cdc9a999f4265)
+    - (cd build_MRS ; git checkout 9badc63acefbf038)
     # Recursively clone submodules
     - git submodule sync --recursive && git submodule update --init --recursive
     # Clone other components
     - test -d src/LM3 || make -f build_MRS/Makefile.clone CONFIGS=. clone_gfdl -s
-    # Create mannifest of experiments to run
+    # Create manifest of experiments to run
     - git clone http://gitlab.gfdl.noaa.gov/ogrp/Gaea-stats-MOM6-examples.git tests && mv tests/regressions . && rm -rf tests
     - bash build_MRS/generate_manifest.sh . > manifest.mk && rm -rf regressions
     # Build executables
@@ -29,12 +29,12 @@ coverage:
   script:
     # Install / update testing scripts
     - git clone https://github.com/adcroft/MRS.git build_MRS
-    - (cd build_MRS; git checkout cdc9a999f4265)
+    - (cd build_MRS ; git checkout 9badc63acefbf038)
     # Recursively clone submodules
     - git submodule sync --recursive && git submodule update --init --recursive
     # Clone other components
     - test -d src/LM3 || make -f build_MRS/Makefile.clone CONFIGS=. clone_gfdl -s
-    # Create mannifest of experiments to run
+    # Create manifest of experiments to run
     - git clone http://gitlab.gfdl.noaa.gov/ogrp/Gaea-stats-MOM6-examples.git tests && mv tests/regressions . && rm -rf tests
     - bash build_MRS/generate_manifest.sh . > manifest.mk && rm -rf regressions
     # Build executables
