@@ -1,6 +1,9 @@
 ! This file was written by the model and records all non-layout or debugging parameters used at run-time.
 
 ! === module MOM ===
+
+! === module MOM_unit_scaling ===
+! Parameters for doing unit scaling of variables.
 SPLIT = True                    !   [Boolean] default = True
                                 ! Use the split time stepping if true.
 CALC_RHO_FOR_SEA_LEVEL = False  !   [Boolean] default = False
@@ -29,8 +32,8 @@ ADIABATIC = True                !   [Boolean] default = False
                                 ! there is no buoyancy forcing, but makes the model
                                 ! faster by eliminating subroutine calls.
 USE_LEGACY_DIABATIC_DRIVER = True !   [Boolean] default = True
-                                ! If true, use the a legacy version of the diabatic subroutine.
-                                ! This is temporary and is needed avoid change in answers.
+                                ! If true, use a legacy version of the diabatic subroutine.
+                                ! This is temporary and is needed to avoid change in answers.
 OFFLINE_TRACER_MODE = False     !   [Boolean] default = False
                                 ! If true, barotropic and baroclinic dynamics, thermodynamics
                                 ! are all bypassed with all the fields necessary to integrate

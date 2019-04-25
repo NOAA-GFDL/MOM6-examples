@@ -41,7 +41,7 @@ def main(cmdLineArgs,stream=False):
   
   variable = rootGroup.variables['MLD_003']
   shape = variable.shape
-  MLD = variable[:].reshape(shape[0]/12,12,shape[1],shape[2]).mean(axis=0)
+  MLD = variable[:].reshape(int(shape[0]/12),12,shape[1],shape[2]).mean(axis=0)
   
   if not hasattr(cmdLineArgs,'obsdata') or cmdLineArgs.obsdata == '':
     cmdLineArgs.obsdata = '/archive/gold/datasets/obs/Hosada2010_MLD_climatology.v20140515.nc'

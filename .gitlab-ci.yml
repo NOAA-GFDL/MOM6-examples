@@ -5,6 +5,7 @@ parameter_files:
   script:
     # Install / update testing scripts
     - git clone https://github.com/adcroft/MRS.git build_MRS
+    - (cd build_MRS; git checkout cdc9a999f4265)
     # Recursively clone submodules
     - git submodule sync --recursive && git submodule update --init --recursive
     # Clone other components
@@ -28,6 +29,7 @@ coverage:
   script:
     # Install / update testing scripts
     - git clone https://github.com/adcroft/MRS.git build_MRS
+    - (cd build_MRS; git checkout cdc9a999f4265)
     # Recursively clone submodules
     - git submodule sync --recursive && git submodule update --init --recursive
     # Clone other components
