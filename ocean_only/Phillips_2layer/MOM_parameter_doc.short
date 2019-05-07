@@ -188,7 +188,7 @@ THICKNESS_CONFIG = "phillips"   !
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
 HALF_STRAT_DEPTH = 0.25         !   [nondim] default = 0.5
-                                ! The maximum depth of the ocean.
+                                ! The fractional depth where the stratification is centered.
 JET_WIDTH = 200.0               !   [km]
                                 ! The width of the zonal-mean jet.
 JET_HEIGHT = 300.0              !   [m]
@@ -255,7 +255,8 @@ GILL_EQUATORIAL_LD = True       !   [Boolean] default = False
                                 ! If true, uses Gill's definition of the baroclinic
                                 ! equatorial deformation radius, otherwise, if false, use
                                 ! Pedlosky's definition. These definitions differ by a factor
-                                ! of 2 infront of the beta term in the denominator. Gill'sis the more appropriate definition.
+                                ! of 2 in front of the beta term in the denominator. Gill's
+                                ! is the more appropriate definition.
 
 ! === module MOM_set_visc ===
 HBBL = 10.0                     !   [m]
@@ -345,7 +346,7 @@ BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! less than maxCFL_BT_cont to be accommodated.
 BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project
-                                ! out the velocity tendancy by 1+BEBT when calculating the
+                                ! out the velocity tendency by 1+BEBT when calculating the
                                 ! transport.  The default (false) is to use a predictor
                                 ! continuity step to find the pressure field, and then
                                 ! to do a corrector continuity step using a weighted

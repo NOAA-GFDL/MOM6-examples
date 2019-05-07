@@ -185,8 +185,8 @@ COORD_FILE = "Layer_coord.nc"   !
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
-                                ! If true, intialize the layer thicknesses, temperatures,
-                                ! and salnities from a Z-space file on a latitude-
+                                ! If true, initialize the layer thicknesses, temperatures,
+                                ! and salinities from a Z-space file on a latitude-
                                 ! longitude grid.
 
 ! === module MOM_initialize_layers_from_Z ===
@@ -242,7 +242,8 @@ GILL_EQUATORIAL_LD = True       !   [Boolean] default = False
                                 ! If true, uses Gill's definition of the baroclinic
                                 ! equatorial deformation radius, otherwise, if false, use
                                 ! Pedlosky's definition. These definitions differ by a factor
-                                ! of 2 infront of the beta term in the denominator. Gill'sis the more appropriate definition.
+                                ! of 2 in front of the beta term in the denominator. Gill's
+                                ! is the more appropriate definition.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -347,7 +348,7 @@ BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! less than maxCFL_BT_cont to be accommodated.
 BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project
-                                ! out the velocity tendancy by 1+BEBT when calculating the
+                                ! out the velocity tendency by 1+BEBT when calculating the
                                 ! transport.  The default (false) is to use a predictor
                                 ! continuity step to find the pressure field, and then
                                 ! to do a corrector continuity step using a weighted
@@ -427,9 +428,10 @@ KAPPA_ITIDES = 6.28319E-04      !   [m-1] default = 6.283185307179586E-04
                                 ! A topographic wavenumber used with INT_TIDE_DISSIPATION.
                                 ! The default is 2pi/10 km, as in St.Laurent et al. 2002.
 KAPPA_H2_FACTOR = 0.75          !   [nondim] default = 1.0
-                                ! A scaling factor for the roughness amplitude with nINT_TIDE_DISSIPATION.
+                                ! A scaling factor for the roughness amplitude with
+                                ! INT_TIDE_DISSIPATION.
 TKE_ITIDE_MAX = 0.1             !   [W m-2] default = 1000.0
-                                ! The maximum internal tide energy source availble to mix
+                                ! The maximum internal tide energy source available to mix
                                 ! above the bottom boundary layer with INT_TIDE_DISSIPATION.
 READ_TIDEAMP = True             !   [Boolean] default = False
                                 ! If true, read a file (given by TIDEAMP_FILE) containing
@@ -461,7 +463,7 @@ GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
 BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the
                                 ! BBL mixing and the other diffusivities. Otherwise,
-                                ! diffusiviy from the BBL_mixing is simply added.
+                                ! diffusivity from the BBL_mixing is simply added.
 USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
                                 ! If true, uses a simple, imprecise but non-coordinate dependent, model
                                 ! of BBL mixing diffusivity based on Law of the Wall. Otherwise, uses
@@ -531,7 +533,7 @@ CORRECT_ABSORPTION_DEPTH = True !   [Boolean] default = False
                                 ! heating depth of an exponential profile by moving some
                                 ! of the heating upward in the water column.
 DO_RIVERMIX = True              !   [Boolean] default = False
-                                ! If true, apply additional mixing whereever there is
+                                ! If true, apply additional mixing wherever there is
                                 ! runoff, so that it is mixed down to RIVERMIX_DEPTH,
                                 ! if the ocean is that deep.
 RIVERMIX_DEPTH = 40.0           !   [m] default = 0.0
