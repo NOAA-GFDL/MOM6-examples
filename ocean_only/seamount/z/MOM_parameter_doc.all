@@ -262,7 +262,8 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! MINIMUM_DEPTH but deeper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
 
 ! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
+! Controls where open boundaries are located, what kind of boundary condition
+! to impose, and what data to apply, if any.
 OBC_NUMBER_OF_SEGMENTS = 0      ! default = 0
                                 ! The number of open boundary segments.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
@@ -893,7 +894,8 @@ RECONSTRUCT_FOR_PRESSURE = True !   [Boolean] default = True
                                 ! The default is set by USE_REGRIDDING.
 PRESSURE_RECONSTRUCTION_SCHEME = 1 ! default = 1
                                 ! Order of vertical reconstruction of T/S to use in the
-                                ! integrals within the FV pressure gradient calculation. 0: PCM or no reconstruction.
+                                ! integrals within the FV pressure gradient calculation.
+                                !  0: PCM or no reconstruction.
                                 !  1: PLM reconstruction.
                                 !  2: PPM reconstruction.
 BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
@@ -948,7 +950,8 @@ HORVISC_BOUND_COEF = 0.8        !   [nondim] default = 0.8
                                 ! stability without considering other terms.
 USE_KH_BG_2D = False            !   [Boolean] default = False
                                 ! If true, read a file containing 2-d background harmonic
-                                ! viscosities. The final viscosity is the maximum of the other terms and this background value.
+                                ! viscosities. The final viscosity is the maximum of the other
+                                ! terms and this background value.
 
 ! === module MOM_vert_friction ===
 DIRECT_STRESS = True            !   [Boolean] default = False
@@ -1184,7 +1187,8 @@ AGGREGATE_FW_FORCING = True     !   [Boolean] default = True
                                 ! If true, the net incoming and outgoing fresh water fluxes are combined
                                 ! and applied as either incoming or outgoing depending on the sign of the net.
                                 ! If false, the net incoming fresh water flux is added to the model and
-                                ! thereafter the net outgoing is removed from the updated state.into the first non-vanished layer for which the column remains stable
+                                ! thereafter the net outgoing is removed from the topmost non-vanished
+                                ! layers of the updated state.
 MIX_BOUNDARY_TRACERS = True     !   [Boolean] default = True
                                 ! If true, mix the passive tracers in massless layers at
                                 ! the bottom into the interior as though a diffusivity of

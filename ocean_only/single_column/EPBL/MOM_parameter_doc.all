@@ -247,7 +247,8 @@ MAXIMUM_DEPTH = 6000.0          !   [m]
                                 ! The maximum depth of the ocean.
 
 ! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
+! Controls where open boundaries are located, what kind of boundary condition
+! to impose, and what data to apply, if any.
 OBC_NUMBER_OF_SEGMENTS = 0      ! default = 0
                                 ! The number of open boundary segments.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
@@ -802,7 +803,8 @@ RECONSTRUCT_FOR_PRESSURE = True !   [Boolean] default = True
                                 ! The default is set by USE_REGRIDDING.
 PRESSURE_RECONSTRUCTION_SCHEME = 1 ! default = 1
                                 ! Order of vertical reconstruction of T/S to use in the
-                                ! integrals within the FV pressure gradient calculation. 0: PCM or no reconstruction.
+                                ! integrals within the FV pressure gradient calculation.
+                                !  0: PCM or no reconstruction.
                                 !  1: PLM reconstruction.
                                 !  2: PPM reconstruction.
 BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
@@ -825,7 +827,8 @@ USE_LAND_MASK_FOR_HVISC = False !   [Boolean] default = False
                                 ! for new experiments.
 USE_KH_BG_2D = False            !   [Boolean] default = False
                                 ! If true, read a file containing 2-d background harmonic
-                                ! viscosities. The final viscosity is the maximum of the other terms and this background value.
+                                ! viscosities. The final viscosity is the maximum of the other
+                                ! terms and this background value.
 
 ! === module MOM_vert_friction ===
 DIRECT_STRESS = False           !   [Boolean] default = False
@@ -949,7 +952,8 @@ AGGREGATE_FW_FORCING = True     !   [Boolean] default = True
                                 ! If true, the net incoming and outgoing fresh water fluxes are combined
                                 ! and applied as either incoming or outgoing depending on the sign of the net.
                                 ! If false, the net incoming fresh water flux is added to the model and
-                                ! thereafter the net outgoing is removed from the updated state.into the first non-vanished layer for which the column remains stable
+                                ! thereafter the net outgoing is removed from the topmost non-vanished
+                                ! layers of the updated state.
 MIX_BOUNDARY_TRACERS = True     !   [Boolean] default = True
                                 ! If true, mix the passive tracers in massless layers at
                                 ! the bottom into the interior as though a diffusivity of
@@ -1060,21 +1064,25 @@ MATCH_TECHNIQUE = "SimpleShapes" ! default = "SimpleShapes"
                                 ! CVMix method to set profile function for diffusivity and NLT,
                                 ! as well as matching across OBL base. Allowed values are:
                                 !    SimpleShapes      = sigma*(1-sigma)^2 for both diffusivity and NLT
-                                !    MatchGradient     = sigma*(1-sigma)^2 for NLT; diffusivity profile from matching
+                                !    MatchGradient     = sigma*(1-sigma)^2 for NLT; diffusivity profile from
+                                !      matching
                                 !    MatchBoth         = match gradient for both diffusivity and NLT
                                 !    ParabolicNonLocal = sigma*(1-sigma)^2 for diffusivity; (1-sigma)^2 for NLT
 KPP_ZERO_DIFFUSIVITY = False    !   [Boolean] default = False
                                 ! If True, zeroes the KPP diffusivity and viscosity; for testing purpose.
 KPP_IS_ADDITIVE = True          !   [Boolean] default = True
-                                ! If true, adds KPP diffusivity to diffusivity from other schemes.If false, KPP is the only diffusivity wherever KPP is non-zero.
+                                ! If true, adds KPP diffusivity to diffusivity from other schemes.
+                                ! If false, KPP is the only diffusivity wherever KPP is non-zero.
 KPP_SHORTWAVE_METHOD = "MXL_SW" ! default = "MXL_SW"
-                                ! Determines contribution of shortwave radiation to KPP surface buoyancy flux.  Options include:
+                                ! Determines contribution of shortwave radiation to KPP surface
+                                ! buoyancy flux.  Options include:
                                 !   ALL_SW: use total shortwave radiation
-                                !   MXL_SW:  use shortwave radiation absorbed by mixing layer
-                                !   LV1_SW:  use shortwave radiation absorbed by top model layer
+                                !   MXL_SW: use shortwave radiation absorbed by mixing layer
+                                !   LV1_SW: use shortwave radiation absorbed by top model layer
 CVMix_ZERO_H_WORK_AROUND = 0.0  !   [m] default = 0.0
                                 ! A minimum thickness used to avoid division by small numbers in the vicinity
-                                ! of vanished layers. This is independent of MIN_THICKNESS used in other parts of MOM.
+                                ! of vanished layers. This is independent of MIN_THICKNESS used in other parts
+                                ! of MOM.
 USE_KPP_LT_K = False            ! default = False
                                 ! Flag for Langmuir turbulence enhancement of turbulentmixing coefficient.
 STOKES_MIXING = False           ! default = False
