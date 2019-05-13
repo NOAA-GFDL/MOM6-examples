@@ -1,0 +1,25 @@
+! This file was written by the model and records the debugging parameters used at run-time.
+COLUMN_CHECK = False            !   [Boolean] default = False
+                                ! If true, add code to allow debugging of conservation
+                                ! column-by-column.  This does not change answers, but
+                                ! can increase model run time.
+IMBALANCE_TOLERANCE = 1.0E-09   !   [nondim] default = 1.0E-09
+                                ! The tolerance for imbalances to be flagged by COLUMN_CHECK.
+DEBUG = False                   !   [Boolean] default = False
+                                ! If true, write out verbose debugging data.
+DEBUG_SLOW_ICE = False          !   [Boolean] default = False
+                                ! If true, write out verbose debugging data on the slow ice PEs.
+DEBUG_FAST_ICE = False          !   [Boolean] default = False
+                                ! If true, write out verbose debugging data on the fast ice PEs.
+DEBUG_CHKSUMS = False           !   [Boolean] default = False
+                                ! If true, checksums are performed on arrays in the
+                                ! various vec_chksum routines.
+DEBUG_REDUNDANT = False         !   [Boolean] default = False
+                                ! If true, debug redundant data points during calls to
+                                ! the various vec_chksum routines.
+REPORT_UNUSED_PARAMS = False    !   [Boolean] default = False
+                                ! If true, report any parameter lines that are not used
+                                ! in the run.
+FATAL_UNUSED_PARAMS = False     !   [Boolean] default = False
+                                ! If true, kill the run if there are any unused
+                                ! parameters.
