@@ -133,7 +133,8 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! MINIMUM_DEPTH but deeper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
 
 ! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
+! Controls where open boundaries are located, what kind of boundary condition
+! to impose, and what data to apply, if any.
 CHANNEL_CONFIG = "global_1deg"  ! default = "none"
                                 ! A parameter that determines which set of channels are
                                 ! restricted to specific  widths.  Options are:
@@ -186,8 +187,8 @@ REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding.
                                 ! Choose among the following possibilities:
                                 !  LAYER - Isopycnal or stacked shallow water layers
-                                !  ZSTAR, Z* - stetched geopotential z*
-                                !  SIGMA_SHELF_ZSTAR - stetched geopotential z* ignoring shelf
+                                !  ZSTAR, Z* - stretched geopotential z*
+                                !  SIGMA_SHELF_ZSTAR - stretched geopotential z* ignoring shelf
                                 !  SIGMA - terrain following coordinates
                                 !  RHO   - continuous isopycnal
                                 !  HYCOM1 - HyCOM-like hybrid coordinate
@@ -230,8 +231,8 @@ REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
-                                ! If true, intialize the layer thicknesses, temperatures,
-                                ! and salnities from a Z-space file on a latitude-
+                                ! If true, initialize the layer thicknesses, temperatures,
+                                ! and salinities from a Z-space file on a latitude-
                                 ! longitude grid.
 
 ! === module MOM_initialize_layers_from_Z ===
@@ -289,7 +290,8 @@ GILL_EQUATORIAL_LD = True       !   [Boolean] default = False
                                 ! If true, uses Gill's definition of the baroclinic
                                 ! equatorial deformation radius, otherwise, if false, use
                                 ! Pedlosky's definition. These definitions differ by a factor
-                                ! of 2 infront of the beta term in the denominator. Gill'sis the more appropriate definition.
+                                ! of 2 in front of the beta term in the denominator. Gill's
+                                ! is the more appropriate definition.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -393,7 +395,7 @@ MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity
                                 ! components are truncated.
 CFL_TRUNCATE_RAMP_TIME = 7200.0 !   [s] default = 0.0
-                                ! The time over which the CFL trunction value is ramped
+                                ! The time over which the CFL truncation value is ramped
                                 ! up at the beginning of the run.
 
 ! === module MOM_PointAccel ===
@@ -405,7 +407,7 @@ BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! less than maxCFL_BT_cont to be accommodated.
 BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project
-                                ! out the velocity tendancy by 1+BEBT when calculating the
+                                ! out the velocity tendency by 1+BEBT when calculating the
                                 ! transport.  The default (false) is to use a predictor
                                 ! continuity step to find the pressure field, and then
                                 ! to do a corrector continuity step using a weighted
@@ -489,9 +491,10 @@ KAPPA_ITIDES = 6.28319E-04      !   [m-1] default = 6.283185307179586E-04
                                 ! A topographic wavenumber used with INT_TIDE_DISSIPATION.
                                 ! The default is 2pi/10 km, as in St.Laurent et al. 2002.
 KAPPA_H2_FACTOR = 0.75          !   [nondim] default = 1.0
-                                ! A scaling factor for the roughness amplitude with nINT_TIDE_DISSIPATION.
+                                ! A scaling factor for the roughness amplitude with
+                                ! INT_TIDE_DISSIPATION.
 TKE_ITIDE_MAX = 0.1             !   [W m-2] default = 1000.0
-                                ! The maximum internal tide energy source availble to mix
+                                ! The maximum internal tide energy source available to mix
                                 ! above the bottom boundary layer with INT_TIDE_DISSIPATION.
 READ_TIDEAMP = True             !   [Boolean] default = False
                                 ! If true, read a file (given by TIDEAMP_FILE) containing
@@ -523,7 +526,7 @@ GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
 BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the
                                 ! BBL mixing and the other diffusivities. Otherwise,
-                                ! diffusiviy from the BBL_mixing is simply added.
+                                ! diffusivity from the BBL_mixing is simply added.
 USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
                                 ! If true, uses a simple, imprecise but non-coordinate dependent, model
                                 ! of BBL mixing diffusivity based on Law of the Wall. Otherwise, uses
@@ -531,7 +534,8 @@ USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
 SIMPLE_TKE_TO_KD = True         !   [Boolean] default = False
                                 ! If true, uses a simple estimate of Kd/TKE that will
                                 ! work for arbitrary vertical coordinates. If false,
-                                ! calculates Kd/TKE and bounds based on exact energetics/nfor an isopycnal layer-formulation.
+                                ! calculates Kd/TKE and bounds based on exact energetics
+                                ! for an isopycnal layer-formulation.
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients

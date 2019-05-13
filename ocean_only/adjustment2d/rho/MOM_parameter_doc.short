@@ -57,7 +57,7 @@ RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
                                 ! properties, or with BOUSSINSEQ false to convert some
                                 ! parameters from vertical units of m to kg m-2.
 ANGSTROM = 1.0E-15              !   [m] default = 1.0E-10
-                                ! The minumum layer thickness, usually one-Angstrom.
+                                ! The minimum layer thickness, usually one-Angstrom.
 NK = 25                         !   [nondim]
                                 ! The number of model layers.
 
@@ -118,7 +118,8 @@ MAXIMUM_DEPTH = 20.0            !   [m]
                                 ! The maximum depth of the ocean.
 
 ! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
+! Controls where open boundaries are located, what kind of boundary condition
+! to impose, and what data to apply, if any.
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -173,8 +174,8 @@ REGRIDDING_COORDINATE_MODE = "RHO" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding.
                                 ! Choose among the following possibilities:
                                 !  LAYER - Isopycnal or stacked shallow water layers
-                                !  ZSTAR, Z* - stetched geopotential z*
-                                !  SIGMA_SHELF_ZSTAR - stetched geopotential z* ignoring shelf
+                                !  ZSTAR, Z* - stretched geopotential z*
+                                !  SIGMA_SHELF_ZSTAR - stretched geopotential z* ignoring shelf
                                 !  SIGMA - terrain following coordinates
                                 !  RHO   - continuous isopycnal
                                 !  HYCOM1 - HyCOM-like hybrid coordinate
@@ -381,7 +382,7 @@ BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! less than maxCFL_BT_cont to be accommodated.
 BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project
-                                ! out the velocity tendancy by 1+BEBT when calculating the
+                                ! out the velocity tendency by 1+BEBT when calculating the
                                 ! transport.  The default (false) is to use a predictor
                                 ! continuity step to find the pressure field, and then
                                 ! to do a corrector continuity step using a weighted
