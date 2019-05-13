@@ -41,7 +41,7 @@ coverage:
     - time make -f build_MRS/Makefile.build coverage_gnu CONFIGS=. EXTRA_MAKE_ARGS="FFLAGS_COVERAGE=--coverage LDFLAGS_COVERAGE=--coverage" -s -j
     # Run standard tests
     - (echo '#!/bin/tcsh';echo 'time make -f build_MRS/Makefile.coverage gnu_ocean_only gnu_ice_ocean_SIS2 MEMORY=dynamic_symmetric CONFIGS=.') > job.sh
-    - sbatch --clusters=c3,c4 --nodes=25 --time=0:37:00 --account=gfdl_o --qos=debug --job-name=mom6_coverage --output=log.$CI_PIPELINE_ID --wait job.sh
+    - sbatch --clusters=c3,c4 --nodes=15 --time=0:37:00 --account=gfdl_o --qos=debug --job-name=mom6_coverage --output=log.$CI_PIPELINE_ID --wait job.sh
     # Process lcov files
     - make -f build_MRS/Makefile.coverage CONFIGS=. coverage
     # Post to codecov
