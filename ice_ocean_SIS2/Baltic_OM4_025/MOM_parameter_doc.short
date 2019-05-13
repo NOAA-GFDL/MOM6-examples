@@ -144,7 +144,8 @@ MINIMUM_DEPTH = 9.5             !   [m] default = 0.0
                                 ! MINIMUM_DEPTH but deeper than MASKING_DEPTH are rounded to MINIMUM_DEPTH.
 
 ! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply, if any.
+! Controls where open boundaries are located, what kind of boundary condition
+! to impose, and what data to apply, if any.
 MASKING_DEPTH = 0.0             !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all
                                 ! fluxes are zeroed out. MASKING_DEPTH is ignored if negative.
@@ -206,8 +207,8 @@ REGRIDDING_COORDINATE_MODE = "HYCOM1" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding.
                                 ! Choose among the following possibilities:
                                 !  LAYER - Isopycnal or stacked shallow water layers
-                                !  ZSTAR, Z* - stetched geopotential z*
-                                !  SIGMA_SHELF_ZSTAR - stetched geopotential z* ignoring shelf
+                                !  ZSTAR, Z* - stretched geopotential z*
+                                !  SIGMA_SHELF_ZSTAR - stretched geopotential z* ignoring shelf
                                 !  SIGMA - terrain following coordinates
                                 !  RHO   - continuous isopycnal
                                 !  HYCOM1 - HyCOM-like hybrid coordinate
@@ -241,10 +242,10 @@ ALE_COORDINATE_CONFIG = "HYBRID:hycom1_75_800m.nc,sigma2,FNC1:2,4000,4.5,.01" ! 
                                 ! thicknesses (in m). In sigma-coordinate mode, the list
                                 ! is of non-dimensional fractions of the water column.
 !TARGET_DENSITIES = 1010.0, 1014.3034, 1017.8088, 1020.843, 1023.5566, 1025.813, 1027.0275, 1027.9114, 1028.6422, 1029.2795, 1029.852, 1030.3762, 1030.8626, 1031.3183, 1031.7486, 1032.1572, 1032.5471, 1032.9207, 1033.2798, 1033.6261, 1033.9608, 1034.2519, 1034.4817, 1034.6774, 1034.8508, 1035.0082, 1035.1533, 1035.2886, 1035.4159, 1035.5364, 1035.6511, 1035.7608, 1035.8661, 1035.9675, 1036.0645, 1036.1554, 1036.2411, 1036.3223, 1036.3998, 1036.4739, 1036.5451, 1036.6137, 1036.68, 1036.7441, 1036.8062, 1036.8526, 1036.8874, 1036.9164, 1036.9418, 1036.9647, 1036.9857, 1037.0052, 1037.0236, 1037.0409, 1037.0574, 1037.0738, 1037.0902, 1037.1066, 1037.123, 1037.1394, 1037.1558, 1037.1722, 1037.1887, 1037.206, 1037.2241, 1037.2435, 1037.2642, 1037.2866, 1037.3112, 1037.3389, 1037.3713, 1037.4118, 1037.475, 1037.6332, 1037.8104, 1038.0 !   [m]
-                                ! HYBRID target densities for itnerfaces
+                                ! HYBRID target densities for interfaces
 REGRID_COMPRESSIBILITY_FRACTION = 0.01 !   [not defined] default = 0.0
                                 ! When interpolating potential density profiles we can add
-                                ! some artificial compressibility solely to make homogenous
+                                ! some artificial compressibility solely to make homogeneous
                                 ! regions appear stratified.
 MAXIMUM_INT_DEPTH_CONFIG = "FNC1:5,8000.0,1.0,.01" ! default = "NONE"
                                 ! Determines how to specify the maximum interface depths.
@@ -284,8 +285,8 @@ REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
-                                ! If true, intialize the layer thicknesses, temperatures,
-                                ! and salnities from a Z-space file on a latitude-
+                                ! If true, initialize the layer thicknesses, temperatures,
+                                ! and salinities from a Z-space file on a latitude-
                                 ! longitude grid.
 
 ! === module MOM_initialize_layers_from_Z ===
@@ -342,10 +343,10 @@ MEKE_KHMEKE_FAC = 1.0           !   [nondim] default = 0.0
                                 ! A factor that maps MEKE%Kh to Kh for MEKE itself.
 MEKE_ALPHA_RHINES = 0.15        !   [nondim] default = 0.05
                                 ! If positive, is a coefficient weighting the Rhines scale
-                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+                                ! in the expression for mixing length used in MEKE-derived diffusivity.
 MEKE_ALPHA_EADY = 0.15          !   [nondim] default = 0.05
                                 ! If positive, is a coefficient weighting the Eady length scale
-                                ! in the expression for mixing length used in MEKE-derived diffusiviity.
+                                ! in the expression for mixing length used in MEKE-derived diffusivity.
 
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
@@ -378,7 +379,8 @@ GILL_EQUATORIAL_LD = True       !   [Boolean] default = False
                                 ! If true, uses Gill's definition of the baroclinic
                                 ! equatorial deformation radius, otherwise, if false, use
                                 ! Pedlosky's definition. These definitions differ by a factor
-                                ! of 2 infront of the beta term in the denominator. Gill'sis the more appropriate definition.
+                                ! of 2 in front of the beta term in the denominator. Gill's
+                                ! is the more appropriate definition.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -492,7 +494,7 @@ BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! less than maxCFL_BT_cont to be accommodated.
 BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project
-                                ! out the velocity tendancy by 1+BEBT when calculating the
+                                ! out the velocity tendency by 1+BEBT when calculating the
                                 ! transport.  The default (false) is to use a predictor
                                 ! continuity step to find the pressure field, and then
                                 ! to do a corrector continuity step using a weighted
@@ -595,7 +597,7 @@ INT_TIDE_PROFILE = "POLZIN_09"  ! default = "STLAURENT_02"
                                 ! dissipation with INT_TIDE_DISSIPATION. Valid values are:
                                 !    STLAURENT_02 - Use the St. Laurent et al exponential
                                 !                   decay profile.
-                                !    POLZIN_09 - Use the Polzin WKB-streched algebraic
+                                !    POLZIN_09 - Use the Polzin WKB-stretched algebraic
                                 !                   decay profile.
 INT_TIDE_DECAY_SCALE = 300.3003003003003 !   [m] default = 500.0
                                 ! The decay scale away from the bottom for tidal TKE with
@@ -604,9 +606,10 @@ KAPPA_ITIDES = 6.28319E-04      !   [m-1] default = 6.283185307179586E-04
                                 ! A topographic wavenumber used with INT_TIDE_DISSIPATION.
                                 ! The default is 2pi/10 km, as in St.Laurent et al. 2002.
 KAPPA_H2_FACTOR = 0.84          !   [nondim] default = 1.0
-                                ! A scaling factor for the roughness amplitude with nINT_TIDE_DISSIPATION.
+                                ! A scaling factor for the roughness amplitude with
+                                ! INT_TIDE_DISSIPATION.
 TKE_ITIDE_MAX = 0.1             !   [W m-2] default = 1000.0
-                                ! The maximum internal tide energy source availble to mix
+                                ! The maximum internal tide energy source available to mix
                                 ! above the bottom boundary layer with INT_TIDE_DISSIPATION.
 READ_TIDEAMP = True             !   [Boolean] default = False
                                 ! If true, read a file (given by TIDEAMP_FILE) containing
@@ -639,7 +642,7 @@ GEOTHERMAL_VARNAME = "geothermal_hf" ! default = "geo_heat"
 BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the
                                 ! BBL mixing and the other diffusivities. Otherwise,
-                                ! diffusiviy from the BBL_mixing is simply added.
+                                ! diffusivity from the BBL_mixing is simply added.
 USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
                                 ! If true, uses a simple, imprecise but non-coordinate dependent, model
                                 ! of BBL mixing diffusivity based on Law of the Wall. Otherwise, uses
@@ -647,7 +650,8 @@ USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
 SIMPLE_TKE_TO_KD = True         !   [Boolean] default = False
                                 ! If true, uses a simple estimate of Kd/TKE that will
                                 ! work for arbitrary vertical coordinates. If false,
-                                ! calculates Kd/TKE and bounds based on exact energetics/nfor an isopycnal layer-formulation.
+                                ! calculates Kd/TKE and bounds based on exact energetics
+                                ! for an isopycnal layer-formulation.
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
@@ -726,7 +730,7 @@ ML_OMEGA_FRAC = 0.001           !   [nondim] default = 0.0
                                 ! local value of f, as sqrt((1-of)*f^2 + of*4*omega^2).
 USE_MLD_ITERATION = True        !   [Boolean] default = False
                                 ! A logical that specifies whether or not to use the
-                                ! distance to the bottom of the actively turblent boundary
+                                ! distance to the bottom of the actively turbulent boundary
                                 ! layer to help set the EPBL length scale.
 ORIG_MLD_ITERATION = False      !   [Boolean] default = True
                                 ! A logical that specifies whether or not to use the
