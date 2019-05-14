@@ -314,6 +314,12 @@ READ_DEPTH_LIST = True          !   [Boolean] default = False
 DEPTH_LIST_MIN_INC = 1.0E-06    !   [m] default = 1.0E-10
                                 ! The minimum increment between the depths of the
                                 ! entries in the depth-list file.
+REQUIRE_DEPTH_LIST_CHECKSUMS = False !   [Boolean] default = True
+                                ! Require that matching checksums be in Depth_list.nc
+                                ! when reading the file.
+UPDATE_DEPTH_LIST_CHECKSUMS = True !   [Boolean] default = False
+                                ! Automatically update the Depth_list.nc file if the
+                                ! checksums are missing or do not match current values.
 
 ! === module MOM_surface_forcing ===
 VARIABLE_WINDS = False          !   [Boolean] default = True

@@ -1028,9 +1028,12 @@ DEPTH_LIST_MIN_INC = 1.0E-06    !   [m] default = 1.0E-10
                                 ! entries in the depth-list file.
 DEPTH_LIST_FILE = "Depth_list.nc" ! default = "Depth_list.nc"
                                 ! The name of the depth list file.
-REQUIRE_DEPTH_LIST_CHECKSUMS = True !   [Boolean] default = True
+REQUIRE_DEPTH_LIST_CHECKSUMS = False !   [Boolean] default = True
                                 ! Require that matching checksums be in Depth_list.nc
                                 ! when reading the file.
+UPDATE_DEPTH_LIST_CHECKSUMS = True !   [Boolean] default = False
+                                ! Automatically update the Depth_list.nc file if the
+                                ! checksums are missing or do not match current values.
 ENERGYSAVEDAYS = 1.0            !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the
                                 ! energies of the run and other globally summed diagnostics.
