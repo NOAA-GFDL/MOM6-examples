@@ -1033,7 +1033,7 @@ STOKES_MIXING_COMBINED = False  !   [Boolean] default = False
                                 ! Flag to use Stokes drift Mixing via the Lagrangian
                                 !  current (Eulerian plus Stokes drift).
                                 !  Still needs work and testing, so not recommended for use.
-VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
+VEL_UNDERFLOW = 1.0E-30         !   [m s-1] default = 0.0
                                 ! A negligibly small velocity magnitude below which velocity
                                 ! components are set to 0.  A reasonable value might be
                                 ! 1e-30 m/s, which is less than an Angstrom divided by
