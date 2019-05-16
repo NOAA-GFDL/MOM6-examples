@@ -684,6 +684,9 @@ MEKE_KHMEKE_FAC = 0.0           !   [nondim] default = 0.0
 MEKE_OLD_LSCALE = False         !   [Boolean] default = False
                                 ! If true, use the old formula for length scale which is
                                 ! a function of grid spacing and deformation radius.
+MEKE_MIN_LSCALE = False         !   [Boolean] default = False
+                                ! If true, use a strict minimum of provided length scales
+                                ! rather than harmonic mean.
 MEKE_RD_MAX_SCALE = False       !   [nondim] default = False
                                 ! If true, the length scale used by MEKE is the minimum of
                                 ! the deformation radius or grid-spacing. Only used if
@@ -1118,6 +1121,9 @@ LEITH_KH = False                !   [Boolean] default = False
 MODIFIED_LEITH = False          !   [Boolean] default = False
                                 ! If true, add a term to Leith viscosity which is
                                 ! proportional to the gradient of divergence.
+RES_SCALE_MEKE_VISC = False     !   [Boolean] default = False
+                                ! If true, the viscosity contribution from MEKE is scaled by the resolution
+                                ! function.
 BOUND_KH = True                 !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited
                                 ! to be stable.
@@ -1137,6 +1143,11 @@ AH_VEL_SCALE = 0.05             !   [m s-1] default = 0.0
                                 ! the grid spacing to calculate the biharmonic viscosity.
                                 ! The final viscosity is the largest of this scaled
                                 ! viscosity, the Smagorinsky and Leith viscosities, and AH.
+AH_TIME_SCALE = 0.0             !   [s] default = 0.0
+                                ! A time scale whose inverse is multiplied by the fourth
+                                ! power of the grid spacing to calculate biharmonic viscosity.
+                                ! The final viscosity is the largest of all viscosity
+                                ! formulations in use. 0.0 means that it's not used.
 SMAGORINSKY_AH = True           !   [Boolean] default = False
                                 ! If true, use a biharmonic Smagorinsky nonlinear eddy
                                 ! viscosity.
