@@ -16,13 +16,11 @@ ADD_DIURNAL_SW = True           !   [Boolean] default = False
 REENTRANT_X = False             !   [Boolean] default = True
                                 ! If true, the domain is zonally reentrant.
 NIGLOBAL = 97                   !
-                                ! The total number of thickness grid points in the
-                                ! x-direction in the physical domain. With STATIC_MEMORY_
-                                ! this is set in SIS2_memory.h at compile time.
+                                ! The total number of thickness grid points in the x-direction in the physical
+                                ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
 NJGLOBAL = 105                  !
-                                ! The total number of thickness grid points in the
-                                ! y-direction in the physical domain. With STATIC_MEMORY_
-                                ! this is set in SIS2_memory.h at compile time.
+                                ! The total number of thickness grid points in the y-direction in the physical
+                                ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -33,8 +31,8 @@ INPUTDIR = "INPUT"              ! default = "."
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "mosaic"          !
-                                ! A character string that determines the method for
-                                ! defining the horizontal grid.  Current options are:
+                                ! A character string that determines the method for defining the horizontal
+                                ! grid.  Current options are:
                                 !     mosaic - read the grid from a mosaic (supergrid)
                                 !              file set by GRID_FILE.
                                 !     cartesian - use a (flat) Cartesian grid.
@@ -144,6 +142,5 @@ ICE_DELTA_EDD_R_POND = 1.0      !   [nondimensional] default = 0.0
 
 ! === module MOM_file_parser ===
 DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
-                                ! The basename for files where run-time parameters, their
-                                ! settings, units and defaults are documented. Blank will
-                                ! disable all parameter documentation.
+                                ! The basename for files where run-time parameters, their settings, units and
+                                ! defaults are documented. Blank will disable all parameter documentation.
