@@ -26,10 +26,6 @@ THERMO_SPANS_COUPLING = True    !   [Boolean] default = False
                                 ! longer than the coupling timestep. The actual thermodynamic timestep that is
                                 ! used in this case is the largest integer multiple of the coupling timestep
                                 ! that is less than or equal to DT_THERM.
-MIN_Z_DIAG_INTERVAL = 2.16E+04  !   [s] default = 0.0
-                                ! The minimum amount of time in seconds between calculations of depth-space
-                                ! diagnostics. Making this larger than DT_THERM reduces the  performance penalty
-                                ! of regridding to depth online.
 FRAZIL = True                   !   [Boolean] default = False
                                 ! If true, water freezes if it gets too cold, and the the accumulated heat
                                 ! deficit is returned in the surface state.  FRAZIL is only used if
@@ -512,12 +508,6 @@ MLE_MLD_DECAY_TIME = 2.592E+06  !   [s] default = 0.0
                                 ! MLD.
 
 ! === module MOM_diag_to_Z ===
-Z_OUTPUT_GRID_FILE = "analysis_vgrid_lev35.v1.nc" ! default = ""
-                                ! The file that specifies the vertical grid for depth-space diagnostics, or
-                                ! blank to disable depth-space output.
-!NK_ZSPACE (from file) = 35     !   [nondim]
-                                ! The number of depth-space levels.  This is determined from the size of the
-                                ! variable zw in the output grid file.
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.

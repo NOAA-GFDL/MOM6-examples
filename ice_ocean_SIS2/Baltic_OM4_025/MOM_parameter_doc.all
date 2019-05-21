@@ -78,7 +78,7 @@ HFREEZE = -1.0                  !   [m] default = -1.0
                                 ! melt potential is computed will be min(HFREEZE, OBLD), where OBLD is the
                                 ! boundary layer depth. If HFREEZE <= 0 (default), melt potential will not be
                                 ! computed.
-MIN_Z_DIAG_INTERVAL = 2.16E+04  !   [s] default = 0.0
+MIN_Z_DIAG_INTERVAL = 0.0       !   [s] default = 0.0
                                 ! The minimum amount of time in seconds between calculations of depth-space
                                 ! diagnostics. Making this larger than DT_THERM reduces the  performance penalty
                                 ! of regridding to depth online.
@@ -1286,12 +1286,9 @@ DIAG_EBT_MONO_N2_DEPTH = -1.0   !   [m] default = -1.0
                                 ! calculating the equivalent barotropic wave speed.
 
 ! === module MOM_diag_to_Z ===
-Z_OUTPUT_GRID_FILE = "analysis_vgrid_lev35.v1.nc" ! default = ""
+Z_OUTPUT_GRID_FILE = ""         ! default = ""
                                 ! The file that specifies the vertical grid for depth-space diagnostics, or
                                 ! blank to disable depth-space output.
-!NK_ZSPACE (from file) = 35     !   [nondim]
-                                ! The number of depth-space levels.  This is determined from the size of the
-                                ! variable zw in the output grid file.
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
