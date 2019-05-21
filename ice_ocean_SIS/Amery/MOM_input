@@ -4,7 +4,7 @@
 !* appropriate, MKS units are used.                                   *
 !********+*********+*********+*********+*********+*********+*********+*
 
-!SYMMETRIC_MEMORY_ = True       
+!SYMMETRIC_MEMORY_ = True
 
 DAYMAX = 36500.0
 
@@ -190,15 +190,6 @@ SAVE_INITIAL_CONDS = True       !    If defined, the inital conditions are
                                 !  new run.
 IC_OUTPUT_FILE = "MOM_IC"       !  The name-root of a file into which the
                                 !  initial conditions are written for a new run.
-
-Z_OUTPUT_GRID_FILE = "zgrid.nc"
-                                !    The file that specifies the vertical grid
-                                !  for depth-space diagnostics.
-MIN_Z_DIAG_INTERVAL = 2.16e4    ! The minimum amount of time in seconds between
-                                !  calculations of depth-space diagnostics.
-                                !  Making this larger than DT_THERM reduces the
-                                !  performance penalty of regridding to depth
-                                !  online.
 
 MAXCPU = 86400.0                !   The maximum amount of cpu time per processor
                                 !  for which MOM should run before saving a
