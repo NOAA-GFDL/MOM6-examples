@@ -3918,26 +3918,6 @@
     ! units: Pa
     ! standard_name: sea_water_pressure_at_sea_floor
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model_zold", "u"  [Unused] (CMOR equivalent is "uo")
-    ! long_name: Zonal Velocity in Depth Space
-    ! units: m s-1
-"ocean_model_zold", "uo"  [Unused] (native name is "u")
-    ! long_name: Sea Water X Velocity
-    ! units: m s-1
-    ! standard_name: sea_water_x_velocity
-"ocean_model_zold", "v"  [Unused] (CMOR equivalent is "vo")
-    ! long_name: Meridional Velocity in Depth Space
-    ! units: m s-1
-"ocean_model_zold", "vo"  [Unused] (native name is "v")
-    ! long_name: Sea Water Y Velocity
-    ! units: m s-1
-    ! standard_name: sea_water_y_velocity
-"ocean_model_zold", "uh"  [Unused]
-    ! long_name: Zonal Mass Transport (including SGS param) in Depth Space
-    ! units: m3 s-1
-"ocean_model_zold", "vh"  [Unused]
-    ! long_name: Meridional Mass Transport (including SGS param) in Depth Space
-    ! units: m3 s-1
 "ocean_model", "ea_t"  [Unused]
     ! long_name: Layer (heat) entrainment from above per timestep
     ! units: m
@@ -4406,21 +4386,6 @@
     ! long_name: Mixed layer depth (used defined)
     ! units: m
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model_zold", "Kd_interface"  [Unused]
-    ! long_name: Diapycnal diffusivity at interfaces, interpolated to z
-    ! units: m2 s-1
-"ocean_model_zold", "Tflx_dia_diff"  [Unused]
-    ! long_name: Diffusive diapycnal temperature flux across interfaces, interpolated to z
-    ! units: degC m s-1
-"ocean_model_zold", "Tflx_dia_adv"  [Unused]
-    ! long_name: Advective diapycnal temperature flux across interfaces, interpolated to z
-    ! units: degC m s-1
-"ocean_model_zold", "Sflx_dia_diff"  [Unused]
-    ! long_name: Diffusive diapycnal salinity flux across interfaces, interpolated to z
-    ! units: psu m s-1
-"ocean_model_zold", "Sflx_dia_adv"  [Unused]
-    ! long_name: Advective diapycnal salinity flux across interfaces, interpolated to z
-    ! units: psu m s-1
 "ocean_model", "u_predia"  [Unused]
     ! long_name: Zonal velocity before diabatic forcing
     ! units: m s-1
@@ -5689,9 +5654,6 @@
     ! long_name: Work done by Internal Tide Diapycnal Mixing (low modes)
     ! units: W m-2
     ! cell_methods: z_l:mean
-"ocean_model_zold", "Kd_itides"  [Unused]
-    ! long_name: Internal Tide Driven Diffusivity, interpolated to z
-    ! units: m2 s-1
 "ocean_model", "Kd_effective"  [Used]
     ! long_name: Diapycnal diffusivity as applied
     ! units: m2 s-1
@@ -6059,9 +6021,6 @@
     ! units: s-2
     ! standard_name: square_of_brunt_vaisala_frequency_in_sea_water
     ! cell_methods: z_i:point
-"ocean_model_zold", "N2"  [Unused]
-    ! long_name: Buoyancy frequency, interpolated to z
-    ! units: s-2
 "ocean_model", "Kd_shear"  [Used]
     ! long_name: Shear-driven Diapycnal Diffusivity
     ! units: m2 s-1
@@ -7632,30 +7591,6 @@
     ! units: W m-2
     ! standard_name: tendency_of_sea_water_potential_temperature_expressed_as_heat_content_vertical_sum
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model_zold", "temp"  [Used]
-    ! long_name: Potential Temperature
-    ! units: degC
-    ! standard_name: not provided
-"ocean_model_zold", "temp_xyave"  [Used]
-    ! long_name: Potential Temperature
-    ! units: degC
-    ! standard_name: not provided
-"ocean_model_zold_d2", "temp_xyave"  [Unused]
-    ! long_name: Potential Temperature
-    ! units: degC
-    ! standard_name: not provided
-"ocean_model_zold", "thetao"  [Unused]
-    ! long_name: Sea Water Potential Temperature
-    ! units: degC
-    ! standard_name: sea_water_potential_temperature
-"ocean_model_zold", "thetao_xyave"  [Unused]
-    ! long_name: Sea Water Potential Temperature
-    ! units: degC
-    ! standard_name: sea_water_potential_temperature
-"ocean_model_zold_d2", "thetao_xyave"  [Unused]
-    ! long_name: Sea Water Potential Temperature
-    ! units: degC
-    ! standard_name: sea_water_potential_temperature
 "ocean_model", "T_tendency_vert_remap"  [Unused]
     ! long_name: Vertical remapping tracer concentration tendency for temp
     ! units: degC s-1
@@ -8276,30 +8211,6 @@
     ! units: kg m-2 s-1
     ! standard_name: tendency_of_sea_water_salinity_expressed_as_salt_content_vertical_sum
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model_zold", "salt"  [Used]
-    ! long_name: Salinity
-    ! units: psu
-    ! standard_name: not provided
-"ocean_model_zold", "salt_xyave"  [Unused]
-    ! long_name: Salinity
-    ! units: psu
-    ! standard_name: not provided
-"ocean_model_zold_d2", "salt_xyave"  [Unused]
-    ! long_name: Salinity
-    ! units: psu
-    ! standard_name: not provided
-"ocean_model_zold", "so"  [Unused]
-    ! long_name: Sea Water Salinity
-    ! units: psu
-    ! standard_name: sea_water_salinity
-"ocean_model_zold", "so_xyave"  [Unused]
-    ! long_name: Sea Water Salinity
-    ! units: psu
-    ! standard_name: sea_water_salinity
-"ocean_model_zold_d2", "so_xyave"  [Unused]
-    ! long_name: Sea Water Salinity
-    ! units: psu
-    ! standard_name: sea_water_salinity
 "ocean_model", "S_tendency_vert_remap"  [Unused]
     ! long_name: Vertical remapping tracer concentration tendency for salt
     ! units: psu s-1
@@ -8820,30 +8731,6 @@
     ! long_name: Vertical sum of net time tendency for ideal age tracer
     ! units: yr m s-1
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model_zold", "age"  [Unused]
-    ! long_name: Ideal Age Tracer
-    ! units: yr
-    ! standard_name: not provided
-"ocean_model_zold", "age_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer
-    ! units: yr
-    ! standard_name: not provided
-"ocean_model_zold_d2", "age_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer
-    ! units: yr
-    ! standard_name: not provided
-"ocean_model_zold", "agessc"  [Unused]
-    ! long_name: Ideal Age Tracer
-    ! units: yr
-    ! standard_name: ideal_age_tracer
-"ocean_model_zold", "agessc_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer
-    ! units: yr
-    ! standard_name: ideal_age_tracer
-"ocean_model_zold_d2", "agessc_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer
-    ! units: yr
-    ! standard_name: ideal_age_tracer
 "ocean_model", "age_tendency_vert_remap"  [Unused]
     ! long_name: Vertical remapping tracer concentration tendency for age
     ! units: yr s-1

@@ -86,11 +86,6 @@ DT_THERM = 7200.0               !   [s] default = 3600.0
                                 ! Ideally DT_THERM should be an integer multiple of DT
                                 ! and less than the forcing or coupling time-step.
                                 ! By default DT_THERM is set to DT.
-MIN_Z_DIAG_INTERVAL = 2.16E+04  !   [s] default = 0.0
-                                ! The minimum amount of time in seconds between
-                                ! calculations of depth-space diagnostics. Making this
-                                ! larger than DT_THERM reduces the  performance penalty
-                                ! of regridding to depth online.
 DTBT_RESET_PERIOD = 0.0         !   [s] default = 7200.0
                                 ! The period between recalculations of DTBT (if DTBT <= 0).
                                 ! If DTBT_RESET_PERIOD is negative, DTBT is set based
@@ -429,13 +424,6 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! geostrophic kinetic energy or 1 plus the square of the
                                 ! grid spacing over the deformation radius, as detailed
                                 ! by Fox-Kemper et al. (2010)
-Z_OUTPUT_GRID_FILE = "analysis_vgrid_lev35.v1.nc" ! default = ""
-                                ! The file that specifies the vertical grid for
-                                ! depth-space diagnostics, or blank to disable
-                                ! depth-space output.
-!NK_ZSPACE (from file) = 50     !   [nondim]
-                                ! The number of depth-space levels.  This is determined
-                                ! from the size of the variable zw in the output grid file.
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
