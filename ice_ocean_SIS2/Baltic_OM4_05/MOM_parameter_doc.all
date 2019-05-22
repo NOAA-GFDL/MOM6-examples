@@ -78,10 +78,6 @@ HFREEZE = -1.0                  !   [m] default = -1.0
                                 ! melt potential is computed will be min(HFREEZE, OBLD), where OBLD is the
                                 ! boundary layer depth. If HFREEZE <= 0 (default), melt potential will not be
                                 ! computed.
-MIN_Z_DIAG_INTERVAL = 0.0       !   [s] default = 0.0
-                                ! The minimum amount of time in seconds between calculations of depth-space
-                                ! diagnostics. Making this larger than DT_THERM reduces the  performance penalty
-                                ! of regridding to depth online.
 INTERPOLATE_P_SURF = False      !   [Boolean] default = False
                                 ! If true, linearly interpolate the surface pressure over the coupling time
                                 ! step, using the specified value at the end of the step.
@@ -1297,11 +1293,6 @@ DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0
 DIAG_EBT_MONO_N2_DEPTH = -1.0   !   [m] default = -1.0
                                 ! The depth below which N2 is limited as monotonic for the purposes of
                                 ! calculating the equivalent barotropic wave speed.
-
-! === module MOM_diag_to_Z ===
-Z_OUTPUT_GRID_FILE = ""         ! default = ""
-                                ! The file that specifies the vertical grid for depth-space diagnostics, or
-                                ! blank to disable depth-space output.
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
