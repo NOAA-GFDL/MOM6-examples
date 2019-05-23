@@ -1,0 +1,25 @@
+! This file was written by the model and records all non-layout or debugging parameters used at run-time.
+
+! === module ice_ocean_driver_init ===
+SINGLE_MOM_CALL = False         !   [Boolean] default = True
+                                ! If true, advance the state of MOM with a single step
+                                ! including both dynamics and thermodynamics.  If false,
+                                ! the two phases are advanced with separate calls.
+INTERSPERSE_ICE_OCEAN = True    !   [Boolean] default = False
+                                ! If true, intersperse the ice and ocean thermodynamic and
+                                ! and dynamic updates.
+DT_COUPLED_ICE_OCEAN_DYN = 3600.0 !   [seconds] default = -1.0
+                                ! The time step for coupling the ice and ocean dynamics when
+                                ! INTERSPERSE_ICE_OCEAN is true, or <0 to use the coupled timestep.
+
+! === module MOM_file_parser ===
+SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
+                                ! If true, all log messages are also sent to stdout.
+DOCUMENT_FILE = "CIOD_parameter_doc" ! default = "MOM_parameter_doc"
+                                ! The basename for files where run-time parameters, their settings, units and
+                                ! defaults are documented. Blank will disable all parameter documentation.
+COMPLETE_DOCUMENTATION = True   !   [Boolean] default = True
+                                ! If true, all run-time parameters are documented in CIOD_parameter_doc.all .
+MINIMAL_DOCUMENTATION = True    !   [Boolean] default = True
+                                ! If true, non-default run-time parameters are documented in
+                                ! CIOD_parameter_doc.short .
