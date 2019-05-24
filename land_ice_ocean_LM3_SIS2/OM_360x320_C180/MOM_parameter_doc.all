@@ -1540,7 +1540,8 @@ MSTAR_MODE = 0                  !   [units=nondim] default = 0
                                 ! An integer switch for how to compute MSTAR.
                                 !     0 for constant MSTAR
                                 !     1 for MSTAR w/ MLD in stabilizing limit
-                                !     2 for MSTAR w/ L_E/L_O in stabilizing limit.
+                                !     2 for MSTAR w/ L_E/L_O in stabilizing limit
+                                !     3 for MSTAR as in RH18.
 MSTAR = 1.2                     !   [units=nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE input to the mixed layer.
 MIX_LEN_EXPONENT = 2.0          !   [units=nondim] default = 2.0
@@ -1568,6 +1569,28 @@ MSTAR2_COEF1 = 0.3              !   [units=nondim] default = 0.3
 MSTAR2_COEF2 = 0.085            !   [units=nondim] default = 0.085
                                 ! Coefficient in computing mstar when only rotation limits the total mixing.
                                 ! (used only if MSTAR_MODE=2)
+RH18_MST_CN1 = 0.275            !   [nondim] default = 0.275
+                                ! MSTAR_N coefficient 1 (outter-most coefficient for fit).
+                                !  The value of 0.275 is given in RH18.  Increasing this
+                                ! coefficient increases MSTAR for all values of Hf/ust, but more
+                                ! effectively at low values (weakly developed OSBLs).
+RH18_MST_CN2 = 8.0              !   [nondim] default = 8.0
+                                ! MSTAR_N coefficient 2 (coefficient outside of exponential decay).
+                                ! The value of 8.0 is given in RH18.  Increasing this coefficient
+                                ! increases MSTAR for all values of HF/ust, with a much more even
+                                ! effect across a wide range of Hf/ust than CN1.
+RH18_MST_CN3 = -5.0             !   [nondim] default = -5.0
+                                ! MSTAR_N coefficient 3 (exponential decay coefficient).
+                                ! The value of -5.0 is given in RH18.  Increasing this increases how
+                                ! quickly the value of MSTAR decreases as Hf/ust increases.
+RH18_MST_CS1 = 0.2              !   [nondim] default = 0.2
+                                ! MSTAR_S coefficient for RH18 in stabilizing limit.
+                                ! The value of 0.2 is given in RH18 and increasing it increases
+                                ! MSTAR in the presence of a stabilizing surface buoyancy flux.
+RH18_MST_CS2 = 0.4              !   [nondim] default = 0.4
+                                ! MSTAR_S exponent for RH18 in stabilizing limit.
+                                ! The value of 0.4 is given in RH18 and increasing it increases MSTAR
+                                ! exponentially in the presence of a stabilizing surface buoyancy flux.
 NSTAR = 0.2                     !   [nondim] default = 0.2
                                 ! The portion of the buoyant potential energy imparted by surface fluxes that is
                                 ! available to drive entrainment at the base of mixed layer when that energy is
@@ -1582,6 +1605,10 @@ ML_OMEGA_FRAC = 1.0             !   [nondim] default = 0.0
                                 ! When setting the decay scale for turbulence, use this fraction of the absolute
                                 ! rotation rate blended with the local value of f, as sqrt((1-of)*f^2 +
                                 ! of*4*omega^2).
+VSTAR_MODE = 0                  !   [units=nondim] default = 0
+                                ! An integer switch for how to compute VSTAR.
+                                !     0 for old  vstar (TKE Remaining)^(1/3)
+                                !     1 for vstar from u* and w* (see Reichl & Hallberg 2018).
 WSTAR_USTAR_COEF = 1.0          !   [nondim] default = 1.0
                                 ! A ratio relating the efficiency with which convectively released energy is
                                 ! converted to a turbulent velocity, relative to mechanically forced TKE. Making
@@ -1589,6 +1616,14 @@ WSTAR_USTAR_COEF = 1.0          !   [nondim] default = 1.0
 VSTAR_SCALE_FACTOR = 1.0        !   [nondim] default = 1.0
                                 ! An overall nondimensional scaling factor for v*. Making this larger decreases
                                 ! the PBL diffusivity.
+VSTAR_SURF_FAC = 1.2            !   [units=nondim] default = 1.2
+                                ! The proportionality times ustar to set vstar to at the surface.
+LT_ENHANCE_K_R16 = False        !   [nondim] default = False
+                                ! Logical flag to toggle on enhancing mixing coefficient in
+                                ! boundary layer due to Langmuir turbulence following Reichl
+                                ! et al., 2016.
+                                ! This approach is not recommended for use, as it is based
+                                ! on a hurricane LES configuration and not known if it is general.
 EKMAN_SCALE_COEF = 1.0          !   [nondim] default = 1.0
                                 ! A nondimensional scaling factor controlling the inhibition of the diffusive
                                 ! length scale by rotation. Making this larger decreases the PBL diffusivity.
