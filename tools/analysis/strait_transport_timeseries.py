@@ -38,10 +38,10 @@ def sum_transport_in_straits(runpath, monthly_average = False):
       strait[sidx].time = v_vargroup['time'][:]
       # Need to find the first interface deeper than or equal to the requested z-limit. If deeper, then we'll need to
       # scale the next layer back and zero out the rest of the column
+      vmo = v_vargroup['vmo'][:,:,:,:]
       if strait[sidx].zlim > 0.:
         z_i = v_vargroup['z_i'][:]
         zidx = np.sum(z_i<=strait[sidx].zlim)-1
-        vmo = v_vargroup['vmo'][:,:,:,:]
         if z_i[zidx] < strait[sidx].zlim: # Scale back transport in the next layer
           # Fraction of the layer that should be included in the calculation
           frac = (z_i[zidx+1] - strait[sidx].zlim)/(z_i[zidx+1]-z_i[zidx]) # Fraction of the layer that should be
