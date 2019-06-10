@@ -92,6 +92,8 @@
  "ocean_model",   "zos",          "zos",              "ocean_annual",        "all", "mean", "none",2
  "ocean_model",   "zos",          "zos",              "ocean_month",         "all", "mean", "none",2
  "ocean_model",   "zos",          "zos",              "ocean_daily",         "all", "mean", "none",2
+ "ocean_model",   "zos",          "zosmin",           "ocean_daily",         "all", "min",  "none",2
+ "ocean_model",   "zos",          "zosmax",           "ocean_daily",         "all", "max",  "none",2
  "ocean_model",   "zossq",        "zossq",            "ocean_annual",        "all", "mean", "none",2
  "ocean_model",   "zossq",        "zossq",            "ocean_month",         "all", "mean", "none",2
 #"ocean_model",   "zostoga",      "zostoga",          "ocean_month",         "all", "mean", "none",2  # to be done offline
@@ -109,6 +111,8 @@
  "ocean_model",   "tos",          "tos",              "ocean_annual",        "all", "mean", "none",2
  "ocean_model",   "tos",          "tos",              "ocean_month",         "all", "mean", "none",2
  "ocean_model",   "tos",          "tos",              "ocean_daily",         "all", "mean", "none",2
+ "ocean_model",   "tos",          "tosmin",           "ocean_daily",         "all", "min" , "none",2
+ "ocean_model",   "tos",          "tosmax",           "ocean_daily",         "all", "max" , "none",2
  "ocean_model",   "tosga",        "tosga",            "ocean_scalar_annual", "all", "mean", "none",1
  "ocean_model",   "tosga",        "tosga",            "ocean_scalar_month",  "all", "mean", "none",1
  "ocean_model",   "tossq",        "tossq",            "ocean_annual",        "all", "mean", "none",2
@@ -191,14 +195,12 @@
  "ocean_model_z","T_ady",        "T_ady",            "ocean_annual_z",     "all", "mean", "none",2
  "ocean_model",  "T_adx_2d",     "T_adx_2d",         "ocean_month",        "all", "mean", "none",2
  "ocean_model",  "T_ady_2d",     "T_ady_2d",         "ocean_month",        "all", "mean", "none",2
+ "ocean_model",  "T_adx_2d",     "T_adx_2d",         "ocean_annual",       "all", "mean", "none",2
+ "ocean_model",  "T_ady_2d",     "T_ady_2d",         "ocean_annual",       "all", "mean", "none",2
  "ocean_model_z","S_adx",        "S_adx",            "ocean_annual_z",     "all", "mean", "none",2
  "ocean_model_z","S_ady",        "S_ady",            "ocean_annual_z",     "all", "mean", "none",2
  "ocean_model",  "S_adx_2d",     "S_adx_2d",         "ocean_month",        "all", "mean", "none",2
  "ocean_model",  "S_ady_2d",     "S_ady_2d",         "ocean_month",        "all", "mean", "none",2
-#"ocean_model",  "ndiff_tracer_trans_x_2d_T","ndiff_tracer_trans_x_2d_T",  "ocean_month",  "all", "mean", "none",2
-#"ocean_model",  "ndiff_tracer_trans_y_2d_T","ndiff_tracer_trans_y_2d_T",  "ocean_month",  "all", "mean", "none",2
-#"ocean_model",  "ndiff_tracer_trans_x_2d_S","ndiff_tracer_trans_x_2d_S",  "ocean_month",  "all", "mean", "none",2
-#"ocean_model",  "ndiff_tracer_trans_y_2d_S","ndiff_tracer_trans_y_2d_S",  "ocean_month",  "all", "mean", "none",2
 
 # Density space diagnostics (not necessarily using CMIP names but needed to generate CMIP output in post-processing)
  "ocean_model_rho2","umo",       "umo",              "ocean_annual_rho2",  "all", "mean", "none",2
