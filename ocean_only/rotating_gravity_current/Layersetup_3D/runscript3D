@@ -1,0 +1,6 @@
+#!/bin/csh
+#SBATCH --clusters=c3
+#SBATCH --nodes=80
+#SBATCH -t 15:30:00
+
+srun --verbose --export=ALL --ntasks=2560 ../../../build/intel/ocean_only/repro/MOM6
