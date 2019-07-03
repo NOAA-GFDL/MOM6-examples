@@ -274,6 +274,10 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
 KV = 0.0                        !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior.
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
+
+! === module MOM_thickness_diffuse ===
+KHTH = 500.0                    !   [m2 s-1] default = 0.0
+                                ! The background horizontal thickness diffusivity.
 BE = 0.7                        !   [nondim] default = 0.6
                                 ! If SPLIT is true, BE determines the relative weighting
                                 ! of a  2nd-order Runga-Kutta baroclinic time stepping
@@ -378,10 +382,6 @@ DTBT = 10.0                     !   [s or nondim] default = -0.98
                                 ! Setting DTBT to 0 is the same as setting it to -0.98.
                                 ! The value of DTBT that will actually be used is an
                                 ! integer fraction of DT, rounding down.
-
-! === module MOM_thickness_diffuse ===
-KHTH = 500.0                    !   [m2 s-1] default = 0.0
-                                ! The background horizontal thickness diffusivity.
 
 ! === module MOM_mixed_layer_restrat ===
 

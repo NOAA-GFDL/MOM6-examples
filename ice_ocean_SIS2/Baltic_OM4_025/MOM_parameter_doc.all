@@ -700,9 +700,16 @@ MEKE_GMCOEFF = 1.0              !   [nondim] default = -1.0
                                 ! into MEKE by the thickness mixing parameterization.
                                 ! If MEKE_GMCOEFF is negative, this conversion is not
                                 ! used or calculated.
+MEKE_GEOMETRIC = False          !   [Boolean] default = False
+                                ! If MEKE_GEOMETRIC is true, uses the GM coefficient formulation
+                                ! from the GEOMETRIC framework (Marshall et al., 2012).
 MEKE_FRCOEFF = -1.0             !   [nondim] default = -1.0
                                 ! The efficiency of the conversion of mean energy into
                                 ! MEKE.  If MEKE_FRCOEFF is negative, this conversion
+                                ! is not used or calculated.
+MEKE_GMECOEFF = -1.0            !   [nondim] default = -1.0
+                                ! The efficiency of the conversion of MEKE into mean energy
+                                ! by GME.  If MEKE_GMECOEFF is negative, this conversion
                                 ! is not used or calculated.
 MEKE_BGSRC = 1.0E-13            !   [W kg-1] default = 0.0
                                 ! A background energy source for MEKE.
@@ -723,6 +730,12 @@ MEKE_KHCOEFF = 1.0              !   [nondim] default = 1.0
 MEKE_USCALE = 0.0               !   [m s-1] default = 0.0
                                 ! The background velocity that is combined with MEKE to
                                 ! calculate the bottom drag.
+MEKE_JANSEN15_DRAG = False      !   [Boolean] default = False
+                                ! If true, use the bottom drag formulation from Jansen et al. (2015)
+                                ! to calculate the drag acting on MEKE.
+MEKE_GM_SRC_ALT = False         !   [Boolean] default = False
+                                ! If true, use the GM energy conversion form S^2*N^2*kappa rather
+                                ! than the streamfunction for the MEKE GM source term.
 MEKE_VISC_DRAG = True           !   [Boolean] default = True
                                 ! If true, use the vertvisc_type to calculate the bottom
                                 ! drag acting on MEKE.
@@ -739,9 +752,14 @@ MEKE_RD_MAX_SCALE = False       !   [nondim] default = False
                                 ! If true, the length scale used by MEKE is the minimum of
                                 ! the deformation radius or grid-spacing. Only used if
                                 ! MEKE_OLD_LSCALE=True
-MEKE_VISCOSITY_COEFF = 0.0      !   [nondim] default = 0.0
+MEKE_VISCOSITY_COEFF_KU = 0.0   !   [nondim] default = 0.0
                                 ! If non-zero, is the scaling coefficient in the expression for
-                                ! viscosity used to parameterize lateral momentum mixing by
+                                ! viscosity used to parameterize harmonic lateral momentum mixing by
+                                ! unresolved eddies represented by MEKE. Can be negative to
+                                ! represent backscatter from the unresolved eddies.
+MEKE_VISCOSITY_COEFF_AU = 0.0   !   [nondim] default = 0.0
+                                ! If non-zero, is the scaling coefficient in the expression for
+                                ! viscosity used to parameterize biharmonic lateral momentum mixing by
                                 ! unresolved eddies represented by MEKE. Can be negative to
                                 ! represent backscatter from the unresolved eddies.
 MEKE_FIXED_MIXING_LENGTH = 0.0  !   [m] default = 0.0
@@ -766,7 +784,7 @@ MEKE_COLD_START = False         !   [Boolean] default = False
                                 ! If true, initialize EKE to zero. Otherwise a local equilibrium solution
                                 ! is used as an initial condition for EKE.
 MEKE_BACKSCAT_RO_C = 0.0        !   [nondim] default = 0.0
-                                ! The coefficient in the Rossby number function for scaling the buharmonic
+                                ! The coefficient in the Rossby number function for scaling the biharmonic
                                 ! frictional energy source. Setting to non-zero enables the Rossby number function.
 MEKE_BACKSCAT_RO_POW = 0.0      !   [nondim] default = 0.0
                                 ! The power in the Rossby number function for scaling the biharmomnic
@@ -790,6 +808,9 @@ USE_VARIABLE_MIXING = True      !   [Boolean] default = False
                                 ! not used.  If KHTR_SLOPE_CFF>0 or  KhTh_Slope_Cff>0,
                                 ! this is set to true regardless of what is in the
                                 ! parameter file.
+USE_VISBECK = False             !   [Boolean] default = False
+                                ! If true, use the Visbeck et al. (1997) formulation for
+                                ! thickness diffusivity.
 RESOLN_SCALED_KH = True         !   [Boolean] default = False
                                 ! If true, the Laplacian lateral viscosity is scaled away
                                 ! when the first baroclinic deformation radius is well
@@ -866,6 +887,8 @@ GILL_EQUATORIAL_LD = True       !   [Boolean] default = False
                                 ! equatorial deformation radius, otherwise, if false, use
                                 ! Pedlosky's definition. These definitions differ by a factor
                                 ! of 2 infront of the beta term in the denominator. Gill'sis the more appropriate definition.
+USE_QG_LEITH_GM = False         !   [Boolean] default = False
+                                ! If true, use the QG Leith viscosity as the GM coefficient.
 
 ! === module MOM_set_visc ===
 BOTTOMDRAGLAW = True            !   [Boolean] default = True
@@ -939,6 +962,36 @@ SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.15
                                 ! default is to use the same value as SMAG_LAP_CONST if
                                 ! it is defined, or 0.15 if it is not. The value used is
                                 ! also 0.15 if the specified value is negative.
+
+! === module MOM_thickness_diffuse ===
+KHTH = 0.0                      !   [m2 s-1] default = 0.0
+                                ! The background horizontal thickness diffusivity.
+KHTH_MIN = 0.0                  !   [m2 s-1] default = 0.0
+                                ! The minimum horizontal thickness diffusivity.
+KHTH_MAX = 0.0                  !   [m2 s-1] default = 0.0
+                                ! The maximum horizontal thickness diffusivity.
+KHTH_MAX_CFL = 0.1              !   [nondimensional] default = 0.8
+                                ! The maximum value of the local diffusive CFL ratio that
+                                ! is permitted for the thickness diffusivity. 1.0 is the
+                                ! marginally unstable value in a pure layered model, but
+                                ! much smaller numbers (e.g. 0.1) seem to work better for
+                                ! ALE-based models.
+DETANGLE_INTERFACES = False     !   [Boolean] default = False
+                                ! If defined add 3-d structured enhanced interface height
+                                ! diffusivities to horizonally smooth jagged layers.
+KHTH_SLOPE_MAX = 0.01           !   [nondim] default = 0.01
+                                ! A slope beyond which the calculated isopycnal slope is
+                                ! not reliable and is scaled away.
+KHTH_USE_FGNV_STREAMFUNCTION = False !   [Boolean] default = False
+                                ! If true, use the streamfunction formulation of
+                                ! Ferrari et al., 2010, which effectively emphasizes
+                                ! graver vertical modes by smoothing in the vertical.
+USE_KH_IN_MEKE = False          !   [Boolean] default = False
+                                ! If true, uses the thickness diffusivity calculated here to diffuse
+                                ! MEKE.
+USE_GME = False                 !   [Boolean] default = False
+                                ! If true, use the GM+E backscatter scheme in association
+                                ! with the Gent and McWilliams parameterization.
 TIDES = False                   !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 BE = 0.6                        !   [nondim] default = 0.6
@@ -1112,9 +1165,6 @@ SMAGORINSKY_KH = False          !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
 LEITH_KH = False                !   [Boolean] default = False
                                 ! If true, use a Leith nonlinear eddy viscosity.
-MODIFIED_LEITH = False          !   [Boolean] default = False
-                                ! If true, add a term to Leith viscosity which is
-                                ! proportional to the gradient of divergence.
 BOUND_KH = True                 !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited
                                 ! to be stable.
@@ -1348,30 +1398,6 @@ BT_USE_OLD_CORIOLIS_BRACKET_BUG = True !   [Boolean] default = False
                                 ! If True, use an order of operations that is not bitwise
                                 ! rotationally symmetric in the meridional Coriolis term of
                                 ! the barotropic solver.
-
-! === module MOM_thickness_diffuse ===
-KHTH = 0.0                      !   [m2 s-1] default = 0.0
-                                ! The background horizontal thickness diffusivity.
-KHTH_MIN = 0.0                  !   [m2 s-1] default = 0.0
-                                ! The minimum horizontal thickness diffusivity.
-KHTH_MAX = 0.0                  !   [m2 s-1] default = 0.0
-                                ! The maximum horizontal thickness diffusivity.
-KHTH_MAX_CFL = 0.1              !   [nondimensional] default = 0.8
-                                ! The maximum value of the local diffusive CFL ratio that
-                                ! is permitted for the thickness diffusivity. 1.0 is the
-                                ! marginally unstable value in a pure layered model, but
-                                ! much smaller numbers (e.g. 0.1) seem to work better for
-                                ! ALE-based models.
-DETANGLE_INTERFACES = False     !   [Boolean] default = False
-                                ! If defined add 3-d structured enhanced interface height
-                                ! diffusivities to horizonally smooth jagged layers.
-KHTH_SLOPE_MAX = 0.01           !   [nondim] default = 0.01
-                                ! A slope beyond which the calculated isopycnal slope is
-                                ! not reliable and is scaled away.
-KHTH_USE_FGNV_STREAMFUNCTION = False !   [Boolean] default = False
-                                ! If true, use the streamfunction formulation of
-                                ! Ferrari et al., 2010, which effectively emphasizes
-                                ! graver vertical modes by smoothing in the vertical.
 
 ! === module MOM_mixed_layer_restrat ===
 MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False

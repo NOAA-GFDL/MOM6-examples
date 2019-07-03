@@ -320,6 +320,19 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
 KV = 1.0E-04                    !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior.
                                 ! The molecular value, ~1e-6 m2 s-1, may be used.
+
+! === module MOM_thickness_diffuse ===
+KHTH = 600.0                    !   [m2 s-1] default = 0.0
+                                ! The background horizontal thickness diffusivity.
+KHTH_MAX = 900.0                !   [m2 s-1] default = 0.0
+                                ! The maximum horizontal thickness diffusivity.
+KHTH_USE_FGNV_STREAMFUNCTION = True !   [Boolean] default = False
+                                ! If true, use the streamfunction formulation of
+                                ! Ferrari et al., 2010, which effectively emphasizes
+                                ! graver vertical modes by smoothing in the vertical.
+FGNV_C_MIN = 0.01               !   [m s-1] default = 0.0
+                                ! A minium wave speed used in the Ferrari et al., 2010,
+                                ! streamfunction formulation.
 TIDES = True                    !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 
@@ -426,19 +439,6 @@ DTBT = -0.95                    !   [s or nondim] default = -0.98
                                 ! Setting DTBT to 0 is the same as setting it to -0.98.
                                 ! The value of DTBT that will actually be used is an
                                 ! integer fraction of DT, rounding down.
-
-! === module MOM_thickness_diffuse ===
-KHTH = 600.0                    !   [m2 s-1] default = 0.0
-                                ! The background horizontal thickness diffusivity.
-KHTH_MAX = 900.0                !   [m2 s-1] default = 0.0
-                                ! The maximum horizontal thickness diffusivity.
-KHTH_USE_FGNV_STREAMFUNCTION = True !   [Boolean] default = False
-                                ! If true, use the streamfunction formulation of
-                                ! Ferrari et al., 2010, which effectively emphasizes
-                                ! graver vertical modes by smoothing in the vertical.
-FGNV_C_MIN = 0.01               !   [m s-1] default = 0.0
-                                ! A minium wave speed used in the Ferrari et al., 2010,
-                                ! streamfunction formulation.
 
 ! === module MOM_mixed_layer_restrat ===
 MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False

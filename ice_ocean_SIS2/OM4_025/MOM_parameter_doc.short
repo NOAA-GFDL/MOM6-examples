@@ -426,6 +426,14 @@ KV_BBL_MIN = 0.0                !   [m2 s-1] default = 1.0E-04
 KV_TBL_MIN = 0.0                !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the top boundary layer.
 
+! === module MOM_thickness_diffuse ===
+KHTH_MAX_CFL = 0.1              !   [nondimensional] default = 0.8
+                                ! The maximum value of the local diffusive CFL ratio that
+                                ! is permitted for the thickness diffusivity. 1.0 is the
+                                ! marginally unstable value in a pure layered model, but
+                                ! much smaller numbers (e.g. 0.1) seem to work better for
+                                ! ALE-based models.
+
 ! === module MOM_continuity ===
 
 ! === module MOM_continuity_PPM ===
@@ -529,14 +537,6 @@ BT_USE_OLD_CORIOLIS_BRACKET_BUG = True !   [Boolean] default = False
                                 ! If True, use an order of operations that is not bitwise
                                 ! rotationally symmetric in the meridional Coriolis term of
                                 ! the barotropic solver.
-
-! === module MOM_thickness_diffuse ===
-KHTH_MAX_CFL = 0.1              !   [nondimensional] default = 0.8
-                                ! The maximum value of the local diffusive CFL ratio that
-                                ! is permitted for the thickness diffusivity. 1.0 is the
-                                ! marginally unstable value in a pure layered model, but
-                                ! much smaller numbers (e.g. 0.1) seem to work better for
-                                ! ALE-based models.
 
 ! === module MOM_mixed_layer_restrat ===
 MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
