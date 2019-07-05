@@ -252,6 +252,10 @@ KV = 1.0E-06                    !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior. The molecular value, ~1e-6
                                 ! m2 s-1, may be used.
 
+! === module MOM_thickness_diffuse ===
+KHTH = 1.0E-04                  !   [m2 s-1] default = 0.0
+                                ! The background horizontal thickness diffusivity.
+
 ! === module MOM_continuity ===
 
 ! === module MOM_continuity_PPM ===
@@ -341,10 +345,6 @@ DTBT = 5.0                      !   [s or nondim] default = -0.98
                                 ! use 0, or a negative value gives the fraction of the stable value. Setting
                                 ! DTBT to 0 is the same as setting it to -0.98. The value of DTBT that will
                                 ! actually be used is an integer fraction of DT, rounding down.
-
-! === module MOM_thickness_diffuse ===
-KHTH = 1.0E-04                  !   [m2 s-1] default = 0.0
-                                ! The background horizontal thickness diffusivity.
 
 ! === module MOM_mixed_layer_restrat ===
 
