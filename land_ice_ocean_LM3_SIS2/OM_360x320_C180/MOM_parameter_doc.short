@@ -515,6 +515,12 @@ PRESSURE_DEPENDENT_FRAZIL = True !   [Boolean] default = False
                                 ! If true, use a pressure dependent freezing temperature when making frazil. The
                                 ! default is false, which will be faster but is inappropriate with ice-shelf
                                 ! cavities.
+VAR_PEN_SW = True               !   [Boolean] default = False
+                                ! If true, use one of the CHL_A schemes specified by OPACITY_SCHEME to determine
+                                ! the e-folding depth of incoming short wave radiation.
+CHL_FILE = "seawifs_1998-2006_smoothed_2X.nc" !
+                                ! CHL_FILE is the file containing chl_a concentrations in the variable CHL_A. It
+                                ! is used when VAR_PEN_SW and CHL_FROM_FILE are true.
 
 ! === module MOM_energetic_PBL ===
 ML_OMEGA_FRAC = 1.0             !   [nondim] default = 0.0
@@ -528,12 +534,6 @@ EPBL_USTAR_MIN = 1.45842E-18    !   [m s-1]
 ! === module MOM_regularize_layers ===
 
 ! === module MOM_opacity ===
-VAR_PEN_SW = True               !   [Boolean] default = False
-                                ! If true, use one of the CHL_A schemes specified by OPACITY_SCHEME to determine
-                                ! the e-folding depth of incoming short wave radiation.
-CHL_FILE = "seawifs_1998-2006_smoothed_2X.nc" !
-                                ! CHL_FILE is the file containing chl_a concentrations in the variable CHL_A. It
-                                ! is used when VAR_PEN_SW and CHL_FROM_FILE are true.
 PEN_SW_NBANDS = 3               ! default = 1
                                 ! The number of bands of penetrating shortwave radiation.
 
