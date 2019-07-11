@@ -65,11 +65,6 @@ DT = 1200.0                     !   [s]
                                 ! is actually used will be an integer fraction of the
                                 ! forcing time-step (DT_FORCING in ocean-only mode or the
                                 ! coupling timestep in coupled mode.)
-Z_OUTPUT_GRID_FILE = "zgrid.nc" ! default = ""
-                                ! The file that specifies the vertical grid for
-                                ! depth-space diagnostics, or blank to disable
-                                ! depth-space output.
-
 C_P = 3992.10322329649          !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a
                                 ! constant. This is only used if ENABLE_THERMODYNAMICS is
@@ -303,6 +298,11 @@ KV = 0.0                        !   [m2 s-1]
 MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity
                                 ! components are truncated.
+VEL_UNDERFLOW = 1.0E-30         !   [m s-1] default = 0.0
+                                ! A negligibly small velocity magnitude below which velocity
+                                ! components are set to 0.  A reasonable value might be
+                                ! 1e-30 m/s, which is less than an Angstrom divided by
+                                ! the age of the universe.
 
 ! === module MOM_PointAccel ===
 
