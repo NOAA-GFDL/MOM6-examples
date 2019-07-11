@@ -28,9 +28,6 @@ ADIABATIC = False               !   [Boolean] default = False
                                 ! There are no diapycnal mass fluxes if ADIABATIC is true. This assumes that KD
                                 ! = KDML = 0.0 and that there is no buoyancy forcing, but makes the model faster
                                 ! by eliminating subroutine calls.
-USE_LEGACY_DIABATIC_DRIVER = True !   [Boolean] default = True
-                                ! If true, use a legacy version of the diabatic subroutine. This is temporary
-                                ! and is needed to avoid change in answers.
 OFFLINE_TRACER_MODE = False     !   [Boolean] default = False
                                 ! If true, barotropic and baroclinic dynamics, thermodynamics are all bypassed
                                 ! with all the fields necessary to integrate the tracer advection and diffusion
@@ -522,6 +519,12 @@ USE_QG_LEITH_GM = False         !   [Boolean] default = False
                                 ! If true, use the QG Leith viscosity as the GM coefficient.
 
 ! === module MOM_set_visc ===
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
+SET_VISC_2018_ANSWERS = True    !   [Boolean] default = True
+                                ! If true, use the order of arithmetic and expressions that recover the answers
+                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
+                                ! same expressions.
 BOTTOMDRAGLAW = True            !   [Boolean] default = True
                                 ! If true, the bottom stress is calculated with a drag law of the form
                                 ! c_drag*|u|*u. The velocity magnitude may be an assumed value or it may be
@@ -799,6 +802,9 @@ DIAG_EBT_MONO_N2_DEPTH = -1.0   !   [m] default = -1.0
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
+USE_LEGACY_DIABATIC_DRIVER = True !   [Boolean] default = True
+                                ! If true, use a legacy version of the diabatic subroutine. This is temporary
+                                ! and is needed to avoid change in answers.
 ENERGETICS_SFC_PBL = False      !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary layer scheme to
                                 ! determine the diffusivity and viscosity in the surface boundary layer.
@@ -890,6 +896,10 @@ FLUX_RI_MAX = 0.2               !   [not defined] default = 0.2
                                 ! The flux Richardson number where the stratification is large enough that N2 >
                                 ! omega2.  The full expression for the Flux Richardson number is usually
                                 ! FLUX_RI_MAX*N2/(N2+OMEGA2).
+SET_DIFF_2018_ANSWERS = True    !   [Boolean] default = True
+                                ! If true, use the order of arithmetic and expressions that recover the answers
+                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
+                                ! same expressions.
 ML_RADIATION = False            !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind work to penetrate below
                                 ! the base of the mixed layer with a vertical decay scale determined by the
@@ -897,10 +907,10 @@ ML_RADIATION = False            !   [Boolean] default = False
 BBL_EFFIC = 0.2                 !   [nondim] default = 0.2
                                 ! The efficiency with which the energy extracted by bottom drag drives BBL
                                 ! diffusion.  This is only used if BOTTOMDRAGLAW is true.
-BBL_MIXING_MAX_DECAY = 0.0      !   [m] default = 0.0
+BBL_MIXING_MAX_DECAY = 200.0    !   [m] default = 200.0
                                 ! The maximum decay scale for the BBL diffusion, or 0 to allow the mixing to
-                                ! penetrate as far as stratification and rotation permit.  The default is 0.
-                                ! This is only used if BOTTOMDRAGLAW is true.
+                                ! penetrate as far as stratification and rotation permit.  The default for now
+                                ! is 200 m. This is only used if BOTTOMDRAGLAW is true.
 BBL_MIXING_AS_MAX = True        !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the BBL mixing and the other
                                 ! diffusivities. Otherwise, diffusivity from the BBL_mixing is simply added.
@@ -1040,6 +1050,9 @@ PRESSURE_DEPENDENT_FRAZIL = False !   [Boolean] default = False
                                 ! If true, use a pressure dependent freezing temperature when making frazil. The
                                 ! default is false, which will be faster but is inappropriate with ice-shelf
                                 ! cavities.
+VAR_PEN_SW = False              !   [Boolean] default = False
+                                ! If true, use one of the CHL_A schemes specified by OPACITY_SCHEME to determine
+                                ! the e-folding depth of incoming short wave radiation.
 
 ! === module MOM_mixed_layer ===
 MSTAR = 1.2                     !   [units=nondim] default = 1.2
@@ -1087,6 +1100,17 @@ BUFFER_LAYER_EXTRAP_LIMIT = -1.0 !   [nondim] default = -1.0
                                 ! detraining from the buffer layers, relative to the density range within the
                                 ! mixed and buffer layers, when the detrainment is going into the lightest
                                 ! interior layer, nondimensional, or a negative value not to apply this limit.
+BUFFER_LAYER_HMIN_THICK = 5.0   !   [m] default = 5.0
+                                ! The minimum buffer layer thickness when the mixed layer is very thick.
+BUFFER_LAYER_HMIN_REL = 0.05    !   [nondim] default = 0.05
+                                ! The minimum buffer layer thickness relative to the combined mixed land buffer
+                                ! ayer thicknesses when they are thin.
+BUFFER_LAY_DETRAIN_TIME = 1.44E+04 !   [s] default = 1.44E+04
+                                ! A timescale that characterizes buffer layer detrainment events.
+BUFFER_SPLIT_RHO_TOL = 0.1      !   [nondim] default = 0.1
+                                ! The fractional tolerance for matching layer target densities when splitting
+                                ! layers to deal with massive interior layers that are lighter than one of the
+                                ! mixed or buffer layers.
 DEPTH_LIMIT_FLUXES = 0.2        !   [m] default = 0.2
                                 ! The surface fluxes are scaled away when the total ocean depth is less than
                                 ! DEPTH_LIMIT_FLUXES.
@@ -1130,9 +1154,6 @@ REG_SFC_DEFICIT_TOLERANCE = 0.5 !   [nondim] default = 0.5
                                 ! layer structure when REGULARIZE_SURFACE_LAYERS is true.
 
 ! === module MOM_opacity ===
-VAR_PEN_SW = False              !   [Boolean] default = False
-                                ! If true, use one of the CHL_A schemes specified by OPACITY_SCHEME to determine
-                                ! the e-folding depth of incoming short wave radiation.
 EXP_OPACITY_SCHEME = "SINGLE_EXP" ! default = "SINGLE_EXP"
                                 ! This character string specifies which exponential opacity scheme to utilize.
                                 ! Currently valid options include:
@@ -1145,6 +1166,18 @@ PEN_SW_FRAC = 0.0               !   [nondim] default = 0.0
                                 ! The fraction of the shortwave radiation that penetrates below the surface.
 PEN_SW_NBANDS = 1               ! default = 1
                                 ! The number of bands of penetrating shortwave radiation.
+OPTICS_2018_ANSWERS = True      !   [Boolean] default = True
+                                ! If true, use the order of arithmetic and expressions that recover the answers
+                                ! from the end of 2018.  Otherwise, use updated expressions for handling the
+                                ! absorption of small remaining shortwave fluxes.
+PEN_SW_FLUX_ABSORB = 2.5E-11    !   [degC m s-1] default = 2.5E-11
+                                ! A minimum remaining shortwave heating rate that will be simply absorbed in the
+                                ! next sufficiently thick layers for computational efficiency, instead of
+                                ! continuing to penetrate.  The default, 2.5e-11 degC m s-1, is about 1e-4 W m-2
+                                ! or 0.08 degC m century-1, but 0 is also a valid value.
+PEN_SW_ABSORB_MINTHICK = 0.001  !   [m] default = 0.001
+                                ! A thickness that is used to absorb the remaining penetrating shortwave heat
+                                ! flux when it drops below PEN_SW_FLUX_ABSORB.
 OPACITY_LAND_VALUE = 10.0       !   [m-1] default = 10.0
                                 ! The value to use for opacity over land. The default is 10 m-1 - a value for
                                 ! muddy water.

@@ -26,9 +26,6 @@ ADIABATIC = True                !   [Boolean] default = False
                                 ! There are no diapycnal mass fluxes if ADIABATIC is true. This assumes that KD
                                 ! = KDML = 0.0 and that there is no buoyancy forcing, but makes the model faster
                                 ! by eliminating subroutine calls.
-USE_LEGACY_DIABATIC_DRIVER = True !   [Boolean] default = True
-                                ! If true, use a legacy version of the diabatic subroutine. This is temporary
-                                ! and is needed to avoid change in answers.
 OFFLINE_TRACER_MODE = False     !   [Boolean] default = False
                                 ! If true, barotropic and baroclinic dynamics, thermodynamics are all bypassed
                                 ! with all the fields necessary to integrate the tracer advection and diffusion
@@ -437,6 +434,12 @@ USE_QG_LEITH_GM = False         !   [Boolean] default = False
                                 ! If true, use the QG Leith viscosity as the GM coefficient.
 
 ! === module MOM_set_visc ===
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
+SET_VISC_2018_ANSWERS = True    !   [Boolean] default = True
+                                ! If true, use the order of arithmetic and expressions that recover the answers
+                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
+                                ! same expressions.
 BOTTOMDRAGLAW = True            !   [Boolean] default = True
                                 ! If true, the bottom stress is calculated with a drag law of the form
                                 ! c_drag*|u|*u. The velocity magnitude may be an assumed value or it may be

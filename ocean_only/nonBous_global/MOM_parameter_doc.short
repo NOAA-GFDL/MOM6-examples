@@ -481,6 +481,12 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
+VAR_PEN_SW = True               !   [Boolean] default = False
+                                ! If true, use one of the CHL_A schemes specified by OPACITY_SCHEME to determine
+                                ! the e-folding depth of incoming short wave radiation.
+CHL_FILE = "seawifs_1998-2006_GOLD_smoothed_2X.nc" !
+                                ! CHL_FILE is the file containing chl_a concentrations in the variable CHL_A. It
+                                ! is used when VAR_PEN_SW and CHL_FROM_FILE are true.
 
 ! === module MOM_mixed_layer ===
 BULK_RI_ML = 0.05               !   [nondim]
@@ -517,12 +523,6 @@ RIVERMIX_DEPTH = 40.0           !   [m] default = 0.0
 ! === module MOM_regularize_layers ===
 
 ! === module MOM_opacity ===
-VAR_PEN_SW = True               !   [Boolean] default = False
-                                ! If true, use one of the CHL_A schemes specified by OPACITY_SCHEME to determine
-                                ! the e-folding depth of incoming short wave radiation.
-CHL_FILE = "seawifs_1998-2006_GOLD_smoothed_2X.nc" !
-                                ! CHL_FILE is the file containing chl_a concentrations in the variable CHL_A. It
-                                ! is used when VAR_PEN_SW and CHL_FROM_FILE are true.
 PEN_SW_NBANDS = 3               ! default = 1
                                 ! The number of bands of penetrating shortwave radiation.
 
