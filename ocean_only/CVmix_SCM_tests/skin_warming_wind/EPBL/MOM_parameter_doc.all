@@ -593,6 +593,9 @@ USE_STORED_SLOPES = False       !   [Boolean] default = False
                                 ! If true, the isopycnal slopes are calculated once and stored for re-use. This
                                 ! uses more memory but avoids calling the equation of state more times than
                                 ! should be necessary.
+VERY_SMALL_FREQUENCY = 1.0E-17  !   [s-1] default = 1.0E-17
+                                ! A miniscule frequency that is used to avoid division by 0.  The default value
+                                ! is roughly (pi / (the age of the universe)).
 USE_QG_LEITH_GM = False         !   [Boolean] default = False
                                 ! If true, use the QG Leith viscosity as the GM coefficient.
 
@@ -816,6 +819,10 @@ BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! polynomial is used as is used for the interior cells.
 
 ! === module MOM_hor_visc ===
+HOR_VISC_2018_ANSWERS = True    !   [Boolean] default = True
+                                ! If true, use the order of arithmetic and expressions that recover the answers
+                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
+                                ! same expressions.
 LAPLACIAN = False               !   [Boolean] default = False
                                 ! If true, use a Laplacian horizontal viscosity.
 BIHARMONIC = False              !   [Boolean] default = True
@@ -1192,9 +1199,6 @@ USE_MLD_ITERATION = False       !   [Boolean] default = False
 EPBL_TRANSITION_SCALE = 0.1     !   [nondim] default = 0.1
                                 ! A scale for the mixing length in the transition layer at the edge of the
                                 ! boundary layer as a fraction of the boundary layer thickness.
-ORIG_MLD_ITERATION = True       !   [Boolean] default = True
-                                ! A logical that specifies whether or not to use the old method for determining
-                                ! MLD depth in iteration, which is limited to resolution.
 MLD_ITERATION_GUESS = False     !   [Boolean] default = False
                                 ! A logical that specifies whether or not to use the previous timestep MLD as a
                                 ! first guess in the MLD iteration. The default is false to facilitate
