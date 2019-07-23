@@ -47,7 +47,7 @@ def main(cmdLineArgs,stream=False):
     try: basin_code = m6toolbox.readNCFromTar(cmdLineArgs.gridspec,'basin_codes.nc','basin')[:]
     except: basin_code = m6toolbox.genBasinMasks(xcenter, ycenter, depth)
   else:
-    raise ValueError('Unable to extract grid information from gridspec directory/tar file.') 
+    raise ValueError('Unable to extract grid information from gridspec directory/tar file.')
 
   rootGroup = netCDF4.MFDataset( cmdLineArgs.infile )
   if 'T_ady_2d' in rootGroup.variables:
@@ -60,7 +60,7 @@ def main(cmdLineArgs,stream=False):
   if 'T_diffy_2d' in rootGroup.variables:
     varName = 'T_diffy_2d'
     diffusive = rootGroup.variables[varName][:].filled(0.)
-  else: 
+  else:
     diffusive = None
     warnings.warn('Diffusive temperature term not found. This will result in an underestimation of the heat transport.')
 
@@ -77,7 +77,9 @@ def main(cmdLineArgs,stream=False):
       Cp = 3989.
       HT = HT * (rho0 * Cp)
       HT = HT * 1.e-15  # convert to PW
-    elif advective.units == "W m-2":
+    elif advective.units == "W m-2":  # bug #934 in heat transport units, keep for retrocompatibility
+      HT = HT * 1.e-15
+    elif advective.units == "W":
       HT = HT * 1.e-15
     else:
       print('Unknown units')
@@ -96,7 +98,7 @@ def main(cmdLineArgs,stream=False):
     fig = plt.gcf()
     #fig.text(0.1,0.85,label)
     fig.text(0.535,0.12,label)
- 
+
   def annotateObs():
     fig = plt.gcf()
     fig.text(0.1,0.85,r"Trenberth, K. E. and J. M. Caron, 2001: Estimates of Meridional Atmosphere and Ocean Heat Transports. J.Climate, 14, 3433-3443.", fontsize=8)
@@ -113,7 +115,7 @@ def main(cmdLineArgs,stream=False):
   ECMWF = {}; ECMWF['Global'] = fObs.variables['OTe'][:]
   ECMWF['Atlantic'] = fObs.variables['ATLe'][:]; ECMWF['IndoPac'] = fObs.variables['INDPACe'][:]
 
-  #G and W 
+  #G and W
   Global = {}
   Global['lat'] = numpy.array([-30., -19., 24., 47.])
   Global['trans'] = numpy.array([-0.6, -0.8, 1.8, 0.6])
@@ -208,6 +210,6 @@ def main(cmdLineArgs,stream=False):
 
   if stream is True:
     return imgbufs
- 
+
 if __name__ == '__main__':
   run()
