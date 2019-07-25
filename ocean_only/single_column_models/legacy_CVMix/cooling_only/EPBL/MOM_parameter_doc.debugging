@@ -1,0 +1,50 @@
+! This file was written by the model and records the debugging parameters used at run-time.
+VERBOSITY = 2                   ! default = 2
+                                ! Integer controlling level of messaging
+                                !   0 = Only FATAL messages
+                                !   2 = Only FATAL, WARNING, NOTE [default]
+                                !   9 = All)
+DO_UNIT_TESTS = False           !   [Boolean] default = False
+                                ! If True, exercises unit tests at model start up.
+Z_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's intenal units of
+                                ! depths and heights.  Valid values range from -300 to 300.
+L_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's intenal units of
+                                ! lateral distances.  Valid values range from -300 to 300.
+T_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's intenal units of
+                                ! time.  Valid values range from -300 to 300.
+DEBUG = False                   !   [Boolean] default = False
+                                ! If true, write out verbose debugging data.
+DEBUG_TRUNCATIONS = False       !   [Boolean] default = False
+                                ! If true, calculate all diagnostics that are useful for debugging truncations.
+DEBUG_CHKSUMS = False           !   [Boolean] default = False
+                                ! If true, checksums are performed on arrays in the various vec_chksum routines.
+DEBUG_REDUNDANT = False         !   [Boolean] default = False
+                                ! If true, debug redundant data points during calls to the various vec_chksum
+                                ! routines.
+H_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's intenal units of
+                                ! thickness.  Valid values range from -300 to 300.
+U_TRUNC_FILE = "U_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to zonal
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.
+V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to meridional
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.
+MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
+                                ! The maximum number of colums of truncations that any PE will write out during
+                                ! a run.
+DEBUG_CONSERVATION = False      !   [Boolean] default = False
+                                ! If true, monitor conservation and extrema.
+DEBUG_KAPPA_SHEAR = False       !   [Boolean] default = False
+                                ! If true, write debugging data for the kappa-shear code.
+                                ! Caution: this option is _very_ verbose and should only be used in
+                                ! single-column mode!
+REPORT_UNUSED_PARAMS = False    !   [Boolean] default = False
+                                ! If true, report any parameter lines that are not used in the run.
+FATAL_UNUSED_PARAMS = False     !   [Boolean] default = False
+                                ! If true, kill the run if there are any unused parameters.

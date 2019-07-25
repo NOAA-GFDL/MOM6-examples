@@ -1,0 +1,23 @@
+ &MOM_input_nml
+	 output_directory = '.',
+	 input_filename = 'n'
+	 restart_input_dir = 'INPUT/',
+	 restart_output_dir = 'RESTART/',
+	 parameter_filename = 'MOM_input',
+			      'MOM_resolution',
+			      'MOM_mixing',
+			      'MOM_forcing'/
+
+ &diag_manager_nml
+ /
+
+ &fms_nml
+	 clock_grain = 'LOOP',
+	 domains_stack_size = 710000,
+	 stack_size = 0 /
+
+ &ocean_domains_nml
+ /
+
+ &ice_model_nml
+ /
