@@ -1,0 +1,1 @@
+# The CWB configuration is not set-up in MOM6.
