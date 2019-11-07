@@ -641,6 +641,9 @@ MEKE_GMCOEFF = 1.0              !   [nondim] default = -1.0
 MEKE_GEOMETRIC = False          !   [Boolean] default = False
                                 ! If MEKE_GEOMETRIC is true, uses the GM coefficient formulation from the
                                 ! GEOMETRIC framework (Marshall et al., 2012).
+MEKE_EQUILIBRIUM_ALT = False    !   [Boolean] default = False
+                                ! If true, use an alternative formula for computing the (equilibrium)initial
+                                ! value of MEKE.
 MEKE_FRCOEFF = -1.0             !   [nondim] default = -1.0
                                 ! The efficiency of the conversion of mean energy into MEKE.  If MEKE_FRCOEFF is
                                 ! negative, this conversion is not used or calculated.
@@ -863,12 +866,6 @@ HTBL_SHELF = 10.0               !   [m] default = 10.0
 KV = 1.0E-04                    !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior. The molecular value, ~1e-6
                                 ! m2 s-1, may be used.
-ADD_KV_SLOW = False             !   [Boolean] default = False
-                                ! If true, the background vertical viscosity in the interior (i.e., tidal +
-                                ! background + shear + convection) is added when computing the coupling
-                                ! coefficient. The purpose of this flag is to be able to recover previous
-                                ! answers and it will likely be removed in the future since this option should
-                                ! always be true.
 KV_BBL_MIN = 0.0                !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the bottom boundary layer.
 KV_TBL_MIN = 0.0                !   [m2 s-1] default = 1.0E-04
