@@ -485,6 +485,12 @@ REMAP_BOUND_INTERMEDIATE_VALUES = False !   [Boolean] default = False
 REMAP_BOUNDARY_EXTRAP = False   !   [Boolean] default = False
                                 ! If true, values at the interfaces of boundary cells are extrapolated instead
                                 ! of piecewise constant
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
+REMAPPING_2018_ANSWERS = True   !   [Boolean] default = True
+                                ! If true, use the order of arithmetic and expressions that recover the answers
+                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
+                                ! same expressions.
 REMAP_AFTER_INITIALIZATION = False !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after initialization so
                                 ! that the state is ALE consistent. This is a legacy step and should not be
@@ -792,8 +798,6 @@ USE_QG_LEITH_GM = False         !   [Boolean] default = False
                                 ! If true, use the QG Leith viscosity as the GM coefficient.
 
 ! === module MOM_set_visc ===
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
-                                ! This sets the default value for the various _2018_ANSWERS parameters.
 SET_VISC_2018_ANSWERS = True    !   [Boolean] default = True
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
