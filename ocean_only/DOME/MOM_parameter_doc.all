@@ -1128,6 +1128,9 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
 KD_KAPPA_SHEAR_0 = 1.0E-04      !   [m2 s-1] default = 1.0E-04
                                 ! The background diffusivity that is used to smooth the density and shear
                                 ! profiles before solving for the diffusivities. Defaults to value of KD.
+KD_TRUNC_KAPPA_SHEAR = 1.0E-06  !   [m2 s-1] default = 1.0E-06
+                                ! The value of shear-driven diffusivity that is considered negligible and is
+                                ! rounded down to 0. The default is 1% of KD_KAPPA_SHEAR_0.
 FRI_CURVATURE = -0.97           !   [nondim] default = -0.97
                                 ! The nondimensional curvature of the function of the Richardson number in the
                                 ! kappa source term in the Jackson et al. scheme.
@@ -1159,6 +1162,10 @@ KAPPA_SHEAR_ELIM_MASSLESS = True !   [Boolean] default = True
 MAX_KAPPA_SHEAR_IT = 13         !   [nondim] default = 13
                                 ! The maximum number of iterations that may be used to estimate the
                                 ! time-averaged diffusivity.
+KAPPA_SHEAR_ITER_BUG = True     !   [Boolean] default = True
+                                ! If true. use an older, dimensionally inconsistent estimate of the derivative
+                                ! of diffusivity with energy in the Newton's method iteration.  The bug causes
+                                ! undercorrections when dz > 1m.
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
