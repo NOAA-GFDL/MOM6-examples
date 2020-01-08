@@ -4,6 +4,10 @@
 
 ! === module MOM_unit_scaling ===
 ! Parameters for doing unit scaling of variables.
+DO_DYNAMICS = False             !   [Boolean] default = True
+                                ! If False, skips the dynamics calls that update u & v, as well as the gravity
+                                ! wave adjustment to h. This may be a fragile feature, but can be useful during
+                                ! development
 USE_REGRIDDING = True           !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping). If False, use the
                                 ! layered isopycnal algorithm.

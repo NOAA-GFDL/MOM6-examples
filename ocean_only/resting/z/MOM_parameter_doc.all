@@ -26,6 +26,10 @@ ADIABATIC = False               !   [Boolean] default = False
                                 ! There are no diapycnal mass fluxes if ADIABATIC is true. This assumes that KD
                                 ! = KDML = 0.0 and that there is no buoyancy forcing, but makes the model faster
                                 ! by eliminating subroutine calls.
+DO_DYNAMICS = True              !   [Boolean] default = True
+                                ! If False, skips the dynamics calls that update u & v, as well as the gravity
+                                ! wave adjustment to h. This may be a fragile feature, but can be useful during
+                                ! development
 OFFLINE_TRACER_MODE = False     !   [Boolean] default = False
                                 ! If true, barotropic and baroclinic dynamics, thermodynamics are all bypassed
                                 ! with all the fields necessary to integrate the tracer advection and diffusion
@@ -411,6 +415,12 @@ REMAP_BOUND_INTERMEDIATE_VALUES = False !   [Boolean] default = False
 REMAP_BOUNDARY_EXTRAP = False   !   [Boolean] default = False
                                 ! If true, values at the interfaces of boundary cells are extrapolated instead
                                 ! of piecewise constant
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
+REMAPPING_2018_ANSWERS = True   !   [Boolean] default = True
+                                ! If true, use the order of arithmetic and expressions that recover the answers
+                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
+                                ! same expressions.
 REMAP_AFTER_INITIALIZATION = True !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after initialization so
                                 ! that the state is ALE consistent. This is a legacy step and should not be
@@ -597,8 +607,6 @@ USE_QG_LEITH_GM = False         !   [Boolean] default = False
                                 ! If true, use the QG Leith viscosity as the GM coefficient.
 
 ! === module MOM_set_visc ===
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
-                                ! This sets the default value for the various _2018_ANSWERS parameters.
 SET_VISC_2018_ANSWERS = True    !   [Boolean] default = True
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
@@ -877,6 +885,10 @@ USE_KH_BG_2D = False            !   [Boolean] default = False
                                 ! viscosity is the maximum of the other terms and this background value.
 
 ! === module MOM_vert_friction ===
+VERT_FRICTION_2018_ANSWERS = True !   [Boolean] default = True
+                                ! If true, use the order of arithmetic and expressions that recover the answers
+                                ! from the end of 2018.  Otherwise, use expressions that do not use an arbitary
+                                ! and hard-coded maximum viscous coupling coefficient between layers.
 DIRECT_STRESS = True            !   [Boolean] default = False
                                 ! If true, the wind stress is distributed over the topmost HMIX_STRESS of fluid
                                 ! (like in HYCOM), and KVML may be set to a very small value.
@@ -1214,6 +1226,9 @@ MAX_RINO_IT = 50                !   [nondim] default = 50
 KD_KAPPA_SHEAR_0 = 0.1          !   [m2 s-1] default = 0.1
                                 ! The background diffusivity that is used to smooth the density and shear
                                 ! profiles before solving for the diffusivities. Defaults to value of KD.
+KD_TRUNC_KAPPA_SHEAR = 0.001    !   [m2 s-1] default = 0.001
+                                ! The value of shear-driven diffusivity that is considered negligible and is
+                                ! rounded down to 0. The default is 1% of KD_KAPPA_SHEAR_0.
 FRI_CURVATURE = -0.97           !   [nondim] default = -0.97
                                 ! The nondimensional curvature of the function of the Richardson number in the
                                 ! kappa source term in the Jackson et al. scheme.
@@ -1245,6 +1260,10 @@ KAPPA_SHEAR_ELIM_MASSLESS = True !   [Boolean] default = True
 MAX_KAPPA_SHEAR_IT = 13         !   [nondim] default = 13
                                 ! The maximum number of iterations that may be used to estimate the
                                 ! time-averaged diffusivity.
+KAPPA_SHEAR_ITER_BUG = True     !   [Boolean] default = True
+                                ! If true. use an older, dimensionally inconsistent estimate of the derivative
+                                ! of diffusivity with energy in the Newton's method iteration.  The bug causes
+                                ! undercorrections when dz > 1m.
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
@@ -1357,6 +1376,10 @@ MAX_TR_DIFFUSION_CFL = -1.0     !   [nondim] default = -1.0
                                 ! If positive, locally limit the along-isopycnal tracer diffusivity to keep the
                                 ! diffusive CFL locally at or below this value.  The number of diffusive
                                 ! iterations is often this value or the next greater integer.
+RECALC_NEUTRAL_SURF = False     !   [Boolean] default = False
+                                ! If true, then recalculate the neutral surfaces if the
+                                ! diffusive CFL is exceeded. If false, assume that the
+                                ! positions of the surfaces do not change
 
 ! === module MOM_neutral_diffusion ===
 ! This module implements neutral diffusion of tracers
