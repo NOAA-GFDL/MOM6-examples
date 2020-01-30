@@ -86,6 +86,11 @@ endif
 #with all the history files for the current finished year ${yr1} unpacked and present
 #
 echo "We are inside the refineDiag script"
+
+
+# extract files from gridspec tar archive
+tar -xf $gridspec
+
 pwd
 ls -l
 
@@ -102,9 +107,29 @@ $script_dir/EddyKineticEnergy.py  -g $ocean_static_file -o $out_dir/refineDiag_o
 
 
 echo '==== Offline Diagnostics ===='
-$script_dir/refineDiag_ocean_month.py -b $ocean_static_file -r $refineDiagDir $yr1.ocean_month.nc
-$script_dir/refineDiag_ocean_month_z.py -b $ocean_static_file -r $refineDiagDir -s ./ $yr1.ocean_month_z.nc
-$script_dir/refineDiag_ocean_month_rho2.py -b $ocean_static_file -r $refineDiagDir $yr1.ocean_month_rho2.nc
+if ( -f $yr1.ocean_month.nc ) then
+  $script_dir/refineDiag_ocean_month.py -b basin_codes.nc -r $refineDiagDir $yr1.ocean_month.nc
+endif
+if ( -f $yr1.ocean_month_z.nc ) then
+  $script_dir/refineDiag_ocean_month_z.py -b basin_codes.nc -r $refineDiagDir -s ./ $yr1.ocean_month_z.nc
+endif
+if ( -f $yr1.ocean_month_rho2.nc ) then
+  $script_dir/refineDiag_ocean_month_rho2.py -b basin_codes.nc -r $refineDiagDir $yr1.ocean_month_rho2.nc
+endif
+
+echo '==== Offline Diagnostics downsampled ===='
+if ( -f $yr1.ocean_month_d2.nc ) then
+  $script_dir/refineDiag_ocean_month.py -b basin_codes_d2.nc -r $refineDiagDir $yr1.ocean_month_d2.nc
+endif
+if ( -f $yr1.ocean_month_z_d2.nc ) then
+  $script_dir/refineDiag_ocean_month_z.py -b basin_codes_d2.nc -r $refineDiagDir -s ./ $yr1.ocean_month_z_d2.nc
+endif
+if ( -f $yr1.ocean_month_rho2_d2.nc ) then
+  $script_dir/refineDiag_ocean_month_rho2.py -b basin_codes_d2.nc -r $refineDiagDir $yr1.ocean_month_rho2_d2.nc
+endif
+
+
+
 #$script_dir/calc_variance.py zos $yr1.ocean_daily.nc $refineDiagDir/$yr1.ocean_month_refined.nc
 
 #-- Note: The calc_variance script pre-dated refineDiag efforts just prior to the start of the GFDL-CM4 DECK runs.
