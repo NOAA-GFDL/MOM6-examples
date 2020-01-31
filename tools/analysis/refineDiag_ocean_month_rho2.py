@@ -125,9 +125,10 @@ def main(args):
           exit(1)
 
       f_out     = nc.Dataset(args.outfile, 'w', format='NETCDF3_CLASSIC')
-      f_out.setncatts(f_in.__dict__)
+      ncattrs = f_in.__dict__
+      ncattrs.pop('associated_files', '')  # not needed for these fields
+      f_out.setncatts(ncattrs)
       f_out.filename = os.path.basename(args.outfile)
-      f_out.delncattr('associated_files')  # not needed for these fields
 
       time_dim = f_out.createDimension('time', size=None)
       basin_dim = f_out.createDimension('basin', size=3)
