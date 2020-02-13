@@ -110,6 +110,12 @@ FIRST_DIRECTION = 0             ! default = 0
                                 ! and odd numbers used for y-first.
 CHECK_BAD_SURFACE_VALS = False  !   [Boolean] default = False
                                 ! If true, check the surface state for ridiculous values.
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
+SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! If true, use expressions for the surface properties that recover the answers
+                                ! from the end of 2018. Otherwise, use more appropriate expressions that differ
+                                ! at roundoff for non-Boussinsq cases.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "Initial_state" ! default = "MOM_IC"
@@ -386,8 +392,6 @@ INTERPOLATION_SCHEME = "P3M_IH4IH3" ! default = "P1M_H2"
                                 !  P3M_IH6IH5 (4th-order accurate)
                                 !  PQM_IH4IH3 (4th-order accurate)
                                 !  PQM_IH6IH5 (5th-order accurate)
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
-                                ! This sets the default value for the various _2018_ANSWERS parameters.
 REMAPPING_2018_ANSWERS = True   !   [Boolean] default = True
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
@@ -481,6 +485,8 @@ REGRID_FILTER_DEEP_DEPTH = 0.0  !   [m] default = 0.0
 
 ! === module MOM_grid ===
 ! Parameters providing information about the lateral grid.
+REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
+                                ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
@@ -750,17 +756,16 @@ KHTH_USE_FGNV_STREAMFUNCTION = False !   [Boolean] default = False
                                 ! If true, use the streamfunction formulation of Ferrari et al., 2010, which
                                 ! effectively emphasizes graver vertical modes by smoothing in the vertical.
 MEKE_GM_SRC_ALT = False         !   [Boolean] default = False
-                                ! If true, use the GM energy conversion form S^2*N^2*kappa rather
-                                ! than the streamfunction for the GM source term.
+                                ! If true, use the GM energy conversion form S^2*N^2*kappa rather than the
+                                ! streamfunction for the GM source term.
 MEKE_GEOMETRIC = False          !   [Boolean] default = False
-                                ! If true, uses the GM coefficient formulation
-                                ! from the GEOMETRIC framework (Marshall et al., 2012).
+                                ! If true, uses the GM coefficient formulation from the GEOMETRIC framework
+                                ! (Marshall et al., 2012).
 USE_KH_IN_MEKE = False          !   [Boolean] default = False
-                                ! If true, uses the thickness diffusivity calculated here to diffuse
-                                ! MEKE.
+                                ! If true, uses the thickness diffusivity calculated here to diffuse MEKE.
 USE_GME = False                 !   [Boolean] default = False
-                                ! If true, use the GM+E backscatter scheme in association
-                                ! with the Gent and McWilliams parameterization.
+                                ! If true, use the GM+E backscatter scheme in association with the Gent and
+                                ! McWilliams parameterization.
 USE_GM_WORK_BUG = True          !   [Boolean] default = True
                                 ! If true, compute the top-layer work tendency on the u-grid with the incorrect
                                 ! sign, for legacy reproducibility.
@@ -1030,8 +1035,17 @@ BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! use a predictor continuity step to find the pressure field, and then to do a
                                 ! corrector continuity step using a weighted average of the old and new
                                 ! velocities, with weights of (1-BEBT) and BEBT.
+BT_NONLIN_STRESS = False        !   [Boolean] default = False
+                                ! If true, use the full depth of the ocean at the start of the barotropic step
+                                ! when calculating the surface stress contribution to the barotropic
+                                ! acclerations.  Otherwise use the depth based on bathyT.
 DYNAMIC_SURFACE_PRESSURE = False !   [Boolean] default = False
                                 ! If true, add a dynamic pressure due to a viscous ice shelf, for instance.
+BT_CORIOLIS_SCALE = 1.0         !   [nondim] default = 1.0
+                                ! A factor by which the barotropic Coriolis anomaly terms are scaled.
+BAROTROPIC_2018_ANSWERS = True  !   [Boolean] default = True
+                                ! If true, use expressions for the barotropic solver that recover the answers
+                                ! from the end of 2018.  Otherwise, use more efficient or general expressions.
 SADOURNY = True                 !   [Boolean] default = True
                                 ! If true, the Coriolis terms are discretized with the Sadourny (1975) energy
                                 ! conserving scheme, otherwise the Arakawa & Hsu scheme is used.  If the
@@ -1073,6 +1087,9 @@ SSH_EXTRA = 1.0                 !   [m] default = 1.0
                                 ! An estimate of how much higher SSH might get, for use in calculating the safe
                                 ! external wave speed. The default is the minimum of 10 m or 5% of
                                 ! MAXIMUM_DEPTH.
+LINEARIZED_BT_CORIOLIS = True   !   [Boolean] default = True
+                                ! If true use the bottom depth instead of the total water column thickness in
+                                ! the barotropic Coriolis term calculations.
 BEBT = 0.2                      !   [nondim] default = 0.1
                                 ! BEBT determines whether the barotropic time stepping uses the forward-backward
                                 ! time-stepping scheme or a backward Euler scheme. BEBT is valid in the range
@@ -1324,10 +1341,19 @@ KAPPA_SHEAR_ELIM_MASSLESS = True !   [Boolean] default = True
 MAX_KAPPA_SHEAR_IT = 13         !   [nondim] default = 13
                                 ! The maximum number of iterations that may be used to estimate the
                                 ! time-averaged diffusivity.
+KAPPA_SHEAR_MAX_KAP_SRC_CHG = 10.0 !   [nondim] default = 10.0
+                                ! The maximum permitted increase in the kappa source within an iteration
+                                ! relative to the local source; this must be greater than 1.  The lower limit
+                                ! for the permitted fractional decrease is (1 - 0.5/kappa_src_max_chg).  These
+                                ! limits could perhaps be made dynamic with an improved iterative solver.
 KAPPA_SHEAR_ITER_BUG = True     !   [Boolean] default = True
                                 ! If true. use an older, dimensionally inconsistent estimate of the derivative
                                 ! of diffusivity with energy in the Newton's method iteration.  The bug causes
                                 ! undercorrections when dz > 1m.
+KAPPA_SHEAR_ALL_LAYER_TKE_BUG = True !   [Boolean] default = True
+                                ! If true, report back the latest estimate of TKE instead of the time average
+                                ! TKE when there is mass in all layers.  Otherwise always report the time
+                                ! averaged TKE, as is currently done when there are some massless layers.
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)

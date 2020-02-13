@@ -90,6 +90,12 @@ FIRST_DIRECTION = 0             ! default = 0
                                 ! and odd numbers used for y-first.
 CHECK_BAD_SURFACE_VALS = False  !   [Boolean] default = False
                                 ! If true, check the surface state for ridiculous values.
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
+SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! If true, use expressions for the surface properties that recover the answers
+                                ! from the end of 2018. Otherwise, use more appropriate expressions that differ
+                                ! at roundoff for non-Boussinsq cases.
 SAVE_INITIAL_CONDS = False      !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "MOM_IC"       ! default = "MOM_IC"
@@ -304,6 +310,8 @@ GFS = 9.8                       !   [m s-2] default = 9.8
 
 ! === module MOM_grid ===
 ! Parameters providing information about the lateral grid.
+REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
+                                ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
@@ -366,8 +374,6 @@ SPONGE = False                  !   [Boolean] default = False
 NUM_DIAG_COORDS = 1             ! default = 1
                                 ! The number of diagnostic vertical coordinates to use. For each coordinate, an
                                 ! entry in DIAG_COORDS must be provided.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
-                                ! This sets the default value for the various _2018_ANSWERS parameters.
 REMAPPING_2018_ANSWERS = True   !   [Boolean] default = True
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
@@ -513,17 +519,16 @@ KHTH_USE_FGNV_STREAMFUNCTION = False !   [Boolean] default = False
                                 ! If true, use the streamfunction formulation of Ferrari et al., 2010, which
                                 ! effectively emphasizes graver vertical modes by smoothing in the vertical.
 MEKE_GM_SRC_ALT = False         !   [Boolean] default = False
-                                ! If true, use the GM energy conversion form S^2*N^2*kappa rather
-                                ! than the streamfunction for the GM source term.
+                                ! If true, use the GM energy conversion form S^2*N^2*kappa rather than the
+                                ! streamfunction for the GM source term.
 MEKE_GEOMETRIC = False          !   [Boolean] default = False
-                                ! If true, uses the GM coefficient formulation
-                                ! from the GEOMETRIC framework (Marshall et al., 2012).
+                                ! If true, uses the GM coefficient formulation from the GEOMETRIC framework
+                                ! (Marshall et al., 2012).
 USE_KH_IN_MEKE = False          !   [Boolean] default = False
-                                ! If true, uses the thickness diffusivity calculated here to diffuse
-                                ! MEKE.
+                                ! If true, uses the thickness diffusivity calculated here to diffuse MEKE.
 USE_GME = False                 !   [Boolean] default = False
-                                ! If true, use the GM+E backscatter scheme in association
-                                ! with the Gent and McWilliams parameterization.
+                                ! If true, use the GM+E backscatter scheme in association with the Gent and
+                                ! McWilliams parameterization.
 USE_GM_WORK_BUG = True          !   [Boolean] default = True
                                 ! If true, compute the top-layer work tendency on the u-grid with the incorrect
                                 ! sign, for legacy reproducibility.
