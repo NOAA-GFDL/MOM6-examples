@@ -1,6 +1,6 @@
-| Compile | Fast Run | Full Run | Valgrind | Diagnostics | MOM6 documentation | MOM6 coverage |
-|:-------:|:--------:|:--------:|:--------:|:-----------:|:------------------:|:-------------:|
-| [![Build Status](https://travis-ci.org/MOM6/nightly-MOM6-compile.svg?branch=master)](https://travis-ci.org/MOM6/nightly-MOM6-compile) | [![Fast Run Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_fast_run)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_fast_run/) | [![Run Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_run)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_run/) | [![Valgrind Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_runtime_analyzer)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_runtime_analyzer/) | [![Diagnostics Status](https://climate-cms.nci.org.au/jenkins/buildStatus/icon?job=mom-ocean.org/MOM6_diagnostics)](https://climate-cms.nci.org.au/jenkins/job/mom-ocean.org/job/MOM6_diagnostics/) | [![Read The Docs Status](https://readthedocs.org/projects/mom6/badge/?badge=latest)](http://mom6.readthedocs.io/) | [![codecov](https://codecov.io/gh/NOAA-GFDL/MOM6/branch/dev%2Fmaster/graph/badge.svg)](https://codecov.io/gh/NOAA-GFDL/MOM6) |
+| MOM6 source repo | MOM6 documentation | MOM6 coverage |
+|:----------------:|:------------------:|:-------------:|
+| [![MOM6 status](https://travis-ci.org/NOAA-GFDL/MOM6.svg?branch=dev%2Fgfdl)](https://travis-ci.com/NOAA-GFDL/MOM6) | [![Read The Docs Status](https://readthedocs.org/projects/mom6/badge/?badge=latest)](http://mom6.readthedocs.io/) | [![codecov](https://codecov.io/gh/NOAA-GFDL/MOM6/branch/dev%2Fmaster/graph/badge.svg)](https://codecov.io/gh/NOAA-GFDL/MOM6) |
 
 # MOM6-examples
 
