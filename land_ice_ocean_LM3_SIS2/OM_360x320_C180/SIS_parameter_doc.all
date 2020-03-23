@@ -113,9 +113,6 @@ NK_ICE = 4                      !   [nondim] default = 4
                                 ! The number of layers within the sea ice.
 NK_SNOW = 1                     !   [nondim] default = 1
                                 ! The number of layers within the snow atop the sea ice.
-H_TO_KG_M2 = 1.0                !   [kg m-2 H-1] default = 1.0
-                                ! A constant that translates thicknesses from the model's
-                                ! internal units of thickness to kg m-2.
 MIN_OCEAN_PARTSIZE = 0.0        !   [nondim] default = 0.0
                                 ! The minimum value for the fractional open-ocean area.
                                 ! This can be 0, but for some purposes it may be useful
@@ -166,7 +163,7 @@ TOPO_CONFIG = "file"            ! default = "file"
                                 !     flat - flat bottom set to MAXIMUM_DEPTH.
                                 !     bowl - an analytically specified bowl-shaped basin
                                 !       ranging between MAXIMUM_DEPTH and MINIMUM_DEPTH.
-                                !     spoon - a similar shape to 'bowl', but with an vertical
+                                !     spoon - a similar shape to 'bowl', but with a vertical
                                 !       wall at the southern face.
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
@@ -246,11 +243,6 @@ ENTHALPY_LIQUID_0 = 0.0         !   [J kg-1] default = 0.0
                                 ! should be physically consistent when this is adjusted,
                                 ! because only the relative value is of physical meaning,
                                 ! but roundoff errors can change the solution.
-ENTHALPY_UNITS = 1.0            !   [J kg-1] default = 1.0
-                                ! A constant that rescales enthalpy from J/kg to a
-                                ! different scale in its internal representation.  Changing
-                                ! this by a power of 2 is useful for debugging, as answers
-                                ! should not change.  A negative values is taken as an inverse.
 SUBLIMATION_BUG = False         !   [Boolean] default = False
                                 ! If true use an older calculation that omits the latent
                                 ! heat of fusion from the latent heat of sublimation.
@@ -361,7 +353,7 @@ WEAK_LOW_SHEAR_ICE = False      !   [Boolean] default = False
 PROJECT_ICE_DRAG_VEL = True     !   [Boolean] default = True
                                 ! If true, project forward the ice velocity used in the
                                 ! drag calculation to avoid an instability that can occur
-                                ! when an finite stress is applied to thin ice moving with
+                                ! when a finite stress is applied to thin ice moving with
                                 ! the velocity of the ocean.
 ICE_YIELD_ELLIPTICITY = 2.0     !   [Nondim] default = 2.0
                                 ! The ellipticity coefficient for the plastic yield curve
