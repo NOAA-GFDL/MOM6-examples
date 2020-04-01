@@ -587,9 +587,15 @@ MEKE_GMCOEFF = 1.0              !   [nondim] default = -1.0
 MEKE_GEOMETRIC = False          !   [Boolean] default = False
                                 ! If MEKE_GEOMETRIC is true, uses the GM coefficient formulation from the
                                 ! GEOMETRIC framework (Marshall et al., 2012).
+MEKE_GEOMETRIC_ALPHA = 0.05     !   [nondim] default = 0.05
+                                ! The nondimensional coefficient governing the efficiency of the GEOMETRIC
+                                ! thickness diffusion.
 MEKE_EQUILIBRIUM_ALT = False    !   [Boolean] default = False
                                 ! If true, use an alternative formula for computing the (equilibrium)initial
                                 ! value of MEKE.
+MEKE_EQUILIBRIUM_RESTORING = False !   [Boolean] default = False
+                                ! If true, restore MEKE back to its equilibrium value, which is calculated
+                                ! ateach time step.
 MEKE_FRCOEFF = -1.0             !   [nondim] default = -1.0
                                 ! The efficiency of the conversion of mean energy into MEKE.  If MEKE_FRCOEFF is
                                 ! negative, this conversion is not used or calculated.
@@ -682,6 +688,9 @@ MEKE_TOPOGRAPHIC_BETA = 0.0     !   [nondim] default = 0.0
 CDRAG = 0.003                   !   [nondim] default = 0.003
                                 ! CDRAG is the drag coefficient relating the magnitude of the velocity field to
                                 ! the bottom stress.
+MEKE_CDRAG = 0.003              !   [nondim] default = 0.003
+                                ! Drag coefficient relating the magnitude of the velocity field to the bottom
+                                ! stress in MEKE.
 
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
@@ -695,6 +704,11 @@ USE_VISBECK = False             !   [Boolean] default = False
 RESOLN_SCALED_KH = True         !   [Boolean] default = False
                                 ! If true, the Laplacian lateral viscosity is scaled away when the first
                                 ! baroclinic deformation radius is well resolved.
+DEPTH_SCALED_KHTH = False       !   [Boolean] default = False
+                                ! If true, KHTH is scaled away when the depth is shallowerthan a reference
+                                ! depth: KHTH = MIN(1,H/H0)**N * KHTH, where H0 is a reference depth, controlled
+                                ! via DEPTH_SCALED_KHTH_H0, and the exponent (N) is controlled via
+                                ! DEPTH_SCALED_KHTH_EXP.
 RESOLN_SCALED_KHTH = True       !   [Boolean] default = False
                                 ! If true, the interface depth diffusivity is scaled away when the first
                                 ! baroclinic deformation radius is well resolved.
@@ -1072,6 +1086,9 @@ BETTER_BOUND_KH = True          !   [Boolean] default = True
                                 ! better bounding than just BOUND_KH.
 ANISOTROPIC_VISCOSITY = False   !   [Boolean] default = False
                                 ! If true, allow anistropic viscosity in the Laplacian horizontal viscosity.
+ADD_LES_VISCOSITY = False       !   [Boolean] default = False
+                                ! If true, adds the viscosity from Smagorinsky and Leith to the background
+                                ! viscosity instead of taking the maximum.
 BIHARMONIC = True               !   [Boolean] default = True
                                 ! If true, use a biharmonic horizontal viscosity. BIHARMONIC may be used with
                                 ! LAPLACIAN.
@@ -1833,6 +1850,14 @@ NDIFF_CONTINUOUS = True         !   [Boolean] default = True
 NDIFF_REF_PRES = -1.0           !   [not defined] default = -1.0
                                 ! The reference pressure (Pa) used for the derivatives of the equation of state.
                                 ! If negative (default), local pressure is used.
+NDIFF_INTERIOR_ONLY = False     !   [Boolean] default = False
+                                ! If true, only applies neutral diffusion in the ocean interior.That is, the
+                                ! algorithm will exclude the surface and bottomboundary layers.
+
+! === module MOM_lateral_boundary_diffusion ===
+! This module implements lateral diffusion of tracers near boundaries
+USE_LATERAL_BOUNDARY_DIFFUSION = False !   [Boolean] default = False
+                                ! If true, enables the lateral boundary tracer's diffusion module.
 OBSOLETE_DIAGNOSTIC_IS_FATAL = True !   [Boolean] default = True
                                 ! If an obsolete diagnostic variable appears in the diag_table, cause a FATAL
                                 ! error rather than issue a WARNING.
