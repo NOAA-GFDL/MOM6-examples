@@ -88,8 +88,8 @@ DTBT_RESET_PERIOD = 7200.0      !   [s] default = 7200.0
                                 ! initialization.  If 0, DTBT will be set every dynamics time step. The default
                                 ! is set by DT_THERM.  This is only used if SPLIT is true.
 FRAZIL = True                   !   [Boolean] default = False
-                                ! If true, water freezes if it gets too cold, and the the accumulated heat
-                                ! deficit is returned in the surface state.  FRAZIL is only used if
+                                ! If true, water freezes if it gets too cold, and the accumulated heat deficit
+                                ! is returned in the surface state.  FRAZIL is only used if
                                 ! ENABLE_THERMODYNAMICS is true.
 DO_GEOTHERMAL = True            !   [Boolean] default = False
                                 ! If true, apply geothermal heating.
@@ -133,7 +133,7 @@ DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
 SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
                                 ! If true, use expressions for the surface properties that recover the answers
                                 ! from the end of 2018. Otherwise, use more appropriate expressions that differ
-                                ! at roundoff for non-Boussinsq cases.
+                                ! at roundoff for non-Boussinesq cases.
 SAVE_INITIAL_CONDS = False      !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "MOM_IC"       ! default = "MOM_IC"
@@ -454,7 +454,7 @@ ALE_COORDINATE_CONFIG = "HYBRID:hycom1_75_800m.nc,sigma2,FNC1:2,4000,4.5,.01" ! 
                                 ! is of non-dimensional fractions of the water column.
 !TARGET_DENSITIES = 1010.0, 1014.3034, 1017.8088, 1020.843, 1023.5566, 1025.813, 1027.0275, 1027.9114, 1028.6422, 1029.2795, 1029.852, 1030.3762, 1030.8626, 1031.3183, 1031.7486, 1032.1572, 1032.5471, 1032.9207, 1033.2798, 1033.6261, 1033.9608, 1034.2519, 1034.4817, 1034.6774, 1034.8508, 1035.0082, 1035.1533, 1035.2886, 1035.4159, 1035.5364, 1035.6511, 1035.7608, 1035.8661, 1035.9675, 1036.0645, 1036.1554, 1036.2411, 1036.3223, 1036.3998, 1036.4739, 1036.5451, 1036.6137, 1036.68, 1036.7441, 1036.8062, 1036.8526, 1036.8874, 1036.9164, 1036.9418, 1036.9647, 1036.9857, 1037.0052, 1037.0236, 1037.0409, 1037.0574, 1037.0738, 1037.0902, 1037.1066, 1037.123, 1037.1394, 1037.1558, 1037.1722, 1037.1887, 1037.206, 1037.2241, 1037.2435, 1037.2642, 1037.2866, 1037.3112, 1037.3389, 1037.3713, 1037.4118, 1037.475, 1037.6332, 1037.8104, 1038.0 !   [m]
                                 ! HYBRID target densities for interfaces
-REGRID_COMPRESSIBILITY_FRACTION = 0.01 !   [not defined] default = 0.0
+REGRID_COMPRESSIBILITY_FRACTION = 0.01 !   [nondim] default = 0.0
                                 ! When interpolating potential density profiles we can add some artificial
                                 ! compressibility solely to make homogeneous regions appear stratified.
 MIN_THICKNESS = 0.001           !   [m] default = 0.001
@@ -922,7 +922,7 @@ KHTH_SLOPE_MAX = 0.01           !   [nondim] default = 0.01
 KHTH_USE_FGNV_STREAMFUNCTION = True !   [Boolean] default = False
                                 ! If true, use the streamfunction formulation of Ferrari et al., 2010, which
                                 ! effectively emphasizes graver vertical modes by smoothing in the vertical.
-FGNV_FILTER_SCALE = 0.1         !   [not defined] default = 1.0
+FGNV_FILTER_SCALE = 0.1         !   [nondim] default = 1.0
                                 ! A coefficient scaling the vertical smoothing term in the Ferrari et al., 2010,
                                 ! streamfunction formulation.
 FGNV_C_MIN = 0.0                !   [m s-1] default = 0.0
@@ -1161,8 +1161,8 @@ USE_KH_BG_2D = False            !   [Boolean] default = False
 ! === module MOM_vert_friction ===
 VERT_FRICTION_2018_ANSWERS = True !   [Boolean] default = True
                                 ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use expressions that do not use an arbitary
-                                ! and hard-coded maximum viscous coupling coefficient between layers.
+                                ! from the end of 2018.  Otherwise, use expressions that do not use an arbitrary
+                                ! hard-coded maximum viscous coupling coefficient between layers.
 DIRECT_STRESS = False           !   [Boolean] default = False
                                 ! If true, the wind stress is distributed over the topmost HMIX_STRESS of fluid
                                 ! (like in HYCOM), and KVML may be set to a very small value.
@@ -1545,7 +1545,7 @@ GEOTHERMAL_VARNAME = "geothermal_hf" ! default = "geo_heat"
                                 ! The name of the geothermal heating variable in GEOTHERMAL_FILE.
 
 ! === module MOM_set_diffusivity ===
-FLUX_RI_MAX = 0.2               !   [not defined] default = 0.2
+FLUX_RI_MAX = 0.2               !   [nondim] default = 0.2
                                 ! The flux Richardson number where the stratification is large enough that N2 >
                                 ! omega2.  The full expression for the Flux Richardson number is usually
                                 ! FLUX_RI_MAX*N2/(N2+OMEGA2).
@@ -1691,9 +1691,9 @@ KAPPA_SHEAR_MAX_KAP_SRC_CHG = 10.0 !   [nondim] default = 10.0
                                 ! for the permitted fractional decrease is (1 - 0.5/kappa_src_max_chg).  These
                                 ! limits could perhaps be made dynamic with an improved iterative solver.
 KAPPA_SHEAR_ITER_BUG = True     !   [Boolean] default = True
-                                ! If true. use an older, dimensionally inconsistent estimate of the derivative
+                                ! If true, use an older, dimensionally inconsistent estimate of the derivative
                                 ! of diffusivity with energy in the Newton's method iteration.  The bug causes
-                                ! undercorrections when dz > 1m.
+                                ! undercorrections when dz > 1 m.
 KAPPA_SHEAR_ALL_LAYER_TKE_BUG = True !   [Boolean] default = True
                                 ! If true, report back the latest estimate of TKE instead of the time average
                                 ! TKE when there is mass in all layers.  Otherwise always report the time
@@ -1952,7 +1952,7 @@ NDIFF_CONTINUOUS = True         !   [Boolean] default = True
                                 ! surfaces along which diffusion will happen. If false, a PPM discontinuous
                                 ! reconstruction of T and S is done which results in a higher order routine but
                                 ! exacts a higher computational cost.
-NDIFF_REF_PRES = -1.0           !   [not defined] default = -1.0
+NDIFF_REF_PRES = -1.0           !   [Pa] default = -1.0
                                 ! The reference pressure (Pa) used for the derivatives of the equation of state.
                                 ! If negative (default), local pressure is used.
 OBSOLETE_DIAGNOSTIC_IS_FATAL = True !   [Boolean] default = True
@@ -2058,7 +2058,7 @@ APPROX_NET_MASS_SRC = False     !   [Boolean] default = False
 WIND_STAGGER = "C"              ! default = "C"
                                 ! A case-insensitive character string to indicate the staggering of the input
                                 ! wind stress field.  Valid values are 'A', 'B', or 'C'.
-WIND_STRESS_MULTIPLIER = 1.0    !   [not defined] default = 1.0
+WIND_STRESS_MULTIPLIER = 1.0    !   [nondim] default = 1.0
                                 ! A factor multiplying the wind-stress given to the ocean by the coupler. This
                                 ! is used for testing and should be =1.0 for any production runs.
 FLUXCONST = 0.1667              !   [m day-1]

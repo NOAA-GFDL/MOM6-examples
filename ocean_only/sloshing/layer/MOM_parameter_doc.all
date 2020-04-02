@@ -88,8 +88,8 @@ DTBT_RESET_PERIOD = -1.0        !   [s] default = -1.0
                                 ! initialization.  If 0, DTBT will be set every dynamics time step. The default
                                 ! is set by DT_THERM.  This is only used if SPLIT is true.
 FRAZIL = False                  !   [Boolean] default = False
-                                ! If true, water freezes if it gets too cold, and the the accumulated heat
-                                ! deficit is returned in the surface state.  FRAZIL is only used if
+                                ! If true, water freezes if it gets too cold, and the accumulated heat deficit
+                                ! is returned in the surface state.  FRAZIL is only used if
                                 ! ENABLE_THERMODYNAMICS is true.
 DO_GEOTHERMAL = False           !   [Boolean] default = False
                                 ! If true, apply geothermal heating.
@@ -115,7 +115,7 @@ DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
 SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
                                 ! If true, use expressions for the surface properties that recover the answers
                                 ! from the end of 2018. Otherwise, use more appropriate expressions that differ
-                                ! at roundoff for non-Boussinsq cases.
+                                ! at roundoff for non-Boussinesq cases.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "MOM_IC"       ! default = "MOM_IC"
@@ -625,7 +625,7 @@ DETANGLE_INTERFACES = False     !   [Boolean] default = False
 KHTH_SLOPE_MAX = 0.01           !   [nondim] default = 0.01
                                 ! A slope beyond which the calculated isopycnal slope is not reliable and is
                                 ! scaled away.
-KD_SMOOTH = 1.0E-06             !   [not defined] default = 1.0E-06
+KD_SMOOTH = 1.0E-06             !   [m2 s-1] default = 1.0E-06
                                 ! A diapycnal diffusivity that is used to interpolate more sensible values of T
                                 ! & S into thin layers.
 KHTH_USE_FGNV_STREAMFUNCTION = False !   [Boolean] default = False
@@ -832,8 +832,8 @@ USE_KH_BG_2D = False            !   [Boolean] default = False
 ! === module MOM_vert_friction ===
 VERT_FRICTION_2018_ANSWERS = True !   [Boolean] default = True
                                 ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use expressions that do not use an arbitary
-                                ! and hard-coded maximum viscous coupling coefficient between layers.
+                                ! from the end of 2018.  Otherwise, use expressions that do not use an arbitrary
+                                ! hard-coded maximum viscous coupling coefficient between layers.
 DIRECT_STRESS = True            !   [Boolean] default = False
                                 ! If true, the wind stress is distributed over the topmost HMIX_STRESS of fluid
                                 ! (like in HYCOM), and KVML may be set to a very small value.
@@ -1083,7 +1083,7 @@ TOLERANCE_ENT = 1.0E-08         !   [m] default = 1.0E-08
                                 ! The tolerance with which to solve for entrainment values.
 
 ! === module MOM_set_diffusivity ===
-FLUX_RI_MAX = 0.2               !   [not defined] default = 0.2
+FLUX_RI_MAX = 0.2               !   [nondim] default = 0.2
                                 ! The flux Richardson number where the stratification is large enough that N2 >
                                 ! omega2.  The full expression for the Flux Richardson number is usually
                                 ! FLUX_RI_MAX*N2/(N2+OMEGA2).
@@ -1223,9 +1223,9 @@ KAPPA_SHEAR_MAX_KAP_SRC_CHG = 10.0 !   [nondim] default = 10.0
                                 ! for the permitted fractional decrease is (1 - 0.5/kappa_src_max_chg).  These
                                 ! limits could perhaps be made dynamic with an improved iterative solver.
 KAPPA_SHEAR_ITER_BUG = True     !   [Boolean] default = True
-                                ! If true. use an older, dimensionally inconsistent estimate of the derivative
+                                ! If true, use an older, dimensionally inconsistent estimate of the derivative
                                 ! of diffusivity with energy in the Newton's method iteration.  The bug causes
-                                ! undercorrections when dz > 1m.
+                                ! undercorrections when dz > 1 m.
 KAPPA_SHEAR_ALL_LAYER_TKE_BUG = True !   [Boolean] default = True
                                 ! If true, report back the latest estimate of TKE instead of the time average
                                 ! TKE when there is mass in all layers.  Otherwise always report the time
