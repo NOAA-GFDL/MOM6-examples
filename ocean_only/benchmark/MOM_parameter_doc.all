@@ -536,6 +536,11 @@ USE_VISBECK = True              !   [Boolean] default = False
 RESOLN_SCALED_KH = True         !   [Boolean] default = False
                                 ! If true, the Laplacian lateral viscosity is scaled away when the first
                                 ! baroclinic deformation radius is well resolved.
+DEPTH_SCALED_KHTH = False       !   [Boolean] default = False
+                                ! If true, KHTH is scaled away when the depth is shallowerthan a reference
+                                ! depth: KHTH = MIN(1,H/H0)**N * KHTH, where H0 is a reference depth, controlled
+                                ! via DEPTH_SCALED_KHTH_H0, and the exponent (N) is controlled via
+                                ! DEPTH_SCALED_KHTH_EXP.
 RESOLN_SCALED_KHTH = True       !   [Boolean] default = False
                                 ! If true, the interface depth diffusivity is scaled away when the first
                                 ! baroclinic deformation radius is well resolved.
@@ -1510,6 +1515,11 @@ ML_KHTR_SCALE = 0.0             !   [nondim] default = 1.0
 ! This module implements neutral diffusion of tracers
 USE_NEUTRAL_DIFFUSION = False   !   [Boolean] default = False
                                 ! If true, enables the neutral diffusion module.
+
+! === module MOM_lateral_boundary_diffusion ===
+! This module implements lateral diffusion of tracers near boundaries
+USE_LATERAL_BOUNDARY_DIFFUSION = False !   [Boolean] default = False
+                                ! If true, enables the lateral boundary tracer's diffusion module.
 OBSOLETE_DIAGNOSTIC_IS_FATAL = True !   [Boolean] default = True
                                 ! If an obsolete diagnostic variable appears in the diag_table, cause a FATAL
                                 ! error rather than issue a WARNING.
