@@ -5,15 +5,14 @@
 ! === module MOM_unit_scaling ===
 ! Parameters for doing unit scaling of variables.
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
-                                ! If true, use a C-grid discretization of the sea-ice
-                                ! dynamics; if false use a B-grid discretization.
+                                ! If true, use a C-grid discretization of the sea-ice dynamics; if false use a
+                                ! B-grid discretization.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
-                                ! A constant value to use to initialize the cosine of
-                                ! the solar zenith angle for the first radiation step,
-                                ! or a negative number to use the current time and astronomy.
+                                ! A constant value to use to initialize the cosine of the solar zenith angle for
+                                ! the first radiation step, or a negative number to use the current time and
+                                ! astronomy.
 ADD_DIURNAL_SW = True           !   [Boolean] default = False
-                                ! If true, add a synthetic diurnal cycle to the shortwave
-                                ! radiation.
+                                ! If true, add a synthetic diurnal cycle to the shortwave radiation.
 
 ! === module MOM_domains ===
 REENTRANT_X = False             !   [Boolean] default = True
@@ -57,10 +56,9 @@ OMEGA = 7.292E-05               !   [s-1] default = 7.2921E-05
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
 CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
-                                ! The heat capacity of water in brine pockets within the
-                                ! sea-ice, approximated as a constant.  CP_BRINE and
-                                ! CP_SEAWATER should be equal, but for computational
-                                ! convenience CP_BRINE can be set equal to CP_ICE.
+                                ! The heat capacity of water in brine pockets within the sea-ice, approximated
+                                ! as a constant.  CP_BRINE and CP_SEAWATER should be equal, but for
+                                ! computational convenience CP_BRINE can be set equal to CP_ICE.
 
 ! === module SIS_tracer_registry ===
 
@@ -71,13 +69,12 @@ CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
 ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
                                 ! The fixed bulk salinity of sea ice.
 ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
-                                ! The initial salinity of sea ice as a fraction of the
-                                ! salinity of the seawater from which it formed.
+                                ! The initial salinity of sea ice as a fraction of the salinity of the seawater
+                                ! from which it formed.
 SIS2_FILLING_FRAZIL = False     !   [Boolean] default = True
-                                ! If true, apply frazil to fill as many categories as
-                                ! possible to fill in a uniform (minimum) amount of ice
-                                ! in all the thinnest categories. Otherwise the frazil is
-                                ! always assigned to a single category.
+                                ! If true, apply frazil to fill as many categories as possible to fill in a
+                                ! uniform (minimum) amount of ice in all the thinnest categories. Otherwise the
+                                ! frazil is always assigned to a single category.
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
@@ -85,25 +82,22 @@ SIS2_FILLING_FRAZIL = False     !   [Boolean] default = True
 ! === module SIS_dyn_trans ===
 ! This module updates the ice momentum and does ice transport.
 DT_ICE_DYNAMICS = 1200.0        !   [seconds] default = -1.0
-                                ! The time step used for the slow ice dynamics, including
-                                ! stepping the continuity equation and interactions
-                                ! between the ice mass field and velocities.  If 0 or
-                                ! negative the coupling time step will be used.
+                                ! The time step used for the slow ice dynamics, including stepping the
+                                ! continuity equation and interactions between the ice mass field and
+                                ! velocities.  If 0 or negative the coupling time step will be used.
 ICEBERG_WINDSTRESS_BUG = True   !   [Boolean] default = False
-                                ! If true, use older code that applied an old ice-ocean
-                                ! stress to the icebergs in place of the current air-ocean
-                                ! stress.  This option is here for backward compatibility,
-                                ! but should be avoided.
+                                ! If true, use older code that applied an old ice-ocean stress to the icebergs
+                                ! in place of the current air-ocean stress.  This option is here for backward
+                                ! compatibility, but should be avoided.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
-                                ! The interval in units of TIMEUNIT between writes of the
-                                ! globally summed ice statistics and conservation checks.
+                                ! The interval in units of TIMEUNIT between writes of the globally summed ice
+                                ! statistics and conservation checks.
 DT_RHEOLOGY = 50.0              !   [seconds] default = -1.0
-                                ! The sub-cycling time step for iterating the rheology
-                                ! and ice momentum equations. If DT_RHEOLOGY is negative,
-                                ! the time step is set via NSTEPS_DYN.
+                                ! The sub-cycling time step for iterating the rheology and ice momentum
+                                ! equations. If DT_RHEOLOGY is negative, the time step is set via NSTEPS_DYN.
 MIN_OCN_INTERTIAL_H = 2.0       !   [m] default = 0.0
-                                ! A minimum ocean thickness used to limit the viscous coupling rate
-                                ! implied for the ocean by the ice-ocean stress. Only used if positive.
+                                ! A minimum ocean thickness used to limit the viscous coupling rate implied for
+                                ! the ocean by the ice-ocean stress. Only used if positive.
 SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind
@@ -140,17 +134,15 @@ SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
 ! === module SIS_optics ===
 ! This module calculates the albedo and absorption profiles for shortwave radiation.
 ICE_DELTA_EDD_R_ICE = 1.0       !   [nondimensional] default = 0.0
-                                ! A dreadfully documented tuning parameter for the radiative
-                                ! propeties of sea ice with the delta-Eddington radiative
-                                ! transfer calculation.
+                                ! A dreadfully documented tuning parameter for the radiative propeties of sea
+                                ! ice with the delta-Eddington radiative transfer calculation.
 ICE_DELTA_EDD_R_SNOW = 1.0      !   [nondimensional] default = 0.0
-                                ! A dreadfully documented tuning parameter for the radiative
-                                ! propeties of snow on sea ice with the delta-Eddington
-                                ! radiative transfer calculation.
+                                ! A dreadfully documented tuning parameter for the radiative propeties of snow
+                                ! on sea ice with the delta-Eddington radiative transfer calculation.
 ICE_DELTA_EDD_R_POND = 1.0      !   [nondimensional] default = 0.0
-                                ! A dreadfully documented tuning parameter for the radiative
-                                ! propeties of meltwater ponds on sea ice with the delta-Eddington
-                                ! radiative transfer calculation.
+                                ! A dreadfully documented tuning parameter for the radiative propeties of
+                                ! meltwater ponds on sea ice with the delta-Eddington radiative transfer
+                                ! calculation.
 
 ! === module MOM_file_parser ===
 DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"

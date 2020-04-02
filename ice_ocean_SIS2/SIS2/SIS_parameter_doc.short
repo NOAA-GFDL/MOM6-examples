@@ -5,17 +5,15 @@
 ! === module MOM_unit_scaling ===
 ! Parameters for doing unit scaling of variables.
 EULERIAN_TSURF = False          !   [Boolean] default = True
-                                ! If true, use previous calculations of the ice-top surface
-                                ! skin temperature for tsurf at the start of atmospheric
-                                ! time stepping, including interpolating between tsurf
-                                ! values from other categories in the same location.
+                                ! If true, use previous calculations of the ice-top surface skin temperature for
+                                ! tsurf at the start of atmospheric time stepping, including interpolating
+                                ! between tsurf values from other categories in the same location.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
-                                ! A constant value to use to initialize the cosine of
-                                ! the solar zenith angle for the first radiation step,
-                                ! or a negative number to use the current time and astronomy.
+                                ! A constant value to use to initialize the cosine of the solar zenith angle for
+                                ! the first radiation step, or a negative number to use the current time and
+                                ! astronomy.
 ADD_DIURNAL_SW = True           !   [Boolean] default = False
-                                ! If true, add a synthetic diurnal cycle to the shortwave
-                                ! radiation.
+                                ! If true, add a synthetic diurnal cycle to the shortwave radiation.
 
 ! === module MOM_domains ===
 TRIPOLAR_N = True               !   [Boolean] default = False
@@ -58,10 +56,9 @@ GRID_FILE = "ocean_hgrid.nc"    !
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
 CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
-                                ! The heat capacity of water in brine pockets within the
-                                ! sea-ice, approximated as a constant.  CP_BRINE and
-                                ! CP_SEAWATER should be equal, but for computational
-                                ! convenience CP_BRINE can be set equal to CP_ICE.
+                                ! The heat capacity of water in brine pockets within the sea-ice, approximated
+                                ! as a constant.  CP_BRINE and CP_SEAWATER should be equal, but for
+                                ! computational convenience CP_BRINE can be set equal to CP_ICE.
 
 ! === module SIS_tracer_registry ===
 
@@ -72,10 +69,9 @@ CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
 ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
                                 ! The fixed bulk salinity of sea ice.
 SIS2_FILLING_FRAZIL = False     !   [Boolean] default = True
-                                ! If true, apply frazil to fill as many categories as
-                                ! possible to fill in a uniform (minimum) amount of ice
-                                ! in all the thinnest categories. Otherwise the frazil is
-                                ! always assigned to a single category.
+                                ! If true, apply frazil to fill as many categories as possible to fill in a
+                                ! uniform (minimum) amount of ice in all the thinnest categories. Otherwise the
+                                ! frazil is always assigned to a single category.
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
@@ -83,20 +79,18 @@ SIS2_FILLING_FRAZIL = False     !   [Boolean] default = True
 ! === module SIS_dyn_trans ===
 ! This module updates the ice momentum and does ice transport.
 DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
-                                ! The time step used for the slow ice dynamics, including
-                                ! stepping the continuity equation and interactions
-                                ! between the ice mass field and velocities.  If 0 or
-                                ! negative the coupling time step will be used.
+                                ! The time step used for the slow ice dynamics, including stepping the
+                                ! continuity equation and interactions between the ice mass field and
+                                ! velocities.  If 0 or negative the coupling time step will be used.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
-                                ! The interval in units of TIMEUNIT between writes of the
-                                ! globally summed ice statistics and conservation checks.
+                                ! The interval in units of TIMEUNIT between writes of the globally summed ice
+                                ! statistics and conservation checks.
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
-                                ! The sub-cycling time step for iterating the rheology
-                                ! and ice momentum equations. If DT_RHEOLOGY is negative,
-                                ! the time step is set via NSTEPS_DYN.
+                                ! The sub-cycling time step for iterating the rheology and ice momentum
+                                ! equations. If DT_RHEOLOGY is negative, the time step is set via NSTEPS_DYN.
 RECATEGORIZE_ICE = False        !   [Boolean] default = True
-                                ! If true, readjust the distribution into ice thickness
-                                ! categories after advection.
+                                ! If true, readjust the distribution into ice thickness categories after
+                                ! advection.
 
 ! === module SIS_tracer_advect ===
 
