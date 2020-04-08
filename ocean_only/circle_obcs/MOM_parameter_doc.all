@@ -247,6 +247,11 @@ OBC_ZERO_BIHARMONIC = True      !   [Boolean] default = False
                                 ! viscosity term.
 MASK_OUTSIDE_OBCS = False       !   [Boolean] default = False
                                 ! If true, set the areas outside open boundaries to be land.
+RAMP_OBCS = False               !   [Boolean] default = False
+                                ! If true, ramps from zero to the external values over time, witha ramping
+                                ! timescale given by RAMP_TIMESCALE. Ramping SSH only so far
+OBC_RAMP_TIMESCALE = 1.0        !   [days] default = 1.0
+                                ! If RAMP_OBCS is true, this sets the ramping timescale.
 OBC_SEGMENT_001 = "J=N,I=N:0,FLATHER,ORLANSKI" !
                                 ! Documentation needs to be dynamic?????
 OBC_SEGMENT_002 = "J=0,I=0:N,FLATHER,ORLANSKI" !
