@@ -31,11 +31,6 @@ NJGLOBAL = 2                    !
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
-NK = 9                          !   [nondim]
-                                ! The number of model layers.
-
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT/"             ! default = "."
                                 ! The directory in which input files are found.
@@ -101,6 +96,11 @@ ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 !       times the sine of latitude.
                                 !     betaplane - Use a beta-plane or f-plane.
                                 !     USER - call a user modified routine.
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+NK = 9                          !   [nondim]
+                                ! The number of model layers.
 
 ! === module MOM_tracer_registry ===
 

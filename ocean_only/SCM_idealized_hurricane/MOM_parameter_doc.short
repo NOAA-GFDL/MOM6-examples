@@ -37,17 +37,6 @@ NJGLOBAL = 2                    !
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
-G_EARTH = 9.81                  !   [m s-2] default = 9.8
-                                ! The gravitational acceleration of the Earth.
-RHO_0 = 1027.0                  !   [kg m-3] default = 1035.0
-                                ! The mean ocean density used with BOUSSINESQ true to calculate accelerations
-                                ! and the mass for conservation properties, or with BOUSSINSEQ false to convert
-                                ! some parameters from vertical units of m to kg m-2.
-NK = 600                        !   [nondim]
-                                ! The number of model layers.
-
 ! === module MOM_fixed_initialization ===
 
 ! === module MOM_grid_init ===
@@ -100,6 +89,8 @@ MAXIMUM_DEPTH = 300.0           !   [m]
 ! === module MOM_open_boundary ===
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
 ! if any.
+G_EARTH = 9.81                  !   [m s-2] default = 9.8
+                                ! The gravitational acceleration of the Earth.
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -108,6 +99,15 @@ ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 !     USER - call a user modified routine.
 F_0 = 6.8103E-05                !   [s-1] default = 0.0
                                 ! The reference value of the Coriolis parameter with the betaplane option.
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+RHO_0 = 1027.0                  !   [kg m-3] default = 1035.0
+                                ! The mean ocean density used with BOUSSINESQ true to calculate accelerations
+                                ! and the mass for conservation properties, or with BOUSSINSEQ false to convert
+                                ! some parameters from vertical units of m to kg m-2.
+NK = 600                        !   [nondim]
+                                ! The number of model layers.
 
 ! === module MOM_tracer_registry ===
 
