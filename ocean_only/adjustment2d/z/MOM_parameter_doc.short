@@ -99,8 +99,6 @@ MAXIMUM_DEPTH = 20.0            !   [m]
 ! === module MOM_open_boundary ===
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
 ! if any.
-G_EARTH = 10.0                  !   [m s-2] default = 9.8
-                                ! The gravitational acceleration of the Earth.
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -110,6 +108,8 @@ ROTATION = "beta"               ! default = "2omegasinlat"
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
+G_EARTH = 10.0                  !   [m s-2] default = 9.8
+                                ! The gravitational acceleration of the Earth.
 RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
                                 ! The mean ocean density used with BOUSSINESQ true to calculate accelerations
                                 ! and the mass for conservation properties, or with BOUSSINSEQ false to convert

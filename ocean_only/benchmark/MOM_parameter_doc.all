@@ -223,8 +223,6 @@ MAXIMUM_DEPTH = 5500.0          !   [m]
 ! if any.
 OBC_NUMBER_OF_SEGMENTS = 0      ! default = 0
                                 ! The number of open boundary segments.
-G_EARTH = 9.8                   !   [m s-2] default = 9.8
-                                ! The gravitational acceleration of the Earth.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all fluxes are
                                 ! zeroed out. MASKING_DEPTH is ignored if negative.
@@ -257,6 +255,8 @@ PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
+G_EARTH = 9.8                   !   [m s-2] default = 9.8
+                                ! The gravitational acceleration of the Earth.
 RHO_0 = 1035.0                  !   [kg m-3] default = 1035.0
                                 ! The mean ocean density used with BOUSSINESQ true to calculate accelerations
                                 ! and the mass for conservation properties, or with BOUSSINSEQ false to convert
