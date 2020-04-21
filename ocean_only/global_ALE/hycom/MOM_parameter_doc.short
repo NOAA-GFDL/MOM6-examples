@@ -61,11 +61,6 @@ NJGLOBAL = 210                  !
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
-NK = 50                         !   [nondim]
-                                ! The number of model layers.
-
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -132,6 +127,11 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
 PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
                                 ! If true, each processor writes its own restart file, otherwise a single
                                 ! restart file is generated
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+NK = 50                         !   [nondim]
+                                ! The number of model layers.
 
 ! === module MOM_tracer_registry ===
 
