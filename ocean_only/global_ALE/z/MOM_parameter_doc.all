@@ -510,6 +510,10 @@ Z_INIT_REMAP_FULL_COLUMN = False !   [Boolean] default = False
 Z_INIT_REMAP_OLD_ALG = True     !   [Boolean] default = True
                                 ! If false, uses the preferred remapping algorithm for initialization. If true,
                                 ! use an older, less robust algorithm for remapping.
+TEMP_SALT_INIT_VERTICAL_REMAP_ONLY = False !   [Boolean] default = False
+                                ! If true, initial conditions are on the model horizontal grid. Extrapolation
+                                ! over missing ocean values is done using an ICE-9 procedure with vertical ALE
+                                ! remapping .
 HOR_REGRID_2018_ANSWERS = True  !   [Boolean] default = True
                                 ! If true, use the order of arithmetic for horizonal regridding that recovers
                                 ! the answers from the end of 2018.  Otherwise, use rotationally symmetric forms
