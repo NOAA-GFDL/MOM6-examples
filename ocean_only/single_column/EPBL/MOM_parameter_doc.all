@@ -689,6 +689,11 @@ USE_GME = False                 !   [Boolean] default = False
 USE_GM_WORK_BUG = True          !   [Boolean] default = True
                                 ! If true, compute the top-layer work tendency on the u-grid with the incorrect
                                 ! sign, for legacy reproducibility.
+FIX_UNSPLIT_DT_VISC_BUG = False !   [Boolean] default = False
+                                ! If true, use the correct timestep in the viscous terms applied in the first
+                                ! predictor step with the unsplit time stepping scheme, and in the calculation
+                                ! of the turbulent mixed layer properties for viscosity with unsplit or
+                                ! unsplit_RK2. The default should be true.
 TIDES = False                   !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 
