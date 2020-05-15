@@ -1831,15 +1831,20 @@ EPBL_TRANSITION_SCALE = 0.01    !   [nondim] default = 0.1
                                 ! A scale for the mixing length in the transition layer at the edge of the
                                 ! boundary layer as a fraction of the boundary layer thickness.
 MLD_ITERATION_GUESS = False     !   [Boolean] default = False
-                                ! A logical that specifies whether or not to use the previous timestep MLD as a
-                                ! first guess in the MLD iteration. The default is false to facilitate
-                                ! reproducibility.
+                                ! If true, use the previous timestep MLD as a first guess in the MLD iteration,
+                                ! otherwise use half the ocean depth as the first guess of the boundary layer
+                                ! depth.  The default is false to facilitate reproducibility.
 EPBL_MLD_TOLERANCE = 1.0        !   [meter] default = 1.0
                                 ! The tolerance for the iteratively determined mixed layer depth.  This is only
                                 ! used with USE_MLD_ITERATION.
+EPBL_MLD_BISECTION = True       !   [Boolean] default = True
+                                ! If true, use bisection with the iterative determination of the self-consistent
+                                ! mixed layer depth.  Otherwise use the false position after a maximum and
+                                ! minimum bound have been evaluated and the returned value or bisection before
+                                ! this.
 EPBL_MLD_MAX_ITS = 20           ! default = 20
                                 ! The maximum number of iterations that can be used to find a self-consistent
-                                ! mixed layer depth.  For now, due to the use of bisection, the maximum number
+                                ! mixed layer depth.  If EPBL_MLD_BISECTION is true, the maximum number
                                 ! iteractions needed is set by Depth/2^MAX_ITS < EPBL_MLD_TOLERANCE.
 EPBL_MIN_MIX_LEN = 0.0          !   [meter] default = 0.0
                                 ! The minimum mixing length scale that will be used by ePBL.  The default (0)
