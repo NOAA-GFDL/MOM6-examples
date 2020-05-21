@@ -1210,16 +1210,6 @@ USE_CVMix_CONVECTION = False    !   [Boolean] default = False
                                 ! increases diapycnal diffs./viscs. at statically unstable interfaces. Relevant
                                 ! parameters are contained in the CVMix_CONVECTION% parameter block.
 
-! === module MOM_entrain_diffusive ===
-CORRECT_DENSITY = False         !   [Boolean] default = True
-                                ! If true, and USE_EOS is true, the layer densities are restored toward their
-                                ! target values by the diapycnal mixing, as described in Hallberg (MWR, 2000).
-MAX_ENT_IT = 5                  ! default = 5
-                                ! The maximum number of iterations that may be used to calculate the interior
-                                ! diapycnal entrainment.
-TOLERANCE_ENT = 1.0E-08         !   [m] default = 1.0E-08
-                                ! The tolerance with which to solve for entrainment values.
-
 ! === module MOM_set_diffusivity ===
 FLUX_RI_MAX = 0.2               !   [nondim] default = 0.2
                                 ! The flux Richardson number where the stratification is large enough that N2 >
