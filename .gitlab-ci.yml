@@ -5,7 +5,6 @@ parameter_files:
   script:
     # Install / update testing scripts
     - git clone https://github.com/adcroft/MRS.git build_MRS
-    - (cd build_MRS ; git checkout xanadu-fms)
     # Recursively clone submodules
     - git submodule sync --recursive && git submodule update --init --recursive
     # Clone other components
