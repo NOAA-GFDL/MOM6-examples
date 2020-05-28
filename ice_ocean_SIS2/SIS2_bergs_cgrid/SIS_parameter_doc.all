@@ -237,6 +237,54 @@ USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
 SIS_FAST_AVAILABLE_DIAGS_FILE = "SIS_fast.available_diags" ! default = "SIS_fast.available_diags"
                                 ! A file into which to write a list of all available sea ice diagnostics that
                                 ! can be included in a diag_table.
+CONCENTRATION_INIT_CONFIG = "data_override" ! default = "data_override"
+                                ! A string that determines how the initial total sea ice concentration is
+                                ! initialized for a new run:
+                                !     file - read sea ice concentrations from a specified file
+                                !     data_override - use the data_override capability or zero everywhere
+                                !     zero - there is no sea ice anywhere.
+                                !     latitudes - initial sea ice concentration is a function of latitude.
+ICE_THICKNESS_INIT_CONFIG = "data_override" ! default = "data_override"
+                                ! A string that determines how the initial total sea ice concentration is
+                                ! initialized for a new run:
+                                !     file - read sea ice concentrations from a specified file
+                                !     data_override - use the data_override capability or zero everywhere
+                                !     uniform - sea ice has uniform thickness where the concentration is
+                                !       nonzero.
+SNOW_THICKNESS_INIT_CONFIG = "data_override" ! default = "data_override"
+                                ! A string that determines how the initial total sea ice concentration is
+                                ! initialized for a new run:
+                                !     file - read sea ice concentrations from a specified file
+                                !     data_override - use the data_override capability or zero everywhere
+                                !     uniform - sea ice has uniform thickness where the concentration is
+                                !       nonzero.
+ICE_SALINITY_INIT_CONFIG = "uniform" ! default = "uniform"
+                                ! A string that determines how the sea ice salinity is initialized for a new
+                                ! run:
+                                !     uniform -  Use a constant ice salinity initial condition
+                                !     file - Read sea ice salinities from a specified file
+                                !     data_override - use the data_override capability or zero everywhere.
+ICE_ENTHALPY_INIT_CONFIG = "uniform_temp" ! default = "uniform_temp"
+                                ! A string that determines how the sea ice enthalpy is initialized for a new
+                                ! run:
+                                !     uniform_temp - Use a constant ice temperature initial condition
+                                !     relative_temp - Use an ice temperature initial condition with a
+                                !       specified depression below the bulk ice freezing point
+                                !     file - Read sea ice temperatures or enthalpies from a specified file
+                                !     data_override - use the data_override capability or freezing enthalpy
+                                !       everywhere.
+SNOW_ENTHALPY_INIT_CONFIG = "uniform_temp" ! default = "uniform_temp"
+                                ! A string that determines how the snow enthalpy is initialized for a new run:
+                                !     uniform_temp - Use a constant ice temperature initial condition
+                                !     relative_temp - Use an ice temperature initial condition with a
+                                !       specified depression below the bulk ice freezing point
+                                !     file - Read sea ice temperatures or enthalpies from a specified file
+                                !     data_override - use the data_override capability or freezing enthalpy
+                                !       everywhere.
+ICE_SALINITY_IC = 5.0           !   [g kg-1] default = 5.0
+                                ! The uniform sea ice salinity used for the initial condition
+ICE_TEMPERATURE_IC = -4.0       !   [degC] default = -4.0
+                                ! The uniform sea ice and snow temperature used for the initial condition
 
 ! === module SIS_slow_thermo ===
 ! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
