@@ -27,8 +27,8 @@ DTBT_RESET_PERIOD = 0.0         !   [s] default = 7200.0
                                 ! initialization.  If 0, DTBT will be set every dynamics time step. The default
                                 ! is set by DT_THERM.  This is only used if SPLIT is true.
 FRAZIL = True                   !   [Boolean] default = False
-                                ! If true, water freezes if it gets too cold, and the the accumulated heat
-                                ! deficit is returned in the surface state.  FRAZIL is only used if
+                                ! If true, water freezes if it gets too cold, and the accumulated heat deficit
+                                ! is returned in the surface state.  FRAZIL is only used if
                                 ! ENABLE_THERMODYNAMICS is true.
 DO_GEOTHERMAL = True            !   [Boolean] default = False
                                 ! If true, apply geothermal heating.
@@ -56,11 +56,6 @@ NJGLOBAL = 14                   !
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
-
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
-NK = 50                         !   [nondim]
-                                ! The number of model layers.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -126,6 +121,11 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
                                 !     file - Read open face widths everywhere from a
                                 !       NetCDF file on the model grid.
 
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+NK = 50                         !   [nondim]
+                                ! The number of model layers.
+
 ! === module MOM_tracer_registry ===
 
 ! === module MOM_EOS ===
@@ -141,13 +141,13 @@ USE_ADVECTION_TEST_TRACER = True !   [Boolean] default = False
 ! === module ideal_age_example ===
 
 ! === module advection_test_tracer ===
-ADVECTION_TEST_X_ORIGIN = 19.5  !   [not defined] default = 0.0
-                                ! The x-coorindate of the center of the test-functions.
-ADVECTION_TEST_Y_ORIGIN = 60.5  !   [not defined] default = 0.0
-                                ! The y-coorindate of the center of the test-functions.
-ADVECTION_TEST_X_WIDTH = 1.0    !   [not defined] default = 0.0
+ADVECTION_TEST_X_ORIGIN = 19.5  !   [same as geoLon] default = 0.0
+                                ! The x-coordinate of the center of the test-functions.
+ADVECTION_TEST_Y_ORIGIN = 60.5  !   [same as geoLat] default = 0.0
+                                ! The y-coordinate of the center of the test-functions.
+ADVECTION_TEST_X_WIDTH = 1.0    !   [same as geoLon] default = 0.0
                                 ! The x-width of the test-functions.
-ADVECTION_TEST_Y_WIDTH = 1.0    !   [not defined] default = 0.0
+ADVECTION_TEST_Y_WIDTH = 1.0    !   [same as geoLat] default = 0.0
                                 ! The y-width of the test-functions.
 
 ! === module MOM_coord_initialization ===

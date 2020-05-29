@@ -14,8 +14,8 @@ DT = 3600.0                     !   [s]
                                 ! be an integer fraction of the forcing time-step (DT_FORCING in ocean-only mode
                                 ! or the coupling timestep in coupled mode.)
 FRAZIL = True                   !   [Boolean] default = False
-                                ! If true, water freezes if it gets too cold, and the the accumulated heat
-                                ! deficit is returned in the surface state.  FRAZIL is only used if
+                                ! If true, water freezes if it gets too cold, and the accumulated heat deficit
+                                ! is returned in the surface state.  FRAZIL is only used if
                                 ! ENABLE_THERMODYNAMICS is true.
 C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
@@ -36,11 +36,6 @@ NJGLOBAL = 2                    !
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
-
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
-NK = 75                         !   [nondim]
-                                ! The number of model layers.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT/BATS"         ! default = "."
@@ -104,6 +99,11 @@ ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 !     USER - call a user modified routine.
 F_0 = 7.59943E-05               !   [s-1] default = 0.0
                                 ! The reference value of the Coriolis parameter with the betaplane option.
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+NK = 75                         !   [nondim]
+                                ! The number of model layers.
 
 ! === module MOM_tracer_registry ===
 

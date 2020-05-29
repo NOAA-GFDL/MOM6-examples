@@ -19,8 +19,8 @@ DT_THERM = 7200.0               !   [s] default = 3600.0
                                 ! unless THERMO_SPANS_COUPLING is true, in which case DT_THERM can be an integer
                                 ! multiple of the coupling timestep.  By default DT_THERM is set to DT.
 FRAZIL = True                   !   [Boolean] default = False
-                                ! If true, water freezes if it gets too cold, and the the accumulated heat
-                                ! deficit is returned in the surface state.  FRAZIL is only used if
+                                ! If true, water freezes if it gets too cold, and the accumulated heat deficit
+                                ! is returned in the surface state.  FRAZIL is only used if
                                 ! ENABLE_THERMODYNAMICS is true.
 DO_GEOTHERMAL = True            !   [Boolean] default = False
                                 ! If true, apply geothermal heating.
@@ -47,11 +47,6 @@ NJGLOBAL = 210                  !
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
-
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
-NK = 63                         !   [nondim]
-                                ! The number of model layers.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -116,6 +111,11 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
                                 !       test case.
                                 !     file - Read open face widths everywhere from a
                                 !       NetCDF file on the model grid.
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+NK = 63                         !   [nondim]
+                                ! The number of model layers.
 
 ! === module MOM_tracer_registry ===
 

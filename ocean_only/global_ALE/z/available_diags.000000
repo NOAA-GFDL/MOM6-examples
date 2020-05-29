@@ -382,19 +382,19 @@
     ! cell_methods: z_i:point
 "ocean_model", "S2_u"  [Unused]
     ! long_name: Depth average square of slope magnitude, S^2, at u-points, as used in Visbeck et al.
-    ! units: s-2
+    ! units: nondim
     ! cell_methods: xq:point yh:mean
 "ocean_model_d2", "S2_u"  [Unused]
     ! long_name: Depth average square of slope magnitude, S^2, at u-points, as used in Visbeck et al.
-    ! units: s-2
+    ! units: nondim
     ! cell_methods: xq:point yh:mean
 "ocean_model", "S2_v"  [Unused]
     ! long_name: Depth average square of slope magnitude, S^2, at v-points, as used in Visbeck et al.
-    ! units: s-2
+    ! units: nondim
     ! cell_methods: xh:mean yq:point
 "ocean_model_d2", "S2_v"  [Unused]
     ! long_name: Depth average square of slope magnitude, S^2, at v-points, as used in Visbeck et al.
-    ! units: s-2
+    ! units: nondim
     ! cell_methods: xh:mean yq:point
 "ocean_model", "Res_fn"  [Unused]
     ! long_name: Resolution function for scaling diffusivities
@@ -428,6 +428,14 @@
     ! long_name: BBL viscosity at u points
     ! units: m2 s-1
     ! cell_methods: xq:point yh:mean
+"ocean_model", "bbl_u"  [Unused]
+    ! long_name: BBL mean u current
+    ! units: m s-1
+    ! cell_methods: xq:point yh:mean
+"ocean_model_d2", "bbl_u"  [Unused]
+    ! long_name: BBL mean u current
+    ! units: m s-1
+    ! cell_methods: xq:point yh:mean
 "ocean_model", "bbl_thick_v"  [Unused]
     ! long_name: BBL thickness at v points
     ! units: m
@@ -443,6 +451,14 @@
 "ocean_model_d2", "kv_bbl_v"  [Unused]
     ! long_name: BBL viscosity at v points
     ! units: m2 s-1
+    ! cell_methods: xh:mean yq:point
+"ocean_model", "bbl_v"  [Unused]
+    ! long_name: BBL mean v current
+    ! units: m s-1
+    ! cell_methods: xh:mean yq:point
+"ocean_model_d2", "bbl_v"  [Unused]
+    ! long_name: BBL mean v current
+    ! units: m s-1
     ! cell_methods: xh:mean yq:point
 "ocean_model", "Rayleigh_u"  [Unused]
     ! long_name: Rayleigh drag velocity at u points
@@ -6297,59 +6313,59 @@
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "ePBL_TKE_wind"  [Unused]
     ! long_name: Wind-stirring source of mixed layer TKE
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model_d2", "ePBL_TKE_wind"  [Unused]
     ! long_name: Wind-stirring source of mixed layer TKE
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "ePBL_TKE_MKE"  [Unused]
     ! long_name: Mean kinetic energy source of mixed layer TKE
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model_d2", "ePBL_TKE_MKE"  [Unused]
     ! long_name: Mean kinetic energy source of mixed layer TKE
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "ePBL_TKE_conv"  [Unused]
     ! long_name: Convective source of mixed layer TKE
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model_d2", "ePBL_TKE_conv"  [Unused]
     ! long_name: Convective source of mixed layer TKE
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "ePBL_TKE_forcing"  [Unused]
     ! long_name: TKE consumed by mixing surface forcing or penetrative shortwave radation through model layers
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model_d2", "ePBL_TKE_forcing"  [Unused]
     ! long_name: TKE consumed by mixing surface forcing or penetrative shortwave radation through model layers
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "ePBL_TKE_mixing"  [Unused]
     ! long_name: TKE consumed by mixing that deepens the mixed layer
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model_d2", "ePBL_TKE_mixing"  [Unused]
     ! long_name: TKE consumed by mixing that deepens the mixed layer
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "ePBL_TKE_mech_decay"  [Unused]
     ! long_name: Mechanical energy decay sink of mixed layer TKE
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model_d2", "ePBL_TKE_mech_decay"  [Unused]
     ! long_name: Mechanical energy decay sink of mixed layer TKE
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "ePBL_TKE_conv_decay"  [Unused]
     ! long_name: Convective energy decay sink of mixed layer TKE
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model_d2", "ePBL_TKE_conv_decay"  [Unused]
     ! long_name: Convective energy decay sink of mixed layer TKE
-    ! units: m3 s-3
+    ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "Mixing_Length"  [Unused]
     ! long_name: Mixing Length that is used
@@ -8876,67 +8892,67 @@
     ! units: yr m3 s-1
     ! cell_methods: z_l:sum
 "ocean_model", "age_lbd_diffx"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion "scheme
+    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: xq:point yh:sum zl:sum
 "ocean_model", "age_lbd_diffx_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion "scheme
+    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: zl:sum
 "ocean_model_z", "age_lbd_diffx"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion "scheme
+    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: xq:point yh:sum z_l:sum
 "ocean_model_z", "age_lbd_diffx_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion "scheme
+    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: z_l:sum
 "ocean_model_d2", "age_lbd_diffx"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion "scheme
+    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: xq:point yh:sum zl:sum
 "ocean_model_d2", "age_lbd_diffx_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion "scheme
+    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: zl:sum
 "ocean_model_z_d2", "age_lbd_diffx"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion "scheme
+    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: xq:point yh:sum z_l:sum
 "ocean_model_z_d2", "age_lbd_diffx_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion "scheme
+    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: z_l:sum
 "ocean_model", "age_lbd_diffy"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion" scheme
+    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: xh:sum yq:point zl:sum
 "ocean_model", "age_lbd_diffy_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion" scheme
+    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: zl:sum
 "ocean_model_z", "age_lbd_diffy"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion" scheme
+    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: xh:sum yq:point z_l:sum
 "ocean_model_z", "age_lbd_diffy_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion" scheme
+    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: z_l:sum
 "ocean_model_d2", "age_lbd_diffy"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion" scheme
+    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: xh:sum yq:point zl:sum
 "ocean_model_d2", "age_lbd_diffy_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion" scheme
+    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: zl:sum
 "ocean_model_z_d2", "age_lbd_diffy"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion" scheme
+    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: xh:sum yq:point z_l:sum
 "ocean_model_z_d2", "age_lbd_diffy_xyave"  [Unused]
-    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion" scheme
+    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: z_l:sum
 "ocean_model", "age_adx_2d"  [Unused]

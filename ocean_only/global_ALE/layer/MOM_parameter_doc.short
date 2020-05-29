@@ -27,8 +27,8 @@ DTBT_RESET_PERIOD = 0.0         !   [s] default = 7200.0
                                 ! initialization.  If 0, DTBT will be set every dynamics time step. The default
                                 ! is set by DT_THERM.  This is only used if SPLIT is true.
 FRAZIL = True                   !   [Boolean] default = False
-                                ! If true, water freezes if it gets too cold, and the the accumulated heat
-                                ! deficit is returned in the surface state.  FRAZIL is only used if
+                                ! If true, water freezes if it gets too cold, and the accumulated heat deficit
+                                ! is returned in the surface state.  FRAZIL is only used if
                                 ! ENABLE_THERMODYNAMICS is true.
 DO_GEOTHERMAL = True            !   [Boolean] default = False
                                 ! If true, apply geothermal heating.
@@ -57,11 +57,6 @@ NJGLOBAL = 210                  !
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
-
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
-NK = 63                         !   [nondim]
-                                ! The number of model layers.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -129,6 +124,11 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
 PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
                                 ! If true, each processor writes its own restart file, otherwise a single
                                 ! restart file is generated
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+NK = 63                         !   [nondim]
+                                ! The number of model layers.
 
 ! === module MOM_tracer_registry ===
 
