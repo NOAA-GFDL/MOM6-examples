@@ -227,7 +227,8 @@ def main(args):
 
       time_dim = f_out.createDimension('time', size=None)
       basin_dim = f_out.createDimension('basin', size=3)
-      strait_dim = f_out.createDimension('strait', size=len(straits))
+      if do_mfo:
+        strait_dim = f_out.createDimension('strait', size=len(straits))
       strlen_dim = f_out.createDimension('strlen', size=31)
       xh_dim  = f_out.createDimension('xh',  size=len(xh[:]))
       yh_dim  = f_out.createDimension('yh',  size=len(yh[:]))
@@ -241,7 +242,8 @@ def main(args):
       yh_out   = f_out.createVariable('yh',   np.float64, ('yh'))
       yq_out   = f_out.createVariable('yq',   np.float64, ('yq'))
       region_out = f_out.createVariable('region', 'c', ('basin', 'strlen'))
-      strait_out = f_out.createVariable('strait', 'c', ('strait', 'strlen'))
+      if do_mfo:
+        strait_out = f_out.createVariable('strait', 'c', ('strait', 'strlen'))
       z_l_out  = f_out.createVariable('z_l',  np.float64, ('z_l'))
       z_i_out  = f_out.createVariable('z_i',  np.float64, ('z_i'))
       nv_out  = f_out.createVariable('nv',  np.float64, ('nv'))
