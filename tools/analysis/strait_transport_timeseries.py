@@ -34,33 +34,35 @@ def sum_transport_in_straits(runpath, monthly_average = False):
         continue
       u_vargroup = Dataset(runpath+'/'+u_file[0]).variables
 
-    # Need to find the first interface deeper than or equal to the requested z-limit. If deeper, then we'll need to scale the
-    # bottommost part of the column
     if strait[sidx].is_zonal:
       strait[sidx].time = v_vargroup['time'][:]
+      # Need to find the first interface deeper than or equal to the requested z-limit. If deeper, then we'll need to
+      # scale the next layer back and zero out the rest of the column
+      vmo = v_vargroup['vmo'][:,:,:,:]
       if strait[sidx].zlim > 0.:
         z_i = v_vargroup['z_i'][:]
-        zidx = np.sum(z_i<strait[sidx].zlim)
-        if z_i[zidx] > strait[sidx].zlim:
-          frac = min(1., (z_i[zidx] - strait[sidx].zlim)/(z_i[zidx]-z_i[zidx-1]))
-          vmo[:,-1,:] = vmo[:,-1,:]*frac
-      else:
-        vmo = v_vargroup['vmo'][:,:,:,:]
+        zidx = np.sum(z_i<=strait[sidx].zlim)-1
+        if z_i[zidx] < strait[sidx].zlim: # Scale back transport in the next layer
+          # Fraction of the layer that should be included in the calculation
+          frac = (z_i[zidx+1] - strait[sidx].zlim)/(z_i[zidx+1]-z_i[zidx]) # Fraction of the layer that should be
+          vmo[:,zidx+1,:] = vmo[:,zidx+1,:]*frac
+          vmo[:,zidx+2:,:] = 0. # All layers below do not contribute
       strait[sidx].transport += vmo.sum(axis=(1,2,3))
       Dataset(runpath+'/'+v_file[0]).close()
 
     if strait[sidx].is_meridional:
       strait[sidx].time = u_vargroup['time'][:]
+      umo = u_vargroup['umo'][:,:,:,:]
       if strait[sidx].zlim > 0.:
         z_i = u_vargroup['z_i'][:]
-        zidx = np.sum(z_i<strait[sidx].zlim)
-        if z_i[zidx] > strait[sidx].zlim:
-          frac = min(1., (z_i[zidx] - strait[sidx].zlim)/(z_i[zidx]-z_i[zidx-1]))
-          umo[:,-1,:] = umo[:,-1,:]*frac
-      else:
-        umo = u_vargroup['umo'][:,:,:,:]
+        zidx = np.sum(z_i<=strait[sidx].zlim)-1
+        if z_i[zidx] < strait[sidx].zlim:
+          frac = (z_i[zidx+1] - strait[sidx].zlim)/(z_i[zidx+1]-z_i[zidx])
+          umo[:,zidx+1,:] = umo[:,zidx+1,:]*frac
+          umo[:,zidx+2:,:] = 0.
       strait[sidx].transport += umo.sum(axis=(1,2,3))
       Dataset(runpath+'/'+u_file[0]).close()
+
     if monthly_average:
       strait[sidx].transport = make_monthly_averages(strait[sidx].transport)
       strait[sidx].time = make_monthly_averages(strait[sidx].time)
