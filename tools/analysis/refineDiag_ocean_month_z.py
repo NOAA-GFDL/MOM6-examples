@@ -292,7 +292,8 @@ def main(args):
       nv_out.setncatts(nv.__dict__)
 
       region_out.setncattr('standard_name','region')
-      strait_out.setncattr('standard_name','region')
+      if do_mfo:
+        strait_out.setncattr('standard_name','region')
 
       average_T1_out.setncatts(average_T1.__dict__)
       average_T2_out.setncatts(average_T2.__dict__)
@@ -319,7 +320,8 @@ def main(args):
       time_bnds_out[:]  = time_bnds[:]
 
       region_out[:] = nc.stringtochar(region)
-      strait_out[:] = nc.stringtochar(strait_names)
+      if do_mfo:
+        strait_out[:] = nc.stringtochar(strait_names)
 
       f_out.close()
       exit(0)
