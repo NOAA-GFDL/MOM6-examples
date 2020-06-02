@@ -54,6 +54,7 @@ BULKMIXEDLAYER = False          !   [Boolean] default = True
                                 ! NKML+NKBL have variable densities. There must be at
                                 ! least NKML+NKBL+1 layers if BULKMIXEDLAYER is true.
                                 ! The default is the same setting as ENABLE_THERMODYNAMICS.
+ !  DIABATIC_FIRST = True
 USE_REGRIDDING = True           !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping).
                                 ! If False, use the layered isopycnal algorithm.
@@ -571,7 +572,7 @@ KHTH = 0.0                      !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-ENERGETICS_SFC_PBL = False      !   [Boolean] default = False
+ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary
                                 ! layer scheme to determine the diffusivity and viscosity
                                 ! in the surface boundary layer.
@@ -658,16 +659,24 @@ ICE_SHELF = True                !   [Boolean] default = False
 ! === module MOM_ice_shelf ===
 DYNAMIC_SHELF_MASS = False      !   [Boolean] default = False
                                 ! If true, the ice sheet mass can evolve with time.
-SHELF_THERMO = False            !   [Boolean] default = False
+SHELF_THERMO = True             !   [Boolean] default = False
                                 ! If true, use a thermodynamically interactive ice shelf.
-SHELF_THREE_EQN = False         !   [Boolean] default = True
+SHELF_THREE_EQN = True          !   [Boolean] default = True
                                 ! If true, use the three equation expression of
                                 ! consistency to calculate the fluxes at the ice-ocean
                                 ! interface.
+SHELF_3EQ_GAMMA = True          !   [Boolean] default = False
+                                ! If true, user specifies a constant nondimensional heat-transfer coefficient
+                                ! (GAMMA_T_3EQ), from which the default salt-transfer coefficient is set as
+                                ! GAMMA_T_3EQ/35. This is used with SHELF_THREE_EQN.
+SHELF_S_ROOT = True             !   [Boolean] default = False
+                                ! If SHELF_S_ROOT = True, salinity at the ice/ocean interface (Sbdry) is
+                                ! computed from a quadratic equation. Otherwise, the previous interactive method
+                                ! to estimate Sbdry is used.
 SHELF_2EQ_GAMMA_T = 1.0E-04     !   [m s-1]
                                 ! If SHELF_THREE_EQN is false, this the fixed turbulent
                                 ! exchange velocity at the ice-ocean interface.
-ICE_SHELF_FLUX_FACTOR = 0.0     !   [none] default = 1.0
+ICE_SHELF_FLUX_FACTOR = 1.0     !   [none] default = 1.0
                                 ! Non-dimensional factor applied to shelf thermodynamic
                                 ! fluxes.
 ICE_SHELF_TEMPERATURE = -20.0   !   [degC] default = -15.0
