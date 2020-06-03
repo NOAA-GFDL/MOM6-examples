@@ -48,6 +48,8 @@ DTBT_RESET_PERIOD = 0.0         !   [s] default = 1800.0
                                 ! dynamic, DTBT will be set at least every forcing time
                                 ! step, and if 0, every dynamics time step.  The default is
                                 ! set by DT_THERM.  This is only used if SPLIT is true.
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given
                                 ! by IC_OUTPUT_FILE.
@@ -315,6 +317,8 @@ FLUXCONST = 4.0                 !   [m day-1]
                                 ! The constant that relates the restoring surface fluxes
                                 ! to the relative surface anomalies (akin to a piston
                                 ! velocity).  Note the non-MKS units.
+GUST_CONST = 0.02               !   [Pa] default = 0.02
+                                ! The background gustiness in the winds.
 
 ! === module BFB_surface_forcing ===
 

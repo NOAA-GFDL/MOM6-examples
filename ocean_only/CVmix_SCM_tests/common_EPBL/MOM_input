@@ -44,6 +44,8 @@ C_P = 3992.10322329649          !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
                                 ! definition of conservative temperature.
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 
@@ -370,6 +372,9 @@ RECLAIM_FRAZIL = False          !   [Boolean] default = True
                                 ! is above the freezing point.
 
 ! === module MOM_energetic_PBL ===
+USE_MLD_ITERATION = False       !   [Boolean] default = False
+                                ! A logical that specifies whether or not to use the distance to the bottom of
+                                ! the actively turbulent boundary layer to help set the EPBL length scale.
 EPBL_USTAR_MIN = 1.45842E-18    !   [m s-1]
                                 ! The (tiny) minimum friction velocity used within the ePBL code, derived from
                                 ! OMEGA and ANGSTROM.

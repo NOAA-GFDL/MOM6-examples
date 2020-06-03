@@ -52,6 +52,9 @@ DT_THERM = 3600.0               !   [s] default = 1800.0
                                 ! an integer multiple of DT and less than the forcing or coupling time-step,
                                 ! unless THERMO_SPANS_COUPLING is true, in which case DT_THERM can be an integer
                                 ! multiple of the coupling timestep.  By default DT_THERM is set to DT.
+USE_PSURF_IN_EOS = False        !   [Boolean] default = False
+                                ! If true, always include the surface pressure contributions in equation of
+                                ! state calculations.
 DTBT_RESET_PERIOD = -1.0        !   [s] default = 3600.0
                                 ! The period between recalculations of DTBT (if DTBT <= 0). If DTBT_RESET_PERIOD
                                 ! is negative, DTBT is set based only on information available at
@@ -82,6 +85,8 @@ BAD_VAL_SST_MAX = 55.0          !   [deg C] default = 45.0
 BAD_VAL_SST_MIN = -3.0          !   [deg C] default = -2.1
                                 ! The value of SST below which a bad value message is triggered, if
                                 ! CHECK_BAD_SURFACE_VALS is true.
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
 WRITE_GEOM = 0                  ! default = 1
                                 ! If =0, never write the geometry and vertical grid files. If =1, write the
                                 ! geometry and vertical grid files only for a new simulation. If =2, always
@@ -203,6 +208,10 @@ COORD_CONFIG = "file"           !
                                 !     USER - call a user modified routine.
 COORD_FILE = "layer_coord.nc"   !
                                 ! The file from which the coordinate densities are read.
+REMAP_UV_USING_OLD_ALG = True   !   [Boolean] default = True
+                                ! If true, uses the old remapping-via-a-delta-z method for remapping u and v. If
+                                ! false, uses the new method that remaps between grids described by an old and
+                                ! new thickness.
 REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding. Choose among the following
                                 ! possibilities:  LAYER - Isopycnal or stacked shallow water layers
@@ -262,6 +271,9 @@ Z_INIT_FILE_SALT_VAR = "SALT"   ! default = "salt"
                                 ! The name of the salinity variable in SALT_Z_INIT_FILE.
 Z_INIT_ALE_REMAPPING = True     !   [Boolean] default = False
                                 ! If True, then remap straight to model coordinate from file.
+Z_INIT_REMAP_OLD_ALG = True     !   [Boolean] default = True
+                                ! If false, uses the preferred remapping algorithm for initialization. If true,
+                                ! use an older, less robust algorithm for remapping.
 
 ! === module MOM_diag_mediator ===
 
@@ -389,6 +401,11 @@ SMAGORINSKY_AH = True           !   [Boolean] default = False
                                 ! If true, use a biharmonic Smagorinsky nonlinear eddy viscosity.
 SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
                                 ! The nondimensional biharmonic Smagorinsky constant, typically 0.015 - 0.06.
+USE_LAND_MASK_FOR_HVISC = False !   [Boolean] default = False
+                                ! If true, use Use the land mask for the computation of thicknesses at velocity
+                                ! locations. This eliminates the dependence on arbitrary values over land or
+                                ! outside of the domain. Default is False in order to maintain answers with
+                                ! legacy experiments but should be changed to True for new experiments.
 
 ! === module MOM_vert_friction ===
 HMIX_FIXED = 0.5                !   [m]
@@ -525,6 +542,14 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
+KAPPA_SHEAR_ITER_BUG = True     !   [Boolean] default = True
+                                ! If true, use an older, dimensionally inconsistent estimate of the derivative
+                                ! of diffusivity with energy in the Newton's method iteration.  The bug causes
+                                ! undercorrections when dz > 1 m.
+KAPPA_SHEAR_ALL_LAYER_TKE_BUG = True !   [Boolean] default = True
+                                ! If true, report back the latest estimate of TKE instead of the time average
+                                ! TKE when there is mass in all layers.  Otherwise always report the time
+                                ! averaged TKE, as is currently done when there are some massless layers.
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
@@ -550,6 +575,9 @@ ML_OMEGA_FRAC = 1.0             !   [nondim] default = 0.0
                                 ! When setting the decay scale for turbulence, use this fraction of the absolute
                                 ! rotation rate blended with the local value of f, as sqrt((1-of)*f^2 +
                                 ! of*4*omega^2).
+USE_MLD_ITERATION = False       !   [Boolean] default = False
+                                ! A logical that specifies whether or not to use the distance to the bottom of
+                                ! the actively turbulent boundary layer to help set the EPBL length scale.
 EPBL_USTAR_MIN = 1.45842E-18    !   [m s-1]
                                 ! The (tiny) minimum friction velocity used within the ePBL code, derived from
                                 ! OMEGA and ANGSTROM.
@@ -603,6 +631,8 @@ MAX_P_SURF = 3.0E+04            !   [Pa] default = -1.0
                                 ! negative value is used.
 CD_TIDES = 0.0018               !   [nondim] default = 1.0E-04
                                 ! The drag coefficient that applies to the tides.
+GUST_CONST = 0.02               !   [Pa] default = 0.02
+                                ! The background gustiness in the winds.
 
 ! === module MOM_restart ===
 

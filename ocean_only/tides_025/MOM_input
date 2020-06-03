@@ -57,6 +57,8 @@ CHECK_BAD_SURFACE_VALS = True   !   [Boolean] default = False
 BAD_VAL_SSH_MAX = 50.0          !   [m] default = 20.0
                                 ! The value of SSH above which a bad value message is triggered, if
                                 ! CHECK_BAD_SURFACE_VALS is true.
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 
@@ -401,7 +403,7 @@ WIND_CONFIG = "zero"            !
 DT_FORCING = 3600.0             !   [s] default = 900.0
                                 ! The time step for changing forcing, coupling with other components, or
                                 ! potentially writing certain diagnostics. The default value is given by DT.
-DAYMAX = 2.0                    !   [days]
+DAYMAX = 10.0                   !   [days]
                                 ! The final time of the whole simulation, in units of TIMEUNIT seconds.  This
                                 ! also sets the potential end time of the present run segment if the end time is
                                 ! not set via ocean_solo_nml in input.nml.
