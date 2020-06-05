@@ -405,6 +405,10 @@ FIT_TO_TARGET_DENSITY_IC = True !   [Boolean] default = True
                                 ! If true, all the interior layers are adjusted to their target densities using
                                 ! mostly temperature This approach can be problematic, particularly in the high
                                 ! latitudes.
+Z_INIT_SEPARATE_MIXED_LAYER = False !   [Boolean] default = False
+                                ! If true, distribute the topmost Z_INIT_HMIX_DEPTH of water over NKML layers,
+                                ! and do not correct the density of the topmost NKML+NKBL layers.  Otherwise all
+                                ! layers are initialized based on the depths of their target densities.
 VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 ! A string that determines how the initial velocities are specified for a new
                                 ! run:
