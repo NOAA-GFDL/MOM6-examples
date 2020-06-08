@@ -42,6 +42,13 @@ REENTRANT_Y = False             !    If defined, the domain is meridionally
 TRIPOLAR_N = True               !    Use tripolar connectivity at the northern
                                 !  edge of the domain.  With TRIPOLAR_N, NIGLOBAL
                                 !  must be even.
+USE_TRIPOLAR_GEOLONB_BUG = True !   [Boolean] default = True
+                                ! If true, use older code that incorrectly sets the longitude in some points
+                                ! along the tripolar fold to be off by 360 degrees.
+GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = True
+                                ! If true, use an older algorithm to calculate the sine and cosines needed
+                                ! rotate between grid-oriented directions and true north and east.  Differences
+                                ! arise at the tripolar fold.
 
 DEBUG = False                   !    If true, write out verbose debugging data.
 SEND_LOG_TO_STDOUT = False      !    If true write out log information to stdout.
