@@ -204,6 +204,12 @@ KV = 1.0E-04                    !   [m2 s-1]
 
 ! === module MOM_thickness_diffuse ===
 
+FIX_UNSPLIT_DT_VISC_BUG = False !   [Boolean] default = False
+                                ! If true, use the correct timestep in the viscous terms applied in the first
+                                ! predictor step with the unsplit time stepping scheme, and in the calculation
+                                ! of the turbulent mixed layer properties for viscosity with unsplit or
+                                ! unsplit_RK2. The default should be true.
+
 ! === module MOM_continuity ===
 
 ! === module MOM_continuity_PPM ===

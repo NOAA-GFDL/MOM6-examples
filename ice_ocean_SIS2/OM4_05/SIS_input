@@ -43,6 +43,13 @@ NJGLOBAL = 576                  !
                                 ! The total number of thickness grid points in the
                                 ! y-direction in the physical domain. With STATIC_MEMORY_
                                 ! this is set in SIS2_memory.h at compile time.
+USE_TRIPOLAR_GEOLONB_BUG = True !   [Boolean] default = True
+                                ! If true, use older code that incorrectly sets the longitude in some points
+                                ! along the tripolar fold to be off by 360 degrees.
+GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = True
+                                ! If true, use an older algorithm to calculate the sine and cosines needed
+                                ! rotate between grid-oriented directions and true north and east.  Differences
+                                ! arise at the tripolar fold.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
 INPUTDIR = "INPUT"              ! default = "."

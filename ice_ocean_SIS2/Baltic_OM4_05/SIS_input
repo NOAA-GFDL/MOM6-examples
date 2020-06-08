@@ -52,6 +52,10 @@ GRID_CONFIG = "mosaic"          !
                                 !    cartesian - a Cartesian grid
                                 !    spherical - a spherical grid
                                 !    mercator  - a Mercator grid
+GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = True
+                                ! If true, use an older algorithm to calculate the sine and cosines needed
+                                ! rotate between grid-oriented directions and true north and east.  Differences
+                                ! arise at the tripolar fold.
 ICE_DELTA_EDD_R_ICE = 1.0       !   [perhaps nondimensional?] default = 0.0
                                 ! A dreadfully documented tuning parameter for the radiative
                                 ! propeties of sea ice with the delta-Eddington radiative
