@@ -5,12 +5,12 @@
 ! === module MOM_unit_scaling ===
 ! Parameters for doing unit scaling of variables.
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
-                                ! If true, use a C-grid discretization of the sea-ice
-                                ! dynamics; if false use a B-grid discretization.
+                                ! If true, use a C-grid discretization of the sea-ice dynamics; if false use a
+                                ! B-grid discretization.
 DT_RADIATION = 1.08E+04         !   [s] default = 7200.0
-                                ! The time step with which the shortwave radiation and
-                                ! fields like albedos are updated.  Currently this is only
-                                ! used to initialize albedos when there is no restart file.
+                                ! The time step with which the shortwave radiation and fields like albedos are
+                                ! updated.  Currently this is only used to initialize albedos when there is no
+                                ! restart file.
 
 ! === module MOM_domains ===
 TRIPOLAR_N = True               !   [Boolean] default = False
@@ -53,10 +53,9 @@ GRID_FILE = "ocean_hgrid.nc"    !
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
 CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
-                                ! The heat capacity of water in brine pockets within the
-                                ! sea-ice, approximated as a constant.  CP_BRINE and
-                                ! CP_SEAWATER should be equal, but for computational
-                                ! convenience CP_BRINE can be set equal to CP_ICE.
+                                ! The heat capacity of water in brine pockets within the sea-ice, approximated
+                                ! as a constant.  CP_BRINE and CP_SEAWATER should be equal, but for
+                                ! computational convenience CP_BRINE can be set equal to CP_ICE.
 
 ! === module SIS_fast_thermo ===
 ! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature

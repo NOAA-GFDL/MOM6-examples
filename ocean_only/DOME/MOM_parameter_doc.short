@@ -36,15 +36,6 @@ NJGLOBAL = 70                   !
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
-RHO_0 = 1031.0                  !   [kg m-3] default = 1035.0
-                                ! The mean ocean density used with BOUSSINESQ true to calculate accelerations
-                                ! and the mass for conservation properties, or with BOUSSINSEQ false to convert
-                                ! some parameters from vertical units of m to kg m-2.
-NK = 25                         !   [nondim]
-                                ! The number of model layers.
-
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -81,8 +72,9 @@ TOPO_CONFIG = "DOME"            !
                                 !       wall at the southern face.
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
+                                !     bbuilder - build topography from list of functions.
                                 !     benchmark - use the benchmark test case topography.
-                                !     Neverland - use the Neverland test case topography.
+                                !     Neverworld - use the Neverworld test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -130,6 +122,15 @@ ROTATION = "beta"               ! default = "2omegasinlat"
                                 !     USER - call a user modified routine.
 F_0 = 1.0E-04                   !   [s-1] default = 0.0
                                 ! The reference value of the Coriolis parameter with the betaplane option.
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+RHO_0 = 1031.0                  !   [kg m-3] default = 1035.0
+                                ! The mean ocean density used with BOUSSINESQ true to calculate accelerations
+                                ! and the mass for conservation properties, or with BOUSSINSEQ false to convert
+                                ! some parameters from vertical units of m to kg m-2.
+NK = 25                         !   [nondim]
+                                ! The number of model layers.
 
 ! === module MOM_boundary_update ===
 
@@ -187,7 +188,7 @@ THICKNESS_CONFIG = "DOME"       !
                                 !     ISOMIP - use a configuration for the
                                 !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
-                                !     Neverland - use the Neverland test case thicknesses.
+                                !     Neverworld - use the Neverworld test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
                                 !     circle_obcs - the circle_obcs test case is used.
@@ -386,6 +387,9 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
 
 ! === module MOM_neutral_diffusion ===
 ! This module implements neutral diffusion of tracers
+
+! === module MOM_lateral_boundary_diffusion ===
+! This module implements lateral diffusion of tracers near boundaries
 
 ! === module MOM_sum_output ===
 

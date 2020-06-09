@@ -28,11 +28,6 @@ NJGLOBAL = 4                    !
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
-NK = 1                          !   [nondim]
-                                ! The number of model layers.
-
 ! === module MOM_fixed_initialization ===
 
 ! === module MOM_grid_init ===
@@ -62,8 +57,9 @@ TOPO_CONFIG = "flat"            !
                                 !       wall at the southern face.
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
+                                !     bbuilder - build topography from list of functions.
                                 !     benchmark - use the benchmark test case topography.
-                                !     Neverland - use the Neverland test case topography.
+                                !     Neverworld - use the Neverworld test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -83,6 +79,11 @@ MAXIMUM_DEPTH = 100.0           !   [m]
 ! === module MOM_open_boundary ===
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
 ! if any.
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+NK = 1                          !   [nondim]
+                                ! The number of model layers.
 
 ! === module MOM_tracer_registry ===
 
@@ -129,7 +130,7 @@ THICKNESS_CONFIG = "uniform"    !
                                 !     ISOMIP - use a configuration for the
                                 !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
-                                !     Neverland - use the Neverland test case thicknesses.
+                                !     Neverworld - use the Neverworld test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
                                 !     circle_obcs - the circle_obcs test case is used.
@@ -198,6 +199,9 @@ HMIX_FIXED = 1.0                !   [m]
 
 ! === module MOM_neutral_diffusion ===
 ! This module implements neutral diffusion of tracers
+
+! === module MOM_lateral_boundary_diffusion ===
+! This module implements lateral diffusion of tracers near boundaries
 
 ! === module MOM_sum_output ===
 

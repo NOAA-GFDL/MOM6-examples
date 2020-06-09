@@ -40,17 +40,6 @@ NJGLOBAL = 48                   !
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
-! === module MOM_verticalGrid ===
-! Parameters providing information about the vertical grid.
-RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
-                                ! The mean ocean density used with BOUSSINESQ true to calculate accelerations
-                                ! and the mass for conservation properties, or with BOUSSINSEQ false to convert
-                                ! some parameters from vertical units of m to kg m-2.
-ANGSTROM = 0.0                  !   [m] default = 1.0E-10
-                                ! The minimum layer thickness, usually one-Angstrom.
-NK = 5                          !   [nondim]
-                                ! The number of model layers.
-
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -87,8 +76,9 @@ TOPO_CONFIG = "flat"            !
                                 !       wall at the southern face.
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
+                                !     bbuilder - build topography from list of functions.
                                 !     benchmark - use the benchmark test case topography.
-                                !     Neverland - use the Neverland test case topography.
+                                !     Neverworld - use the Neverworld test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -117,6 +107,17 @@ ROTATION = "beta"               ! default = "2omegasinlat"
                                 !     betaplane - Use a beta-plane or f-plane.
                                 !     USER - call a user modified routine.
 
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
+                                ! The mean ocean density used with BOUSSINESQ true to calculate accelerations
+                                ! and the mass for conservation properties, or with BOUSSINSEQ false to convert
+                                ! some parameters from vertical units of m to kg m-2.
+ANGSTROM = 0.0                  !   [m] default = 1.0E-10
+                                ! The minimum layer thickness, usually one-Angstrom.
+NK = 5                          !   [nondim]
+                                ! The number of model layers.
+
 ! === module MOM_tracer_registry ===
 
 ! === module MOM_EOS ===
@@ -132,13 +133,13 @@ USE_ADVECTION_TEST_TRACER = True !   [Boolean] default = False
                                 ! If true, use the advection_test_tracer tracer package.
 
 ! === module advection_test_tracer ===
-ADVECTION_TEST_X_ORIGIN = 43.2  !   [not defined] default = 0.0
-                                ! The x-coorindate of the center of the test-functions.
-ADVECTION_TEST_Y_ORIGIN = 86.4  !   [not defined] default = 0.0
-                                ! The y-coorindate of the center of the test-functions.
-ADVECTION_TEST_X_WIDTH = 21.6   !   [not defined] default = 0.0
+ADVECTION_TEST_X_ORIGIN = 43.2  !   [same as geoLon] default = 0.0
+                                ! The x-coordinate of the center of the test-functions.
+ADVECTION_TEST_Y_ORIGIN = 86.4  !   [same as geoLat] default = 0.0
+                                ! The y-coordinate of the center of the test-functions.
+ADVECTION_TEST_X_WIDTH = 21.6   !   [same as geoLon] default = 0.0
                                 ! The x-width of the test-functions.
-ADVECTION_TEST_Y_WIDTH = 21.6   !   [not defined] default = 0.0
+ADVECTION_TEST_Y_WIDTH = 21.6   !   [same as geoLat] default = 0.0
                                 ! The y-width of the test-functions.
 
 ! === module MOM_coord_initialization ===
@@ -184,7 +185,7 @@ THICKNESS_CONFIG = "uniform"    !
                                 !     ISOMIP - use a configuration for the
                                 !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
-                                !     Neverland - use the Neverland test case thicknesses.
+                                !     Neverworld - use the Neverworld test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
                                 !     circle_obcs - the circle_obcs test case is used.
@@ -345,9 +346,6 @@ DTBT = -0.9                     !   [s or nondim] default = -0.98
 ! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_entrain_diffusive ===
-CORRECT_DENSITY = False         !   [Boolean] default = True
-                                ! If true, and USE_EOS is true, the layer densities are restored toward their
-                                ! target values by the diapycnal mixing, as described in Hallberg (MWR, 2000).
 MAX_ENT_IT = 20                 ! default = 5
                                 ! The maximum number of iterations that may be used to calculate the interior
                                 ! diapycnal entrainment.
@@ -384,6 +382,9 @@ KD = 0.0                        !   [m2 s-1]
 
 ! === module MOM_neutral_diffusion ===
 ! This module implements neutral diffusion of tracers
+
+! === module MOM_lateral_boundary_diffusion ===
+! This module implements lateral diffusion of tracers near boundaries
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 10                   !   [truncations save_interval-1] default = 0

@@ -11,6 +11,7 @@ CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of the solar zenith angle for
                                 ! the first radiation step, or a negative number to use the current time and
                                 ! astronomy.
+<<<<<<< HEAD:ice_ocean_SIS2/OM_1deg/SIS_parameter_doc.short
 DT_RADIATION = 3600.0           !   [s] default = 7200.0
                                 ! The time step with which the shortwave radiation and fields like albedos are
                                 ! updated.  Currently this is only used to initialize albedos when there is no
@@ -21,6 +22,8 @@ ICE_BOUNDS_CHECK = False        !   [Boolean] default = True
                                 ! not.  This does not change answers, but can increase model run time.
 DO_ICEBERGS = True              !   [Boolean] default = False
                                 ! If true, call the iceberg module.
+=======
+>>>>>>> origin:land_ice_ocean_LM3_SIS2/OM_360x320_C180/SIS_parameter_doc.short
 
 ! === module MOM_domains ===
 TRIPOLAR_N = True               !   [Boolean] default = False
@@ -64,8 +67,15 @@ OMEGA = 7.292E-05               !   [s-1] default = 7.2921E-05
 
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
+<<<<<<< HEAD:ice_ocean_SIS2/OM_1deg/SIS_parameter_doc.short
 CP_SEAWATER = 3992.0            !   [J kg-1 K-1] default = 4200.0
                                 ! The heat capacity of sea water, approximated as a constant.
+=======
+CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
+                                ! The heat capacity of water in brine pockets within the sea-ice, approximated
+                                ! as a constant.  CP_BRINE and CP_SEAWATER should be equal, but for
+                                ! computational convenience CP_BRINE can be set equal to CP_ICE.
+>>>>>>> origin:land_ice_ocean_LM3_SIS2/OM_360x320_C180/SIS_parameter_doc.short
 
 ! === module SIS_tracer_registry ===
 
@@ -75,9 +85,16 @@ CP_SEAWATER = 3992.0            !   [J kg-1 K-1] default = 4200.0
 ! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
 ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
                                 ! The fixed bulk salinity of sea ice.
+<<<<<<< HEAD:ice_ocean_SIS2/OM_1deg/SIS_parameter_doc.short
 ICE_RELATIVE_SALINITY = 0.17    !   [nondim] default = 0.0
                                 ! The initial salinity of sea ice as a fraction of the salinity of the seawater
                                 ! from which it formed.
+=======
+SIS2_FILLING_FRAZIL = False     !   [Boolean] default = True
+                                ! If true, apply frazil to fill as many categories as possible to fill in a
+                                ! uniform (minimum) amount of ice in all the thinnest categories. Otherwise the
+                                ! frazil is always assigned to a single category.
+>>>>>>> origin:land_ice_ocean_LM3_SIS2/OM_360x320_C180/SIS_parameter_doc.short
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
@@ -88,7 +105,11 @@ DT_ICE_DYNAMICS = 1200.0        !   [seconds] default = -1.0
                                 ! The time step used for the slow ice dynamics, including stepping the
                                 ! continuity equation and interactions between the ice mass field and
                                 ! velocities.  If 0 or negative the coupling time step will be used.
+<<<<<<< HEAD:ice_ocean_SIS2/OM_1deg/SIS_parameter_doc.short
 ICE_STATS_INTERVAL = 30.0       !   [days] default = 1.0
+=======
+ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
+>>>>>>> origin:land_ice_ocean_LM3_SIS2/OM_360x320_C180/SIS_parameter_doc.short
                                 ! The interval in units of TIMEUNIT between writes of the globally summed ice
                                 ! statistics and conservation checks.
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
@@ -98,6 +119,7 @@ ICE_TDAMP_ELASTIC = 1000.0      !   [s or nondim] default = -0.2
                                 ! The damping timescale associated with the elastic terms in the sea-ice
                                 ! dynamics equations (if positive) or the fraction of DT_ICE_DYNAMICS (if
                                 ! negative).
+<<<<<<< HEAD:ice_ocean_SIS2/OM_1deg/SIS_parameter_doc.short
 SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind
@@ -110,6 +132,8 @@ SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
                                 !   PCM       - Directionally split piecewise constant
                                 !   PPM:C2PD  - Positive definite PPM with 2nd order edge values
                                 !   PPM:C2MO  - Monotonic PPM with 2nd order edge values
+=======
+>>>>>>> origin:land_ice_ocean_LM3_SIS2/OM_360x320_C180/SIS_parameter_doc.short
 
 ! === module SIS_tracer_advect ===
 SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
