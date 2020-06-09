@@ -89,7 +89,7 @@ C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
                                 ! definition of conservative temperature.
-USE_PSURF_IN_EOS = False        !   [Boolean] default = False
+USE_PSURF_IN_EOS = True         !   [Boolean] default = True
                                 ! If true, always include the surface pressure contributions in equation of
                                 ! state calculations.
 P_REF = 2.0E+07                 !   [Pa] default = 2.0E+07
@@ -107,7 +107,7 @@ FIRST_DIRECTION = 0             ! default = 0
                                 ! and odd numbers used for y-first.
 CHECK_BAD_SURFACE_VALS = False  !   [Boolean] default = False
                                 ! If true, check the surface state for ridiculous values.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
                                 ! This sets the default value for the various _2018_ANSWERS parameters.
 SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
                                 ! If true, use expressions for the surface properties that recover the answers
@@ -236,7 +236,7 @@ F_0 = 7.59943E-05               !   [s-1] default = 0.0
                                 ! The reference value of the Coriolis parameter with the betaplane option.
 BETA = 0.0                      !   [m-1 s-1] default = 0.0
                                 ! The northward gradient of the Coriolis parameter with the betaplane option.
-GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = True
+GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
                                 ! If true, use an older algorithm to calculate the sine and cosines needed
                                 ! rotate between grid-oriented directions and true north and east.  Differences
                                 ! arise at the tripolar fold.
@@ -328,7 +328,7 @@ USE_DYED_OBC_TRACER = False     !   [Boolean] default = False
                                 ! If true, use the dyed_obc_tracer tracer package.
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "file"           !
+COORD_CONFIG = "file"           ! default = "none"
                                 ! This specifies how layers are to be defined:
                                 !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
@@ -388,7 +388,7 @@ Z_INIT_REMAP_GENERAL = False    !   [Boolean] default = False
 Z_INIT_REMAP_FULL_COLUMN = False !   [Boolean] default = False
                                 ! If false, only reconstructs profiles for valid data points. If true, inserts
                                 ! vanished layers below the valid data.
-Z_INIT_REMAP_OLD_ALG = True     !   [Boolean] default = True
+Z_INIT_REMAP_OLD_ALG = False    !   [Boolean] default = False
                                 ! If false, uses the preferred remapping algorithm for initialization. If true,
                                 ! use an older, less robust algorithm for remapping.
 TEMP_SALT_INIT_VERTICAL_REMAP_ONLY = False !   [Boolean] default = False
@@ -620,14 +620,16 @@ USE_KH_IN_MEKE = False          !   [Boolean] default = False
 USE_GME = False                 !   [Boolean] default = False
                                 ! If true, use the GM+E backscatter scheme in association with the Gent and
                                 ! McWilliams parameterization.
-USE_GM_WORK_BUG = True          !   [Boolean] default = True
+USE_GM_WORK_BUG = False         !   [Boolean] default = False
                                 ! If true, compute the top-layer work tendency on the u-grid with the incorrect
                                 ! sign, for legacy reproducibility.
-FIX_UNSPLIT_DT_VISC_BUG = False !   [Boolean] default = False
+
+! === module MOM_dynamics_unsplit ===
+FIX_UNSPLIT_DT_VISC_BUG = False !   [Boolean] default = True
                                 ! If true, use the correct timestep in the viscous terms applied in the first
                                 ! predictor step with the unsplit time stepping scheme, and in the calculation
                                 ! of the turbulent mixed layer properties for viscosity with unsplit or
-                                ! unsplit_RK2. The default should be true.
+                                ! unsplit_RK2.
 TIDES = False                   !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 
@@ -753,11 +755,10 @@ LAPLACIAN = False               !   [Boolean] default = False
 BIHARMONIC = False              !   [Boolean] default = True
                                 ! If true, use a biharmonic horizontal viscosity. BIHARMONIC may be used with
                                 ! LAPLACIAN.
-USE_LAND_MASK_FOR_HVISC = False !   [Boolean] default = False
+USE_LAND_MASK_FOR_HVISC = True  !   [Boolean] default = True
                                 ! If true, use Use the land mask for the computation of thicknesses at velocity
                                 ! locations. This eliminates the dependence on arbitrary values over land or
-                                ! outside of the domain. Default is False in order to maintain answers with
-                                ! legacy experiments but should be changed to True for new experiments.
+                                ! outside of the domain.
 USE_KH_BG_2D = False            !   [Boolean] default = False
                                 ! If true, read a file containing 2-d background harmonic viscosities. The final
                                 ! viscosity is the maximum of the other terms and this background value.
@@ -883,9 +884,6 @@ DIAG_DEPTH_SUBML_N2 = 50.0      !   [m] default = 50.0
 USE_KPP = False                 !   [Boolean] default = False
                                 ! If true, turns on the [CVMix] KPP scheme of Large et al., 1994, to calculate
                                 ! diffusivities and non-local transport in the OBL.
-SALT_REJECT_BELOW_ML = False    !   [Boolean] default = False
-                                ! If true, place salt from brine rejection below the mixed layer, into the first
-                                ! non-vanished layer for which the column remains stable
 
 ! === module MOM_tidal_mixing ===
 ! Vertical Tidal Mixing Parameterization
@@ -903,9 +901,6 @@ USE_CVMix_CONVECTION = False    !   [Boolean] default = False
                                 ! parameters are contained in the CVMix_CONVECTION% parameter block.
 
 ! === module MOM_entrain_diffusive ===
-CORRECT_DENSITY = True          !   [Boolean] default = True
-                                ! If true, and USE_EOS is true, the layer densities are restored toward their
-                                ! target values by the diapycnal mixing, as described in Hallberg (MWR, 2000).
 MAX_ENT_IT = 20                 ! default = 5
                                 ! The maximum number of iterations that may be used to calculate the interior
                                 ! diapycnal entrainment.
@@ -928,7 +923,7 @@ ML_RADIATION = True             !   [Boolean] default = False
 ML_RAD_EFOLD_COEFF = 0.2        !   [nondim] default = 0.2
                                 ! A coefficient that is used to scale the penetration depth for turbulence below
                                 ! the base of the mixed layer. This is only used if ML_RADIATION is true.
-ML_RAD_BUG = True               !   [Boolean] default = True
+ML_RAD_BUG = True               !   [Boolean] default = False
                                 ! If true use code with a bug that reduces the energy available in the
                                 ! transition layer by a factor of the inverse of the energy deposition
                                 ! lenthscale (in m).
@@ -972,7 +967,7 @@ SIMPLE_TKE_TO_KD = False        !   [Boolean] default = False
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-KD = 2.0E-05                    !   [m2 s-1]
+KD = 2.0E-05                    !   [m2 s-1] default = 0.0
                                 ! The background diapycnal diffusivity of density in the interior. Zero or the
                                 ! molecular value, ~1e-7 m2 s-1, may be used.
 KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
@@ -1035,7 +1030,8 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! number driven mixing.
 KD_KAPPA_SHEAR_0 = 2.0E-05      !   [m2 s-1] default = 2.0E-05
                                 ! The background diffusivity that is used to smooth the density and shear
-                                ! profiles before solving for the diffusivities. Defaults to value of KD.
+                                ! profiles before solving for the diffusivities.  The default is the greater of
+                                ! KD and 1e-7 m2 s-1.
 KD_TRUNC_KAPPA_SHEAR = 2.0E-07  !   [m2 s-1] default = 2.0E-07
                                 ! The value of shear-driven diffusivity that is considered negligible and is
                                 ! rounded down to 0. The default is 1% of KD_KAPPA_SHEAR_0.
@@ -1075,11 +1071,11 @@ KAPPA_SHEAR_MAX_KAP_SRC_CHG = 10.0 !   [nondim] default = 10.0
                                 ! relative to the local source; this must be greater than 1.  The lower limit
                                 ! for the permitted fractional decrease is (1 - 0.5/kappa_src_max_chg).  These
                                 ! limits could perhaps be made dynamic with an improved iterative solver.
-KAPPA_SHEAR_ITER_BUG = True     !   [Boolean] default = True
+KAPPA_SHEAR_ITER_BUG = False    !   [Boolean] default = False
                                 ! If true, use an older, dimensionally inconsistent estimate of the derivative
                                 ! of diffusivity with energy in the Newton's method iteration.  The bug causes
                                 ! undercorrections when dz > 1 m.
-KAPPA_SHEAR_ALL_LAYER_TKE_BUG = True !   [Boolean] default = True
+KAPPA_SHEAR_ALL_LAYER_TKE_BUG = False !   [Boolean] default = False
                                 ! If true, report back the latest estimate of TKE instead of the time average
                                 ! TKE when there is mass in all layers.  Otherwise always report the time
                                 ! averaged TKE, as is currently done when there are some massless layers.
@@ -1202,7 +1198,7 @@ USE_RIVER_HEAT_CONTENT = False  !   [Boolean] default = False
 USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
                                 ! If true, use the fluxes%calving_Hflx field to set the heat carried by runoff,
                                 ! instead of using SST*CP*froz_runoff.
-BULKML_CONV_MOMENTUM_BUG = True !   [Boolean] default = True
+BULKML_CONV_MOMENTUM_BUG = True !   [Boolean] default = False
                                 ! If true, use code with a bug that causes a loss of momentum conservation
                                 ! during mixedlayer convection.
 ALLOW_CLOCKS_IN_OMP_LOOPS = True !   [Boolean] default = True
@@ -1334,10 +1330,10 @@ VARIABLE_WINDS = True           !   [Boolean] default = True
 VARIABLE_BUOYFORCE = True       !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
-BUOY_CONFIG = "data_override"   !
+BUOY_CONFIG = "data_override"   ! default = "zero"
                                 ! The character string that indicates how buoyancy forcing is specified. Valid
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
-WIND_CONFIG = "data_override"   !
+WIND_CONFIG = "data_override"   ! default = "zero"
                                 ! The character string that indicates how wind forcing is specified. Valid
                                 ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 RESTOREBUOY = False             !   [Boolean] default = False
@@ -1347,9 +1343,9 @@ LATENT_HEAT_FUSION = 3.34E+05   !   [J/kg] default = 3.34E+05
                                 ! The latent heat of fusion.
 LATENT_HEAT_VAPORIZATION = 2.5E+06 !   [J/kg] default = 2.5E+06
                                 ! The latent heat of fusion.
-GUST_CONST = 0.02               !   [Pa] default = 0.02
+GUST_CONST = 0.0                !   [Pa] default = 0.0
                                 ! The background gustiness in the winds.
-FIX_USTAR_GUSTLESS_BUG = False  !   [Boolean] default = False
+FIX_USTAR_GUSTLESS_BUG = True   !   [Boolean] default = True
                                 ! If true correct a bug in the time-averaging of the gustless wind friction
                                 ! velocity
 READ_GUST_2D = True             !   [Boolean] default = False

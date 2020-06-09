@@ -15,6 +15,8 @@ C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
                                 ! definition of conservative temperature.
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 
@@ -125,7 +127,7 @@ DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
 ! === module MOM_tracer_flow_control ===
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "linear"         !
+COORD_CONFIG = "linear"         ! default = "none"
                                 ! This specifies how layers are to be defined:
                                 !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
@@ -147,6 +149,10 @@ LIGHTEST_DENSITY = 1034.0       !   [kg m-3] default = 1035.0
                                 ! The reference potential density used for the surface interface.
 GFS = 0.98                      !   [m s-2] default = 9.8
                                 ! The reduced gravity at the free surface.
+REMAP_UV_USING_OLD_ALG = True   !   [Boolean] default = False
+                                ! If true, uses the old remapping-via-a-delta-z method for remapping u and v. If
+                                ! false, uses the new method that remaps between grids described by an old and
+                                ! new thickness.
 REGRIDDING_COORDINATE_MODE = "RHO" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding. Choose among the following
                                 ! possibilities:  LAYER - Isopycnal or stacked shallow water layers
@@ -197,7 +203,7 @@ REMAPPING_SCHEME = "PQM_IH4IH3" ! default = "PLM"
 ! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
-THICKNESS_CONFIG = "sloshing"   !
+THICKNESS_CONFIG = "sloshing"   ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:
                                 !     file - read interface heights from the file specified
@@ -226,6 +232,8 @@ THICKNESS_CONFIG = "sloshing"   !
                                 !     USER - call a user modified routine.
 
 ! === module sloshing_initialization ===
+SLOSHING_IC_BUG = True          !   [Boolean] default = False
+                                ! If true, use code with a bug to set the sloshing initial conditions.
 TS_CONFIG = "sloshing"          !
                                 ! A string that determines how the initial tempertures and salinities are
                                 ! specified for a new run:
@@ -246,10 +254,10 @@ TS_CONFIG = "sloshing"          !
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     SCM_CVMix_tests - used in the SCM CVMix tests.
                                 !     USER - call a user modified routine.
-S_REF = 34.0                    !   [1e-3]
+S_REF = 34.0                    !   [1e-3] default = 35.0
                                 ! Reference value for salinity
-T_REF = 0.0                     !   [C]
-                                ! Refernce value for temperature
+T_REF = 0.0                     !   [degC]
+                                ! Reference value for temperature
 
 ! === module MOM_diag_mediator ===
 
@@ -285,6 +293,8 @@ KV = 0.0                        !   [m2 s-1]
 ! === module MOM_thickness_diffuse ===
 KHTH = 500.0                    !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
+
+! === module MOM_dynamics_split_RK2 ===
 BE = 0.7                        !   [nondim] default = 0.6
                                 ! If SPLIT is true, BE determines the relative weighting of a  2nd-order
                                 ! Runga-Kutta baroclinic time stepping scheme (0.5) and a backward Euler scheme
@@ -398,9 +408,6 @@ BBL_EFFIC = 0.0                 !   [nondim] default = 0.2
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-KD = 0.0                        !   [m2 s-1]
-                                ! The background diapycnal diffusivity of density in the interior. Zero or the
-                                ! molecular value, ~1e-7 m2 s-1, may be used.
 
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
@@ -447,12 +454,9 @@ VARIABLE_WINDS = False          !   [Boolean] default = True
 VARIABLE_BUOYFORCE = False      !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
-BUOY_CONFIG = "NONE"            !
+BUOY_CONFIG = "NONE"            ! default = "zero"
                                 ! The character string that indicates how buoyancy forcing is specified. Valid
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
-WIND_CONFIG = "zero"            !
-                                ! The character string that indicates how wind forcing is specified. Valid
-                                ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 
 ! === module MOM_restart ===
 

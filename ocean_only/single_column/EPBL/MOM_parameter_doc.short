@@ -21,6 +21,8 @@ C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
                                 ! definition of conservative temperature.
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 
@@ -115,24 +117,6 @@ NK = 75                         !   [nondim]
 ! === module MOM_tracer_flow_control ===
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "none"           !
-                                ! This specifies how layers are to be defined:
-                                !     ALE or none - used to avoid defining layers in ALE mode
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     BFB - Custom coords for buoyancy-forced basin case
-                                !       based on SST_S, T_BOT and DRHO_DT.
-                                !     linear - linear based on interfaces not layers
-                                !     layer_ref - linear based on layer densities
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
 REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding. Choose among the following
                                 ! possibilities:  LAYER - Isopycnal or stacked shallow water layers
@@ -185,6 +169,9 @@ Z_INIT_HOMOGENIZE = True        !   [Boolean] default = False
                                 ! If True, then horizontally homogenize the interpolated initial conditions.
 Z_INIT_ALE_REMAPPING = True     !   [Boolean] default = False
                                 ! If True, then remap straight to model coordinate from file.
+Z_INIT_REMAP_OLD_ALG = True     !   [Boolean] default = False
+                                ! If false, uses the preferred remapping algorithm for initialization. If true,
+                                ! use an older, less robust algorithm for remapping.
 
 ! === module MOM_diag_mediator ===
 
@@ -215,6 +202,13 @@ KV = 1.0E-04                    !   [m2 s-1]
                                 ! m2 s-1, may be used.
 
 ! === module MOM_thickness_diffuse ===
+
+! === module MOM_dynamics_unsplit ===
+FIX_UNSPLIT_DT_VISC_BUG = False !   [Boolean] default = True
+                                ! If true, use the correct timestep in the viscous terms applied in the first
+                                ! predictor step with the unsplit time stepping scheme, and in the calculation
+                                ! of the turbulent mixed layer properties for viscosity with unsplit or
+                                ! unsplit_RK2.
 
 ! === module MOM_continuity ===
 
@@ -310,7 +304,7 @@ ML_OMEGA_FRAC = 1.0             !   [nondim] default = 0.0
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-KD = 2.0E-05                    !   [m2 s-1]
+KD = 2.0E-05                    !   [m2 s-1] default = 0.0
                                 ! The background diapycnal diffusivity of density in the interior. Zero or the
                                 ! molecular value, ~1e-7 m2 s-1, may be used.
 KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
@@ -345,6 +339,9 @@ CHL_FILE = "forcing_monthly.nc" !
                                 ! is used when VAR_PEN_SW and CHL_FROM_FILE are true.
 
 ! === module MOM_energetic_PBL ===
+USE_MLD_ITERATION = False       !   [Boolean] default = True
+                                ! A logical that specifies whether or not to use the distance to the bottom of
+                                ! the actively turbulent boundary layer to help set the EPBL length scale.
 EPBL_USTAR_MIN = 1.45842E-18    !   [m s-1]
                                 ! The (tiny) minimum friction velocity used within the ePBL code, derived from
                                 ! OMEGA and ANGSTROM.
@@ -380,10 +377,10 @@ ENERGYSAVEDAYS = 10.0           !   [days] default = 1.0
                                 ! other globally summed diagnostics.
 
 ! === module MOM_surface_forcing ===
-BUOY_CONFIG = "data_override"   !
+BUOY_CONFIG = "data_override"   ! default = "zero"
                                 ! The character string that indicates how buoyancy forcing is specified. Valid
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
-WIND_CONFIG = "data_override"   !
+WIND_CONFIG = "data_override"   ! default = "zero"
                                 ! The character string that indicates how wind forcing is specified. Valid
                                 ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 READ_GUST_2D = True             !   [Boolean] default = False

@@ -22,6 +22,8 @@ C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
                                 ! definition of conservative temperature.
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "Initial_state" ! default = "MOM_IC"
@@ -141,7 +143,7 @@ DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
 ! === module MOM_tracer_flow_control ===
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "linear"         !
+COORD_CONFIG = "linear"         ! default = "none"
                                 ! This specifies how layers are to be defined:
                                 !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
@@ -166,7 +168,7 @@ DENSITY_RANGE = 5.0             !   [kg m-3] default = 2.0
 ! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
-THICKNESS_CONFIG = "adjustment2d" !
+THICKNESS_CONFIG = "adjustment2d" ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:
                                 !     file - read interface heights from the file specified
@@ -195,6 +197,8 @@ THICKNESS_CONFIG = "adjustment2d" !
                                 !     USER - call a user modified routine.
 
 ! === module adjustment_initialization ===
+S_REF = 0.0                     !   [1e-3] default = 35.0
+                                ! Reference salinity
 MIN_THICKNESS = 1.0E-04         !   [m] default = 0.001
                                 ! Minimum layer thickness
 ADJUSTMENT_WIDTH = 0.01         !   [same as x,y]
@@ -223,8 +227,6 @@ TS_CONFIG = "adjustment2d"      !
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     SCM_CVMix_tests - used in the SCM CVMix tests.
                                 !     USER - call a user modified routine.
-S_REF = 0.0                     !   [1e-3]
-                                ! Reference salinity
 T_REF = 0.0                     !   [C]
                                 ! Reference temperature
 S_RANGE = 5.0                   !   [1e-3] default = 2.0
@@ -256,6 +258,8 @@ KV = 1.0E-06                    !   [m2 s-1]
 ! === module MOM_thickness_diffuse ===
 KHTH = 1.0E-04                  !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
+
+! === module MOM_dynamics_split_RK2 ===
 
 ! === module MOM_continuity ===
 
@@ -371,9 +375,6 @@ BBL_EFFIC = 0.0                 !   [nondim] default = 0.2
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-KD = 0.0                        !   [m2 s-1]
-                                ! The background diapycnal diffusivity of density in the interior. Zero or the
-                                ! molecular value, ~1e-7 m2 s-1, may be used.
 
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
@@ -425,12 +426,9 @@ VARIABLE_WINDS = False          !   [Boolean] default = True
 VARIABLE_BUOYFORCE = False      !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
-BUOY_CONFIG = "NONE"            !
+BUOY_CONFIG = "NONE"            ! default = "zero"
                                 ! The character string that indicates how buoyancy forcing is specified. Valid
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
-WIND_CONFIG = "zero"            !
-                                ! The character string that indicates how wind forcing is specified. Valid
-                                ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 
 ! === module MOM_restart ===
 

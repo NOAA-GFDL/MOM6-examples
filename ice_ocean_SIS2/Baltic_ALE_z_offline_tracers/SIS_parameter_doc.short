@@ -40,6 +40,10 @@ GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
 !MAXIMUM_DEPTH = 608.4598627866924 !   [m]
                                 ! The (diagnosed) maximum depth of the ocean.
+GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = False
+                                ! If true, use an older algorithm to calculate the sine and cosines needed
+                                ! rotate between grid-oriented directions and true north and east.  Differences
+                                ! arise at the tripolar fold.
 
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.

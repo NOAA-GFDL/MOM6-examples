@@ -22,6 +22,8 @@ DTBT_RESET_PERIOD = 8.64E+04    !   [s] default = 3600.0
                                 ! is negative, DTBT is set based only on information available at
                                 ! initialization.  If 0, DTBT will be set every dynamics time step. The default
                                 ! is set by DT_THERM.  This is only used if SPLIT is true.
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
 
 ! === module MOM_domains ===
 REENTRANT_X = False             !   [Boolean] default = True
@@ -148,7 +150,7 @@ SPONGE = True                   !   [Boolean] default = False
                                 ! properties of those sponges are specified from MOM_initialization.F90.
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "layer_ref"      !
+COORD_CONFIG = "layer_ref"      ! default = "none"
                                 ! This specifies how layers are to be defined:
                                 !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
@@ -173,7 +175,7 @@ LIGHTEST_DENSITY = 1030.0       !   [kg m-3] default = 1031.0
 ! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
-THICKNESS_CONFIG = "DOME"       !
+THICKNESS_CONFIG = "DOME"       ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:
                                 !     file - read interface heights from the file specified
@@ -258,6 +260,8 @@ KV = 1.0E-04                    !   [m2 s-1]
 KHTH = 1.0E-04                  !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
 
+! === module MOM_dynamics_split_RK2 ===
+
 ! === module MOM_continuity ===
 
 ! === module MOM_continuity_PPM ===
@@ -287,6 +291,10 @@ SMAGORINSKY_AH = True           !   [Boolean] default = False
                                 ! If true, use a biharmonic Smagorinsky nonlinear eddy viscosity.
 SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
                                 ! The nondimensional biharmonic Smagorinsky constant, typically 0.015 - 0.06.
+USE_LAND_MASK_FOR_HVISC = False !   [Boolean] default = True
+                                ! If true, use Use the land mask for the computation of thicknesses at velocity
+                                ! locations. This eliminates the dependence on arbitrary values over land or
+                                ! outside of the domain.
 
 ! === module MOM_vert_friction ===
 DIRECT_STRESS = True            !   [Boolean] default = False
@@ -357,7 +365,7 @@ TOLERANCE_ENT = 1.0E-05         !   [m] default = 3.464101615137755E-05
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-KD = 1.0E-04                    !   [m2 s-1]
+KD = 1.0E-04                    !   [m2 s-1] default = 0.0
                                 ! The background diapycnal diffusivity of density in the interior. Zero or the
                                 ! molecular value, ~1e-7 m2 s-1, may be used.
 
@@ -399,12 +407,6 @@ VARIABLE_WINDS = False          !   [Boolean] default = True
 VARIABLE_BUOYFORCE = False      !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
-BUOY_CONFIG = "zero"            !
-                                ! The character string that indicates how buoyancy forcing is specified. Valid
-                                ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
-WIND_CONFIG = "zero"            !
-                                ! The character string that indicates how wind forcing is specified. Valid
-                                ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 
 ! === module MOM_restart ===
 

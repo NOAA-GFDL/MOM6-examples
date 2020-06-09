@@ -35,12 +35,16 @@ DO_GEOTHERMAL = True            !   [Boolean] default = False
 BOUND_SALINITY = True           !   [Boolean] default = False
                                 ! If true, limit salinity to being positive. (The sea-ice model may ask for more
                                 ! salt than is available and drive the salinity negative otherwise.)
+MIN_SALINITY = 0.01             !   [PPT] default = 0.0
+                                ! The minimum value of salinity when BOUND_SALINITY=True.
 C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
                                 ! definition of conservative temperature.
 CHECK_BAD_SURFACE_VALS = True   !   [Boolean] default = False
                                 ! If true, check the surface state for ridiculous values.
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
+                                ! This sets the default value for the various _2018_ANSWERS parameters.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 
@@ -144,7 +148,7 @@ USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
 ! === module ideal_age_example ===
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "file"           !
+COORD_CONFIG = "file"           ! default = "none"
                                 ! This specifies how layers are to be defined:
                                 !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
@@ -209,15 +213,6 @@ RESOLN_SCALED_KH = True         !   [Boolean] default = False
 RESOLN_SCALED_KHTH = True       !   [Boolean] default = False
                                 ! If true, the interface depth diffusivity is scaled away when the first
                                 ! baroclinic deformation radius is well resolved.
-INTERPOLATE_RES_FN = False      !   [Boolean] default = True
-                                ! If true, interpolate the resolution function to the velocity points from the
-                                ! thickness points; otherwise interpolate the wave speed and calculate the
-                                ! resolution function independently at each point.
-GILL_EQUATORIAL_LD = True       !   [Boolean] default = False
-                                ! If true, uses Gill's definition of the baroclinic equatorial deformation
-                                ! radius, otherwise, if false, use Pedlosky's definition. These definitions
-                                ! differ by a factor of 2 in front of the beta term in the denominator. Gill's
-                                ! is the more appropriate definition.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -255,6 +250,8 @@ KHTH_USE_FGNV_STREAMFUNCTION = True !   [Boolean] default = False
 FGNV_C_MIN = 0.01               !   [m s-1] default = 0.0
                                 ! A minium wave speed used in the Ferrari et al., 2010, streamfunction
                                 ! formulation.
+
+! === module MOM_dynamics_split_RK2 ===
 TIDES = True                    !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 
@@ -306,6 +303,10 @@ SMAGORINSKY_AH = True           !   [Boolean] default = False
                                 ! If true, use a biharmonic Smagorinsky nonlinear eddy viscosity.
 SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
                                 ! The nondimensional biharmonic Smagorinsky constant, typically 0.015 - 0.06.
+USE_LAND_MASK_FOR_HVISC = False !   [Boolean] default = True
+                                ! If true, use Use the land mask for the computation of thicknesses at velocity
+                                ! locations. This eliminates the dependence on arbitrary values over land or
+                                ! outside of the domain.
 
 ! === module MOM_vert_friction ===
 MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
@@ -408,7 +409,7 @@ USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-KD = 2.0E-05                    !   [m2 s-1]
+KD = 2.0E-05                    !   [m2 s-1] default = 0.0
                                 ! The background diapycnal diffusivity of density in the interior. Zero or the
                                 ! molecular value, ~1e-7 m2 s-1, may be used.
 KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
@@ -428,6 +429,14 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
+KAPPA_SHEAR_ITER_BUG = True     !   [Boolean] default = False
+                                ! If true, use an older, dimensionally inconsistent estimate of the derivative
+                                ! of diffusivity with energy in the Newton's method iteration.  The bug causes
+                                ! undercorrections when dz > 1 m.
+KAPPA_SHEAR_ALL_LAYER_TKE_BUG = True !   [Boolean] default = False
+                                ! If true, report back the latest estimate of TKE instead of the time average
+                                ! TKE when there is mass in all layers.  Otherwise always report the time
+                                ! averaged TKE, as is currently done when there are some massless layers.
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
@@ -475,6 +484,9 @@ DO_RIVERMIX = True              !   [Boolean] default = False
                                 ! down to RIVERMIX_DEPTH, if the ocean is that deep.
 RIVERMIX_DEPTH = 40.0           !   [m] default = 0.0
                                 ! The depth to which rivers are mixed if DO_RIVERMIX is defined.
+BULKML_CONV_MOMENTUM_BUG = True !   [Boolean] default = False
+                                ! If true, use code with a bug that causes a loss of momentum conservation
+                                ! during mixedlayer convection.
 
 ! === module MOM_regularize_layers ===
 
@@ -513,7 +525,7 @@ ENERGYSAVEDAYS = 0.5            !   [days] default = 1.0
                                 ! other globally summed diagnostics.
 
 ! === module MOM_surface_forcing ===
-BUOY_CONFIG = "file"            !
+BUOY_CONFIG = "file"            ! default = "zero"
                                 ! The character string that indicates how buoyancy forcing is specified. Valid
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
 ARCHAIC_OMIP_FORCING_FILE = False !   [Boolean] default = True
@@ -550,7 +562,7 @@ SSTRESTORE_FILE = "ocean_forcing_daily.nc" !
 SALINITYRESTORE_FILE = "ocean_forcing_daily.nc" !
                                 ! The file with the surface salinity toward which to restore in the variable
                                 ! given by SSS_RESTORE_VAR.
-WIND_CONFIG = "file"            !
+WIND_CONFIG = "file"            ! default = "zero"
                                 ! The character string that indicates how wind forcing is specified. Valid
                                 ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 WIND_FILE = "ocean_forcing_daily.nc" !
@@ -560,13 +572,10 @@ WINDSTRESS_X_VAR = "taux"       ! default = "STRESS_X"
                                 ! The name of the x-wind stress variable in WIND_FILE.
 WINDSTRESS_Y_VAR = "tauy"       ! default = "STRESS_Y"
                                 ! The name of the y-wind stress variable in WIND_FILE.
-WINDSTRESS_STAGGER = "C"        ! default = "A"
-                                ! A character indicating how the wind stress components are staggered in
-                                ! WIND_FILE.  This may be A or C for now.
 RESTOREBUOY = True              !   [Boolean] default = False
                                 ! If true, the buoyancy fluxes drive the model back toward some specified
                                 ! surface state with a rate given by FLUXCONST.
-FLUXCONST = 0.5                 !   [m day-1]
+FLUXCONST = 0.5                 !   [m day-1] default = 0.0
                                 ! The constant that relates the restoring surface fluxes to the relative surface
                                 ! anomalies (akin to a piston velocity).  Note the non-MKS units.
 READ_GUST_2D = True             !   [Boolean] default = False
