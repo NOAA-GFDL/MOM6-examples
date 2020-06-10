@@ -258,22 +258,21 @@ CONCENTRATION_INIT_CONFIG = "data_override" ! default = "data_override"
                                 ! initialized for a new run:
                                 !     file - read sea ice concentrations from a specified file
                                 !     data_override - use the data_override capability or zero everywhere
-                                !     zero - there is no sea ice anywhere.
+                                !     zero - there is no sea ice anywhere
                                 !     latitudes - initial sea ice concentration is a function of latitude.
 ICE_THICKNESS_INIT_CONFIG = "data_override" ! default = "data_override"
-                                ! A string that determines how the initial total sea ice concentration is
-                                ! initialized for a new run:
-                                !     file - read sea ice concentrations from a specified file
+                                ! A string that determines how the initial sea ice thickness is initialized for
+                                ! a new run:
+                                !     file - read sea ice thickesses from a specified file
                                 !     data_override - use the data_override capability or zero everywhere
                                 !     uniform - sea ice has uniform thickness where the concentration is
                                 !       nonzero.
 SNOW_THICKNESS_INIT_CONFIG = "data_override" ! default = "data_override"
-                                ! A string that determines how the initial total sea ice concentration is
-                                ! initialized for a new run:
+                                ! A string that determines how the initial total snow thickness is initialized
+                                ! for a new run:
                                 !     file - read sea ice concentrations from a specified file
                                 !     data_override - use the data_override capability or zero everywhere
-                                !     uniform - sea ice has uniform thickness where the concentration is
-                                !       nonzero.
+                                !     uniform - snow has uniform thickness where the concentration is nonzero.
 ICE_SALINITY_INIT_CONFIG = "uniform" ! default = "uniform"
                                 ! A string that determines how the sea ice salinity is initialized for a new
                                 ! run:
@@ -322,6 +321,9 @@ DO_ICE_RESTORE = False          !   [Boolean] default = False
                                 ! If true, restore the sea ice state toward climatology.
 NUDGE_SEA_ICE = False           !   [Boolean] default = False
                                 ! If true, constrain the sea ice concentrations using observations.
+TRANSMUTE_SEA_ICE = False       !   [Boolean] default = False
+                                ! If true, allow ice to be transmuted directly into seawater with a spatially
+                                ! varying rate as a form of outflow open boundary condition.
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
