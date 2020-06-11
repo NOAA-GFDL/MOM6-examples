@@ -182,17 +182,6 @@ COORD_CONFIG = "file"           !
                                 !     ts_profile - use temperature and salinity profiles
                                 !       (read from COORD_FILE) to set layer densities.
                                 !     USER - call a user modified routine.
-COORD_FILE = "Layer_coord.nc"   !
-                                ! The file from which the coordinate densities are read.
-REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
-                                ! This sets the reconstruction scheme used for vertical remapping for all
-                                ! variables. It can be one of the following schemes: PCM         (1st-order
-                                ! accurate)
-                                ! PLM         (2nd-order accurate)
-                                ! PPM_H4      (3rd-order accurate)
-                                ! PPM_IH4     (3rd-order accurate)
-                                ! PQM_IH4IH3  (4th-order accurate)
-                                ! PQM_IH6IH5  (5th-order accurate)
 
 ! === module MOM_grid ===
 ! Parameters providing information about the lateral grid.
@@ -316,9 +305,6 @@ TIDE_SAL_SCALAR_VALUE = 0.094   !   [m m-1]
 ! === module MOM_PressureForce ===
 
 ! === module MOM_PressureForce_AFV ===
-MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
-                                ! If true, use mass weighting when interpolating T/S for integrals near the
-                                ! bathymetry in AFV pressure gradient calculations.
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -495,9 +481,6 @@ CHL_FILE = "seawifs_1998-2006_GOLD_smoothed_2X.nc" !
                                 ! is used when VAR_PEN_SW and CHL_FROM_FILE are true.
 
 ! === module MOM_mixed_layer ===
-BULK_RI_ML = 0.05               !   [nondim]
-                                ! The efficiency with which mean kinetic energy released by mechanically forced
-                                ! entrainment of the mixed layer is converted to turbulent kinetic energy.
 HMIX_MIN = 2.0                  !   [m] default = 0.0
                                 ! The minimum mixed layer depth if the mixed layer depth is determined
                                 ! dynamically.
