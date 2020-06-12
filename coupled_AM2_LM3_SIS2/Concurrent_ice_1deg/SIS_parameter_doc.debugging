@@ -30,26 +30,7 @@ COLUMN_CHECK = False            !   [Boolean] default = False
                                 ! does not change answers, but can increase model run time.
 IMBALANCE_TOLERANCE = 1.0E-09   !   [nondim] default = 1.0E-09
                                 ! The tolerance for imbalances to be flagged by COLUMN_CHECK.
-VERBOSE = False                 !   [Boolean] default = False
-                                ! If true, write out verbose diagnostics.
-DEBUG_EVP_SUBSTEPS = False      !   [Boolean] default = False
-                                ! If true, write out verbose debugging data for each of the steps within the EVP
-                                ! solver.
-U_TRUNC_FILE = ""               ! default = ""
-                                ! The absolute path to the file where the accelerations leading to zonal
-                                ! velocity truncations are written. Leave this empty for efficiency if this
-                                ! diagnostic is not needed.
-V_TRUNC_FILE = ""               ! default = ""
-                                ! The absolute path to the file where the accelerations leading to meridional
-                                ! velocity truncations are written. Leave this empty for efficiency if this
-                                ! diagnostic is not needed.
-MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
-                                ! The maximum number of colums of truncations that any PE will write out during
-                                ! a run.
-CHECK_ICE_TRANSPORT_CONSERVATION = False !   [Boolean] default = False
-                                ! If true, use add multiple diagnostics of ice and snow mass conservation in the
-                                ! sea-ice transport code.  This is expensive and should be used sparingly.
-REPORT_UNUSED_PARAMS = True     !   [Boolean] default = True
+REPORT_UNUSED_PARAMS = False    !   [Boolean] default = True
                                 ! If true, report any parameter lines that are not used in the run.
-FATAL_UNUSED_PARAMS = True      !   [Boolean] default = False
+FATAL_UNUSED_PARAMS = False     !   [Boolean] default = False
                                 ! If true, kill the run if there are any unused parameters.
