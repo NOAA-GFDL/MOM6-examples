@@ -47,10 +47,17 @@ GRID_CONFIG = "mosaic"          !
                                 !     mercator - use a Mercator spherical grid.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
+USE_TRIPOLAR_GEOLONB_BUG = True !   [Boolean] default = False
+                                ! If true, use older code that incorrectly sets the longitude in some points
+                                ! along the tripolar fold to be off by 360 degrees.
 !MAXIMUM_DEPTH = 8317.21875     !   [m]
                                 ! The (diagnosed) maximum depth of the ocean.
 OMEGA = 7.292E-05               !   [s-1] default = 7.2921E-05
                                 ! The rotation rate of the earth.
+GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = False
+                                ! If true, use an older algorithm to calculate the sine and cosines needed
+                                ! rotate between grid-oriented directions and true north and east.  Differences
+                                ! arise at the tripolar fold.
 
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
@@ -66,6 +73,8 @@ CP_SEAWATER = 3992.0            !   [J kg-1 K-1] default = 4200.0
 ! === module SIS_tracer_registry ===
 
 ! === module SIS_tracer_flow_control ===
+ICE_SALINITY_IC = 5.0           !   [g kg-1] default = 0.0
+                                ! The uniform sea ice salinity used for the initial condition
 
 ! === module SIS_slow_thermo ===
 ! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
