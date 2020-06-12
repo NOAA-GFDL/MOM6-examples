@@ -243,6 +243,10 @@ REMAP_AFTER_INITIALIZATION = False !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after initialization so
                                 ! that the state is ALE consistent. This is a legacy step and should not be
                                 ! needed if the initialization is consistent with the coordinate mode.
+REGRID_USE_OLD_DIRECTION = False ! [Boolean] default = True
+                                ! If true, the regridding integrates upwards from the bottom for interface
+                                ! positions, much as the main model does. If false regridding integrates
+                                ! downward, consistant with the remapping code.
 
 ! === module MOM_grid ===
 ! Parameters providing information about the lateral grid.
