@@ -91,17 +91,6 @@ REDO_FAST_ICE_UPDATE = True     !   [Boolean] default = True
                                 ! If true, recalculate the thermal updates from the fast dynamics on the slowly
                                 ! evolving ice state, rather than copying over the slow ice state to the fast
                                 ! ice state.
-NCAT_ICE = 5                    !   [nondim] default = 5
-                                ! The number of sea ice thickness categories.
-NK_ICE = 4                      !   [nondim] default = 4
-                                ! The number of layers within the sea ice.
-NK_SNOW = 1                     !   [nondim] default = 1
-                                ! The number of layers within the snow atop the sea ice.
-MIN_OCEAN_PARTSIZE = 1.0E-40    !   [nondim] default = 1.0E-40
-                                ! The minimum value for the fractional open-ocean area. This can be 0, but for
-                                ! some purposes it may be useful to set this to a miniscule value (like 1e-40)
-                                ! that will be lost to roundoff during any sums so that the open ocean fluxes
-                                ! can be used in with new categories.
 
 ! === module MOM_domains ===
 REENTRANT_X = True              !   [Boolean] default = True
@@ -189,16 +178,24 @@ GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = False
                                 ! If true, use an older algorithm to calculate the sine and cosines needed
                                 ! rotate between grid-oriented directions and true north and east.  Differences
                                 ! arise at the tripolar fold.
-PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file, otherwise a single
-                                ! restart file is generated
 
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
-SIS_AVAILABLE_DIAGS_FILE = "SIS.available_diags" ! default = "SIS.available_diags"
+NCAT_ICE = 5                    !   [nondim] default = 5
+                                ! The number of sea ice thickness categories.
+NK_ICE = 4                      !   [nondim] default = 4
+                                ! The number of layers within the sea ice.
+NK_SNOW = 1                     !   [nondim] default = 1
+                                ! The number of layers within the snow atop the sea ice.
+MIN_OCEAN_PARTSIZE = 1.0E-40    !   [nondim] default = 1.0E-40
+                                ! The minimum value for the fractional open-ocean area. This can be 0, but for
+                                ! some purposes it may be useful to set this to a miniscule value (like 1e-40)
+                                ! that will be lost to roundoff during any sums so that the open ocean fluxes
+                                ! can be used in with new categories.
+SIS_FAST_AVAILABLE_DIAGS_FILE = "SIS_fast.available_diags" ! default = "SIS_fast.available_diags"
                                 ! A file into which to write a list of all available sea ice diagnostics that
                                 ! can be included in a diag_table.
 
@@ -227,35 +224,17 @@ SUBLIMATION_BUG = False         !   [Boolean] default = False
                                 ! latent heat of sublimation. This variable should be obsoleted as soon as
                                 ! possible.
 
-! === module SIS_tracer_registry ===
-
-! === module SIS_tracer_flow_control ===
-USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
-                                ! If true, use the concentration based age tracer package.
-
-! === module SIS_slow_thermo ===
-! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
-ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
-                                ! The fixed bulk salinity of sea ice.
-ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
-                                ! The initial salinity of sea ice as a fraction of the salinity of the seawater
-                                ! from which it formed.
-SIS2_FILLING_FRAZIL = True      !   [Boolean] default = True
-                                ! If true, apply frazil to fill as many categories as possible to fill in a
-                                ! uniform (minimum) amount of ice in all the thinnest categories. Otherwise the
-                                ! frazil is always assigned to a single category.
-FILLING_FRAZIL_TIMESCALE = 8.64E+04 !   [s] default = 0.0
-                                ! A timescale with which the filling frazil causes the thinest cells to attain
-                                ! similar thicknesses, or a negative number to apply the frazil flux uniformly.
-APPLY_ICE_LIMIT = False         !   [Boolean] default = False
-                                ! If true, restore the sea ice state toward climatology.
-DO_ICE_RESTORE = False          !   [Boolean] default = False
-                                ! If true, restore the sea ice state toward climatology.
-NUDGE_SEA_ICE = False           !   [Boolean] default = False
-                                ! If true, constrain the sea ice concentrations using observations.
-TRANSMUTE_SEA_ICE = False       !   [Boolean] default = False
-                                ! If true, allow ice to be transmuted directly into seawater with a spatially
-                                ! varying rate as a form of outflow open boundary condition.
+! === module SIS_fast_thermo ===
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature
+! calculation.
+REORDER_0C_HEATFLUX = False     !   [Boolean] default = False
+                                ! If true, rearrange the calculation of the heat fluxes projected back to 0C to
+                                ! work on each contribution separately, so that they can be indentically
+                                ! replicated if there is a single fast timestep per coupled timestep and
+                                ! REDO_FAST_ICE_UPDATE=True.
+MAX_TSKIN_ITT = 10              ! default = 10
+                                ! The maximum number of iterations of the skin temperature and optical
+                                ! properties during redo_update_ice_model_fast.
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
@@ -288,145 +267,6 @@ ICE_TEMP_RANGE_ESTIMATE = 40.0  !   [degC] default = 40.0
                                 ! whether an explicit diffusive form of the heat fluxes or an inversion based on
                                 ! the layer heat budget is more likely to be more accurate. Setting this to 0
                                 ! causes the explicit diffusive form. to always be used.
-
-! === module SIS_dyn_trans ===
-! This module updates the ice momentum and does ice transport.
-DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
-                                ! The time step used for the slow ice dynamics, including stepping the
-                                ! continuity equation and interactions between the ice mass field and
-                                ! velocities.  If 0 or negative the coupling time step will be used.
-MERGED_CONTINUITY = False       !   [Boolean] default = False
-                                ! If true, update the continuity equations for the ice, snow, and melt pond
-                                ! water together summed across categories, with proportionate fluxes for each
-                                ! part. Otherwise the media are updated separately.
-NSTEPS_ADV = 1                  ! default = 1
-                                ! The number of advective iterations for each slow dynamics time step.
-ICEBERG_WINDSTRESS_BUG = False  !   [Boolean] default = False
-                                ! If true, use older code that applied an old ice-ocean stress to the icebergs
-                                ! in place of the current air-ocean stress.  This option is here for backward
-                                ! compatibility, but should be avoided.
-WARSAW_SUM_ORDER = True         !   [Boolean] default = True
-                                ! If true, use the order of sums in the Warsaw version of SIS2. The default is
-                                ! the opposite of MERGED_CONTINUITY. This option exists for backward
-                                ! compatibilty but may eventually be obsoleted.
-TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
-                                ! The time unit for ICE_STATS_INTERVAL.
-ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
-                                ! The interval in units of TIMEUNIT between writes of the globally summed ice
-                                ! statistics and conservation checks.
-DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
-                                ! The sub-cycling time step for iterating the rheology and ice momentum
-                                ! equations. If DT_RHEOLOGY is negative, the time step is set via NSTEPS_DYN.
-ICE_TDAMP_ELASTIC = 1000.0      !   [s or nondim] default = -0.2
-                                ! The damping timescale associated with the elastic terms in the sea-ice
-                                ! dynamics equations (if positive) or the fraction of DT_ICE_DYNAMICS (if
-                                ! negative).
-WEAK_LOW_SHEAR_ICE = False      !   [Boolean] default = False
-                                ! If true, the divergent stresses go toward 0 in the C-grid dynamics when the
-                                ! shear magnitudes are very weak. Otherwise they go to -P_ice.  This setting is
-                                ! temporary.
-PROJECT_ICE_DRAG_VEL = True     !   [Boolean] default = True
-                                ! If true, project forward the ice velocity used in the drag calculation to
-                                ! avoid an instability that can occur when a finite stress is applied to thin
-                                ! ice moving with the velocity of the ocean.
-ICE_YIELD_ELLIPTICITY = 2.0     !   [Nondim] default = 2.0
-                                ! The ellipticity coefficient for the plastic yield curve in the sea-ice
-                                ! rheology.  For an infinite ellipticity (i.e., a cavitating fluid rheology),
-                                ! use 0.
-ICE_STRENGTH_PSTAR = 2.75E+04   !   [Pa] default = 2.75E+04
-                                ! A constant in the expression for the ice strength, P* in Hunke & Dukowicz
-                                ! 1997.
-ICE_STRENGTH_CSTAR = 20.0       !   [nondim] default = 20.0
-                                ! A constant in the exponent of the expression for the ice strength, c* in Hunke
-                                ! & Dukowicz 1997.
-ICE_CDRAG_WATER = 0.00324       !   [nondim] default = 0.00324
-                                ! The drag coefficient between the sea ice and water.
-MIN_OCN_INTERTIAL_H = 0.0       !   [m] default = 0.0
-                                ! A minimum ocean thickness used to limit the viscous coupling rate implied for
-                                ! the ocean by the ice-ocean stress. Only used if positive.
-ICE_DEL_SH_MIN_SCALE = 2.0      !   [nondim] default = 2.0
-                                ! A scaling factor for the lower bound on the shear rates used in the
-                                ! denominator of the stress calculation. This probably needs to be greater than
-                                ! 1.
-PROJECT_ICE_CONCENTRATION = True !   [Boolean] default = True
-                                ! If true, project the evolution of the ice concentration due to the convergence
-                                ! or divergence of the ice flow.
-CFL_TRUNCATE = 0.5              !   [nondim] default = 0.5
-                                ! The value of the CFL number that will cause ice velocity components to be
-                                ! truncated; instability can occur past 0.5.
-CFL_TRUNC_DYN_ITS = False       !   [Boolean] default = False
-                                ! If true, check the CFL number for every iteration of the rheology solver;
-                                ! otherwise only the final velocities that are used for transport are checked.
-RECATEGORIZE_ICE = True         !   [Boolean] default = True
-                                ! If true, readjust the distribution into ice thickness categories after
-                                ! advection.
-SEA_ICE_ROLL_FACTOR = 1.0       !   [Nondim] default = 1.0
-                                ! A factor by which the propensity of small amounts of thick sea-ice to become
-                                ! thinner by rolling is increased or 0 to disable rolling.  This can be thought
-                                ! of as the minimum number of ice floes in a grid cell divided by the horizontal
-                                ! floe aspect ratio.  Sensible values are 0 (no rolling) or larger than 1.
-SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
-                                ! The horizontal transport scheme for thickness:
-                                !   UPWIND_2D - Non-directionally split upwind
-                                !   PCM    - Directionally split piecewise constant
-                                !   PLM    - Piecewise Linear Method
-                                !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
-INCONSISTENT_COVER_BUG = True   !   [Boolean] default = True
-                                ! If true, omit a recalculation of the fractional ice-free areal coverage after
-                                ! the adjustment of the ice categories.
-SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
-                                ! The horizontal transport scheme used in continuity:
-                                !   UPWIND_2D - Non-directionally split upwind
-                                !   PCM       - Directionally split piecewise constant
-                                !   PPM:C2PD  - Positive definite PPM with 2nd order edge values
-                                !   PPM:C2MO  - Monotonic PPM with 2nd order edge values
-CONT_PPM_VOLUME_BASED_CFL = False !   [Boolean] default = False
-                                ! If true, use the ratio of the open face lengths to the tracer cell areas when
-                                ! estimating CFL numbers.
-
-! === module SIS_tracer_advect ===
-SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
-                                ! The horizontal transport scheme for tracers:
-                                !   UPWIND_2D - Non-directionally split upwind
-                                !   PCM    - Directionally split piecewise constant
-                                !   PLM    - Piecewise Linear Method
-                                !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
-CFL_MASS_NEGLECT_BUG = True     !   [Boolean] default = True
-                                ! If true use a globally constant negligible volume in the denominator of the
-                                ! tracer advection CFL calculation, reproducing an older incorrect expression,
-                                ! rather than using a proper scaling of this negligible mass with cell area.
-
-! === module SIS_sum_output ===
-WRITE_STOCKS = True             !   [Boolean] default = True
-                                ! If true, write the integrated tracer amounts to stdout when the statistics
-                                ! files are written.
-STDOUT_HEARTBEAT = True         !   [Boolean] default = True
-                                ! If true, periodically write sea ice statistics to stdout to allow the progress
-                                ! to be seen.
-MAXTRUNC = 0                    !   [truncations save_interval-1] default = 0
-                                ! The run will be stopped, and the day set to a very large value if the velocity
-                                ! is truncated more than MAXTRUNC times between  writing ice statistics. Set
-                                ! MAXTRUNC to 0 to stop if there is any truncation of sea ice velocities.
-STATISTICS_FILE = "seaice.stats" ! default = "seaice.stats"
-                                ! The file to use to write the globally integrated statistics.
-
-! === module SIS_ice_diagnostics ===
-! This module handles sea-ice state diagnostics.
-
-! === module SIS_fast_thermo ===
-! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature
-! calculation.
-REORDER_0C_HEATFLUX = False     !   [Boolean] default = False
-                                ! If true, rearrange the calculation of the heat fluxes projected back to 0C to
-                                ! work on each contribution separately, so that they can be indentically
-                                ! replicated if there is a single fast timestep per coupled timestep and
-                                ! REDO_FAST_ICE_UPDATE=True.
-MAX_TSKIN_ITT = 10              ! default = 10
-                                ! The maximum number of iterations of the skin temperature and optical
-                                ! properties during redo_update_ice_model_fast.
-
-! === module SIS2_ice_thm (updates) ===
-! This sub-module does updates of the sea-ice due to thermodynamic changes.
 
 ! === module SIS_optics ===
 ! This module calculates the albedo and absorption profiles for shortwave radiation.

@@ -47,7 +47,7 @@ C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
                                 ! definition of conservative temperature.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
                                 ! This sets the default value for the various _2018_ANSWERS parameters.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
@@ -100,8 +100,9 @@ TOPO_CONFIG = "ISOMIP"          !
                                 !       wall at the southern face.
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
+                                !     bbuilder - build topography from list of functions.
                                 !     benchmark - use the benchmark test case topography.
-                                !     Neverland - use the Neverland test case topography.
+                                !     Neverworld - use the Neverworld test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -169,7 +170,7 @@ TFREEZE_FORM = "MILLERO_78"     ! default = "LINEAR"
 ! === module MOM_tracer_flow_control ===
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "linear"         !
+COORD_CONFIG = "linear"         ! default = "none"
                                 ! This specifies how layers are to be defined:
                                 !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
@@ -191,10 +192,6 @@ LIGHTEST_DENSITY = 1027.1524    !   [kg m-3] default = 1027.0
                                 ! The reference potential density used for the surface interface.
 DENSITY_RANGE = 0.7438856       !   [kg m-3] default = 2.0
                                 ! The range of reference potential densities across all interfaces.
-REMAP_UV_USING_OLD_ALG = False  !   [Boolean] default = True
-                                ! If true, uses the old remapping-via-a-delta-z method for remapping u and v. If
-                                ! false, uses the new method that remaps between grids described by an old and
-                                ! new thickness.
 REGRIDDING_COORDINATE_MODE = "RHO" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding. Choose among the following
                                 ! possibilities:  LAYER - Isopycnal or stacked shallow water layers
@@ -246,16 +243,12 @@ REMAP_AFTER_INITIALIZATION = False !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after initialization so
                                 ! that the state is ALE consistent. This is a legacy step and should not be
                                 ! needed if the initialization is consistent with the coordinate mode.
-REGRID_USE_OLD_DIRECTION = False ! [Boolean] default = True
-                                ! If true, the regridding integrates upwards from the bottom for interface
-                                ! positions, much as the main model does. If false regridding integrates
-                                ! downward, consistant with the remapping code.
 
 ! === module MOM_grid ===
 ! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
-THICKNESS_CONFIG = "ISOMIP"     !
+THICKNESS_CONFIG = "ISOMIP"     ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:
                                 !     file - read interface heights from the file specified
@@ -270,7 +263,7 @@ THICKNESS_CONFIG = "ISOMIP"     !
                                 !     ISOMIP - use a configuration for the
                                 !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
-                                !     Neverland - use the Neverland test case thicknesses.
+                                !     Neverworld - use the Neverworld test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
                                 !     circle_obcs - the circle_obcs test case is used.
@@ -472,7 +465,7 @@ KD = 0.0                        !   [m2 s-1]
 ! The following parameters are used for auxiliary diabatic processes.
 
 ! === module MOM_energetic_PBL ===
-USE_MLD_ITERATION = False       !   [Boolean] default = False
+USE_MLD_ITERATION = False       !   [Boolean] default = True
                                 ! A logical that specifies whether or not to use the distance to the bottom of
                                 ! the actively turbulent boundary layer to help set the EPBL length scale.
 EPBL_USTAR_MIN = 1.45842E-23    !   [m s-1]
@@ -519,12 +512,14 @@ VARIABLE_WINDS = False          !   [Boolean] default = True
 VARIABLE_BUOYFORCE = False      !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
-BUOY_CONFIG = "NONE"            !
+BUOY_CONFIG = "NONE"            ! default = "zero"
                                 ! The character string that indicates how buoyancy forcing is specified. Valid
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
-WIND_CONFIG = "zero"            !
+WIND_CONFIG = "zero"            ! default = "zero"
                                 ! The character string that indicates how wind forcing is specified. Valid
                                 ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
+GUST_CONST = 0.02               !   [Pa] default = 0.0
+                                ! The background gustiness in the winds.
 
 ! === module MOM_restart ===
 ICE_SHELF = True                !   [Boolean] default = False
@@ -602,5 +597,3 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! processors used.
 
 ! === module MOM_file_parser ===
-
-

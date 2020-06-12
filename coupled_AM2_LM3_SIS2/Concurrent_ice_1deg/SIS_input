@@ -1,163 +1,140 @@
-!********+*********+*********+*********+*********+*********+*********+*
-!*   This file determines the adjustable run-time parameters for the  *
-!* Sea Ice Simulator (SIS), versions 2 and later.  Where              *
-!* appropriate, MKS units are used.                                   *
-!********+*********+*********+*********+*********+*********+*********+*
-! >>> Global coupled ice-ocean SIS2 5 layer ice, 63 layer ocean test case.
+! This file was written by the model and records the non-default parameters used at run-time.
 
-!  Specify properties of the physical domain.
-OMEGA = 7.2921e-5               !   The rotation rate of the earth in s-1.
-ROTATION = "2omegasinlat"       !   Rotation approximation (2omegasinlat,
-                                !  betaplane or USER).
-G_EARTH = 9.80                  !    G_EARTH is the Earth's gravitational
-                                !  acceleration, in m s-2.
-GRID_CONFIG = "mosaic"          !    Method for defining horizontal grid
-                                !  = file|cartesian|spherical|mercator
-                                !  file - read grid from file "GRID_FILE"
-                                !  cartesian - a Cartesian grid
-                                !  spherical - a spherical grid
-                                !  mercator  - a Mercator grid
-GRID_FILE = "ocean_hgrid.nc"
-                                !    Name of file to read horizontal grid data
-INPUTDIR = "INPUT"
-                                !    INPUTDIR is a directory in which NetCDF
-                                !  input files might be found.
+! === module ice_model ===
 
-CGRID_ICE_DYNAMICS = True       !   If true, use a C-grid discretization of the
-                                ! sea-ice dynamics; if false use a B-grid
-                                ! discretization.
+! === module MOM_unit_scaling ===
+! Parameters for doing unit scaling of variables.
+CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
+                                ! If true, use a C-grid discretization of the sea-ice dynamics; if false use a
+                                ! B-grid discretization.
+DT_RADIATION = 1.08E+04         !   [s] default = 7200.0
+                                ! The time step with which the shortwave radiation and fields like albedos are
+                                ! updated.  Currently this is only used to initialize albedos when there is no
+                                ! restart file.
 
-!  Specify the numerical domain.
-NIGLOBAL = 360                  !    NIGLOBAL and NJGLOBAL are the number of thickness
-NJGLOBAL = 210                  !  grid points in the zonal and meridional
-                                !  directions of the physical domain.
-NCAT_ICE = 5                    !    The number of sea ice thickness categories.
-NIHALO = 2                      !    NIHALO and NJHALO are the number of halo
-NJHALO = 2                      !  points on each side in the x- and y-directions.
-                                !  If static memory allocation is used, these
-                                !  must match the values of NIHALO_ and NJHALO_
-                                !  in MOM_memory.h.
-IO_LAYOUT = 1, 1                !    The processor layout to be used, or 0,0 to automatically
-                                !  set the io_layout to be the same as the layout.
+! === module MOM_domains ===
+TRIPOLAR_N = True               !   [Boolean] default = False
+                                ! Use tripolar connectivity at the northern edge of the domain.  With
+                                ! TRIPOLAR_N, NIGLOBAL must be even.
+NIGLOBAL = 360                  !
+                                ! The total number of thickness grid points in the x-direction in the physical
+                                ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
+NJGLOBAL = 210                  !
+                                ! The total number of thickness grid points in the y-direction in the physical
+                                ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
 
-REENTRANT_X = True              !    If defined, the domain is zonally reentrant.
-REENTRANT_Y = False             !    If defined, the domain is meridionally
-                                !  reentrant.
-TRIPOLAR_N = True               !    Use tripolar connectivity at the northern
-                                !  edge of the domain.  With TRIPOLAR_N, NIGLOBAL
-                                !  must be even.
-USE_TRIPOLAR_GEOLONB_BUG = True !   [Boolean] default = True
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
+! === module SIS_initialize_fixed ===
+INPUTDIR = "INPUT"              ! default = "."
+                                ! The directory in which input files are found.
+
+! === module MOM_grid_init ===
+GRID_CONFIG = "mosaic"          !
+                                ! A character string that determines the method for defining the horizontal
+                                ! grid.  Current options are:
+                                !     mosaic - read the grid from a mosaic (supergrid)
+                                !              file set by GRID_FILE.
+                                !     cartesian - use a (flat) Cartesian grid.
+                                !     spherical - use a simple spherical grid.
+                                !     mercator - use a Mercator spherical grid.
+GRID_FILE = "ocean_hgrid.nc"    !
+                                ! Name of the file from which to read horizontal grid data.
+USE_TRIPOLAR_GEOLONB_BUG = True !   [Boolean] default = False
                                 ! If true, use older code that incorrectly sets the longitude in some points
                                 ! along the tripolar fold to be off by 360 degrees.
-GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = True
+!MAXIMUM_DEPTH = 6000.0         !   [m]
+                                ! The (diagnosed) maximum depth of the ocean.
+GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = False
                                 ! If true, use an older algorithm to calculate the sine and cosines needed
                                 ! rotate between grid-oriented directions and true north and east.  Differences
                                 ! arise at the tripolar fold.
 
-DEBUG = False                   !    If true, write out verbose debugging data.
-SEND_LOG_TO_STDOUT = False      !    If true write out log information to stdout.
-ICE_STATS_INTERVAL = 0.25       !    The interval in units of TIMEUNIT between
-                                ! writes of the globally summed ice statistics
-                                ! and conservation checks.
+! === module hor_grid ===
+! Parameters providing information about the lateral grid.
 
-CONSTANT_COSZEN_IC = -1.0       ! A constant value to use to initialize the
-                                ! cosine of the solar zenith angle for the first
-                                ! radiation step, or a negative number to use
-                                ! the current time and astronomy.
-DT_RADIATION = 10800.0          !   [s] default = 7200.0
-                                ! The time step with which the shortwave radiation and
-                                ! fields like albedos are updated.  Currently this is only
-                                ! used to initialize albedos when there is no restart file.
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
 
-!  Specify the time integration scheme for the ice dynamics.
-DT_ICE_DYNAMICS = 3600.0        ! The time step used for the slow ice dynamics, 
-                                ! including stepping the continuity equation and
-                                ! interactions between the ice mass field and 
-                                ! velocities, in s.
+! === module SIS2_ice_thm (thermo) ===
+! This sub-module calculates ice thermodynamic quantities.
+CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
+                                ! The heat capacity of water in brine pockets within the sea-ice, approximated
+                                ! as a constant.  CP_BRINE and CP_SEAWATER should be equal, but for
+                                ! computational convenience CP_BRINE can be set equal to CP_ICE.
 
-DT_RHEOLOGY = 100.0             ! The sub-cycling time step, in s, for iterating
-                                ! the rheology and ice momentum equations. If
-                                ! DT_RHEOLOGY is negative, the time step is set
-                                ! via NSTEPS_DYN.
-PROJECT_ICE_DRAG_VEL = True     ! If true, project forward the ice velocity used in the
-                                ! drag calculation to avoid an instability that can occur
-                                ! when an finite stress is applied to thin ice moving with
-                                ! the velocity of the ocean.
-ICE_TDAMP_ELASTIC = 1000.0      !   The damping timescale associated with the
-                                ! elastic terms in the sea-ice dynamics.
+! === module SIS_tracer_registry ===
 
-SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! The horizontal transport scheme for
-                                ! tracers.  Valid options include:
-                                !   UPWIND_2D - Non-directionally split upwind
-                                !   PCM    - Directionally split peicewise constant
-                                !   PLM    - Piecewise Linear Method
-                                !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
+! === module SIS_tracer_flow_control ===
+
+! === module SIS_slow_thermo ===
+! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
+ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
+                                ! The fixed bulk salinity of sea ice.
+ICE_RELATIVE_SALINITY = 0.1     !   [nondim] default = 0.0
+                                ! The initial salinity of sea ice as a fraction of the salinity of the seawater
+                                ! from which it formed.
+FILLING_FRAZIL_TIMESCALE = 8.64E+04 !   [s] default = 0.0
+                                ! A timescale with which the filling frazil causes the thinest cells to attain
+                                ! similar thicknesses, or a negative number to apply the frazil flux uniformly.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
+
+! === module SIS_dyn_trans ===
+! This module updates the ice momentum and does ice transport.
+DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
+                                ! The time step used for the slow ice dynamics, including stepping the
+                                ! continuity equation and interactions between the ice mass field and
+                                ! velocities.  If 0 or negative the coupling time step will be used.
+ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
+                                ! The interval in units of TIMEUNIT between writes of the globally summed ice
+                                ! statistics and conservation checks.
+DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
+                                ! The sub-cycling time step for iterating the rheology and ice momentum
+                                ! equations. If DT_RHEOLOGY is negative, the time step is set via NSTEPS_DYN.
+ICE_TDAMP_ELASTIC = 1000.0      !   [s or nondim] default = -0.2
+                                ! The damping timescale associated with the elastic terms in the sea-ice
+                                ! dynamics equations (if positive) or the fraction of DT_ICE_DYNAMICS (if
+                                ! negative).
 SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind
-                                !   PCM    - Directionally split peicewise constant
+                                !   PCM    - Directionally split piecewise constant
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
-SIS_CONTINUITY_SCHEME = "PCM"   ! The horizontal transport scheme used in continuity:
+SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme used in continuity:
                                 !   UPWIND_2D - Non-directionally split upwind
-                                !   PCM       - Directionally split peicewise constant
+                                !   PCM       - Directionally split piecewise constant
                                 !   PPM:C2PD  - Positive definite PPM with 2nd order edge values
                                 !   PPM:C2MO  - Monotonic PPM with 2nd order edge values
-EULERIAN_TSURF = True           ! If true, use previous calculations of the ice-top surface
-                                ! skin temperature for tsurf at the start of atmospheric
-                                ! time stepping, including interpolating between tsurf
-                                ! values from other categories in the same location.
-RECATEGORIZE_ICE = True         ! If true, readjust the distribution into ice thickness
-                                ! categories after advection.
 
-!  Specify the ice properties.
-ICE_STRENGTH_PSTAR = 2.75e4     !    ICE_STRENGTH_PSTAR is a constant in the
-                                !  expression for the ice strength, P* in
-                                !  Hunke & Dukowics '97, in Pa.
-RHO_OCEAN = 1030.0              !    RHO_OCEAN is used in the Boussinesq
-                                !  approximation to calculations of pressure and
-                                !  pressure gradients, in units of kg m-3.
-RHO_ICE = 905.0                 !    RHO_ICE is the nominal density of sea ice
-                                !  used in SIS, in units of kg m-3.
-RHO_SNOW = 330.0                !    RHO_SNOW is the nominal density of snow
-                                !  used in SIS, in units of kg m-3.
-CP_ICE = 2100.0                 !   [J kg-1 K-1] default = 2100.0
-                                ! The heat capacity of fresh ice, approximated as a
-                                ! constant.
-CP_SEAWATER = 4200.0            !   [J kg-1 K-1] default = 4200.0
-                                ! The heat capacity of sea water, approximated as a
-                                ! constant.
-CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 2100.0
-                                ! The heat capacity of water in brine pockets within the
-                                ! sea-ice, approximated as a constant.  CP_BRINE and
-                                ! CP_WATER should be equal, but for computational
-                                ! convenience CP_BRINE has often been set equal to CP_ICE.
-! SNOW_ALBEDO = 0.88              !    The albedo of dry snow atop sea ice, ND.
-! ICE_ALBEDO  = 0.68              !    The albedo of dry bare sea ice, ND.
-ICE_BULK_SALINITY = 0.0         !    The fixed bulk salinity of sea ice, in g/kg.
-ICE_RELATIVE_SALINITY = 0.10    !    The initial salinity of sea ice as a
-                                ! fraction of the salinity of the seawater from
-                                ! which it formed.
-SIS2_FILLING_FRAZIL = True      !   If true, apply frazil to fill as many categories as
-                                ! possible to fill in a uniform (minimum) amount of ice
-                                ! in all the thinnest categories. Otherwise the frazil is
-                                ! always assigned to a single category.
-FILLING_FRAZIL_TIMESCALE = 8.64e4 !  A timescale with which the filling frazil
-                                ! causes the thinest cells to attain similar
-                                ! thicknesses, or a negative number to apply
-                                ! the frazil flux uniformly, in s.
+! === module SIS_tracer_advect ===
+SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme for tracers:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM    - Directionally split piecewise constant
+                                !   PLM    - Piecewise Linear Method
+                                !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
 
-!  Specify the properties of the surface forcing.
-ICE_OCEAN_STRESS_STAGGER = "C"  ! default = "B"
-                                ! A case-insensitive character string to indicate the
-                                ! staggering of the stress field on the ocean that is
-                                ! returned to the coupler.  Valid values include
-                                ! 'A', 'B', or 'C'.
+! === module SIS_sum_output ===
 
-!  These are used for debugging the SIS_input files.
-REPORT_UNUSED_PARAMS = True     !   [Boolean] default = False
-                                ! If true, report any parameter lines that are not used
-                                ! in the run.
-FATAL_UNUSED_PARAMS = True      !   [Boolean] default = False
-                                ! If true, kill the run if there are any unused
-                                ! parameters.
+! === module SIS_ice_diagnostics ===
+! This module handles sea-ice state diagnostics.
+
+! === module SIS_fast_thermo ===
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature
+! calculation.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
+
+! === module SIS_optics ===
+! This module calculates the albedo and absorption profiles for shortwave radiation.
+
+! === module MOM_file_parser ===
+DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
+                                ! The basename for files where run-time parameters, their settings, units and
+                                ! defaults are documented. Blank will disable all parameter documentation.
