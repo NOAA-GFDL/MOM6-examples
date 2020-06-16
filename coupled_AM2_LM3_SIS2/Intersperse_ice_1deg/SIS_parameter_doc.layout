@@ -19,17 +19,17 @@ THIN_HALO_UPDATES = True        !   [Boolean] default = True
                                 ! statically determined at compile time.  Otherwise the sizes are not determined
                                 ! until run time. The STATIC option is substantially faster, but does not allow
                                 ! the PE count to be changed at run time.  This can only be set at compile time.
-NIHALO_FAST = 0                 ! default = 4
+NIHALO = 2                      ! default = 4
                                 ! The number of halo points on each side in the x-direction.  With
                                 ! STATIC_MEMORY_ this is set as NIHALO_ in SIS2_memory.h at compile time;
                                 ! without STATIC_MEMORY_ the default is NIHALO_ in SIS2_memory.h (if defined) or
                                 ! 2.
-NJHALO_FAST = 0                 ! default = 4
+NJHALO = 2                      ! default = 4
                                 ! The number of halo points on each side in the y-direction.  With
                                 ! STATIC_MEMORY_ this is set as NJHALO_ in SIS2_memory.h at compile time;
                                 ! without STATIC_MEMORY_ the default is NJHALO_ in SIS2_memory.h (if defined) or
                                 ! 2.
-MASKTABLE_FAST = "MOM_mask_table" ! default = "MOM_mask_table"
+MASKTABLE = "MOM_mask_table"    ! default = "MOM_mask_table"
                                 ! A text file to specify n_mask, layout and mask_list. This feature masks out
                                 ! processors that contain only land points. The first line of mask_table is the
                                 ! number of regions to be masked out. The second line is the layout of the model
@@ -42,15 +42,15 @@ MASKTABLE_FAST = "MOM_mask_table" ! default = "MOM_mask_table"
                                 !  4,6
                                 !  1,2
                                 !  3,6
-NIPROC_FAST = 6                 !
+NIPROC = 10                     !
                                 ! The number of processors in the x-direction. With STATIC_MEMORY_ this is set
                                 ! in SIS2_memory.h at compile time.
-NJPROC_FAST = 5                 !
+NJPROC = 6                      !
                                 ! The number of processors in the y-direction. With STATIC_MEMORY_ this is set
                                 ! in SIS2_memory.h at compile time.
-LAYOUT_FAST = 6, 5              !
+LAYOUT = 10, 6                  !
                                 ! The processor layout that was actually used.
-IO_LAYOUT_FAST = 1, 1           ! default = 1
+IO_LAYOUT = 1, 1                ! default = 1
                                 ! The processor layout to be used, or 0,0 to automatically set the io_layout to
                                 ! be the same as the layout.
 NIBLOCK = 1                     ! default = 1
