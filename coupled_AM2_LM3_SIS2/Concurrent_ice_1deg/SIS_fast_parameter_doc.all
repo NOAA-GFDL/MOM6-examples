@@ -6,7 +6,7 @@
 ! Parameters for doing unit scaling of variables.
 SPECIFIED_ICE = False           !   [Boolean] default = False
                                 ! If true, the ice is specified and there is no dynamics.
-CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
+CGRID_ICE_DYNAMICS = True       !   [Boolean] default = True
                                 ! If true, use a C-grid discretization of the sea-ice dynamics; if false use a
                                 ! B-grid discretization.
 USE_SLAB_ICE = False            !   [Boolean] default = False
@@ -287,7 +287,7 @@ ICE_DELTA_EDD_R_POND = 0.0      !   [nondimensional] default = 0.0
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
                                 ! If true, all log messages are also sent to stdout.
-DOCUMENT_FILE = "SIS_fast_parameter_doc" ! default = "MOM_parameter_doc"
+DOCUMENT_FILE = "SIS_fast_parameter_doc" ! default = "SIS_fast_parameter_doc"
                                 ! The basename for files where run-time parameters, their settings, units and
                                 ! defaults are documented. Blank will disable all parameter documentation.
 COMPLETE_DOCUMENTATION = True   !   [Boolean] default = True
