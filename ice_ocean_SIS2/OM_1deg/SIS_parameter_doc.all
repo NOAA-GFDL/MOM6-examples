@@ -2,8 +2,6 @@
 
 ! === module ice_model ===
 
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
 SPECIFIED_ICE = False           !   [Boolean] default = False
                                 ! If true, the ice is specified and there is no dynamics.
 CGRID_ICE_DYNAMICS = True       !   [Boolean] default = True
@@ -119,6 +117,12 @@ NIGLOBAL = 360                  !
 NJGLOBAL = 320                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
+NIHALO = 4                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 4                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.

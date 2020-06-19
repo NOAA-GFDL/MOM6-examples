@@ -1,9 +1,7 @@
 ! This file was written by the model and records all non-layout or debugging parameters used at run-time.
 
-! === module MOM ===
 
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
+! === module MOM ===
 SPLIT = True                    !   [Boolean] default = True
                                 ! Use the split time stepping if true.
 CALC_RHO_FOR_SEA_LEVEL = False  !   [Boolean] default = False
@@ -147,6 +145,12 @@ NIGLOBAL = 40                   !
 NJGLOBAL = 2                    !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
+NIHALO = 3                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 3                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -983,7 +987,6 @@ VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
                                 ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
                                 ! divided by the age of the universe.
 
-! === module MOM_PointAccel ===
 
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
@@ -1095,6 +1098,8 @@ MIXEDLAYER_RESTRAT = False      !   [Boolean] default = False
                                 ! If true, a density-gradient dependent re-stratifying flow is imposed in the
                                 ! mixed layer. Can be used in ALE mode without restriction but in layer mode can
                                 ! only be used if BULKMIXEDLAYER is true.
+
+! === module MOM_diagnostics ===
 DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0
                                 ! The lower fraction of water column over which N2 is limited as monotonic for
                                 ! the purposes of calculating the equivalent barotropic wave speed.
@@ -1271,68 +1276,9 @@ DISSIPATION_KD_MIN = 0.0        !   [m2 s-1] default = 0.0
 USE_JACKSON_PARAM = False       !   [Boolean] default = False
                                 ! If true, use the Jackson-Hallberg-Legg (JPO 2008) shear mixing
                                 ! parameterization.
-VERTEX_SHEAR = False            !   [Boolean] default = False
-                                ! If true, do the calculations of the shear-driven mixing at the cell vertices
-                                ! (i.e., the vorticity points).
-RINO_CRIT = 0.25                !   [nondim] default = 0.25
-                                ! The critical Richardson number for shear mixing.
-SHEARMIX_RATE = 0.089           !   [nondim] default = 0.089
-                                ! A nondimensional rate scale for shear-driven entrainment. Jackson et al find
-                                ! values in the range of 0.085-0.089.
-MAX_RINO_IT = 50                !   [nondim] default = 50
-                                ! The maximum number of iterations that may be used to estimate the Richardson
-                                ! number driven mixing.
-KD_KAPPA_SHEAR_0 = 1.0E-07      !   [m2 s-1] default = 1.0E-07
-                                ! The background diffusivity that is used to smooth the density and shear
-                                ! profiles before solving for the diffusivities.  The default is the greater of
-                                ! KD and 1e-7 m2 s-1.
-KD_TRUNC_KAPPA_SHEAR = 1.0E-09  !   [m2 s-1] default = 1.0E-09
-                                ! The value of shear-driven diffusivity that is considered negligible and is
-                                ! rounded down to 0. The default is 1% of KD_KAPPA_SHEAR_0.
-FRI_CURVATURE = -0.97           !   [nondim] default = -0.97
-                                ! The nondimensional curvature of the function of the Richardson number in the
-                                ! kappa source term in the Jackson et al. scheme.
-TKE_N_DECAY_CONST = 0.24        !   [nondim] default = 0.24
-                                ! The coefficient for the decay of TKE due to stratification (i.e. proportional
-                                ! to N*tke). The values found by Jackson et al. are 0.24-0.28.
-TKE_SHEAR_DECAY_CONST = 0.14    !   [nondim] default = 0.14
-                                ! The coefficient for the decay of TKE due to shear (i.e. proportional to
-                                ! |S|*tke). The values found by Jackson et al. are 0.14-0.12.
-KAPPA_BUOY_SCALE_COEF = 0.82    !   [nondim] default = 0.82
-                                ! The coefficient for the buoyancy length scale in the kappa equation.  The
-                                ! values found by Jackson et al. are in the range of 0.81-0.86.
-KAPPA_N_OVER_S_SCALE_COEF2 = 0.0 !   [nondim] default = 0.0
-                                ! The square of the ratio of the coefficients of the buoyancy and shear scales
-                                ! in the diffusivity equation, Set this to 0 (the default) to eliminate the
-                                ! shear scale. This is only used if USE_JACKSON_PARAM is true.
-KAPPA_SHEAR_TOL_ERR = 0.1       !   [nondim] default = 0.1
-                                ! The fractional error in kappa that is tolerated. Iteration stops when changes
-                                ! between subsequent iterations are smaller than this everywhere in a column.
-                                ! The peak diffusivities usually converge most rapidly, and have much smaller
-                                ! errors than this.
 TKE_BACKGROUND = 0.0            !   [m2 s-2] default = 0.0
                                 ! A background level of TKE used in the first iteration of the kappa equation.
                                 ! TKE_BACKGROUND could be 0.
-KAPPA_SHEAR_ELIM_MASSLESS = True !   [Boolean] default = True
-                                ! If true, massless layers are merged with neighboring massive layers in this
-                                ! calculation.  The default is true and I can think of no good reason why it
-                                ! should be false. This is only used if USE_JACKSON_PARAM is true.
-MAX_KAPPA_SHEAR_IT = 13         !   [nondim] default = 13
-                                ! The maximum number of iterations that may be used to estimate the
-                                ! time-averaged diffusivity.
-KAPPA_SHEAR_MAX_KAP_SRC_CHG = 10.0 !   [nondim] default = 10.0
-                                ! The maximum permitted increase in the kappa source within an iteration
-                                ! relative to the local source; this must be greater than 1.  The lower limit
-                                ! for the permitted fractional decrease is (1 - 0.5/kappa_src_max_chg).  These
-                                ! limits could perhaps be made dynamic with an improved iterative solver.
-KAPPA_SHEAR_ITER_BUG = False    !   [Boolean] default = False
-                                ! If true, use an older, dimensionally inconsistent estimate of the derivative
-                                ! of diffusivity with energy in the Newton's method iteration.  The bug causes
-                                ! undercorrections when dz > 1 m.
-KAPPA_SHEAR_ALL_LAYER_TKE_BUG = False !   [Boolean] default = False
-                                ! If true, report back the latest estimate of TKE instead of the time average
-                                ! TKE when there is mass in all layers.  Otherwise always report the time
-                                ! averaged TKE, as is currently done when there are some massless layers.
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
@@ -1374,15 +1320,6 @@ VAR_PEN_SW = False              !   [Boolean] default = False
 REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False
                                 ! If defined, vertically restructure the near-surface layers when they have too
                                 ! much lateral variations to allow for sensible lateral barotropic transports.
-HMIX_MIN = 0.0                  !   [m] default = 0.0
-                                ! The minimum mixed layer depth if the mixed layer depth is determined
-                                ! dynamically.
-REG_SFC_DEFICIT_TOLERANCE = 0.5 !   [nondim] default = 0.5
-                                ! The value of the relative thickness deficit at which to start modifying the
-                                ! layer structure when REGULARIZE_SURFACE_LAYERS is true.
-ALLOW_CLOCKS_IN_OMP_LOOPS = True !   [Boolean] default = True
-                                ! If true, clocks can be called from inside loops that can be threaded. To run
-                                ! with multiple threads, set to False.
 
 ! === module MOM_opacity ===
 EXP_OPACITY_SCHEME = "SINGLE_EXP" ! default = "SINGLE_EXP"

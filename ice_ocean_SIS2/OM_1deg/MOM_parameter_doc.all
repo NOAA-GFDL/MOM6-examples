@@ -1,9 +1,7 @@
 ! This file was written by the model and records all non-layout or debugging parameters used at run-time.
 
-! === module MOM ===
 
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
+! === module MOM ===
 SPLIT = True                    !   [Boolean] default = True
                                 ! Use the split time stepping if true.
 CALC_RHO_FOR_SEA_LEVEL = False  !   [Boolean] default = False
@@ -164,6 +162,12 @@ NIGLOBAL = 360                  !
 NJGLOBAL = 320                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
+NIHALO = 4                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 4                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -1356,6 +1360,8 @@ MLE_TAIL_DH = 0.0               !   [nondim] default = 0.0
 MLE_MLD_STRETCH = 1.0           !   [nondim] default = 1.0
                                 ! A scaling coefficient for stretching/shrinking the MLD used in the MLE scheme.
                                 ! This simply multiplies MLD wherever used.
+
+! === module MOM_diagnostics ===
 DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0
                                 ! The lower fraction of water column over which N2 is limited as monotonic for
                                 ! the purposes of calculating the equivalent barotropic wave speed.
@@ -1827,15 +1833,6 @@ EPBL_USTAR_MIN = 1.45842E-18    !   [m s-1]
 REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False
                                 ! If defined, vertically restructure the near-surface layers when they have too
                                 ! much lateral variations to allow for sensible lateral barotropic transports.
-HMIX_MIN = 0.0                  !   [m] default = 0.0
-                                ! The minimum mixed layer depth if the mixed layer depth is determined
-                                ! dynamically.
-REG_SFC_DEFICIT_TOLERANCE = 0.5 !   [nondim] default = 0.5
-                                ! The value of the relative thickness deficit at which to start modifying the
-                                ! layer structure when REGULARIZE_SURFACE_LAYERS is true.
-ALLOW_CLOCKS_IN_OMP_LOOPS = True !   [Boolean] default = True
-                                ! If true, clocks can be called from inside loops that can be threaded. To run
-                                ! with multiple threads, set to False.
 
 ! === module MOM_opacity ===
 OPACITY_SCHEME = "MANIZZA_05"   ! default = "MANIZZA_05"

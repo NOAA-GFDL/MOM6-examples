@@ -1,9 +1,7 @@
 ! This file was written by the model and records all non-layout or debugging parameters used at run-time.
 
-! === module MOM ===
 
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
+! === module MOM ===
 SPLIT = True                    !   [Boolean] default = True
                                 ! Use the split time stepping if true.
 CALC_RHO_FOR_SEA_LEVEL = False  !   [Boolean] default = False
@@ -144,6 +142,12 @@ NIGLOBAL = 360                  !
 NJGLOBAL = 180                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
+NIHALO = 4                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 4                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -950,7 +954,6 @@ VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
                                 ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
                                 ! divided by the age of the universe.
 
-! === module MOM_PointAccel ===
 
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
@@ -1073,6 +1076,8 @@ FOX_KEMPER_ML_RESTRAT_COEF = 5.0 !   [nondim] default = 0.0
                                 ! energy to the large-scale geostrophic kinetic energy or 1 plus the square of
                                 ! the grid spacing over the deformation radius, as detailed by Fox-Kemper et al.
                                 ! (2010)
+
+! === module MOM_diagnostics ===
 DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0
                                 ! The lower fraction of water column over which N2 is limited as monotonic for
                                 ! the purposes of calculating the equivalent barotropic wave speed.
@@ -1346,7 +1351,7 @@ VAR_PEN_SW = False              !   [Boolean] default = False
                                 ! the e-folding depth of incoming short wave radiation.
 
 ! === module MOM_mixed_layer ===
-MSTAR = 0.3                     !   [units=nondim] default = 1.2
+MSTAR = 0.3                     !   [nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE input to the mixed layer.
 NSTAR = 0.15                    !   [nondim] default = 0.15
                                 ! The portion of the buoyant potential energy imparted by surface fluxes that is
@@ -1445,9 +1450,6 @@ LIMIT_BUFFER_DET_DH_BATHY = 0.2 !   [nondim] default = 0.2
 REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False
                                 ! If defined, vertically restructure the near-surface layers when they have too
                                 ! much lateral variations to allow for sensible lateral barotropic transports.
-REG_SFC_DEFICIT_TOLERANCE = 0.5 !   [nondim] default = 0.5
-                                ! The value of the relative thickness deficit at which to start modifying the
-                                ! layer structure when REGULARIZE_SURFACE_LAYERS is true.
 
 ! === module MOM_opacity ===
 EXP_OPACITY_SCHEME = "SINGLE_EXP" ! default = "SINGLE_EXP"

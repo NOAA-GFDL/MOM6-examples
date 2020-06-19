@@ -2,8 +2,6 @@
 
 ! === module ice_model ===
 
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of the solar zenith angle for
                                 ! the first radiation step, or a negative number to use the current time and
@@ -21,8 +19,6 @@ NJGLOBAL = 105                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
 
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module SIS_initialize_fixed ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -51,8 +47,6 @@ GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = False
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
 
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
@@ -143,4 +137,3 @@ ICE_DELTA_EDD_R_POND = 1.0      !   [nondimensional] default = 0.0
                                 ! meltwater ponds on sea ice with the delta-Eddington radiative transfer
                                 ! calculation.
 
-! === module MOM_file_parser ===

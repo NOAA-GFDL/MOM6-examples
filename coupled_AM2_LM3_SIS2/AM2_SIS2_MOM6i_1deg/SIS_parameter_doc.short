@@ -2,8 +2,6 @@
 
 ! === module ice_model ===
 
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
 DT_RADIATION = 1.08E+04         !   [s] default = 7200.0
                                 ! The time step with which the shortwave radiation and fields like albedos are
                                 ! updated.  Currently this is only used to initialize albedos when there is no
@@ -19,9 +17,13 @@ NIGLOBAL = 360                  !
 NJGLOBAL = 210                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
+NIHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module SIS_initialize_fixed ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -51,8 +53,6 @@ GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = False
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
 
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
@@ -138,4 +138,3 @@ CFL_MASS_NEGLECT_BUG = True     !   [Boolean] default = False
 ! === module SIS_optics ===
 ! This module calculates the albedo and absorption profiles for shortwave radiation.
 
-! === module MOM_file_parser ===

@@ -1,9 +1,7 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
-! === module MOM ===
 
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
+! === module MOM ===
 SPLIT = False                   !   [Boolean] default = True
                                 ! Use the split time stepping if true.
 DT = 1200.0                     !   [s]
@@ -28,9 +26,13 @@ NIGLOBAL = 2                    !
 NJGLOBAL = 2                    !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
+NIHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module MOM_fixed_initialization ===
 
@@ -82,9 +84,6 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
 MAXIMUM_DEPTH = 400.0           !   [m]
                                 ! The maximum depth of the ocean.
 
-! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
-! if any.
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -176,7 +175,6 @@ SCM_L2_TEMP = 15.0              !   [C] default = 20.0
 
 ! === module MOM_diag_mediator ===
 
-! === module MOM_MEKE ===
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -261,22 +259,15 @@ VEL_UNDERFLOW = 1.0E-30         !   [m s-1] default = 0.0
                                 ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
                                 ! divided by the age of the universe.
 
-! === module MOM_PointAccel ===
 
-! === module MOM_mixed_layer_restrat ===
+
+! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 
-! === module MOM_CVMix_KPP ===
-! This is the MOM wrapper to CVMix:KPP
-! See http://cvmix.github.io/
 
-! === module MOM_tidal_mixing ===
-! Vertical Tidal Mixing Parameterization
 
-! === module MOM_CVMix_conv ===
-! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -290,14 +281,8 @@ TOLERANCE_ENT = 1.0E-05         !   [m] default = 1.0E-08
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
 
-! === module MOM_kappa_shear ===
-! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
 
-! === module MOM_CVMix_shear ===
-! Parameterization of shear-driven turbulence via CVMix (various options)
 
-! === module MOM_CVMix_ddiff ===
-! Parameterization of mixing due to double diffusion processes via CVMix
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
@@ -317,7 +302,6 @@ BULKML_CONV_MOMENTUM_BUG = True !   [Boolean] default = False
                                 ! If true, use code with a bug that causes a loss of momentum conservation
                                 ! during mixedlayer convection.
 
-! === module MOM_regularize_layers ===
 
 ! === module MOM_opacity ===
 
@@ -327,11 +311,7 @@ BULKML_CONV_MOMENTUM_BUG = True !   [Boolean] default = False
 KHTR = 600.0                    !   [m2 s-1] default = 0.0
                                 ! The background along-isopycnal tracer diffusivity.
 
-! === module MOM_neutral_diffusion ===
-! This module implements neutral diffusion of tracers
 
-! === module MOM_lateral_boundary_diffusion ===
-! This module implements lateral diffusion of tracers near boundaries
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
@@ -386,4 +366,3 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! seconds, so the actual CPU time used is larger by a factor of the number of
                                 ! processors used.
 
-! === module MOM_file_parser ===

@@ -1,9 +1,7 @@
 ! This file was written by the model and records all non-layout or debugging parameters used at run-time.
 
-! === module MOM ===
 
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
+! === module MOM ===
 SPLIT = False                   !   [Boolean] default = True
                                 ! Use the split time stepping if true.
 USE_RK2 = False                 !   [Boolean] default = False
@@ -141,6 +139,12 @@ NIGLOBAL = 2                    !
 NJGLOBAL = 2                    !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
+NIHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -801,13 +805,14 @@ VEL_UNDERFLOW = 1.0E-30         !   [m s-1] default = 0.0
                                 ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
                                 ! divided by the age of the universe.
 
-! === module MOM_PointAccel ===
 
 ! === module MOM_mixed_layer_restrat ===
 MIXEDLAYER_RESTRAT = False      !   [Boolean] default = False
                                 ! If true, a density-gradient dependent re-stratifying flow is imposed in the
                                 ! mixed layer. Can be used in ALE mode without restriction but in layer mode can
                                 ! only be used if BULKMIXEDLAYER is true.
+
+! === module MOM_diagnostics ===
 DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0
                                 ! The lower fraction of water column over which N2 is limited as monotonic for
                                 ! the purposes of calculating the equivalent barotropic wave speed.
@@ -938,7 +943,7 @@ ML_RAD_APPLY_TKE_DECAY = True   !   [Boolean] default = True
                                 ! If true, apply the same exponential decay to ML_rad as is applied to the other
                                 ! surface sources of TKE in the mixed layer code. This is only used if
                                 ! ML_RADIATION is true.
-MSTAR = 1.2                     !   [units=nondim] default = 1.2
+MSTAR = 1.2                     !   [nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE input to the mixed layer.
 TKE_DECAY = 10.0                !   [nondim] default = 2.5
                                 ! The ratio of the natural Ekman depth to the TKE decay scale.
@@ -1209,9 +1214,6 @@ ALLOW_CLOCKS_IN_OMP_LOOPS = True !   [Boolean] default = True
 REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False
                                 ! If defined, vertically restructure the near-surface layers when they have too
                                 ! much lateral variations to allow for sensible lateral barotropic transports.
-REG_SFC_DEFICIT_TOLERANCE = 0.5 !   [nondim] default = 0.5
-                                ! The value of the relative thickness deficit at which to start modifying the
-                                ! layer structure when REGULARIZE_SURFACE_LAYERS is true.
 
 ! === module MOM_opacity ===
 OPACITY_SCHEME = "MANIZZA_05"   ! default = "MANIZZA_05"

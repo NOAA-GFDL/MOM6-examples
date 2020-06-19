@@ -1,9 +1,7 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
-! === module MOM ===
 
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
+! === module MOM ===
 USE_REGRIDDING = True           !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping). If False, use the
                                 ! layered isopycnal algorithm.
@@ -72,8 +70,6 @@ NJGLOBAL = 576                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
 
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -127,9 +123,6 @@ MINIMUM_DEPTH = 9.5             !   [m] default = 0.0
                                 ! specified, then all depths shallower than MINIMUM_DEPTH but deeper than
                                 ! MASKING_DEPTH are rounded to MINIMUM_DEPTH.
 
-! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
-! if any.
 MASKING_DEPTH = 0.0             !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all fluxes are
                                 ! zeroed out. MASKING_DEPTH is ignored if negative.
@@ -491,7 +484,6 @@ HMIX_FIXED = 0.5                !   [m]
 MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 
-! === module MOM_PointAccel ===
 
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
@@ -548,6 +540,8 @@ MLE_MLD_DECAY_TIME = 2.592E+06  !   [s] default = 0.0
                                 ! current running-mean the running-mean is instantaneously set to the current
                                 ! MLD.
 
+! === module MOM_diagnostics ===
+
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
@@ -557,9 +551,6 @@ EPBL_IS_ADDITIVE = False        !   [Boolean] default = True
                                 ! If true, the diffusivity from ePBL is added to all other diffusivities.
                                 ! Otherwise, the larger of kappa-shear and ePBL diffusivities are used.
 
-! === module MOM_CVMix_KPP ===
-! This is the MOM wrapper to CVMix:KPP
-! See http://cvmix.github.io/
 
 ! === module MOM_tidal_mixing ===
 ! Vertical Tidal Mixing Parameterization
@@ -594,8 +585,6 @@ H2_FILE = "ocean_topog.nc"      !
                                 ! The path to the file containing the sub-grid-scale topographic roughness
                                 ! amplitude with INT_TIDE_DISSIPATION.
 
-! === module MOM_CVMix_conv ===
-! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_geothermal ===
 GEOTHERMAL_SCALE = 1.0          !   [W m-2 or various] default = 0.0
@@ -651,11 +640,7 @@ KAPPA_SHEAR_ALL_LAYER_TKE_BUG = True !   [Boolean] default = False
                                 ! TKE when there is mass in all layers.  Otherwise always report the time
                                 ! averaged TKE, as is currently done when there are some massless layers.
 
-! === module MOM_CVMix_shear ===
-! Parameterization of shear-driven turbulence via CVMix (various options)
 
-! === module MOM_CVMix_ddiff ===
-! Parameterization of mixing due to double diffusion processes via CVMix
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
@@ -736,7 +721,6 @@ EPBL_USTAR_MIN = 1.45842E-18    !   [m s-1]
                                 ! The (tiny) minimum friction velocity used within the ePBL code, derived from
                                 ! OMEGA and ANGSTROM.
 
-! === module MOM_regularize_layers ===
 
 ! === module MOM_opacity ===
 PEN_SW_NBANDS = 3               ! default = 1
@@ -766,8 +750,6 @@ MAX_TR_DIFFUSION_CFL = 2.0      !   [nondim] default = -1.0
 USE_NEUTRAL_DIFFUSION = True    !   [Boolean] default = False
                                 ! If true, enables the neutral diffusion module.
 
-! === module MOM_lateral_boundary_diffusion ===
-! This module implements lateral diffusion of tracers near boundaries
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 100000               !   [truncations save_interval-1] default = 0
@@ -821,4 +803,3 @@ SEA_ICE_RIGID_MASS = 100.0      !   [kg m-2] default = 1000.0
 
 ! === module MOM_restart ===
 
-! === module MOM_file_parser ===

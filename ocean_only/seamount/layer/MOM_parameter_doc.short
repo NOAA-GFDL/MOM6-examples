@@ -1,9 +1,7 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
-! === module MOM ===
 
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
+! === module MOM ===
 BULKMIXEDLAYER = False          !   [Boolean] default = True
                                 ! If true, use a Kraus-Turner-like bulk mixed layer with transitional buffer
                                 ! layers.  Layers 1 through NKML+NKBL have variable densities. There must be at
@@ -33,9 +31,13 @@ NIGLOBAL = 40                   !
 NJGLOBAL = 2                    !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
+NIHALO = 3                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 3                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT/"             ! default = "."
@@ -97,9 +99,6 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! specified, then all depths shallower than MINIMUM_DEPTH but deeper than
                                 ! MASKING_DEPTH are rounded to MINIMUM_DEPTH.
 
-! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
-! if any.
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -214,7 +213,6 @@ TS_CONFIG = "seamount"          !
 
 ! === module MOM_diag_mediator ===
 
-! === module MOM_MEKE ===
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -309,7 +307,6 @@ KVML = 0.01                     !   [m2 s-1] default = 1.0E-04
 MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 
-! === module MOM_PointAccel ===
 
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
@@ -340,20 +337,14 @@ DTBT = 10.0                     !   [s or nondim] default = -0.98
                                 ! DTBT to 0 is the same as setting it to -0.98. The value of DTBT that will
                                 ! actually be used is an integer fraction of DT, rounding down.
 
-! === module MOM_mixed_layer_restrat ===
+
+! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 
-! === module MOM_CVMix_KPP ===
-! This is the MOM wrapper to CVMix:KPP
-! See http://cvmix.github.io/
 
-! === module MOM_tidal_mixing ===
-! Vertical Tidal Mixing Parameterization
 
-! === module MOM_CVMix_conv ===
-! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_entrain_diffusive ===
 
@@ -365,19 +356,12 @@ BBL_EFFIC = 0.0                 !   [nondim] default = 0.2
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
 
-! === module MOM_kappa_shear ===
-! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
 
-! === module MOM_CVMix_shear ===
-! Parameterization of shear-driven turbulence via CVMix (various options)
 
-! === module MOM_CVMix_ddiff ===
-! Parameterization of mixing due to double diffusion processes via CVMix
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
 
-! === module MOM_regularize_layers ===
 
 ! === module MOM_opacity ===
 PEN_SW_SCALE = 15.0             !   [m] default = 0.0
@@ -390,11 +374,7 @@ PEN_SW_FRAC = 0.42              !   [nondim] default = 0.0
 
 ! === module MOM_tracer_hor_diff ===
 
-! === module MOM_neutral_diffusion ===
-! This module implements neutral diffusion of tracers
 
-! === module MOM_lateral_boundary_diffusion ===
-! This module implements lateral diffusion of tracers near boundaries
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
@@ -442,4 +422,3 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! seconds, so the actual CPU time used is larger by a factor of the number of
                                 ! processors used.
 
-! === module MOM_file_parser ===
