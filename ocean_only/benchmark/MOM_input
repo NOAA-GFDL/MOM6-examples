@@ -109,17 +109,12 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
 MAXIMUM_DEPTH = 5500.0          !   [m]
                                 ! The maximum depth of the ocean.
 
-
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
 NK = 22                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
 ! === module MOM_EOS ===
-
-! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
@@ -156,9 +151,6 @@ TS_RANGE_RESOLN_RATIO = 5.0     !   [nondim] default = 1.0
                                 ! The ratio of density space resolution in the densest part of the range to that
                                 ! in the lightest part of the range when COORD_CONFIG is set to ts_range. Values
                                 ! greater than 1 increase the resolution of the denser water.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "benchmark"  ! default = "uniform"
@@ -212,7 +204,6 @@ TS_CONFIG = "benchmark"         !
                                 !     USER - call a user modified routine.
 
 ! === module MOM_diag_mediator ===
-
 
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
@@ -318,7 +309,6 @@ SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
 MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 
-
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the barotropic solver are
@@ -362,9 +352,6 @@ FOX_KEMPER_ML_RESTRAT_COEF = 5.0 !   [nondim] default = 0.0
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-
-
-
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -444,8 +431,6 @@ ML_KHTR_SCALE = 0.0             !   [nondim] default = 1.0
                                 ! With Diffuse_ML_interior, the ratio of the truly horizontal diffusivity in the
                                 ! mixed layer to the epipycnal diffusivity.  The valid range is 0 to 1.
 
-
-
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very large value if the velocity
@@ -483,8 +468,6 @@ SST_SOUTH = 3.0                 !   [deg C] default = 0.0
 GUST_CONST = 0.02               !   [Pa] default = 0.0
                                 ! The background gustiness in the winds.
 
-! === module MOM_restart ===
-
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 3600.0             !   [s] default = 900.0
                                 ! The time step for changing forcing, coupling with other components, or
@@ -511,3 +494,12 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! seconds, so the actual CPU time used is larger by a factor of the number of
                                 ! processors used.
 
+! Debugging parameters set to non-default values
+U_TRUNC_FILE = "U_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to zonal
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.
+V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to meridional
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.

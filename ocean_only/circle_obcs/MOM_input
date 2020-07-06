@@ -139,10 +139,6 @@ NK = 10                         !   [nondim]
 
 ! === module MOM_boundary_update ===
 
-! === module MOM_tracer_registry ===
-
-! === module MOM_restart ===
-
 ! === module MOM_tracer_flow_control ===
 USE_DOME_TRACER = True          !   [Boolean] default = False
                                 ! If true, use the DOME_tracer tracer package.
@@ -170,9 +166,6 @@ COORD_CONFIG = "layer_ref"      ! default = "none"
                                 !     USER - call a user modified routine.
 LIGHTEST_DENSITY = 1030.0       !   [kg m-3] default = 1031.0
                                 ! The reference potential density used for layer 1.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "circle_obcs" ! default = "uniform"
@@ -208,7 +201,6 @@ DISK_RADIUS = 24.0              !   [kilometers]
                                 ! The radius of the initially elevated disk in the circle_obcs test case.
 
 ! === module MOM_diag_mediator ===
-
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -291,7 +283,6 @@ KVML = 0.01                     !   [m2 s-1] default = 1.0E-04
 MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 
-
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the barotropic solver are
@@ -318,14 +309,10 @@ DTBT = -0.95                    !   [s or nondim] default = -0.98
                                 ! DTBT to 0 is the same as setting it to -0.98. The value of DTBT that will
                                 ! actually be used is an integer fraction of DT, rounding down.
 
-
 ! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-
-
-
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -351,17 +338,12 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
 
-
-
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
-
 
 ! === module MOM_tracer_advect ===
 
 ! === module MOM_tracer_hor_diff ===
-
-
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 10                   !   [truncations save_interval-1] default = 0
@@ -383,8 +365,6 @@ VARIABLE_BUOYFORCE = False      !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
 
-! === module MOM_restart ===
-
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 600.0              !   [s] default = 120.0
                                 ! The time step for changing forcing, coupling with other components, or
@@ -402,12 +382,12 @@ RESTINT = 10.0                  !   [hours] default = 0.0
                                 ! The interval between saves of the restart file in units of TIMEUNIT.  Use 0
                                 ! (the default) to not save incremental restart files at all.
 
-! === module MOM_write_cputime ===
-MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
-                                ! The maximum amount of cpu time per processor for which MOM should run before
-                                ! saving a restart file and quitting with a return value that indicates that a
-                                ! further run is required to complete the simulation. If automatic restarts are
-                                ! not desired, use a negative value for MAXCPU.  MAXCPU has units of wall-clock
-                                ! seconds, so the actual CPU time used is larger by a factor of the number of
-                                ! processors used.
-
+! Debugging parameters set to non-default values
+U_TRUNC_FILE = "U_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to zonal
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.
+V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to meridional
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.

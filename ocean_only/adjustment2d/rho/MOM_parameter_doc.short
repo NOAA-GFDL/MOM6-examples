@@ -1,6 +1,5 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
-
 ! === module MOM ===
 USE_REGRIDDING = True           !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping). If False, use the
@@ -34,7 +33,6 @@ NIGLOBAL = 128                  !
 NJGLOBAL = 4                    !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -92,7 +90,6 @@ MINIMUM_DEPTH = 0.1             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 20.0            !   [m]
                                 ! The maximum depth of the ocean.
-
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -113,8 +110,6 @@ ANGSTROM = 1.0E-15              !   [m] default = 1.0E-10
 NK = 25                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
 ! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
@@ -126,8 +121,6 @@ DRHO_DT = 0.0                   !   [kg m-3 K-1] default = -0.2
 DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! salinity.
-
-! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 
@@ -200,9 +193,6 @@ REMAPPING_SCHEME = "PPM_IH4"    ! default = "PLM"
                                 ! PQM_IH4IH3  (4th-order accurate)
                                 ! PQM_IH6IH5  (5th-order accurate)
 
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
 ! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "adjustment2d" ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
@@ -267,7 +257,6 @@ S_RANGE = 5.0                   !   [1e-3] default = 2.0
                                 ! Initial salinity range
 
 ! === module MOM_diag_mediator ===
-
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -382,14 +371,10 @@ DTBT = 5.0                      !   [s or nondim] default = -0.98
                                 ! DTBT to 0 is the same as setting it to -0.98. The value of DTBT that will
                                 ! actually be used is an integer fraction of DT, rounding down.
 
-
 ! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-
-
-
 
 ! === module MOM_set_diffusivity ===
 BBL_EFFIC = 0.0                 !   [nondim] default = 0.2
@@ -399,12 +384,8 @@ BBL_EFFIC = 0.0                 !   [nondim] default = 0.2
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
 
-
-
-
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
-
 
 ! === module MOM_opacity ===
 PEN_SW_SCALE = 15.0             !   [m] default = 0.0
@@ -416,8 +397,6 @@ PEN_SW_FRAC = 0.42              !   [nondim] default = 0.0
 ! === module MOM_tracer_advect ===
 
 ! === module MOM_tracer_hor_diff ===
-
-
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 10                   !   [truncations save_interval-1] default = 0
@@ -442,8 +421,6 @@ BUOY_CONFIG = "NONE"            ! default = "zero"
                                 ! The character string that indicates how buoyancy forcing is specified. Valid
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
 
-! === module MOM_restart ===
-
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 600.0              !   [s] default = 150.0
                                 ! The time step for changing forcing, coupling with other components, or
@@ -460,13 +437,3 @@ RESTART_CONTROL = 3             ! default = 1
 RESTINT = 240.0                 !   [hours] default = 0.0
                                 ! The interval between saves of the restart file in units of TIMEUNIT.  Use 0
                                 ! (the default) to not save incremental restart files at all.
-
-! === module MOM_write_cputime ===
-MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
-                                ! The maximum amount of cpu time per processor for which MOM should run before
-                                ! saving a restart file and quitting with a return value that indicates that a
-                                ! further run is required to complete the simulation. If automatic restarts are
-                                ! not desired, use a negative value for MAXCPU.  MAXCPU has units of wall-clock
-                                ! seconds, so the actual CPU time used is larger by a factor of the number of
-                                ! processors used.
-

@@ -92,15 +92,10 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
 MAXIMUM_DEPTH = 2000.0          !   [m]
                                 ! The maximum depth of the ocean.
 
-
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
 NK = 2                          !   [nondim]
                                 ! The number of model layers.
-
-! === module MOM_tracer_registry ===
-
-! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 
@@ -128,13 +123,9 @@ GFS = 0.98                      !   [m s-2] default = 9.8
 GINT = 0.0098                   !   [m s-2]
                                 ! The reduced gravity across internal interfaces.
 
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
 ! === module MOM_state_initialization ===
 
 ! === module MOM_diag_mediator ===
-
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -241,7 +232,6 @@ DTBT = -0.9                     !   [s or nondim] default = -0.98
                                 ! DTBT to 0 is the same as setting it to -0.98. The value of DTBT that will
                                 ! actually be used is an integer fraction of DT, rounding down.
 
-
 ! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
@@ -250,8 +240,6 @@ DTBT = -0.9                     !   [s or nondim] default = -0.98
 ! === module MOM_tracer_advect ===
 
 ! === module MOM_tracer_hor_diff ===
-
-
 
 ! === module MOM_sum_output ===
 DATE_STAMPED_STDOUT = False     !   [Boolean] default = True
@@ -277,8 +265,6 @@ WIND_CONFIG = "2gyre"           ! default = "zero"
                                 ! The character string that indicates how wind forcing is specified. Valid
                                 ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 
-! === module MOM_restart ===
-
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 2400.0             !   [s] default = 1200.0
                                 ! The time step for changing forcing, coupling with other components, or
@@ -295,6 +281,3 @@ RESTART_CONTROL = 3             ! default = 1
 RESTINT = 110.0                 !   [days] default = 0.0
                                 ! The interval between saves of the restart file in units of TIMEUNIT.  Use 0
                                 ! (the default) to not save incremental restart files at all.
-
-! === module MOM_write_cputime ===
-
