@@ -1,6 +1,5 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
-
 ! === module MOM ===
 THICKNESSDIFFUSE = True         !   [Boolean] default = False
                                 ! If true, interface heights are diffused with a coefficient of KHTH.
@@ -29,8 +28,6 @@ C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
                                 ! definition of conservative temperature.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
-                                ! This sets the default value for the various _2018_ANSWERS parameters.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "GOLD_IC"      ! default = "MOM_IC"
@@ -43,7 +40,6 @@ NIGLOBAL = 360                  !
 NJGLOBAL = 180                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -104,17 +100,12 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
 MAXIMUM_DEPTH = 5500.0          !   [m]
                                 ! The maximum depth of the ocean.
 
-
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
 NK = 22                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
 ! === module MOM_EOS ===
-
-! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
@@ -151,9 +142,6 @@ TS_RANGE_RESOLN_RATIO = 5.0     !   [nondim] default = 1.0
                                 ! The ratio of density space resolution in the densest part of the range to that
                                 ! in the lightest part of the range when COORD_CONFIG is set to ts_range. Values
                                 ! greater than 1 increase the resolution of the denser water.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "benchmark"  ! default = "uniform"
@@ -208,7 +196,6 @@ TS_CONFIG = "benchmark"         !
 
 ! === module MOM_diag_mediator ===
 
-
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
                                 ! If true, the variable mixing code will be called.  This allows diagnostics to
@@ -238,15 +225,6 @@ VARMIX_KTOP = 6                 !   [nondim] default = 2
                                 ! finding the Eady growth rate.
 VISBECK_L_SCALE = 3.0E+04       !   [m] default = 0.0
                                 ! The fixed length scale in the Visbeck formula.
-INTERPOLATE_RES_FN = True       !   [Boolean] default = False
-                                ! If true, interpolate the resolution function to the velocity points from the
-                                ! thickness points; otherwise interpolate the wave speed and calculate the
-                                ! resolution function independently at each point.
-GILL_EQUATORIAL_LD = False      !   [Boolean] default = True
-                                ! If true, uses Gill's definition of the baroclinic equatorial deformation
-                                ! radius, otherwise, if false, use Pedlosky's definition. These definitions
-                                ! differ by a factor of 2 in front of the beta term in the denominator. Gill's
-                                ! is the more appropriate definition.
 
 ! === module MOM_set_visc ===
 PRANDTL_TURB = 0.0              !   [nondim] default = 1.0
@@ -322,7 +300,6 @@ SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
 MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 
-
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the barotropic solver are
@@ -367,9 +344,6 @@ FOX_KEMPER_ML_RESTRAT_COEF = 5.0 !   [nondim] default = 0.0
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 
-
-
-
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
                                 ! The maximum number of iterations that may be used to calculate the interior
@@ -393,16 +367,6 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
-KAPPA_SHEAR_ITER_BUG = True     !   [Boolean] default = False
-                                ! If true, use an older, dimensionally inconsistent estimate of the derivative
-                                ! of diffusivity with energy in the Newton's method iteration.  The bug causes
-                                ! undercorrections when dz > 1 m.
-KAPPA_SHEAR_ALL_LAYER_TKE_BUG = True !   [Boolean] default = False
-                                ! If true, report back the latest estimate of TKE instead of the time average
-                                ! TKE when there is mass in all layers.  Otherwise always report the time
-                                ! averaged TKE, as is currently done when there are some massless layers.
-
-
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
@@ -436,10 +400,6 @@ CORRECT_ABSORPTION_DEPTH = True !   [Boolean] default = False
                                 ! If true, the average depth at which penetrating shortwave radiation is
                                 ! absorbed is adjusted to match the average heating depth of an exponential
                                 ! profile by moving some of the heating upward in the water column.
-BULKML_CONV_MOMENTUM_BUG = True !   [Boolean] default = False
-                                ! If true, use code with a bug that causes a loss of momentum conservation
-                                ! during mixedlayer convection.
-
 
 ! === module MOM_opacity ===
 PEN_SW_SCALE = 15.0             !   [m] default = 0.0
@@ -461,8 +421,6 @@ DIFFUSE_ML_TO_INTERIOR = True   !   [Boolean] default = False
 ML_KHTR_SCALE = 0.0             !   [nondim] default = 1.0
                                 ! With Diffuse_ML_interior, the ratio of the truly horizontal diffusivity in the
                                 ! mixed layer to the epipycnal diffusivity.  The valid range is 0 to 1.
-
-
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
@@ -501,8 +459,6 @@ SST_SOUTH = 3.0                 !   [deg C] default = 0.0
 GUST_CONST = 0.02               !   [Pa] default = 0.0
                                 ! The background gustiness in the winds.
 
-! === module MOM_restart ===
-
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 3600.0             !   [s] default = 900.0
                                 ! The time step for changing forcing, coupling with other components, or
@@ -528,4 +484,3 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! not desired, use a negative value for MAXCPU.  MAXCPU has units of wall-clock
                                 ! seconds, so the actual CPU time used is larger by a factor of the number of
                                 ! processors used.
-
