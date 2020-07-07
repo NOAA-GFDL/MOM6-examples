@@ -1,7 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module ice_model ===
-
 CGRID_ICE_DYNAMICS = False      !   [Boolean] default = True
                                 ! If true, use a C-grid discretization of the sea-ice dynamics; if false use a
                                 ! B-grid discretization.
@@ -33,7 +32,6 @@ NJHALO = 1                      ! default = 4
                                 ! The number of halo points on each side in the y-direction.  How this is set
                                 ! varies with the calling component and static or dynamic memory configuration.
 
-
 ! === module SIS_initialize_fixed ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -61,7 +59,6 @@ GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = False
 
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
-
 
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
@@ -125,4 +122,3 @@ CFL_MASS_NEGLECT_BUG = True     !   [Boolean] default = False
 
 ! === module SIS_optics ===
 ! This module calculates the albedo and absorption profiles for shortwave radiation.
-

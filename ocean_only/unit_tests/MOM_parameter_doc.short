@@ -1,6 +1,5 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
-
 ! === module MOM ===
 SPLIT = False                   !   [Boolean] default = True
                                 ! Use the split time stepping if true.
@@ -24,7 +23,6 @@ NIGLOBAL = 4                    !
 NJGLOBAL = 4                    !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-
 
 ! === module MOM_fixed_initialization ===
 
@@ -74,27 +72,18 @@ TOPO_CONFIG = "flat"            !
 MAXIMUM_DEPTH = 100.0           !   [m]
                                 ! The maximum depth of the ocean.
 
-
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
 NK = 1                          !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
-! === module MOM_restart ===
-
 ! === module MOM_tracer_flow_control ===
 
 ! === module MOM_coord_initialization ===
 
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
 ! === module MOM_state_initialization ===
 
 ! === module MOM_diag_mediator ===
-
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -139,7 +128,6 @@ HMIX_FIXED = 1.0                !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
 
-
 ! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
@@ -149,19 +137,12 @@ HMIX_FIXED = 1.0                !   [m]
 
 ! === module MOM_tracer_hor_diff ===
 
-
-
 ! === module MOM_sum_output ===
 
 ! === module MOM_surface_forcing ===
-
-! === module MOM_restart ===
 
 ! === module MOM_main (MOM_driver) ===
 DAYMAX = 1.0                    !   [days]
                                 ! The final time of the whole simulation, in units of TIMEUNIT seconds.  This
                                 ! also sets the potential end time of the present run segment if the end time is
                                 ! not set via ocean_solo_nml in input.nml.
-
-! === module MOM_write_cputime ===
-

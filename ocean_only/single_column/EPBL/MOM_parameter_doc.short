@@ -1,6 +1,5 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
-
 ! === module MOM ===
 SPLIT = False                   !   [Boolean] default = True
                                 ! Use the split time stepping if true.
@@ -39,7 +38,6 @@ NIHALO = 2                      ! default = 4
 NJHALO = 2                      ! default = 4
                                 ! The number of halo points on each side in the y-direction.  How this is set
                                 ! varies with the calling component and static or dynamic memory configuration.
-
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT/BATS"         ! default = "."
@@ -92,7 +90,6 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 6000.0          !   [m]
                                 ! The maximum depth of the ocean.
-
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -107,11 +104,7 @@ F_0 = 7.59943E-05               !   [s-1] default = 0.0
 NK = 75                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
 ! === module MOM_EOS ===
-
-! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 
@@ -147,9 +140,6 @@ ALE_COORDINATE_CONFIG = "FILE:./INPUT/vgrid_cm4.nc,dz" ! default = "UNIFORM"
                                 ! thicknesses (in m). In sigma-coordinate mode, the list
                                 ! is of non-dimensional fractions of the water column.
 
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
                                 ! If true, initialize the layer thicknesses, temperatures, and salinities from a
@@ -173,7 +163,6 @@ Z_INIT_REMAP_OLD_ALG = True     !   [Boolean] default = False
                                 ! use an older, less robust algorithm for remapping.
 
 ! === module MOM_diag_mediator ===
-
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -261,8 +250,6 @@ VEL_UNDERFLOW = 1.0E-30         !   [m s-1] default = 0.0
                                 ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
                                 ! divided by the age of the universe.
 
-
-
 ! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
@@ -281,8 +268,6 @@ KPP%
 PASSIVE = True                  !   [Boolean] default = False
                                 ! If True, puts KPP into a passive-diagnostic mode.
 %KPP
-
-
 
 ! === module MOM_set_diffusivity ===
 ML_RADIATION = True             !   [Boolean] default = False
@@ -313,8 +298,6 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
 
-
-
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
 RECLAIM_FRAZIL = False          !   [Boolean] default = True
@@ -332,10 +315,6 @@ CHL_FILE = "forcing_monthly.nc" !
 USE_MLD_ITERATION = False       !   [Boolean] default = True
                                 ! A logical that specifies whether or not to use the distance to the bottom of
                                 ! the actively turbulent boundary layer to help set the EPBL length scale.
-EPBL_USTAR_MIN = 1.45842E-18    !   [m s-1]
-                                ! The (tiny) minimum friction velocity used within the ePBL code, derived from
-                                ! OMEGA and ANGSTROM.
-
 
 ! === module MOM_opacity ===
 PEN_SW_NBANDS = 3               ! default = 1
@@ -346,8 +325,6 @@ PEN_SW_NBANDS = 3               ! default = 1
 ! === module MOM_tracer_hor_diff ===
 KHTR = 600.0                    !   [m2 s-1] default = 0.0
                                 ! The background along-isopycnal tracer diffusivity.
-
-
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
@@ -369,8 +346,6 @@ READ_GUST_2D = True             !   [Boolean] default = False
                                 ! If true, use a 2-dimensional gustiness supplied from an input file
 GUST_2D_FILE = "forcing_monthly.nc" !
                                 ! The file in which the wind gustiness is found in variable gustiness.
-
-! === module MOM_restart ===
 
 ! === module MOM_main (MOM_driver) ===
 DAYMAX = 180.0                  !   [days]
@@ -394,4 +369,3 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! not desired, use a negative value for MAXCPU.  MAXCPU has units of wall-clock
                                 ! seconds, so the actual CPU time used is larger by a factor of the number of
                                 ! processors used.
-

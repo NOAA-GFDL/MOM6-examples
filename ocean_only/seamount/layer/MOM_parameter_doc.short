@@ -1,6 +1,5 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
-
 ! === module MOM ===
 BULKMIXEDLAYER = False          !   [Boolean] default = True
                                 ! If true, use a Kraus-Turner-like bulk mixed layer with transitional buffer
@@ -37,7 +36,6 @@ NIHALO = 3                      ! default = 4
 NJHALO = 3                      ! default = 4
                                 ! The number of halo points on each side in the y-direction.  How this is set
                                 ! varies with the calling component and static or dynamic memory configuration.
-
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT/"             ! default = "."
@@ -98,7 +96,6 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! assumed to be land and all fluxes are masked out. If MASKING_DEPTH is
                                 ! specified, then all depths shallower than MINIMUM_DEPTH but deeper than
                                 ! MASKING_DEPTH are rounded to MINIMUM_DEPTH.
-
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -111,8 +108,6 @@ ROTATION = "betaplane"          ! default = "2omegasinlat"
 NK = 20                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
 ! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
@@ -124,8 +119,6 @@ DRHO_DT = 0.0                   !   [kg m-3 K-1] default = -0.2
 DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! salinity.
-
-! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 
@@ -156,9 +149,6 @@ TS_RANGE_S_LIGHT = 34.05        !   [PSU] default = 34.0
                                 ! The initial lightest salinities when COORD_CONFIG is set to ts_range.
 TS_RANGE_S_DENSE = 35.95        !   [PSU] default = 34.0
                                 ! The initial densest salinities when COORD_CONFIG is set to ts_range.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "seamount"   ! default = "uniform"
@@ -212,7 +202,6 @@ TS_CONFIG = "seamount"          !
                                 !     USER - call a user modified routine.
 
 ! === module MOM_diag_mediator ===
-
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -307,7 +296,6 @@ KVML = 0.01                     !   [m2 s-1] default = 1.0E-04
 MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 
-
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the barotropic solver are
@@ -337,14 +325,10 @@ DTBT = 10.0                     !   [s or nondim] default = -0.98
                                 ! DTBT to 0 is the same as setting it to -0.98. The value of DTBT that will
                                 ! actually be used is an integer fraction of DT, rounding down.
 
-
 ! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-
-
-
 
 ! === module MOM_entrain_diffusive ===
 
@@ -356,12 +340,8 @@ BBL_EFFIC = 0.0                 !   [nondim] default = 0.2
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
 
-
-
-
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
-
 
 ! === module MOM_opacity ===
 PEN_SW_SCALE = 15.0             !   [m] default = 0.0
@@ -373,8 +353,6 @@ PEN_SW_FRAC = 0.42              !   [nondim] default = 0.0
 ! === module MOM_tracer_advect ===
 
 ! === module MOM_tracer_hor_diff ===
-
-
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
@@ -393,8 +371,6 @@ VARIABLE_BUOYFORCE = False      !   [Boolean] default = True
 BUOY_CONFIG = "NONE"            ! default = "zero"
                                 ! The character string that indicates how buoyancy forcing is specified. Valid
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
-
-! === module MOM_restart ===
 
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 1800.0             !   [s] default = 900.0
@@ -421,4 +397,3 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! not desired, use a negative value for MAXCPU.  MAXCPU has units of wall-clock
                                 ! seconds, so the actual CPU time used is larger by a factor of the number of
                                 ! processors used.
-

@@ -1,7 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module ice_model ===
-
 DT_RADIATION = 1.08E+04         !   [s] default = 7200.0
                                 ! The time step with which the shortwave radiation and fields like albedos are
                                 ! updated.  Currently this is only used to initialize albedos when there is no
@@ -23,7 +22,6 @@ NIHALO = 2                      ! default = 4
 NJHALO = 2                      ! default = 4
                                 ! The number of halo points on each side in the y-direction.  How this is set
                                 ! varies with the calling component and static or dynamic memory configuration.
-
 
 ! === module SIS_initialize_fixed ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -52,7 +50,6 @@ GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = False
 
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
-
 
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
@@ -137,4 +134,3 @@ CFL_MASS_NEGLECT_BUG = True     !   [Boolean] default = False
 
 ! === module SIS_optics ===
 ! This module calculates the albedo and absorption profiles for shortwave radiation.
-

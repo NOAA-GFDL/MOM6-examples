@@ -3,6 +3,7 @@ GLOBAL_INDEXING = False         !   [Boolean] default = False
                                 ! If true, use a global lateral indexing convention, so that corresponding
                                 ! points on different processors have the same index. This does not work with
                                 ! static memory.
+
 ! === module MOM_domains ===
 !SYMMETRIC_MEMORY_ = True       !   [Boolean]
                                 ! If defined, the velocity point data domain includes every face of the
@@ -48,6 +49,7 @@ NIBLOCK = 1                     ! default = 1
                                 ! The number of blocks in the x-direction on each processor (for openmp).
 NJBLOCK = 1                     ! default = 1
                                 ! The number of blocks in the y-direction on each processor (for openmp).
+
 ! === module MOM_domains ===
 MASKTABLE_FAST = "MOM_mask_table" ! default = "MOM_mask_table"
                                 ! A text file to specify n_mask, layout and mask_list. This feature masks out

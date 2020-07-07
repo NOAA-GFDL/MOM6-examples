@@ -1,6 +1,5 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
-
 ! === module MOM ===
 SPLIT = False                   !   [Boolean] default = True
                                 ! Use the split time stepping if true.
@@ -35,7 +34,6 @@ NIHALO = 2                      ! default = 4
 NJHALO = 2                      ! default = 4
                                 ! The number of halo points on each side in the y-direction.  How this is set
                                 ! varies with the calling component and static or dynamic memory configuration.
-
 
 ! === module MOM_fixed_initialization ===
 
@@ -86,7 +84,6 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 400.0           !   [m]
                                 ! The maximum depth of the ocean.
-
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -107,8 +104,6 @@ RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
 NK = 400                        !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
 ! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
@@ -120,8 +115,6 @@ DRHO_DT = -0.255                !   [kg m-3 K-1] default = -0.2
 DRHO_DS = 0.764                 !   [kg m-3 PSU-1] default = 0.8
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! salinity.
-
-! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 
@@ -142,9 +135,6 @@ REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 ! in z-coordinate mode, the parameter is a list of level
                                 ! thicknesses (in m). In sigma-coordinate mode, the list
                                 ! is of non-dimensional fractions of the water column.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "coord"      ! default = "uniform"
@@ -202,7 +192,6 @@ SCM_L2_DTDZ = 0.01              !   [C/m] default = 0.0
                                 ! Initial temperature stratification in layer 2
 
 ! === module MOM_diag_mediator ===
-
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -290,8 +279,6 @@ VEL_UNDERFLOW = 1.0E-30         !   [m s-1] default = 0.0
                                 ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
                                 ! divided by the age of the universe.
 
-
-
 ! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
@@ -300,16 +287,10 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary layer scheme to
                                 ! determine the diffusivity and viscosity in the surface boundary layer.
 
-
-
-
 ! === module MOM_set_diffusivity ===
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-
-
-
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
@@ -322,10 +303,6 @@ RECLAIM_FRAZIL = False          !   [Boolean] default = True
 USE_MLD_ITERATION = False       !   [Boolean] default = True
                                 ! A logical that specifies whether or not to use the distance to the bottom of
                                 ! the actively turbulent boundary layer to help set the EPBL length scale.
-EPBL_USTAR_MIN = 1.45842E-18    !   [m s-1]
-                                ! The (tiny) minimum friction velocity used within the ePBL code, derived from
-                                ! OMEGA and ANGSTROM.
-
 
 ! === module MOM_opacity ===
 
@@ -334,8 +311,6 @@ EPBL_USTAR_MIN = 1.45842E-18    !   [m s-1]
 ! === module MOM_tracer_hor_diff ===
 KHTR = 600.0                    !   [m2 s-1] default = 0.0
                                 ! The background along-isopycnal tracer diffusivity.
-
-
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
@@ -359,8 +334,6 @@ CONST_WIND_TAUX = 0.1           !   [Pa]
 CONST_WIND_TAUY = 0.0           !   [Pa]
                                 ! With wind_config const, this is the constant meridional wind-stress
 
-! === module MOM_restart ===
-
 ! === module MOM_main (MOM_driver) ===
 DAYMAX = 5.0                    !   [days]
                                 ! The final time of the whole simulation, in units of TIMEUNIT seconds.  This
@@ -383,4 +356,3 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! not desired, use a negative value for MAXCPU.  MAXCPU has units of wall-clock
                                 ! seconds, so the actual CPU time used is larger by a factor of the number of
                                 ! processors used.
-

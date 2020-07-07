@@ -1,6 +1,5 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
-
 ! === module MOM ===
 SPLIT = False                   !   [Boolean] default = True
                                 ! Use the split time stepping if true.
@@ -32,7 +31,6 @@ NIHALO = 2                      ! default = 4
 NJHALO = 2                      ! default = 4
                                 ! The number of halo points on each side in the y-direction.  How this is set
                                 ! varies with the calling component and static or dynamic memory configuration.
-
 
 ! === module MOM_fixed_initialization ===
 
@@ -83,7 +81,6 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 400.0           !   [m]
                                 ! The maximum depth of the ocean.
-
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -104,8 +101,6 @@ RHO_0 = 1000.0                  !   [kg m-3] default = 1035.0
 NK = 63                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
 ! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
@@ -117,8 +112,6 @@ DRHO_DT = -0.255                !   [kg m-3 K-1] default = -0.2
 DRHO_DS = 0.764                 !   [kg m-3 PSU-1] default = 0.8
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! salinity.
-
-! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 
@@ -143,9 +136,6 @@ COORD_CONFIG = "file"           ! default = "none"
                                 !     USER - call a user modified routine.
 COORD_FILE = "isopyc_coords.nc" !
                                 ! The file from which the coordinate densities are read.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
 TS_CONFIG = "SCM_CVMix_tests"   !
@@ -176,7 +166,6 @@ SCM_L2_DTDZ = 0.01              !   [C/m] default = 0.0
                                 ! Initial temperature stratification in layer 2
 
 ! === module MOM_diag_mediator ===
-
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -261,15 +250,10 @@ VEL_UNDERFLOW = 1.0E-30         !   [m s-1] default = 0.0
                                 ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
                                 ! divided by the age of the universe.
 
-
-
 ! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-
-
-
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -282,9 +266,6 @@ TOLERANCE_ENT = 1.0E-05         !   [m] default = 1.0E-08
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-
-
-
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
@@ -304,7 +285,6 @@ BULKML_CONV_MOMENTUM_BUG = True !   [Boolean] default = False
                                 ! If true, use code with a bug that causes a loss of momentum conservation
                                 ! during mixedlayer convection.
 
-
 ! === module MOM_opacity ===
 
 ! === module MOM_tracer_advect ===
@@ -312,8 +292,6 @@ BULKML_CONV_MOMENTUM_BUG = True !   [Boolean] default = False
 ! === module MOM_tracer_hor_diff ===
 KHTR = 600.0                    !   [m2 s-1] default = 0.0
                                 ! The background along-isopycnal tracer diffusivity.
-
-
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
@@ -335,8 +313,6 @@ BUOY_CONFIG = "const"           ! default = "zero"
 SENSIBLE_HEAT_FLUX = -100.0     !   [W/m2]
                                 ! A constant heat forcing (positive into ocean) applied through the sensible
                                 ! heat flux field.
-
-! === module MOM_restart ===
 
 ! === module MOM_main (MOM_driver) ===
 DAYMAX = 5.0                    !   [days]
@@ -360,4 +336,3 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! not desired, use a negative value for MAXCPU.  MAXCPU has units of wall-clock
                                 ! seconds, so the actual CPU time used is larger by a factor of the number of
                                 ! processors used.
-

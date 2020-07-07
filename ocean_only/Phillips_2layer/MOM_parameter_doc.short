@@ -1,6 +1,5 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
-
 ! === module MOM ===
 ENABLE_THERMODYNAMICS = False   !   [Boolean] default = True
                                 ! If true, Temperature and salinity are used as state variables.
@@ -32,7 +31,6 @@ NIGLOBAL = 60                   !
 NJGLOBAL = 80                   !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -90,7 +88,6 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 2000.0          !   [m]
                                 ! The maximum depth of the ocean.
-
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -110,8 +107,6 @@ RHO_0 = 1031.0                  !   [kg m-3] default = 1035.0
                                 ! some parameters from vertical units of m to kg m-2.
 NK = 2                          !   [nondim]
                                 ! The number of model layers.
-
-! === module MOM_tracer_registry ===
 
 ! === module MOM_restart ===
 MAX_FIELDS = 50                 ! default = 100
@@ -140,9 +135,6 @@ COORD_CONFIG = "gprime"         ! default = "none"
                                 !     USER - call a user modified routine.
 GINT = 0.0196                   !   [m s-2]
                                 ! The reduced gravity across internal interfaces.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
 
 ! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "phillips"   ! default = "uniform"
@@ -209,7 +201,6 @@ SPONGE_RATE = 1.157407407407407E-06 !   [s-1] default = 1.157407407407407E-06
                                 ! The total number of columns where sponges are applied.
 
 ! === module MOM_diag_mediator ===
-
 
 ! === module MOM_lateral_mixing_coeffs ===
 RESOLN_SCALED_KH = True         !   [Boolean] default = False
@@ -323,14 +314,10 @@ DTBT = -0.9                     !   [s or nondim] default = -0.98
                                 ! DTBT to 0 is the same as setting it to -0.98. The value of DTBT that will
                                 ! actually be used is an integer fraction of DT, rounding down.
 
-
 ! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-
-
-
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -349,18 +336,12 @@ KD = 1.0E-04                    !   [m2 s-1] default = 0.0
 KD_MIN = 1.0E-06                !   [m2 s-1] default = 1.0E-06
                                 ! The minimum diapycnal diffusivity.
 
-
-
-
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
-
 
 ! === module MOM_tracer_advect ===
 
 ! === module MOM_tracer_hor_diff ===
-
-
 
 ! === module MOM_sum_output ===
 DATE_STAMPED_STDOUT = False     !   [Boolean] default = True
@@ -391,6 +372,3 @@ RESTART_CONTROL = 3             ! default = 1
 RESTINT = 730.0                 !   [days] default = 0.0
                                 ! The interval between saves of the restart file in units of TIMEUNIT.  Use 0
                                 ! (the default) to not save incremental restart files at all.
-
-! === module MOM_write_cputime ===
-
