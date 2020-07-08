@@ -14,8 +14,6 @@ C_P = 3992.10322329649          !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
                                 ! definition of conservative temperature.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
-                                ! This sets the default value for the various _2018_ANSWERS parameters.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 
@@ -218,11 +216,6 @@ KV = 0.0                        !   [m2 s-1]
 ! === module MOM_thickness_diffuse ===
 
 ! === module MOM_dynamics_unsplit ===
-FIX_UNSPLIT_DT_VISC_BUG = False !   [Boolean] default = True
-                                ! If true, use the correct timestep in the viscous terms applied in the first
-                                ! predictor step with the unsplit time stepping scheme, and in the calculation
-                                ! of the turbulent mixed layer properties for viscosity with unsplit or
-                                ! unsplit_RK2.
 
 ! === module MOM_continuity ===
 
@@ -355,12 +348,3 @@ RESTART_CONTROL = 0             ! default = 1
 RESTINT = 3650.0                !   [days] default = 0.0
                                 ! The interval between saves of the restart file in units of TIMEUNIT.  Use 0
                                 ! (the default) to not save incremental restart files at all.
-
-! === module MOM_write_cputime ===
-MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
-                                ! The maximum amount of cpu time per processor for which MOM should run before
-                                ! saving a restart file and quitting with a return value that indicates that a
-                                ! further run is required to complete the simulation. If automatic restarts are
-                                ! not desired, use a negative value for MAXCPU.  MAXCPU has units of wall-clock
-                                ! seconds, so the actual CPU time used is larger by a factor of the number of
-                                ! processors used.
