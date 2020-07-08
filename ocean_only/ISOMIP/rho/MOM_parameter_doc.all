@@ -1,6 +1,5 @@
 ! This file was written by the model and records all non-layout or debugging parameters used at run-time.
 
-
 ! === module MOM ===
 SPLIT = True                    !   [Boolean] default = True
                                 ! Use the split time stepping if true.
@@ -1037,7 +1036,6 @@ VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
                                 ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
                                 ! divided by the age of the universe.
 
-
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the barotropic solver are
@@ -1333,12 +1331,71 @@ DISSIPATION_KD_MIN = 0.0        !   [m2 s-1] default = 0.0
 
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
-USE_JACKSON_PARAM = False       !   [Boolean] default = False
+USE_JACKSON_PARAM = True        !   [Boolean] default = False
                                 ! If true, use the Jackson-Hallberg-Legg (JPO 2008) shear mixing
                                 ! parameterization.
+VERTEX_SHEAR = False            !   [Boolean] default = False
+                                ! If true, do the calculations of the shear-driven mixing at the cell vertices
+                                ! (i.e., the vorticity points).
+RINO_CRIT = 0.25                !   [nondim] default = 0.25
+                                ! The critical Richardson number for shear mixing.
+SHEARMIX_RATE = 0.089           !   [nondim] default = 0.089
+                                ! A nondimensional rate scale for shear-driven entrainment. Jackson et al find
+                                ! values in the range of 0.085-0.089.
+MAX_RINO_IT = 50                !   [nondim] default = 50
+                                ! The maximum number of iterations that may be used to estimate the Richardson
+                                ! number driven mixing.
+KD_KAPPA_SHEAR_0 = 1.0E-07      !   [m2 s-1] default = 1.0E-07
+                                ! The background diffusivity that is used to smooth the density and shear
+                                ! profiles before solving for the diffusivities.  The default is the greater of
+                                ! KD and 1e-7 m2 s-1.
+KD_TRUNC_KAPPA_SHEAR = 1.0E-09  !   [m2 s-1] default = 1.0E-09
+                                ! The value of shear-driven diffusivity that is considered negligible and is
+                                ! rounded down to 0. The default is 1% of KD_KAPPA_SHEAR_0.
+FRI_CURVATURE = -0.97           !   [nondim] default = -0.97
+                                ! The nondimensional curvature of the function of the Richardson number in the
+                                ! kappa source term in the Jackson et al. scheme.
+TKE_N_DECAY_CONST = 0.24        !   [nondim] default = 0.24
+                                ! The coefficient for the decay of TKE due to stratification (i.e. proportional
+                                ! to N*tke). The values found by Jackson et al. are 0.24-0.28.
+TKE_SHEAR_DECAY_CONST = 0.14    !   [nondim] default = 0.14
+                                ! The coefficient for the decay of TKE due to shear (i.e. proportional to
+                                ! |S|*tke). The values found by Jackson et al. are 0.14-0.12.
+KAPPA_BUOY_SCALE_COEF = 0.82    !   [nondim] default = 0.82
+                                ! The coefficient for the buoyancy length scale in the kappa equation.  The
+                                ! values found by Jackson et al. are in the range of 0.81-0.86.
+KAPPA_N_OVER_S_SCALE_COEF2 = 0.0 !   [nondim] default = 0.0
+                                ! The square of the ratio of the coefficients of the buoyancy and shear scales
+                                ! in the diffusivity equation, Set this to 0 (the default) to eliminate the
+                                ! shear scale. This is only used if USE_JACKSON_PARAM is true.
+KAPPA_SHEAR_TOL_ERR = 0.1       !   [nondim] default = 0.1
+                                ! The fractional error in kappa that is tolerated. Iteration stops when changes
+                                ! between subsequent iterations are smaller than this everywhere in a column.
+                                ! The peak diffusivities usually converge most rapidly, and have much smaller
+                                ! errors than this.
 TKE_BACKGROUND = 0.0            !   [m2 s-2] default = 0.0
                                 ! A background level of TKE used in the first iteration of the kappa equation.
                                 ! TKE_BACKGROUND could be 0.
+KAPPA_SHEAR_ELIM_MASSLESS = True !   [Boolean] default = True
+                                ! If true, massless layers are merged with neighboring massive layers in this
+                                ! calculation.  The default is true and I can think of no good reason why it
+                                ! should be false. This is only used if USE_JACKSON_PARAM is true.
+MAX_KAPPA_SHEAR_IT = 13         !   [nondim] default = 13
+                                ! The maximum number of iterations that may be used to estimate the
+                                ! time-averaged diffusivity.
+KAPPA_SHEAR_MAX_KAP_SRC_CHG = 10.0 !   [nondim] default = 10.0
+                                ! The maximum permitted increase in the kappa source within an iteration
+                                ! relative to the local source; this must be greater than 1.  The lower limit
+                                ! for the permitted fractional decrease is (1 - 0.5/kappa_src_max_chg).  These
+                                ! limits could perhaps be made dynamic with an improved iterative solver.
+KAPPA_SHEAR_ITER_BUG = False    !   [Boolean] default = False
+                                ! If true, use an older, dimensionally inconsistent estimate of the derivative
+                                ! of diffusivity with energy in the Newton's method iteration.  The bug causes
+                                ! undercorrections when dz > 1 m.
+KAPPA_SHEAR_ALL_LAYER_TKE_BUG = False !   [Boolean] default = False
+                                ! If true, report back the latest estimate of TKE instead of the time average
+                                ! TKE when there is mass in all layers.  Otherwise always report the time
+                                ! averaged TKE, as is currently done when there are some massless layers.
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
@@ -1454,7 +1511,7 @@ USE_LA_LI2016 = False           !   [nondim] default = False
                                 ! Langmuir number.
 EPBL_LT = False                 !   [nondim] default = False
                                 ! A logical to use a LT parameterization.
-EPBL_USTAR_MIN = 1.45842E-23    !   [m s-1]
+!EPBL_USTAR_MIN = 1.45842E-23   !   [m s-1]
                                 ! The (tiny) minimum friction velocity used within the ePBL code, derived from
                                 ! OMEGA and ANGSTROM.
 
@@ -1602,7 +1659,6 @@ READ_GUST_2D = False            !   [Boolean] default = False
 ! === module MOM_restart ===
 ICE_SHELF = True                !   [Boolean] default = False
                                 ! If true, enables the ice shelf model.
-
 
 ! === module MOM_domains min_halo ===
 

@@ -85,13 +85,13 @@ DO_GEOTHERMAL = True            !   [Boolean] default = False
 BOUND_SALINITY = True           !   [Boolean] default = False
                                 ! If true, limit salinity to being positive. (The sea-ice model may ask for more
                                 ! salt than is available and drive the salinity negative otherwise.)
-MIN_SALINITY = 0.01             !   [PPT] default = 0.0
+MIN_SALINITY = 0.0              !   [PPT] default = 0.0
                                 ! The minimum value of salinity when BOUND_SALINITY=True.
 C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
                                 ! definition of conservative temperature.
-USE_PSURF_IN_EOS = False        !   [Boolean] default = True
+USE_PSURF_IN_EOS = True         !   [Boolean] default = True
                                 ! If true, always include the surface pressure contributions in equation of
                                 ! state calculations.
 P_REF = 2.0E+07                 !   [Pa] default = 2.0E+07
@@ -109,9 +109,9 @@ FIRST_DIRECTION = 0             ! default = 0
                                 ! and odd numbers used for y-first.
 CHECK_BAD_SURFACE_VALS = False  !   [Boolean] default = False
                                 ! If true, check the surface state for ridiculous values.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
+DEFAULT_2018_ANSWERS = False    !   [Boolean] default = False
                                 ! This sets the default value for the various _2018_ANSWERS parameters.
-SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
+SURFACE_2018_ANSWERS = False    !   [Boolean] default = False
                                 ! If true, use expressions for the surface properties that recover the answers
                                 ! from the end of 2018. Otherwise, use more appropriate expressions that differ
                                 ! at roundoff for non-Boussinesq cases.
@@ -471,7 +471,7 @@ TEMP_SALT_INIT_VERTICAL_REMAP_ONLY = False !   [Boolean] default = False
                                 ! If true, initial conditions are on the model horizontal grid. Extrapolation
                                 ! over missing ocean values is done using an ICE-9 procedure with vertical ALE
                                 ! remapping .
-HOR_REGRID_2018_ANSWERS = True  !   [Boolean] default = True
+HOR_REGRID_2018_ANSWERS = False !   [Boolean] default = False
                                 ! If true, use the order of arithmetic for horizonal regridding that recovers
                                 ! the answers from the end of 2018.  Otherwise, use rotationally symmetric forms
                                 ! of the same expressions.
@@ -519,7 +519,7 @@ SPONGE = False                  !   [Boolean] default = False
 NUM_DIAG_COORDS = 1             ! default = 1
                                 ! The number of diagnostic vertical coordinates to use. For each coordinate, an
                                 ! entry in DIAG_COORDS must be provided.
-REMAPPING_2018_ANSWERS = True   !   [Boolean] default = True
+REMAPPING_2018_ANSWERS = False  !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -622,11 +622,11 @@ VISC_RES_FN_POWER = 2           !   [nondim] default = 2
                                 ! used, although even integers are more efficient to calculate.  Setting this
                                 ! greater than 100 results in a step-function being used. This function affects
                                 ! lateral viscosity, Kh, and not KhTh.
-INTERPOLATE_RES_FN = True       !   [Boolean] default = False
+INTERPOLATE_RES_FN = False      !   [Boolean] default = False
                                 ! If true, interpolate the resolution function to the velocity points from the
                                 ! thickness points; otherwise interpolate the wave speed and calculate the
                                 ! resolution function independently at each point.
-GILL_EQUATORIAL_LD = False      !   [Boolean] default = True
+GILL_EQUATORIAL_LD = True       !   [Boolean] default = True
                                 ! If true, uses Gill's definition of the baroclinic equatorial deformation
                                 ! radius, otherwise, if false, use Pedlosky's definition. These definitions
                                 ! differ by a factor of 2 in front of the beta term in the denominator. Gill's
@@ -642,7 +642,7 @@ USE_QG_LEITH_GM = False         !   [Boolean] default = False
                                 ! If true, use the QG Leith viscosity as the GM coefficient.
 
 ! === module MOM_set_visc ===
-SET_VISC_2018_ANSWERS = True    !   [Boolean] default = True
+SET_VISC_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -893,7 +893,7 @@ BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! polynomial is used as is used for the interior cells.
 
 ! === module MOM_hor_visc ===
-HOR_VISC_2018_ANSWERS = True    !   [Boolean] default = True
+HOR_VISC_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -964,7 +964,7 @@ BOUND_CORIOLIS_VEL = 6.0        !   [m s-1] default = 6.0
                                 ! The velocity scale at which BOUND_CORIOLIS_BIHARM causes the biharmonic drag
                                 ! to have comparable magnitude to the Coriolis acceleration.  The default is set
                                 ! by MAXVEL.
-USE_LAND_MASK_FOR_HVISC = False !   [Boolean] default = True
+USE_LAND_MASK_FOR_HVISC = True  !   [Boolean] default = True
                                 ! If true, use Use the land mask for the computation of thicknesses at velocity
                                 ! locations. This eliminates the dependence on arbitrary values over land or
                                 ! outside of the domain.
@@ -976,7 +976,7 @@ USE_KH_BG_2D = False            !   [Boolean] default = False
                                 ! viscosity is the maximum of the other terms and this background value.
 
 ! === module MOM_vert_friction ===
-VERT_FRICTION_2018_ANSWERS = True !   [Boolean] default = True
+VERT_FRICTION_2018_ANSWERS = False !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use expressions that do not use an arbitrary
                                 ! hard-coded maximum viscous coupling coefficient between layers.
@@ -1055,7 +1055,7 @@ DYNAMIC_SURFACE_PRESSURE = False !   [Boolean] default = False
                                 ! If true, add a dynamic pressure due to a viscous ice shelf, for instance.
 BT_CORIOLIS_SCALE = 1.0         !   [nondim] default = 1.0
                                 ! A factor by which the barotropic Coriolis anomaly terms are scaled.
-BAROTROPIC_2018_ANSWERS = True  !   [Boolean] default = True
+BAROTROPIC_2018_ANSWERS = False !   [Boolean] default = False
                                 ! If true, use expressions for the barotropic solver that recover the answers
                                 ! from the end of 2018.  Otherwise, use more efficient or general expressions.
 SADOURNY = True                 !   [Boolean] default = True
@@ -1209,7 +1209,7 @@ USE_CVMix_TIDAL = False         !   [Boolean] default = False
 INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
                                 ! If true, use an internal tidal dissipation scheme to drive diapycnal mixing,
                                 ! along the lines of St. Laurent et al. (2002) and Simmons et al. (2004).
-TIDAL_MIXING_2018_ANSWERS = True !   [Boolean] default = True
+TIDAL_MIXING_2018_ANSWERS = False !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -1229,7 +1229,7 @@ INT_TIDE_LOWMODE_DISSIPATION = False !   [Boolean] default = False
                                 ! generated; as with itidal drag on the barotropic tide, use an internal tidal
                                 ! dissipation scheme to drive diapycnal mixing, along the lines of St. Laurent
                                 ! et al. (2002) and Simmons et al. (2004).
-INT_TIDE_DECAY_SCALE = 300.3003003003003 !   [m] default = 500.0
+INT_TIDE_DECAY_SCALE = 300.0    !   [m] default = 500.0
                                 ! The decay scale away from the bottom for tidal TKE with the new coding when
                                 ! INT_TIDE_DISSIPATION is used.
 MU_ITIDES = 0.2                 !   [nondim] default = 0.2
@@ -1298,7 +1298,7 @@ FLUX_RI_MAX = 0.2               !   [nondim] default = 0.2
                                 ! The flux Richardson number where the stratification is large enough that N2 >
                                 ! omega2.  The full expression for the Flux Richardson number is usually
                                 ! FLUX_RI_MAX*N2/(N2+OMEGA2).
-SET_DIFF_2018_ANSWERS = True    !   [Boolean] default = True
+SET_DIFF_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -1309,7 +1309,7 @@ ML_RADIATION = True             !   [Boolean] default = False
 ML_RAD_EFOLD_COEFF = 0.2        !   [nondim] default = 0.2
                                 ! A coefficient that is used to scale the penetration depth for turbulence below
                                 ! the base of the mixed layer. This is only used if ML_RADIATION is true.
-ML_RAD_BUG = True               !   [Boolean] default = False
+ML_RAD_BUG = False              !   [Boolean] default = False
                                 ! If true use code with a bug that reduces the energy available in the
                                 ! transition layer by a factor of the inverse of the energy deposition
                                 ! lenthscale (in m).
@@ -1456,11 +1456,11 @@ KAPPA_SHEAR_MAX_KAP_SRC_CHG = 10.0 !   [nondim] default = 10.0
                                 ! relative to the local source; this must be greater than 1.  The lower limit
                                 ! for the permitted fractional decrease is (1 - 0.5/kappa_src_max_chg).  These
                                 ! limits could perhaps be made dynamic with an improved iterative solver.
-KAPPA_SHEAR_ITER_BUG = True     !   [Boolean] default = False
+KAPPA_SHEAR_ITER_BUG = False    !   [Boolean] default = False
                                 ! If true, use an older, dimensionally inconsistent estimate of the derivative
                                 ! of diffusivity with energy in the Newton's method iteration.  The bug causes
                                 ! undercorrections when dz > 1 m.
-KAPPA_SHEAR_ALL_LAYER_TKE_BUG = True !   [Boolean] default = False
+KAPPA_SHEAR_ALL_LAYER_TKE_BUG = False !   [Boolean] default = False
                                 ! If true, report back the latest estimate of TKE instead of the time average
                                 ! TKE when there is mass in all layers.  Otherwise always report the time
                                 ! averaged TKE, as is currently done when there are some massless layers.
@@ -1588,7 +1588,7 @@ USE_RIVER_HEAT_CONTENT = False  !   [Boolean] default = False
 USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
                                 ! If true, use the fluxes%calving_Hflx field to set the heat carried by runoff,
                                 ! instead of using SST*CP*froz_runoff.
-BULKML_CONV_MOMENTUM_BUG = True !   [Boolean] default = False
+BULKML_CONV_MOMENTUM_BUG = False !   [Boolean] default = False
                                 ! If true, use code with a bug that causes a loss of momentum conservation
                                 ! during mixedlayer convection.
 ALLOW_CLOCKS_IN_OMP_LOOPS = True !   [Boolean] default = True
@@ -1612,7 +1612,7 @@ REG_SFC_DENSE_MATCH_TOLERANCE = 0.6 !   [nondim] default = 0.6
                                 ! A relative tolerance for how well the densities must match with the target
                                 ! densities during detrainment when regularizing the near-surface layers.  The
                                 ! default of 0.6 gives 20% overlaps in density
-REGULARIZE_LAYERS_2018_ANSWERS = True !   [Boolean] default = True
+REGULARIZE_LAYERS_2018_ANSWERS = False !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -1630,7 +1630,7 @@ BLUE_FRAC_SW = 0.5              !   [nondim] default = 0.5
                                 ! The fraction of the penetrating shortwave radiation that is in the blue band.
 PEN_SW_NBANDS = 3               ! default = 1
                                 ! The number of bands of penetrating shortwave radiation.
-OPTICS_2018_ANSWERS = True      !   [Boolean] default = True
+OPTICS_2018_ANSWERS = False     !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated expressions for handling the
                                 ! absorption of small remaining shortwave fluxes.
@@ -1639,7 +1639,7 @@ PEN_SW_FLUX_ABSORB = 2.5E-11    !   [degC m s-1] default = 2.5E-11
                                 ! next sufficiently thick layers for computational efficiency, instead of
                                 ! continuing to penetrate.  The default, 2.5e-11 degC m s-1, is about 1e-4 W m-2
                                 ! or 0.08 degC m century-1, but 0 is also a valid value.
-PEN_SW_ABSORB_MINTHICK = 0.001  !   [m] default = 0.001
+PEN_SW_ABSORB_MINTHICK = 1.0    !   [m] default = 1.0
                                 ! A thickness that is used to absorb the remaining penetrating shortwave heat
                                 ! flux when it drops below PEN_SW_FLUX_ABSORB.
 OPACITY_LAND_VALUE = 10.0       !   [m-1] default = 10.0
@@ -1807,7 +1807,7 @@ GUST_CONST = 0.02               !   [Pa] default = 0.0
                                 ! The background gustiness in the winds.
 GUST_2D_FILE = "gustiness_qscat.nc" !
                                 ! The file in which the wind gustiness is found in variable gustiness.
-SURFACE_FORCING_2018_ANSWERS = True !   [Boolean] default = True
+SURFACE_FORCING_2018_ANSWERS = False !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use a simpler expression to calculate
                                 ! gustiness.

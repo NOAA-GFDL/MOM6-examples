@@ -3,13 +3,42 @@
 NK = 63
 COORD_FILE = "Layer_coord.nc"
 ADJUST_THICKNESS = True
-ABSORB_ALL_SW = True
-LIMIT_BUFFER_DETRAIN = True
-DEPTH_LIMIT_FLUXES = 0.1
-ML_RESORT = True
-ML_PRESORT_NK_CONV_ADJ = 4
-CORRECT_ABSORPTION_DEPTH = True
-DO_RIVERMIX = True
-RIVERMIX_DEPTH = 40.0
-BULKML_CONV_MOMENTUM_BUG = True
-BULK_RI_ML = 0.05
+
+! === module MOM_mixed_layer ===
+BULK_RI_ML = 0.05               !   [nondim]
+                                ! The efficiency with which mean kinetic energy released by mechanically forced
+                                ! entrainment of the mixed layer is converted to turbulent kinetic energy.
+ABSORB_ALL_SW = True            !   [Boolean] default = False
+                                ! If true,  all shortwave radiation is absorbed by the ocean, instead of passing
+                                ! through to the bottom mud.
+! HMIX_MIN = 2.0                  !   [m] default = 0.0
+                                ! The minimum mixed layer depth if the mixed layer depth is determined
+                                ! dynamically.
+LIMIT_BUFFER_DETRAIN = True     !   [Boolean] default = False
+                                ! If true, limit the detrainment from the buffer layers to not be too different
+                                ! from the neighbors.
+DEPTH_LIMIT_FLUXES = 0.1        !   [m] default = 0.2
+                                ! The surface fluxes are scaled away when the total ocean depth is less than
+                                ! DEPTH_LIMIT_FLUXES.
+ML_RESORT = True                !   [Boolean] default = False
+                                ! If true, resort the topmost layers by potential density before the mixed layer
+                                ! calculations.
+ML_PRESORT_NK_CONV_ADJ = 4      !   [nondim] default = 0
+                                ! Convectively mix the first ML_PRESORT_NK_CONV_ADJ layers before sorting when
+                                ! ML_RESORT is true.
+CORRECT_ABSORPTION_DEPTH = True !   [Boolean] default = False
+                                ! If true, the average depth at which penetrating shortwave radiation is
+                                ! absorbed is adjusted to match the average heating depth of an exponential
+                                ! profile by moving some of the heating upward in the water column.
+DO_RIVERMIX = True              !   [Boolean] default = False
+                                ! If true, apply additional mixing wherever there is runoff, so that it is mixed
+                                ! down to RIVERMIX_DEPTH, if the ocean is that deep.
+RIVERMIX_DEPTH = 40.0           !   [m] default = 0.0
+                                ! The depth to which rivers are mixed if DO_RIVERMIX is defined.
+
+! === module MOM_entrain_diffusive ===
+MAX_ENT_IT = 20                 ! default = 5
+                                ! The maximum number of iterations that may be used to calculate the interior
+                                ! diapycnal entrainment.
+TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.683281572999748E-05
+                                ! The tolerance with which to solve for entrainment values.

@@ -107,9 +107,9 @@ FIRST_DIRECTION = 0             ! default = 0
                                 ! and odd numbers used for y-first.
 CHECK_BAD_SURFACE_VALS = False  !   [Boolean] default = False
                                 ! If true, check the surface state for ridiculous values.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
+DEFAULT_2018_ANSWERS = False    !   [Boolean] default = False
                                 ! This sets the default value for the various _2018_ANSWERS parameters.
-SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
+SURFACE_2018_ANSWERS = False    !   [Boolean] default = False
                                 ! If true, use expressions for the surface properties that recover the answers
                                 ! from the end of 2018. Otherwise, use more appropriate expressions that differ
                                 ! at roundoff for non-Boussinesq cases.
@@ -421,7 +421,7 @@ REMAP_BOUND_INTERMEDIATE_VALUES = False !   [Boolean] default = False
 REMAP_BOUNDARY_EXTRAP = False   !   [Boolean] default = False
                                 ! If true, values at the interfaces of boundary cells are extrapolated instead
                                 ! of piecewise constant
-REMAPPING_2018_ANSWERS = True   !   [Boolean] default = True
+REMAPPING_2018_ANSWERS = False  !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -628,7 +628,7 @@ USE_QG_LEITH_GM = False         !   [Boolean] default = False
                                 ! If true, use the QG Leith viscosity as the GM coefficient.
 
 ! === module MOM_set_visc ===
-SET_VISC_2018_ANSWERS = True    !   [Boolean] default = True
+SET_VISC_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -731,7 +731,7 @@ USE_GM_WORK_BUG = False         !   [Boolean] default = False
                                 ! sign, for legacy reproducibility.
 
 ! === module MOM_dynamics_unsplit ===
-FIX_UNSPLIT_DT_VISC_BUG = False !   [Boolean] default = True
+FIX_UNSPLIT_DT_VISC_BUG = True  !   [Boolean] default = True
                                 ! If true, use the correct timestep in the viscous terms applied in the first
                                 ! predictor step with the unsplit time stepping scheme, and in the calculation
                                 ! of the turbulent mixed layer properties for viscosity with unsplit or
@@ -852,7 +852,7 @@ BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! polynomial is used as is used for the interior cells.
 
 ! === module MOM_hor_visc ===
-HOR_VISC_2018_ANSWERS = True    !   [Boolean] default = True
+HOR_VISC_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -870,7 +870,7 @@ USE_KH_BG_2D = False            !   [Boolean] default = False
                                 ! viscosity is the maximum of the other terms and this background value.
 
 ! === module MOM_vert_friction ===
-VERT_FRICTION_2018_ANSWERS = True !   [Boolean] default = True
+VERT_FRICTION_2018_ANSWERS = False !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use expressions that do not use an arbitrary
                                 ! hard-coded maximum viscous coupling coefficient between layers.
@@ -1107,7 +1107,7 @@ FLUX_RI_MAX = 0.2               !   [nondim] default = 0.2
                                 ! The flux Richardson number where the stratification is large enough that N2 >
                                 ! omega2.  The full expression for the Flux Richardson number is usually
                                 ! FLUX_RI_MAX*N2/(N2+OMEGA2).
-SET_DIFF_2018_ANSWERS = True    !   [Boolean] default = True
+SET_DIFF_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -1247,7 +1247,7 @@ PEN_SW_FRAC = 0.0               !   [nondim] default = 0.0
                                 ! The fraction of the shortwave radiation that penetrates below the surface.
 PEN_SW_NBANDS = 1               ! default = 1
                                 ! The number of bands of penetrating shortwave radiation.
-OPTICS_2018_ANSWERS = True      !   [Boolean] default = True
+OPTICS_2018_ANSWERS = False     !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated expressions for handling the
                                 ! absorption of small remaining shortwave fluxes.
@@ -1256,7 +1256,7 @@ PEN_SW_FLUX_ABSORB = 2.5E-11    !   [degC m s-1] default = 2.5E-11
                                 ! next sufficiently thick layers for computational efficiency, instead of
                                 ! continuing to penetrate.  The default, 2.5e-11 degC m s-1, is about 1e-4 W m-2
                                 ! or 0.08 degC m century-1, but 0 is also a valid value.
-PEN_SW_ABSORB_MINTHICK = 0.001  !   [m] default = 0.001
+PEN_SW_ABSORB_MINTHICK = 1.0    !   [m] default = 1.0
                                 ! A thickness that is used to absorb the remaining penetrating shortwave heat
                                 ! flux when it drops below PEN_SW_FLUX_ABSORB.
 OPACITY_LAND_VALUE = 10.0       !   [m-1] default = 10.0
@@ -1412,7 +1412,7 @@ WRITE_CPU_STEPS = 1000          ! default = 1000
                                 ! an elapsed CPU time.
 
 ! === module MOM_write_cputime ===
-MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
+MAXCPU = -1.0                   !   [wall-clock seconds] default = -1.0
                                 ! The maximum amount of cpu time per processor for which MOM should run before
                                 ! saving a restart file and quitting with a return value that indicates that a
                                 ! further run is required to complete the simulation. If automatic restarts are

@@ -1,36 +1,38 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module ice_model ===
+CGRID_ICE_DYNAMICS = False      !   [Boolean] default = True
+                                ! If true, use a C-grid discretization of the sea-ice dynamics; if false use a
+                                ! B-grid discretization.
 EULERIAN_TSURF = False          !   [Boolean] default = True
-                                ! If true, use previous calculations of the ice-top surface
-                                ! skin temperature for tsurf at the start of atmospheric
-                                ! time stepping, including interpolating between tsurf
-                                ! values from other categories in the same location.
+                                ! If true, use previous calculations of the ice-top surface skin temperature for
+                                ! tsurf at the start of atmospheric time stepping, including interpolating
+                                ! between tsurf values from other categories in the same location.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
-                                ! A constant value to use to initialize the cosine of
-                                ! the solar zenith angle for the first radiation step,
-                                ! or a negative number to use the current time and astronomy.
+                                ! A constant value to use to initialize the cosine of the solar zenith angle for
+                                ! the first radiation step, or a negative number to use the current time and
+                                ! astronomy.
 DO_ICEBERGS = True              !   [Boolean] default = False
                                 ! If true, call the iceberg module.
 ADD_DIURNAL_SW = True           !   [Boolean] default = False
-                                ! If true, add a synthetic diurnal cycle to the shortwave
-                                ! radiation.
+                                ! If true, add a synthetic diurnal cycle to the shortwave radiation.
 
 ! === module MOM_domains ===
 TRIPOLAR_N = True               !   [Boolean] default = False
-                                ! Use tripolar connectivity at the northern edge of the
-                                ! domain.  With TRIPOLAR_N, NIGLOBAL must be even.
+                                ! Use tripolar connectivity at the northern edge of the domain.  With
+                                ! TRIPOLAR_N, NIGLOBAL must be even.
 NIGLOBAL = 360                  !
-                                ! The total number of thickness grid points in the
-                                ! x-direction in the physical domain. With STATIC_MEMORY_
-                                ! this is set in SIS2_memory.h at compile time.
+                                ! The total number of thickness grid points in the x-direction in the physical
+                                ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
 NJGLOBAL = 210                  !
-                                ! The total number of thickness grid points in the
-                                ! y-direction in the physical domain. With STATIC_MEMORY_
-                                ! this is set in SIS2_memory.h at compile time.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
+                                ! The total number of thickness grid points in the y-direction in the physical
+                                ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
+NIHALO = 1                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 1                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
 ! === module SIS_initialize_fixed ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -38,8 +40,8 @@ INPUTDIR = "INPUT"              ! default = "."
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "mosaic"          !
-                                ! A character string that determines the method for
-                                ! defining the horizontal grid.  Current options are:
+                                ! A character string that determines the method for defining the horizontal
+                                ! grid.  Current options are:
                                 !     mosaic - read the grid from a mosaic (supergrid)
                                 !              file set by GRID_FILE.
                                 !     cartesian - use a (flat) Cartesian grid.
@@ -53,16 +55,12 @@ GRID_FILE = "ocean_hgrid.nc"    !
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
 
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
-
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
 CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
-                                ! The heat capacity of water in brine pockets within the
-                                ! sea-ice, approximated as a constant.  CP_BRINE and
-                                ! CP_SEAWATER should be equal, but for computational
-                                ! convenience CP_BRINE can be set equal to CP_ICE.
+                                ! The heat capacity of water in brine pockets within the sea-ice, approximated
+                                ! as a constant.  CP_BRINE and CP_SEAWATER should be equal, but for
+                                ! computational convenience CP_BRINE can be set equal to CP_ICE.
 
 ! === module SIS_tracer_registry ===
 
@@ -73,10 +71,9 @@ CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
 ICE_BULK_SALINITY = 5.0         !   [g/kg] default = 4.0
                                 ! The fixed bulk salinity of sea ice.
 SIS2_FILLING_FRAZIL = False     !   [Boolean] default = True
-                                ! If true, apply frazil to fill as many categories as
-                                ! possible to fill in a uniform (minimum) amount of ice
-                                ! in all the thinnest categories. Otherwise the frazil is
-                                ! always assigned to a single category.
+                                ! If true, apply frazil to fill as many categories as possible to fill in a
+                                ! uniform (minimum) amount of ice in all the thinnest categories. Otherwise the
+                                ! frazil is always assigned to a single category.
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
@@ -84,42 +81,32 @@ SIS2_FILLING_FRAZIL = False     !   [Boolean] default = True
 ! === module SIS_dyn_trans ===
 ! This module updates the ice momentum and does ice transport.
 DT_ICE_DYNAMICS = 3600.0        !   [seconds] default = -1.0
-                                ! The time step used for the slow ice dynamics, including
-                                ! stepping the continuity equation and interactions
-                                ! between the ice mass field and velocities.  If 0 or
-                                ! negative the coupling time step will be used.
+                                ! The time step used for the slow ice dynamics, including stepping the
+                                ! continuity equation and interactions between the ice mass field and
+                                ! velocities.  If 0 or negative the coupling time step will be used.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
-                                ! The interval in units of TIMEUNIT between writes of the
-                                ! globally summed ice statistics and conservation checks.
+                                ! The interval in units of TIMEUNIT between writes of the globally summed ice
+                                ! statistics and conservation checks.
 DT_RHEOLOGY = 100.0             !   [seconds] default = -1.0
-                                ! The sub-cycling time step for iterating the rheology
-                                ! and ice momentum equations. If DT_RHEOLOGY is negative,
-                                ! the time step is set via NSTEPS_DYN.
+                                ! The sub-cycling time step for iterating the rheology and ice momentum
+                                ! equations. If DT_RHEOLOGY is negative, the time step is set via NSTEPS_DYN.
 RECATEGORIZE_ICE = False        !   [Boolean] default = True
-                                ! If true, readjust the distribution into ice thickness
-                                ! categories after advection.
+                                ! If true, readjust the distribution into ice thickness categories after
+                                ! advection.
 
 ! === module SIS_tracer_advect ===
 
 ! === module SIS_sum_output ===
 
+! === module SIS_ice_diagnostics ===
+! This module handles sea-ice state diagnostics.
+
 ! === module SIS_fast_thermo ===
-! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature calculation.
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature
+! calculation.
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
 
 ! === module SIS_optics ===
 ! This module calculates the albedo and absorption profiles for shortwave radiation.
-
-! === module MOM_file_parser ===
-REPORT_UNUSED_PARAMS = True     !   [Boolean] default = False
-                                ! If true, report any parameter lines that are not used
-                                ! in the run.
-FATAL_UNUSED_PARAMS = True      !   [Boolean] default = False
-                                ! If true, kill the run if there are any unused
-                                ! parameters.
-DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
-                                ! The basename for files where run-time parameters, their
-                                ! settings, units and defaults are documented. Blank will
-                                ! disable all parameter documentation.

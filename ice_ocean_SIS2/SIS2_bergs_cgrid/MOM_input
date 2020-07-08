@@ -17,19 +17,8 @@ NIGLOBAL = 360                  !
 NJGLOBAL = 210                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-NIHALO = 4                      ! default = 4
-                                ! The number of halo points on each side in the x-direction.  With
-                                ! STATIC_MEMORY_ this is set as NIHALO_ in MOM_memory.h at compile time; without
-                                ! STATIC_MEMORY_ the default is NIHALO_ in MOM_memory.h (if defined) or 2.
-NJHALO = 4                      ! default = 4
-                                ! The number of halo points on each side in the y-direction.  With
-                                ! STATIC_MEMORY_ this is set as NJHALO_ in MOM_memory.h at compile time; without
-                                ! STATIC_MEMORY_ the default is NJHALO_ in MOM_memory.h (if defined) or 2.
 ! LAYOUT = 10, 6                !
                                 ! The processor layout that was actually used.
-! IO_LAYOUT = 1, 1              ! default = 1
-                                ! The processor layout to be used, or 0,0 to automatically set the io_layout to
-                                ! be the same as the layout.
 
 ! === module MOM ===
 THICKNESSDIFFUSE = True         !   [Boolean] default = False
@@ -46,9 +35,6 @@ DT_THERM = 7200.0               !   [s] default = 3600.0
                                 ! an integer multiple of DT and less than the forcing or coupling time-step,
                                 ! unless THERMO_SPANS_COUPLING is true, in which case DT_THERM can be an integer
                                 ! multiple of the coupling timestep.  By default DT_THERM is set to DT.
-USE_PSURF_IN_EOS = False        !   [Boolean] default = False
-                                ! If true, always include the surface pressure contributions in equation of
-                                ! state calculations.
 DTBT_RESET_PERIOD = 0.0         !   [s] default = 7200.0
                                 ! The period between recalculations of DTBT (if DTBT <= 0). If DTBT_RESET_PERIOD
                                 ! is negative, DTBT is set based only on information available at
@@ -63,22 +49,17 @@ DO_GEOTHERMAL = True            !   [Boolean] default = False
 BOUND_SALINITY = True           !   [Boolean] default = False
                                 ! If true, limit salinity to being positive. (The sea-ice model may ask for more
                                 ! salt than is available and drive the salinity negative otherwise.)
-MIN_SALINITY = 0.01             !   [PPT] default = 0.01
-                                ! The minimum value of salinity when BOUND_SALINITY=True. The default is 0.01
-                                ! for backward compatibility but ideally should be 0.
 C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
                                 ! definition of conservative temperature.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
-                                ! This sets the default value for the various _2018_ANSWERS parameters.
+USE_PSURF_IN_EOS = False        !   [Boolean] default = True
+                                ! If true, always include the surface pressure contributions in equation of
+                                ! state calculations.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "GOLD_IC"      ! default = "MOM_IC"
                                 ! The file into which to write the initial conditions.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -106,8 +87,9 @@ TOPO_CONFIG = "file"            !
                                 !       wall at the southern face.
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
+                                !     bbuilder - build topography from list of functions.
                                 !     benchmark - use the benchmark test case topography.
-                                !     Neverland - use the Neverland test case topography.
+                                !     Neverworld - use the Neverworld test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -128,10 +110,6 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! assumed to be land and all fluxes are masked out. If MASKING_DEPTH is
                                 ! specified, then all depths shallower than MINIMUM_DEPTH but deeper than
                                 ! MASKING_DEPTH are rounded to MINIMUM_DEPTH.
-
-! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
-! if any.
 CHANNEL_CONFIG = "global_1deg"  ! default = "none"
                                 ! A parameter that determines which set of channels are
                                 ! restricted to specific  widths.  Options are:
@@ -149,11 +127,7 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
 NK = 63                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
 ! === module MOM_EOS ===
-
-! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
@@ -166,7 +140,7 @@ USE_OCMIP2_CFC = True           !   [Boolean] default = False
 ! === module MOM_OCMIP2_CFC ===
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "file"           !
+COORD_CONFIG = "file"           ! default = "none"
                                 ! This specifies how layers are to be defined:
                                 !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
@@ -187,11 +161,8 @@ COORD_CONFIG = "file"           !
 COORD_FILE = "GOLD_IC.2010.11.15.nc" !
                                 ! The file from which the coordinate densities are read.
 
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
 ! === module MOM_state_initialization ===
-THICKNESS_CONFIG = "file"       !
+THICKNESS_CONFIG = "file"       ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:
                                 !     file - read interface heights from the file specified
@@ -206,7 +177,7 @@ THICKNESS_CONFIG = "file"       !
                                 !     ISOMIP - use a configuration for the
                                 !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
-                                !     Neverland - use the Neverland test case thicknesses.
+                                !     Neverworld - use the Neverworld test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
                                 !     circle_obcs - the circle_obcs test case is used.
@@ -248,8 +219,6 @@ TS_FILE = "GOLD_IC.2010.11.15.nc" !
 
 ! === module MOM_diag_mediator ===
 
-! === module MOM_MEKE ===
-
 ! === module MOM_lateral_mixing_coeffs ===
 USE_VARIABLE_MIXING = True      !   [Boolean] default = False
                                 ! If true, the variable mixing code will be called.  This allows diagnostics to
@@ -276,15 +245,6 @@ VARMIX_KTOP = 6                 !   [nondim] default = 2
                                 ! finding the Eady growth rate.
 VISBECK_L_SCALE = 3.0E+04       !   [m] default = 0.0
                                 ! The fixed length scale in the Visbeck formula.
-INTERPOLATE_RES_FN = True       !   [Boolean] default = True
-                                ! If true, interpolate the resolution function to the velocity points from the
-                                ! thickness points; otherwise interpolate the wave speed and calculate the
-                                ! resolution function independently at each point.
-GILL_EQUATORIAL_LD = False      !   [Boolean] default = False
-                                ! If true, uses Gill's definition of the baroclinic equatorial deformation
-                                ! radius, otherwise, if false, use Pedlosky's definition. These definitions
-                                ! differ by a factor of 2 in front of the beta term in the denominator. Gill's
-                                ! is the more appropriate definition.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -322,6 +282,8 @@ KHTH = 10.0                     !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
 KHTH_MAX = 900.0                !   [m2 s-1] default = 0.0
                                 ! The maximum horizontal thickness diffusivity.
+
+! === module MOM_dynamics_split_RK2 ===
 
 ! === module MOM_continuity ===
 
@@ -366,25 +328,10 @@ SMAGORINSKY_AH = True           !   [Boolean] default = False
                                 ! If true, use a biharmonic Smagorinsky nonlinear eddy viscosity.
 SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
                                 ! The nondimensional biharmonic Smagorinsky constant, typically 0.015 - 0.06.
-USE_LAND_MASK_FOR_HVISC = False !   [Boolean] default = False
-                                ! If true, use Use the land mask for the computation of thicknesses at velocity
-                                ! locations. This eliminates the dependence on arbitrary values over land or
-                                ! outside of the domain. Default is False in order to maintain answers with
-                                ! legacy experiments but should be changed to True for new experiments.
 
 ! === module MOM_vert_friction ===
 MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
-
-! === module MOM_PointAccel ===
-U_TRUNC_FILE = "U_velocity_truncations" ! default = ""
-                                ! The absolute path to a file into which the accelerations leading to zonal
-                                ! velocity truncations are written. Undefine this for efficiency if this
-                                ! diagnostic is not needed.
-V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
-                                ! The absolute path to a file into which the accelerations leading to meridional
-                                ! velocity truncations are written. Undefine this for efficiency if this
-                                ! diagnostic is not needed.
 
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
@@ -422,19 +369,17 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! the grid spacing over the deformation radius, as detailed by Fox-Kemper et al.
                                 ! (2010)
 
+! === module MOM_diagnostics ===
+
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-
-! === module MOM_CVMix_KPP ===
-! This is the MOM wrapper to CVMix:KPP
-! See http://cvmix.github.io/
 
 ! === module MOM_tidal_mixing ===
 ! Vertical Tidal Mixing Parameterization
 INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
                                 ! If true, use an internal tidal dissipation scheme to drive diapycnal mixing,
                                 ! along the lines of St. Laurent et al. (2002) and Simmons et al. (2004).
-INT_TIDE_DECAY_SCALE = 300.3003003003003 !   [m] default = 500.0
+INT_TIDE_DECAY_SCALE = 300.0    !   [m] default = 500.0
                                 ! The decay scale away from the bottom for tidal TKE with the new coding when
                                 ! INT_TIDE_DISSIPATION is used.
 KAPPA_ITIDES = 6.28319E-04      !   [m-1] default = 6.283185307179586E-04
@@ -451,9 +396,6 @@ READ_TIDEAMP = True             !   [Boolean] default = False
 H2_FILE = "sgs_h2.nc"           !
                                 ! The path to the file containing the sub-grid-scale topographic roughness
                                 ! amplitude with INT_TIDE_DISSIPATION.
-
-! === module MOM_CVMix_conv ===
-! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -475,15 +417,11 @@ ML_RADIATION = True             !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind work to penetrate below
                                 ! the base of the mixed layer with a vertical decay scale determined by the
                                 ! minimum of: (1) The depth of the mixed layer, (2) an Ekman length scale.
-ML_RAD_BUG = True               !   [Boolean] default = True
-                                ! If true use code with a bug that reduces the energy available in the
-                                ! transition layer by a factor of the inverse of the energy deposition
-                                ! lenthscale (in m).
 ML_RAD_COEFF = 0.1              !   [nondim] default = 0.2
                                 ! The coefficient which scales MSTAR*USTAR^3 to obtain the energy available for
                                 ! mixing below the base of the mixed layer. This is only used if ML_RADIATION is
                                 ! true.
-MSTAR = 0.3                     !   [units=nondim] default = 1.2
+MSTAR = 0.3                     !   [nondim] default = 1.2
                                 ! The ratio of the friction velocity cubed to the TKE input to the mixed layer.
 TKE_DECAY = 10.0                !   [nondim] default = 2.5
                                 ! The ratio of the natural Ekman depth to the TKE decay scale.
@@ -493,7 +431,7 @@ BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-KD = 2.0E-05                    !   [m2 s-1]
+KD = 2.0E-05                    !   [m2 s-1] default = 0.0
                                 ! The background diapycnal diffusivity of density in the interior. Zero or the
                                 ! molecular value, ~1e-7 m2 s-1, may be used.
 KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
@@ -515,23 +453,12 @@ DISSIPATION_N1 = 6.0E-04        !   [J m-3] default = 0.0
 USE_JACKSON_PARAM = True        !   [Boolean] default = False
                                 ! If true, use the Jackson-Hallberg-Legg (JPO 2008) shear mixing
                                 ! parameterization.
+VERTEX_SHEAR = True             !   [Boolean] default = False
+                                ! If true, do the calculations of the shear-driven mixing at the cell vertices
+                                ! (i.e., the vorticity points).
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
-KAPPA_SHEAR_ITER_BUG = True     !   [Boolean] default = True
-                                ! If true, use an older, dimensionally inconsistent estimate of the derivative
-                                ! of diffusivity with energy in the Newton's method iteration.  The bug causes
-                                ! undercorrections when dz > 1 m.
-KAPPA_SHEAR_ALL_LAYER_TKE_BUG = True !   [Boolean] default = True
-                                ! If true, report back the latest estimate of TKE instead of the time average
-                                ! TKE when there is mass in all layers.  Otherwise always report the time
-                                ! averaged TKE, as is currently done when there are some massless layers.
-
-! === module MOM_CVMix_shear ===
-! Parameterization of shear-driven turbulence via CVMix (various options)
-
-! === module MOM_CVMix_ddiff ===
-! Parameterization of mixing due to double diffusion processes via CVMix
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
@@ -573,9 +500,6 @@ DO_RIVERMIX = True              !   [Boolean] default = False
                                 ! down to RIVERMIX_DEPTH, if the ocean is that deep.
 RIVERMIX_DEPTH = 40.0           !   [m] default = 0.0
                                 ! The depth to which rivers are mixed if DO_RIVERMIX is defined.
-BULKML_CONV_MOMENTUM_BUG = True !   [Boolean] default = True
-                                ! If true, use code with a bug that causes a loss of momentum conservation
-                                ! during mixedlayer convection.
 
 ! === module MOM_regularize_layers ===
 REGULARIZE_SURFACE_LAYERS = True !   [Boolean] default = False
@@ -606,12 +530,6 @@ ML_KHTR_SCALE = 0.0             !   [nondim] default = 1.0
                                 ! With Diffuse_ML_interior, the ratio of the truly horizontal diffusivity in the
                                 ! mixed layer to the epipycnal diffusivity.  The valid range is 0 to 1.
 
-! === module MOM_neutral_diffusion ===
-! This module implements neutral diffusion of tracers
-
-! === module MOM_lateral_boundary_diffusion ===
-! This module implements lateral diffusion of tracers near boundaries
-
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very large value if the velocity
@@ -640,20 +558,24 @@ USE_LIMITED_PATM_SSH = False    !   [Boolean] default = True
                                 ! If true, return the sea surface height with the correction for the atmospheric
                                 ! (and sea-ice) pressure limited by max_p_surf instead of the full atmospheric
                                 ! pressure.
-USE_NET_FW_ADJUSTMENT_SIGN_BUG = True !   [Boolean] default = True
-                                ! If true, use the wrong sign for the adjustment to the net fresh-water.
-FLUXCONST = 0.5                 !   [m day-1]
+FLUXCONST = 0.5                 !   [m day-1] default = 0.0
                                 ! The constant that relates the restoring surface fluxes to the relative surface
                                 ! anomalies (akin to a piston velocity).  Note the non-MKS units.
 CD_TIDES = 0.0025               !   [nondim] default = 1.0E-04
                                 ! The drag coefficient that applies to the tides.
 READ_GUST_2D = True             !   [Boolean] default = False
                                 ! If true, use a 2-dimensional gustiness supplied from an input file
-GUST_CONST = 0.02               !   [Pa] default = 0.02
+GUST_CONST = 0.02               !   [Pa] default = 0.0
                                 ! The background gustiness in the winds.
 GUST_2D_FILE = "gustiness_qscat.nc" !
                                 ! The file in which the wind gustiness is found in variable gustiness.
 
-! === module MOM_restart ===
-
-! === module MOM_file_parser ===
+! Debugging parameters set to non-default values
+U_TRUNC_FILE = "U_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to zonal
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.
+V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to meridional
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.
