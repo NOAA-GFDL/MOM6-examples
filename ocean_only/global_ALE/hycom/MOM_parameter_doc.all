@@ -933,6 +933,10 @@ FGNV_STRAT_FLOOR = 1.0E-15      !   [nondim] default = 1.0E-15
                                 ! A floor for Brunt-Vasaila frequency in the Ferrari et al., 2010,
                                 ! streamfunction formulation, expressed as a fraction of planetary rotation,
                                 ! OMEGA. This should be tiny but non-zero to avoid degeneracy.
+STANLEY_PRM_DET_COEFF = -1.0    !   [nondim] default = -1.0
+                                ! The coefficient correlating SGS temperature variance with the mean temperature
+                                ! gradient in the deterministic part of the Stanley parameterization. Negative
+                                ! values disable the scheme.
 USE_KH_IN_MEKE = False          !   [Boolean] default = False
                                 ! If true, uses the thickness diffusivity calculated here to diffuse MEKE.
 USE_GME = False                 !   [Boolean] default = False
@@ -1110,10 +1114,10 @@ ANALYTIC_FV_PGF = True          !   [Boolean] default = True
                                 ! possibility of numerical thermobaric instability, as described in Adcroft et
                                 ! al., O. Mod. (2008).
 
-! === module MOM_PressureForce_AFV ===
+! === module MOM_PressureForce_FV ===
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
-                                ! bathymetry in AFV pressure gradient calculations.
+                                ! bathymetry in FV pressure gradient calculations.
 RECONSTRUCT_FOR_PRESSURE = True !   [Boolean] default = True
                                 ! If True, use vertical reconstruction of T & S within the integrals of the FV
                                 ! pressure gradient calculation. If False, use the constant-by-layer algorithm.
@@ -1128,6 +1132,10 @@ BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! If true, the reconstruction of T & S for pressure in boundary cells is
                                 ! extrapolated, rather than using PCM in these cells. If true, the same order
                                 ! polynomial is used as is used for the interior cells.
+PGF_STANLEY_T2_DET_COEFF = -1.0 !   [nondim] default = -1.0
+                                ! The coefficient correlating SGS temperature variance with the mean temperature
+                                ! gradient in the deterministic part of the Stanley form of the Brankart
+                                ! correction. Negative values disable the scheme.
 
 ! === module MOM_hor_visc ===
 HOR_VISC_2018_ANSWERS = False   !   [Boolean] default = False
