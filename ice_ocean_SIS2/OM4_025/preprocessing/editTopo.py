@@ -1,7 +1,10 @@
 #!/usr/bin/env python
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
 
 def error(msg,code=9):
-  print 'Error: ' + msg
+  print('Error: ' + msg)
   exit(code)
 
 
@@ -61,7 +64,7 @@ def createGUI(fileName, variable, outFile):
   depth = rgVar[:] # Read the data
   #depth = depth[0:600,0:600]
   (nj,ni) = depth.shape
-  print 'Range of input depths: min=',np.amin(depth),'max=',np.amax(depth)
+  print('Range of input depths: min=',np.amin(depth),'max=',np.amax(depth))
 
   try:
     sg=Dataset( 'supergrid.nc', 'r' );
@@ -231,7 +234,7 @@ def createGUI(fileName, variable, outFile):
   All.edits.list()
   if not outFile: outFile = 'edit_'+fileName
   if not outFile==' ':
-    print 'Creating new file "'+outFile+'"'
+    print('Creating new file "'+outFile+'"')
     # Create new netcdf file
     if not fileName==outFile: sh.copyfile(fileName,outFile)
     try: rg=Dataset( outFile, 'r+' );
@@ -240,7 +243,7 @@ def createGUI(fileName, variable, outFile):
     dims = rgVar.dimensions # tuple of dimensions
     rgVar[:] = fullData.height[:,:] # Write the data
     if All.edits.ijz:
-      print 'Applying %i edits'%(len(All.edits.ijz))
+      print('Applying %i edits'%(len(All.edits.ijz)))
       if 'nEdits' in rg.dimensions:
         numEdits = rg.dimensions['nEdits']
       else: numEdits = rg.createDimension('nEdits', 0)#len(All.edits.ijz))
@@ -390,7 +393,7 @@ class Edits:
   def pop(self):
     if self.ijz: self.ijz.pop()
   def list(self):
-    for a in self.ijz: print a
+    for a in self.ijz: print(a)
   def plot(self,topo):
     x = []; y= []
     for i,j,z in self.ijz:
@@ -419,7 +422,9 @@ class Topography:
     self.height = np.copy( height )
     self.xlim = ( np.min(lon), np.max(lon) )
     self.ylim = ( np.min(lat), np.max(lat) )
-  def cloneWindow(self, (i0,j0), (iw,jw)):
+  def cloneWindow(self, i0_j0, iw_jw):
+    i0, j0 = i0_j0
+    iw, jw = iw_jw
     i1 = i0 + iw; j1 = j0 + jw
     return Topography( self.longitude[j0:j1+1,i0:i1+1], \
                        self.latitude[j0:j1+1,i0:i1+1], \
