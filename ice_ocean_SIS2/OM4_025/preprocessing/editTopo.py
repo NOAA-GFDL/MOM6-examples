@@ -23,13 +23,13 @@ except: error('Unable to import matplotlib.pyplot module. Check your PYTHONPATH.
 from matplotlib.widgets import Button, RadioButtons
 from matplotlib.colors import LinearSegmentedColormap
 import shutil as sh
-
+from os.path import dirname, basename, join
 
 def main():
 
   # Command line arguments
   parser = argparse.ArgumentParser(description=
-       '''Point-wise editting of topography.
+       '''Point-wise editing of topography.
           Button 1 assigns the prescribed level to the cell at the mouse pointer.
           Adjust the prescribed value with buttons on the bottom.
           Double click button 1 assigns the highest of the nearest ocean points.
@@ -45,7 +45,7 @@ def main():
                       nargs='?', default='depth',
                       help='Name of variable to edit. Defaults to "depth".')
   parser.add_argument('--output', type=str,
-                      nargs='?', default=' ',
+                      nargs='?', default=None,
                       help='Write an output file. If no output file is specified, creates the file with the "edit_" prepended to the name  of the input file.')
 
   optCmdLineArgs = parser.parse_args()
@@ -232,7 +232,7 @@ def createGUI(fileName, variable, outFile):
   All.ax.format_coord = statusMesg
   plt.show()
   All.edits.list()
-  if not outFile: outFile = 'edit_'+fileName
+  if not outFile: outFile = join(dirname(fileName), 'edit_'+basename(fileName))
   if not outFile==' ':
     print('Creating new file "'+outFile+'"')
     # Create new netcdf file
