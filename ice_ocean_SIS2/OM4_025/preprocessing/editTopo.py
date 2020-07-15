@@ -592,7 +592,7 @@ class Topography:
         y = (self.latitude[i, j] + self.latitude[i+1, j+1])/2.
         return x, y
 
-# CLass to record the editing window
+# Class to record the editing window
 
 
 class View:
@@ -601,8 +601,8 @@ class View:
         self.nj = nj
         self.i0 = 0
         self.j0 = 0
-        self.iw = min(512, ni)
-        self.jw = min(512, nj)
+        self.iw = ni
+        self.jw = nj
 
     def move(self, di, dj):
         self.i0 = min(max(0, self.i0+int(di*self.iw/2.)), self.ni-self.iw)
