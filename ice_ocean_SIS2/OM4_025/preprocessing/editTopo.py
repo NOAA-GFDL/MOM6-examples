@@ -124,8 +124,14 @@ def createGUI(fileName, variable, outFile):
     #notLand = np.where( depth<0, 1, 0)
     #wet = ice9it(600,270,depth)
 
-    All.quadMesh = plt.pcolormesh(All.data.longitude, All.data.latitude,
-                                  All.data.height, cmap=All.cmap, vmin=-All.clim, vmax=All.clim)
+    def replot(All):
+        h = plt.pcolormesh(All.data.longitude, All.data.latitude,
+                                      All.data.height, cmap=All.cmap,
+                                      vmin=-All.clim, vmax=All.clim)
+        plt.colorbar()
+        return(h)
+
+    All.quadMesh = replot(All)
     All.syms = All.edits.plot(fullData)
     dir(All.syms)
     All.ax = plt.gca()
@@ -205,8 +211,7 @@ def createGUI(fileName, variable, outFile):
         All.data.applyEdits(fullData, All.edits.ijz)
         plt.sca(All.ax)
         plt.cla()
-        All.quadMesh = plt.pcolormesh(All.data.longitude, All.data.latitude,
-                                      All.data.height, cmap=All.cmap, vmin=-All.clim, vmax=All.clim)
+        All.quadMesh = replot(All)
         All.ax.set_xlim(All.data.xlim)
         All.ax.set_ylim(All.data.ylim)
         All.syms = All.edits.plot(fullData)
