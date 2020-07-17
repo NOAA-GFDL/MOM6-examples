@@ -99,9 +99,14 @@ def createGUI(fileName, variable, outFile):
             cdict = {'red': ((0.0, 0.0, 0.0), (0.5, 0.7, 0.0), (1.0, 0.9, 0.0)),
                      'green': ((0.0, 0.0, 0.0), (0.5, 0.7, 0.2), (1.0, 1.0, 0.0)),
                      'blue': ((0.0, 0.0, 0.2), (0.5, 1.0, 0.0), (1.0, 0.9, 0.0))}
-            self.cmap = LinearSegmentedColormap('my_colormap', cdict, 256)
+            cdict_r = {'red': ((0.0, 0.0, 0.0), (0.497, 0.7, 0.0), (1.0, 0.9, 0.0)),
+                     'green': ((0.0, 0.0, 0.0), (0.497, 0.7, 0.2), (1.0, 1.0, 0.0)),
+                     'blue': ((0.0, 0.0, 0.2), (0.497, 1.0, 0.0), (1.0, 0.9, 0.0))}
+            self.cmap1 = LinearSegmentedColormap('my_colormap', cdict, 256)
+            self.cmap2 = LinearSegmentedColormap('my_colormap', cdict_r, 256).reversed()
+            self.cmap = self.cmap2
             self.clim = 6000
-            self.climLabel = None
+            # self.climLabel = None
     All = Container()
     All.view = View(ni, nj)
     All.edits = Edits()
@@ -137,8 +142,8 @@ def createGUI(fileName, variable, outFile):
     All.ax = plt.gca()
     All.ax.set_xlim(All.data.xlim)
     All.ax.set_ylim(All.data.ylim)
-    All.climLabel = plt.figtext(.97, .97, 'XXXXX', ha='right', va='top')
-    All.climLabel.set_text('clim = $\pm$%i' % (All.clim))
+    # All.climLabel = plt.figtext(.97, .97, 'XXXXX', ha='right', va='top')
+    # All.climLabel.set_text('clim = $\pm$%i' % (All.clim))
     All.edits.label = plt.figtext(.97, .03, 'XXXXX', ha='right', va='bottom')
     All.edits.label.set_text('New depth = %i' % (All.edits.get()))
     lowerButtons = Buttons()
@@ -191,17 +196,23 @@ def createGUI(fileName, variable, outFile):
     upperButtons = Buttons(bottom=1-.0615)
 
     def colorScale(event):
-        Levs = [50, 200, 1000, 6000]
+        Levs = [50, 100, 200, 500, 1000, 6000]
         i = Levs.index(All.clim)
         if event == '+clim':
             i = min(i+1, len(Levs)-1)
         elif event == ' -clim':
             i = max(i-1, 0)
+        elif event == 'Reverse':
+            if All.cmap == All.cmap1:
+                All.cmap = All.cmap2
+            else:
+                All.cmap = All.cmap1
         All.clim = Levs[i]
         #All.quadMesh = plt.pcolormesh(All.data.longitude,All.data.latitude,All.data.height,cmap=All.cmap,vmin=-All.clim,vmax=All.clim)
         #All.ax.set_xlim( All.data.xlim ); All.ax.set_ylim( All.data.ylim )
         All.quadMesh.set_clim(vmin=-All.clim, vmax=All.clim)
-        All.climLabel.set_text('clim = $\pm$%i' % (All.clim))
+        All.quadMesh.set_cmap(All.cmap)
+        # All.climLabel.set_text('clim = $\pm$%i' % (All.clim))
         plt.draw()
 
     def moveVisData(di, dj):
@@ -235,6 +246,9 @@ def createGUI(fileName, variable, outFile):
 
     def incrCScale(event): colorScale(' -clim')
     climButtons.add('Decr', incrCScale)
+
+    def revcmap(event): colorScale('Reverse')
+    climButtons.add('Reverse', revcmap)
     plt.sca(All.ax)
 
     def onClick(event):  # Mouse button click
