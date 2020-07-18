@@ -33,6 +33,8 @@ from matplotlib.widgets import Button, RadioButtons
 from matplotlib.colors import LinearSegmentedColormap
 import shutil as sh
 from os.path import dirname, basename, join
+import time
+import sys
 
 
 def main():
@@ -104,7 +106,7 @@ def createGUI(fileName, variable, outFile):
                      'blue': ((0.0, 0.0, 0.2), (0.497, 1.0, 0.0), (1.0, 0.9, 0.0))}
             self.cmap1 = LinearSegmentedColormap('my_colormap', cdict, 256)
             self.cmap2 = LinearSegmentedColormap('my_colormap', cdict_r, 256).reversed()
-            self.cmap = self.cmap2
+            self.cmap = self.cmap1
             self.clim = 6000
             # self.climLabel = None
     All = Container()
@@ -148,41 +150,50 @@ def createGUI(fileName, variable, outFile):
     All.edits.label.set_text('New depth = %i' % (All.edits.get()))
     lowerButtons = Buttons()
 
-    def resetDto0(event): All.edits.setVal(0)
+    def resetDto0(event): All.edits.setVal(0.)
     lowerButtons.add('Set 0', resetDto0)
 
-    def resetDto100(event): All.edits.addToVal(100)
-    lowerButtons.add('+100', resetDto100)
+    def incrD(event): All.edits.addToVal(500.)
+    lowerButtons.add('+500', incrD)
 
-    def resetDto100(event): All.edits.addToVal(30)
-    lowerButtons.add('+30', resetDto100)
+    def incrD(event): All.edits.addToVal(100.)
+    lowerButtons.add('+100', incrD)
 
-    def resetDto100(event): All.edits.addToVal(10)
-    lowerButtons.add('+10', resetDto100)
+    def incrD(event): All.edits.addToVal(30.)
+    lowerButtons.add('+30', incrD)
 
-    def resetDto100(event): All.edits.addToVal(3)
-    lowerButtons.add('+3', resetDto100)
+    def incrD(event): All.edits.addToVal(10.)
+    lowerButtons.add('+10', incrD)
 
-    def resetDto100(event): All.edits.addToVal(1)
-    lowerButtons.add('+1', resetDto100)
+    def incrD(event): All.edits.addToVal(3.)
+    lowerButtons.add('+3', incrD)
 
-    def resetDto100(event): All.edits.addToVal(-1)
-    lowerButtons.add('-1', resetDto100)
+    def incrD(event): All.edits.addToVal(1.)
+    lowerButtons.add('+1', incrD)
 
-    def resetDto100(event): All.edits.addToVal(-3)
-    lowerButtons.add('-3', resetDto100)
+    def incrD(event): All.edits.addToVal(0.1)
+    lowerButtons.add('+0.1', incrD)
 
-    def resetDto100(event): All.edits.addToVal(-10)
-    lowerButtons.add('-10', resetDto100)
+    def incrD(event): All.edits.addToVal(-0.1)
+    lowerButtons.add('-0.1', incrD)
 
-    def resetDto100(event): All.edits.addToVal(-30)
-    lowerButtons.add('-30', resetDto100)
+    def incrD(event): All.edits.addToVal(-1.)
+    lowerButtons.add('-1', incrD)
 
-    def resetDto100(event): All.edits.addToVal(-100)
-    lowerButtons.add('-100', resetDto100)
+    def incrD(event): All.edits.addToVal(-3.)
+    lowerButtons.add('-3', incrD)
 
-    def resetDto100(event): All.edits.addToVal(-500)
-    lowerButtons.add('-500', resetDto100)
+    def incrD(event): All.edits.addToVal(-10.)
+    lowerButtons.add('-10', incrD)
+
+    def incrD(event): All.edits.addToVal(-30.)
+    lowerButtons.add('-30', incrD)
+
+    def incrD(event): All.edits.addToVal(-100.)
+    lowerButtons.add('-100', incrD)
+
+    def incrD(event): All.edits.addToVal(-500.)
+    lowerButtons.add('-500', incrD)
 
     def undoLast(event):
         All.edits.pop()
@@ -318,7 +329,7 @@ def createGUI(fileName, variable, outFile):
             return 'lon,lat=%.3f,%.3f' % (x, y)
     All.ax.format_coord = statusMesg
     plt.show()
-    All.edits.list()
+    # All.edits.list()
     if not outFile:
         outFile = join(dirname(fileName), 'edit_'+basename(fileName))
     if not outFile == ' ':
@@ -334,7 +345,7 @@ def createGUI(fileName, variable, outFile):
         dims = rgVar.dimensions  # tuple of dimensions
         rgVar[:] = fullData.height[:, :]  # Write the data
         if All.edits.ijz:
-            print('Applying %i edits' % (len(All.edits.ijz)))
+            # print('Applying %i edits' % (len(All.edits.ijz)))
             if 'nEdits' in rg.dimensions:
                 numEdits = rg.dimensions['nEdits']
             else:
@@ -356,11 +367,23 @@ def createGUI(fileName, variable, outFile):
                 zEd = rg.createVariable('zEdit', 'f4', ('nEdits',))
                 zEd.long_name = 'Original value of edited data'
                 zEd.units = rgVar.units
+            hist_str = 'made %i changes (i, j, old, new): ' % len(All.edits.ijz)
             for l, (i, j, z) in enumerate(All.edits.ijz):
+                if l>0:
+                    hist_str += ', '
                 iEd[l] = j
                 jEd[l] = i
                 zEd[l] = rgVar[i, j]
                 rgVar[i, j] = z
+                hist_str += repr((j, i, zEd[l].item(), rgVar[i, j].item()))
+            print(hist_str.replace(': ', ':\n').replace('), ', ')\n'))
+            hist_str = time.ctime(time.time()) + ' ' \
+                + ' '.join(sys.argv) \
+                + ' ' + hist_str
+            if 'history' not in rg.ncattrs():
+                rg.history = hist_str
+            else:
+                rg.history = rg.history + ' | ' + hist_str
         rg.close()
 
 
@@ -514,19 +537,19 @@ class Buttons:
 # Class to contain edits
 class Edits:
     def __init__(self):
-        self.newDepth = 0
+        self.newDepth = 0.0
         self.ijz = []
         self.label = None  # Handle to text box
 
     def setVal(self, newVal):
         self.newDepth = newVal
         if self.label:
-            self.label.set_text('New depth = %i' % (self.newDepth))
+            self.label.set_text('New depth = %g' % (self.newDepth))
 
     def addToVal(self, increment):
         self.newDepth += increment
         if self.label:
-            self.label.set_text('New depth = %i' % (self.newDepth))
+            self.label.set_text('New depth = %g' % (self.newDepth))
         plt.draw()
 
     def get(self): return self.newDepth
@@ -559,11 +582,9 @@ class Edits:
             if tx:
                 x.append(tx)
                 y.append(ty)
-        if x:
-            h, = plt.plot(x, y, 'ro', hold=True)
-            return h
-        else:
-            return None
+        h, = plt.plot(x, y, linewidth=0, marker='o', color='red',
+                    markersize=5, markerfacecolor='none')
+        return h
 
     def updatePlot(self, topo, h):
         x = []
