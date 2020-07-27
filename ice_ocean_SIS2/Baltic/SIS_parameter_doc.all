@@ -442,6 +442,9 @@ SEA_ICE_ROLL_FACTOR = 1.0       !   [Nondim] default = 1.0
                                 ! thinner by rolling is increased or 0 to disable rolling.  This can be thought
                                 ! of as the minimum number of ice floes in a grid cell divided by the horizontal
                                 ! floe aspect ratio.  Sensible values are 0 (no rolling) or larger than 1.
+ICE_COVER_DISCARD = -1.0        !   [nondim] default = -1.0
+                                ! A tiny fractional ice coverage which if positive causes the mass in categories
+                                ! with less than this coverage to be discarded.
 SIS_THICKNESS_ADVECTION_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind
@@ -460,6 +463,16 @@ SIS_CONTINUITY_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
 CONT_PPM_VOLUME_BASED_CFL = False !   [Boolean] default = False
                                 ! If true, use the ratio of the open face lengths to the tracer cell areas when
                                 ! estimating CFL numbers.
+CONTINUITY_H_NEGLECT = 0.0      !   [kg m-2] default = 0.0
+                                ! The category ice mass per ocean cell area below which the transport within
+                                ! this thickness category of out of a cell is set to zero.  A suggested
+                                ! non-default value might be of order 3e-32 kg m-2, which is one molecule of ice
+                                ! per square kilometer.
+CONTINUITY_FRAC_NEGLECT = 0.0   !   [nondim] default = 0.0
+                                ! When the total fluxes are distributed between categories with
+                                ! MERGED_CONTINUITY, any category whose ice is less than this fraction of the
+                                ! total mass contributes no flux.  A suggested non-default value might be of
+                                ! order 1e-20.
 
 ! === module SIS_tracer_advect ===
 SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
