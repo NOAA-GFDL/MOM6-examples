@@ -133,8 +133,8 @@ def createGUI(fileName, variable, outFile):
 
     def replot(All):
         h = plt.pcolormesh(All.data.longitude, All.data.latitude,
-                                      All.data.height, cmap=All.cmap,
-                                      vmin=-All.clim, vmax=All.clim)
+                           All.data.height, cmap=All.cmap,
+                           vmin=-All.clim, vmax=All.clim)
         plt.colorbar()
         return(h)
 
@@ -264,11 +264,11 @@ def createGUI(fileName, variable, outFile):
 
     def onClick(event):  # Mouse button click
         if event.inaxes == All.ax and event.button == 1 and event.xdata:
-            (i, j) = findPointInMesh(fullData.longitude,
-                                     fullData.latitude, event.xdata, event.ydata)
-            if not i == None:
-                (I, J) = findPointInMesh(All.data.longitude,
-                                         All.data.latitude, event.xdata, event.ydata)
+            (i, j) = findPointInMesh(fullData.longitude, fullData.latitude,
+                                     event.xdata, event.ydata)
+            if i is not None:
+                (I, J) = findPointInMesh(All.data.longitude, All.data.latitude,
+                                         event.xdata, event.ydata)
                 if event.dblclick:
                     nVal = -99999
                     if All.data.height[I+1, J] < 0:
@@ -290,9 +290,9 @@ def createGUI(fileName, variable, outFile):
                 All.edits.updatePlot(fullData, All.syms)
                 plt.draw()
         elif event.inaxes == All.ax and event.button == 3 and event.xdata:
-            (i, j) = findPointInMesh(fullData.longitude,
-                                     fullData.latitude, event.xdata, event.ydata)
-            if not i == None:
+            (i, j) = findPointInMesh(fullData.longitude, fullData.latitude,
+                                     event.xdata, event.ydata)
+            if i is not None:
                 All.edits.delete(i, j)
                 All.data = fullData.cloneWindow(
                     (All.view.i0, All.view.j0), (All.view.iw, All.view.jw))
@@ -323,8 +323,9 @@ def createGUI(fileName, variable, outFile):
 
     def statusMesg(x, y):
         j, i = findPointInMesh(fullData.longitude, fullData.latitude, x, y)
-        if not i == None:
-            return 'lon,lat=%.2f,%.2f  depth(%i,%i)=%.2f' % (x, y, i, j, fullData.height[j, i])
+        if i is not None:
+            return 'lon,lat=%.2f,%.2f  depth(%i,%i)=%.2f' % \
+                    (x, y, i, j, fullData.height[j, i])
         else:
             return 'lon,lat=%.3f,%.3f' % (x, y)
     All.ax.format_coord = statusMesg
@@ -369,7 +370,7 @@ def createGUI(fileName, variable, outFile):
                 zEd.units = rgVar.units
             hist_str = 'made %i changes (i, j, old, new): ' % len(All.edits.ijz)
             for l, (i, j, z) in enumerate(All.edits.ijz):
-                if l>0:
+                if l > 0:
                     hist_str += ', '
                 iEd[l] = j
                 jEd[l] = i
@@ -462,29 +463,29 @@ def findPointInMesh(meshX, meshY, pointX, pointY):
             if j2 > j0+1:  # Four quadrants to test
                 j1 = int(0.5*(j0+j2))
                 iAns, jAns = recurIJ(mX, mY, p, (i0, j0), (i1, j1))
-                if iAns == None:
+                if iAns is None:
                     iAns, jAns = recurIJ(mX, mY, p, (i1, j1), (i2, j2))
-                if iAns == None:
+                if iAns is None:
                     iAns, jAns = recurIJ(mX, mY, p, (i0, j1), (i1, j2))
-                if iAns == None:
+                if iAns is None:
                     iAns, jAns = recurIJ(mX, mY, p, (i1, j0), (i2, j1))
             else:  # Two halves, east/west, to test
                 j1 = int(0.5*(j0+j2))
                 iAns, jAns = recurIJ(mX, mY, p, (i0, j0), (i1, j2))
-                if iAns == None:
+                if iAns is None:
                     iAns, jAns = recurIJ(mX, mY, p, (i1, j0), (i2, j2))
         else:
             if j2 > j0+1:  # Two halves, north/south, to test
                 j1 = int(0.5*(j0+j2))
                 iAns, jAns = recurIJ(mX, mY, p, (i0, j0), (i2, j1))
-                if iAns == None:
+                if iAns is None:
                     iAns, jAns = recurIJ(mX, mY, p, (i0, j1), (i2, j2))
             else:  # Only one cell left (based on the bounding box)
                 if not isPointInConvexPolygon(
                     [mX[i0, j0], mX[i0+1, j0], mX[i0+1, j0+1], mX[i0, j0+1]],
                     [mY[i0, j0], mY[i0+1, j0], mY[i0+1, j0+1], mY[i0, j0+1]],
                         p):
-                          return None, None
+                    return None, None
                 return i0, j0
         return iAns, jAns
     (ni, nj) = meshX.shape
@@ -510,7 +511,7 @@ def newLims(cur_xlim, cur_ylim, cursor, xlim, ylim, scale_factor):
     yR = min(ylim[1], ydata + new_yrange)
     if xL == cur_xlim[0] and xR == cur_xlim[1] and \
        yL == cur_ylim[0] and yR == cur_ylim[1]:
-           return None, None
+            return None, None
     return (xL, xR), (yL, yR)
 
 
@@ -561,7 +562,7 @@ class Edits:
 
     def add(self, i, j, nVal=None):
         self.delete(i, j)
-        if not nVal == None:
+        if nVal is not None:
             self.ijz.append((i, j, nVal))
         else:
             self.ijz.append((i, j, self.newDepth))
@@ -583,7 +584,7 @@ class Edits:
                 x.append(tx)
                 y.append(ty)
         h, = plt.plot(x, y, linewidth=0, marker='o', color='red',
-                    markersize=5, markerfacecolor='none')
+                      markersize=5, markerfacecolor='none')
         return h
 
     def updatePlot(self, topo, h):
@@ -622,7 +623,7 @@ class Topography:
             x = (origData.longitude[i, j] + origData.longitude[i+1, j+1])/2.
             y = (origData.latitude[i, j] + origData.latitude[i+1, j+1])/2.
             (I, J) = findPointInMesh(self.longitude, self.latitude, x, y)
-            if not I == None:
+            if I is not None:
                 self.height[I, J] = z
 
     def cellCoord(self, j, i):
