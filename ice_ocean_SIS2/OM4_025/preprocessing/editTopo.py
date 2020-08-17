@@ -29,7 +29,7 @@ try:
 except:
     error('Unable to import matplotlib.pyplot module. Check your PYTHONPATH.\n'
           + 'Perhaps try:\n   module load python_matplotlib')
-from matplotlib.widgets import Button, RadioButtons
+from matplotlib.widgets import Button, RadioButtons, TextBox
 from matplotlib.colors import LinearSegmentedColormap
 import shutil as sh
 from os.path import dirname, basename, join
@@ -96,6 +96,7 @@ def createGUI(fileName, variable, outFile):
             self.edits = None
             self.data = None
             self.quadMesh = None
+            self.cbar = None
             self.ax = None
             self.syms = None
             cdict = {'red': ((0.0, 0.0, 0.0), (0.5, 0.7, 0.0), (1.0, 0.9, 0.0)),
@@ -128,17 +129,17 @@ def createGUI(fileName, variable, outFile):
         All.data.applyEdits(fullData, All.edits.ijz)
 
     # A mask based solely on value of depth
-    #notLand = np.where( depth<0, 1, 0)
-    #wet = ice9it(600,270,depth)
+    # notLand = np.where( depth<0, 1, 0)
+    # wet = ice9it(600,270,depth)
 
     def replot(All):
         h = plt.pcolormesh(All.data.longitude, All.data.latitude,
                            All.data.height, cmap=All.cmap,
                            vmin=-All.clim, vmax=All.clim)
-        plt.colorbar()
         return(h)
 
     All.quadMesh = replot(All)
+    All.cbar = plt.colorbar()
     All.syms = All.edits.plot(fullData)
     dir(All.syms)
     All.ax = plt.gca()
@@ -146,8 +147,12 @@ def createGUI(fileName, variable, outFile):
     All.ax.set_ylim(All.data.ylim)
     # All.climLabel = plt.figtext(.97, .97, 'XXXXX', ha='right', va='top')
     # All.climLabel.set_text('clim = $\pm$%i' % (All.clim))
-    All.edits.label = plt.figtext(.97, .03, 'XXXXX', ha='right', va='bottom')
-    All.edits.label.set_text('New depth = %i' % (All.edits.get()))
+    # All.edits.label = plt.figtext(.97, .03, 'XXXXX', ha='right', va='bottom')
+    # All.edits.label.set_text('New depth = %i' % (All.edits.get()))
+
+    # textbox = TextBox(All.ax, 'new depth', 0)
+    # textbox.on_submit(print)
+
     lowerButtons = Buttons()
 
     def resetDto0(event): All.edits.setVal(0.)
@@ -219,10 +224,10 @@ def createGUI(fileName, variable, outFile):
             else:
                 All.cmap = All.cmap1
         All.clim = Levs[i]
-        #All.quadMesh = plt.pcolormesh(All.data.longitude,All.data.latitude,All.data.height,cmap=All.cmap,vmin=-All.clim,vmax=All.clim)
-        #All.ax.set_xlim( All.data.xlim ); All.ax.set_ylim( All.data.ylim )
         All.quadMesh.set_clim(vmin=-All.clim, vmax=All.clim)
         All.quadMesh.set_cmap(All.cmap)
+        All.cbar.set_clim(vmin=-All.clim, vmax=All.clim)
+        All.cbar.set_cmap(All.cmap)
         # All.climLabel.set_text('clim = $\pm$%i' % (All.clim))
         plt.draw()
 
@@ -312,22 +317,37 @@ def createGUI(fileName, variable, outFile):
         else:
             scale_factor = 1.0
         new_xlim, new_ylim = newLims(
-            All.ax.get_xlim(), All.ax.get_ylim(), (event.xdata, event.ydata),
-            All.data.xlim, All.data.ylim, scale_factor)
+            All.ax.get_xlim(), All.ax.get_ylim(),
+            (event.xdata, event.ydata),
+            All.data.xlim, All.data.ylim,
+            All.view.ni, All.view.nj,
+            scale_factor)
         if not new_xlim:
-            return  # No changein limits
-        All.ax.set_xlim(new_xlim[0], new_xlim[1])
-        All.ax.set_ylim(new_ylim[0], new_ylim[1])
+            return  # No change in limits
+        All.view.seti(new_xlim)
+        All.view.setj(new_ylim)
+        All.data = fullData.cloneWindow(
+            (All.view.i0, All.view.j0), (All.view.iw, All.view.jw))
+        All.data.applyEdits(fullData, All.edits.ijz)
+        plt.sca(All.ax)
+        plt.cla()
+        All.quadMesh = replot(All)
+        # All.ax.set_xlim(All.data.xlim)
+        # All.ax.set_ylim(All.data.ylim)
+        All.syms = All.edits.plot(fullData)
+        All.ax.set_xlim(new_xlim)
+        All.ax.set_ylim(new_ylim)
         plt.draw()  # force re-draw
     plt.gcf().canvas.mpl_connect('scroll_event', zoom)
 
     def statusMesg(x, y):
         j, i = findPointInMesh(fullData.longitude, fullData.latitude, x, y)
         if i is not None:
-            return 'lon,lat=%.2f,%.2f  depth(%i,%i)=%.2f' % \
-                    (x, y, i, j, fullData.height[j, i])
+            return 'new depth = %g  depth(%i,%i)=%g' % \
+                    (All.edits.newDepth, i, j, fullData.height[j, i])
         else:
-            return 'lon,lat=%.3f,%.3f' % (x, y)
+            return 'new depth = %g' % \
+                    (All.edits.newDepth)
     All.ax.format_coord = statusMesg
     plt.show()
     # All.edits.list()
@@ -496,19 +516,28 @@ def findPointInMesh(meshX, meshY, pointX, pointY):
 
 # Calculate a new window by scaling the current window, centering
 # on the cursor if possible.
-def newLims(cur_xlim, cur_ylim, cursor, xlim, ylim, scale_factor):
-    cur_xrange = (cur_xlim[1] - cur_xlim[0])*.5
-    cur_yrange = (cur_ylim[1] - cur_ylim[0])*.5
-    xdata = cursor[0]
-    ydata = cursor[1]
-    new_xrange = cur_xrange*scale_factor
-    new_yrange = cur_yrange*scale_factor
-    xdata = min(max(xdata, xlim[0]+new_xrange), xlim[1]-new_xrange)
-    ydata = min(max(ydata, ylim[0]+new_yrange), ylim[1]-new_yrange)
-    xL = max(xlim[0], xdata - new_xrange)
-    xR = min(xlim[1], xdata + new_xrange)
-    yL = max(ylim[0], ydata - new_yrange)
-    yR = min(ylim[1], ydata + new_yrange)
+def newLims(cur_xlim, cur_ylim, cursor, xlim, ylim, ni, nj, scale_factor):
+    xcursor, ycursor = cursor
+    cur_xrange = (cur_xlim[1] - cur_xlim[0])
+    cur_yrange = (cur_ylim[1] - cur_ylim[0])
+    new_xrange = int(round(min(ni, max(10, cur_xrange*scale_factor))))
+    new_yrange = int(round(min(nj, (nj/ni)*new_xrange)))
+    xL = int(round(xcursor - new_xrange*(xcursor-cur_xlim[0])/cur_xrange))
+    xR = int(round(xcursor + new_xrange*(cur_xlim[1]-xcursor)/cur_xrange))
+    if xL < 0:
+            xL = 0
+            xR = xL + new_xrange
+    elif xR > ni:
+            xR = ni
+            xL = xR - new_xrange
+    yL = int(round(ycursor - new_yrange*(ycursor-cur_ylim[0])/cur_yrange))
+    yR = int(round(ycursor + new_yrange*(cur_ylim[1]-ycursor)/cur_yrange))
+    if yL < 0:
+            yL = 0
+            yR = yL + new_yrange
+    elif yR > nj:
+            yR = nj
+            yL = yR - new_yrange
     if xL == cur_xlim[0] and xR == cur_xlim[1] and \
        yL == cur_ylim[0] and yR == cur_ylim[1]:
             return None, None
@@ -544,13 +573,13 @@ class Edits:
 
     def setVal(self, newVal):
         self.newDepth = newVal
-        if self.label:
-            self.label.set_text('New depth = %g' % (self.newDepth))
+        # if self.label:
+        #     self.label.set_text('New depth = %g' % (self.newDepth))
 
     def addToVal(self, increment):
         self.newDepth += increment
-        if self.label:
-            self.label.set_text('New depth = %g' % (self.newDepth))
+        # if self.label:
+        #     self.label.set_text('New depth = %g' % (self.newDepth))
         plt.draw()
 
     def get(self): return self.newDepth
@@ -652,6 +681,14 @@ class View:
     def geti(self): return (self.i0, self.i0+self.iw)
 
     def getj(self): return (self.j0, self.j0+self.jw)
+
+    def seti(self, xlim):
+        self.i0 = xlim[0]
+        self.iw = xlim[1] - xlim[0]
+
+    def setj(self, ylim):
+        self.j0 = ylim[0]
+        self.jw = ylim[1] - ylim[0]
 
 
 # Invoke main()
