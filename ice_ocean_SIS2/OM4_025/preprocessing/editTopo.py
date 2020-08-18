@@ -387,7 +387,11 @@ def createGUI(fileName, variable, outFile, applyFile, nogui):
             return 'new depth = %g' % \
                     (All.edits.newDepth)
     All.ax.format_coord = statusMesg
-    plt.show()
+
+    if not nogui:
+        plt.show()
+
+# The following is executed after GUI window is closed
     # All.edits.list()
     if not outFile:
         outFile = join(dirname(fileName), 'edit_'+basename(fileName))
