@@ -29,7 +29,7 @@ try:
 except:
     error('Unable to import matplotlib.pyplot module. Check your PYTHONPATH.\n'
           + 'Perhaps try:\n   module load python_matplotlib')
-from matplotlib.widgets import Button, RadioButtons, TextBox
+from matplotlib.widgets import Button, RadioButtons, TextBox, CheckButtons
 from matplotlib.colors import LinearSegmentedColormap
 import shutil as sh
 from os.path import dirname, basename, join, splitext
@@ -43,7 +43,7 @@ def main():
     # Command line arguments
     parser = argparse.ArgumentParser(description='''Point-wise editing of topography.
           Button 1 assigns the prescribed level to the cell at the mouse pointer.
-          Adjust the prescribed value with buttons on the bottom.
+          Set the prescribed with the box on the bottom.
           Double click button 1 assigns the highest of the 4 nearest points with depth<0.
           Right click on a cell resets to the original value.
           Scroll wheel zooms in and out.
@@ -117,6 +117,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
             self.cbar = None
             self.ax = None
             self.syms = None
+            self.useref = False
             cdict = {'red': ((0.0, 0.0, 0.0), (0.5, 0.7, 0.0), (1.0, 0.9, 0.0)),
                      'green': ((0.0, 0.0, 0.0), (0.5, 0.7, 0.2), (1.0, 1.0, 0.0)),
                      'blue': ((0.0, 0.0, 0.2), (0.5, 1.0, 0.0), (1.0, 0.9, 0.0))}
@@ -175,6 +176,8 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
     # notLand = np.where( depth<0, 1, 0)
     # wet = ice9it(600,270,depth)
 
+    # plt.rcParams['toolbar'] = 'None'  # don't use - also disables statusbar
+
     def replot(All):
         h = plt.pcolormesh(All.data.longitude, All.data.latitude,
                            All.data.height, cmap=All.cmap,
@@ -192,56 +195,31 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
     # All.climLabel.set_text('clim = $\pm$%i' % (All.clim))
     # All.edits.label = plt.figtext(.97, .03, 'XXXXX', ha='right', va='bottom')
     # All.edits.label.set_text('New depth = %i' % (All.edits.get()))
+    def setDepth(str):
+        try:
+            All.edits.setVal(float(str))
+        except:
+            pass
+    tbax = plt.axes([0.12, 0.01, 0.2, 0.05])
+    textbox = TextBox(tbax, 'set depth', '0')
+    textbox.on_submit(setDepth)
+    textbox.on_text_change(setDepth)
+    def nothing(x,y):
+        return ''
+    tbax.format_coord = nothing  # stop status bar displaying coords in textbox
+    if fullData.haveref:
+        All.useref = True
+        userefcheck = CheckButtons(plt.axes([0.32, 0.01, 0.11, 0.05]),
+                                   ['use ref'], [All.useref])
+        def setuseref(_):
+            All.useref = userefcheck.get_status()[0]
+            if not All.useref:
+                All.edits.setVal(float(textbox.text))
+        userefcheck.on_clicked(setuseref)
+    else:
+        All.useref = False
 
-    # textbox = TextBox(All.ax, 'new depth', 0)
-    # textbox.on_submit(print)
-
-    lowerButtons = Buttons()
-
-    def resetDto0(event): All.edits.setVal(0.)
-    lowerButtons.add('Set 0', resetDto0)
-
-    def incrD(event): All.edits.addToVal(500.)
-    lowerButtons.add('+500', incrD)
-
-    def incrD(event): All.edits.addToVal(100.)
-    lowerButtons.add('+100', incrD)
-
-    def incrD(event): All.edits.addToVal(30.)
-    lowerButtons.add('+30', incrD)
-
-    def incrD(event): All.edits.addToVal(10.)
-    lowerButtons.add('+10', incrD)
-
-    def incrD(event): All.edits.addToVal(3.)
-    lowerButtons.add('+3', incrD)
-
-    def incrD(event): All.edits.addToVal(1.)
-    lowerButtons.add('+1', incrD)
-
-    def incrD(event): All.edits.addToVal(0.1)
-    lowerButtons.add('+0.1', incrD)
-
-    def incrD(event): All.edits.addToVal(-0.1)
-    lowerButtons.add('-0.1', incrD)
-
-    def incrD(event): All.edits.addToVal(-1.)
-    lowerButtons.add('-1', incrD)
-
-    def incrD(event): All.edits.addToVal(-3.)
-    lowerButtons.add('-3', incrD)
-
-    def incrD(event): All.edits.addToVal(-10.)
-    lowerButtons.add('-10', incrD)
-
-    def incrD(event): All.edits.addToVal(-30.)
-    lowerButtons.add('-30', incrD)
-
-    def incrD(event): All.edits.addToVal(-100.)
-    lowerButtons.add('-100', incrD)
-
-    def incrD(event): All.edits.addToVal(-500.)
-    lowerButtons.add('-500', incrD)
+    lowerButtons = Buttons(left=.9)
 
     def undoLast(event):
         All.edits.pop()
@@ -252,6 +230,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
         All.edits.updatePlot(fullData, All.syms)
         plt.draw()
     lowerButtons.add('Undo', undoLast)
+
     upperButtons = Buttons(bottom=1-.0615)
 
     def colorScale(event):
@@ -385,7 +364,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
 
     def statusMesg(x, y):
         j, i = findPointInMesh(fullData.longitude, fullData.latitude, x, y)
-        if fullData.useref:
+        if All.useref:
             All.edits.setVal(fullData.ref[j, i])
         if i is not None:
             newval = All.edits.getEdit(j, i)
@@ -714,10 +693,10 @@ class Topography:
         self.ylim = (np.min(lat), np.max(lat))
         if ref is None:
             self.ref = self.height
-            self.useref = False
+            self.haveref = False
         else:
             self.ref = np.copy(ref)
-            self.useref = True
+            self.haveref = True
         self.diff = self.height - self.ref
 
     def cloneWindow(self, i0_j0, iw_jw):
