@@ -32,9 +32,10 @@ except:
 from matplotlib.widgets import Button, RadioButtons, TextBox
 from matplotlib.colors import LinearSegmentedColormap
 import shutil as sh
-from os.path import dirname, basename, join
+from os.path import dirname, basename, join, splitext
 import time
 import sys
+import csv
 
 
 def main():
@@ -43,29 +44,35 @@ def main():
     parser = argparse.ArgumentParser(description='''Point-wise editing of topography.
           Button 1 assigns the prescribed level to the cell at the mouse pointer.
           Adjust the prescribed value with buttons on the bottom.
-          Double click button 1 assigns the highest of the nearest ocean points.
+          Double click button 1 assigns the highest of the 4 nearest points with depth<0.
           Right click on a cell resets to the original value.
           Scroll wheel zooms in and out.
-          Move the "data window" around with the North, South, East and West buttons.
-          Closing the window writes the file to the output file if one is specified with --output.
+          Pan the view with the North, South, East and West buttons.
+          Closing the window writes the file to the output file.
         ''',
-                                     epilog='Written by A.Adcroft, 2013.')
+                        epilog='Written by Alistair Adcroft (2013) and Andrew Kiss (2020)')
     parser.add_argument('filename', type=str,
                         help='netcdf file to read.')
     parser.add_argument('variable', type=str,
                         nargs='?', default='depth',
                         help='Name of variable to edit. Defaults to "depth".')
-    parser.add_argument('--output', type=str,
-                        nargs='?', default=None,
+    parser.add_argument('--output', type=str, metavar='outfile',
+                        nargs=1, default=None,
                         help='Write an output file. If no output file is specified, creates the file with the "edit_" prepended to the name  of the input file.')
+    parser.add_argument('--apply', type=str, metavar='editfile',
+                        nargs=1, default=[None],
+                        help='Apply edits from specified .nc file or whitespace-delimited .txt file (each row containing i, j, old, new, and first row ignored).')
+    parser.add_argument('--nogui',
+                        action='store_true', default=False,
+                        help="Don't open GUI. Best used with --apply, in which case editfile is applied to filename and saved as outfile, then progam exits.")
 
     optCmdLineArgs = parser.parse_args()
 
-    createGUI(optCmdLineArgs.filename,
-              optCmdLineArgs.variable, optCmdLineArgs.output)
+    createGUI(optCmdLineArgs.filename, optCmdLineArgs.variable,
+              optCmdLineArgs.output, optCmdLineArgs.apply[0], optCmdLineArgs.nogui)
 
 
-def createGUI(fileName, variable, outFile):
+def createGUI(fileName, variable, outFile, applyFile, nogui):
 
     # Open netcdf file
     try:
@@ -118,11 +125,37 @@ def createGUI(fileName, variable, outFile):
     if 'iEdit' in rg.variables:
         jEdit = rg.variables['iEdit'][:]
         iEdit = rg.variables['jEdit'][:]
-        zEdit = rg.variables['zEdit'][:]
+        zEdit = rg.variables['zEdit'][:]  # Original value of edited data
         for l, i in enumerate(iEdit):
             All.edits.setVal(fullData.height[iEdit[l], jEdit[l]])
             fullData.height[iEdit[l], jEdit[l]] = zEdit[l]  # Restore data
             All.edits.add(iEdit[l], jEdit[l])
+    if applyFile:
+        try:
+            apply = Dataset(applyFile, 'r')
+            if 'iEdit' in apply.variables:
+                jEdit = apply.variables['iEdit'][:]
+                iEdit = apply.variables['jEdit'][:]
+                zNew = apply.variables[variable]
+                for l, i in enumerate(iEdit):
+                    All.edits.add(iEdit[l], jEdit[l], zNew[iEdit[l], jEdit[l]])
+            apply.close()
+        except:
+            try:
+                with open(applyFile, 'rt') as edFile:
+                    line = edFile.readline()  # ignore header
+                    while line:
+                        line = edFile.readline().strip()
+                        if line:
+                            jEdit, iEdit, _, zNew = line.split()
+                            iEdit = int(iEdit)
+                            jEdit = int(jEdit)
+                            zNew = float(zNew)
+                            All.edits.add(iEdit, jEdit, zNew)
+            except:
+                error('There was a problem applying edits from "'+applyFile+'".')
+                raise
+
     All.data = fullData.cloneWindow(
         (All.view.i0, All.view.j0), (All.view.iw, All.view.jw))
     if All.edits.ijz:
@@ -343,8 +376,13 @@ def createGUI(fileName, variable, outFile):
     def statusMesg(x, y):
         j, i = findPointInMesh(fullData.longitude, fullData.latitude, x, y)
         if i is not None:
-            return 'new depth = %g  depth(%i,%i)=%g' % \
-                    (All.edits.newDepth, i, j, fullData.height[j, i])
+            newval = All.edits.getEdit(j, i)
+            if newval is not None:
+                return 'new depth = %g  depth(%i,%i)=%g (was %g)' % \
+                        (All.edits.newDepth, i, j, newval, fullData.height[j, i])
+            else:
+                return 'new depth = %g  depth(%i,%i)=%g' % \
+                        (All.edits.newDepth, i, j, fullData.height[j, i])
         else:
             return 'new depth = %g' % \
                     (All.edits.newDepth)
@@ -353,7 +391,19 @@ def createGUI(fileName, variable, outFile):
     # All.edits.list()
     if not outFile:
         outFile = join(dirname(fileName), 'edit_'+basename(fileName))
+    editsFile = splitext(outFile)[0]+'.txt'
     if not outFile == ' ':
+        if All.edits.ijz:
+            print('Creating new file "'+editsFile+'"')
+            try:
+                with open(editsFile, 'wt') as edfile:
+                    edfile_writer = csv.writer(edfile, delimiter='\t')
+                    edfile_writer.writerow(['i', 'j', 'old', 'new'])
+                    for (i, j, z) in All.edits.ijz:
+                        edfile_writer.writerow([j, i, fullData.height[i, j].item(), z])
+            except:
+                error('There was a problem creating "'+editsFile+'".')
+                raise
         print('Creating new file "'+outFile+'"')
         # Create new netcdf file
         if not fileName == outFile:
@@ -583,6 +633,12 @@ class Edits:
         plt.draw()
 
     def get(self): return self.newDepth
+
+    def getEdit(self, i, j):
+        for I, J, D in self.ijz:
+            if (i, j) == (I, J):
+                return D
+        return None
 
     def delete(self, i, j):
         for I, J, D in self.ijz:
