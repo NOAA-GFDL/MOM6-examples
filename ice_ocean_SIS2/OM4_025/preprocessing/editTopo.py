@@ -120,6 +120,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
             self.ax = None
             self.syms = None
             self.useref = False
+            self.textbox = None
             cdict = {'red': ((0.0, 0.0, 0.0), (0.5, 0.7, 0.0), (1.0, 0.9, 0.0)),
                      'green': ((0.0, 0.0, 0.0), (0.5, 0.7, 0.2), (1.0, 1.0, 0.0)),
                      'blue': ((0.0, 0.0, 0.2), (0.5, 1.0, 0.0), (1.0, 0.9, 0.0))}
@@ -209,6 +210,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
     def nothing(x,y):
         return ''
     tbax.format_coord = nothing  # stop status bar displaying coords in textbox
+    All.textbox = textbox
     if fullData.haveref:
         All.useref = True
         userefcheck = CheckButtons(plt.axes([0.32, 0.01, 0.11, 0.05]),
@@ -216,7 +218,8 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
         def setuseref(_):
             All.useref = userefcheck.get_status()[0]
             if not All.useref:
-                All.edits.setVal(float(textbox.text))
+                All.edits.setVal(0.0)
+                All.textbox.set_val(repr(All.edits.newDepth))
         userefcheck.on_clicked(setuseref)
     else:
         All.useref = False
@@ -367,15 +370,16 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
     def statusMesg(x, y):
         j, i = findPointInMesh(fullData.longitude, fullData.latitude, x, y)
         if All.useref:
-            All.edits.setVal(fullData.ref[j, i])
+            All.textbox.set_val(repr(fullData.ref[j, i]))  # callback calls All.edits.setVal
         if i is not None:
+            height = fullData.height[j, i]
             newval = All.edits.getEdit(j, i)
             if newval is not None:
-                return 'new depth = %g  depth(%i,%i)=%g (was %g)' % \
-                        (All.edits.newDepth, i, j, newval, fullData.height[j, i])
+                return 'depth(%i,%i) = %g (was %g)      depth - set depth = %g' % \
+                        (i, j, newval, height, newval - All.edits.newDepth)
             else:
-                return 'new depth = %g  depth(%i,%i)=%g' % \
-                        (All.edits.newDepth, i, j, fullData.height[j, i])
+                return 'depth(%i,%i) = %g      depth - set depth = %g' % \
+                        (i, j, height, height - All.edits.newDepth)
         else:
             return 'new depth = %g' % \
                     (All.edits.newDepth)
