@@ -61,7 +61,7 @@ def main():
                         help='Write an output file. If no output file is specified, creates the file with the "edit_" prepended to the name  of the input file.')
     parser.add_argument('--apply', type=str, metavar='editfile',
                         nargs=1, default=[None],
-                        help='Apply edits from specified .nc file or whitespace-delimited .txt file (each row containing i, j, old, new, and first row ignored).')
+                        help='Apply edits from specified .nc file or whitespace-delimited .txt file (each row containing i, j, old, new; old value and first row are ignored).')
     parser.add_argument('--nogui',
                         action='store_true', default=False,
                         help="Don't open GUI. Best used with --apply, in which case editfile is applied to filename and saved as outfile, then progam exits.")
@@ -397,7 +397,9 @@ def createGUI(fileName, variable, outFile, applyFile, nogui):
             print('Creating new file "'+editsFile+'"')
             try:
                 with open(editsFile, 'wt') as edfile:
-                    edfile_writer = csv.writer(edfile, delimiter='\t')
+                    edfile_writer = csv.writer(edfile, delimiter='\t',
+                                               dialect='excel',
+                                               lineterminator='\n')
                     edfile_writer.writerow(['i', 'j', 'old', 'new'])
                     for (i, j, z) in All.edits.ijz:
                         edfile_writer.writerow([j, i, fullData.height[i, j].item(), z])
