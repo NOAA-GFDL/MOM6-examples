@@ -568,6 +568,8 @@ def findPointInMesh(meshX, meshY, pointX, pointY):
 # on the cursor if possible.
 def newLims(cur_xlim, cur_ylim, cursor, xlim, ylim, ni, nj, scale_factor):
     xcursor, ycursor = cursor
+    if xcursor is None or ycursor is None:
+        return None, None
     cur_xrange = (cur_xlim[1] - cur_xlim[0])
     cur_yrange = (cur_ylim[1] - cur_ylim[0])
     new_xrange = int(round(min(ni, max(10, cur_xrange*scale_factor))))
