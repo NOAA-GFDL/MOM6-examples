@@ -52,13 +52,16 @@ def main():
         ''',
                         epilog='Written by Alistair Adcroft (2013) and Andrew Kiss (2020)')
     parser.add_argument('filename', type=str,
-                        help='netcdf file to read.')
+                        help='Netcdf input file to read.')
     parser.add_argument('variable', type=str,
                         nargs='?', default='depth',
                         help='Name of variable to edit. Defaults to "depth".')
     parser.add_argument('--output', type=str, metavar='outfile',
                         nargs=1, default=None,
                         help='Write an output file. If no output file is specified, creates the file with the "edit_" prepended to the name  of the input file.')
+    parser.add_argument('--ref', type=str, metavar='reffile',
+                        nargs=1, default=[None],
+                        help='Netcdf reference input file to use for copying points from.')
     parser.add_argument('--apply', type=str, metavar='editfile',
                         nargs=1, default=[None],
                         help='Apply edits from specified .nc file or whitespace-delimited .txt file (each row containing i, j, old, new; old value and first row are ignored).')
@@ -69,16 +72,17 @@ def main():
     optCmdLineArgs = parser.parse_args()
 
     createGUI(optCmdLineArgs.filename, optCmdLineArgs.variable,
-              optCmdLineArgs.output, optCmdLineArgs.apply[0], optCmdLineArgs.nogui)
+              optCmdLineArgs.output, optCmdLineArgs.ref[0],
+              optCmdLineArgs.apply[0], optCmdLineArgs.nogui)
 
 
-def createGUI(fileName, variable, outFile, applyFile, nogui):
+def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
 
-    # Open netcdf file
+    # Open netcdf files
     try:
         rg = Dataset(fileName, 'r')
     except:
-        error('There was a problem opening "'+fileName+'".')
+        error('There was a problem opening input netcdf file "'+fileName+'".')
 
     rgVar = rg.variables[variable]  # handle to the variable
     dims = rgVar.dimensions  # tuple of dimensions
@@ -86,6 +90,13 @@ def createGUI(fileName, variable, outFile, applyFile, nogui):
     #depth = depth[0:600,0:600]
     (nj, ni) = depth.shape
     print('Range of input depths: min=', np.amin(depth), 'max=', np.amax(depth))
+
+    ref = None
+    if refFile:
+        try:
+            ref = Dataset(refFile, 'r').variables[variable][:]
+        except:
+            error('There was a problem opening reference netcdf file "'+refFile+'".')
 
     try:
         sg = Dataset('supergrid.nc', 'r')
@@ -95,7 +106,7 @@ def createGUI(fileName, variable, outFile, applyFile, nogui):
         lat = lat[0:2*nj+1:2, 0:2*ni+1:2]
     except:
         lon, lat = np.meshgrid(np.arange(ni+1), np.arange(nj+1))
-    fullData = Topography(lon, lat, depth)
+    fullData = Topography(lon, lat, depth, ref)
 
     class Container:
         def __init__(self):
@@ -154,7 +165,6 @@ def createGUI(fileName, variable, outFile, applyFile, nogui):
                             All.edits.add(iEdit, jEdit, zNew)
             except:
                 error('There was a problem applying edits from "'+applyFile+'".')
-                raise
 
     All.data = fullData.cloneWindow(
         (All.view.i0, All.view.j0), (All.view.iw, All.view.jw))
@@ -375,6 +385,8 @@ def createGUI(fileName, variable, outFile, applyFile, nogui):
 
     def statusMesg(x, y):
         j, i = findPointInMesh(fullData.longitude, fullData.latitude, x, y)
+        if fullData.useref:
+            All.edits.setVal(fullData.ref[j, i])
         if i is not None:
             newval = All.edits.getEdit(j, i)
             if newval is not None:
@@ -409,7 +421,6 @@ def createGUI(fileName, variable, outFile, applyFile, nogui):
                         edfile_writer.writerow([j, i, fullData.height[i, j].item(), z])
             except:
                 error('There was a problem creating "'+editsFile+'".')
-                raise
         print('Creating new file "'+outFile+'"')
         # Create new netcdf file
         if not fileName == outFile:
@@ -695,12 +706,19 @@ class Edits:
 
 # Class to contain data
 class Topography:
-    def __init__(self, lon, lat, height):
+    def __init__(self, lon, lat, height, ref):
         self.longitude = lon
         self.latitude = lat
         self.height = np.copy(height)
         self.xlim = (np.min(lon), np.max(lon))
         self.ylim = (np.min(lat), np.max(lat))
+        if ref is None:
+            self.ref = self.height
+            self.useref = False
+        else:
+            self.ref = np.copy(ref)
+            self.useref = True
+        self.diff = self.height - self.ref
 
     def cloneWindow(self, i0_j0, iw_jw):
         i0, j0 = i0_j0
@@ -709,7 +727,8 @@ class Topography:
         j1 = j0 + jw
         return Topography(self.longitude[j0:j1+1, i0:i1+1],
                           self.latitude[j0:j1+1, i0:i1+1],
-                          self.height[j0:j1, i0:i1])
+                          self.height[j0:j1, i0:i1],
+                          self.ref[j0:j1, i0:i1])
 
     def applyEdits(self, origData, ijz):
         for i, j, z in ijz:
