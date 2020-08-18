@@ -42,13 +42,15 @@ def main():
 
     # Command line arguments
     parser = argparse.ArgumentParser(description='''Point-wise editing of topography.
-          Button 1 assigns the prescribed level to the cell at the mouse pointer.
-          Set the prescribed with the box on the bottom.
-          Double click button 1 assigns the highest of the 4 nearest points with depth<0.
-          Right click on a cell resets to the original value.
-          Scroll wheel zooms in and out.
-          Pan the view with the North, South, East and West buttons.
-          Closing the window writes the file to the output file.
+            Ignore all the controls in the toolbar at the top of the window.
+            Zoom in and out with the scroll wheel.
+            Pan the view with the North, South, East and West buttons.
+            Use +, -, Flip buttons to modify the colormap.
+            Set the prescribed depth with the textbox at the bottom.
+            Left click on a cell to apply the prescribed depth value.
+            Right click on a cell to reset to the original value.
+            Double left click to assign the highest of the 4 nearest points with depth<0.
+            Close the window to write the edits to the output file.
         ''',
                         epilog='Written by Alistair Adcroft (2013) and Andrew Kiss (2020)')
     parser.add_argument('filename', type=str,
@@ -236,11 +238,11 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
     def colorScale(event):
         Levs = [50, 100, 200, 500, 1000, 6000]
         i = Levs.index(All.clim)
-        if event == '+clim':
+        if event == ' + ':
             i = min(i+1, len(Levs)-1)
-        elif event == ' -clim':
+        elif event == ' - ':
             i = max(i-1, 0)
-        elif event == 'Reverse':
+        elif event == 'Flip':
             if All.cmap == All.cmap1:
                 All.cmap = All.cmap2
             else:
@@ -277,16 +279,16 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
 
     def moveWindowUp(event): moveVisData(0, 1)
     upperButtons.add('North', moveWindowUp)
-    climButtons = Buttons(bottom=1-.0615, left=0.65)
+    climButtons = Buttons(bottom=1-.0615, left=0.75)
 
-    def incrCScale(event): colorScale('+clim')
-    climButtons.add('Incr', incrCScale)
+    def incrCScale(event): colorScale(' + ')
+    climButtons.add(' + ', incrCScale)
 
-    def incrCScale(event): colorScale(' -clim')
-    climButtons.add('Decr', incrCScale)
+    def decrCScale(event): colorScale(' - ')
+    climButtons.add(' - ', decrCScale)
 
-    def revcmap(event): colorScale('Reverse')
-    climButtons.add('Reverse', revcmap)
+    def revcmap(event): colorScale('Flip')
+    climButtons.add('Flip', revcmap)
     plt.sca(All.ax)
 
     def onClick(event):  # Mouse button click
@@ -380,6 +382,17 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
     All.ax.format_coord = statusMesg
 
     if not nogui:
+        print("""
+Ignore all the controls in the toolbar at the top of the window.
+Zoom in and out with the scroll wheel.
+Pan the view with the North, South, East and West buttons.
+Use +, -, Flip buttons to modify the colormap.
+Set the prescribed depth with the textbox at the bottom.
+Left click on a cell to apply the prescribed depth value.
+Right click on a cell to reset to the original value.
+Double left click to assign the highest of the 4 nearest points with depth<0.
+Close the window to write the edits to the output file.
+""")
         plt.show()
 
 # The following is executed after GUI window is closed
@@ -389,7 +402,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
     editsFile = splitext(outFile)[0]+'.txt'
     if not outFile == ' ':
         if All.edits.ijz:
-            print('Creating new file "'+editsFile+'"')
+            print('Writing list of edits to text file "'+editsFile+'" (this can be used with --apply).')
             try:
                 with open(editsFile, 'wt') as edfile:
                     edfile_writer = csv.writer(edfile, delimiter='\t',
@@ -400,7 +413,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
                         edfile_writer.writerow([j, i, fullData.height[i, j].item(), z])
             except:
                 error('There was a problem creating "'+editsFile+'".')
-        print('Creating new file "'+outFile+'"')
+        print('Writing edited topography to "'+outFile+'".')
         # Create new netcdf file
         if not fileName == outFile:
             sh.copyfile(fileName, outFile)
