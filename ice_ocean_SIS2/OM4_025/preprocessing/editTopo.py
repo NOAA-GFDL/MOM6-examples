@@ -9,7 +9,6 @@ def error(msg, code=9):
     exit(code)
 
 
-# Imports
 try:
     import argparse
 except:
@@ -63,7 +62,7 @@ def main():
                         help='Write an output file. If no output file is specified, creates the file with the "edit_" prepended to the name  of the input file.')
     parser.add_argument('--ref', type=str, metavar='reffile',
                         nargs=1, default=[None],
-                        help='Netcdf reference input file to use for copying points from.')
+                        help='Netcdf reference input file to use for copying points from. Must have the same dimensions and variable name as filename.')
     parser.add_argument('--apply', type=str, metavar='editfile',
                         nargs=1, default=[None],
                         help='Apply edits from specified .nc file or whitespace-delimited .txt file (each row containing i, j, old, new; old value and first row are ignored).')
@@ -129,9 +128,12 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
                      'blue': ((0.0, 0.0, 0.2), (0.497, 1.0, 0.0), (1.0, 0.9, 0.0))}
             self.cmap1 = LinearSegmentedColormap('my_colormap', cdict, 256)
             self.cmap2 = LinearSegmentedColormap('my_colormap', cdict_r, 256).reversed()
+            self.cmap3 = plt.get_cmap('seismic')
             self.cmap = self.cmap1
+            self.prevcmap = self.cmap
             self.clim = 6000
-            # self.climLabel = None
+            self.plotdiff = False
+            self.fieldname = None
     All = Container()
     All.view = View(ni, nj)
     All.edits = Edits()
@@ -172,6 +174,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
 
     All.data = fullData.cloneWindow(
         (All.view.i0, All.view.j0), (All.view.iw, All.view.jw))
+    All.fieldname = All.data.fieldnames[0]
     if All.edits.ijz:
         All.data.applyEdits(fullData, All.edits.ijz)
 
@@ -182,28 +185,45 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
     # plt.rcParams['toolbar'] = 'None'  # don't use - also disables statusbar
 
     def replot(All):
+        if All.cbar is not None:
+            All.cbar.remove()
         h = plt.pcolormesh(All.data.longitude, All.data.latitude,
-                           All.data.height, cmap=All.cmap,
+                           All.data.plotfield, cmap=All.cmap,
                            vmin=-All.clim, vmax=All.clim)
-        return(h)
+        hc = plt.colorbar()
+        return(h, hc)
 
-    All.quadMesh = replot(All)
-    All.cbar = plt.colorbar()
+    All.quadMesh, All.cbar = replot(All)
     All.syms = All.edits.plot(fullData)
     dir(All.syms)
     All.ax = plt.gca()
     All.ax.set_xlim(All.data.xlim)
     All.ax.set_ylim(All.data.ylim)
-    # All.climLabel = plt.figtext(.97, .97, 'XXXXX', ha='right', va='top')
-    # All.climLabel.set_text('clim = $\pm$%i' % (All.clim))
-    # All.edits.label = plt.figtext(.97, .03, 'XXXXX', ha='right', va='bottom')
-    # All.edits.label.set_text('New depth = %i' % (All.edits.get()))
+
+    if fullData.haveref:
+        def setsource(label):
+            All.fieldname = label
+            All.data.plotfield = All.data.fields[All.fieldname]
+            All.plotdiff = All.fieldname == All.data.fieldnames[2]
+            if All.plotdiff and All.cmap != All.cmap3:
+                All.prevcmap = All.cmap
+                All.cmap = All.cmap3
+            else:
+                All.cmap = All.prevcmap
+            All.quadMesh.set_cmap(All.cmap)
+            All.cbar.mappable.set_cmap(All.cmap)
+            All.quadMesh.set_array(All.data.plotfield.ravel())
+            plt.draw()
+        sourcebuttons = RadioButtons(plt.axes([.88, .4, 0.12, 0.15]),
+                                     All.data.fieldnames)
+        sourcebuttons.on_clicked(setsource)
+
     def setDepth(str):
         try:
             All.edits.setVal(float(str))
         except:
             pass
-    tbax = plt.axes([0.12, 0.01, 0.2, 0.05])
+    tbax = plt.axes([0.12, 0.01, 0.3, 0.05])
     textbox = TextBox(tbax, 'set depth', '0')
     textbox.on_submit(setDepth)
     textbox.on_text_change(setDepth)
@@ -213,7 +233,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
     All.textbox = textbox
     if fullData.haveref:
         All.useref = True
-        userefcheck = CheckButtons(plt.axes([0.32, 0.01, 0.11, 0.05]),
+        userefcheck = CheckButtons(plt.axes([0.42, 0.01, 0.11, 0.05]),
                                    ['use ref'], [All.useref])
         def setuseref(_):
             All.useref = userefcheck.get_status()[0]
@@ -229,9 +249,10 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
     def undoLast(event):
         All.edits.pop()
         All.data = fullData.cloneWindow(
-            (All.view.i0, All.view.j0), (All.view.iw, All.view.jw))
+            (All.view.i0, All.view.j0), (All.view.iw, All.view.jw),
+            fieldname=All.fieldname)
         All.data.applyEdits(fullData, All.edits.ijz)
-        All.quadMesh.set_array(All.data.height.ravel())
+        All.quadMesh.set_array(All.data.plotfield.ravel())
         All.edits.updatePlot(fullData, All.syms)
         plt.draw()
     lowerButtons.add('Undo', undoLast)
@@ -239,13 +260,13 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
     upperButtons = Buttons(bottom=1-.0615)
 
     def colorScale(event):
-        Levs = [50, 100, 200, 500, 1000, 6000]
+        Levs = [50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, 6000]
         i = Levs.index(All.clim)
         if event == ' + ':
             i = min(i+1, len(Levs)-1)
         elif event == ' - ':
             i = max(i-1, 0)
-        elif event == 'Flip':
+        elif event == 'Flip' and not All.plotdiff:
             if All.cmap == All.cmap1:
                 All.cmap = All.cmap2
             else:
@@ -253,19 +274,19 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
         All.clim = Levs[i]
         All.quadMesh.set_clim(vmin=-All.clim, vmax=All.clim)
         All.quadMesh.set_cmap(All.cmap)
-        All.cbar.set_clim(vmin=-All.clim, vmax=All.clim)
-        All.cbar.set_cmap(All.cmap)
-        # All.climLabel.set_text('clim = $\pm$%i' % (All.clim))
+        All.cbar.mappable.set_clim(vmin=-All.clim, vmax=All.clim)
+        All.cbar.mappable.set_cmap(All.cmap)
         plt.draw()
 
     def moveVisData(di, dj):
         All.view.move(di, dj)
         All.data = fullData.cloneWindow(
-            (All.view.i0, All.view.j0), (All.view.iw, All.view.jw))
+            (All.view.i0, All.view.j0), (All.view.iw, All.view.jw),
+            fieldname=All.fieldname)
         All.data.applyEdits(fullData, All.edits.ijz)
         plt.sca(All.ax)
         plt.cla()
-        All.quadMesh = replot(All)
+        All.quadMesh, All.cbar = replot(All)
         All.ax.set_xlim(All.data.xlim)
         All.ax.set_ylim(All.data.ylim)
         All.syms = All.edits.plot(fullData)
@@ -296,6 +317,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
 
     def onClick(event):  # Mouse button click
         if event.inaxes == All.ax and event.button == 1 and event.xdata:
+            # left click: edit point
             (i, j) = findPointInMesh(fullData.longitude, fullData.latitude,
                                      event.xdata, event.ydata)
             if i is not None:
@@ -318,18 +340,22 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
                 else:
                     All.edits.add(i, j)
                     All.data.height[I, J] = All.edits.get()
-                All.quadMesh.set_array(All.data.height.ravel())
+                if All.data.haveref:
+                    All.data.diff[I, J] = All.data.height[I, J] - All.data.ref[I, J]
+                All.quadMesh.set_array(All.data.plotfield.ravel())
                 All.edits.updatePlot(fullData, All.syms)
                 plt.draw()
         elif event.inaxes == All.ax and event.button == 3 and event.xdata:
+            # right click: undo edit
             (i, j) = findPointInMesh(fullData.longitude, fullData.latitude,
                                      event.xdata, event.ydata)
             if i is not None:
                 All.edits.delete(i, j)
                 All.data = fullData.cloneWindow(
-                    (All.view.i0, All.view.j0), (All.view.iw, All.view.jw))
+                    (All.view.i0, All.view.j0), (All.view.iw, All.view.jw),
+                    fieldname=All.fieldname)
                 All.data.applyEdits(fullData, All.edits.ijz)
-                All.quadMesh.set_array(All.data.height.ravel())
+                All.quadMesh.set_array(All.data.plotfield.ravel())
                 All.edits.updatePlot(fullData, All.syms)
                 plt.draw()
         elif event.inaxes == All.ax and event.button == 2 and event.xdata:
@@ -349,21 +375,24 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
             All.data.xlim, All.data.ylim,
             All.view.ni, All.view.nj,
             scale_factor)
-        if not new_xlim:
+        if new_xlim is None:
             return  # No change in limits
         All.view.seti(new_xlim)
         All.view.setj(new_ylim)
         All.data = fullData.cloneWindow(
-            (All.view.i0, All.view.j0), (All.view.iw, All.view.jw))
+            (All.view.i0, All.view.j0), (All.view.iw, All.view.jw),
+            fieldname=All.fieldname)
         All.data.applyEdits(fullData, All.edits.ijz)
         plt.sca(All.ax)
         plt.cla()
-        All.quadMesh = replot(All)
+        All.quadMesh, All.cbar = replot(All)
         # All.ax.set_xlim(All.data.xlim)
         # All.ax.set_ylim(All.data.ylim)
         All.syms = All.edits.plot(fullData)
         All.ax.set_xlim(new_xlim)
         All.ax.set_ylim(new_ylim)
+        # All.cbar.mappable.set_clim(vmin=-All.clim, vmax=All.clim)
+        # All.cbar.mappable.set_cmap(All.cmap)
         plt.draw()  # force re-draw
     plt.gcf().canvas.mpl_connect('scroll_event', zoom)
 
@@ -634,18 +663,9 @@ class Edits:
     def __init__(self):
         self.newDepth = 0.0
         self.ijz = []
-        self.label = None  # Handle to text box
 
     def setVal(self, newVal):
         self.newDepth = newVal
-        # if self.label:
-        #     self.label.set_text('New depth = %g' % (self.newDepth))
-
-    def addToVal(self, increment):
-        self.newDepth += increment
-        # if self.label:
-        #     self.label.set_text('New depth = %g' % (self.newDepth))
-        plt.draw()
 
     def get(self): return self.newDepth
 
@@ -702,29 +722,43 @@ class Edits:
 
 # Class to contain data
 class Topography:
-    def __init__(self, lon, lat, height, ref):
+    def __init__(self, lon, lat, height, ref, fieldname=None):
         self.longitude = lon
         self.latitude = lat
         self.height = np.copy(height)
         self.xlim = (np.min(lon), np.max(lon))
         self.ylim = (np.min(lat), np.max(lat))
         if ref is None:
-            self.ref = self.height
+            self.ref = None
+            self.diff = None
             self.haveref = False
         else:
             self.ref = np.copy(ref)
             self.haveref = True
-        self.diff = self.height - self.ref
+            self.diff = self.height - self.ref
+        self.fieldnames = ['Editing', 'Ref', 'Ed - Ref']  # also used for button labels
+        self.fields = dict(zip(self.fieldnames, [self.height, self.ref, self.diff]))
+        if fieldname is None:
+            fieldname = self.fieldnames[0]
+        self.plotfield = self.fields[fieldname]  # the field that is actually plotted
 
-    def cloneWindow(self, i0_j0, iw_jw):
+    def cloneWindow(self, i0_j0, iw_jw, fieldname=None):
         i0, j0 = i0_j0
         iw, jw = iw_jw
         i1 = i0 + iw
         j1 = j0 + jw
-        return Topography(self.longitude[j0:j1+1, i0:i1+1],
-                          self.latitude[j0:j1+1, i0:i1+1],
-                          self.height[j0:j1, i0:i1],
-                          self.ref[j0:j1, i0:i1])
+        if self.ref is None:
+            return Topography(self.longitude[j0:j1+1, i0:i1+1],
+                              self.latitude[j0:j1+1, i0:i1+1],
+                              self.height[j0:j1, i0:i1],
+                              self.ref,
+                              fieldname=fieldname)
+        else:
+            return Topography(self.longitude[j0:j1+1, i0:i1+1],
+                              self.latitude[j0:j1+1, i0:i1+1],
+                              self.height[j0:j1, i0:i1],
+                              self.ref[j0:j1, i0:i1],
+                              fieldname=fieldname)
 
     def applyEdits(self, origData, ijz):
         for i, j, z in ijz:
@@ -733,6 +767,8 @@ class Topography:
             (I, J) = findPointInMesh(self.longitude, self.latitude, x, y)
             if I is not None:
                 self.height[I, J] = z
+                if self.haveref:
+                    self.diff[I, J] = self.height[I, J] - self.ref[I, J]
 
     def cellCoord(self, j, i):
         #ni, nj = self.longitude.shape
