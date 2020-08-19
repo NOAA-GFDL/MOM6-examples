@@ -368,6 +368,9 @@ SEA_ICE_ROLL_FACTOR = 1.0       !   [Nondim] default = 1.0
                                 ! thinner by rolling is increased or 0 to disable rolling.  This can be thought
                                 ! of as the minimum number of ice floes in a grid cell divided by the horizontal
                                 ! floe aspect ratio.  Sensible values are 0 (no rolling) or larger than 1.
+ICE_COVER_DISCARD = -1.0        !   [nondim] default = -1.0
+                                ! A tiny fractional ice coverage which if positive causes the mass in categories
+                                ! with less than this coverage to be discarded.
 SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind
@@ -383,6 +386,17 @@ SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
 CONT_PPM_VOLUME_BASED_CFL = False !   [Boolean] default = False
                                 ! If true, use the ratio of the open face lengths to the tracer cell areas when
                                 ! estimating CFL numbers.
+CONTINUITY_H_NEGLECT = 0.0      !   [kg m-2] default = 0.0
+                                ! The category ice mass per ocean cell area below which the transport within
+                                ! this thickness category of out of a cell is set to zero.  A suggested
+                                ! non-default value might be of order 3e-32 kg m-2, which is one molecule of ice
+                                ! per square kilometer.
+CONTINUITY_FRAC_NEGLECT = 0.0   !   [nondim] default = 0.0
+                                ! When the total fluxes are distributed between categories with
+                                ! MERGED_CONTINUITY, any category whose ice is less than this fraction of the
+                                ! total mass contributes no flux.  Without MERGED_CONTINUITY, any snow or melt
+                                ! pond transport that is less than this fraction of the ice transport is zeroed
+                                ! out.  A suggested non-default value might be of order 1e-20.
 SIS_COVER_TRANSPORT_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme used for projections of ice cover:
                                 !   UPWIND_2D - Non-directionally split upwind
@@ -404,6 +418,10 @@ CFL_MASS_NEGLECT_BUG = False    !   [Boolean] default = False
                                 ! If true use a globally constant negligible volume in the denominator of the
                                 ! tracer advection CFL calculation, reproducing an older incorrect expression,
                                 ! rather than using a proper scaling of this negligible mass with cell area.
+ADCROFT_ADVECTIVE_CFL = False   !   [Boolean] default = False
+                                ! If true use the Adcroft reciprocal of the cell mass when calculating the
+                                ! advective CFL numbers used in PPM tracer advection schemes, rather than adding
+                                ! a small mass in the denominator of the advective CFL ratio.
 
 ! === module SIS_sum_output ===
 WRITE_STOCKS = True             !   [Boolean] default = True
