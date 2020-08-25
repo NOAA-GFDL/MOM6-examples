@@ -34,7 +34,8 @@ import shutil as sh
 from os.path import dirname, basename, join, splitext
 import time
 import sys
-import csv
+import os
+import pwd
 
 
 def main():
@@ -65,7 +66,7 @@ def main():
                         help='Netcdf reference input file to use for copying points from. Must have the same dimensions and variable name as filename.')
     parser.add_argument('--apply', type=str, metavar='editfile',
                         nargs=1, default=[None],
-                        help='Apply edits from specified .nc file or whitespace-delimited .txt file (each row containing i, j, old, new; old value and first row are ignored).')
+                        help='Apply edits from specified .nc file or whitespace-delimited .txt file (in which first row specifies version number (must be 1), data rows contain i, j, old, new (i, j count from 0; old is ignored), and anything following # is ignored).')
     parser.add_argument('--nogui',
                         action='store_true', default=False,
                         help="Don't open GUI. Best used with --apply, in which case editfile is applied to filename and saved as outfile, then progam exits.")
@@ -148,7 +149,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
             fullData.height[iEdit[l], jEdit[l]] = zEdit[l]  # Restore data
             All.edits.add(iEdit[l], jEdit[l])
     if applyFile:
-        try:
+        try:  # first try opening as a NetCDF
             apply = Dataset(applyFile, 'r')
             if 'iEdit' in apply.variables:
                 jEdit = apply.variables['iEdit'][:]
@@ -158,17 +159,22 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
                     All.edits.add(iEdit[l], jEdit[l], zNew[iEdit[l], jEdit[l]])
             apply.close()
         except:
-            try:
+            try:  # if that fails, try opening as a text file
                 with open(applyFile, 'rt') as edFile:
-                    line = edFile.readline()  # ignore header
-                    while line:
-                        line = edFile.readline().strip()
-                        if line:
-                            jEdit, iEdit, _, zNew = line.split()
-                            iEdit = int(iEdit)
-                            jEdit = int(jEdit)
-                            zNew = float(zNew)
-                            All.edits.add(iEdit, jEdit, zNew)
+                    line = edFile.readline()
+                    version = line.strip().split()[-1]
+                    if version == '1':
+                        while line:
+                            line = edFile.readline()
+                            linedata = line.strip().split('#')[0].strip()
+                            if linedata:
+                                jEdit, iEdit, _, zNew = linedata.split()  # swaps meaning of i & j
+                                iEdit = int(iEdit)
+                                jEdit = int(jEdit)
+                                zNew = float(zNew)
+                                All.edits.add(iEdit, jEdit, zNew)
+                    else:
+                        error('Unsupported version '+version+' in "'+applyFile+'".')
             except:
                 error('There was a problem applying edits from "'+applyFile+'".')
 
@@ -434,18 +440,39 @@ Close the window to write the edits to the output file.
         outFile = join(dirname(fileName), 'edit_'+basename(fileName))
     editsFile = splitext(outFile)[0]+'.txt'
     if not outFile == ' ':
-        if All.edits.ijz:
-            print('Writing list of edits to text file "'+editsFile+'" (this can be used with --apply).')
-            try:
-                with open(editsFile, 'wt') as edfile:
-                    edfile_writer = csv.writer(edfile, delimiter='\t',
-                                               dialect='excel',
-                                               lineterminator='\n')
-                    edfile_writer.writerow(['i', 'j', 'old', 'new'])
-                    for (i, j, z) in All.edits.ijz:
-                        edfile_writer.writerow([j, i, fullData.height[i, j].item(), z])
-            except:
-                error('There was a problem creating "'+editsFile+'".')
+        print('Made %i edits.' % (len(All.edits.ijz)))
+        # write editsFile even if no edits, so editsFile will match outFile
+        print('Writing list of edits to text file "'+editsFile+'" (this can be used with --apply).')
+        try:
+            with open(editsFile, 'wt') as edfile:
+                edfile.write('editTopo.py edits file version 1\n')
+                edfile.write('#\n# This file can be used as an argument for editTopo.py --apply\n#\n')
+                edfile.write('# created: ' + time.ctime(time.time()) + '\n')
+                edfile.write('# by: ' + pwd.getpwuid(os.getuid()).pw_name + '\n')
+                edfile.write('# via: ' + ' '.join(sys.argv) + '\n#\n')
+                if All.edits.ijz:
+                    ii, jj, zz = zip(*All.edits.ijz)
+                    olds = [fullData.height[i, j].item() for (i, j, _) in All.edits.ijz]
+                    iiwidth = max([len(repr(x)) for x in ii], default=0) + 2
+                    jjwidth = max([len(repr(x)) for x in jj], default=0) + 2
+                    zzwidth = max([len(repr(x)) for x in zz], default=0) + 2
+                    oldwidth = max([len(repr(x)) for x in olds], default=0) + 2
+                    edfile.write('# ' + \
+                                 'i'.rjust(jjwidth-2) +  # swaps meaning of i & j
+                                 'j'.rjust(iiwidth) +    # ditto
+                                 '  ' +
+                                 'old'.ljust(oldwidth) +
+                                 'new' + '\n')
+                    for (i, j, old, z) in zip(ii, jj, olds, zz):
+                        edfile.write(repr(j).rjust(jjwidth) +  # swaps meaning of i & j
+                                     repr(i).rjust(iiwidth) +  # ditto
+                                     '  ' +
+                                     repr(old).ljust(oldwidth) +
+                                     repr(z) + '\n')
+                else:
+                    edfile.write('#    i    j    old    new\n')
+        except:
+            error('There was a problem creating "'+editsFile+'".')
         print('Writing edited topography to "'+outFile+'".')
         # Create new netcdf file
         if not fileName == outFile:
