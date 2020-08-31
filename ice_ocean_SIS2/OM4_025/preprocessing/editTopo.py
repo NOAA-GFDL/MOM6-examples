@@ -441,38 +441,6 @@ Close the window to write the edits to the output file.
     editsFile = splitext(outFile)[0]+'.txt'
     if not outFile == ' ':
         print('Made %i edits.' % (len(All.edits.ijz)))
-        # write editsFile even if no edits, so editsFile will match outFile
-        print('Writing list of edits to text file "'+editsFile+'" (this can be used with --apply).')
-        try:
-            with open(editsFile, 'wt') as edfile:
-                edfile.write('editTopo.py edits file version 1\n')
-                edfile.write('#\n# This file can be used as an argument for editTopo.py --apply\n#\n')
-                edfile.write('# created: ' + time.ctime(time.time()) + '\n')
-                edfile.write('# by: ' + pwd.getpwuid(os.getuid()).pw_name + '\n')
-                edfile.write('# via: ' + ' '.join(sys.argv) + '\n#\n')
-                if All.edits.ijz:
-                    ii, jj, zz = zip(*All.edits.ijz)
-                    olds = [fullData.height[i, j].item() for (i, j, _) in All.edits.ijz]
-                    iiwidth = max([len(repr(x)) for x in ii], default=0) + 2
-                    jjwidth = max([len(repr(x)) for x in jj], default=0) + 2
-                    zzwidth = max([len(repr(x)) for x in zz], default=0) + 2
-                    oldwidth = max([len(repr(x)) for x in olds], default=0) + 2
-                    edfile.write('# ' + \
-                                 'i'.rjust(jjwidth-2) +  # swaps meaning of i & j
-                                 'j'.rjust(iiwidth) +    # ditto
-                                 '  ' +
-                                 'old'.ljust(oldwidth) +
-                                 'new' + '\n')
-                    for (i, j, old, z) in zip(ii, jj, olds, zz):
-                        edfile.write(repr(j).rjust(jjwidth) +  # swaps meaning of i & j
-                                     repr(i).rjust(iiwidth) +  # ditto
-                                     '  ' +
-                                     repr(old).ljust(oldwidth) +
-                                     repr(z) + '\n')
-                else:
-                    edfile.write('#    i    j    old    new\n')
-        except:
-            error('There was a problem creating "'+editsFile+'".')
         print('Writing edited topography to "'+outFile+'".')
         # Create new netcdf file
         if not fileName == outFile:
@@ -524,6 +492,38 @@ Close the window to write the edits to the output file.
                 rg.history = hist_str
             else:
                 rg.history = rg.history + ' | ' + hist_str
+        # write editsFile even if no edits, so editsFile will match outFile
+        print('Writing list of edits to text file "'+editsFile+'" (this can be used with --apply).')
+        try:
+            with open(editsFile, 'wt') as edfile:
+                edfile.write('editTopo.py edits file version 1\n')
+                edfile.write('#\n# This file can be used as an argument for editTopo.py --apply\n#\n')
+                edfile.write('# created: ' + time.ctime(time.time()) + '\n')
+                edfile.write('# by: ' + pwd.getpwuid(os.getuid()).pw_name + '\n')
+                edfile.write('# via: ' + ' '.join(sys.argv) + '\n#\n')
+                if All.edits.ijz:
+                    ii, jj, _ = zip(*All.edits.ijz)
+                    news = [rgVar[i, j].item() for (i, j, _) in All.edits.ijz]
+                    olds = [fullData.height[i, j].item() for (i, j, _) in All.edits.ijz]
+                    iiwidth = max([len(repr(x)) for x in ii], default=0) + 2
+                    jjwidth = max([len(repr(x)) for x in jj], default=0) + 2
+                    oldwidth = max([len(repr(x)) for x in olds], default=0) + 2
+                    edfile.write('# ' + \
+                                 'i'.rjust(jjwidth-2) +  # swaps meaning of i & j
+                                 'j'.rjust(iiwidth) +    # ditto
+                                 '  ' +
+                                 'old'.ljust(oldwidth) +
+                                 'new' + '\n')
+                    for (i, j, old, new) in zip(ii, jj, olds, news):
+                        edfile.write(repr(j).rjust(jjwidth) +  # swaps meaning of i & j
+                                     repr(i).rjust(iiwidth) +  # ditto
+                                     '  ' +
+                                     repr(old).ljust(oldwidth) +
+                                     repr(new) + '\n')
+                else:
+                    edfile.write('#    i    j    old    new\n')
+        except:
+            error('There was a problem creating "'+editsFile+'".')
         rg.close()
 
 
