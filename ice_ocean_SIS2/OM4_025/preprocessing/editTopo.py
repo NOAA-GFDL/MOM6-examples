@@ -74,7 +74,7 @@ def main():
     optCmdLineArgs = parser.parse_args()
 
     createGUI(optCmdLineArgs.filename, optCmdLineArgs.variable,
-              optCmdLineArgs.output, optCmdLineArgs.ref[0],
+              optCmdLineArgs.output[0], optCmdLineArgs.ref[0],
               optCmdLineArgs.apply[0], optCmdLineArgs.nogui)
 
 
