@@ -59,7 +59,7 @@ def main():
                         nargs='?', default='depth',
                         help='Name of variable to edit. Defaults to "depth".')
     parser.add_argument('--output', type=str, metavar='outfile',
-                        nargs=1, default=None,
+                        nargs=1, default=[None],
                         help='Write an output file. If no output file is specified, creates the file with the "edit_" prepended to the name  of the input file.')
     parser.add_argument('--ref', type=str, metavar='reffile',
                         nargs=1, default=[None],
