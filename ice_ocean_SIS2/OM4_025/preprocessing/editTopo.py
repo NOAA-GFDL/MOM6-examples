@@ -70,15 +70,30 @@ def main():
     parser.add_argument('--nogui',
                         action='store_true', default=False,
                         help="Don't open GUI. Best used with --apply, in which case editfile is applied to filename and saved as outfile, then progam exits.")
+    parser.add_argument('--overwrite',
+                        action='store_true', default=False,
+                        help="Permit overwriting existing output files.")
 
     optCmdLineArgs = parser.parse_args()
 
     createGUI(optCmdLineArgs.filename, optCmdLineArgs.variable,
               optCmdLineArgs.output[0], optCmdLineArgs.ref[0],
-              optCmdLineArgs.apply[0], optCmdLineArgs.nogui)
+              optCmdLineArgs.apply[0], optCmdLineArgs.nogui,
+              optCmdLineArgs.overwrite)
 
 
-def createGUI(fileName, variable, outFile, refFile, applyFile, nogui):
+def createGUI(fileName, variable, outFile, refFile, applyFile, nogui, overwrite):
+
+    if not outFile:
+        outFile = join(dirname(fileName), 'edit_'+basename(fileName))
+    editsFile = splitext(outFile)[0]+'.txt'
+
+    if fileName == outFile:
+        error('Output filename must differ from input filename "{}". Exiting.'.format(fileName))
+
+    if not overwrite:
+        if os.path.exists(outFile) or os.path.exists(editsFile):
+            error('"{}" or "{}" already exists. To overwrite, use the --overwrite option.'.format(outFile, editsFile))
 
     # Open netcdf files
     try:
@@ -436,9 +451,6 @@ Close the window to write the edits to the output file.
 
 # The following is executed after GUI window is closed
     # All.edits.list()
-    if not outFile:
-        outFile = join(dirname(fileName), 'edit_'+basename(fileName))
-    editsFile = splitext(outFile)[0]+'.txt'
     if not outFile == ' ':
         print('Made %i edits.' % (len(All.edits.ijz)))
         print('Writing edited topography to "'+outFile+'".')
@@ -474,7 +486,10 @@ Close the window to write the edits to the output file.
             else:
                 zEd = rg.createVariable('zEdit', 'f4', ('nEdits',))
                 zEd.long_name = 'Original value of edited data'
-                zEd.units = rgVar.units
+                try:
+                    zEd.units = rgVar.units
+                except AttributeError:
+                    zEd.units = 'm'
             hist_str = 'made %i changes (i, j, old, new): ' % len(All.edits.ijz)
             for l, (i, j, z) in enumerate(All.edits.ijz):
                 if l > 0:
