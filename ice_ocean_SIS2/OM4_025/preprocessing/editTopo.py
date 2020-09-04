@@ -50,26 +50,27 @@ def main():
             Left click on a cell to apply the prescribed depth value.
             Right click on a cell to reset to the original value.
             Double left click to assign the highest of the 4 nearest points with depth<0.
-            Close the window to write the edits to the output file.
+            Close the window to write the edits to the output NetCDF file,
+            and also to a .txt file.
         ''',
                         epilog='Written by Alistair Adcroft (2013) and Andrew Kiss (2020)')
     parser.add_argument('filename', type=str,
-                        help='Netcdf input file to read.')
+                        help='NetCDF input file to read.')
     parser.add_argument('variable', type=str,
                         nargs='?', default='depth',
                         help='Name of variable to edit. Defaults to "depth".')
     parser.add_argument('--output', type=str, metavar='outfile',
                         nargs=1, default=[None],
-                        help='Write an output file. If no output file is specified, creates the file with the "edit_" prepended to the name  of the input file.')
+                        help='Specify output NetCDF filename. Default is "edit_" prepended to the name of the input file. Text output filename is the same but with .nc replaced by .txt.')
     parser.add_argument('--ref', type=str, metavar='reffile',
                         nargs=1, default=[None],
-                        help='Netcdf reference input file to use for copying points from. Must have the same dimensions and variable name as filename.')
+                        help='NetCDF reference input file to use for copying points from. Must have the same dimensions and variable name as filename.')
     parser.add_argument('--apply', type=str, metavar='editfile',
                         nargs=1, default=[None],
-                        help='Apply edits from specified .nc file or whitespace-delimited .txt file (in which first row specifies version number (must be 1), data rows contain i, j, old, new (i, j count from 0; old is ignored), and anything following # is ignored).')
+                        help='Apply edits from iEdit, jEdit, zEdit variables in a NetCDF file, or from an ascii text file. Two text file formats are supported:  whitespace-delimited (in which the first row begins with editTopo.py and ends with a version number (must be 1), data rows contain i, j, old, new (integers i, j count from 0; old is ignored), and anything following # is ignored), and the old edits file format (comma delimited i, j, new (i, j count from 1 and may be single integers or start:end inclusive integer ranges), and anything following # is ignored).')
     parser.add_argument('--nogui',
                         action='store_true', default=False,
-                        help="Don't open GUI. Best used with --apply, in which case editfile is applied to filename and saved as outfile, then progam exits.")
+                        help="Don't open GUI. Best used with --apply, in which case editfile is applied to filename and saved as outfile, then program exits.")
     parser.add_argument('--overwrite',
                         action='store_true', default=False,
                         help="Permit overwriting existing output files.")
@@ -95,11 +96,11 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui, overwrite)
         if os.path.exists(outFile) or os.path.exists(editsFile):
             error('"{}" or "{}" already exists. To overwrite, use the --overwrite option.'.format(outFile, editsFile))
 
-    # Open netcdf files
+    # Open NetCDF files
     try:
         rg = Dataset(fileName, 'r')
     except:
-        error('There was a problem opening input netcdf file "'+fileName+'".')
+        error('There was a problem opening input NetCDF file "'+fileName+'".')
 
     rgVar = rg.variables[variable]  # handle to the variable
     dims = rgVar.dimensions  # tuple of dimensions
@@ -113,7 +114,7 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui, overwrite)
         try:
             ref = Dataset(refFile, 'r').variables[variable][:]
         except:
-            error('There was a problem opening reference netcdf file "'+refFile+'".')
+            error('There was a problem opening reference NetCDF file "'+refFile+'".')
 
     try:
         sg = Dataset('supergrid.nc', 'r')
@@ -176,20 +177,50 @@ def createGUI(fileName, variable, outFile, refFile, applyFile, nogui, overwrite)
         except:
             try:  # if that fails, try opening as a text file
                 with open(applyFile, 'rt') as edFile:
+                    edCount = 0
                     line = edFile.readline()
-                    version = line.strip().split()[-1]
-                    if version == '1':
+                    version = None
+                    if line.startswith('editTopo.py'):
+                        version = line.strip().split()[-1]
+                    if version is None:
+                        # assume this is in comma-delimited format ii, jj, zNew # comment
+                        # where ii, jj may be integers or start:end inclusive integer ranges,
+                        # indexed counting from 1
+                        while line:
+                            linedata = line.strip().split('#')[0].strip()
+                            if linedata:
+                                jEdits, iEdits, zNew = linedata.split(',')  # swaps meaning of i & j
+                                iEdits = [int(x) for x in iEdits.strip().split(':')]
+                                jEdits = [int(x) for x in jEdits.strip().split(':')]
+                                zNew = float(zNew.strip())
+                                for ed in [iEdits, jEdits]:
+                                    if len(ed) == 1:
+                                        ed.append(ed[0]+1)
+                                    elif len(ed) == 2:
+                                        ed[1] += 1
+                                    else:
+                                        raise ValueError
+                                for i in range(*iEdits):
+                                    for j in range(*jEdits):
+                                        All.edits.add(i-1, j-1, zNew)  # -1 because ii, jj count from 1
+                                        edCount += 1
+                            line = edFile.readline()
+                    elif version == '1':
+                        # whitespace-delimited format jEdit iEdit zOld zNew # comment
+                        # where ii, jj are integer indices counting from 0
                         while line:
                             line = edFile.readline()
                             linedata = line.strip().split('#')[0].strip()
                             if linedata:
-                                jEdit, iEdit, _, zNew = linedata.split()  # swaps meaning of i & j
+                                jEdit, iEdit, _, zNew = linedata.split()  # swap meaning of i & j; ignore zOld
                                 iEdit = int(iEdit)
                                 jEdit = int(jEdit)
                                 zNew = float(zNew)
                                 All.edits.add(iEdit, jEdit, zNew)
+                                edCount += 1
                     else:
-                        error('Unsupported version '+version+' in "'+applyFile+'".')
+                        error('Unsupported version "{}" in "{}".'.format(version, applyFile))
+                    print('Applied {} cell edits from "{}".'.format(edCount, applyFile))
             except:
                 error('There was a problem applying edits from "'+applyFile+'".')
 
@@ -445,7 +476,8 @@ Set the prescribed depth with the textbox at the bottom.
 Left click on a cell to apply the prescribed depth value.
 Right click on a cell to reset to the original value.
 Double left click to assign the highest of the 4 nearest points with depth<0.
-Close the window to write the edits to the output file.
+Close the window to write the edits to the output NetCDF file,
+and also to a .txt file.
 """)
         plt.show()
 
