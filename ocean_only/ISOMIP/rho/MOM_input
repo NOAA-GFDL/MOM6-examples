@@ -16,19 +16,8 @@ NIGLOBAL = 240                  !
 NJGLOBAL = 40                   !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-NIHALO = 4                      ! default = 4
-                                ! The number of halo points on each side in the x-direction.  With
-                                ! STATIC_MEMORY_ this is set as NIHALO_ in MOM_memory.h at compile time; without
-                                ! STATIC_MEMORY_ the default is NIHALO_ in MOM_memory.h (if defined) or 2.
-NJHALO = 4                      ! default = 4
-                                ! The number of halo points on each side in the y-direction.  With
-                                ! STATIC_MEMORY_ this is set as NJHALO_ in MOM_memory.h at compile time; without
-                                ! STATIC_MEMORY_ the default is NJHALO_ in MOM_memory.h (if defined) or 2.
 ! LAYOUT = 12, 2                !
                                 ! The processor layout that was actually used.
-! IO_LAYOUT = 1, 1              ! default = 1
-                                ! The processor layout to be used, or 0,0 to automatically set the io_layout to
-                                ! be the same as the layout.
 
 ! === module MOM ===
 USE_REGRIDDING = True           !   [Boolean] default = False
@@ -55,9 +44,6 @@ ICE_THICKNESS_FILE = "Ocean1_3D.nc" !
                                 ! The file from which the ice bathymetry and area are read.
 ICE_AREA_VARNAME = "area"       !
                                 ! The name of the area variable in ICE_THICKNESS_FILE.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -120,10 +106,6 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 720.0           !   [m]
                                 ! The maximum depth of the ocean.
-
-! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
-! if any.
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -144,8 +126,6 @@ ANGSTROM = 1.0E-15              !   [m] default = 1.0E-10
 NK = 25                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
 ! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
@@ -162,8 +142,6 @@ DRHO_DS = 0.805876093           !   [kg m-3 PSU-1] default = 0.8
 TFREEZE_FORM = "MILLERO_78"     ! default = "LINEAR"
                                 ! TFREEZE_FORM determines which expression should be used for the freezing
                                 ! point.  Currently, the valid choices are "LINEAR", "MILLERO_78", "TEOS10"
-
-! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 
@@ -246,9 +224,6 @@ REGRID_USE_OLD_DIRECTION = False ! [Boolean] default = True
                                 ! positions, much as the main model does. If false regridding integrates
                                 ! downward, consistant with the remapping code.
 
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
 ! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "ISOMIP"     ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
@@ -311,8 +286,6 @@ SURFACE_PRESSURE_SCALE = 8820.0 !   [file dependent] default = 1.0
 
 ! === module MOM_diag_mediator ===
 
-! === module MOM_MEKE ===
-
 ! === module MOM_lateral_mixing_coeffs ===
 
 ! === module MOM_set_visc ===
@@ -335,6 +308,8 @@ KV_TBL_MIN = 0.01               !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the top boundary layer.
 
 ! === module MOM_thickness_diffuse ===
+
+! === module MOM_dynamics_split_RK2 ===
 BE = 0.7                        !   [nondim] default = 0.6
                                 ! If SPLIT is true, BE determines the relative weighting of a  2nd-order
                                 ! Runga-Kutta baroclinic time stepping scheme (0.5) and a backward Euler scheme
@@ -365,10 +340,10 @@ BOUND_CORIOLIS = True           !   [Boolean] default = False
 
 ! === module MOM_PressureForce ===
 
-! === module MOM_PressureForce_AFV ===
+! === module MOM_PressureForce_FV ===
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
-                                ! bathymetry in AFV pressure gradient calculations.
+                                ! bathymetry in FV pressure gradient calculations.
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -396,16 +371,6 @@ KVML = 0.01                     !   [m2 s-1] default = 1.0E-04
 MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 
-! === module MOM_PointAccel ===
-U_TRUNC_FILE = "U_velocity_truncations" ! default = ""
-                                ! The absolute path to a file into which the accelerations leading to zonal
-                                ! velocity truncations are written. Undefine this for efficiency if this
-                                ! diagnostic is not needed.
-V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
-                                ! The absolute path to a file into which the accelerations leading to meridional
-                                ! velocity truncations are written. Undefine this for efficiency if this
-                                ! diagnostic is not needed.
-
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the barotropic solver are
@@ -425,23 +390,13 @@ DTBT = -0.9                     !   [s or nondim] default = -0.98
                                 ! DTBT to 0 is the same as setting it to -0.98. The value of DTBT that will
                                 ! actually be used is an integer fraction of DT, rounding down.
 
-! === module MOM_mixed_layer_restrat ===
+! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary layer scheme to
                                 ! determine the diffusivity and viscosity in the surface boundary layer.
-
-! === module MOM_CVMix_KPP ===
-! This is the MOM wrapper to CVMix:KPP
-! See http://cvmix.github.io/
-
-! === module MOM_tidal_mixing ===
-! Vertical Tidal Mixing Parameterization
-
-! === module MOM_CVMix_conv ===
-! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_set_diffusivity ===
 BBL_EFFIC = 0.0                 !   [nondim] default = 0.2
@@ -450,21 +405,12 @@ BBL_EFFIC = 0.0                 !   [nondim] default = 0.2
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-KD = 0.0                        !   [m2 s-1]
-                                ! The background diapycnal diffusivity of density in the interior. Zero or the
-                                ! molecular value, ~1e-7 m2 s-1, may be used.
 
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
 USE_JACKSON_PARAM = True        !   [Boolean] default = False
                                 ! If true, use the Jackson-Hallberg-Legg (JPO 2008) shear mixing
                                 ! parameterization.
-
-! === module MOM_CVMix_shear ===
-! Parameterization of shear-driven turbulence via CVMix (various options)
-
-! === module MOM_CVMix_ddiff ===
-! Parameterization of mixing due to double diffusion processes via CVMix
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
@@ -473,8 +419,6 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 USE_MLD_ITERATION = False       !   [Boolean] default = True
                                 ! A logical that specifies whether or not to use the distance to the bottom of
                                 ! the actively turbulent boundary layer to help set the EPBL length scale.
-
-! === module MOM_regularize_layers ===
 
 ! === module MOM_opacity ===
 PEN_SW_SCALE = 15.0             !   [m] default = 0.0
@@ -486,12 +430,6 @@ PEN_SW_FRAC = 0.42              !   [nondim] default = 0.0
 ! === module MOM_tracer_advect ===
 
 ! === module MOM_tracer_hor_diff ===
-
-! === module MOM_neutral_diffusion ===
-! This module implements neutral diffusion of tracers
-
-! === module MOM_lateral_boundary_diffusion ===
-! This module implements lateral diffusion of tracers near boundaries
 
 ! === module MOM_sum_output ===
 CALCULATE_APE = False           !   [Boolean] default = True
@@ -522,21 +460,10 @@ WIND_CONFIG = "zero"            ! default = "zero"
                                 ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 GUST_CONST = 0.02               !   [Pa] default = 0.0
                                 ! The background gustiness in the winds.
-
-! === module MOM_restart ===
 ICE_SHELF = True                !   [Boolean] default = False
                                 ! If true, enables the ice shelf model.
 
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
-
 ! === module MOM_domains min_halo ===
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module MOM_grid_init ===
 
@@ -567,8 +494,6 @@ CDRAG_SHELF = 0.0025            !   [nondim] default = 0.003
                                 ! the surface stress.
 
 ! === module ISOMIP_initialize_topography ===
-
-! === module MOM_restart ===
 ICE_PROFILE_CONFIG = "FILE"     !
                                 ! This specifies how the initial ice profile is specified. Valid values are:
                                 ! CHANNEL, FILE, and USER.
@@ -598,4 +523,12 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! seconds, so the actual CPU time used is larger by a factor of the number of
                                 ! processors used.
 
-! === module MOM_file_parser ===
+! Debugging parameters set to non-default values
+U_TRUNC_FILE = "U_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to zonal
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.
+V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to meridional
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.
