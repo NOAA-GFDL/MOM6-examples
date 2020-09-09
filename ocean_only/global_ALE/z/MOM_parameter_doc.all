@@ -1141,6 +1141,9 @@ BOUND_AH = True                 !   [Boolean] default = True
 BETTER_BOUND_AH = True          !   [Boolean] default = True
                                 ! If true, the biharmonic coefficient is locally limited to be stable with a
                                 ! better bounding than just BOUND_AH.
+RE_AH = 0.0                     !   [nondim] default = 0.0
+                                ! If nonzero, the biharmonic coefficient is scaled so that the biharmonic
+                                ! Reynolds number is equal to this.
 SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
                                 ! The nondimensional biharmonic Smagorinsky constant, typically 0.015 - 0.06.
 BOUND_CORIOLIS_BIHARM = True    !   [Boolean] default = True
