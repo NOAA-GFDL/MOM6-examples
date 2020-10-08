@@ -1593,6 +1593,10 @@ KAPPA_SHEAR_ALL_LAYER_TKE_BUG = False !   [Boolean] default = False
                                 ! If true, report back the latest estimate of TKE instead of the time average
                                 ! TKE when there is mass in all layers.  Otherwise always report the time
                                 ! averaged TKE, as is currently done when there are some massless layers.
+USE_RESTRICTIVE_TOLERANCE_CHECK = False !   [Boolean] default = False
+                                ! If true, uses the more restrictive tolerance check to determine if a timestep
+                                ! is acceptable for the KS_it outer iteration loop.  False uses the original
+                                ! less restrictive check.
 KAPPA_SHEAR_MERGE_ML = True     !   [Boolean] default = True
                                 ! If true, combine the mixed layers together before solving the kappa-shear
                                 ! equations.
