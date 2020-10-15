@@ -239,6 +239,8 @@ RAMP_OBCS = False               !   [Boolean] default = False
                                 ! timescale given by RAMP_TIMESCALE. Ramping SSH only so far
 OBC_RAMP_TIMESCALE = 1.0        !   [days] default = 1.0
                                 ! If RAMP_OBCS is true, this sets the ramping timescale.
+OBC_TIDE_N_CONSTITUENTS = 0     ! default = 0
+                                ! Number of tidal constituents being added to the open boundary.
 OBC_SEGMENT_001 = "J=N,I=N:0,FLATHER,ORLANSKI" !
                                 ! Documentation needs to be dynamic?????
 OBC_SEGMENT_002 = "J=0,I=0:N,FLATHER,ORLANSKI" !
@@ -1320,6 +1322,10 @@ KAPPA_SHEAR_ALL_LAYER_TKE_BUG = False !   [Boolean] default = False
                                 ! If true, report back the latest estimate of TKE instead of the time average
                                 ! TKE when there is mass in all layers.  Otherwise always report the time
                                 ! averaged TKE, as is currently done when there are some massless layers.
+USE_RESTRICTIVE_TOLERANCE_CHECK = False !   [Boolean] default = False
+                                ! If true, uses the more restrictive tolerance check to determine if a timestep
+                                ! is acceptable for the KS_it outer iteration loop.  False uses the original
+                                ! less restrictive check.
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)

@@ -1100,9 +1100,14 @@ TIDE_SAL_SCALAR_VALUE = 0.094   !   [m m-1]
                                 ! The constant of proportionality between sea surface height (really it should
                                 ! be bottom pressure) anomalies and bottom geopotential anomalies. This is only
                                 ! used if TIDES and TIDE_USE_SAL_SCALAR are true.
+TIDE_REF_DATE = 0, 0, 0         ! default = 0
+                                ! Year,month,day to use as reference date for tidal forcing. If not specified,
+                                ! defaults to 0.
+TIDE_USE_EQ_PHASE = False       !   [Boolean] default = False
+                                ! Correct phases by calculating equilibrium phase arguments for TIDE_REF_DATE.
 TIDE_M2_FREQ = 1.405189E-04     !   [s-1] default = 1.405189E-04
                                 ! Frequency of the M2 tidal constituent. This is only used if TIDES and TIDE_M2
-                                ! are true.
+                                ! are true, or if OBC_TIDE_N_CONSTITUENTS > 0 and M2is in OBC_TIDE_CONSTITUENTS.
 TIDE_M2_AMP = 0.242334          !   [m] default = 0.242334
                                 ! Amplitude of the M2 tidal constituent. This is only used if TIDES and TIDE_M2
                                 ! are true.
@@ -1475,6 +1480,9 @@ EVAP_CFL_LIMIT = 0.8            !   [nondim] default = 0.8
                                 ! The largest fraction of a layer than can be lost to forcing (e.g. evaporation,
                                 ! sea-ice formation) in one time-step. The unused mass loss is passed down
                                 ! through the column.
+MLD_EN_VALS = 3*0.0             !   [J/m2] default = 0.0
+                                ! The energy values used to compute MLDs.  If not set (or all set to 0.), the
+                                ! default will overwrite to 25., 2500., 250000.
 DIAG_MLD_DENSITY_DIFF = 0.1     !   [kg/m3] default = 0.1
                                 ! The density difference used to determine a diagnostic mixed layer depth,
                                 ! MLD_user, following the definition of Levitus 1982. The MLD is the depth at
@@ -1729,6 +1737,10 @@ KAPPA_SHEAR_ALL_LAYER_TKE_BUG = False !   [Boolean] default = False
                                 ! If true, report back the latest estimate of TKE instead of the time average
                                 ! TKE when there is mass in all layers.  Otherwise always report the time
                                 ! averaged TKE, as is currently done when there are some massless layers.
+USE_RESTRICTIVE_TOLERANCE_CHECK = False !   [Boolean] default = False
+                                ! If true, uses the more restrictive tolerance check to determine if a timestep
+                                ! is acceptable for the KS_it outer iteration loop.  False uses the original
+                                ! less restrictive check.
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
