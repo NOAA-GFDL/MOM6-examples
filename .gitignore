@@ -7,9 +7,14 @@ build*
 CPU_stats
 CPU_stats.*
 _read_error.nml
+
+# Ignore most available_diags.* files, but add two as a sample
 available_diags.0*
 SIS.available_diags
 SIS_fast.available_diags
+!ocean_only/global_ALE/z/available_diags.000000
+!ocean_only/global_ALE/layer/available_diags.000000
+
 exitcode
 fort.20
 *.nc
