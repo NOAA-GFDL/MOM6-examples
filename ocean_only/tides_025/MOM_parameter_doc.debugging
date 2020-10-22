@@ -1,0 +1,71 @@
+! This file was written by the model and records the debugging parameters used at run-time.
+
+! === module MOM_unit_scaling ===
+! Parameters for doing unit scaling of variables.
+Z_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's internal units of
+                                ! depths and heights.  Valid values range from -300 to 300.
+L_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's internal units of
+                                ! lateral distances.  Valid values range from -300 to 300.
+T_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's internal units of
+                                ! time.  Valid values range from -300 to 300.
+R_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's internal units of
+                                ! density.  Valid values range from -300 to 300.
+Q_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's internal units of
+                                ! heat content.  Valid values range from -300 to 300.
+
+! === module MOM ===
+VERBOSITY = 2                   ! default = 2
+                                ! Integer controlling level of messaging
+                                !   0 = Only FATAL messages
+                                !   2 = Only FATAL, WARNING, NOTE [default]
+                                !   9 = All)
+DO_UNIT_TESTS = False           !   [Boolean] default = False
+                                ! If True, exercises unit tests at model start up.
+DEBUG = False                   !   [Boolean] default = False
+                                ! If true, write out verbose debugging data.
+DEBUG_TRUNCATIONS = False       !   [Boolean] default = False
+                                ! If true, calculate all diagnostics that are useful for debugging truncations.
+ROTATE_INDEX = False            !   [Boolean] default = False
+                                ! Enable rotation of the horizontal indices.
+DEBUG_CHKSUMS = False           !   [Boolean] default = False
+                                ! If true, checksums are performed on arrays in the various vec_chksum routines.
+DEBUG_REDUNDANT = False         !   [Boolean] default = False
+                                ! If true, debug redundant data points during calls to the various vec_chksum
+                                ! routines.
+
+! === module MOM_verticalGrid ===
+! Parameters providing information about the vertical grid.
+H_RESCALE_POWER = 0             !   [nondim] default = 0
+                                ! An integer power of 2 that is used to rescale the model's intenal units of
+                                ! thickness.  Valid values range from -300 to 300.
+
+! === module MOM_vert_friction ===
+U_TRUNC_FILE = "U_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to zonal
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.
+V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
+                                ! The absolute path to a file into which the accelerations leading to meridional
+                                ! velocity truncations are written. Undefine this for efficiency if this
+                                ! diagnostic is not needed.
+
+! === module MOM_PointAccel ===
+MAX_TRUNC_FILE_SIZE_PER_PE = 50 ! default = 50
+                                ! The maximum number of columns of truncations that any PE will write out during
+                                ! a run.
+
+! === module MOM_barotropic ===
+DEBUG_BT = False                !   [Boolean] default = False
+                                ! If true, write out verbose debugging data within the barotropic time-stepping
+                                ! loop. The data volume can be quite large if this is true.
+
+! === module MOM_file_parser ===
+REPORT_UNUSED_PARAMS = True     !   [Boolean] default = True
+                                ! If true, report any parameter lines that are not used in the run.
+FATAL_UNUSED_PARAMS = False     !   [Boolean] default = False
+                                ! If true, kill the run if there are any unused parameters.

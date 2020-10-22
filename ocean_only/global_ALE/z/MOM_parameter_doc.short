@@ -1,9 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module MOM ===
-
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
 DIABATIC_FIRST = True           !   [Boolean] default = False
                                 ! If true, apply diabatic and thermodynamic processes, including buoyancy
                                 ! forcing and mass gain or loss, before stepping the dynamics forward.
@@ -38,6 +35,8 @@ DO_GEOTHERMAL = True            !   [Boolean] default = False
 BOUND_SALINITY = True           !   [Boolean] default = False
                                 ! If true, limit salinity to being positive. (The sea-ice model may ask for more
                                 ! salt than is available and drive the salinity negative otherwise.)
+MIN_SALINITY = 0.01             !   [PPT] default = 0.0
+                                ! The minimum value of salinity when BOUND_SALINITY=True.
 C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
@@ -57,9 +56,6 @@ NIGLOBAL = 360                  !
 NJGLOBAL = 210                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -87,8 +83,9 @@ TOPO_CONFIG = "file"            !
                                 !       wall at the southern face.
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
+                                !     bbuilder - build topography from list of functions.
                                 !     benchmark - use the benchmark test case topography.
-                                !     Neverland - use the Neverland test case topography.
+                                !     Neverworld - use the Neverworld test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -109,10 +106,6 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! assumed to be land and all fluxes are masked out. If MASKING_DEPTH is
                                 ! specified, then all depths shallower than MINIMUM_DEPTH but deeper than
                                 ! MASKING_DEPTH are rounded to MINIMUM_DEPTH.
-
-! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
-! if any.
 CHANNEL_CONFIG = "global_1deg"  ! default = "none"
                                 ! A parameter that determines which set of channels are
                                 ! restricted to specific  widths.  Options are:
@@ -133,8 +126,6 @@ PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
 NK = 50                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
 ! === module MOM_EOS ===
 
 ! === module MOM_restart ===
@@ -146,7 +137,7 @@ USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
 ! === module ideal_age_example ===
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "file"           !
+COORD_CONFIG = "file"           ! default = "none"
                                 ! This specifies how layers are to be defined:
                                 !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
@@ -206,9 +197,6 @@ REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! PQM_IH4IH3  (4th-order accurate)
                                 ! PQM_IH6IH5  (5th-order accurate)
 
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
                                 ! If true, initialize the layer thicknesses, temperatures, and salinities from a
@@ -253,15 +241,6 @@ USE_STORED_SLOPES = True        !   [Boolean] default = False
                                 ! If true, the isopycnal slopes are calculated once and stored for re-use. This
                                 ! uses more memory but avoids calling the equation of state more times than
                                 ! should be necessary.
-INTERPOLATE_RES_FN = False      !   [Boolean] default = True
-                                ! If true, interpolate the resolution function to the velocity points from the
-                                ! thickness points; otherwise interpolate the wave speed and calculate the
-                                ! resolution function independently at each point.
-GILL_EQUATORIAL_LD = True       !   [Boolean] default = False
-                                ! If true, uses Gill's definition of the baroclinic equatorial deformation
-                                ! radius, otherwise, if false, use Pedlosky's definition. These definitions
-                                ! differ by a factor of 2 in front of the beta term in the denominator. Gill's
-                                ! is the more appropriate definition.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -277,9 +256,6 @@ DRAG_BG_VEL = 0.1               !   [m s-1] default = 0.0
                                 ! unresolved  velocity that is combined with the resolved velocity to estimate
                                 ! the velocity magnitude.  DRAG_BG_VEL is only used when BOTTOMDRAGLAW is
                                 ! defined.
-BBL_USE_EOS = True              !   [Boolean] default = False
-                                ! If true, use the equation of state in determining the properties of the bottom
-                                ! boundary layer.  Otherwise use the layer target potential densities.
 BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! The minimum bottom boundary layer thickness that can be used with
                                 ! BOTTOMDRAGLAW. This might be Kv/(cdrag*drag_bg_vel) to give Kv as the minimum
@@ -299,6 +275,8 @@ KHTH_USE_FGNV_STREAMFUNCTION = True !   [Boolean] default = False
 FGNV_C_MIN = 0.01               !   [m s-1] default = 0.0
                                 ! A minium wave speed used in the Ferrari et al., 2010, streamfunction
                                 ! formulation.
+
+! === module MOM_dynamics_split_RK2 ===
 TIDES = True                    !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 
@@ -333,10 +311,10 @@ TIDE_SAL_SCALAR_VALUE = 0.094   !   [m m-1]
 
 ! === module MOM_PressureForce ===
 
-! === module MOM_PressureForce_AFV ===
+! === module MOM_PressureForce_FV ===
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
-                                ! bathymetry in AFV pressure gradient calculations.
+                                ! bathymetry in FV pressure gradient calculations.
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -363,8 +341,6 @@ MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
 CFL_TRUNCATE_RAMP_TIME = 7200.0 !   [s] default = 0.0
                                 ! The time over which the CFL truncation value is ramped up at the beginning of
                                 ! the run.
-
-! === module MOM_PointAccel ===
 
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
@@ -402,15 +378,13 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! the grid spacing over the deformation radius, as detailed by Fox-Kemper et al.
                                 ! (2010)
 
+! === module MOM_diagnostics ===
+
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
                                 ! If true, use an implied energetics planetary boundary layer scheme to
                                 ! determine the diffusivity and viscosity in the surface boundary layer.
-
-! === module MOM_CVMix_KPP ===
-! This is the MOM wrapper to CVMix:KPP
-! See http://cvmix.github.io/
 
 ! === module MOM_tidal_mixing ===
 ! Vertical Tidal Mixing Parameterization
@@ -435,16 +409,6 @@ H2_FILE = "sgs_h2.nc"           !
                                 ! The path to the file containing the sub-grid-scale topographic roughness
                                 ! amplitude with INT_TIDE_DISSIPATION.
 
-! === module MOM_CVMix_conv ===
-! Parameterization of enhanced mixing due to convection via CVMix
-
-! === module MOM_entrain_diffusive ===
-MAX_ENT_IT = 20                 ! default = 5
-                                ! The maximum number of iterations that may be used to calculate the interior
-                                ! diapycnal entrainment.
-TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.683281572999748E-05
-                                ! The tolerance with which to solve for entrainment values.
-
 ! === module MOM_geothermal ===
 GEOTHERMAL_SCALE = 0.001        !   [W m-2 or various] default = 0.0
                                 ! The constant geothermal heat flux, a rescaling factor for the heat flux read
@@ -468,7 +432,7 @@ SIMPLE_TKE_TO_KD = True         !   [Boolean] default = False
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-KD = 2.0E-05                    !   [m2 s-1]
+KD = 2.0E-05                    !   [m2 s-1] default = 0.0
                                 ! The background diapycnal diffusivity of density in the interior. Zero or the
                                 ! molecular value, ~1e-7 m2 s-1, may be used.
 KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
@@ -489,12 +453,6 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
 
-! === module MOM_CVMix_shear ===
-! Parameterization of shear-driven turbulence via CVMix (various options)
-
-! === module MOM_CVMix_ddiff ===
-! Parameterization of mixing due to double diffusion processes via CVMix
-
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
 VAR_PEN_SW = True               !   [Boolean] default = False
@@ -505,14 +463,9 @@ CHL_FILE = "seawifs_1998-2006_GOLD_smoothed_2X.nc" !
                                 ! is used when VAR_PEN_SW and CHL_FROM_FILE are true.
 
 ! === module MOM_energetic_PBL ===
-EPBL_USTAR_MIN = 1.45842E-18    !   [m s-1]
-                                ! The (tiny) minimum friction velocity used within the ePBL code, derived from
-                                ! OMEGA and ANGSTROM.
-
-! === module MOM_regularize_layers ===
-HMIX_MIN = 2.0                  !   [m] default = 0.0
-                                ! The minimum mixed layer depth if the mixed layer depth is determined
-                                ! dynamically.
+USE_MLD_ITERATION = False       !   [Boolean] default = True
+                                ! A logical that specifies whether or not to use the distance to the bottom of
+                                ! the actively turbulent boundary layer to help set the EPBL length scale.
 
 ! === module MOM_opacity ===
 PEN_SW_NBANDS = 3               ! default = 1
@@ -538,9 +491,6 @@ KHTR_MAX = 900.0                !   [m2 s-1] default = 0.0
 USE_NEUTRAL_DIFFUSION = True    !   [Boolean] default = False
                                 ! If true, enables the neutral diffusion module.
 
-! === module MOM_lateral_boundary_diffusion ===
-! This module implements lateral diffusion of tracers near boundaries
-
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very large value if the velocity
@@ -551,7 +501,7 @@ ENERGYSAVEDAYS = 0.5            !   [days] default = 1.0
                                 ! other globally summed diagnostics.
 
 ! === module MOM_surface_forcing ===
-BUOY_CONFIG = "file"            !
+BUOY_CONFIG = "file"            ! default = "zero"
                                 ! The character string that indicates how buoyancy forcing is specified. Valid
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
 ARCHAIC_OMIP_FORCING_FILE = False !   [Boolean] default = True
@@ -588,7 +538,7 @@ SSTRESTORE_FILE = "ocean_forcing_daily.nc" !
 SALINITYRESTORE_FILE = "ocean_forcing_daily.nc" !
                                 ! The file with the surface salinity toward which to restore in the variable
                                 ! given by SSS_RESTORE_VAR.
-WIND_CONFIG = "file"            !
+WIND_CONFIG = "file"            ! default = "zero"
                                 ! The character string that indicates how wind forcing is specified. Valid
                                 ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 WIND_FILE = "ocean_forcing_daily.nc" !
@@ -598,13 +548,10 @@ WINDSTRESS_X_VAR = "taux"       ! default = "STRESS_X"
                                 ! The name of the x-wind stress variable in WIND_FILE.
 WINDSTRESS_Y_VAR = "tauy"       ! default = "STRESS_Y"
                                 ! The name of the y-wind stress variable in WIND_FILE.
-WINDSTRESS_STAGGER = "C"        ! default = "A"
-                                ! A character indicating how the wind stress components are staggered in
-                                ! WIND_FILE.  This may be A or C for now.
 RESTOREBUOY = True              !   [Boolean] default = False
                                 ! If true, the buoyancy fluxes drive the model back toward some specified
                                 ! surface state with a rate given by FLUXCONST.
-FLUXCONST = 0.5                 !   [m day-1]
+FLUXCONST = 0.5                 !   [m day-1] default = 0.0
                                 ! The constant that relates the restoring surface fluxes to the relative surface
                                 ! anomalies (akin to a piston velocity).  Note the non-MKS units.
 READ_GUST_2D = True             !   [Boolean] default = False
@@ -639,5 +586,3 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! not desired, use a negative value for MAXCPU.  MAXCPU has units of wall-clock
                                 ! seconds, so the actual CPU time used is larger by a factor of the number of
                                 ! processors used.
-
-! === module MOM_file_parser ===

@@ -1,9 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module MOM ===
-
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
 ENABLE_THERMODYNAMICS = False   !   [Boolean] default = True
                                 ! If true, Temperature and salinity are used as state variables.
 DT = 120.0                      !   [s]
@@ -29,9 +26,6 @@ NIGLOBAL = 25                   !
 NJGLOBAL = 25                   !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -69,8 +63,9 @@ TOPO_CONFIG = "flat"            !
                                 !       wall at the southern face.
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
+                                !     bbuilder - build topography from list of functions.
                                 !     benchmark - use the benchmark test case topography.
-                                !     Neverland - use the Neverland test case topography.
+                                !     Neverworld - use the Neverworld test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -105,14 +100,10 @@ OBC_SEGMENT_003 = "I=N,J=0:N,FLATHER,ORLANSKI" !
                                 ! Documentation needs to be dynamic?????
 OBC_SEGMENT_004 = "I=0,J=N:0,FLATHER,ORLANSKI" !
                                 ! Documentation needs to be dynamic?????
-OBC_SEGMENT_001_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
-OBC_SEGMENT_002_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
-OBC_SEGMENT_003_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
-OBC_SEGMENT_004_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
+OBC_RADIATION_MAX = 10.0        !   [nondim] default = 1.0
+                                ! The maximum magnitude of the baroclinic radiation velocity (or speed of
+                                ! characteristics), in gridpoints per timestep.  This is only used if one of the
+                                ! open boundary segments is using Orlanski.
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -131,10 +122,6 @@ NK = 10                         !   [nondim]
 
 ! === module MOM_boundary_update ===
 
-! === module MOM_tracer_registry ===
-
-! === module MOM_restart ===
-
 ! === module MOM_tracer_flow_control ===
 USE_DOME_TRACER = True          !   [Boolean] default = False
                                 ! If true, use the DOME_tracer tracer package.
@@ -142,7 +129,7 @@ USE_DOME_TRACER = True          !   [Boolean] default = False
 ! === module DOME_tracer ===
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "layer_ref"      !
+COORD_CONFIG = "layer_ref"      ! default = "none"
                                 ! This specifies how layers are to be defined:
                                 !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
@@ -163,11 +150,8 @@ COORD_CONFIG = "layer_ref"      !
 LIGHTEST_DENSITY = 1030.0       !   [kg m-3] default = 1031.0
                                 ! The reference potential density used for layer 1.
 
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
 ! === module MOM_state_initialization ===
-THICKNESS_CONFIG = "circle_obcs" !
+THICKNESS_CONFIG = "circle_obcs" ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:
                                 !     file - read interface heights from the file specified
@@ -182,7 +166,7 @@ THICKNESS_CONFIG = "circle_obcs" !
                                 !     ISOMIP - use a configuration for the
                                 !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
-                                !     Neverland - use the Neverland test case thicknesses.
+                                !     Neverworld - use the Neverworld test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
                                 !     circle_obcs - the circle_obcs test case is used.
@@ -198,10 +182,16 @@ THICKNESS_CONFIG = "circle_obcs" !
 ! === module circle_obcs_initialization ===
 DISK_RADIUS = 24.0              !   [kilometers]
                                 ! The radius of the initially elevated disk in the circle_obcs test case.
+OBC_SEGMENT_001_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
+OBC_SEGMENT_002_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
+OBC_SEGMENT_003_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
+OBC_SEGMENT_004_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
 
 ! === module MOM_diag_mediator ===
-
-! === module MOM_MEKE ===
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -229,6 +219,8 @@ KV = 1.0E-04                    !   [m2 s-1]
 
 ! === module MOM_thickness_diffuse ===
 
+! === module MOM_dynamics_split_RK2 ===
+
 ! === module MOM_continuity ===
 
 ! === module MOM_continuity_PPM ===
@@ -242,7 +234,7 @@ BOUND_CORIOLIS = True           !   [Boolean] default = False
 
 ! === module MOM_PressureForce ===
 
-! === module MOM_PressureForce_AFV ===
+! === module MOM_PressureForce_FV ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -282,15 +274,10 @@ KVML = 0.01                     !   [m2 s-1] default = 1.0E-04
 MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 
-! === module MOM_PointAccel ===
-
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the barotropic solver are
                                 ! limited to values that require less than maxCFL_BT_cont to be accommodated.
-NONLINEAR_BT_CONTINUITY = True  !   [Boolean] default = False
-                                ! If true, use nonlinear transports in the barotropic continuity equation.  This
-                                ! does not apply if USE_BT_CONT_TYPE is true.
 BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project out the velocity
                                 ! tendency by 1+BEBT when calculating the transport.  The default (false) is to
@@ -310,20 +297,10 @@ DTBT = -0.95                    !   [s or nondim] default = -0.98
                                 ! DTBT to 0 is the same as setting it to -0.98. The value of DTBT that will
                                 ! actually be used is an integer fraction of DT, rounding down.
 
-! === module MOM_mixed_layer_restrat ===
+! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
-
-! === module MOM_CVMix_KPP ===
-! This is the MOM wrapper to CVMix:KPP
-! See http://cvmix.github.io/
-
-! === module MOM_tidal_mixing ===
-! Vertical Tidal Mixing Parameterization
-
-! === module MOM_CVMix_conv ===
-! Parameterization of enhanced mixing due to convection via CVMix
 
 ! === module MOM_entrain_diffusive ===
 MAX_ENT_IT = 20                 ! default = 5
@@ -336,7 +313,7 @@ TOLERANCE_ENT = 1.0E-05         !   [m] default = 1.095445115010332E-05
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-KD = 1.0E-04                    !   [m2 s-1]
+KD = 1.0E-04                    !   [m2 s-1] default = 0.0
                                 ! The background diapycnal diffusivity of density in the interior. Zero or the
                                 ! molecular value, ~1e-7 m2 s-1, may be used.
 
@@ -349,26 +326,12 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
 
-! === module MOM_CVMix_shear ===
-! Parameterization of shear-driven turbulence via CVMix (various options)
-
-! === module MOM_CVMix_ddiff ===
-! Parameterization of mixing due to double diffusion processes via CVMix
-
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
-
-! === module MOM_regularize_layers ===
 
 ! === module MOM_tracer_advect ===
 
 ! === module MOM_tracer_hor_diff ===
-
-! === module MOM_neutral_diffusion ===
-! This module implements neutral diffusion of tracers
-
-! === module MOM_lateral_boundary_diffusion ===
-! This module implements lateral diffusion of tracers near boundaries
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 10                   !   [truncations save_interval-1] default = 0
@@ -389,14 +352,6 @@ VARIABLE_WINDS = False          !   [Boolean] default = True
 VARIABLE_BUOYFORCE = False      !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
-BUOY_CONFIG = "zero"            !
-                                ! The character string that indicates how buoyancy forcing is specified. Valid
-                                ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
-WIND_CONFIG = "zero"            !
-                                ! The character string that indicates how wind forcing is specified. Valid
-                                ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
-
-! === module MOM_restart ===
 
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 600.0              !   [s] default = 120.0
@@ -414,14 +369,3 @@ RESTART_CONTROL = 3             ! default = 1
 RESTINT = 10.0                  !   [hours] default = 0.0
                                 ! The interval between saves of the restart file in units of TIMEUNIT.  Use 0
                                 ! (the default) to not save incremental restart files at all.
-
-! === module MOM_write_cputime ===
-MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
-                                ! The maximum amount of cpu time per processor for which MOM should run before
-                                ! saving a restart file and quitting with a return value that indicates that a
-                                ! further run is required to complete the simulation. If automatic restarts are
-                                ! not desired, use a negative value for MAXCPU.  MAXCPU has units of wall-clock
-                                ! seconds, so the actual CPU time used is larger by a factor of the number of
-                                ! processors used.
-
-! === module MOM_file_parser ===

@@ -1022,6 +1022,38 @@
     ! long_name: Zonal Acceleration from Relative Vorticity
     ! units: m-1 s-2
     ! cell_methods: z_l:mean
+"ocean_model", "hf_gKEu_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Grad. Kinetic Energy
+    ! units: m-1 s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model_d2", "hf_gKEu_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Grad. Kinetic Energy
+    ! units: m-1 s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model", "hf_gKEv_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Grad. Kinetic Energy
+    ! units: m-1 s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model_d2", "hf_gKEv_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Grad. Kinetic Energy
+    ! units: m-1 s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model", "hf_rvxu_2d"  [Unused]
+    ! long_name: Fractional Thickness-weighted Meridional Acceleration from Relative Vorticity
+    ! units: m-1 s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model_d2", "hf_rvxu_2d"  [Unused]
+    ! long_name: Fractional Thickness-weighted Meridional Acceleration from Relative Vorticity
+    ! units: m-1 s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model", "hf_rvxv_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Relative Vorticity
+    ! units: m-1 s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model_d2", "hf_rvxv_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Relative Vorticity
+    ! units: m-1 s-2
+    ! cell_methods: xq:point yh:mean
 "ocean_model", "e_tidal"  [Unused]
     ! long_name: Tidal Forcing Astronomical and SAL Height Anomaly
     ! units: meter
@@ -1094,6 +1126,22 @@
     ! long_name: Meridional Acceleration from Horizontal Viscosity
     ! units: m s-2
     ! cell_methods: z_l:mean
+"ocean_model", "hf_diffu_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Horizontal Viscosity
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model_d2", "hf_diffu_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Horizontal Viscosity
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model", "hf_diffv_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Horizontal Viscosity
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model_d2", "hf_diffv_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Horizontal Viscosity
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
 "ocean_model", "Ahh"  [Unused] (CMOR equivalent is "difmxybo")
     ! long_name: Biharmonic Horizontal Viscosity at h Points
     ! units: m4 s-1
@@ -1768,6 +1816,22 @@
     ! long_name: Meridional Bottom Stress from Ocean to Earth
     ! units: Pa
     ! cell_methods: xh:mean yq:point
+"ocean_model", "hf_du_dt_visc_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Vertical Viscosity
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model_d2", "hf_du_dt_visc_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Vertical Viscosity
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model", "hf_dv_dt_visc_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Vertical Viscosity
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model_d2", "hf_dv_dt_visc_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Vertical Viscosity
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
 "ocean_model", "PFuBT"  [Unused]
     ! long_name: Zonal Anomalous Barotropic Pressure Force Force Acceleration
     ! units: m s-2
@@ -1830,6 +1894,22 @@
     ! cell_methods: xh:mean yq:point
 "ocean_model_d2", "vbtforce"  [Unused]
     ! long_name: Barotropic meridional acceleration from baroclinic terms
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model", "ubt_dt"  [Unused]
+    ! long_name: Barotropic zonal acceleration
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model_d2", "ubt_dt"  [Unused]
+    ! long_name: Barotropic zonal acceleration
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model", "vbt_dt"  [Unused]
+    ! long_name: Barotropic meridional acceleration
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model_d2", "vbt_dt"  [Unused]
+    ! long_name: Barotropic meridional acceleration
     ! units: m s-2
     ! cell_methods: xh:mean yq:point
 "ocean_model", "eta_bt"  [Unused]
@@ -2496,6 +2576,38 @@
     ! long_name: Meridional Pressure Force Acceleration
     ! units: m s-2
     ! cell_methods: z_l:mean
+"ocean_model", "hf_PFu_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Pressure Force Acceleration
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model_d2", "hf_PFu_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Pressure Force Acceleration
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model", "hf_PFv_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Pressure Force Acceleration
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model_d2", "hf_PFv_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Pressure Force Acceleration
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model", "hf_CAu_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Coriolis and Advective Acceleration
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model_d2", "hf_CAu_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Coriolis and Advective Acceleration
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model", "hf_CAv_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Coriolis and Advective Acceleration
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model_d2", "hf_CAv_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Coriolis and Advective Acceleration
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
 "ocean_model", "uav"  [Unused]
     ! long_name: Barotropic-step Averaged Zonal Velocity
     ! units: m s-1
@@ -2624,6 +2736,22 @@
     ! long_name: Barotropic Anomaly Meridional Acceleration
     ! units: m s-2
     ! cell_methods: z_l:mean
+"ocean_model", "hf_u_BT_accel_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Barotropic Anomaly Zonal Acceleration
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model_d2", "hf_u_BT_accel_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Barotropic Anomaly Zonal Acceleration
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model", "hf_v_BT_accel_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Barotropic Anomaly Meridional Acceleration
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model_d2", "hf_v_BT_accel_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Barotropic Anomaly Meridional Acceleration
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
 "ocean_model", "uhml"  [Unused]
     ! long_name: Zonal Thickness Flux to Restratify Mixed Layer
     ! units: kg s-1
@@ -3328,6 +3456,70 @@
     ! long_name: In situ density
     ! units: kg m-3
     ! cell_methods: z_l:mean
+"ocean_model", "drho_dT"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to temperature (alpha)
+    ! units: kg m-3 degC-1
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model", "drho_dT_xyave"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to temperature (alpha)
+    ! units: kg m-3 degC-1
+    ! cell_methods: zl:mean
+"ocean_model_z", "drho_dT"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to temperature (alpha)
+    ! units: kg m-3 degC-1
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z", "drho_dT_xyave"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to temperature (alpha)
+    ! units: kg m-3 degC-1
+    ! cell_methods: z_l:mean
+"ocean_model_d2", "drho_dT"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to temperature (alpha)
+    ! units: kg m-3 degC-1
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model_d2", "drho_dT_xyave"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to temperature (alpha)
+    ! units: kg m-3 degC-1
+    ! cell_methods: zl:mean
+"ocean_model_z_d2", "drho_dT"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to temperature (alpha)
+    ! units: kg m-3 degC-1
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z_d2", "drho_dT_xyave"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to temperature (alpha)
+    ! units: kg m-3 degC-1
+    ! cell_methods: z_l:mean
+"ocean_model", "drho_dS"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to salinity (beta)
+    ! units: kg^2 g-1 m-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model", "drho_dS_xyave"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to salinity (beta)
+    ! units: kg^2 g-1 m-3
+    ! cell_methods: zl:mean
+"ocean_model_z", "drho_dS"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to salinity (beta)
+    ! units: kg^2 g-1 m-3
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z", "drho_dS_xyave"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to salinity (beta)
+    ! units: kg^2 g-1 m-3
+    ! cell_methods: z_l:mean
+"ocean_model_d2", "drho_dS"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to salinity (beta)
+    ! units: kg^2 g-1 m-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model_d2", "drho_dS_xyave"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to salinity (beta)
+    ! units: kg^2 g-1 m-3
+    ! cell_methods: zl:mean
+"ocean_model_z_d2", "drho_dS"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to salinity (beta)
+    ! units: kg^2 g-1 m-3
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z_d2", "drho_dS_xyave"  [Unused]
+    ! long_name: Partial derivative of rhoinsitu with respect to salinity (beta)
+    ! units: kg^2 g-1 m-3
+    ! cell_methods: z_l:mean
 "ocean_model", "dudt"  [Unused]
     ! long_name: Zonal Acceleration
     ! units: m s-2
@@ -3424,6 +3616,22 @@
     ! long_name: Thickness tendency
     ! units: m s-1
     ! cell_methods: z_l:sum
+"ocean_model", "hf_dudt_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model_d2", "hf_dudt_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"ocean_model", "hf_dvdt_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"ocean_model_d2", "hf_dvdt_2d"  [Unused]
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
 "ocean_model", "h_rho"  [Used]
     ! long_name: Layer thicknesses in pure potential density coordinates
     ! units: m
@@ -5905,14 +6113,6 @@
     ! long_name: Minimum surface region thickness
     ! units: m
     ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model", "deficit_ratio"  [Unused]
-    ! long_name: Max face thickness deficit ratio
-    ! units: nondim
-    ! cell_methods: xh:mean yh:mean area:mean
-"ocean_model_d2", "deficit_ratio"  [Unused]
-    ! long_name: Max face thickness deficit ratio
-    ! units: nondim
-    ! cell_methods: xh:mean yh:mean area:mean
 "ocean_model", "SW_pen"  [Unused]
     ! long_name: Penetrating shortwave radiation flux into ocean
     ! units: W m-2
@@ -6653,6 +6853,38 @@
     ! units: degC
     ! standard_name: sea_water_potential_temperature
     ! cell_methods: z_l:mean
+"ocean_model", "temp_post_horzn"  [Unused]
+    ! long_name: Potential Temperature after horizontal transport (advection/diffusion) has occurred
+    ! units: degC
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model", "temp_post_horzn_xyave"  [Unused]
+    ! long_name: Potential Temperature after horizontal transport (advection/diffusion) has occurred
+    ! units: degC
+    ! cell_methods: zl:mean
+"ocean_model_z", "temp_post_horzn"  [Unused]
+    ! long_name: Potential Temperature after horizontal transport (advection/diffusion) has occurred
+    ! units: degC
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z", "temp_post_horzn_xyave"  [Unused]
+    ! long_name: Potential Temperature after horizontal transport (advection/diffusion) has occurred
+    ! units: degC
+    ! cell_methods: z_l:mean
+"ocean_model_d2", "temp_post_horzn"  [Unused]
+    ! long_name: Potential Temperature after horizontal transport (advection/diffusion) has occurred
+    ! units: degC
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model_d2", "temp_post_horzn_xyave"  [Unused]
+    ! long_name: Potential Temperature after horizontal transport (advection/diffusion) has occurred
+    ! units: degC
+    ! cell_methods: zl:mean
+"ocean_model_z_d2", "temp_post_horzn"  [Unused]
+    ! long_name: Potential Temperature after horizontal transport (advection/diffusion) has occurred
+    ! units: degC
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z_d2", "temp_post_horzn_xyave"  [Unused]
+    ! long_name: Potential Temperature after horizontal transport (advection/diffusion) has occurred
+    ! units: degC
+    ! cell_methods: z_l:mean
 "ocean_model", "T_adx"  [Used]
     ! long_name: Advective (by residual mean) Zonal Flux of Heat
     ! units: W
@@ -7337,6 +7569,38 @@
     ! units: psu
     ! standard_name: sea_water_salinity
     ! cell_methods: z_l:mean
+"ocean_model", "salt_post_horzn"  [Unused]
+    ! long_name: Salinity after horizontal transport (advection/diffusion) has occurred
+    ! units: psu
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model", "salt_post_horzn_xyave"  [Unused]
+    ! long_name: Salinity after horizontal transport (advection/diffusion) has occurred
+    ! units: psu
+    ! cell_methods: zl:mean
+"ocean_model_z", "salt_post_horzn"  [Unused]
+    ! long_name: Salinity after horizontal transport (advection/diffusion) has occurred
+    ! units: psu
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z", "salt_post_horzn_xyave"  [Unused]
+    ! long_name: Salinity after horizontal transport (advection/diffusion) has occurred
+    ! units: psu
+    ! cell_methods: z_l:mean
+"ocean_model_d2", "salt_post_horzn"  [Unused]
+    ! long_name: Salinity after horizontal transport (advection/diffusion) has occurred
+    ! units: psu
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model_d2", "salt_post_horzn_xyave"  [Unused]
+    ! long_name: Salinity after horizontal transport (advection/diffusion) has occurred
+    ! units: psu
+    ! cell_methods: zl:mean
+"ocean_model_z_d2", "salt_post_horzn"  [Unused]
+    ! long_name: Salinity after horizontal transport (advection/diffusion) has occurred
+    ! units: psu
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z_d2", "salt_post_horzn_xyave"  [Unused]
+    ! long_name: Salinity after horizontal transport (advection/diffusion) has occurred
+    ! units: psu
+    ! cell_methods: z_l:mean
 "ocean_model", "S_adx"  [Used]
     ! long_name: Advective (by residual mean) Zonal Flux of Salt
     ! units: psu m3 s-1
@@ -8020,6 +8284,38 @@
     ! long_name: Ideal Age Tracer
     ! units: yr
     ! standard_name: ideal_age_tracer
+    ! cell_methods: z_l:mean
+"ocean_model", "age_post_horzn"  [Unused]
+    ! long_name: Ideal Age Tracer after horizontal transport (advection/diffusion) has occurred
+    ! units: yr
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model", "age_post_horzn_xyave"  [Unused]
+    ! long_name: Ideal Age Tracer after horizontal transport (advection/diffusion) has occurred
+    ! units: yr
+    ! cell_methods: zl:mean
+"ocean_model_z", "age_post_horzn"  [Unused]
+    ! long_name: Ideal Age Tracer after horizontal transport (advection/diffusion) has occurred
+    ! units: yr
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z", "age_post_horzn_xyave"  [Unused]
+    ! long_name: Ideal Age Tracer after horizontal transport (advection/diffusion) has occurred
+    ! units: yr
+    ! cell_methods: z_l:mean
+"ocean_model_d2", "age_post_horzn"  [Unused]
+    ! long_name: Ideal Age Tracer after horizontal transport (advection/diffusion) has occurred
+    ! units: yr
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+"ocean_model_d2", "age_post_horzn_xyave"  [Unused]
+    ! long_name: Ideal Age Tracer after horizontal transport (advection/diffusion) has occurred
+    ! units: yr
+    ! cell_methods: zl:mean
+"ocean_model_z_d2", "age_post_horzn"  [Unused]
+    ! long_name: Ideal Age Tracer after horizontal transport (advection/diffusion) has occurred
+    ! units: yr
+    ! cell_methods: xh:mean yh:mean z_l:mean area:mean
+"ocean_model_z_d2", "age_post_horzn_xyave"  [Unused]
+    ! long_name: Ideal Age Tracer after horizontal transport (advection/diffusion) has occurred
+    ! units: yr
     ! cell_methods: z_l:mean
 "ocean_model", "age_adx"  [Unused]
     ! long_name: Ideal Age Tracer advective zonal flux

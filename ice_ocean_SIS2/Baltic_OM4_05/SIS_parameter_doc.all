@@ -1,12 +1,9 @@
 ! This file was written by the model and records all non-layout or debugging parameters used at run-time.
 
 ! === module ice_model ===
-
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
 SPECIFIED_ICE = False           !   [Boolean] default = False
                                 ! If true, the ice is specified and there is no dynamics.
-CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
+CGRID_ICE_DYNAMICS = True       !   [Boolean] default = True
                                 ! If true, use a C-grid discretization of the sea-ice dynamics; if false use a
                                 ! B-grid discretization.
 USE_SLAB_ICE = False            !   [Boolean] default = False
@@ -117,6 +114,12 @@ NIGLOBAL = 49                   !
 NJGLOBAL = 53                   !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
+NIHALO = 4                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 4                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -136,7 +139,7 @@ GRID_CONFIG = "mosaic"          !
                                 !     mercator - use a Mercator spherical grid.
 GRID_FILE = "ocean_hgrid.nc"    !
                                 ! Name of the file from which to read horizontal grid data.
-USE_TRIPOLAR_GEOLONB_BUG = True !   [Boolean] default = True
+USE_TRIPOLAR_GEOLONB_BUG = False !   [Boolean] default = False
                                 ! If true, use older code that incorrectly sets the longitude in some points
                                 ! along the tripolar fold to be off by 360 degrees.
 TOPO_CONFIG = "file"            ! default = "file"
@@ -185,7 +188,7 @@ ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
                                 !     USER - call a user modified routine.
 OMEGA = 7.292E-05               !   [s-1] default = 7.2921E-05
                                 ! The rotation rate of the earth.
-GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = True
+GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = False
                                 ! If true, use an older algorithm to calculate the sine and cosines needed
                                 ! rotate between grid-oriented directions and true north and east.  Differences
                                 ! arise at the tripolar fold.
@@ -235,6 +238,53 @@ USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
 SIS_FAST_AVAILABLE_DIAGS_FILE = "SIS_fast.available_diags" ! default = "SIS_fast.available_diags"
                                 ! A file into which to write a list of all available sea ice diagnostics that
                                 ! can be included in a diag_table.
+CONCENTRATION_INIT_CONFIG = "data_override" ! default = "data_override"
+                                ! A string that determines how the initial total sea ice concentration is
+                                ! initialized for a new run:
+                                !     file - read sea ice concentrations from a specified file
+                                !     data_override - use the data_override capability or zero everywhere
+                                !     zero - there is no sea ice anywhere
+                                !     latitudes - initial sea ice concentration is a function of latitude.
+ICE_THICKNESS_INIT_CONFIG = "data_override" ! default = "data_override"
+                                ! A string that determines how the initial sea ice thickness is initialized for
+                                ! a new run:
+                                !     file - read sea ice thickesses from a specified file
+                                !     data_override - use the data_override capability or zero everywhere
+                                !     uniform - sea ice has uniform thickness where the concentration is
+                                !       nonzero.
+SNOW_THICKNESS_INIT_CONFIG = "data_override" ! default = "data_override"
+                                ! A string that determines how the initial total snow thickness is initialized
+                                ! for a new run:
+                                !     file - read sea ice concentrations from a specified file
+                                !     data_override - use the data_override capability or zero everywhere
+                                !     uniform - snow has uniform thickness where the concentration is nonzero.
+ICE_SALINITY_INIT_CONFIG = "uniform" ! default = "uniform"
+                                ! A string that determines how the sea ice salinity is initialized for a new
+                                ! run:
+                                !     uniform -  Use a constant ice salinity initial condition
+                                !     file - Read sea ice salinities from a specified file
+                                !     data_override - use the data_override capability or zero everywhere.
+ICE_ENTHALPY_INIT_CONFIG = "uniform_temp" ! default = "uniform_temp"
+                                ! A string that determines how the sea ice enthalpy is initialized for a new
+                                ! run:
+                                !     uniform_temp - Use a constant ice temperature initial condition
+                                !     relative_temp - Use an ice temperature initial condition with a
+                                !       specified depression below the bulk ice freezing point
+                                !     file - Read sea ice temperatures or enthalpies from a specified file
+                                !     data_override - use the data_override capability or freezing enthalpy
+                                !       everywhere.
+SNOW_ENTHALPY_INIT_CONFIG = "uniform_temp" ! default = "uniform_temp"
+                                ! A string that determines how the snow enthalpy is initialized for a new run:
+                                !     uniform_temp - Use a constant ice temperature initial condition
+                                !     relative_temp - Use an ice temperature initial condition with a
+                                !       specified depression below the bulk ice freezing point
+                                !     file - Read sea ice temperatures or enthalpies from a specified file
+                                !     data_override - use the data_override capability or freezing enthalpy
+                                !       everywhere.
+ICE_SALINITY_IC = 0.0           !   [g kg-1] default = 0.0
+                                ! The uniform sea ice salinity used for the initial condition
+ICE_TEMPERATURE_IC = -4.0       !   [degC] default = -4.0
+                                ! The uniform sea ice and snow temperature used for the initial condition
 
 ! === module SIS_slow_thermo ===
 ! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
@@ -253,6 +303,9 @@ DO_ICE_RESTORE = False          !   [Boolean] default = False
                                 ! If true, restore the sea ice state toward climatology.
 NUDGE_SEA_ICE = False           !   [Boolean] default = False
                                 ! If true, constrain the sea ice concentrations using observations.
+TRANSMUTE_SEA_ICE = False       !   [Boolean] default = False
+                                ! If true, allow ice to be transmuted directly into seawater with a spatially
+                                ! varying rate as a form of outflow open boundary condition.
 
 ! === module SIS2_ice_thm (updates) ===
 ! This sub-module does updates of the sea-ice due to thermodynamic changes.
@@ -362,13 +415,16 @@ SEA_ICE_ROLL_FACTOR = 1.0       !   [Nondim] default = 1.0
                                 ! thinner by rolling is increased or 0 to disable rolling.  This can be thought
                                 ! of as the minimum number of ice floes in a grid cell divided by the horizontal
                                 ! floe aspect ratio.  Sensible values are 0 (no rolling) or larger than 1.
+ICE_COVER_DISCARD = -1.0        !   [nondim] default = -1.0
+                                ! A tiny fractional ice coverage which if positive causes the mass in categories
+                                ! with less than this coverage to be discarded.
 SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme for thickness:
                                 !   UPWIND_2D - Non-directionally split upwind
                                 !   PCM    - Directionally split piecewise constant
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
-INCONSISTENT_COVER_BUG = True   !   [Boolean] default = True
+INCONSISTENT_COVER_BUG = True   !   [Boolean] default = False
                                 ! If true, omit a recalculation of the fractional ice-free areal coverage after
                                 ! the adjustment of the ice categories.
 SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
@@ -380,6 +436,17 @@ SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
 CONT_PPM_VOLUME_BASED_CFL = False !   [Boolean] default = False
                                 ! If true, use the ratio of the open face lengths to the tracer cell areas when
                                 ! estimating CFL numbers.
+CONTINUITY_H_NEGLECT = 0.0      !   [kg m-2] default = 0.0
+                                ! The category ice mass per ocean cell area below which the transport within
+                                ! this thickness category of out of a cell is set to zero.  A suggested
+                                ! non-default value might be of order 3e-32 kg m-2, which is one molecule of ice
+                                ! per square kilometer.
+CONTINUITY_FRAC_NEGLECT = 0.0   !   [nondim] default = 0.0
+                                ! When the total fluxes are distributed between categories with
+                                ! MERGED_CONTINUITY, any category whose ice is less than this fraction of the
+                                ! total mass contributes no flux.  Without MERGED_CONTINUITY, any snow or melt
+                                ! pond transport that is less than this fraction of the ice transport is zeroed
+                                ! out.  A suggested non-default value might be of order 1e-20.
 
 ! === module SIS_tracer_advect ===
 SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
@@ -388,10 +455,14 @@ SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
                                 !   PCM    - Directionally split piecewise constant
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
-CFL_MASS_NEGLECT_BUG = True     !   [Boolean] default = True
+CFL_MASS_NEGLECT_BUG = True     !   [Boolean] default = False
                                 ! If true use a globally constant negligible volume in the denominator of the
                                 ! tracer advection CFL calculation, reproducing an older incorrect expression,
                                 ! rather than using a proper scaling of this negligible mass with cell area.
+ADCROFT_ADVECTIVE_CFL = False   !   [Boolean] default = False
+                                ! If true use the Adcroft reciprocal of the cell mass when calculating the
+                                ! advective CFL numbers used in PPM tracer advection schemes, rather than adding
+                                ! a small mass in the denominator of the advective CFL ratio.
 
 ! === module SIS_sum_output ===
 WRITE_STOCKS = True             !   [Boolean] default = True
@@ -444,7 +515,7 @@ ICE_DELTA_EDD_R_POND = 1.0      !   [nondimensional] default = 0.0
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
                                 ! If true, all log messages are also sent to stdout.
-DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
+DOCUMENT_FILE = "SIS_parameter_doc" ! default = "SIS_parameter_doc"
                                 ! The basename for files where run-time parameters, their settings, units and
                                 ! defaults are documented. Blank will disable all parameter documentation.
 COMPLETE_DOCUMENTATION = True   !   [Boolean] default = True

@@ -1,12 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module ice_model ===
-
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
-CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
-                                ! If true, use a C-grid discretization of the sea-ice dynamics; if false use a
-                                ! B-grid discretization.
 CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of the solar zenith angle for
                                 ! the first radiation step, or a negative number to use the current time and
@@ -26,9 +20,12 @@ NIGLOBAL = 360                  !
 NJGLOBAL = 210                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
+NIHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
 ! === module SIS_initialize_fixed ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -50,9 +47,6 @@ GRID_FILE = "ocean_hgrid.nc"    !
 
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
 
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
@@ -107,8 +101,3 @@ ICE_TDAMP_ELASTIC = 1000.0      !   [s or nondim] default = -0.2
 
 ! === module SIS_optics ===
 ! This module calculates the albedo and absorption profiles for shortwave radiation.
-
-! === module MOM_file_parser ===
-DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
-                                ! The basename for files where run-time parameters, their settings, units and
-                                ! defaults are documented. Blank will disable all parameter documentation.

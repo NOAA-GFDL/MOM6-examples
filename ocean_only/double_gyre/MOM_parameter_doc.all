@@ -1,9 +1,6 @@
 ! This file was written by the model and records all non-layout or debugging parameters used at run-time.
 
 ! === module MOM ===
-
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
 SPLIT = True                    !   [Boolean] default = True
                                 ! Use the split time stepping if true.
 CALC_RHO_FOR_SEA_LEVEL = False  !   [Boolean] default = False
@@ -93,9 +90,9 @@ FIRST_DIRECTION = 0             ! default = 0
                                 ! and odd numbers used for y-first.
 CHECK_BAD_SURFACE_VALS = False  !   [Boolean] default = False
                                 ! If true, check the surface state for ridiculous values.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
+DEFAULT_2018_ANSWERS = False    !   [Boolean] default = False
                                 ! This sets the default value for the various _2018_ANSWERS parameters.
-SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
+SURFACE_2018_ANSWERS = False    !   [Boolean] default = False
                                 ! If true, use expressions for the surface properties that recover the answers
                                 ! from the end of 2018. Otherwise, use more appropriate expressions that differ
                                 ! at roundoff for non-Boussinesq cases.
@@ -127,6 +124,12 @@ NIGLOBAL = 44                   !
 NJGLOBAL = 40                   !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
+NIHALO = 4                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 4                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -165,8 +168,9 @@ TOPO_CONFIG = "spoon"           !
                                 !       wall at the southern face.
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
+                                !     bbuilder - build topography from list of functions.
                                 !     benchmark - use the benchmark test case topography.
-                                !     Neverland - use the Neverland test case topography.
+                                !     Neverworld - use the Neverworld test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -216,7 +220,7 @@ ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
                                 !     USER - call a user modified routine.
 OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
                                 ! The rotation rate of the earth.
-GRID_ROTATION_ANGLE_BUGS = True !   [Boolean] default = True
+GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
                                 ! If true, use an older algorithm to calculate the sine and cosines needed
                                 ! rotate between grid-oriented directions and true north and east.  Differences
                                 ! arise at the tripolar fold.
@@ -287,7 +291,7 @@ USE_DYED_OBC_TRACER = False     !   [Boolean] default = False
                                 ! If true, use the dyed_obc_tracer tracer package.
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "gprime"         !
+COORD_CONFIG = "gprime"         ! default = "none"
                                 ! This specifies how layers are to be defined:
                                 !     ALE or none - used to avoid defining layers in ALE mode
                                 !     file - read coordinate information from the file
@@ -319,7 +323,7 @@ REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
                                 ! If true, initialize the layer thicknesses, temperatures, and salinities from a
                                 ! Z-space file on a latitude-longitude grid.
-THICKNESS_CONFIG = "uniform"    !
+THICKNESS_CONFIG = "uniform"    ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:
                                 !     file - read interface heights from the file specified
@@ -334,7 +338,7 @@ THICKNESS_CONFIG = "uniform"    !
                                 !     ISOMIP - use a configuration for the
                                 !       ISOMIP test case.
                                 !     benchmark - use the benchmark test case thicknesses.
-                                !     Neverland - use the Neverland test case thicknesses.
+                                !     Neverworld - use the Neverworld test case thicknesses.
                                 !     search - search a density profile for the interface
                                 !       densities. This is not yet implemented.
                                 !     circle_obcs - the circle_obcs test case is used.
@@ -376,10 +380,12 @@ SPONGE = False                  !   [Boolean] default = False
 NUM_DIAG_COORDS = 1             ! default = 1
                                 ! The number of diagnostic vertical coordinates to use. For each coordinate, an
                                 ! entry in DIAG_COORDS must be provided.
-REMAPPING_2018_ANSWERS = True   !   [Boolean] default = True
+REMAPPING_2018_ANSWERS = False  !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
+USE_GRID_SPACE_DIAGNOSTIC_AXES = False !   [Boolean] default = False
+                                ! If true, use a grid index coordinate convention for diagnostic axes.
 DIAG_COORDS = "z Z ZSTAR"       ! default = "z Z ZSTAR"
                                 ! A list of string tuples associating diag_table modules to a coordinate
                                 ! definition used for diagnostics. Each string is of the form "MODULE_SUFFIX
@@ -458,7 +464,7 @@ USE_QG_LEITH_GM = False         !   [Boolean] default = False
                                 ! If true, use the QG Leith viscosity as the GM coefficient.
 
 ! === module MOM_set_visc ===
-SET_VISC_2018_ANSWERS = True    !   [Boolean] default = True
+SET_VISC_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -496,7 +502,8 @@ DRAG_BG_VEL = 0.1               !   [m s-1] default = 0.0
                                 ! defined.
 BBL_USE_EOS = False             !   [Boolean] default = False
                                 ! If true, use the equation of state in determining the properties of the bottom
-                                ! boundary layer.  Otherwise use the layer target potential densities.
+                                ! boundary layer.  Otherwise use the layer target potential densities.  The
+                                ! default of this is determined by USE_REGRIDDING.
 BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! The minimum bottom boundary layer thickness that can be used with
                                 ! BOTTOMDRAGLAW. This might be Kv/(cdrag*drag_bg_vel) to give Kv as the minimum
@@ -540,6 +547,10 @@ KD_SMOOTH = 1.0E-06             !   [m2 s-1] default = 1.0E-06
 KHTH_USE_FGNV_STREAMFUNCTION = False !   [Boolean] default = False
                                 ! If true, use the streamfunction formulation of Ferrari et al., 2010, which
                                 ! effectively emphasizes graver vertical modes by smoothing in the vertical.
+STANLEY_PRM_DET_COEFF = -1.0    !   [nondim] default = -1.0
+                                ! The coefficient correlating SGS temperature variance with the mean temperature
+                                ! gradient in the deterministic part of the Stanley parameterization. Negative
+                                ! values disable the scheme.
 MEKE_GM_SRC_ALT = False         !   [Boolean] default = False
                                 ! If true, use the GM energy conversion form S^2*N^2*kappa rather than the
                                 ! streamfunction for the GM source term.
@@ -551,9 +562,11 @@ USE_KH_IN_MEKE = False          !   [Boolean] default = False
 USE_GME = False                 !   [Boolean] default = False
                                 ! If true, use the GM+E backscatter scheme in association with the Gent and
                                 ! McWilliams parameterization.
-USE_GM_WORK_BUG = True          !   [Boolean] default = True
+USE_GM_WORK_BUG = False         !   [Boolean] default = False
                                 ! If true, compute the top-layer work tendency on the u-grid with the incorrect
                                 ! sign, for legacy reproducibility.
+
+! === module MOM_dynamics_split_RK2 ===
 TIDES = False                   !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 BE = 0.6                        !   [nondim] default = 0.6
@@ -667,10 +680,10 @@ ANALYTIC_FV_PGF = True          !   [Boolean] default = True
                                 ! possibility of numerical thermobaric instability, as described in Adcroft et
                                 ! al., O. Mod. (2008).
 
-! === module MOM_PressureForce_AFV ===
+! === module MOM_PressureForce_FV ===
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = False !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
-                                ! bathymetry in AFV pressure gradient calculations.
+                                ! bathymetry in FV pressure gradient calculations.
 RECONSTRUCT_FOR_PRESSURE = False !   [Boolean] default = False
                                 ! If True, use vertical reconstruction of T & S within the integrals of the FV
                                 ! pressure gradient calculation. If False, use the constant-by-layer algorithm.
@@ -685,9 +698,13 @@ BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! If true, the reconstruction of T & S for pressure in boundary cells is
                                 ! extrapolated, rather than using PCM in these cells. If true, the same order
                                 ! polynomial is used as is used for the interior cells.
+PGF_STANLEY_T2_DET_COEFF = -1.0 !   [nondim] default = -1.0
+                                ! The coefficient correlating SGS temperature variance with the mean temperature
+                                ! gradient in the deterministic part of the Stanley form of the Brankart
+                                ! correction. Negative values disable the scheme.
 
 ! === module MOM_hor_visc ===
-HOR_VISC_2018_ANSWERS = True    !   [Boolean] default = True
+HOR_VISC_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
@@ -729,11 +746,10 @@ ADD_LES_VISCOSITY = False       !   [Boolean] default = False
 BIHARMONIC = False              !   [Boolean] default = True
                                 ! If true, use a biharmonic horizontal viscosity. BIHARMONIC may be used with
                                 ! LAPLACIAN.
-USE_LAND_MASK_FOR_HVISC = False !   [Boolean] default = False
+USE_LAND_MASK_FOR_HVISC = True  !   [Boolean] default = True
                                 ! If true, use Use the land mask for the computation of thicknesses at velocity
                                 ! locations. This eliminates the dependence on arbitrary values over land or
-                                ! outside of the domain. Default is False in order to maintain answers with
-                                ! legacy experiments but should be changed to True for new experiments.
+                                ! outside of the domain.
 HORVISC_BOUND_COEF = 0.8        !   [nondim] default = 0.8
                                 ! The nondimensional coefficient of the ratio of the viscosity bounds to the
                                 ! theoretical maximum for stability without considering other terms.
@@ -742,7 +758,7 @@ USE_KH_BG_2D = False            !   [Boolean] default = False
                                 ! viscosity is the maximum of the other terms and this background value.
 
 ! === module MOM_vert_friction ===
-VERT_FRICTION_2018_ANSWERS = True !   [Boolean] default = True
+VERT_FRICTION_2018_ANSWERS = False !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use expressions that do not use an arbitrary
                                 ! hard-coded maximum viscous coupling coefficient between layers.
@@ -788,6 +804,17 @@ VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
                                 ! divided by the age of the universe.
 
 ! === module MOM_barotropic ===
+USE_BT_CONT_TYPE = True         !   [Boolean] default = True
+                                ! If true, use a structure with elements that describe effective face areas from
+                                ! the summed continuity solver as a function the barotropic flow in coupling
+                                ! between the barotropic and baroclinic flow.  This is only used if SPLIT is
+                                ! true.
+INTEGRAL_BT_CONTINUITY = False  !   [Boolean] default = False
+                                ! If true, use the time-integrated velocity over the barotropic steps to
+                                ! determine the integrated transports used to update the continuity equation.
+                                ! Otherwise the transports are the sum of the transports based on a series of
+                                ! instantaneous velocities and the BT_CONT_TYPE for transports.  This is only
+                                ! valid if USE_BT_CONT_TYPE = True.
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the barotropic solver are
                                 ! limited to values that require less than maxCFL_BT_cont to be accommodated.
@@ -807,14 +834,6 @@ GRADUAL_BT_ICS = False          !   [Boolean] default = False
 BT_USE_VISC_REM_U_UH0 = False   !   [Boolean] default = False
                                 ! If true, use the viscous remnants when estimating the barotropic velocities
                                 ! that were used to calculate uh0 and vh0.  False is probably the better choice.
-USE_BT_CONT_TYPE = True         !   [Boolean] default = True
-                                ! If true, use a structure with elements that describe effective face areas from
-                                ! the summed continuity solver as a function the barotropic flow in coupling
-                                ! between the barotropic and baroclinic flow.  This is only used if SPLIT is
-                                ! true.
-NONLINEAR_BT_CONTINUITY = False !   [Boolean] default = False
-                                ! If true, use nonlinear transports in the barotropic continuity equation.  This
-                                ! does not apply if USE_BT_CONT_TYPE is true.
 BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project out the velocity
                                 ! tendency by 1+BEBT when calculating the transport.  The default (false) is to
@@ -829,7 +848,7 @@ DYNAMIC_SURFACE_PRESSURE = False !   [Boolean] default = False
                                 ! If true, add a dynamic pressure due to a viscous ice shelf, for instance.
 BT_CORIOLIS_SCALE = 1.0         !   [nondim] default = 1.0
                                 ! A factor by which the barotropic Coriolis anomaly terms are scaled.
-BAROTROPIC_2018_ANSWERS = True  !   [Boolean] default = True
+BAROTROPIC_2018_ANSWERS = False !   [Boolean] default = False
                                 ! If true, use expressions for the barotropic solver that recover the answers
                                 ! from the end of 2018.  Otherwise, use more efficient or general expressions.
 SADOURNY = True                 !   [Boolean] default = True
@@ -897,6 +916,8 @@ MIXEDLAYER_RESTRAT = False      !   [Boolean] default = False
                                 ! If true, a density-gradient dependent re-stratifying flow is imposed in the
                                 ! mixed layer. Can be used in ALE mode without restriction but in layer mode can
                                 ! only be used if BULKMIXEDLAYER is true.
+
+! === module MOM_diagnostics ===
 DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0
                                 ! The lower fraction of water column over which N2 is limited as monotonic for
                                 ! the purposes of calculating the equivalent barotropic wave speed.
@@ -1012,10 +1033,10 @@ VARIABLE_WINDS = False          !   [Boolean] default = True
 VARIABLE_BUOYFORCE = False      !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
-BUOY_CONFIG = "zero"            !
+BUOY_CONFIG = "zero"            ! default = "zero"
                                 ! The character string that indicates how buoyancy forcing is specified. Valid
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
-WIND_CONFIG = "2gyre"           !
+WIND_CONFIG = "2gyre"           ! default = "zero"
                                 ! The character string that indicates how wind forcing is specified. Valid
                                 ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 RESTOREBUOY = False             !   [Boolean] default = False
@@ -1025,9 +1046,9 @@ LATENT_HEAT_FUSION = 3.34E+05   !   [J/kg] default = 3.34E+05
                                 ! The latent heat of fusion.
 LATENT_HEAT_VAPORIZATION = 2.5E+06 !   [J/kg] default = 2.5E+06
                                 ! The latent heat of fusion.
-GUST_CONST = 0.02               !   [Pa] default = 0.02
+GUST_CONST = 0.0                !   [Pa] default = 0.0
                                 ! The background gustiness in the winds.
-FIX_USTAR_GUSTLESS_BUG = False  !   [Boolean] default = False
+FIX_USTAR_GUSTLESS_BUG = True   !   [Boolean] default = True
                                 ! If true correct a bug in the time-averaging of the gustless wind friction
                                 ! velocity
 READ_GUST_2D = False            !   [Boolean] default = False

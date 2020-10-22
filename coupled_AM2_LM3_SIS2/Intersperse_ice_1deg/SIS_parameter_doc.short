@@ -1,12 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module ice_model ===
-
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
-CGRID_ICE_DYNAMICS = True       !   [Boolean] default = False
-                                ! If true, use a C-grid discretization of the sea-ice dynamics; if false use a
-                                ! B-grid discretization.
 DT_RADIATION = 1.08E+04         !   [s] default = 7200.0
                                 ! The time step with which the shortwave radiation and fields like albedos are
                                 ! updated.  Currently this is only used to initialize albedos when there is no
@@ -22,9 +16,12 @@ NIGLOBAL = 360                  !
 NJGLOBAL = 210                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in SIS2_memory.h at compile time.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
+NIHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
 ! === module SIS_initialize_fixed ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -47,15 +44,8 @@ GRID_FILE = "ocean_hgrid.nc"    !
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
 
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
-
 ! === module SIS2_ice_thm (thermo) ===
 ! This sub-module calculates ice thermodynamic quantities.
-CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
-                                ! The heat capacity of water in brine pockets within the sea-ice, approximated
-                                ! as a constant.  CP_BRINE and CP_SEAWATER should be equal, but for
-                                ! computational convenience CP_BRINE can be set equal to CP_ICE.
 
 ! === module SIS_tracer_registry ===
 
@@ -134,8 +124,3 @@ SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
 
 ! === module SIS_optics ===
 ! This module calculates the albedo and absorption profiles for shortwave radiation.
-
-! === module MOM_file_parser ===
-DOCUMENT_FILE = "SIS_parameter_doc" ! default = "MOM_parameter_doc"
-                                ! The basename for files where run-time parameters, their settings, units and
-                                ! defaults are documented. Blank will disable all parameter documentation.

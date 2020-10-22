@@ -1,9 +1,6 @@
 ! This file was written by the model and records the non-default parameters used at run-time.
 
 ! === module MOM ===
-
-! === module MOM_unit_scaling ===
-! Parameters for doing unit scaling of variables.
 SPLIT = False                   !   [Boolean] default = True
                                 ! Use the split time stepping if true.
 USE_REGRIDDING = True           !   [Boolean] default = False
@@ -33,9 +30,12 @@ NIGLOBAL = 2                    !
 NJGLOBAL = 2                    !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
+NIHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the x-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
+NJHALO = 2                      ! default = 4
+                                ! The number of halo points on each side in the y-direction.  How this is set
+                                ! varies with the calling component and static or dynamic memory configuration.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT/BATS"         ! default = "."
@@ -68,8 +68,9 @@ TOPO_CONFIG = "flat"            !
                                 !       wall at the southern face.
                                 !     halfpipe - a zonally uniform channel with a half-sine
                                 !       profile in the meridional direction.
+                                !     bbuilder - build topography from list of functions.
                                 !     benchmark - use the benchmark test case topography.
-                                !     Neverland - use the Neverland test case topography.
+                                !     Neverworld - use the Neverworld test case topography.
                                 !     DOME - use a slope and channel configuration for the
                                 !       DOME sill-overflow test case.
                                 !     ISOMIP - use a slope and channel configuration for the
@@ -87,10 +88,6 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 MAXIMUM_DEPTH = 6000.0          !   [m]
                                 ! The maximum depth of the ocean.
-
-! === module MOM_open_boundary ===
-! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
-! if any.
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -105,33 +102,11 @@ F_0 = 7.59943E-05               !   [s-1] default = 0.0
 NK = 75                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_tracer_registry ===
-
 ! === module MOM_EOS ===
-
-! === module MOM_restart ===
 
 ! === module MOM_tracer_flow_control ===
 
 ! === module MOM_coord_initialization ===
-COORD_CONFIG = "none"           !
-                                ! This specifies how layers are to be defined:
-                                !     ALE or none - used to avoid defining layers in ALE mode
-                                !     file - read coordinate information from the file
-                                !       specified by (COORD_FILE).
-                                !     BFB - Custom coords for buoyancy-forced basin case
-                                !       based on SST_S, T_BOT and DRHO_DT.
-                                !     linear - linear based on interfaces not layers
-                                !     layer_ref - linear based on layer densities
-                                !     ts_ref - use reference temperature and salinity
-                                !     ts_range - use range of temperature and salinity
-                                !       (T_REF and S_REF) to determine surface density
-                                !       and GINT calculate internal densities.
-                                !     gprime - use reference density (RHO_0) for surface
-                                !       density and GINT calculate internal densities.
-                                !     ts_profile - use temperature and salinity profiles
-                                !       (read from COORD_FILE) to set layer densities.
-                                !     USER - call a user modified routine.
 REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding. Choose among the following
                                 ! possibilities:  LAYER - Isopycnal or stacked shallow water layers
@@ -163,9 +138,6 @@ ALE_COORDINATE_CONFIG = "FILE:./INPUT/vgrid_cm4.nc,dz" ! default = "UNIFORM"
                                 ! thicknesses (in m). In sigma-coordinate mode, the list
                                 ! is of non-dimensional fractions of the water column.
 
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
                                 ! If true, initialize the layer thicknesses, temperatures, and salinities from a
@@ -186,8 +158,6 @@ Z_INIT_ALE_REMAPPING = True     !   [Boolean] default = False
                                 ! If True, then remap straight to model coordinate from file.
 
 ! === module MOM_diag_mediator ===
-
-! === module MOM_MEKE ===
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -214,6 +184,8 @@ KV = 1.0E-04                    !   [m2 s-1]
                                 ! m2 s-1, may be used.
 
 ! === module MOM_thickness_diffuse ===
+
+! === module MOM_dynamics_unsplit ===
 
 ! === module MOM_continuity ===
 
@@ -247,7 +219,7 @@ BOUND_CORIOLIS = True           !   [Boolean] default = False
 
 ! === module MOM_PressureForce ===
 
-! === module MOM_PressureForce_AFV ===
+! === module MOM_PressureForce_FV ===
 
 ! === module MOM_hor_visc ===
 BIHARMONIC = False              !   [Boolean] default = True
@@ -268,9 +240,7 @@ VEL_UNDERFLOW = 1.0E-30         !   [m s-1] default = 0.0
                                 ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
                                 ! divided by the age of the universe.
 
-! === module MOM_PointAccel ===
-
-! === module MOM_mixed_layer_restrat ===
+! === module MOM_diagnostics ===
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
@@ -295,19 +265,6 @@ NLT_SHAPE = "PARABOLIC"         ! default = "CVMix"
                                 !    CUBIC_LMD - The original KPP profile
 %KPP
 
-! === module MOM_tidal_mixing ===
-! Vertical Tidal Mixing Parameterization
-
-! === module MOM_CVMix_conv ===
-! Parameterization of enhanced mixing due to convection via CVMix
-
-! === module MOM_entrain_diffusive ===
-MAX_ENT_IT = 20                 ! default = 5
-                                ! The maximum number of iterations that may be used to calculate the interior
-                                ! diapycnal entrainment.
-TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.683281572999748E-05
-                                ! The tolerance with which to solve for entrainment values.
-
 ! === module MOM_set_diffusivity ===
 ML_RADIATION = True             !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind work to penetrate below
@@ -322,7 +279,7 @@ ML_OMEGA_FRAC = 1.0             !   [nondim] default = 0.0
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
-KD = 2.0E-05                    !   [m2 s-1]
+KD = 2.0E-05                    !   [m2 s-1] default = 0.0
                                 ! The background diapycnal diffusivity of density in the interior. Zero or the
                                 ! molecular value, ~1e-7 m2 s-1, may be used.
 KD_MIN = 2.0E-06                !   [m2 s-1] default = 2.0E-07
@@ -337,12 +294,6 @@ MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
 
-! === module MOM_CVMix_shear ===
-! Parameterization of shear-driven turbulence via CVMix (various options)
-
-! === module MOM_CVMix_ddiff ===
-! Parameterization of mixing due to double diffusion processes via CVMix
-
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
 RECLAIM_FRAZIL = False          !   [Boolean] default = True
@@ -356,11 +307,6 @@ CHL_FILE = "forcing_monthly.nc" !
                                 ! CHL_FILE is the file containing chl_a concentrations in the variable CHL_A. It
                                 ! is used when VAR_PEN_SW and CHL_FROM_FILE are true.
 
-! === module MOM_regularize_layers ===
-HMIX_MIN = 2.0                  !   [m] default = 0.0
-                                ! The minimum mixed layer depth if the mixed layer depth is determined
-                                ! dynamically.
-
 ! === module MOM_opacity ===
 PEN_SW_NBANDS = 3               ! default = 1
                                 ! The number of bands of penetrating shortwave radiation.
@@ -370,12 +316,6 @@ PEN_SW_NBANDS = 3               ! default = 1
 ! === module MOM_tracer_hor_diff ===
 KHTR = 600.0                    !   [m2 s-1] default = 0.0
                                 ! The background along-isopycnal tracer diffusivity.
-
-! === module MOM_neutral_diffusion ===
-! This module implements neutral diffusion of tracers
-
-! === module MOM_lateral_boundary_diffusion ===
-! This module implements lateral diffusion of tracers near boundaries
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
@@ -387,18 +327,16 @@ ENERGYSAVEDAYS = 10.0           !   [days] default = 1.0
                                 ! other globally summed diagnostics.
 
 ! === module MOM_surface_forcing ===
-BUOY_CONFIG = "data_override"   !
+BUOY_CONFIG = "data_override"   ! default = "zero"
                                 ! The character string that indicates how buoyancy forcing is specified. Valid
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
-WIND_CONFIG = "data_override"   !
+WIND_CONFIG = "data_override"   ! default = "zero"
                                 ! The character string that indicates how wind forcing is specified. Valid
                                 ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 READ_GUST_2D = True             !   [Boolean] default = False
                                 ! If true, use a 2-dimensional gustiness supplied from an input file
 GUST_2D_FILE = "forcing_monthly.nc" !
                                 ! The file in which the wind gustiness is found in variable gustiness.
-
-! === module MOM_restart ===
 
 ! === module MOM_main (MOM_driver) ===
 DAYMAX = 180.0                  !   [days]
@@ -422,5 +360,3 @@ MAXCPU = 2.88E+04               !   [wall-clock seconds] default = -1.0
                                 ! not desired, use a negative value for MAXCPU.  MAXCPU has units of wall-clock
                                 ! seconds, so the actual CPU time used is larger by a factor of the number of
                                 ! processors used.
-
-! === module MOM_file_parser ===
