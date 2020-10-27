@@ -528,6 +528,18 @@ EPBL_IS_ADDITIVE = False        !   [Boolean] default = True
                                 ! If true, the diffusivity from ePBL is added to all other diffusivities.
                                 ! Otherwise, the larger of kappa-shear and ePBL diffusivities are used.
 
+! === module MOM_geothermal ===
+GEOTHERMAL_SCALE = 1.0          !   [W m-2 or various] default = 0.0
+                                ! The constant geothermal heat flux, a rescaling factor for the heat flux read
+                                ! from GEOTHERMAL_FILE, or 0 to disable the geothermal heating.
+GEOTHERMAL_FILE = "geothermal_davies2013_v1.nc" ! default = ""
+                                ! The file from which the geothermal heating is to be read, or blank to use a
+                                ! constant heating rate.
+GEOTHERMAL_VARNAME = "geothermal_hf" ! default = "geo_heat"
+                                ! The name of the geothermal heating variable in GEOTHERMAL_FILE.
+
+! === module MOM_set_diffusivity ===
+
 ! === module MOM_tidal_mixing ===
 ! Vertical Tidal Mixing Parameterization
 INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
@@ -560,18 +572,6 @@ TIDEAMP_FILE = "tidal_amplitude.v2015.12.03.nc" ! default = "tideamp.nc"
 H2_FILE = "ocean_topog.nc"      !
                                 ! The path to the file containing the sub-grid-scale topographic roughness
                                 ! amplitude with INT_TIDE_DISSIPATION.
-
-! === module MOM_geothermal ===
-GEOTHERMAL_SCALE = 1.0          !   [W m-2 or various] default = 0.0
-                                ! The constant geothermal heat flux, a rescaling factor for the heat flux read
-                                ! from GEOTHERMAL_FILE, or 0 to disable the geothermal heating.
-GEOTHERMAL_FILE = "geothermal_davies2013_v1.nc" ! default = ""
-                                ! The file from which the geothermal heating is to be read, or blank to use a
-                                ! constant heating rate.
-GEOTHERMAL_VARNAME = "geothermal_hf" ! default = "geo_heat"
-                                ! The name of the geothermal heating variable in GEOTHERMAL_FILE.
-
-! === module MOM_set_diffusivity ===
 BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the BBL mixing and the other
                                 ! diffusivities. Otherwise, diffusivity from the BBL_mixing is simply added.

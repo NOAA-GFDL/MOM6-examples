@@ -333,6 +333,23 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
 
+! === module MOM_entrain_diffusive ===
+MAX_ENT_IT = 20                 ! default = 5
+                                ! The maximum number of iterations that may be used to calculate the interior
+                                ! diapycnal entrainment.
+TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.683281572999748E-05
+                                ! The tolerance with which to solve for entrainment values.
+
+! === module MOM_geothermal ===
+GEOTHERMAL_SCALE = 0.001        !   [W m-2 or various] default = 0.0
+                                ! The constant geothermal heat flux, a rescaling factor for the heat flux read
+                                ! from GEOTHERMAL_FILE, or 0 to disable the geothermal heating.
+GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
+                                ! The file from which the geothermal heating is to be read, or blank to use a
+                                ! constant heating rate.
+
+! === module MOM_set_diffusivity ===
+
 ! === module MOM_tidal_mixing ===
 ! Vertical Tidal Mixing Parameterization
 INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
@@ -355,23 +372,6 @@ READ_TIDEAMP = True             !   [Boolean] default = False
 H2_FILE = "sgs_h2.nc"           !
                                 ! The path to the file containing the sub-grid-scale topographic roughness
                                 ! amplitude with INT_TIDE_DISSIPATION.
-
-! === module MOM_entrain_diffusive ===
-MAX_ENT_IT = 20                 ! default = 5
-                                ! The maximum number of iterations that may be used to calculate the interior
-                                ! diapycnal entrainment.
-TOLERANCE_ENT = 1.0E-05         !   [m] default = 2.683281572999748E-05
-                                ! The tolerance with which to solve for entrainment values.
-
-! === module MOM_geothermal ===
-GEOTHERMAL_SCALE = 0.001        !   [W m-2 or various] default = 0.0
-                                ! The constant geothermal heat flux, a rescaling factor for the heat flux read
-                                ! from GEOTHERMAL_FILE, or 0 to disable the geothermal heating.
-GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
-                                ! The file from which the geothermal heating is to be read, or blank to use a
-                                ! constant heating rate.
-
-! === module MOM_set_diffusivity ===
 BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the BBL mixing and the other
                                 ! diffusivities. Otherwise, diffusivity from the BBL_mixing is simply added.

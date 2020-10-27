@@ -539,6 +539,8 @@ KD_MIN_TR = 2.0E-06             !   [m2 s-1] default = 2.0E-06
                                 ! A minimal diffusivity that should always be applied to tracers, especially in
                                 ! massless layers near the bottom. The default is 0.1*KD.
 
+! === module MOM_set_diffusivity ===
+
 ! === module MOM_tidal_mixing ===
 ! Vertical Tidal Mixing Parameterization
 INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
@@ -568,8 +570,6 @@ TIDEAMP_FILE = "tidal_amplitude.nc" ! default = "tideamp.nc"
 H2_FILE = "topog.nc"            !
                                 ! The path to the file containing the sub-grid-scale topographic roughness
                                 ! amplitude with INT_TIDE_DISSIPATION.
-
-! === module MOM_set_diffusivity ===
 BBL_MIXING_AS_MAX = False       !   [Boolean] default = True
                                 ! If true, take the maximum of the diffusivity from the BBL mixing and the other
                                 ! diffusivities. Otherwise, diffusivity from the BBL_mixing is simply added.

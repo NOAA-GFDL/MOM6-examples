@@ -1399,6 +1399,9 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
 EPBL_IS_ADDITIVE = False        !   [Boolean] default = True
                                 ! If true, the diffusivity from ePBL is added to all other diffusivities.
                                 ! Otherwise, the larger of kappa-shear and ePBL diffusivities are used.
+PRANDTL_EPBL = 1.0              !   [nondim] default = 1.0
+                                ! The Prandtl number used by ePBL to convert vertical diffusivities into
+                                ! viscosities.
 INTERNAL_TIDES = False          !   [Boolean] default = False
                                 ! If true, use the code that advances a separate set of equations for the
                                 ! internal tide energy density.
@@ -1450,6 +1453,23 @@ DIAG_DEPTH_SUBML_N2 = 50.0      !   [m] default = 50.0
 USE_KPP = False                 !   [Boolean] default = False
                                 ! If true, turns on the [CVMix] KPP scheme of Large et al., 1994, to calculate
                                 ! diffusivities and non-local transport in the OBL.
+
+! === module MOM_CVMix_conv ===
+! Parameterization of enhanced mixing due to convection via CVMix
+USE_CVMix_CONVECTION = False    !   [Boolean] default = False
+                                ! If true, turns on the enhanced mixing due to convection via CVMix. This scheme
+                                ! increases diapycnal diffs./viscs. at statically unstable interfaces. Relevant
+                                ! parameters are contained in the CVMix_CONVECTION% parameter block.
+
+! === module MOM_set_diffusivity ===
+FLUX_RI_MAX = 0.2               !   [nondim] default = 0.2
+                                ! The flux Richardson number where the stratification is large enough that N2 >
+                                ! omega2.  The full expression for the Flux Richardson number is usually
+                                ! FLUX_RI_MAX*N2/(N2+OMEGA2).
+SET_DIFF_2018_ANSWERS = True    !   [Boolean] default = True
+                                ! If true, use the order of arithmetic and expressions that recover the answers
+                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
+                                ! same expressions.
 
 ! === module MOM_tidal_mixing ===
 ! Vertical Tidal Mixing Parameterization
@@ -1531,23 +1551,6 @@ H2_FILE = "topog.nc"            !
 FRACTIONAL_ROUGHNESS_MAX = 0.1  !   [nondim] default = 0.1
                                 ! The maximum topographic roughness amplitude as a fraction of the mean depth,
                                 ! or a negative value for no limitations on roughness.
-
-! === module MOM_CVMix_conv ===
-! Parameterization of enhanced mixing due to convection via CVMix
-USE_CVMix_CONVECTION = False    !   [Boolean] default = False
-                                ! If true, turns on the enhanced mixing due to convection via CVMix. This scheme
-                                ! increases diapycnal diffs./viscs. at statically unstable interfaces. Relevant
-                                ! parameters are contained in the CVMix_CONVECTION% parameter block.
-
-! === module MOM_set_diffusivity ===
-FLUX_RI_MAX = 0.2               !   [nondim] default = 0.2
-                                ! The flux Richardson number where the stratification is large enough that N2 >
-                                ! omega2.  The full expression for the Flux Richardson number is usually
-                                ! FLUX_RI_MAX*N2/(N2+OMEGA2).
-SET_DIFF_2018_ANSWERS = True    !   [Boolean] default = True
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
-                                ! same expressions.
 ML_RADIATION = False            !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind work to penetrate below
                                 ! the base of the mixed layer with a vertical decay scale determined by the
