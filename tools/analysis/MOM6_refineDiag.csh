@@ -101,10 +101,11 @@ chmod +x $script_dir/*.py
 set ocean_static_file = $yr1.ocean_static.nc
 if ( -e $yr1.ocean_static_no_mask_table.nc ) set ocean_static_file = $yr1.ocean_static_no_mask_table.nc
 
-echo '====annual mean Eddy Kinetic Energy======'
-mkdir -p $out_dir/refineDiag_ocean_annual/EddyKineticEnergy
-$script_dir/EddyKineticEnergy.py  -g $ocean_static_file -o $out_dir/refineDiag_ocean_annual/EddyKineticEnergy/EKE_mean_${yr1}.png -l ${yr1} $yr1.ocean_daily.nc
-
+set basin_codes_d2_file = ocean_static_d2.nc
+ 
+#echo '====annual mean Eddy Kinetic Energy======'
+#mkdir -p $out_dir/refineDiag_ocean_annual/EddyKineticEnergy
+#$script_dir/EddyKineticEnergy.py  -g $ocean_static_file -o $out_dir/refineDiag_ocean_annual/EddyKineticEnergy/EKE_mean_${yr1}.png -l ${yr1} $yr1.ocean_daily.nc
 
 echo '==== Offline Diagnostics ===='
 if ( -f $yr1.ocean_month.nc ) then
@@ -119,13 +120,16 @@ endif
 
 echo '==== Offline Diagnostics downsampled ===='
 if ( -f $yr1.ocean_month_d2.nc ) then
-  $script_dir/refineDiag_ocean_month.py -b basin_codes_d2.nc -r $refineDiagDir $yr1.ocean_month_d2.nc
+  ncatted -a associated_files,global,c,c,"areacello: $yr1.ocean_static_d2.nc" $yr1.ocean_month_d2.nc
+  $script_dir/refineDiag_ocean_month.py -b $basin_codes_d2_file -r $refineDiagDir $yr1.ocean_month_d2.nc
 endif
 if ( -f $yr1.ocean_month_z_d2.nc ) then
-  $script_dir/refineDiag_ocean_month_z.py -b basin_codes_d2.nc -r $refineDiagDir -s ./ $yr1.ocean_month_z_d2.nc
+  ncatted -a associated_files,global,c,c,"areacello: $yr1.ocean_static_d2.nc" $yr1.ocean_month_z_d2.nc
+  $script_dir/refineDiag_ocean_month_z.py -b $basin_codes_d2_file -r $refineDiagDir -s ./ $yr1.ocean_month_z_d2.nc
 endif
 if ( -f $yr1.ocean_month_rho2_d2.nc ) then
-  $script_dir/refineDiag_ocean_month_rho2.py -b basin_codes_d2.nc -r $refineDiagDir $yr1.ocean_month_rho2_d2.nc
+  ncatted -a associated_files,global,c,c,"areacello: $yr1.ocean_static_d2.nc" $yr1.ocean_month_rho2_d2.nc
+  $script_dir/refineDiag_ocean_month_rho2.py -b $basin_codes_d2_file -r $refineDiagDir $yr1.ocean_month_rho2_d2.nc
 endif
 
 
@@ -134,7 +138,7 @@ endif
 
 #-- Note: The calc_variance script pre-dated refineDiag efforts just prior to the start of the GFDL-CM4 DECK runs.
 #         Based on the diag_table, it looks like the calc_variance script is no longer needed and is now commented out.
-#         If it is reactivated, it should be called LAST, since it appends to the ocean_month_refined.nc file that is 
+#         If it is reactivated, it should be called LAST, since it appends to the ocean_month_refined.nc file that is
 #         created first by the other scripts.
 
 echo "  ---------- end yearly analysis ----------  "
