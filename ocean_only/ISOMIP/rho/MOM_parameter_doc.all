@@ -739,6 +739,9 @@ KV_BBL_MIN = 1.0E-04            !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the bottom boundary layer.
 KV_TBL_MIN = 0.01               !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the top boundary layer.
+CORRECT_BBL_BOUNDS = False      !   [Boolean] default = False
+                                ! If true, uses the correct bounds on the BBL thickness and viscosity so that
+                                ! the bottom layer feels the intended drag.
 
 ! === module MOM_thickness_diffuse ===
 KHTH = 0.0                      !   [m2 s-1] default = 0.0
@@ -1200,6 +1203,9 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
 EPBL_IS_ADDITIVE = True         !   [Boolean] default = True
                                 ! If true, the diffusivity from ePBL is added to all other diffusivities.
                                 ! Otherwise, the larger of kappa-shear and ePBL diffusivities are used.
+PRANDTL_EPBL = 1.0              !   [nondim] default = 1.0
+                                ! The Prandtl number used by ePBL to convert vertical diffusivities into
+                                ! viscosities.
 INTERNAL_TIDES = False          !   [Boolean] default = False
                                 ! If true, use the code that advances a separate set of equations for the
                                 ! internal tide energy density.
@@ -1234,6 +1240,9 @@ EVAP_CFL_LIMIT = 0.8            !   [nondim] default = 0.8
                                 ! The largest fraction of a layer than can be lost to forcing (e.g. evaporation,
                                 ! sea-ice formation) in one time-step. The unused mass loss is passed down
                                 ! through the column.
+MLD_EN_VALS = 3*0.0             !   [J/m2] default = 0.0
+                                ! The energy values used to compute MLDs.  If not set (or all set to 0.), the
+                                ! default will overwrite to 25., 2500., 250000.
 DIAG_MLD_DENSITY_DIFF = 0.1     !   [kg/m3] default = 0.1
                                 ! The density difference used to determine a diagnostic mixed layer depth,
                                 ! MLD_user, following the definition of Levitus 1982. The MLD is the depth at
@@ -1248,14 +1257,6 @@ DIAG_DEPTH_SUBML_N2 = 50.0      !   [m] default = 50.0
 USE_KPP = False                 !   [Boolean] default = False
                                 ! If true, turns on the [CVMix] KPP scheme of Large et al., 1994, to calculate
                                 ! diffusivities and non-local transport in the OBL.
-
-! === module MOM_tidal_mixing ===
-! Vertical Tidal Mixing Parameterization
-USE_CVMix_TIDAL = False         !   [Boolean] default = False
-                                ! If true, turns on tidal mixing via CVMix
-INT_TIDE_DISSIPATION = False    !   [Boolean] default = False
-                                ! If true, use an internal tidal dissipation scheme to drive diapycnal mixing,
-                                ! along the lines of St. Laurent et al. (2002) and Simmons et al. (2004).
 
 ! === module MOM_CVMix_conv ===
 ! Parameterization of enhanced mixing due to convection via CVMix
@@ -1273,6 +1274,14 @@ SET_DIFF_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
+
+! === module MOM_tidal_mixing ===
+! Vertical Tidal Mixing Parameterization
+USE_CVMix_TIDAL = False         !   [Boolean] default = False
+                                ! If true, turns on tidal mixing via CVMix
+INT_TIDE_DISSIPATION = False    !   [Boolean] default = False
+                                ! If true, use an internal tidal dissipation scheme to drive diapycnal mixing,
+                                ! along the lines of St. Laurent et al. (2002) and Simmons et al. (2004).
 ML_RADIATION = False            !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind work to penetrate below
                                 ! the base of the mixed layer with a vertical decay scale determined by the
@@ -1413,6 +1422,10 @@ KAPPA_SHEAR_ALL_LAYER_TKE_BUG = False !   [Boolean] default = False
                                 ! If true, report back the latest estimate of TKE instead of the time average
                                 ! TKE when there is mass in all layers.  Otherwise always report the time
                                 ! averaged TKE, as is currently done when there are some massless layers.
+USE_RESTRICTIVE_TOLERANCE_CHECK = False !   [Boolean] default = False
+                                ! If true, uses the more restrictive tolerance check to determine if a timestep
+                                ! is acceptable for the KS_it outer iteration loop.  False uses the original
+                                ! less restrictive check.
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
