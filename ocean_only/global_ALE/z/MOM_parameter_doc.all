@@ -856,6 +856,9 @@ KV_BBL_MIN = 1.0E-04            !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the bottom boundary layer.
 KV_TBL_MIN = 1.0E-04            !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the top boundary layer.
+CORRECT_BBL_BOUNDS = False      !   [Boolean] default = False
+                                ! If true, uses the correct bounds on the BBL thickness and viscosity so that
+                                ! the bottom layer feels the intended drag.
 SMAG_CONST_CHANNEL = 0.15       !   [nondim] default = 0.15
                                 ! The nondimensional Laplacian Smagorinsky constant used in calculating the
                                 ! channel drag if it is enabled.  The default is to use the same value as
@@ -1403,6 +1406,9 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
 EPBL_IS_ADDITIVE = True         !   [Boolean] default = True
                                 ! If true, the diffusivity from ePBL is added to all other diffusivities.
                                 ! Otherwise, the larger of kappa-shear and ePBL diffusivities are used.
+PRANDTL_EPBL = 1.0              !   [nondim] default = 1.0
+                                ! The Prandtl number used by ePBL to convert vertical diffusivities into
+                                ! viscosities.
 INTERNAL_TIDES = False          !   [Boolean] default = False
                                 ! If true, use the code that advances a separate set of equations for the
                                 ! internal tide energy density.
@@ -1454,6 +1460,38 @@ DIAG_DEPTH_SUBML_N2 = 50.0      !   [m] default = 50.0
 USE_KPP = False                 !   [Boolean] default = False
                                 ! If true, turns on the [CVMix] KPP scheme of Large et al., 1994, to calculate
                                 ! diffusivities and non-local transport in the OBL.
+
+! === module MOM_CVMix_conv ===
+! Parameterization of enhanced mixing due to convection via CVMix
+USE_CVMix_CONVECTION = False    !   [Boolean] default = False
+                                ! If true, turns on the enhanced mixing due to convection via CVMix. This scheme
+                                ! increases diapycnal diffs./viscs. at statically unstable interfaces. Relevant
+                                ! parameters are contained in the CVMix_CONVECTION% parameter block.
+
+! === module MOM_geothermal ===
+GEOTHERMAL_SCALE = 0.001        !   [W m-2 or various] default = 0.0
+                                ! The constant geothermal heat flux, a rescaling factor for the heat flux read
+                                ! from GEOTHERMAL_FILE, or 0 to disable the geothermal heating.
+GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
+                                ! The file from which the geothermal heating is to be read, or blank to use a
+                                ! constant heating rate.
+GEOTHERMAL_THICKNESS = 0.1      !   [m] default = 0.1
+                                ! The thickness over which to apply geothermal heating.
+GEOTHERMAL_DRHO_DT_INPLACE = -0.01 !   [kg m-3 K-1] default = -0.01
+                                ! The value of drho_dT above which geothermal heating simply heats water in
+                                ! place instead of moving it between isopycnal layers.  This must be negative.
+GEOTHERMAL_VARNAME = "geo_heat" ! default = "geo_heat"
+                                ! The name of the geothermal heating variable in GEOTHERMAL_FILE.
+
+! === module MOM_set_diffusivity ===
+FLUX_RI_MAX = 0.2               !   [nondim] default = 0.2
+                                ! The flux Richardson number where the stratification is large enough that N2 >
+                                ! omega2.  The full expression for the Flux Richardson number is usually
+                                ! FLUX_RI_MAX*N2/(N2+OMEGA2).
+SET_DIFF_2018_ANSWERS = False   !   [Boolean] default = False
+                                ! If true, use the order of arithmetic and expressions that recover the answers
+                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
+                                ! same expressions.
 
 ! === module MOM_tidal_mixing ===
 ! Vertical Tidal Mixing Parameterization
@@ -1516,38 +1554,6 @@ H2_FILE = "sgs_h2.nc"           !
 FRACTIONAL_ROUGHNESS_MAX = 0.1  !   [nondim] default = 0.1
                                 ! The maximum topographic roughness amplitude as a fraction of the mean depth,
                                 ! or a negative value for no limitations on roughness.
-
-! === module MOM_CVMix_conv ===
-! Parameterization of enhanced mixing due to convection via CVMix
-USE_CVMix_CONVECTION = False    !   [Boolean] default = False
-                                ! If true, turns on the enhanced mixing due to convection via CVMix. This scheme
-                                ! increases diapycnal diffs./viscs. at statically unstable interfaces. Relevant
-                                ! parameters are contained in the CVMix_CONVECTION% parameter block.
-
-! === module MOM_geothermal ===
-GEOTHERMAL_SCALE = 0.001        !   [W m-2 or various] default = 0.0
-                                ! The constant geothermal heat flux, a rescaling factor for the heat flux read
-                                ! from GEOTHERMAL_FILE, or 0 to disable the geothermal heating.
-GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
-                                ! The file from which the geothermal heating is to be read, or blank to use a
-                                ! constant heating rate.
-GEOTHERMAL_THICKNESS = 0.1      !   [m] default = 0.1
-                                ! The thickness over which to apply geothermal heating.
-GEOTHERMAL_DRHO_DT_INPLACE = -0.01 !   [kg m-3 K-1] default = -0.01
-                                ! The value of drho_dT above which geothermal heating simply heats water in
-                                ! place instead of moving it between isopycnal layers.  This must be negative.
-GEOTHERMAL_VARNAME = "geo_heat" ! default = "geo_heat"
-                                ! The name of the geothermal heating variable in GEOTHERMAL_FILE.
-
-! === module MOM_set_diffusivity ===
-FLUX_RI_MAX = 0.2               !   [nondim] default = 0.2
-                                ! The flux Richardson number where the stratification is large enough that N2 >
-                                ! omega2.  The full expression for the Flux Richardson number is usually
-                                ! FLUX_RI_MAX*N2/(N2+OMEGA2).
-SET_DIFF_2018_ANSWERS = False   !   [Boolean] default = False
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
-                                ! same expressions.
 ML_RADIATION = False            !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind work to penetrate below
                                 ! the base of the mixed layer with a vertical decay scale determined by the
