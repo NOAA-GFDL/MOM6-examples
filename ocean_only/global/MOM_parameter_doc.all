@@ -741,9 +741,6 @@ CHANNEL_DRAG = True             !   [Boolean] default = False
 LINEAR_DRAG = False             !   [Boolean] default = False
                                 ! If LINEAR_DRAG and BOTTOMDRAGLAW are defined the drag law is
                                 ! cdrag*DRAG_BG_VEL*u.
-DOUBLE_DIFFUSION = False        !   [Boolean] default = False
-                                ! If true, increase diffusivites for temperature or salt based on
-                                ! double-diffusive parameterization from MOM4/KPP.
 PRANDTL_TURB = 1.0              !   [nondim] default = 1.0
                                 ! The turbulent Prandtl number applied to shear instability.
 DYNAMIC_VISCOUS_ML = True       !   [Boolean] default = False
@@ -1001,7 +998,8 @@ TIDE_USE_EQ_PHASE = False       !   [Boolean] default = False
                                 ! Correct phases by calculating equilibrium phase arguments for TIDE_REF_DATE.
 TIDE_M2_FREQ = 1.405189E-04     !   [s-1] default = 1.405189E-04
                                 ! Frequency of the M2 tidal constituent. This is only used if TIDES and TIDE_M2
-                                ! are true, or if OBC_TIDE_N_CONSTITUENTS > 0 and M2is in OBC_TIDE_CONSTITUENTS.
+                                ! are true, or if OBC_TIDE_N_CONSTITUENTS > 0 and M2 is in
+                                ! OBC_TIDE_CONSTITUENTS.
 TIDE_M2_AMP = 0.242334          !   [m] default = 0.242334
                                 ! Amplitude of the M2 tidal constituent. This is only used if TIDES and TIDE_M2
                                 ! are true.
@@ -1552,6 +1550,9 @@ DISSIPATION_N1 = 6.0E-04        !   [J m-3] default = 0.0
                                 ! = A + B*N
 DISSIPATION_KD_MIN = 0.0        !   [m2 s-1] default = 0.0
                                 ! The minimum vertical diffusivity applied as a floor.
+DOUBLE_DIFFUSION = False        !   [Boolean] default = False
+                                ! If true, increase diffusivites for temperature or salinity based on the
+                                ! double-diffusive parameterization described in Large et al. (1994).
 
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
