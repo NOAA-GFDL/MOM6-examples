@@ -450,6 +450,10 @@ Z_INIT_SEPARATE_MIXED_LAYER = False !   [Boolean] default = False
                                 ! If true, distribute the topmost Z_INIT_HMIX_DEPTH of water over NKML layers,
                                 ! and do not correct the density of the topmost NKML+NKBL layers.  Otherwise all
                                 ! layers are initialized based on the depths of their target densities.
+LAYER_Z_INIT_IC_EXTRAP_BUG = True !   [Boolean] default = True
+                                ! If true use an expression with a vertical indexing bug for extrapolating the
+                                ! densities at the bottom of unstable profiles from data when finding the
+                                ! initial interface locations in layered mode from a dataset of T and S.
 VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 ! A string that determines how the initial velocities are specified for a new
                                 ! run:
@@ -1973,8 +1977,6 @@ GUST_2D_FILE = "gustiness_qscat.nc" !
                                 ! The file in which the wind gustiness is found in variable gustiness.
 
 ! === module MOM_restart ===
-ICE_SHELF = False               !   [Boolean] default = False
-                                ! If true, enables the ice shelf model.
 USE_WAVES = False               !   [Boolean] default = False
                                 ! If true, enables surface wave modules.
 LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04

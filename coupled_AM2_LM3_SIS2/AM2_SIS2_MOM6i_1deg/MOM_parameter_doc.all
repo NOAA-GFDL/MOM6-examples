@@ -489,6 +489,10 @@ Z_INIT_SEPARATE_MIXED_LAYER = True !   [Boolean] default = False
 Z_INIT_HMIX_DEPTH = 0.5         !   [m] default = 0.5
                                 ! The mixed layer depth in the initial conditions when
                                 ! Z_INIT_SEPARATE_MIXED_LAYER is set to true.
+LAYER_Z_INIT_IC_EXTRAP_BUG = True !   [Boolean] default = True
+                                ! If true use an expression with a vertical indexing bug for extrapolating the
+                                ! densities at the bottom of unstable profiles from data when finding the
+                                ! initial interface locations in layered mode from a dataset of T and S.
 VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 ! A string that determines how the initial velocities are specified for a new
                                 ! run:
