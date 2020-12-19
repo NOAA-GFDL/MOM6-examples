@@ -431,6 +431,17 @@
     ! long_name: Tidal Forcing Astronomical and SAL Height Anomaly
     ! units: meter
     ! cell_methods: xh:mean yh:mean area:mean
+"NoSt"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Normal Stress
+    ! units: s-1
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {NoSt,NoSt_xyave}
+"ShSt"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Shear Stress
+    ! units: s-1
+    ! cell_methods: xq:point yq:point zl:mean
 "diffu"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Zonal Acceleration from Horizontal Viscosity
@@ -1225,6 +1236,12 @@
     ! units: m3 s-3
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
     ! variants: {PE_to_KE,PE_to_KE_xyave}
+"KE_BT"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Barotropic contribution to Kinetic Energy
+    ! units: m3 s-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {KE_BT,KE_BT_xyave}
 "KE_Coradv"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Kinetic Energy Source from Coriolis and Advection
