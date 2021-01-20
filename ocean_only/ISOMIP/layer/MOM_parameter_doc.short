@@ -23,10 +23,8 @@ SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "ISOMIP_IC"    ! default = "MOM_IC"
                                 ! The file into which to write the initial conditions.
-ICE_THICKNESS_FILE = "Ocean1_3D.nc" !
-                                ! The file from which the ice bathymetry and area are read.
-ICE_AREA_VARNAME = "area"       !
-                                ! The name of the area variable in ICE_THICKNESS_FILE.
+ICE_SHELF = True                !   [Boolean] default = False
+                                ! If true, enables the ice shelf model.
 
 ! === module MOM_domains ===
 REENTRANT_X = False             !   [Boolean] default = True
@@ -161,6 +159,45 @@ LIGHTEST_DENSITY = 1027.1524    !   [kg m-3] default = 1027.0
                                 ! The reference potential density used for the surface interface.
 DENSITY_RANGE = 0.7438856       !   [kg m-3] default = 2.0
                                 ! The range of reference potential densities across all interfaces.
+
+! === module MOM_domains min_halo ===
+
+! === module MOM_grid_init ===
+
+! === module ISOMIP_initialize_topography ===
+
+! === module MOM_ice_shelf ===
+SHELF_THREE_EQN = False         !   [Boolean] default = True
+                                ! If true, use the three equation expression of consistency to calculate the
+                                ! fluxes at the ice-ocean interface.
+SHELF_2EQ_GAMMA_T = 1.0E-04     !   [m s-1]
+                                ! If SHELF_THREE_EQN is false, this the fixed turbulent exchange velocity at the
+                                ! ice-ocean interface.
+ICE_SHELF_FLUX_FACTOR = 0.0     !   [none] default = 1.0
+                                ! Non-dimensional factor applied to shelf thermodynamic fluxes.
+ICE_SHELF_TEMPERATURE = -20.0   !   [degC] default = -15.0
+                                ! The temperature at the center of the ice shelf.
+DT_FORCING = 300.0              !   [s] default = 0.0
+                                ! The time step for changing forcing, coupling with other components, or
+                                ! potentially writing certain diagnostics. The default value is given by DT.
+COL_THICK_MELT_THRESHOLD = 1.0  !   [m] default = 0.0
+                                ! The minimum ocean column thickness where melting is allowed.
+
+! === module MOM_EOS ===
+USTAR_SHELF_BG = 0.001          !   [m s-1] default = 0.0
+                                ! The minimum value of ustar under ice shelves.
+CDRAG_SHELF = 0.0025            !   [nondim] default = 0.003
+                                ! CDRAG is the drag coefficient relating the magnitude of the velocity field to
+                                ! the surface stress.
+ICE_PROFILE_CONFIG = "FILE"     !
+                                ! This specifies how the initial ice profile is specified. Valid values are:
+                                ! CHANNEL, FILE, and USER.
+ICE_THICKNESS_FILE = "Ocean1_3D.nc" ! default = "ice_shelf_h.nc"
+                                ! The file from which the bathymetry is read.
+ICE_THICKNESS_VARNAME = "thick" ! default = "h_shelf"
+                                ! The name of the thickness variable in ICE_THICKNESS_FILE.
+ICE_AREA_VARNAME = "area"       ! default = "area_shelf_h"
+                                ! The name of the area variable in ICE_THICKNESS_FILE.
 
 ! === module MOM_state_initialization ===
 THICKNESS_CONFIG = "ISOMIP"     ! default = "uniform"
@@ -396,43 +433,6 @@ BUOY_CONFIG = "NONE"            ! default = "zero"
                                 ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
 GUST_CONST = 0.02               !   [Pa] default = 0.0
                                 ! The background gustiness in the winds.
-ICE_SHELF = True                !   [Boolean] default = False
-                                ! If true, enables the ice shelf model.
-
-! === module MOM_domains min_halo ===
-
-! === module MOM_grid_init ===
-
-! === module MOM_ice_shelf ===
-SHELF_THREE_EQN = False         !   [Boolean] default = True
-                                ! If true, use the three equation expression of consistency to calculate the
-                                ! fluxes at the ice-ocean interface.
-SHELF_2EQ_GAMMA_T = 1.0E-04     !   [m s-1]
-                                ! If SHELF_THREE_EQN is false, this the fixed turbulent exchange velocity at the
-                                ! ice-ocean interface.
-ICE_SHELF_FLUX_FACTOR = 0.0     !   [none] default = 1.0
-                                ! Non-dimensional factor applied to shelf thermodynamic fluxes.
-ICE_SHELF_TEMPERATURE = -20.0   !   [degC] default = -15.0
-                                ! The temperature at the center of the ice shelf.
-DT_FORCING = 300.0              !   [s] default = 0.0
-                                ! The time step for changing forcing, coupling with other components, or
-                                ! potentially writing certain diagnostics. The default value is given by DT.
-COL_THICK_MELT_THRESHOLD = 1.0  !   [m] default = 0.0
-                                ! The minimum ocean column thickness where melting is allowed.
-
-! === module MOM_EOS ===
-USTAR_SHELF_BG = 0.001          !   [m s-1] default = 0.0
-                                ! The minimum value of ustar under ice shelves.
-CDRAG_SHELF = 0.0025            !   [nondim] default = 0.003
-                                ! CDRAG is the drag coefficient relating the magnitude of the velocity field to
-                                ! the surface stress.
-
-! === module ISOMIP_initialize_topography ===
-ICE_PROFILE_CONFIG = "FILE"     !
-                                ! This specifies how the initial ice profile is specified. Valid values are:
-                                ! CHANNEL, FILE, and USER.
-ICE_THICKNESS_VARNAME = "thick" ! default = "h_shelf"
-                                ! The name of the thickness variable in ICE_THICKNESS_FILE.
 
 ! === module MOM_main (MOM_driver) ===
 DAYMAX = 10.0                   !   [days]

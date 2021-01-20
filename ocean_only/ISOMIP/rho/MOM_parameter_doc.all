@@ -124,10 +124,8 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =0, never write the geometry and vertical grid files. If =1, write the
                                 ! geometry and vertical grid files only for a new simulation. If =2, always
                                 ! write the geometry and vertical grid files. Other values are invalid.
-ICE_THICKNESS_FILE = "Ocean1_3D.nc" !
-                                ! The file from which the ice bathymetry and area are read.
-ICE_AREA_VARNAME = "area"       !
-                                ! The name of the area variable in ICE_THICKNESS_FILE.
+ICE_SHELF = True                !   [Boolean] default = False
+                                ! If true, enables the ice shelf model.
 ENSEMBLE_OCEAN = False          !   [Boolean] default = False
                                 ! If False, The model is being run in serial mode as a single realization. If
                                 ! True, The current model realization is part of a larger ensemble and at the
@@ -493,6 +491,113 @@ REGRID_FILTER_DEEP_DEPTH = 0.0  !   [m] default = 0.0
 ! Parameters providing information about the lateral grid.
 REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
                                 ! A reference value for geometric height fields, such as bathyT.
+
+! === module MOM_domains min_halo ===
+
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+
+! === module MOM_hor_index ===
+! Sets the horizontal array index types.
+
+! === module MOM_grid_init ===
+
+! === module ISOMIP_initialize_topography ===
+MOM_ICESHELF_AVAILABLE_DIAGS_FILE = "MOM_IceShelf.available_diags" ! default = "MOM_IceShelf.available_diags"
+                                ! A file into which to write a list of all available ice shelf diagnostics that
+                                ! can be included in a diag_table.
+
+! === module MOM_ice_shelf ===
+DEBUG_IS = False                !   [Boolean] default = False
+                                ! If true, write verbose debugging messages for the ice shelf.
+DYNAMIC_SHELF_MASS = False      !   [Boolean] default = False
+                                ! If true, the ice sheet mass can evolve with time.
+SHELF_THERMO = True             !   [Boolean] default = False
+                                ! If true, use a thermodynamically interactive ice shelf.
+LATENT_HEAT_FUSION = 3.34E+05   !   [J/kg] default = 3.34E+05
+                                ! The latent heat of fusion.
+SHELF_THREE_EQN = True          !   [Boolean] default = True
+                                ! If true, use the three equation expression of consistency to calculate the
+                                ! fluxes at the ice-ocean interface.
+SHELF_INSULATOR = False         !   [Boolean] default = False
+                                ! If true, the ice shelf is a perfect insulatior (no conduction).
+MELTING_CUTOFF_DEPTH = 0.0      !   [m] default = 0.0
+                                ! Depth above which the melt is set to zero (it must be >= 0) Default value
+                                ! won't affect the solution.
+CONST_SEA_LEVEL = False         !   [Boolean] default = False
+                                ! If true, apply evaporative, heat and salt fluxes in the sponge region. This
+                                ! will avoid a large increase in sea level. This option is needed for some of
+                                ! the ISOMIP+ experiments (Ocean3 and Ocean4). IMPORTANT: it is not currently
+                                ! possible to do prefect restarts using this flag.
+SHELF_3EQ_GAMMA = True          !   [Boolean] default = False
+                                ! If true, user specifies a constant nondimensional heat-transfer coefficient
+                                ! (GAMMA_T_3EQ), from which the default salt-transfer coefficient is set as
+                                ! GAMMA_T_3EQ/35. This is used with SHELF_THREE_EQN.
+SHELF_S_ROOT = True             !   [Boolean] default = False
+                                ! If SHELF_S_ROOT = True, salinity at the ice/ocean interface (Sbdry) is
+                                ! computed from a quadratic equation. Otherwise, the previous interactive method
+                                ! to estimate Sbdry is used.
+SHELF_3EQ_GAMMA_T = 0.022       !   [nondim] default = 0.022
+                                ! Nondimensional heat-transfer coefficient.
+SHELF_3EQ_GAMMA_S = 6.285714285714285E-04 !   [nondim] default = 6.285714285714285E-04
+                                ! Nondimensional salt-transfer coefficient.
+ICE_SHELF_MASS_FROM_FILE = False !   [Boolean] default = False
+                                ! Read the mass of the ice shelf (every time step) from a file.
+C_P_ICE = 2100.0                !   [J kg-1 K-1] default = 2100.0
+                                ! The heat capacity of ice.
+ICE_SHELF_FLUX_FACTOR = 1.0     !   [none] default = 1.0
+                                ! Non-dimensional factor applied to shelf thermodynamic fluxes.
+KV_ICE = 1.0E+10                !   [m2 s-1] default = 1.0E+10
+                                ! The viscosity of the ice.
+KV_MOLECULAR = 1.95E-06         !   [m2 s-1] default = 1.95E-06
+                                ! The molecular kinimatic viscosity of sea water at the freezing temperature.
+ICE_SHELF_SALINITY = 0.0        !   [psu] default = 0.0
+                                ! The salinity of the ice inside the ice shelf.
+ICE_SHELF_TEMPERATURE = -20.0   !   [degC] default = -15.0
+                                ! The temperature at the center of the ice shelf.
+KD_SALT_MOLECULAR = 8.02E-10    !   [m2 s-1] default = 8.02E-10
+                                ! The molecular diffusivity of salt in sea water at the freezing point.
+KD_TEMP_MOLECULAR = 1.41E-07    !   [m2 s-1] default = 1.41E-07
+                                ! The molecular diffusivity of heat in sea water at the freezing point.
+DT_FORCING = 300.0              !   [s] default = 0.0
+                                ! The time step for changing forcing, coupling with other components, or
+                                ! potentially writing certain diagnostics. The default value is given by DT.
+COL_THICK_MELT_THRESHOLD = 1.0  !   [m] default = 0.0
+                                ! The minimum ocean column thickness where melting is allowed.
+READ_TIDEAMP = False            !   [Boolean] default = False
+                                ! If true, read a file (given by TIDEAMP_FILE) containing the tidal amplitude
+                                ! with INT_TIDE_DISSIPATION.
+UTIDE = 0.0                     !   [m s-1] default = 0.0
+                                ! The constant tidal amplitude used with INT_TIDE_DISSIPATION.
+
+! === module MOM_EOS ===
+DENSITY_ICE = 900.0             !   [kg m-3] default = 900.0
+                                ! A typical density of ice.
+MIN_THICKNESS_SIMPLE_CALVE = 0.0 !   [m] default = 0.0
+                                ! Min thickness rule for the very simple calving law
+USTAR_SHELF_BG = 0.001          !   [m s-1] default = 0.0
+                                ! The minimum value of ustar under ice shelves.
+CDRAG_SHELF = 0.0025            !   [nondim] default = 0.003
+                                ! CDRAG is the drag coefficient relating the magnitude of the velocity field to
+                                ! the surface stress.
+USTAR_SHELF_FROM_VEL = True     !   [Boolean] default = True
+                                ! If true, use the surface velocities to set the friction velocity under ice
+                                ! shelves instead of using the previous values of the stresses.
+ICE_PROFILE_CONFIG = "FILE"     !
+                                ! This specifies how the initial ice profile is specified. Valid values are:
+                                ! CHANNEL, FILE, and USER.
+ICE_THICKNESS_FILE = "Ocean1_3D.nc" ! default = "ice_shelf_h.nc"
+                                ! The file from which the bathymetry is read.
+LEN_SIDE_STRESS = 0.0           !   [axis_units] default = 0.0
+                                ! position past which shelf sides are stress free.
+ICE_THICKNESS_VARNAME = "thick" ! default = "h_shelf"
+                                ! The name of the thickness variable in ICE_THICKNESS_FILE.
+ICE_AREA_VARNAME = "area"       ! default = "area_shelf_h"
+                                ! The name of the area variable in ICE_THICKNESS_FILE.
+
+! === module MOM_restart ===
+SHELF_IC_OUTPUT_FILE = "MOM_Shelf_IC" ! default = "MOM_Shelf_IC"
+                                ! The name-root of the output file for the ice shelf initial conditions.
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
@@ -1219,6 +1324,9 @@ AGGREGATE_FW_FORCING = True     !   [Boolean] default = True
 MIX_BOUNDARY_TRACERS = True     !   [Boolean] default = True
                                 ! If true, mix the passive tracers in massless layers at the bottom into the
                                 ! interior as though a diffusivity of KD_MIN_TR were operating.
+MIX_BOUNDARY_TRACER_ALE = False !   [Boolean] default = False
+                                ! If true and in ALE mode, mix the passive tracers in massless layers at the
+                                ! bottom into the interior as though a diffusivity of KD_MIN_TR were operating.
 KD_MIN_TR = 0.0                 !   [m2 s-1] default = 0.0
                                 ! A minimal diffusivity that should always be applied to tracers, especially in
                                 ! massless layers near the bottom. The default is 0.1*KD.
@@ -1674,8 +1782,6 @@ WIND_CONFIG = "zero"            ! default = "zero"
 RESTOREBUOY = False             !   [Boolean] default = False
                                 ! If true, the buoyancy fluxes drive the model back toward some specified
                                 ! surface state with a rate given by FLUXCONST.
-LATENT_HEAT_FUSION = 3.34E+05   !   [J/kg] default = 3.34E+05
-                                ! The latent heat of fusion.
 LATENT_HEAT_VAPORIZATION = 2.5E+06 !   [J/kg] default = 2.5E+06
                                 ! The latent heat of fusion.
 GUST_CONST = 0.02               !   [Pa] default = 0.0
@@ -1687,103 +1793,6 @@ READ_GUST_2D = False            !   [Boolean] default = False
                                 ! If true, use a 2-dimensional gustiness supplied from an input file
 
 ! === module MOM_restart ===
-ICE_SHELF = True                !   [Boolean] default = False
-                                ! If true, enables the ice shelf model.
-
-! === module MOM_domains min_halo ===
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-
-! === module MOM_hor_index ===
-! Sets the horizontal array index types.
-
-! === module MOM_grid_init ===
-
-! === module MOM_ice_shelf ===
-DEBUG_IS = False                !   [Boolean] default = False
-                                ! If true, write verbose debugging messages for the ice shelf.
-DYNAMIC_SHELF_MASS = False      !   [Boolean] default = False
-                                ! If true, the ice sheet mass can evolve with time.
-SHELF_THERMO = True             !   [Boolean] default = False
-                                ! If true, use a thermodynamically interactive ice shelf.
-SHELF_THREE_EQN = True          !   [Boolean] default = True
-                                ! If true, use the three equation expression of consistency to calculate the
-                                ! fluxes at the ice-ocean interface.
-SHELF_INSULATOR = False         !   [Boolean] default = False
-                                ! If true, the ice shelf is a perfect insulatior (no conduction).
-MELTING_CUTOFF_DEPTH = 0.0      !   [m] default = 0.0
-                                ! Depth above which the melt is set to zero (it must be >= 0) Default value
-                                ! won't affect the solution.
-CONST_SEA_LEVEL = False         !   [Boolean] default = False
-                                ! If true, apply evaporative, heat and salt fluxes in the sponge region. This
-                                ! will avoid a large increase in sea level. This option is needed for some of
-                                ! the ISOMIP+ experiments (Ocean3 and Ocean4). IMPORTANT: it is not currently
-                                ! possible to do prefect restarts using this flag.
-SHELF_3EQ_GAMMA = True          !   [Boolean] default = False
-                                ! If true, user specifies a constant nondimensional heat-transfer coefficient
-                                ! (GAMMA_T_3EQ), from which the default salt-transfer coefficient is set as
-                                ! GAMMA_T_3EQ/35. This is used with SHELF_THREE_EQN.
-SHELF_S_ROOT = True             !   [Boolean] default = False
-                                ! If SHELF_S_ROOT = True, salinity at the ice/ocean interface (Sbdry) is
-                                ! computed from a quadratic equation. Otherwise, the previous interactive method
-                                ! to estimate Sbdry is used.
-SHELF_3EQ_GAMMA_T = 0.022       !   [nondim] default = 0.022
-                                ! Nondimensional heat-transfer coefficient.
-SHELF_3EQ_GAMMA_S = 6.285714285714285E-04 !   [nondim] default = 6.285714285714285E-04
-                                ! Nondimensional salt-transfer coefficient.
-ICE_SHELF_MASS_FROM_FILE = False !   [Boolean] default = False
-                                ! Read the mass of the ice shelf (every time step) from a file.
-C_P_ICE = 2100.0                !   [J kg-1 K-1] default = 2100.0
-                                ! The heat capacity of ice.
-ICE_SHELF_FLUX_FACTOR = 1.0     !   [none] default = 1.0
-                                ! Non-dimensional factor applied to shelf thermodynamic fluxes.
-KV_ICE = 1.0E+10                !   [m2 s-1] default = 1.0E+10
-                                ! The viscosity of the ice.
-KV_MOLECULAR = 1.95E-06         !   [m2 s-1] default = 1.95E-06
-                                ! The molecular kinimatic viscosity of sea water at the freezing temperature.
-ICE_SHELF_SALINITY = 0.0        !   [psu] default = 0.0
-                                ! The salinity of the ice inside the ice shelf.
-ICE_SHELF_TEMPERATURE = -20.0   !   [degC] default = -15.0
-                                ! The temperature at the center of the ice shelf.
-KD_SALT_MOLECULAR = 8.02E-10    !   [m2 s-1] default = 8.02E-10
-                                ! The molecular diffusivity of salt in sea water at the freezing point.
-KD_TEMP_MOLECULAR = 1.41E-07    !   [m2 s-1] default = 1.41E-07
-                                ! The molecular diffusivity of heat in sea water at the freezing point.
-DT_FORCING = 300.0              !   [s] default = 0.0
-                                ! The time step for changing forcing, coupling with other components, or
-                                ! potentially writing certain diagnostics. The default value is given by DT.
-COL_THICK_MELT_THRESHOLD = 1.0  !   [m] default = 0.0
-                                ! The minimum ocean column thickness where melting is allowed.
-READ_TIDEAMP = False            !   [Boolean] default = False
-                                ! If true, read a file (given by TIDEAMP_FILE) containing the tidal amplitude
-                                ! with INT_TIDE_DISSIPATION.
-UTIDE = 0.0                     !   [m s-1] default = 0.0
-                                ! The constant tidal amplitude used with INT_TIDE_DISSIPATION.
-
-! === module MOM_EOS ===
-DENSITY_ICE = 900.0             !   [kg m-3] default = 900.0
-                                ! A typical density of ice.
-MIN_THICKNESS_SIMPLE_CALVE = 0.0 !   [m] default = 0.0
-                                ! Min thickness rule for the very simple calving law
-USTAR_SHELF_BG = 0.001          !   [m s-1] default = 0.0
-                                ! The minimum value of ustar under ice shelves.
-CDRAG_SHELF = 0.0025            !   [nondim] default = 0.003
-                                ! CDRAG is the drag coefficient relating the magnitude of the velocity field to
-                                ! the surface stress.
-
-! === module ISOMIP_initialize_topography ===
-
-! === module MOM_restart ===
-ICE_PROFILE_CONFIG = "FILE"     !
-                                ! This specifies how the initial ice profile is specified. Valid values are:
-                                ! CHANNEL, FILE, and USER.
-LEN_SIDE_STRESS = 0.0           !   [axis_units] default = 0.0
-                                ! position past which shelf sides are stress free.
-ICE_THICKNESS_VARNAME = "thick" ! default = "h_shelf"
-                                ! The name of the thickness variable in ICE_THICKNESS_FILE.
-SHELF_IC_OUTPUT_FILE = "MOM_Shelf_IC" ! default = "MOM_Shelf_IC"
-                                ! The name-root of the output file for the ice shelf initial conditions.
 USE_WAVES = False               !   [Boolean] default = False
                                 ! If true, enables surface wave modules.
 LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04

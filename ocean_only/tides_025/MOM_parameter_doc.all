@@ -119,6 +119,8 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =0, never write the geometry and vertical grid files. If =1, write the
                                 ! geometry and vertical grid files only for a new simulation. If =2, always
                                 ! write the geometry and vertical grid files. Other values are invalid.
+ICE_SHELF = False               !   [Boolean] default = False
+                                ! If true, enables the ice shelf model.
 ENSEMBLE_OCEAN = False          !   [Boolean] default = False
                                 ! If False, The model is being run in serial mode as a single realization. If
                                 ! True, The current model realization is part of a larger ensemble and at the
@@ -232,6 +234,9 @@ CHANNEL_LIST_FILE = "MOM_channels_global_025" ! default = "MOM_channel_list"
 CHANNEL_LIST_360_LON_CHECK = True !   [Boolean] default = True
                                 ! If true, the channel configuration list works for any longitudes in the range
                                 ! of -360 to 360.
+FATAL_UNUSED_CHANNEL_WIDTHS = False !   [Boolean] default = False
+                                ! If true, trigger a fatal error if there are any channel widths in
+                                ! CHANNEL_LIST_FILE that do not cause any open face widths to change.
 ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -1204,8 +1209,6 @@ READ_GUST_2D = False            !   [Boolean] default = False
                                 ! If true, use a 2-dimensional gustiness supplied from an input file
 
 ! === module MOM_restart ===
-ICE_SHELF = False               !   [Boolean] default = False
-                                ! If true, enables the ice shelf model.
 USE_WAVES = False               !   [Boolean] default = False
                                 ! If true, enables surface wave modules.
 LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
