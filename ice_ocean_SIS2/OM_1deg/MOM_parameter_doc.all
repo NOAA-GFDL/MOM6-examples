@@ -133,6 +133,9 @@ SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
                                 ! If true, use expressions for the surface properties that recover the answers
                                 ! from the end of 2018. Otherwise, use more appropriate expressions that differ
                                 ! at roundoff for non-Boussinesq cases.
+USE_DIABATIC_TIME_BUG = False   !   [Boolean] default = False
+                                ! If true, uses the wrong calendar time for diabatic processes, as was done in
+                                ! MOM6 versions prior to February 2018. This is not recommended.
 SAVE_INITIAL_CONDS = False      !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "MOM_IC"       ! default = "MOM_IC"
@@ -1078,6 +1081,9 @@ ANALYTIC_FV_PGF = True          !   [Boolean] default = True
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
                                 ! bathymetry in FV pressure gradient calculations.
+USE_INACCURATE_PGF_RHO_ANOM = False !   [Boolean] default = False
+                                ! If true, use a form of the PGF that uses the reference density in an
+                                ! inaccurate way. This is not recommended.
 RECONSTRUCT_FOR_PRESSURE = True !   [Boolean] default = True
                                 ! If True, use vertical reconstruction of T & S within the integrals of the FV
                                 ! pressure gradient calculation. If False, use the constant-by-layer algorithm.
@@ -1184,6 +1190,9 @@ HORVISC_BOUND_COEF = 0.8        !   [nondim] default = 0.8
 USE_KH_BG_2D = True             !   [Boolean] default = False
                                 ! If true, read a file containing 2-d background harmonic viscosities. The final
                                 ! viscosity is the maximum of the other terms and this background value.
+KH_BG_2D_BUG = False            !   [Boolean] default = False
+                                ! If true, retain an answer-changing horizontal indexing bug in setting the
+                                ! corner-point viscosities when USE_KH_BG_2D=True. This isnot recommended.
 KH_BG_2D_FILENAME = "KH_background_2d.nc" ! default = "KH_background_2d.nc"
                                 ! The filename containing a 2d map of "Kh".
 
@@ -1947,6 +1956,10 @@ NDIFF_REF_PRES = -1.0           !   [Pa] default = -1.0
 NDIFF_INTERIOR_ONLY = False     !   [Boolean] default = False
                                 ! If true, only applies neutral diffusion in the ocean interior.That is, the
                                 ! algorithm will exclude the surface and bottomboundary layers.
+NDIFF_USE_UNMASKED_TRANSPORT_BUG = False !   [Boolean] default = False
+                                ! If true, use an older form for the accumulation of neutral-diffusion
+                                ! transports that were unmasked, as used prior to Jan 2018. This is not
+                                ! recommended.
 
 ! === module MOM_lateral_boundary_diffusion ===
 ! This module implements lateral diffusion of tracers near boundaries
