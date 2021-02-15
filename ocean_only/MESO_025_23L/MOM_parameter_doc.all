@@ -492,6 +492,8 @@ SPONGE_PTEMP_VAR = "PTEMP"      ! default = "PTEMP"
                                 ! The name of the potential temperature variable in SPONGE_STATE_FILE.
 SPONGE_SALT_VAR = "SALT"        ! default = "SALT"
                                 ! The name of the salinity variable in SPONGE_STATE_FILE.
+SPONGE_UV = False               !   [Boolean] default = False
+                                ! Apply sponges in u and v, in addition to tracers.
 SPONGE_ETA_VAR = "ETA"          ! default = "ETA"
                                 ! The name of the interface height variable in SPONGE_STATE_FILE.
 SPONGE_IDAMP_VAR = "Idamp"      ! default = "Idamp"
@@ -502,25 +504,17 @@ NEW_SPONGES = False             !   [of sponge restoring data.] default = False
 INTERPOLATE_SPONGE_TIME_SPACE = False !   [of sponge restoring data.] default = False
                                 ! Set True if using the newer sponging code which performs on-the-fly regridding
                                 ! in lat-lon-time.
-
-! === module MOM_sponge ===
-SPONGE_UV = False               !   [Boolean] default = False
-                                ! Apply sponges in u and v, in addition to tracers.
-REMAPPING_2018_ANSWERS = False  !   [Boolean] default = False
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
-                                ! same expressions.
-HOR_REGRID_2018_ANSWERS = False !   [Boolean] default = False
-                                ! If true, use the order of arithmetic for horizonal regridding that recovers
-                                ! the answers from the end of 2018.  Otherwise, use rotationally symmetric forms
-                                ! of the same expressions.
-!Total sponge columns at h points = 19376 !
-                                ! The total number of columns where sponges are applied at h points.
+!Total sponge columns = 19376   !
+                                ! The total number of columns where sponges are applied.
 
 ! === module MOM_diag_mediator ===
 NUM_DIAG_COORDS = 1             ! default = 1
                                 ! The number of diagnostic vertical coordinates to use. For each coordinate, an
                                 ! entry in DIAG_COORDS must be provided.
+REMAPPING_2018_ANSWERS = False  !   [Boolean] default = False
+                                ! If true, use the order of arithmetic and expressions that recover the answers
+                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
+                                ! same expressions.
 USE_GRID_SPACE_DIAGNOSTIC_AXES = False !   [Boolean] default = False
                                 ! If true, use a grid index coordinate convention for diagnostic axes.
 DIAG_COORDS = "z Z ZSTAR"       ! default = "z Z ZSTAR"
@@ -1570,11 +1564,14 @@ VARIABLE_BUOYFORCE = True       !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
 BUOY_CONFIG = "MESO"            ! default = "zero"
-                                ! The character string that indicates how buoyancy forcing is specified. Valid
-                                ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
+                                ! The character string that indicates how buoyancy forcing is specified.  Valid
+                                ! options include (file), (data_override), (zero), (const), (linear), (MESO),
+                                ! (SCM_CVmix_tests), (BFB), (dumbbell), (USER) and (NONE).
 WIND_CONFIG = "file"            ! default = "zero"
-                                ! The character string that indicates how wind forcing is specified. Valid
-                                ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
+                                ! The character string that indicates how wind forcing is specified.  Valid
+                                ! options include (file), (data_override), (2gyre), (1gyre), (gyres), (zero),
+                                ! (const), (Neverworld), (scurves), (ideal_hurr), (SCM_ideal_hurr),
+                                ! (SCM_CVmix_tests) and (USER).
 WIND_FILE = "MESO_str_025.nc"   !
                                 ! The file in which the wind stresses are found in variables STRESS_X and
                                 ! STRESS_Y.

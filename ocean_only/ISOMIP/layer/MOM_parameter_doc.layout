@@ -16,8 +16,8 @@ GLOBAL_INDEXING = False         !   [Boolean] default = False
 NONBLOCKING_UPDATES = False     !   [Boolean] default = False
                                 ! If true, non-blocking halo updates may be used.
 THIN_HALO_UPDATES = True        !   [Boolean] default = True
-                                ! If true, optional arguments may be used to specify the the width of the halos
-                                ! that are updated with each call.
+                                ! If true, optional arguments may be used to specify the width of the halos that
+                                ! are updated with each call.
 !STATIC_MEMORY_ = False         !   [Boolean]
                                 ! If STATIC_MEMORY_ is defined, the principle variables will have sizes that are
                                 ! statically determined at compile time.  Otherwise the sizes are not determined
@@ -55,6 +55,11 @@ NIBLOCK = 1                     ! default = 1
 NJBLOCK = 1                     ! default = 1
                                 ! The number of blocks in the y-direction on each processor (for openmp).
 
+! === module MOM_domains min_halo ===
+
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+
 ! === module MOM_barotropic ===
 BT_USE_WIDE_HALOS = True        !   [Boolean] default = True
                                 ! If true, use wide halos and march in during the barotropic time stepping for
@@ -65,8 +70,3 @@ BTHALO = 0                      ! default = 0
                                 ! The barotropic x-halo size that is actually used.
 !BT y-halo = 0                  !
                                 ! The barotropic y-halo size that is actually used.
-
-! === module MOM_domains min_halo ===
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
