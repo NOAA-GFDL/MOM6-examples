@@ -93,6 +93,9 @@ SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
                                 ! If true, use expressions for the surface properties that recover the answers
                                 ! from the end of 2018. Otherwise, use more appropriate expressions that differ
                                 ! at roundoff for non-Boussinesq cases.
+USE_DIABATIC_TIME_BUG = False   !   [Boolean] default = False
+                                ! If true, uses the wrong calendar time for diabatic processes, as was done in
+                                ! MOM6 versions prior to February 2018. This is not recommended.
 SAVE_INITIAL_CONDS = False      !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "MOM_IC"       ! default = "MOM_IC"
@@ -101,6 +104,8 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =0, never write the geometry and vertical grid files. If =1, write the
                                 ! geometry and vertical grid files only for a new simulation. If =2, always
                                 ! write the geometry and vertical grid files. Other values are invalid.
+ICE_SHELF = False               !   [Boolean] default = False
+                                ! If true, enables the ice shelf model.
 ENSEMBLE_OCEAN = False          !   [Boolean] default = False
                                 ! If False, The model is being run in serial mode as a single realization. If
                                 ! True, The current model realization is part of a larger ensemble and at the
@@ -504,6 +509,9 @@ KV_BBL_MIN = 1.0                !   [m2 s-1] default = 1.0
                                 ! The minimum viscosities in the bottom boundary layer.
 KV_TBL_MIN = 1.0                !   [m2 s-1] default = 1.0
                                 ! The minimum viscosities in the top boundary layer.
+CORRECT_BBL_BOUNDS = False      !   [Boolean] default = False
+                                ! If true, uses the correct bounds on the BBL thickness and viscosity so that
+                                ! the bottom layer feels the intended drag.
 
 ! === module MOM_thickness_diffuse ===
 KHTH = 0.0                      !   [m2 s-1] default = 0.0
@@ -654,6 +662,9 @@ ANALYTIC_FV_PGF = True          !   [Boolean] default = True
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = False !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
                                 ! bathymetry in FV pressure gradient calculations.
+USE_INACCURATE_PGF_RHO_ANOM = False !   [Boolean] default = False
+                                ! If true, use a form of the PGF that uses the reference density in an
+                                ! inaccurate way. This is not recommended.
 RECONSTRUCT_FOR_PRESSURE = False !   [Boolean] default = False
                                 ! If True, use vertical reconstruction of T & S within the integrals of the FV
                                 ! pressure gradient calculation. If False, use the constant-by-layer algorithm.
@@ -880,11 +891,14 @@ VARIABLE_BUOYFORCE = True       !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
 BUOY_CONFIG = "zero"            ! default = "zero"
-                                ! The character string that indicates how buoyancy forcing is specified. Valid
-                                ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
+                                ! The character string that indicates how buoyancy forcing is specified.  Valid
+                                ! options include (file), (data_override), (zero), (const), (linear), (MESO),
+                                ! (SCM_CVmix_tests), (BFB), (dumbbell), (USER) and (NONE).
 WIND_CONFIG = "zero"            ! default = "zero"
-                                ! The character string that indicates how wind forcing is specified. Valid
-                                ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
+                                ! The character string that indicates how wind forcing is specified.  Valid
+                                ! options include (file), (data_override), (2gyre), (1gyre), (gyres), (zero),
+                                ! (const), (Neverworld), (scurves), (ideal_hurr), (SCM_ideal_hurr),
+                                ! (SCM_CVmix_tests) and (USER).
 RESTOREBUOY = False             !   [Boolean] default = False
                                 ! If true, the buoyancy fluxes drive the model back toward some specified
                                 ! surface state with a rate given by FLUXCONST.
@@ -901,8 +915,6 @@ READ_GUST_2D = False            !   [Boolean] default = False
                                 ! If true, use a 2-dimensional gustiness supplied from an input file
 
 ! === module MOM_restart ===
-ICE_SHELF = False               !   [Boolean] default = False
-                                ! If true, enables the ice shelf model.
 USE_WAVES = False               !   [Boolean] default = False
                                 ! If true, enables surface wave modules.
 LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04

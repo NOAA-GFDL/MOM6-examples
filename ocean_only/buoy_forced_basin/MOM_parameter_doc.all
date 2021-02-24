@@ -104,6 +104,8 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =0, never write the geometry and vertical grid files. If =1, write the
                                 ! geometry and vertical grid files only for a new simulation. If =2, always
                                 ! write the geometry and vertical grid files. Other values are invalid.
+ICE_SHELF = False               !   [Boolean] default = False
+                                ! If true, enables the ice shelf model.
 ENSEMBLE_OCEAN = False          !   [Boolean] default = False
                                 ! If False, The model is being run in serial mode as a single realization. If
                                 ! True, The current model realization is part of a larger ensemble and at the
@@ -410,6 +412,8 @@ REMAPPING_2018_ANSWERS = False  !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
+USE_GRID_SPACE_DIAGNOSTIC_AXES = False !   [Boolean] default = False
+                                ! If true, use a grid index coordinate convention for diagnostic axes.
 DIAG_COORDS = "z Z ZSTAR"       ! default = "z Z ZSTAR"
                                 ! A list of string tuples associating diag_table modules to a coordinate
                                 ! definition used for diagnostics. Each string is of the form "MODULE_SUFFIX
@@ -502,9 +506,6 @@ CHANNEL_DRAG = False            !   [Boolean] default = False
 LINEAR_DRAG = False             !   [Boolean] default = False
                                 ! If LINEAR_DRAG and BOTTOMDRAGLAW are defined the drag law is
                                 ! cdrag*DRAG_BG_VEL*u.
-DOUBLE_DIFFUSION = False        !   [Boolean] default = False
-                                ! If true, increase diffusivites for temperature or salt based on
-                                ! double-diffusive parameterization from MOM4/KPP.
 PRANDTL_TURB = 1.0              !   [nondim] default = 1.0
                                 ! The turbulent Prandtl number applied to shear instability.
 DYNAMIC_VISCOUS_ML = False      !   [Boolean] default = False
@@ -533,6 +534,9 @@ KV_BBL_MIN = 1.0E-04            !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the bottom boundary layer.
 KV_TBL_MIN = 1.0E-04            !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the top boundary layer.
+CORRECT_BBL_BOUNDS = False      !   [Boolean] default = False
+                                ! If true, uses the correct bounds on the BBL thickness and viscosity so that
+                                ! the bottom layer feels the intended drag.
 
 ! === module MOM_thickness_diffuse ===
 KHTH = 0.0                      !   [m2 s-1] default = 0.0
@@ -774,6 +778,9 @@ BOUND_AH = True                 !   [Boolean] default = True
 BETTER_BOUND_AH = True          !   [Boolean] default = True
                                 ! If true, the biharmonic coefficient is locally limited to be stable with a
                                 ! better bounding than just BOUND_AH.
+RE_AH = 0.0                     !   [nondim] default = 0.0
+                                ! If nonzero, the biharmonic coefficient is scaled so that the biharmonic
+                                ! Reynolds number is equal to this.
 SMAG_BI_CONST = 0.05            !   [nondim] default = 0.0
                                 ! The nondimensional biharmonic Smagorinsky constant, typically 0.015 - 0.06.
 BOUND_CORIOLIS_BIHARM = False   !   [Boolean] default = False
@@ -1026,14 +1033,6 @@ USE_KPP = False                 !   [Boolean] default = False
                                 ! If true, turns on the [CVMix] KPP scheme of Large et al., 1994, to calculate
                                 ! diffusivities and non-local transport in the OBL.
 
-! === module MOM_tidal_mixing ===
-! Vertical Tidal Mixing Parameterization
-USE_CVMix_TIDAL = False         !   [Boolean] default = False
-                                ! If true, turns on tidal mixing via CVMix
-INT_TIDE_DISSIPATION = False    !   [Boolean] default = False
-                                ! If true, use an internal tidal dissipation scheme to drive diapycnal mixing,
-                                ! along the lines of St. Laurent et al. (2002) and Simmons et al. (2004).
-
 ! === module MOM_CVMix_conv ===
 ! Parameterization of enhanced mixing due to convection via CVMix
 USE_CVMix_CONVECTION = False    !   [Boolean] default = False
@@ -1057,6 +1056,14 @@ SET_DIFF_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
+
+! === module MOM_tidal_mixing ===
+! Vertical Tidal Mixing Parameterization
+USE_CVMix_TIDAL = False         !   [Boolean] default = False
+                                ! If true, turns on tidal mixing via CVMix
+INT_TIDE_DISSIPATION = False    !   [Boolean] default = False
+                                ! If true, use an internal tidal dissipation scheme to drive diapycnal mixing,
+                                ! along the lines of St. Laurent et al. (2002) and Simmons et al. (2004).
 ML_RADIATION = False            !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind work to penetrate below
                                 ! the base of the mixed layer with a vertical decay scale determined by the
@@ -1115,6 +1122,9 @@ DISSIPATION_N1 = 0.0            !   [J m-3] default = 0.0
                                 ! = A + B*N
 DISSIPATION_KD_MIN = 0.0        !   [m2 s-1] default = 0.0
                                 ! The minimum vertical diffusivity applied as a floor.
+DOUBLE_DIFFUSION = False        !   [Boolean] default = False
+                                ! If true, increase diffusivites for temperature or salinity based on the
+                                ! double-diffusive parameterization described in Large et al. (1994).
 
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
@@ -1287,8 +1297,6 @@ SST_N = 10.0                    !   [C] default = 10.0
                                 ! SST at the northern edge of the linear forcing ramp.
 
 ! === module MOM_restart ===
-ICE_SHELF = False               !   [Boolean] default = False
-                                ! If true, enables the ice shelf model.
 USE_WAVES = False               !   [Boolean] default = False
                                 ! If true, enables surface wave modules.
 LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04

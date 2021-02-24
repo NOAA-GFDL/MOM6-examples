@@ -113,6 +113,9 @@ SURFACE_2018_ANSWERS = False    !   [Boolean] default = False
                                 ! If true, use expressions for the surface properties that recover the answers
                                 ! from the end of 2018. Otherwise, use more appropriate expressions that differ
                                 ! at roundoff for non-Boussinesq cases.
+USE_DIABATIC_TIME_BUG = False   !   [Boolean] default = False
+                                ! If true, uses the wrong calendar time for diabatic processes, as was done in
+                                ! MOM6 versions prior to February 2018. This is not recommended.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "MOM_IC"       ! default = "MOM_IC"
@@ -121,6 +124,8 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =0, never write the geometry and vertical grid files. If =1, write the
                                 ! geometry and vertical grid files only for a new simulation. If =2, always
                                 ! write the geometry and vertical grid files. Other values are invalid.
+ICE_SHELF = False               !   [Boolean] default = False
+                                ! If true, enables the ice shelf model.
 ENSEMBLE_OCEAN = False          !   [Boolean] default = False
                                 ! If False, The model is being run in serial mode as a single realization. If
                                 ! True, The current model realization is part of a larger ensemble and at the
@@ -608,9 +613,6 @@ CHANNEL_DRAG = False            !   [Boolean] default = False
 LINEAR_DRAG = False             !   [Boolean] default = False
                                 ! If LINEAR_DRAG and BOTTOMDRAGLAW are defined the drag law is
                                 ! cdrag*DRAG_BG_VEL*u.
-DOUBLE_DIFFUSION = False        !   [Boolean] default = False
-                                ! If true, increase diffusivites for temperature or salt based on
-                                ! double-diffusive parameterization from MOM4/KPP.
 PRANDTL_TURB = 1.0              !   [nondim] default = 1.0
                                 ! The turbulent Prandtl number applied to shear instability.
 DYNAMIC_VISCOUS_ML = False      !   [Boolean] default = False
@@ -657,6 +659,9 @@ KV_BBL_MIN = 1.0E-04            !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the bottom boundary layer.
 KV_TBL_MIN = 1.0E-04            !   [m2 s-1] default = 1.0E-04
                                 ! The minimum viscosities in the top boundary layer.
+CORRECT_BBL_BOUNDS = False      !   [Boolean] default = False
+                                ! If true, uses the correct bounds on the BBL thickness and viscosity so that
+                                ! the bottom layer feels the intended drag.
 
 ! === module MOM_thickness_diffuse ===
 KHTH = 0.0                      !   [m2 s-1] default = 0.0
@@ -807,6 +812,9 @@ ANALYTIC_FV_PGF = True          !   [Boolean] default = True
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = False !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
                                 ! bathymetry in FV pressure gradient calculations.
+USE_INACCURATE_PGF_RHO_ANOM = False !   [Boolean] default = False
+                                ! If true, use a form of the PGF that uses the reference density in an
+                                ! inaccurate way. This is not recommended.
 RECONSTRUCT_FOR_PRESSURE = True !   [Boolean] default = True
                                 ! If True, use vertical reconstruction of T & S within the integrals of the FV
                                 ! pressure gradient calculation. If False, use the constant-by-layer algorithm.
@@ -920,6 +928,9 @@ ENERGETICS_SFC_PBL = True       !   [Boolean] default = False
 EPBL_IS_ADDITIVE = True         !   [Boolean] default = True
                                 ! If true, the diffusivity from ePBL is added to all other diffusivities.
                                 ! Otherwise, the larger of kappa-shear and ePBL diffusivities are used.
+PRANDTL_EPBL = 1.0              !   [nondim] default = 1.0
+                                ! The Prandtl number used by ePBL to convert vertical diffusivities into
+                                ! viscosities.
 INTERNAL_TIDES = False          !   [Boolean] default = False
                                 ! If true, use the code that advances a separate set of equations for the
                                 ! internal tide energy density.
@@ -936,6 +947,9 @@ AGGREGATE_FW_FORCING = True     !   [Boolean] default = True
 MIX_BOUNDARY_TRACERS = True     !   [Boolean] default = True
                                 ! If true, mix the passive tracers in massless layers at the bottom into the
                                 ! interior as though a diffusivity of KD_MIN_TR were operating.
+MIX_BOUNDARY_TRACER_ALE = False !   [Boolean] default = False
+                                ! If true and in ALE mode, mix the passive tracers in massless layers at the
+                                ! bottom into the interior as though a diffusivity of KD_MIN_TR were operating.
 KD_MIN_TR = 2.0E-06             !   [m2 s-1] default = 2.0E-06
                                 ! A minimal diffusivity that should always be applied to tracers, especially in
                                 ! massless layers near the bottom. The default is 0.1*KD.
@@ -954,6 +968,9 @@ EVAP_CFL_LIMIT = 0.8            !   [nondim] default = 0.8
                                 ! The largest fraction of a layer than can be lost to forcing (e.g. evaporation,
                                 ! sea-ice formation) in one time-step. The unused mass loss is passed down
                                 ! through the column.
+MLD_EN_VALS = 3*0.0             !   [J/m2] default = 0.0
+                                ! The energy values used to compute MLDs.  If not set (or all set to 0.), the
+                                ! default will overwrite to 25., 2500., 250000.
 DIAG_MLD_DENSITY_DIFF = 0.1     !   [kg/m3] default = 0.1
                                 ! The density difference used to determine a diagnostic mixed layer depth,
                                 ! MLD_user, following the definition of Levitus 1982. The MLD is the depth at
@@ -1062,14 +1079,6 @@ USE_KPP_LT_VT2 = False          ! default = False
                                 ! Flag for Langmuir turbulence enhancement of Vt2in Bulk Richardson Number.
 %KPP
 
-! === module MOM_tidal_mixing ===
-! Vertical Tidal Mixing Parameterization
-USE_CVMix_TIDAL = False         !   [Boolean] default = False
-                                ! If true, turns on tidal mixing via CVMix
-INT_TIDE_DISSIPATION = False    !   [Boolean] default = False
-                                ! If true, use an internal tidal dissipation scheme to drive diapycnal mixing,
-                                ! along the lines of St. Laurent et al. (2002) and Simmons et al. (2004).
-
 ! === module MOM_CVMix_conv ===
 ! Parameterization of enhanced mixing due to convection via CVMix
 USE_CVMix_CONVECTION = False    !   [Boolean] default = False
@@ -1086,6 +1095,14 @@ SET_DIFF_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
                                 ! from the end of 2018.  Otherwise, use updated and more robust forms of the
                                 ! same expressions.
+
+! === module MOM_tidal_mixing ===
+! Vertical Tidal Mixing Parameterization
+USE_CVMix_TIDAL = False         !   [Boolean] default = False
+                                ! If true, turns on tidal mixing via CVMix
+INT_TIDE_DISSIPATION = False    !   [Boolean] default = False
+                                ! If true, use an internal tidal dissipation scheme to drive diapycnal mixing,
+                                ! along the lines of St. Laurent et al. (2002) and Simmons et al. (2004).
 ML_RADIATION = True             !   [Boolean] default = False
                                 ! If true, allow a fraction of TKE available from wind work to penetrate below
                                 ! the base of the mixed layer with a vertical decay scale determined by the
@@ -1184,6 +1201,9 @@ DISSIPATION_N1 = 0.0            !   [J m-3] default = 0.0
                                 ! = A + B*N
 DISSIPATION_KD_MIN = 0.0        !   [m2 s-1] default = 0.0
                                 ! The minimum vertical diffusivity applied as a floor.
+DOUBLE_DIFFUSION = False        !   [Boolean] default = False
+                                ! If true, increase diffusivites for temperature or salinity based on the
+                                ! double-diffusive parameterization described in Large et al. (1994).
 
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
@@ -1252,6 +1272,10 @@ KAPPA_SHEAR_ALL_LAYER_TKE_BUG = False !   [Boolean] default = False
                                 ! If true, report back the latest estimate of TKE instead of the time average
                                 ! TKE when there is mass in all layers.  Otherwise always report the time
                                 ! averaged TKE, as is currently done when there are some massless layers.
+USE_RESTRICTIVE_TOLERANCE_CHECK = False !   [Boolean] default = False
+                                ! If true, uses the more restrictive tolerance check to determine if a timestep
+                                ! is acceptable for the KS_it outer iteration loop.  False uses the original
+                                ! less restrictive check.
 
 ! === module MOM_CVMix_shear ===
 ! Parameterization of shear-driven turbulence via CVMix (various options)
@@ -1491,11 +1515,14 @@ VARIABLE_BUOYFORCE = True       !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
 BUOY_CONFIG = "data_override"   ! default = "zero"
-                                ! The character string that indicates how buoyancy forcing is specified. Valid
-                                ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
+                                ! The character string that indicates how buoyancy forcing is specified.  Valid
+                                ! options include (file), (data_override), (zero), (const), (linear), (MESO),
+                                ! (SCM_CVmix_tests), (BFB), (dumbbell), (USER) and (NONE).
 WIND_CONFIG = "data_override"   ! default = "zero"
-                                ! The character string that indicates how wind forcing is specified. Valid
-                                ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
+                                ! The character string that indicates how wind forcing is specified.  Valid
+                                ! options include (file), (data_override), (2gyre), (1gyre), (gyres), (zero),
+                                ! (const), (Neverworld), (scurves), (ideal_hurr), (SCM_ideal_hurr),
+                                ! (SCM_CVmix_tests) and (USER).
 RESTOREBUOY = False             !   [Boolean] default = False
                                 ! If true, the buoyancy fluxes drive the model back toward some specified
                                 ! surface state with a rate given by FLUXCONST.
@@ -1514,8 +1541,6 @@ GUST_2D_FILE = "forcing_monthly.nc" !
                                 ! The file in which the wind gustiness is found in variable gustiness.
 
 ! === module MOM_restart ===
-ICE_SHELF = False               !   [Boolean] default = False
-                                ! If true, enables the ice shelf model.
 USE_WAVES = False               !   [Boolean] default = False
                                 ! If true, enables surface wave modules.
 LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04

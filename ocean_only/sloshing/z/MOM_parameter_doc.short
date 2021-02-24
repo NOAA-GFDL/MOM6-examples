@@ -385,8 +385,9 @@ VARIABLE_BUOYFORCE = False      !   [Boolean] default = True
                                 ! If true, the buoyancy forcing varies in time after the initialization of the
                                 ! model.
 BUOY_CONFIG = "NONE"            ! default = "zero"
-                                ! The character string that indicates how buoyancy forcing is specified. Valid
-                                ! options include (file), (zero), (linear), (USER), (BFB) and (NONE).
+                                ! The character string that indicates how buoyancy forcing is specified.  Valid
+                                ! options include (file), (data_override), (zero), (const), (linear), (MESO),
+                                ! (SCM_CVmix_tests), (BFB), (dumbbell), (USER) and (NONE).
 
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 3600.0             !   [s] default = 900.0
