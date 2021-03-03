@@ -385,46 +385,66 @@
 "gKEu"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Zonal Acceleration from Grad. Kinetic Energy
-    ! units: m-1 s-2
+    ! units: m s-2
     ! cell_methods: xq:point yh:mean zl:mean
     ! variants: {gKEu,gKEu_xyave}
 "gKEv"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Meridional Acceleration from Grad. Kinetic Energy
-    ! units: m-1 s-2
+    ! units: m s-2
     ! cell_methods: xh:mean yq:point zl:mean
     ! variants: {gKEv,gKEv_xyave}
 "rvxu"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Meridional Acceleration from Relative Vorticity
-    ! units: m-1 s-2
+    ! units: m s-2
     ! cell_methods: xh:mean yq:point zl:mean
     ! variants: {rvxu,rvxu_xyave}
 "rvxv"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Zonal Acceleration from Relative Vorticity
-    ! units: m-1 s-2
+    ! units: m s-2
     ! cell_methods: xq:point yh:mean zl:mean
     ! variants: {rvxv,rvxv_xyave}
 "hf_gKEu_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Grad. Kinetic Energy
-    ! units: m-1 s-2
+    ! units: m s-2
     ! cell_methods: xq:point yh:mean
 "hf_gKEv_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Grad. Kinetic Energy
-    ! units: m-1 s-2
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"intz_gKEu_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Zonal Acceleration from Grad. Kinetic Energy
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean
+"intz_gKEv_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Meridional Acceleration from Grad. Kinetic Energy
+    ! units: m2 s-2
     ! cell_methods: xh:mean yq:point
 "hf_rvxu_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Fractional Thickness-weighted Meridional Acceleration from Relative Vorticity
-    ! units: m-1 s-2
+    ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Relative Vorticity
+    ! units: m s-2
     ! cell_methods: xh:mean yq:point
 "hf_rvxv_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Relative Vorticity
-    ! units: m-1 s-2
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean
+"intz_rvxu_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Meridional Acceleration from Relative Vorticity
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point
+"intz_rvxv_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Fractional Thickness-weighted Zonal Acceleration from Relative Vorticity
+    ! units: m2 s-2
     ! cell_methods: xq:point yh:mean
 "e_tidal"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
@@ -463,6 +483,16 @@
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Horizontal Viscosity
     ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"intz_diffu_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Zonal Acceleration from Horizontal Viscosity
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean
+"intz_diffv_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Meridional Acceleration from Horizontal Viscosity
+    ! units: m2 s-2
     ! cell_methods: xh:mean yq:point
 "Ahh"  [Used] (CMOR equivalent is "difmxybo")
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
@@ -923,6 +953,16 @@
     ! long_name: Depth-sum Fractional Thickness-weighted Meridional Pressure Force Acceleration
     ! units: m s-2
     ! cell_methods: xh:mean yq:point
+"intz_PFu_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Zonal Pressure Force Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean
+"intz_PFv_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Meridional Pressure Force Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point
 "hf_CAu_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-sum Fractional Thickness-weighted Zonal Coriolis and Advective Acceleration
@@ -932,6 +972,16 @@
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-sum Fractional Thickness-weighted Meridional Coriolis and Advective Acceleration
     ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"intz_CAu_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Zonal Coriolis and Advective Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean
+"intz_CAv_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Meridional Coriolis and Advective Acceleration
+    ! units: m2 s-2
     ! cell_methods: xh:mean yq:point
 "uav"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
@@ -966,6 +1016,16 @@
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-sum Fractional Thickness-weighted Barotropic Anomaly Meridional Acceleration
     ! units: m s-2
+    ! cell_methods: xh:mean yq:point
+"intz_u_BT_accel_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Barotropic Anomaly Zonal Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean
+"intz_v_BT_accel_2d"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth-integral of Barotropic Anomaly Meridional Acceleration
+    ! units: m2 s-2
     ! cell_methods: xh:mean yq:point
 "uhml"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
