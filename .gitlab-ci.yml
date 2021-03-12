@@ -3,7 +3,7 @@ parameter_files:
     - ncrc4
   script:
     # Install / update testing scripts
-    - git clone https://github.com/adcroft/MRS.git build_MRS
+    - git clone -b new-code-struct https://github.com/adcroft/MRS.git build_MRS
     # Recursively clone submodules
     - git submodule sync --recursive && git submodule update --init --recursive
     # Clone other components
