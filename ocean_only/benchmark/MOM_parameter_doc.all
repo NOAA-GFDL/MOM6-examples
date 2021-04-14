@@ -259,9 +259,6 @@ GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
                                 ! If true, use an older algorithm to calculate the sine and cosines needed
                                 ! rotate between grid-oriented directions and true north and east.  Differences
                                 ! arise at the tripolar fold.
-PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file, otherwise a single
-                                ! restart file is generated
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
@@ -304,6 +301,9 @@ DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
                                 ! temperature with pressure.
 
 ! === module MOM_restart ===
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file, otherwise a single
+                                ! restart file is generated
 RESTARTFILE = "MOM.res"         ! default = "MOM.res"
                                 ! The name-root of the restart file.
 LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
@@ -368,6 +368,11 @@ TRACERS_MAY_REINIT = False      !   [Boolean] default = False
                                 ! in the restart files.  Otherwise it is a fatal error if the tracers are not
                                 ! found in the restart files of a restarted run.
 
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
+                                ! A reference value for geometric height fields, such as bathyT.
+
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "ts_range"       ! default = "none"
                                 ! This specifies how layers are to be defined:
@@ -407,11 +412,6 @@ TS_RANGE_RESOLN_RATIO = 5.0     !   [nondim] default = 1.0
                                 ! greater than 1 increase the resolution of the denser water.
 GFS = 9.8                       !   [m s-2] default = 9.8
                                 ! The reduced gravity at the free surface.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
-                                ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False

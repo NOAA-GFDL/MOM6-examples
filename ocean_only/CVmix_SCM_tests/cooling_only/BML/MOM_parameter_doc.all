@@ -248,9 +248,6 @@ GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
                                 ! If true, use an older algorithm to calculate the sine and cosines needed
                                 ! rotate between grid-oriented directions and true north and east.  Differences
                                 ! arise at the tripolar fold.
-PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file, otherwise a single
-                                ! restart file is generated
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
@@ -301,6 +298,9 @@ DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
                                 ! temperature with pressure.
 
 ! === module MOM_restart ===
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file, otherwise a single
+                                ! restart file is generated
 RESTARTFILE = "MOM.res"         ! default = "MOM.res"
                                 ! The name-root of the restart file.
 LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
@@ -343,6 +343,11 @@ USE_BOUNDARY_IMPULSE_TRACER = False !   [Boolean] default = False
 USE_DYED_OBC_TRACER = False     !   [Boolean] default = False
                                 ! If true, use the dyed_obc_tracer tracer package.
 
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
+                                ! A reference value for geometric height fields, such as bathyT.
+
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           ! default = "none"
                                 ! This specifies how layers are to be defined:
@@ -368,11 +373,6 @@ COORD_FILE = "isopyc_coords.nc" !
                                 ! The file from which the coordinate densities are read.
 COORD_VAR = "Layer"             ! default = "Layer"
                                 ! The variable in COORD_FILE that is to be used for the coordinate densities.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
-                                ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False

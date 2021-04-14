@@ -268,9 +268,6 @@ GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
                                 ! If true, use an older algorithm to calculate the sine and cosines needed
                                 ! rotate between grid-oriented directions and true north and east.  Differences
                                 ! arise at the tripolar fold.
-PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file, otherwise a single
-                                ! restart file is generated
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
@@ -313,6 +310,9 @@ DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
                                 ! temperature with pressure.
 
 ! === module MOM_restart ===
+PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file, otherwise a single
+                                ! restart file is generated
 RESTARTFILE = "MOM.res"         ! default = "MOM.res"
                                 ! The name-root of the restart file.
 LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
@@ -376,6 +376,11 @@ TRACERS_MAY_REINIT = False      !   [Boolean] default = False
                                 ! If true, tracers may go through the initialization code if they are not found
                                 ! in the restart files.  Otherwise it is a fatal error if the tracers are not
                                 ! found in the restart files of a restarted run.
+
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
+                                ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           ! default = "none"
@@ -481,11 +486,6 @@ REGRID_FILTER_DEEP_DEPTH = 0.0  !   [m] default = 0.0
                                 ! The depth below which full time-filtering is applied with time-scale
                                 ! REGRID_TIME_SCALE. Between depths REGRID_FILTER_SHALLOW_DEPTH and
                                 ! REGRID_FILTER_SHALLOW_DEPTH the filter weights adopt a cubic profile.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
-                                ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False

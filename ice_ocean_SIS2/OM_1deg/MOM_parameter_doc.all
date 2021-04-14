@@ -374,6 +374,11 @@ TRACERS_MAY_REINIT = False      !   [Boolean] default = False
                                 ! in the restart files.  Otherwise it is a fatal error if the tracers are not
                                 ! found in the restart files of a restarted run.
 
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
+                                ! A reference value for geometric height fields, such as bathyT.
+
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           ! default = "none"
                                 ! This specifies how layers are to be defined:
@@ -523,11 +528,6 @@ REGRID_FILTER_DEEP_DEPTH = 0.0  !   [m] default = 0.0
                                 ! The depth below which full time-filtering is applied with time-scale
                                 ! REGRID_TIME_SCALE. Between depths REGRID_FILTER_SHALLOW_DEPTH and
                                 ! REGRID_FILTER_SHALLOW_DEPTH the filter weights adopt a cubic profile.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
-                                ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False

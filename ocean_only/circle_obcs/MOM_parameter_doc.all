@@ -303,9 +303,6 @@ GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
                                 ! If true, use an older algorithm to calculate the sine and cosines needed
                                 ! rotate between grid-oriented directions and true north and east.  Differences
                                 ! arise at the tripolar fold.
-PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file, otherwise a single
-                                ! restart file is generated
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
@@ -339,6 +336,9 @@ USE_DYED_CHANNEL_OBC = False    !   [Boolean] default = False
 ! === module MOM_tracer_registry ===
 
 ! === module MOM_restart ===
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file, otherwise a single
+                                ! restart file is generated
 RESTARTFILE = "MOM.res"         ! default = "MOM.res"
                                 ! The name-root of the restart file.
 LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
@@ -389,6 +389,11 @@ SPONGE = False                  !   [Boolean] default = False
                                 ! If true, sponges may be applied anywhere in the domain. The exact location and
                                 ! properties of those sponges are specified from MOM_initialization.F90.
 
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
+                                ! A reference value for geometric height fields, such as bathyT.
+
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "layer_ref"      ! default = "none"
                                 ! This specifies how layers are to be defined:
@@ -414,11 +419,6 @@ LIGHTEST_DENSITY = 1030.0       !   [kg m-3] default = 1031.0
                                 ! The reference potential density used for layer 1.
 DENSITY_RANGE = 2.0             !   [kg m-3] default = 2.0
                                 ! The range of reference potential densities in the layers.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
-                                ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_state_initialization ===
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False

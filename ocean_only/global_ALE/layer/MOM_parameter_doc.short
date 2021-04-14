@@ -114,9 +114,6 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
                                 !       test case.
                                 !     file - Read open face widths everywhere from a
                                 !       NetCDF file on the model grid.
-PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file, otherwise a single
-                                ! restart file is generated
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
@@ -126,6 +123,9 @@ NK = 63                         !   [nondim]
 ! === module MOM_EOS ===
 
 ! === module MOM_restart ===
+PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file, otherwise a single
+                                ! restart file is generated
 
 ! === module MOM_tracer_flow_control ===
 USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
