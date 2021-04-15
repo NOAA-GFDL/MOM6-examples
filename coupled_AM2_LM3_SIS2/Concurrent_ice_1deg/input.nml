@@ -1,6 +1,6 @@
  &MOM_input_nml
         output_directory = './',
-         input_filename = 'n'
+         input_filename = 'F'
          restart_input_dir = 'INPUT/',
          restart_output_dir = 'RESTART/',
          parameter_filename = 'MOM_input',
@@ -9,7 +9,7 @@
 
  &SIS_input_nml
         output_directory = './',
-         input_filename = 'n'
+         input_filename = 'F'
          restart_input_dir = 'INPUT/',
          restart_output_dir = 'RESTART/',
          parameter_filename = 'SIS_input',
@@ -85,7 +85,7 @@
 /
 
  &atmos_co2_nml
-    do_co2_restore = .true.               
+    do_co2_restore = .true.
     restore_tscale = 3.1536e7,
     restore_klimit = 24
     co2_radiation_override = .true.
@@ -239,10 +239,10 @@
 
  &flux_exchange_nml
     debug_stocks = .FALSE.
-    divert_stocks_report = .TRUE.            
-    do_area_weighted_flux = .FALSE.          
+    divert_stocks_report = .TRUE.
+    do_area_weighted_flux = .FALSE.
 /
- 
+
  &fms_nml
     domains_stack_size = 800000
 /
@@ -282,7 +282,7 @@
 
 &generic_tracer_nml
     do_generic_tracer=.false.
-    do_generic_CFC=.false.                 
+    do_generic_CFC=.false.
     do_generic_TOPAZ=.false.
 /
 
@@ -554,9 +554,9 @@
     canopy_air_mass_for_tracers = 10.0
 /
  &glac_data_nml
-    use_lm2_awc = .true., 
+    use_lm2_awc = .true.,
     rsa_exp_global = 10.,
-    dat_emis_dry = 1., 
+    dat_emis_dry = 1.,
     dat_emis_sat = 1.,
 /
  &glac_nml
@@ -564,7 +564,7 @@
     lm2 = .true.
 /
  &harvesting_nml
-    do_harvesting          = .FALSE.     !!! turn on for LAND USE 
+    do_harvesting          = .FALSE.     !!! turn on for LAND USE
     grazing_intensity      = 0.25
     grazing_residue        = 0.1
     frac_wood_wasted_harv  = 0.25
@@ -572,7 +572,7 @@
     !frac_wood_fast         = ONETHIRD
     !frac_wood_med          = ONETHIRD
     !frac_wood_slow         = ONETHIRD
-    crop_seed_density      = 0.1  
+    crop_seed_density      = 0.1
 /
  &lake_data_nml
     lake_to_use = 'from-rivers'
@@ -639,7 +639,7 @@
     freeze_factor    = 2.0
     comp             = 1e-4
     num_l            = 20
-    dz = 0.020, 0.040, 0.040, 0.050, 0.05, 0.100, 0.10, 0.200, 0.200, 0.2, 
+    dz = 0.020, 0.040, 0.040, 0.050, 0.05, 0.100, 0.10, 0.200, 0.200, 0.2,
          0.40,  0.40,  0.40,  0.4,   0.4,   1.0,   1.0,  1.0,  1.5,   2.5
 /
  &soil_nml
@@ -651,7 +651,7 @@
     write_soil_carbon_restart = .FALSE. !To reproduce siena answers
 /
  &static_veg_nml
-    use_static_veg = .FALSE.                
+    use_static_veg = .FALSE.
     timeline   = 'loop'
     start_loop = 2420, 1, 1, 0, 0, 0
     end_loop   = 2470, 1, 1, 0, 0, 0
@@ -659,7 +659,7 @@
 /
  &topo_rough_nml
     use_topo_rough    = .true.
-    max_topo_rough    = 100.0 
+    max_topo_rough    = 100.0
     topo_rough_factor = 0.01
 /
  &vegn_data_nml
@@ -687,11 +687,11 @@
     tau_drip_s     = 259200.0
     cmc_lai(0:4) = 0.02, 0.02, 0.02, 0.02, 0.02
     csc_lai(0:4) = 0.2, 0.2, 0.2, 0.2, 0.2
-    dat_snow_crit = 0.0167, 0.0167, 0.0333, 0.2, 0.2 
+    dat_snow_crit = 0.0167, 0.0167, 0.0333, 0.2, 0.2
     t_transp_min = 268.
     srl(0:1) = 112.0e3, 150.0e3
     root_perm = 14*5e-7
-    alpha(1,3) = 4 
+    alpha(1,3) = 4
     leaf_age_tau(2) = 150
     smoke_fraction = 0.9, 0.9, 0.6, 0.6, 0.6
     tg_c3_thresh = 1
@@ -707,10 +707,10 @@
     snow_rad_to_use = 'paint-leaves'
     co2_to_use_for_photosynthesis ='interactive'
     co2_for_photosynthesis = 286.0e-6
-    do_cohort_dynamics   = .TRUE.,              
-    do_patch_disturbance = .TRUE.,              
-    do_phenology         = .TRUE.,              
-    do_biogeography      = .TRUE.,              
+    do_cohort_dynamics   = .TRUE.,
+    do_patch_disturbance = .TRUE.,
+    do_phenology         = .TRUE.,
+    do_biogeography      = .TRUE.,
     do_seed_transport    = .TRUE.,
     tau_smooth_ncm = 22.0
 /
