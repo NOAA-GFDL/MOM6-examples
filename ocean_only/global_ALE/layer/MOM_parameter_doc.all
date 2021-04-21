@@ -696,6 +696,9 @@ USE_STORED_SLOPES = False       !   [Boolean] default = False
 VERY_SMALL_FREQUENCY = 1.0E-17  !   [s-1] default = 1.0E-17
                                 ! A miniscule frequency that is used to avoid division by 0.  The default value
                                 ! is roughly (pi / (the age of the universe)).
+USE_SIMPLER_EADY_GROWTH_RATE = False !   [Boolean] default = False
+                                ! If true, use a simpler method to calculate the Eady growth rate that avoids
+                                ! division by layer thickness. Recommended.
 VARMIX_KTOP = 2                 !   [nondim] default = 2
                                 ! The layer number at which to start vertical integration of S*N for purposes of
                                 ! finding the Eady growth rate.

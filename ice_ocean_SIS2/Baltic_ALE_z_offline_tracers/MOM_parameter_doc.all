@@ -777,6 +777,9 @@ VERY_SMALL_FREQUENCY = 1.0E-17  !   [s-1] default = 1.0E-17
 KD_SMOOTH = 1.0E-06             !   [m2 s-1] default = 1.0E-06
                                 ! A diapycnal diffusivity that is used to interpolate more sensible values of T
                                 ! & S into thin layers.
+USE_SIMPLER_EADY_GROWTH_RATE = False !   [Boolean] default = False
+                                ! If true, use a simpler method to calculate the Eady growth rate that avoids
+                                ! division by layer thickness. Recommended.
 VARMIX_KTOP = 2                 !   [nondim] default = 2
                                 ! The layer number at which to start vertical integration of S*N for purposes of
                                 ! finding the Eady growth rate.
