@@ -159,6 +159,8 @@ TOPO_VARNAME = "depth"          ! default = "depth"
                                 ! The name of the bathymetry variable in TOPO_FILE.
 TOPO_EDITS_FILE = ""            ! default = ""
                                 ! The file from which to read a list of i,j,z topography overrides.
+ALLOW_LANDMASK_CHANGES = False  !   [Boolean] default = False
+                                ! If true, allow topography overrides to change land mask.
 !MAXIMUM_DEPTH = 6000.0         !   [m]
                                 ! The (diagnosed) maximum depth of the ocean.
 MINIMUM_DEPTH = 0.0             !   [m] default = 0.0
@@ -360,6 +362,8 @@ CFL_TRUNCATE = 0.5              !   [nondim] default = 0.5
 CFL_TRUNC_DYN_ITS = False       !   [Boolean] default = False
                                 ! If true, check the CFL number for every iteration of the rheology solver;
                                 ! otherwise only the final velocities that are used for transport are checked.
+LEMIEUX_LANDFAST = False        !   [Boolean] default = False
+                                ! If true, turn on Lemieux landfast ice parameterization.
 RECATEGORIZE_ICE = True         !   [Boolean] default = True
                                 ! If true, readjust the distribution into ice thickness categories after
                                 ! advection.
