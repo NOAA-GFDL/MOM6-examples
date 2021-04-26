@@ -200,6 +200,18 @@ MIN_OCEAN_PARTSIZE = 1.0E-40    !   [nondim] default = 1.0E-40
                                 ! some purposes it may be useful to set this to a miniscule value (like 1e-40)
                                 ! that will be lost to roundoff during any sums so that the open ocean fluxes
                                 ! can be used in with new categories.
+
+! === module SIS_restart ===
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file, otherwise a single
+                                ! restart file is generated
+MAX_FIELDS = 100                ! default = 100
+                                ! The maximum number of restart fields that can be used.
+RESTART_CHECKSUMS_REQUIRED = True !   [Boolean] default = True
+                                ! If true, require the restart checksums to match and error out otherwise. Users
+                                ! may want to avoid this comparison if for example the restarts are made from a
+                                ! run with a different mask_table than the current run, in which case the
+                                ! checksums will not match.
 SIS_FAST_AVAILABLE_DIAGS_FILE = "SIS_fast.available_diags" ! default = "SIS_fast.available_diags"
                                 ! A file into which to write a list of all available sea ice diagnostics that
                                 ! can be included in a diag_table.
