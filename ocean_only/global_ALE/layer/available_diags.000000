@@ -738,8 +738,8 @@
     ! cell_methods: xh:mean yq:point
 "eta_cor"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Corrective mass flux
-    ! units: m s-1
+    ! long_name: Corrective mass flux within a timestep
+    ! units: m
     ! cell_methods: xh:mean yh:mean area:mean
 "visc_rem_u"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
@@ -1670,7 +1670,7 @@
 "internal_heat_h_tendency"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Thickness tendency (in 3D) due to internal (geothermal) sources
-    ! units: m
+    ! units: m s-1
     ! cell_methods: xh:mean yh:mean zl:sum area:mean
     ! variants: {internal_heat_h_tendency,internal_heat_h_tendency_xyave}
 "Kd_itides"  [Used]
@@ -2013,8 +2013,8 @@
     ! variants: {frazil,hfsifrazil}
 "salt_deficit"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Salt sink in ocean due to ice flux
-    ! units: psu m-2 s-1
+    ! long_name: Salt source in ocean required to supply excessive ice salt fluxes
+    ! units: ppt kg m-2 s-1
     ! cell_methods: xh:mean yh:mean area:mean
 "Heat_PmE"  [Used]
     ! modules: {ocean_model,ocean_model_d2}
@@ -2052,13 +2052,13 @@
 "uhtr"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Accumulated zonal thickness fluxes to advect tracers
-    ! units: kg
+    ! units: m3
     ! cell_methods: xq:point yh:sum zl:sum
     ! variants: {uhtr,uhtr_xyave}
 "vhtr"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Accumulated meridional thickness fluxes to advect tracers
-    ! units: kg
+    ! units: m3
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {vhtr,vhtr_xyave}
 "umo"  [Used]
@@ -2089,8 +2089,8 @@
     ! cell_methods: xh:sum yq:point
 "dynamics_h"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Change in layer thicknesses due to horizontal dynamics
-    ! units: m s-1
+    ! long_name: Layer thicknesses prior to horizontal dynamics
+    ! units: m
     ! cell_methods: xh:mean yh:mean zl:sum area:mean
     ! variants: {dynamics_h,dynamics_h_xyave}
 "dynamics_h_tendency"  [Unused]
