@@ -254,13 +254,12 @@ F_0 = -1.408706225059977E-04    !   [s-1] default = 0.0
                                 ! The reference value of the Coriolis parameter with the betaplane option.
 BETA = 0.0                      !   [m-1 s-1] default = 0.0
                                 ! The northward gradient of the Coriolis parameter with the betaplane option.
+BETA_LAT_REF = 0.0              !   [kilometers] default = 0.0
+                                ! The reference latitude (origin) of the beta-plane
 GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
                                 ! If true, use an older algorithm to calculate the sine and cosines needed
                                 ! rotate between grid-oriented directions and true north and east.  Differences
                                 ! arise at the tripolar fold.
-PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file, otherwise a single
-                                ! restart file is generated
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
@@ -302,6 +301,9 @@ TFREEZE_FORM = "MILLERO_78"     ! default = "LINEAR"
                                 ! point.  Currently, the valid choices are "LINEAR", "MILLERO_78", "TEOS10"
 
 ! === module MOM_restart ===
+PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
+                                ! If true, each processor writes its own restart file, otherwise a single
+                                ! restart file is generated
 RESTARTFILE = "MOM.res"         ! default = "MOM.res"
                                 ! The name-root of the restart file.
 LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
@@ -344,6 +346,11 @@ USE_BOUNDARY_IMPULSE_TRACER = False !   [Boolean] default = False
 USE_DYED_OBC_TRACER = False     !   [Boolean] default = False
                                 ! If true, use the dyed_obc_tracer tracer package.
 
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
+                                ! A reference value for geometric height fields, such as bathyT.
+
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "linear"         ! default = "none"
                                 ! This specifies how layers are to be defined:
@@ -369,11 +376,6 @@ DENSITY_RANGE = 0.7438856       !   [kg m-3] default = 2.0
                                 ! The range of reference potential densities across all interfaces.
 GFS = 9.8                       !   [m s-2] default = 9.8
                                 ! The reduced gravity at the free surface.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
-                                ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_domains min_halo ===
 
@@ -461,6 +463,8 @@ CDRAG_SHELF = 0.0025            !   [nondim] default = 0.003
 USTAR_SHELF_FROM_VEL = True     !   [Boolean] default = True
                                 ! If true, use the surface velocities to set the friction velocity under ice
                                 ! shelves instead of using the previous values of the stresses.
+
+! === module MOM_restart ===
 ICE_PROFILE_CONFIG = "FILE"     !
                                 ! This specifies how the initial ice profile is specified. Valid values are:
                                 ! CHANNEL, FILE, and USER.
@@ -472,8 +476,6 @@ ICE_THICKNESS_VARNAME = "thick" ! default = "h_shelf"
                                 ! The name of the thickness variable in ICE_THICKNESS_FILE.
 ICE_AREA_VARNAME = "area"       ! default = "area_shelf_h"
                                 ! The name of the area variable in ICE_THICKNESS_FILE.
-
-! === module MOM_restart ===
 SHELF_IC_OUTPUT_FILE = "MOM_Shelf_IC" ! default = "MOM_Shelf_IC"
                                 ! The name-root of the output file for the ice shelf initial conditions.
 
@@ -1544,9 +1546,6 @@ READ_GUST_2D = False            !   [Boolean] default = False
 ! === module MOM_restart ===
 USE_WAVES = False               !   [Boolean] default = False
                                 ! If true, enables surface wave modules.
-LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
-                                ! The depth (normalized by BLD) to average Stokes drift over in Langmuir number
-                                ! calculation, where La = sqrt(ust/Stokes).
 
 ! === module MOM_main (MOM_driver) ===
 DAYMAX = 10.0                   !   [days]
