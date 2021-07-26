@@ -83,6 +83,7 @@ mom6-pipeline-test-gnu_restarts:
 	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
 	bash tools/MRS/generate_manifest.sh . tools/MRS/excluded-expts.txt > manifest.mk
 	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.tests gnu_check_restarts
 mom6-pipeline-test-params_gnu_symmetric:
 	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
 	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
