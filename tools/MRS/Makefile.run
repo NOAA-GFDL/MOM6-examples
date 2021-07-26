@@ -101,7 +101,16 @@ $(1)_ice_ocean_SIS2: $(call stats-files,ice_ocean_SIS2,$(1))
 $(1)_land_ice_ocean_LM3_SIS2: $(call stats-files,land_ice_ocean_LM3_SIS2,$(1))
 $(1)_coupled_AM2_LM3_SIS: $(call stats-files,coupled_AM2_LM3_SIS/,$(1))
 $(1)_coupled_AM2_LM3_SIS2: $(call stats-files,coupled_AM2_LM3_SIS2,$(1))
-$(1)_all: $(call stats-files,/,$(1))
+#$(1)_all: $(call stats-files,/,$(1))
+# The above target has been temporarily split as a workaround to the breakage of srun deferred-behavior at ORNL
+$(1)_all_by_dep: $(call stats-files,/,$(1))
+$(1)_all:
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_all_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_all_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_all_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_all_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_all_by_dep
+	$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_all_by_dep
 endef
 $(foreach c,$(COMPILERS),$(eval $(call generate-targets,$(c))))
 endif
