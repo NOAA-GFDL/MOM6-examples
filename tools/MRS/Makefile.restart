@@ -90,8 +90,22 @@ $(CONFIGS)/%/02.ignore $(CONFIGS)/%/01.ignore $(CONFIGS)/%/12.ignore: $(CONFIGS)
 # e.g. gnu_ocean_only, ..., gnu_all
 define generate-targets
 $(foreach s,01 12 02,MOM6-examples/ocean_only/circle_obcs/$(s).ignore/ocean.stats.$(1)): MEMORY=dynamic_symmetric
-$(1)_ocean_only: $(call stats-files,ocean_only,$(1),$(RESTART_STAGE).ignore)
-$(1)_ice_ocean_SIS2: $(call stats-files,ice_ocean_SIS2,$(1),$(RESTART_STAGE).ignore)
+#$(1)_ocean_only: $(call stats-files,ocean_only,$(1),$(RESTART_STAGE).ignore)
+# The above target has been temporarily split as a workaround to the breakage of srun deferred-behavior at ORNL
+$(1)_ocean_only_by_dep: $(call stats-files,ocean_only,$(1),$(RESTART_STAGE).ignore)
+$(1)_ocean_only:
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ocean_only_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ocean_only_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ocean_only_by_dep
+	$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ocean_only_by_dep
+#$(1)_ice_ocean_SIS2: $(call stats-files,ice_ocean_SIS2,$(1),$(RESTART_STAGE).ignore)
+# The above target has been temporarily split as a workaround to the breakage of srun deferred-behavior at ORNL
+$(1)_ice_ocean_SIS2_by_dep: $(call stats-files,ice_ocean_SIS2,$(1),$(RESTART_STAGE).ignore)
+$(1)_ice_ocean_SIS2:
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ice_ocean_SIS2_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ice_ocean_SIS2_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ice_ocean_SIS2_by_dep
+	$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ice_ocean_SIS2_by_dep
 $(1)_land_ice_ocean_LM3_SIS2: $(call stats-files,land_ice_ocean_LM3_SIS2,$(1),$(RESTART_STAGE).ignore)
 $(1)_coupled_AM2_LM3_SIS: $(call stats-files,coupled_AM2_LM3_SIS/,$(1),$(RESTART_STAGE).ignore)
 $(1)_coupled_AM2_LM3_SIS2: $(call stats-files,coupled_AM2_LM3_SIS2,$(1),$(RESTART_STAGE).ignore)
