@@ -126,8 +126,6 @@ RHO_0 = 1031.0                  !   [kg m-3] default = 1035.0
 NK = 25                         !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_boundary_update ===
-
 ! === module MOM_tracer_flow_control ===
 USE_DOME_TRACER = True          !   [Boolean] default = False
                                 ! If true, use the DOME_tracer tracer package.
@@ -136,6 +134,8 @@ USE_DOME_TRACER = True          !   [Boolean] default = False
 SPONGE = True                   !   [Boolean] default = False
                                 ! If true, sponges may be applied anywhere in the domain. The exact location and
                                 ! properties of those sponges are specified from MOM_initialization.F90.
+
+! === module MOM_boundary_update ===
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "layer_ref"      ! default = "none"
