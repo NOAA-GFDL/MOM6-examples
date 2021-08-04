@@ -49,7 +49,7 @@ mom6-pipeline-run:
 	time make -f tools/MRS/Makefile.clone .datasets
 	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
 	(echo '#!/bin/tcsh';echo 'time make -f tools/MRS/Makefile mom6-pipeline-run-steps') > job.sh
-	sbatch --clusters=c3,c4 --nodes=30 --time=0:42:00 --account=gfdl_o --qos=debug --job-name=mom6_examples_tests --output=log.$$CI_PIPELINE_ID --wait job.sh && ( egrep -v '.*: *$$|pagefaults|HiWaterMark=' log.$$CI_PIPELINE_ID ; echo Job returned normally ) || ( cat log.$$CI_PIPELINE_ID ; echo Job failed ; exit 911 )
+	sbatch --clusters=c3,c4 --nodes=30 --time=0:50:00 --account=gfdl_o --qos=debug --job-name=mom6_examples_tests --output=log.$$CI_PIPELINE_ID --wait job.sh && ( egrep -v '.*: *$$|pagefaults|HiWaterMark=' log.$$CI_PIPELINE_ID ; echo Job returned normally ) || ( cat log.$$CI_PIPELINE_ID ; echo Job failed ; exit 911 )
 	test -f results.ignore/restart_stats_gnu.tar.gz || ( echo Batch job did not complete ; exit 911 )
 	@echo -e "\e[0Ksection_start:`date +%s`:cache[collapsed=true]\r\e[0KCaching results"
 	time tar zvcf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz results.*
