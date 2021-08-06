@@ -11,12 +11,21 @@ for analysis and preprocessing.
 
 # Where to find information
 
-To find information, start at the [MOM6-examples wiki](https://github.com/NOAA-GFDL/MOM6-examples/wiki).
+To find information, start at the
+[MOM6-examples wiki](https://github.com/NOAA-GFDL/MOM6-examples/wiki).
 
-Requests for help and other issues associated with the tools or configurations should be registered at
+For general inquiries about using MOM6 and affiliated models, use the
+[CESM MOM6 forums](https://bb.cgd.ucar.edu/cesm/forums/mom6.148/).
+
+Requests for help and other issues associated with the tools or configurations
+should be registered at
 [MOM6-examples issues](https://github.com/NOAA-GFDL/MOM6-examples/issues).
-Issues specific to the MOM6 source code should be registered at [MOM6 issues](https://github.com/NOAA-GFDL/MOM6/issues).
-Issues specific to the SIS2 source code should be registered at [SIS2 issues](https://github.com/NOAA-GFDL/SIS2/issues).
+
+Issues specific to the MOM6 source code should be registered at
+[MOM6 issues](https://github.com/NOAA-GFDL/MOM6/issues).
+
+Issues specific to the SIS2 source code should be registered at
+[SIS2 issues](https://github.com/NOAA-GFDL/SIS2/issues).
 
 # What files are what
 
