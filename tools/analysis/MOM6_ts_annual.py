@@ -1,12 +1,12 @@
 # Script to plot sub-surface ocean temperature drift.
 
-# Analysis: using newer python 2.7.3
+# Analysis: using newer python 2.7.12
 """
 module purge
 module use -a /home/fms/local/modulefiles
 module load gcc
 module load netcdf/4.2
-module load python/2.7.3 
+module load python/2.7.12
 """
 
 import os
@@ -41,10 +41,10 @@ def page_to_ndc( panel, page ):
 def cmap_discretize(cmap, N, white=None):
 
     """Return a discrete colormap from the continuous colormap cmap.
-    
-        cmap: colormap instance, eg. cm.jet. 
+
+        cmap: colormap instance, eg. cm.jet.
         N: number of colors.
-    
+
     Example
         x = resize(arange(100), (5,100))
         djet = cmap_discretize(cm.jet, 5)
@@ -108,7 +108,7 @@ time_days = date2num(date,'days since 01-01-0001',time.calendar.lower())
 area = fstatic.variables["area_t"][:]
 
 z = ftemp.variables["zl"][:]
-nz = len(z) 
+nz = len(z)
 
 # Input variables
 temp = ftemp.variables["temp"]
@@ -154,7 +154,7 @@ plt.rcParams['figure.dpi'] = 72.0
 plt.rcParams['figure.figsize'] = [ (page[2]-page[0])/72.0, (page[3]-page[1])/72.0 ]
 
 fig = plt.figure()
-ax1a = plt.axes(page_to_ndc(plot,page))              
+ax1a = plt.axes(page_to_ndc(plot,page))
 
 ax1a.set_ylim(5300,0)
 ax1a.set_ylabel('Depth (m)')
