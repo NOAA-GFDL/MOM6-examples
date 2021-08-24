@@ -40,6 +40,8 @@ def run():
 
 def heat_trans_by_basin(x,mask=None,lat=None,minlat=None):
     if mask is not None:
+        if not (x.shape[0] == 1+mask.shape[0]): #symmetric case
+            mask=np.append(mask,np.zeros((1,mask.shape[1])),axis=0)
         varmask = np.sum(mask,axis=-1)
         varmask = np.expand_dims(varmask,0)
         varmask = np.where(np.equal(varmask,0.),True,False)
@@ -62,6 +64,8 @@ def main(args):
 
     region = np.array(['atlantic_arctic_ocean','indian_pacific_ocean','global_ocean'])
 
+    _, nl = nc.stringtochar(region).shape
+
     #-- Read basin masks
     f_basin = nc.Dataset(args.basinfile)
     basin_code = f_basin.variables['basin'][:]
@@ -76,14 +80,16 @@ def main(args):
     f_in = nc.Dataset(args.infile)
 
     #-- Read in existing dimensions from history netcdf file
+    yh  = f_in.variables['yh']
     yq  = f_in.variables['yq']
     xh = f_in.variables['xh']
+    xq = f_in.variables['xq']
     tax = f_in.variables['time']
 
     #-- hfy
-    if 'T_ady_2d' in f_in.variables.keys():
+    if 'T_ady_2d' in list(f_in.variables.keys()):
       advective = f_in.variables['T_ady_2d'][:]
-      if 'T_diffy_2d' in f_in.variables.keys():
+      if 'T_diffy_2d' in list(f_in.variables.keys()):
         diffusive = f_in.variables['T_diffy_2d'][:]
       else:
         print("Warning: diffusive term 'T_diffy_2d' not found. Check if this experiment is running with neutral diffusion.")
@@ -99,9 +105,9 @@ def main(args):
       do_hfy = False
 
     #-- hfx
-    if 'T_adx_2d' in f_in.variables.keys():
+    if 'T_adx_2d' in list(f_in.variables.keys()):
       advective = f_in.variables['T_adx_2d'][:]
-      if 'T_diffx_2d' in f_in.variables.keys():
+      if 'T_diffx_2d' in list(f_in.variables.keys()):
         diffusive = f_in.variables['T_diffx_2d'][:]
       else:
         print("Warning: diffusive term 'T_diffx_2d' not found. Check if this experiment is running with neutral diffusion.")
@@ -116,6 +122,10 @@ def main(args):
     else:
       do_hfx = False
 
+#    if not (len(yh) == len(yq)): #symmetric case
+#      hfy=hfy[:,1:,:]
+#      hfx=hfx[:,1:,:]
+#      This would require changing the dimensions of hfy and hfx when writing to output file
     #-- hfbasin
     if do_hfy:
       hfbasin = np.ma.ones((len(tax),3,len(yq)))*0.
@@ -173,33 +183,37 @@ def main(args):
 
       time_dim = f_out.createDimension('time', size=None)
       basin_dim = f_out.createDimension('basin', size=3)
-      strlen_dim = f_out.createDimension('strlen', size=21)
+      strlen_dim = f_out.createDimension('strlen', size=nl)
+      yh_dim  = f_out.createDimension('yh',  size=len(yh[:]))
       yq_dim  = f_out.createDimension('yq',  size=len(yq[:]))
       xh_dim = f_out.createDimension('xh', size=len(xh[:]))
+      xq_dim = f_out.createDimension('xq', size=len(xq[:]))
       nv_dim  = f_out.createDimension('nv',  size=len(nv[:]))
 
       time_out = f_out.createVariable('time', np.float64, ('time'))
       yq_out   = f_out.createVariable('yq',   np.float64, ('yq'))
+      yh_out   = f_out.createVariable('yh',   np.float64, ('yh'))
       region_out = f_out.createVariable('region', 'c', ('basin', 'strlen'))
       xh_out  = f_out.createVariable('xh',  np.float64, ('xh'))
+      xq_out  = f_out.createVariable('xq',  np.float64, ('xq'))
       nv_out  = f_out.createVariable('nv',  np.float64, ('nv'))
 
       if do_hfy:
         hfy_out = f_out.createVariable('hfy', np.float32, ('time', 'yq', 'xh'), fill_value=1.e20)
         hfy_out.missing_value = 1.e20
-        for k in hfy.__dict__.keys():
+        for k in list(hfy.__dict__.keys()):
           if k[0] != '_': hfy_out.setncattr(k,hfy.__dict__[k])
 
       if do_hfx:
-        hfx_out = f_out.createVariable('hfx', np.float32, ('time', 'yq', 'xh'), fill_value=1.e20)
+        hfx_out = f_out.createVariable('hfx', np.float32, ('time', 'yh', 'xq'), fill_value=1.e20)
         hfx_out.missing_value = 1.e20
-        for k in hfx.__dict__.keys():
+        for k in list(hfx.__dict__.keys()):
           if k[0] != '_': hfx_out.setncattr(k,hfx.__dict__[k])
 
       if do_hfbasin:
         hfbasin_out = f_out.createVariable('hfbasin', np.float32, ('time', 'basin', 'yq'), fill_value=1.e20)
         hfbasin_out.missing_value = 1.e20
-        for k in hfbasin.__dict__.keys():
+        for k in list(hfbasin.__dict__.keys()):
           if k[0] != '_': hfbasin_out.setncattr(k,hfbasin.__dict__[k])
 
       average_T1_out = f_out.createVariable('average_T1', np.float64, ('time'))

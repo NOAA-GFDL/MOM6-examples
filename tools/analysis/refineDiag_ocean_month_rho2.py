@@ -35,6 +35,8 @@ def main(args):
 
     region = np.array(['atlantic_arctic_ocean','indian_pacific_ocean','global_ocean'])
 
+    _, nl = nc.stringtochar(region).shape
+
     #-- Read basin masks
     f_basin = nc.Dataset(args.basinfile)
     basin_code = f_basin.variables['basin'][:]
@@ -54,8 +56,11 @@ def main(args):
     rho2_i = f_in.variables['rho2_i']
     tax = f_in.variables['time']
 
+    if (len(yq) == 1+atlantic_arctic_mask.shape[0]): #symmetric case
+       atlantic_arctic_mask=np.append(atlantic_arctic_mask,np.zeros((1,atlantic_arctic_mask.shape[1])),axis=0)
+       indo_pacific_mask=np.append(indo_pacific_mask,np.zeros((1,indo_pacific_mask.shape[1])),axis=0)
     #-- msftyrho
-    if 'vmo' in f_in.variables.keys():
+    if 'vmo' in list(f_in.variables.keys()):
       varname = 'vmo'
       msftyrho = np.ma.ones((len(tax),3,len(rho2_i),len(yq)))*0.
       msftyrho[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
@@ -74,7 +79,7 @@ def main(args):
       do_msftyrho = False
 
     #-- msftyrhompa
-    if 'vhGM' in f_in.variables.keys():
+    if 'vhGM' in list(f_in.variables.keys()):
       varname = 'vhGM'
       msftyrhompa = np.ma.ones((len(tax),3,len(rho2_i),len(yq)))*0.
       msftyrhompa[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
@@ -132,7 +137,7 @@ def main(args):
 
       time_dim = f_out.createDimension('time', size=None)
       basin_dim = f_out.createDimension('basin', size=3)
-      strlen_dim = f_out.createDimension('strlen', size=21)
+      strlen_dim = f_out.createDimension('strlen', size=nl)
       yq_dim  = f_out.createDimension('yq',  size=len(yq[:]))
       rho2_l_dim = f_out.createDimension('rho2_l', size=len(rho2_l[:]))
       rho2_i_dim = f_out.createDimension('rho2_i', size=len(rho2_i[:]))
@@ -148,13 +153,13 @@ def main(args):
       if do_msftyrho:
         msftyrho_out = f_out.createVariable('msftyrho', np.float32, ('time', 'basin', 'rho2_i', 'yq'), fill_value=1.e20)
         msftyrho_out.missing_value = 1.e20
-        for k in msftyrho.__dict__.keys():
+        for k in list(msftyrho.__dict__.keys()):
           if k[0] != '_': msftyrho_out.setncattr(k,msftyrho.__dict__[k])
 
       if do_msftyrhompa:
         msftyrhompa_out = f_out.createVariable('msftyrhompa', np.float32, ('time', 'basin', 'rho2_i', 'yq'), fill_value=1.e20)
         msftyrhompa_out.missing_value = 1.e20
-        for k in msftyrhompa.__dict__.keys():
+        for k in list(msftyrhompa.__dict__.keys()):
           if k[0] != '_': msftyrhompa_out.setncattr(k,msftyrhompa.__dict__[k])
 
       region_out.setncattr('standard_name','region')

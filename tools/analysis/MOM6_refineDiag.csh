@@ -69,7 +69,7 @@ if (`gfdl_platform` == "hpcs-csc") then
    module load $freanalysismodule
    module load gcc
    module load netcdf/4.2
-   module load python/2.7.3
+   module load python/3.7.7
 else
    echo "ERROR: invalid platform"
    exit 1
@@ -102,7 +102,7 @@ set ocean_static_file = $yr1.ocean_static.nc
 if ( -e $yr1.ocean_static_no_mask_table.nc ) set ocean_static_file = $yr1.ocean_static_no_mask_table.nc
 
 set basin_codes_d2_file = ocean_static_d2.nc
- 
+
 #echo '====annual mean Eddy Kinetic Energy======'
 #mkdir -p $out_dir/refineDiag_ocean_annual/EddyKineticEnergy
 #$script_dir/EddyKineticEnergy.py  -g $ocean_static_file -o $out_dir/refineDiag_ocean_annual/EddyKineticEnergy/EKE_mean_${yr1}.png -l ${yr1} $yr1.ocean_daily.nc

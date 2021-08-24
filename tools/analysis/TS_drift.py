@@ -31,9 +31,9 @@ def main(cmdLineArgs,stream=False):
   if 'thetao_xyave' not in rootGroupT.variables: raise Exception('Could not find "thetao_xyave" files "%s"'%(cmdLineArgs.infile))
   if 'so_xyave' not in rootGroupS.variables: raise Exception('Could not find "so_xyave" files "%s"'%(cmdLineArgs.infile))
 
-  if 'zt' in rootGroupT.variables.keys():
+  if 'zt' in list(rootGroupT.variables.keys()):
     zt = rootGroupT.variables['zt'][:] * -1
-  elif 'z_l' in rootGroupT.variables.keys():
+  elif 'z_l' in list(rootGroupT.variables.keys()):
     zt = rootGroupT.variables['z_l'][:] * -1
   timeT = rootGroupT.variables['time']
   timeS = rootGroupS.variables['time']

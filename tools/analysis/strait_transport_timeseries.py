@@ -17,20 +17,20 @@ def sum_transport_in_straits(runpath, monthly_average = False):
       u_file = fn_filter(listdir(runpath), '*' + strait[sidx].mom6_name + '_U.nc')
       v_file = fn_filter(listdir(runpath), '*' + strait[sidx].mom6_name + '_V.nc')
       if (len(u_file)==0 and len(v_file)==0):
-        print("Warning: File not found for %s" % strait[sidx].mom6_name)
+        print(("Warning: File not found for %s" % strait[sidx].mom6_name))
         continue
       u_vargroup = Dataset(runpath+'/'+u_file[0]).variables
       v_vargroup = Dataset(runpath+'/'+v_file[0]).variables
     elif strait[sidx].is_zonal:
       v_file = fn_filter(listdir(runpath), '*' + strait[sidx].mom6_name + '*.nc')
       if (len(v_file)==0):
-        print("Warning: File not found for %s" % strait[sidx].mom6_name)
+        print(("Warning: File not found for %s" % strait[sidx].mom6_name))
         continue
       v_vargroup = Dataset(runpath+'/'+v_file[0]).variables
     elif strait[sidx].is_meridional:
       u_file = fn_filter(listdir(runpath), '*' + strait[sidx].mom6_name + '*.nc')
       if (len(u_file)==0):
-        print("Warning: File not found for %s" % strait[sidx].mom6_name)
+        print(("Warning: File not found for %s" % strait[sidx].mom6_name))
         continue
       u_vargroup = Dataset(runpath+'/'+u_file[0]).variables
 
@@ -78,8 +78,8 @@ def make_monthly_averages(data):
   # This fundamentally assumes that the output is only one year long, any longer and we'd have to know the actual year to properly
   # handle leap years
   idx = daily_indices(data.size == 366)
-  idx_r = [range(0,idx[0])] ;
-  [idx_r.append(range(idx[t-1],idx[t])) for t in range(1,12)]
+  idx_r = [list(range(0,idx[0]))] ;
+  [idx_r.append(list(range(idx[t-1],idx[t]))) for t in range(1,12)]
   return np.array([np.mean(data[idx_r[t]]) for t in range(0,12)])
 
 def daily_indices(leap = False):
