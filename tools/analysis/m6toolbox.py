@@ -233,13 +233,13 @@ def genBasinMasks(x,y,depth,verbose=False):
   tmp = 1 - wet; tmp[x<-30] = 0
   tmp = ice9Wrapper(x, y, tmp, (20,-30.))
   yCGH = (tmp*y).min()
-  if verbose: print('done.', yCGH)
+  if verbose: print(('done.', yCGH))
 
   if verbose: print('Finding Melbourne ...')
   tmp = 1 - wet; tmp[x>-180] = 0
   tmp = ice9Wrapper(x, y, tmp, (-220,-25.))
   yMel = (tmp*y).min()
-  if verbose: print('done.', yMel)
+  if verbose: print(('done.', yMel))
 
   if verbose: print('Processing Persian Gulf ...')
   tmp = wet*( 1-southOf(x, y, (55.,23.), (56.5,27.)) )
@@ -328,7 +328,7 @@ def genBasinMasks(x,y,depth,verbose=False):
   if j:
     if verbose: print('There are leftover points unassigned to a basin code')
     while j:
-      print(x[j,i],y[j,i],[j,i])
+      print((x[j,i],y[j,i],[j,i]))
       wet[j,i]=0
       (j,i) = np.unravel_index( wet.argmax(), x.shape)
   else: 
@@ -359,28 +359,28 @@ if __name__ == '__main__':
   x=np.arange(5)
   z=np.array([[0,0.2,0.3,-.1],[1,1.5,.7,.4],[2,2,1.5,2],[3,2.3,1.5,2.1]])*-1
   q=np.matlib.rand(3,4)
-  print('x=',x)
-  print('z=',z)
-  print('q=',q)
+  print(('x=',x))
+  print(('z=',z))
+  print(('q=',q))
 
   X, Z, Q = section2quadmesh(x, z, q)
-  print('X=',X)
-  print('Z=',Z)
-  print('Q=',Q)
+  print(('X=',X))
+  print(('Z=',Z))
+  print(('Q=',Q))
   plt.subplot(3,1,1)
   plt.pcolormesh(X, Z, Q)
 
   X, Z, Q = section2quadmesh(x, z, q, representation='linear')
-  print('X=',X)
-  print('Z=',Z)
-  print('Q=',Q)
+  print(('X=',X))
+  print(('Z=',Z))
+  print(('Q=',Q))
   plt.subplot(3,1,2)
   plt.pcolormesh(X, Z, Q)
 
   X, Z, Q = section2quadmesh(x, z, q, representation='plm')
-  print('X=',X)
-  print('Z=',Z)
-  print('Q=',Q)
+  print(('X=',X))
+  print(('Z=',Z))
+  print(('Q=',Q))
   plt.subplot(3,1,3)
   plt.pcolormesh(X, Z, Q)
 

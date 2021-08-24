@@ -68,7 +68,7 @@ def main(cmdLineArgs,stream=False):
   def plotPanel(section,n,observedFlows=None,colorCode=True):
     ax = plt.subplot(6,3,n+1)
     color = '#c3c3c3'; obsLabel = None
-    if section.label in observedFlows.keys():
+    if section.label in list(observedFlows.keys()):
       if isinstance(observedFlows[section.label],tuple):
         if colorCode == True:
           if min(observedFlows[section.label]) <= section.data.mean() <= max(observedFlows[section.label]):

@@ -78,7 +78,7 @@ if cmdLineArgs.end_depth > max_depth:
     cmdLineArgs.end_depth = max_depth    
 
 if cmdLineArgs.start_depth > cmdLineArgs.end_depth:
-    print "Error in command arguments. Start depth must be less then end depth"
+    print("Error in command arguments. Start depth must be less then end depth")
     raise
     
 if cmdLineArgs.start_depth > 0:
