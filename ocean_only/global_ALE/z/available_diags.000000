@@ -552,6 +552,18 @@
     ! long_name: Depth-integral of Meridional Acceleration from Horizontal Viscosity
     ! units: m2 s-2
     ! cell_methods: xh:mean yq:point
+"diffu_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Zonal Acceleration from Horizontal Viscosity multiplied by viscous remnant
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {diffu_visc_rem,diffu_visc_rem_xyave}
+"diffv_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Meridional Acceleration from Horizontal Viscosity multiplied by viscous remnant
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {diffv_visc_rem,diffv_visc_rem_xyave}
 "Ahh"  [Used] (CMOR equivalent is "difmxybo")
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Biharmonic Horizontal Viscosity at h Points
@@ -1145,6 +1157,42 @@
     ! long_name: Depth-integral of Barotropic Anomaly Meridional Acceleration
     ! units: m2 s-2
     ! cell_methods: xh:mean yq:point
+"PFu_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Zonal Pressure Force Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {PFu_visc_rem,PFu_visc_rem_xyave}
+"PFv_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Meridional Pressure Force Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {PFv_visc_rem,PFv_visc_rem_xyave}
+"CAu_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Zonal Coriolis and Advective Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {CAu_visc_rem,CAu_visc_rem_xyave}
+"CAv_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Meridional Coriolis and Advective Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {CAv_visc_rem,CAv_visc_rem_xyave}
+"u_BT_accel_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Barotropic Anomaly Zonal Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {u_BT_accel_visc_rem,u_BT_accel_visc_rem_xyave}
+"v_BT_accel_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Barotropic Anomaly Meridional Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {v_BT_accel_visc_rem,v_BT_accel_visc_rem_xyave}
 "uhml"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Zonal Thickness Flux to Restratify Mixed Layer
