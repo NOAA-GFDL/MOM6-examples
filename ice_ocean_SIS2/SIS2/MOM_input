@@ -245,6 +245,9 @@ VARMIX_KTOP = 6                 !   [nondim] default = 2
                                 ! finding the Eady growth rate.
 VISBECK_L_SCALE = 3.0E+04       !   [m] default = 0.0
                                 ! The fixed length scale in the Visbeck formula.
+INTERNAL_WAVE_SPEED_BETTER_EST = False !   [Boolean] default = False
+                                ! If true, use a more robust estimate of the first mode wave speed as the
+                                ! starting point for iterations.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -276,6 +279,10 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
 KV = 1.0E-04                    !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior. The molecular value, ~1e-6
                                 ! m2 s-1, may be used.
+BBL_USE_EOS = False             !   [Boolean] default = False
+                                ! If true, use the equation of state in determining the properties of the bottom
+                                ! boundary layer.  Otherwise use the layer target potential densities.  The
+                                ! default of this is determined by USE_REGRIDDING.
 
 ! === module MOM_thickness_diffuse ===
 KHTH = 10.0                     !   [m2 s-1] default = 0.0
