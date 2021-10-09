@@ -1309,6 +1309,10 @@ BT_CORIOLIS_SCALE = 1.0         !   [nondim] default = 1.0
 BAROTROPIC_2018_ANSWERS = False !   [Boolean] default = False
                                 ! If true, use expressions for the barotropic solver that recover the answers
                                 ! from the end of 2018.  Otherwise, use more efficient or general expressions.
+BAROTROPIC_TIDAL_SAL_BUG = True !   [Boolean] default = True
+                                ! If true, the tidal self-attraction and loading anomaly in the barotropic
+                                ! solver has the wrong sign, replicating a long-standing bug with a scalar
+                                ! self-attraction and loading term or the SAL term from a previous simulation.
 SADOURNY = True                 !   [Boolean] default = True
                                 ! If true, the Coriolis terms are discretized with the Sadourny (1975) energy
                                 ! conserving scheme, otherwise the Arakawa & Hsu scheme is used.  If the
