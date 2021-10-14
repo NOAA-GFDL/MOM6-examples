@@ -124,8 +124,9 @@ NK = 63                         !   [nondim]
 
 ! === module MOM_restart ===
 PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file, otherwise a single
-                                ! restart file is generated
+                                ! If true, the IO layout is used to group processors that write to the same
+                                ! restart file or each processor writes its own (numbered) restart file. If
+                                ! false, a single restart file is generated combining output from all PEs.
 
 ! === module MOM_tracer_flow_control ===
 USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
@@ -196,6 +197,9 @@ RESOLN_SCALED_KH = True         !   [Boolean] default = False
 RESOLN_SCALED_KHTH = True       !   [Boolean] default = False
                                 ! If true, the interface depth diffusivity is scaled away when the first
                                 ! baroclinic deformation radius is well resolved.
+INTERNAL_WAVE_SPEED_BETTER_EST = False !   [Boolean] default = True
+                                ! If true, use a more robust estimate of the first mode wave speed as the
+                                ! starting point for iterations.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -211,10 +215,6 @@ DRAG_BG_VEL = 0.1               !   [m s-1] default = 0.0
                                 ! unresolved  velocity that is combined with the resolved velocity to estimate
                                 ! the velocity magnitude.  DRAG_BG_VEL is only used when BOTTOMDRAGLAW is
                                 ! defined.
-BBL_USE_EOS = True              !   [Boolean] default = False
-                                ! If true, use the equation of state in determining the properties of the bottom
-                                ! boundary layer.  Otherwise use the layer target potential densities.  The
-                                ! default of this is determined by USE_REGRIDDING.
 BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! The minimum bottom boundary layer thickness that can be used with
                                 ! BOTTOMDRAGLAW. This might be Kv/(cdrag*drag_bg_vel) to give Kv as the minimum

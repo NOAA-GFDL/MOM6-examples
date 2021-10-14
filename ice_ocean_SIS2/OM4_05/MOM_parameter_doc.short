@@ -149,8 +149,9 @@ DTFREEZE_DP = -7.75E-08         !   [deg C Pa-1] default = 0.0
 
 ! === module MOM_restart ===
 PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file, otherwise a single
-                                ! restart file is generated
+                                ! If true, the IO layout is used to group processors that write to the same
+                                ! restart file or each processor writes its own (numbered) restart file. If
+                                ! false, a single restart file is generated combining output from all PEs.
 
 ! === module MOM_tracer_flow_control ===
 USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
@@ -354,6 +355,9 @@ KH_RES_FN_POWER = 100           !   [nondim] default = 2
                                 ! The power of dx/Ld in the Kh resolution function.  Any positive integer may be
                                 ! used, although even integers are more efficient to calculate.  Setting this
                                 ! greater than 100 results in a step-function being used.
+INTERNAL_WAVE_SPEED_BETTER_EST = False !   [Boolean] default = True
+                                ! If true, use a more robust estimate of the first mode wave speed as the
+                                ! starting point for iterations.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -673,6 +677,11 @@ MSTAR_CONV_ADJ = 0.667          !   [nondim] default = 0.0
 EPBL_TRANSITION_SCALE = 0.01    !   [nondim] default = 0.1
                                 ! A scale for the mixing length in the transition layer at the edge of the
                                 ! boundary layer as a fraction of the boundary layer thickness.
+EPBL_MLD_BISECTION = True       !   [Boolean] default = False
+                                ! If true, use bisection with the iterative determination of the self-consistent
+                                ! mixed layer depth.  Otherwise use the false position after a maximum and
+                                ! minimum bound have been evaluated and the returned value or bisection before
+                                ! this.
 MIX_LEN_EXPONENT = 1.0          !   [nondim] default = 2.0
                                 ! The exponent applied to the ratio of the distance to the MLD and the MLD depth
                                 ! which determines the shape of the mixing length. This is only used if

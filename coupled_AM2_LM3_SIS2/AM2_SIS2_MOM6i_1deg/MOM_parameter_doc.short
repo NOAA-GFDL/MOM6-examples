@@ -215,6 +215,9 @@ GILL_EQUATORIAL_LD = False      !   [Boolean] default = True
                                 ! radius, otherwise, if false, use Pedlosky's definition. These definitions
                                 ! differ by a factor of 2 in front of the beta term in the denominator. Gill's
                                 ! is the more appropriate definition.
+INTERNAL_WAVE_SPEED_BETTER_EST = False !   [Boolean] default = True
+                                ! If true, use a more robust estimate of the first mode wave speed as the
+                                ! starting point for iterations.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -239,6 +242,10 @@ DRAG_BG_VEL = 0.1               !   [m s-1] default = 0.0
                                 ! unresolved  velocity that is combined with the resolved velocity to estimate
                                 ! the velocity magnitude.  DRAG_BG_VEL is only used when BOTTOMDRAGLAW is
                                 ! defined.
+BBL_USE_EOS = False             !   [Boolean] default = True
+                                ! If true, use the equation of state in determining the properties of the bottom
+                                ! boundary layer.  Otherwise use the layer target potential densities.  The
+                                ! default of this parameter is the value of USE_EOS.
 BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! The minimum bottom boundary layer thickness that can be used with
                                 ! BOTTOMDRAGLAW. This might be Kv/(cdrag*drag_bg_vel) to give Kv as the minimum

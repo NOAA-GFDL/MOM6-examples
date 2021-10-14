@@ -258,13 +258,11 @@ NK = 1                          !   [nondim]
 
 ! === module MOM_restart ===
 PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file, otherwise a single
-                                ! restart file is generated
+                                ! If true, the IO layout is used to group processors that write to the same
+                                ! restart file or each processor writes its own (numbered) restart file. If
+                                ! false, a single restart file is generated combining output from all PEs.
 RESTARTFILE = "MOM.res"         ! default = "MOM.res"
                                 ! The name-root of the restart file.
-LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
-                                ! If true, use the file-size limits with NetCDF large file support (4Gb),
-                                ! otherwise the limit is 2Gb.
 MAX_FIELDS = 100                ! default = 100
                                 ! The maximum number of restart fields that can be used.
 RESTART_CHECKSUMS_REQUIRED = True !   [Boolean] default = True
@@ -805,7 +803,7 @@ INTERNAL_WAVE_SPEED_TOL = 0.001 !   [nondim] default = 0.001
                                 ! The fractional tolerance for finding the wave speeds.
 INTERNAL_WAVE_SPEED_MIN = 0.0   !   [m s-1] default = 0.0
                                 ! A floor in the first mode speed below which 0 used instead.
-INTERNAL_WAVE_SPEED_BETTER_EST = False !   [Boolean] default = False
+INTERNAL_WAVE_SPEED_BETTER_EST = True !   [Boolean] default = True
                                 ! If true, use a more robust estimate of the first mode wave speed as the
                                 ! starting point for iterations.
 
