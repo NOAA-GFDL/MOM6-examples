@@ -386,6 +386,10 @@ COORD_VAR = "Layer"             ! default = "Layer"
                                 ! The variable in COORD_FILE that is to be used for the coordinate densities.
 
 ! === module MOM_state_initialization ===
+FATAL_INCONSISTENT_RESTART_TIME = False !   [Boolean] default = False
+                                ! If true and a time_in value is provided to MOM_initialize_state, verify that
+                                ! the time read from a restart file is the same as time_in, and issue a fatal
+                                ! error if it is not.  Otherwise, simply set the time to time_in if present.
 INIT_LAYERS_FROM_Z_FILE = False !   [Boolean] default = False
                                 ! If true, initialize the layer thicknesses, temperatures, and salinities from a
                                 ! Z-space file on a latitude-longitude grid.
