@@ -24,7 +24,7 @@ def run():
 def main(args):
     f = nc.Dataset(args.infile)
     
-    if 'basin' in f.variables.keys():
+    if 'basin' in list(f.variables.keys()):
       sys.stdout.write('The basin field already appears to be in the static file.  Exiting.')
       exit(1)
 
@@ -38,7 +38,7 @@ def main(args):
 
     if os.path.exists(outfile):
         sys.stdout.write('File already exists ... would you like to overwrite? (y/n): ')
-        choice = raw_input().lower()
+        choice = input().lower()
         if choice == 'y':
             if args.verbose:
                 sys.stdout.write('Overwriting file: '+outfile+'\n')

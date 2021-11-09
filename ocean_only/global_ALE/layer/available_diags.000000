@@ -416,11 +416,23 @@
     ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Grad. Kinetic Energy
     ! units: m s-2
     ! cell_methods: xh:mean yq:point
+"h_gKEu"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Zonal Acceleration from Grad. Kinetic Energy
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {h_gKEu,h_gKEu_xyave}
 "intz_gKEu_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-integral of Zonal Acceleration from Grad. Kinetic Energy
     ! units: m2 s-2
     ! cell_methods: xq:point yh:mean
+"h_gKEv"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Meridional Acceleration from Grad. Kinetic Energy
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {h_gKEv,h_gKEv_xyave}
 "intz_gKEv_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-integral of Meridional Acceleration from Grad. Kinetic Energy
@@ -436,11 +448,23 @@
     ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Relative Vorticity
     ! units: m s-2
     ! cell_methods: xq:point yh:mean
+"h_rvxu"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Meridional Acceleration from Relative Vorticity
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {h_rvxu,h_rvxu_xyave}
 "intz_rvxu_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-integral of Meridional Acceleration from Relative Vorticity
     ! units: m2 s-2
     ! cell_methods: xh:mean yq:point
+"h_rvxv"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Zonal Acceleration from Relative Vorticity
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {h_rvxv,h_rvxv_xyave}
 "intz_rvxv_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-integral of Fractional Thickness-weighted Zonal Acceleration from Relative Vorticity
@@ -484,6 +508,18 @@
     ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Horizontal Viscosity
     ! units: m s-2
     ! cell_methods: xh:mean yq:point
+"h_diffu"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Zonal Acceleration from Horizontal Viscosity
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {h_diffu,h_diffu_xyave}
+"h_diffv"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Meridional Acceleration from Horizontal Viscosity
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {h_diffv,h_diffv_xyave}
 "intz_diffu_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-integral of Zonal Acceleration from Horizontal Viscosity
@@ -494,6 +530,18 @@
     ! long_name: Depth-integral of Meridional Acceleration from Horizontal Viscosity
     ! units: m2 s-2
     ! cell_methods: xh:mean yq:point
+"diffu_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Zonal Acceleration from Horizontal Viscosity multiplied by viscous remnant
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {diffu_visc_rem,diffu_visc_rem_xyave}
+"diffv_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Meridional Acceleration from Horizontal Viscosity multiplied by viscous remnant
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {diffv_visc_rem,diffv_visc_rem_xyave}
 "Ahh"  [Used] (CMOR equivalent is "difmxybo")
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Biharmonic Horizontal Viscosity at h Points
@@ -626,6 +674,18 @@
     ! units: m s-2
     ! cell_methods: xh:mean yq:point zl:mean
     ! variants: {dv_dt_visc,dv_dt_visc_xyave}
+"du_dt_str"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Zonal Acceleration from Surface Wind Stresses
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {du_dt_str,du_dt_str_xyave}
+"dv_dt_str"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Meridional Acceleration from Surface Wind Stresses
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {dv_dt_str,dv_dt_str_xyave}
 "taux_bot"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Zonal Bottom Stress from Ocean to Earth
@@ -646,6 +706,18 @@
     ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration from Vertical Viscosity
     ! units: m s-2
     ! cell_methods: xh:mean yq:point
+"h_du_dt_visc"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Zonal Acceleration from Horizontal Viscosity
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {h_du_dt_visc,h_du_dt_visc_xyave}
+"h_dv_dt_visc"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Meridional Acceleration from Horizontal Viscosity
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {h_dv_dt_visc,h_dv_dt_visc_xyave}
 "PFuBT"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Zonal Anomalous Barotropic Pressure Force Force Acceleration
@@ -738,8 +810,8 @@
     ! cell_methods: xh:mean yq:point
 "eta_cor"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Corrective mass flux
-    ! units: m s-1
+    ! long_name: Corrective mass flux within a timestep
+    ! units: m
     ! cell_methods: xh:mean yh:mean area:mean
 "visc_rem_u"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
@@ -953,6 +1025,18 @@
     ! long_name: Depth-sum Fractional Thickness-weighted Meridional Pressure Force Acceleration
     ! units: m s-2
     ! cell_methods: xh:mean yq:point
+"h_PFu"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Zonal Pressure Force Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {h_PFu,h_PFu_xyave}
+"h_PFv"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Meridional Pressure Force Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {h_PFv,h_PFv_xyave}
 "intz_PFu_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-integral of Zonal Pressure Force Acceleration
@@ -973,6 +1057,18 @@
     ! long_name: Depth-sum Fractional Thickness-weighted Meridional Coriolis and Advective Acceleration
     ! units: m s-2
     ! cell_methods: xh:mean yq:point
+"h_CAu"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Zonal Coriolis and Advective Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {h_CAu,h_CAu_xyave}
+"h_CAv"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Meridional Coriolis and Advective Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {h_CAv,h_CAv_xyave}
 "intz_CAu_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-integral of Zonal Coriolis and Advective Acceleration
@@ -1017,6 +1113,18 @@
     ! long_name: Depth-sum Fractional Thickness-weighted Barotropic Anomaly Meridional Acceleration
     ! units: m s-2
     ! cell_methods: xh:mean yq:point
+"h_u_BT_accel"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Barotropic Anomaly Zonal Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {h_u_BT_accel,h_u_BT_accel_xyave}
+"h_v_BT_accel"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Barotropic Anomaly Meridional Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {h_v_BT_accel,h_v_BT_accel_xyave}
 "intz_u_BT_accel_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-integral of Barotropic Anomaly Zonal Acceleration
@@ -1027,6 +1135,42 @@
     ! long_name: Depth-integral of Barotropic Anomaly Meridional Acceleration
     ! units: m2 s-2
     ! cell_methods: xh:mean yq:point
+"PFu_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Zonal Pressure Force Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {PFu_visc_rem,PFu_visc_rem_xyave}
+"PFv_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Meridional Pressure Force Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {PFv_visc_rem,PFv_visc_rem_xyave}
+"CAu_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Zonal Coriolis and Advective Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {CAu_visc_rem,CAu_visc_rem_xyave}
+"CAv_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Meridional Coriolis and Advective Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {CAv_visc_rem,CAv_visc_rem_xyave}
+"u_BT_accel_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Barotropic Anomaly Zonal Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {u_BT_accel_visc_rem,u_BT_accel_visc_rem_xyave}
+"v_BT_accel_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Barotropic Anomaly Meridional Acceleration multiplied by the viscous remnant
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {v_BT_accel_visc_rem,v_BT_accel_visc_rem_xyave}
 "uhml"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Zonal Thickness Flux to Restratify Mixed Layer
@@ -1117,12 +1261,12 @@
     ! standard_name: sea_water_salinity_at_sea_floor
     ! cell_methods: xh:mean yh:mean area:mean
 "temp_layer_ave"  [Used]
-    ! modules: {ocean_model,ocean_model_d2}
+    ! modules: ocean_model
     ! long_name: Layer Average Ocean Temperature
     ! units: degC
     ! cell_methods: zl:mean
 "salt_layer_ave"  [Used]
-    ! modules: {ocean_model,ocean_model_d2}
+    ! modules: ocean_model
     ! long_name: Layer Average Ocean Salinity
     ! units: psu
     ! cell_methods: zl:mean
@@ -1266,6 +1410,18 @@
     ! long_name: Depth-sum Fractional Thickness-weighted Meridional Acceleration
     ! units: m s-2
     ! cell_methods: xh:mean yq:point
+"h_du_dt"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Zonal Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {h_du_dt,h_du_dt_xyave}
+"h_dv_dt"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Meridional Acceleration
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {h_dv_dt,h_dv_dt_xyave}
 "h_rho"  [Used]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Layer thicknesses in pure potential density coordinates
@@ -1338,6 +1494,12 @@
     ! units: m3 s-3
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
     ! variants: {KE_visc,KE_visc_xyave}
+"KE_stress"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Kinetic Energy Source from Surface Stresses or Body Wind Stress
+    ! units: m3 s-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {KE_stress,KE_stress_xyave}
 "KE_horvisc"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Kinetic Energy Source from Horizontal Viscosity
@@ -1670,7 +1832,7 @@
 "internal_heat_h_tendency"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Thickness tendency (in 3D) due to internal (geothermal) sources
-    ! units: m
+    ! units: m s-1
     ! cell_methods: xh:mean yh:mean zl:sum area:mean
     ! variants: {internal_heat_h_tendency,internal_heat_h_tendency_xyave}
 "Kd_itides"  [Used]
@@ -2013,8 +2175,8 @@
     ! variants: {frazil,hfsifrazil}
 "salt_deficit"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Salt sink in ocean due to ice flux
-    ! units: psu m-2 s-1
+    ! long_name: Salt source in ocean required to supply excessive ice salt fluxes
+    ! units: ppt kg m-2 s-1
     ! cell_methods: xh:mean yh:mean area:mean
 "Heat_PmE"  [Used]
     ! modules: {ocean_model,ocean_model_d2}
@@ -2052,13 +2214,13 @@
 "uhtr"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Accumulated zonal thickness fluxes to advect tracers
-    ! units: kg
+    ! units: m3
     ! cell_methods: xq:point yh:sum zl:sum
     ! variants: {uhtr,uhtr_xyave}
 "vhtr"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Accumulated meridional thickness fluxes to advect tracers
-    ! units: kg
+    ! units: m3
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {vhtr,vhtr_xyave}
 "umo"  [Used]
@@ -2089,8 +2251,8 @@
     ! cell_methods: xh:sum yq:point
 "dynamics_h"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Change in layer thicknesses due to horizontal dynamics
-    ! units: m s-1
+    ! long_name: Layer thicknesses prior to horizontal dynamics
+    ! units: m
     ! cell_methods: xh:mean yh:mean zl:sum area:mean
     ! variants: {dynamics_h,dynamics_h_xyave}
 "dynamics_h_tendency"  [Unused]

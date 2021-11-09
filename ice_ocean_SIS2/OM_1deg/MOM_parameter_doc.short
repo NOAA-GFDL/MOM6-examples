@@ -123,8 +123,6 @@ TOPO_CONFIG = "file"            !
                                 !     USER - call a user modified routine.
 TOPO_EDITS_FILE = "topo_edits_011818.nc" ! default = ""
                                 ! The file from which to read a list of i,j,z topography overrides.
-MAXIMUM_DEPTH = 6500.0          !   [m]
-                                ! The maximum depth of the ocean.
 MINIMUM_DEPTH = 9.5             !   [m] default = 0.0
                                 ! If MASKING_DEPTH is unspecified, then anything shallower than MINIMUM_DEPTH is
                                 ! assumed to be land and all fluxes are masked out. If MASKING_DEPTH is
@@ -132,7 +130,9 @@ MINIMUM_DEPTH = 9.5             !   [m] default = 0.0
                                 ! MASKING_DEPTH are rounded to MINIMUM_DEPTH.
 MASKING_DEPTH = 0.0             !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all fluxes are
-                                ! zeroed out. MASKING_DEPTH is ignored if negative.
+                                ! zeroed out. MASKING_DEPTH needs to be smaller than MINIMUM_DEPTH
+MAXIMUM_DEPTH = 6500.0          !   [m]
+                                ! The maximum depth of the ocean.
 CHANNEL_CONFIG = "list"         ! default = "none"
                                 ! A parameter that determines which set of channels are
                                 ! restricted to specific  widths.  Options are:

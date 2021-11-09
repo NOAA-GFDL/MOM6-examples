@@ -6,7 +6,7 @@
 #PBS -r y
 #PBS -j oe
 #PBS -o
-#PBS -q batch 
+#PBS -q batch
 #----------------------------------
 
 echo $0 $*
@@ -33,7 +33,7 @@ if (`gfdl_platform` == "hpcs-csc") then
    module load $freanalysismodule
    module load gcc
    module load netcdf/4.2
-   module load python/2.7.3
+   module load python/3.7.7
 else
    echo "ERROR: invalid platform"
    exit 1

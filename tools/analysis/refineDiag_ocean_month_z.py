@@ -67,7 +67,9 @@ def main(args):
     #   Note: The Atlantic should include other smaller bays/seas that are
     #         included in the definition used in meridional_overturning.py
 
-    region = np.array(['atlantic_arctic_ocean          ','indian_pacific_ocean','global_ocean'])
+    region = np.array(['atlantic_arctic_ocean','indian_pacific_ocean','global_ocean'])
+
+    _, nl = nc.stringtochar(region).shape
 
     #-- Read basin masks
     f_basin = nc.Dataset(args.basinfile)
@@ -99,8 +101,11 @@ def main(args):
     #
     #   The quanity 'yy' above is numerically-equivalent to 'yq'
 
+    if (len(yq) == 1+len(yh)): #symmetric case
+       atlantic_arctic_mask=np.append(atlantic_arctic_mask,np.zeros((1,atlantic_arctic_mask.shape[1])),axis=0)
+       indo_pacific_mask=np.append(indo_pacific_mask,np.zeros((1,indo_pacific_mask.shape[1])),axis=0)
     #-- msftyyz
-    if 'vmo' in f_in.variables.keys():
+    if 'vmo' in list(f_in.variables.keys()):
       varname = 'vmo'
       msftyyz = np.ma.ones((len(tax),3,len(z_i),len(yq)))*0.
       msftyyz[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
@@ -119,7 +124,7 @@ def main(args):
       do_msftyyz = False
 
     #-- msftyzmpa
-    if 'vhGM' in f_in.variables.keys():
+    if 'vhGM' in list(f_in.variables.keys()):
       varname = 'vhGM'
       msftyzmpa = np.ma.ones((len(tax),3,len(z_i),len(yq)))*0.
       msftyzmpa[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
@@ -139,7 +144,7 @@ def main(args):
       do_msftyzmpa = False
 
     #-- msftyzsmpa
-    if 'vhml' in f_in.variables.keys():
+    if 'vhml' in list(f_in.variables.keys()):
       varname = 'vhml'
       msftyzsmpa = np.ma.ones((len(tax),3,len(z_i),len(yq)))*0.
       msftyzsmpa[:,0,:,:] = m6toolbox.moc_maskedarray(f_in.variables[varname][:],mask=atlantic_arctic_mask)
@@ -159,9 +164,14 @@ def main(args):
       do_msftyzsmpa = False
 
     #-- wmo
-    if all(x in f_in.variables.keys() for x in ['umo', 'vmo']):
+    if all(x in list(f_in.variables.keys()) for x in ['umo', 'vmo']):
       varname = 'wmo'
-      wmo = calc_w_from_convergence(f_in.variables['umo'], f_in.variables['vmo'])
+      if (len(yq) == 1+len(yh)): #symmetric case
+         #print(f_in.variables['umo'].shape, f_in.variables['vmo'].shape)
+         #((12, 35, 1120, 1441), (12, 35, 1121, 1440))
+         wmo = calc_w_from_convergence(f_in.variables['umo'][:,:,:,1:], f_in.variables['vmo'][:,:,1:,:])
+      else:
+         wmo = calc_w_from_convergence(f_in.variables['umo'], f_in.variables['vmo'])
       wmo[wmo.mask] = nc_misval
       wmo = np.ma.array(wmo,fill_value=nc_misval)
       wmo.long_name = 'Upward mass transport from resolved and parameterized advective transport'
@@ -180,6 +190,7 @@ def main(args):
       #mfo[mfo.mask] = nc_misval
       mfo = np.ma.array(mfo, fill_value=nc_misval)
       strait_names = np.array( [strait.cmor_name for strait in straits] )
+      _, nl2 = nc.stringtochar(strait_names).shape
       mfo.long_name = 'Sea Water Transport'
       mfo.units = 'kg s-1'
       mfo.coordinates = 'strait'
@@ -229,7 +240,8 @@ def main(args):
       basin_dim = f_out.createDimension('basin', size=3)
       if do_mfo:
         strait_dim = f_out.createDimension('strait', size=len(straits))
-      strlen_dim = f_out.createDimension('strlen', size=31)
+      strlen_dim = f_out.createDimension('strlen', size=nl)
+      strlen_dim2 = f_out.createDimension('strlen2', size=nl2)
       xh_dim  = f_out.createDimension('xh',  size=len(xh[:]))
       yh_dim  = f_out.createDimension('yh',  size=len(yh[:]))
       yq_dim  = f_out.createDimension('yq',  size=len(yq[:]))
@@ -243,7 +255,7 @@ def main(args):
       yq_out   = f_out.createVariable('yq',   np.float64, ('yq'))
       region_out = f_out.createVariable('region', 'c', ('basin', 'strlen'))
       if do_mfo:
-        strait_out = f_out.createVariable('strait', 'c', ('strait', 'strlen'))
+        strait_out = f_out.createVariable('strait', 'c', ('strait', 'strlen2'))
       z_l_out  = f_out.createVariable('z_l',  np.float64, ('z_l'))
       z_i_out  = f_out.createVariable('z_i',  np.float64, ('z_i'))
       nv_out  = f_out.createVariable('nv',  np.float64, ('nv'))
@@ -251,31 +263,31 @@ def main(args):
       if do_msftyyz:
         msftyyz_out = f_out.createVariable('msftyyz', np.float32, ('time', 'basin', 'z_i', 'yq'), fill_value=nc_misval)
         msftyyz_out.missing_value = nc_misval
-        for k in msftyyz.__dict__.keys():
+        for k in list(msftyyz.__dict__.keys()):
           if k[0] != '_': msftyyz_out.setncattr(k,msftyyz.__dict__[k])
 
       if do_msftyzsmpa:
         msftyzsmpa_out = f_out.createVariable('msftyzsmpa', np.float32, ('time', 'basin', 'z_i', 'yq'), fill_value=nc_misval)
         msftyzsmpa_out.missing_value = nc_misval
-        for k in msftyzsmpa.__dict__.keys():
+        for k in list(msftyzsmpa.__dict__.keys()):
           if k[0] != '_': msftyzsmpa_out.setncattr(k,msftyzsmpa.__dict__[k])
 
       if do_msftyzmpa:
         msftyzmpa_out = f_out.createVariable('msftyzmpa', np.float32, ('time', 'basin', 'z_i', 'yq'), fill_value=nc_misval)
         msftyzmpa_out.missing_value = nc_misval
-        for k in msftyzmpa.__dict__.keys():
+        for k in list(msftyzmpa.__dict__.keys()):
           if k[0] != '_': msftyzmpa_out.setncattr(k,msftyzmpa.__dict__[k])
 
       if do_wmo:
         wmo_out = f_out.createVariable('wmo', np.float32, ('time', 'z_i', 'yh', 'xh'), fill_value=nc_misval)
         wmo_out.missing_value = nc_misval
-        for k in wmo.__dict__.keys():
+        for k in list(wmo.__dict__.keys()):
           if k[0] != '_': wmo_out.setncattr(k,wmo.__dict__[k])
 
       if do_mfo:
         mfo_out = f_out.createVariable('mfo', np.float32, ('time', 'strait'), fill_value=nc_misval)
         mfo_out.missing_value = nc_misval
-        for k in mfo.__dict__.keys():
+        for k in list(mfo.__dict__.keys()):
           if k[0] != '_': mfo_out.setncattr(k,mfo.__dict__[k])
 
       average_T1_out = f_out.createVariable('average_T1', np.float64, ('time'))

@@ -22,7 +22,7 @@ except: print('Basemap module not found. Some regional plots may not function pr
 try: 
   import cmocean
 except: 
-  if "HTTP_USER_AGENT" in os.environ.keys():
+  if "HTTP_USER_AGENT" in list(os.environ.keys()):
     pass
   else:
     print('cmocean module not found. Some color maps may not render properly')
@@ -72,7 +72,7 @@ def xyplot(field, x=None, y=None, area=None,
 
   # Create coordinates if not provided
   xlabel, xunits, ylabel, yunits = createXYlabels(x, y, xlabel, xunits, ylabel, yunits)
-  if debug: print('x,y label/units=',xlabel,xunits,ylabel,yunits)
+  if debug: print(('x,y label/units=',xlabel,xunits,ylabel,yunits))
   xCoord, yCoord = createXYcoords(field, x, y)
 
   # Diagnose statistics
@@ -99,7 +99,7 @@ def xyplot(field, x=None, y=None, area=None,
   cb = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
   if centerlabels and len(clim)>2: cb.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
   elif clim is not None and len(clim)>2: cb.set_ticks( clim )
-  axis.set_facecolor(landcolor)
+  axis.set_axis_bgcolor(landcolor)
   plt.xlim( xLims )
   plt.ylim( yLims )
   axis.annotate('max=%.5g\nmin=%.5g'%(sMax,sMin), xy=(0.0,1.01), xycoords='axes fraction', verticalalignment='bottom', fontsize=10)
@@ -172,7 +172,7 @@ def xycompare(field1, field2, x=None, y=None, area=None,
 
   # Create coordinates if not provided
   xlabel, xunits, ylabel, yunits = createXYlabels(x, y, xlabel, xunits, ylabel, yunits)
-  if debug: print('x,y label/units=',xlabel,xunits,ylabel,yunits)
+  if debug: print(('x,y label/units=',xlabel,xunits,ylabel,yunits))
   xCoord, yCoord = createXYcoords(field1, x, y)
 
   # Establish ranges for sectors
@@ -196,9 +196,9 @@ def xycompare(field1, field2, x=None, y=None, area=None,
   s12Min = min(s1Min, s2Min); s12Max = max(s1Max, s2Max)
   xLims = boundaryStats(xCoord); yLims = boundaryStats(yCoord)
   if debug:
-    print('s1: min, max, mean =', s1Min, s1Max, s1Mean)
-    print('s2: min, max, mean =', s2Min, s2Max, s2Mean)
-    print('s12: min, max =', s12Min, s12Max)
+    print(('s1: min, max, mean =', s1Min, s1Max, s1Mean))
+    print(('s2: min, max, mean =', s2Min, s2Max, s2Mean))
+    print(('s12: min, max =', s12Min, s12Max))
 
   # Choose colormap
   if nbins is None and (clim is None or len(clim)==2): cBins=35
@@ -236,7 +236,7 @@ def xycompare(field1, field2, x=None, y=None, area=None,
       plotBasemapPanel(maskedField1, sector, xCoord, yCoord, lonRange, latRange, \
                        cmap, norm, interactive, extend)
     if centerlabels and len(clim)>2: cb1.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
-    axis.set_facecolor(landcolor)
+    axis.set_axis_bgcolor(landcolor)
     annotateStats(axis, s1Min, s1Max, s1Mean, s1Std, s1RMS, webversion=webversion)
     if len(ylabel+yunits)>0: plt.ylabel(label(ylabel, yunits))
     if len(title1)>0: 
@@ -256,7 +256,7 @@ def xycompare(field1, field2, x=None, y=None, area=None,
       plotBasemapPanel(maskedField2, sector, xCoord, yCoord, lonRange, latRange, \
                        cmap, norm, interactive, extend)
     if centerlabels and len(clim)>2: cb2.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
-    axis.set_facecolor(landcolor)
+    axis.set_axis_bgcolor(landcolor)
     annotateStats(axis, s2Min, s2Max, s2Mean, s2Std, s2RMS, webversion=webversion)
     if len(ylabel+yunits)>0: plt.ylabel(label(ylabel, yunits))
     if len(title2)>0: 
@@ -279,7 +279,7 @@ def xycompare(field1, field2, x=None, y=None, area=None,
       if dextend is None: dextend = extend
       cb3 = plt.colorbar(fraction=.08, pad=0.02, extend=dextend) # was extend!
       if centerdlabels and len(dlim)>2: cb3.set_ticks(  0.5*(dlim[:-1]+dlim[1:]) )
-      axis.set_facecolor(landcolor)
+      axis.set_axis_bgcolor(landcolor)
       plt.xlim( xLims ); plt.ylim( yLims )
       annotateStats(axis, dMin, dMax, dMean, dStd, dRMS, webversion=webversion)
       if len(ylabel+yunits)>0: plt.ylabel(label(ylabel, yunits))
@@ -361,7 +361,7 @@ def yzplot(field, y=None, z=None,
 
   # Create coordinates if not provided
   ylabel, yunits, zlabel, zunits = createYZlabels(y, z, ylabel, yunits, zlabel, zunits)
-  if debug: print('y,z label/units=',ylabel,yunits,zlabel,zunits)
+  if debug: print(('y,z label/units=',ylabel,yunits,zlabel,zunits))
   if len(y)==z.shape[-1]: y = expand(y)
   elif len(y)==z.shape[-1]+1: y = y
   else: raise Exception('Length of y coordinate should be equal or 1 longer than horizontal length of z')
@@ -387,7 +387,7 @@ def yzplot(field, y=None, z=None,
   if interactive: addStatusBar(yCoord, zCoord, field2)
   cb = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
   if centerlabels and len(clim)>2: cb.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
-  axis.set_facecolor(landcolor)
+  axis.set_axis_bgcolor(landcolor)
   if splitscale is not None:
     for zzz in splitscale[1:-1]: plt.axhline(zzz,color='k',linestyle='--')
     axis.set_yscale('splitscale', zval=splitscale)
@@ -462,7 +462,7 @@ def yzcompare(field1, field2, y=None, z=None,
 
   # Create coordinates if not provided
   ylabel, yunits, zlabel, zunits = createYZlabels(y, z, ylabel, yunits, zlabel, zunits)
-  if debug: print('y,z label/units=',ylabel,yunits,zlabel,zunits)
+  if debug: print(('y,z label/units=',ylabel,yunits,zlabel,zunits))
   if len(y)==z.shape[-1]: y= expand(y)
   elif len(y)==z.shape[-1]+1: y= y
   else: raise Exception('Length of y coordinate should be equal or 1 longer than horizontal length of z')
@@ -482,9 +482,9 @@ def yzcompare(field1, field2, y=None, z=None,
   s12Min = min(s1Min, s2Min); s12Max = max(s1Max, s2Max)
   xLims = numpy.amin(yCoord), numpy.amax(yCoord); yLims = boundaryStats(zCoord)
   if debug:
-    print('s1: min, max, mean =', s1Min, s1Max, s1Mean)
-    print('s2: min, max, mean =', s2Min, s2Max, s2Mean)
-    print('s12: min, max =', s12Min, s12Max)
+    print(('s1: min, max, mean =', s1Min, s1Max, s1Mean))
+    print(('s2: min, max, mean =', s2Min, s2Max, s2Mean))
+    print(('s12: min, max =', s12Min, s12Max))
 
   # Choose colormap
   if nbins is None and (clim is None or len(clim)==2): cBins=35
@@ -517,7 +517,7 @@ def yzcompare(field1, field2, y=None, z=None,
     if interactive: addStatusBar(yCoord, zCoord, field1)
     cb1 = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
     if centerlabels and len(clim)>2: cb1.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
-    axis.set_facecolor(landcolor)
+    axis.set_axis_bgcolor(landcolor)
     if splitscale is not None:
       for zzz in splitscale[1:-1]: plt.axhline(zzz,color='k',linestyle='--')
       axis.set_yscale('splitscale', zval=splitscale)
@@ -532,7 +532,7 @@ def yzcompare(field1, field2, y=None, z=None,
     if interactive: addStatusBar(yCoord, zCoord, field2)
     cb2 = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
     if centerlabels and len(clim)>2: cb2.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
-    axis.set_facecolor(landcolor)
+    axis.set_axis_bgcolor(landcolor)
     if splitscale is not None:
       for zzz in splitscale[1:-1]: plt.axhline(zzz,color='k',linestyle='--')
       axis.set_yscale('splitscale', zval=splitscale)
@@ -553,7 +553,7 @@ def yzcompare(field1, field2, y=None, z=None,
     if interactive: addStatusBar(yCoord, zCoord, field1 - field2)
     cb3 = plt.colorbar(fraction=.08, pad=0.02, extend=dextend)
     if centerdlabels and len(dlim)>2: cb3.set_ticks(  0.5*(dlim[:-1]+dlim[1:]) )
-    axis.set_facecolor(landcolor)
+    axis.set_axis_bgcolor(landcolor)
     if splitscale is not None:
       for zzz in splitscale[1:-1]: plt.axhline(zzz,color='k',linestyle='--')
       axis.set_yscale('splitscale', zval=splitscale)
@@ -611,7 +611,7 @@ def ztplot(field, t=None, z=None,
 
   # Create coordinates if not provided
   tlabel, tunits, zlabel, zunits = createTZlabels(t, z, tlabel, tunits, zlabel, zunits)
-  if debug: print('t,z label/units=',tlabel,tunits,zlabel,zunits)
+  if debug: print(('t,z label/units=',tlabel,tunits,zlabel,zunits))
   if ignore is not None: maskedField = numpy.ma.masked_array(field, mask=[field==ignore])
   else: maskedField = field.copy()
   field2 = maskedField.T
@@ -636,7 +636,7 @@ def ztplot(field, t=None, z=None,
   if interactive: addStatusBar(tCoord, zCoord, field2)
   cb = plt.colorbar(fraction=.08, pad=0.02, extend=extend)
   if centerlabels and len(clim)>2: cb.set_ticks(  0.5*(clim[:-1]+clim[1:]) )
-  axis.set_facecolor(landcolor)
+  axis.set_axis_bgcolor(landcolor)
   if splitscale is not None:
     for zzz in splitscale[1:-1]: plt.axhline(zzz,color='k',linestyle='--')
     axis.set_yscale('splitscale', zval=splitscale)
@@ -736,18 +736,18 @@ def myStats(s, area, s2=None, debug=False):
   sMin = numpy.ma.min(s); sMax = numpy.ma.max(s)
   if area is None: return sMin, sMax, None, None, None
   weight = area.copy()
-  if debug: print('myStats: sum(area) =',numpy.ma.sum(weight))
+  if debug: print(('myStats: sum(area) =',numpy.ma.sum(weight)))
   if not numpy.ma.getmask(s).any()==numpy.ma.nomask: weight[s.mask] = 0.
   sumArea = numpy.ma.sum(weight)
-  if debug: print('myStats: sum(area) =',sumArea,'after masking')
-  if debug: print('myStats: sum(s) =',numpy.ma.sum(s))
-  if debug: print('myStats: sum(area*s) =',numpy.ma.sum(weight*s))
+  if debug: print(('myStats: sum(area) =',sumArea,'after masking'))
+  if debug: print(('myStats: sum(s) =',numpy.ma.sum(s)))
+  if debug: print(('myStats: sum(area*s) =',numpy.ma.sum(weight*s)))
   mean = numpy.ma.sum(weight*s)/sumArea
   std = math.sqrt( numpy.ma.sum( weight*((s-mean)**2) )/sumArea )
   rms = math.sqrt( numpy.ma.sum( weight*(s**2) )/sumArea )
-  if debug: print('myStats: mean(s) =',mean)
-  if debug: print('myStats: std(s) =',std)
-  if debug: print('myStats: rms(s) =',rms)
+  if debug: print(('myStats: mean(s) =',mean))
+  if debug: print(('myStats: std(s) =',std))
+  if debug: print(('myStats: rms(s) =',rms))
   return sMin, sMax, mean, std, rms
 
 
@@ -862,10 +862,10 @@ def setFigureSize(aspect=None, verticalresolution=None, horiztonalresolution=Non
     verticalresolution = int(1.*aspect[1]/aspect[0] * horiztonalresolution)
   if verticalresolution is None: verticalresolution = {1:576, 2:720, 3:1200}[npanels]
   width = int(1.*aspect[0]/aspect[1] * verticalresolution) # First guess
-  if debug: print('setFigureSize: first guess width =',width)
+  if debug: print(('setFigureSize: first guess width =',width))
   width = width + ( width % 2 ) # Make even
-  if debug: print('setFigureSize: corrected width =',width)
-  if debug: print('setFigureSize: height =',verticalresolution)
+  if debug: print(('setFigureSize: corrected width =',width))
+  if debug: print(('setFigureSize: height =',verticalresolution))
   plt.figure(figsize=(width/100., verticalresolution/100.)) # 100 dpi always?
   if npanels==1: plt.gcf().subplots_adjust(left=.08, right=.99, wspace=0, bottom=.09, top=.9, hspace=0)
   elif npanels==2: plt.gcf().subplots_adjust(left=.11, right=.94, wspace=0, bottom=.09, top=.9, hspace=0.15)
@@ -956,11 +956,11 @@ def addStatusBar(xCoord, yCoord, zData):
     # THIS NEEDS TESTING FOR ACCURACY, ESPECIALLY IN YZ PLOTS -AJA
     if len(xCoord.shape)==1 and len(yCoord.shape)==1:
       # -2 needed because of coords are for vertices and need to be averaged to centers
-      i = min(range(len(xCoord)-2), key=lambda l: abs((xCoord[l]+xCoord[l+1])/2.-x))
-      j = min(range(len(yCoord)-2), key=lambda l: abs((yCoord[l]+yCoord[l+1])/2.-y))
+      i = min(list(range(len(xCoord)-2)), key=lambda l: abs((xCoord[l]+xCoord[l+1])/2.-x))
+      j = min(list(range(len(yCoord)-2)), key=lambda l: abs((yCoord[l]+yCoord[l+1])/2.-y))
     elif len(xCoord.shape)==1 and len(yCoord.shape)==2:
-      i = min(range(len(xCoord)-2), key=lambda l: abs((xCoord[l]+xCoord[l+1])/2.-x))
-      j = min(range(len(yCoord[:,i])-1), key=lambda l: abs((yCoord[l,i]+yCoord[l+1,i])/2.-y))
+      i = min(list(range(len(xCoord)-2)), key=lambda l: abs((xCoord[l]+xCoord[l+1])/2.-x))
+      j = min(list(range(len(yCoord[:,i])-1)), key=lambda l: abs((yCoord[l,i]+yCoord[l+1,i])/2.-y))
     elif len(xCoord.shape)==2 and len(yCoord.shape)==2:
       idx = numpy.abs( numpy.fabs( xCoord[0:-1,0:-1]+xCoord[1:,1:]+xCoord[0:-1,1:]+xCoord[1:,0:-1]-4*x)
           +numpy.fabs( yCoord[0:-1,0:-1]+yCoord[1:,1:]+yCoord[0:-1,1:]+yCoord[1:,0:-1]-4*y) ).argmin()
@@ -1303,7 +1303,7 @@ c = brownblue_cmap()
 c = parula_cmap()
 
 # Register cmocean colormaps
-if 'cmocean' in modules.keys():
+if 'cmocean' in list(modules.keys()):
   cmoceanRegisterColormaps()
 
 # Test

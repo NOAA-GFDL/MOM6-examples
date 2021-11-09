@@ -14,7 +14,7 @@ parser.add_argument('annual_file', type=str, help='''Annual file to create.''')
 parser.add_argument('-v','--verbose', action='store_true', help='''Inidicate progress.''')
 args = parser.parse_args()
 
-if args.verbose: print 'Opening',args.daily_file
+if args.verbose: print('Opening',args.daily_file)
 nc_in = netCDF4.Dataset( args.daily_file )
 if args.variable not in nc_in.variables: raise Exception('Could not find %s in file "%s"'%(args.variable,args.daily_file))
 variable = nc_in.variables[args.variable]
@@ -23,7 +23,7 @@ shape = variable.shape
 nt = shape[0];
 nxy = shape[1:]
 
-if args.verbose: print 'Creating',args.annual_file
+if args.verbose: print('Creating',args.annual_file)
 if os.path.exists(args.annual_file):
     mode = 'r+'
     append = True
@@ -33,9 +33,9 @@ else:
 nc_out = netCDF4.Dataset( args.annual_file, mode, format='NETCDF3_CLASSIC' )
 
 if append is True:
-  if 'time' in nc_out.variables.keys():
+  if 'time' in list(nc_out.variables.keys()):
     time_var = 'time'
-  elif 'Time' in nc_out.variables.keys():
+  elif 'Time' in list(nc_out.variables.keys()):
     time_var = 'Time'
   else:
     nc_out.close()
@@ -116,7 +116,7 @@ numpy.seterr(divide='ignore', invalid='ignore', over='ignore') # To avoid warnin
 record = -1
 if len(time_bounds_vars): b1 = nc_in.variables[time_bounds_vars[0]][0]
 for month,days in enumerate(days_in_month):
-  if args.verbose: print 'Reading daily data for month',month+1
+  if args.verbose: print('Reading daily data for month',month+1)
   mean_val = numpy.ma.zeros(nxy)
   squared_val = numpy.ma.zeros(nxy)
   time_val = 0.
@@ -149,4 +149,4 @@ for month,days in enumerate(days_in_month):
 
 nc_out.close()
 nc_in.close()
-if args.verbose: print args.annual_file,'written.'
+if args.verbose: print(args.annual_file,'written.')

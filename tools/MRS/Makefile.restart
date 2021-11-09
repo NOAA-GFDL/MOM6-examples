@@ -1,0 +1,127 @@
+# Construct and run restart tests
+# - Job 01 is first half
+# - Job 12 is second half
+# - Job 02 is full length
+#
+#   compiler = gnu, intel, pgi, cray, ...
+#   mode = repro, debug, coverage, ...
+#   If mom6_memory = dynamic_nonsymmetric or dynamic_symmetric
+#     mom6_configuration = ocean_only, ice_ocean_SIS, ice_ocean_SIS2, land_ice_ocean_LM3_SIS2, coupled_AM2_LM3_SIS, coupled_AM2_LM3_SIS2
+
+# Include local configs if present
+-include config.mk
+
+CONFIGS ?= .
+BUILD ?= build
+MPIRUN ?= srun -mblock --exclusive
+SHELL = bash
+COMPILERS ?= gnu intel pgi
+LOG = > log
+MPTH ?= $(dir $(firstword $(MAKEFILE_LIST)))
+MANIFEST ?= $(CONFIGS)/manifest.mk
+
+RESTART_SKIP ?= circle_obcs|tracer_mixing|unit_test|mixed_layer_restrat_2d
+
+all:
+
+# Converts a path a/b/c to a list "a b c"
+slash_to_list = $(subst /, ,$(1))
+# Replaces a path a/b/c with ../../../
+noop =
+rel_path = $(subst $(noop) $(noop),,$(patsubst %,../,$(call slash_to_list,$(1))))
+
+# Setup restart structure
+$(foreach s,01 12 02,$(foreach f,input.nml MOM_input MOM_override,$(CONFIGS)/%/$(s).ignore/$(f))): | $(CONFIGS)/%
+	bash $(MPTH)setup_restart_test.sh $|
+
+%/restart.gnu: %/12.ignore/ocean.stats.gnu %/02.ignore/ocean.stats.gnu
+	bash $(MPTH)check_restarts.sh $^
+%/restart.intel: %/12.ignore/ocean.stats.intel %/02.ignore/ocean.stats.intel
+	bash $(MPTH)check_restarts.sh $^
+%/restart.pgi: %/12.ignore/ocean.stats.pgi %/02.ignore/ocean.stats.pgi
+	bash $(MPTH)check_restarts.sh $^
+
+# What to run
+-include $(MANIFEST)
+
+MODE ?= repro
+MEMORY ?= dynamic_nonsymmetric
+
+# Dynamic pathway for building ocean.stats.*
+define run-dynamic-model
+$(CONFIGS)/$(2)/%/02.ignore/ocean.stats.$(1): $(BUILD)/$(1)/$$(MODE)/$$(MEMORY)/$(2)/MOM6 $(CONFIGS)/$(2)/%/02.ignore/input.nml $(CONFIGS)/$(2)/%/02.ignore/MOM_input $(CONFIGS)/$(2)/%/02.ignore/MOM_override
+	echo $(BUILD)/$(1)/$$(MODE)/$$(MEMORY)/$(2)/MOM6"("$$(NPES)")" "=>" $$@
+	cd $$(@D) && rm -rf Depth_list.nc CPU_stats.$(1) time_stamp.out $$(@F) RESTART FAIL && mkdir RESTART
+	cd $$(@D) && tic=$$$$(date +%s) && \
+	(OMP_NUM_THREADS=1 KMP_STACKSIZE=512m NC_BLKSZ=1M time $(MPIRUN) -n $$(NPES) $$(call rel_path,$$(@D))$(BUILD)/$(1)/$$(MODE)/$$(MEMORY)/$(2)/MOM6 > log.$(1).out || touch FAIL;) \
+	2>&1 | tee std.err |  egrep -v "ing coupler_init| initializ|ing " | sed 's,^,$$@: ,' && toc=$$$$(date +%s) && echo $$$$(($$$$toc-$$$$tic)) > walltime.$(1).out
+	@test -f $$(@D)/FAIL && exit 9 || true
+$(CONFIGS)/$(2)/%/01.ignore/ocean.stats.$(1): $(BUILD)/$(1)/$$(MODE)/$$(MEMORY)/$(2)/MOM6 $(CONFIGS)/$(2)/%/01.ignore/input.nml $(CONFIGS)/$(2)/%/01.ignore/MOM_input $(CONFIGS)/$(2)/%/01.ignore/MOM_override
+	echo $(BUILD)/$(1)/$$(MODE)/$$(MEMORY)/$(2)/MOM6"("$$(NPES)")" "=>" $$@
+	cd $$(@D) && rm -rf Depth_list.nc CPU_stats.$(1) time_stamp.out $$(@F) RESTART FAIL && mkdir RESTART
+	cd $$(@D) && tic=$$$$(date +%s) && \
+	(OMP_NUM_THREADS=1 KMP_STACKSIZE=512m NC_BLKSZ=1M time $(MPIRUN) -n $$(NPES) $$(call rel_path,$$(@D))$(BUILD)/$(1)/$$(MODE)/$$(MEMORY)/$(2)/MOM6 > log.$(1).out || touch FAIL;) \
+	2>&1 | tee std.err |  egrep -v "ing coupler_init| initializ|ing " | sed 's,^,$$@: ,' && toc=$$$$(date +%s) && echo $$$$(($$$$toc-$$$$tic)) > walltime.$(1).out
+	@test -f $$(@D)/FAIL && exit 9 || true
+$(CONFIGS)/$(2)/%/12.ignore/ocean.stats.$(1): $(BUILD)/$(1)/$$(MODE)/$$(MEMORY)/$(2)/MOM6 $(CONFIGS)/$(2)/%/12.ignore/input.nml $(CONFIGS)/$(2)/%/12.ignore/MOM_input $(CONFIGS)/$(2)/%/12.ignore/MOM_override $(CONFIGS)/$(2)/%/01.ignore/ocean.stats.$(1)
+	echo $(BUILD)/$(1)/$$(MODE)/$$(MEMORY)/$(2)/MOM6"("$$(NPES)")" "=>" $$@
+	cd $$(@D) && rm -rf Depth_list.nc CPU_stats.$(1) time_stamp.out $$(@F) RESTART FAIL && mkdir RESTART
+	cd $$(@D) && mkdir -p INPUT ; cd INPUT && ln -sf ../../01.ignore/RESTART/* .
+	cd $$(@D) && tic=$$$$(date +%s) && \
+	(OMP_NUM_THREADS=1 KMP_STACKSIZE=512m NC_BLKSZ=1M time $(MPIRUN) -n $$(NPES) $$(call rel_path,$$(@D))$(BUILD)/$(1)/$$(MODE)/$$(MEMORY)/$(2)/MOM6 > log.$(1).out || touch FAIL;) \
+	2>&1 | tee std.err | egrep -v "ing coupler_init| initializ|ing " | sed 's,^,$$@: ,' && toc=$$$$(date +%s) && echo $$$$(($$$$toc-$$$$tic)) > walltime.$(1).out
+	@test -f $$(@D)/FAIL && exit 9 || true
+endef
+$(foreach c,gnu intel pgi,$(foreach o,ocean_only ice_ocean_SIS2 land_ice_ocean_LM3_SIS2 coupled_AM2_LM3_SIS coupled_AM2_LM3_SIS2,$(eval $(call run-dynamic-model,$(c),$(o)))))
+
+define stats-files
+$$(shell grep " NPES" $(MANIFEST) | grep $(3) | grep $(1) | egrep -v "$(RESTART_SKIP)" | sed 's/%:.*/$(2)/')
+endef
+define restart-test
+$$(shell grep " NPES" $(MANIFEST) | grep $(2) | grep 02.ignore | egrep -v "$(RESTART_SKIP)" | sed 's,02.ignore.*,restart.$(1),')
+endef
+.SECONDARY: $(shell grep " NPES" $(MANIFEST) | sed 's,ocean.stats.*,input.nml,')
+.SECONDARY: $(shell grep " NPES" $(MANIFEST) | sed 's,ocean.stats.*,MOM_input,')
+.SECONDARY: $(shell grep " NPES" $(MANIFEST) | sed 's,ocean.stats.*,MOM_override,')
+
+# Build restart tests
+$(CONFIGS)/%/02.ignore $(CONFIGS)/%/01.ignore $(CONFIGS)/%/12.ignore: $(CONFIGS)/%
+
+# e.g. gnu_ocean_only, ..., gnu_all
+define generate-targets
+$(foreach s,01 12 02,MOM6-examples/ocean_only/circle_obcs/$(s).ignore/ocean.stats.$(1)): MEMORY=dynamic_symmetric
+#$(1)_ocean_only: $(call stats-files,ocean_only,$(1),$(RESTART_STAGE).ignore)
+# The above target has been temporarily split as a workaround to the breakage of srun deferred-behavior at ORNL
+$(1)_ocean_only_by_dep: $(call stats-files,ocean_only,$(1),$(RESTART_STAGE).ignore)
+$(1)_ocean_only:
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ocean_only_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ocean_only_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ocean_only_by_dep
+	$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ocean_only_by_dep
+#$(1)_ice_ocean_SIS2: $(call stats-files,ice_ocean_SIS2,$(1),$(RESTART_STAGE).ignore)
+# The above target has been temporarily split as a workaround to the breakage of srun deferred-behavior at ORNL
+$(1)_ice_ocean_SIS2_by_dep: $(call stats-files,ice_ocean_SIS2,$(1),$(RESTART_STAGE).ignore)
+$(1)_ice_ocean_SIS2:
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ice_ocean_SIS2_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ice_ocean_SIS2_by_dep
+	-$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ice_ocean_SIS2_by_dep
+	$$(MAKE) -f $(firstword $(MAKEFILE_LIST)) $(1)_ice_ocean_SIS2_by_dep
+$(1)_land_ice_ocean_LM3_SIS2: $(call stats-files,land_ice_ocean_LM3_SIS2,$(1),$(RESTART_STAGE).ignore)
+$(1)_coupled_AM2_LM3_SIS: $(call stats-files,coupled_AM2_LM3_SIS/,$(1),$(RESTART_STAGE).ignore)
+$(1)_coupled_AM2_LM3_SIS2: $(call stats-files,coupled_AM2_LM3_SIS2,$(1),$(RESTART_STAGE).ignore)
+$(1)_all: $(call stats-files,/,$(1),$(RESTART_STAGE).ignore)
+restart_$(1)_ocean_only: $(call restart-test,$(1),ocean_only)
+restart_$(1)_ice_ocean_SIS2: $(call restart-test,$(1),ice_ocean_SIS2)
+endef
+$(foreach c,$(COMPILERS),$(eval $(call generate-targets,$(c))))
+
+clean_gnu:
+	find $(CONFIGS) -name "ocean.stats.gnu" -exec rm {} \;
+clean_intel:
+	find $(CONFIGS) -name "ocean.stats.intel" -exec rm {} \;
+clean_pgi:
+	find $(CONFIGS) -name "ocean.stats.pgi" -exec rm {} \;
+clean:
+	find $(CONFIGS) -name "*.out" -exec rm {} \;
+clean_setup:
+	find $(CONFIGS)/[oilc]* -name "??.ignore" -prune -exec rm -rf {} \;

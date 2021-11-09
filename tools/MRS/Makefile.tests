@@ -1,0 +1,135 @@
+# Runs model and stores resulting ocean.stats files in tar files (that can be cached)
+
+# Include local configs if present
+-include config.mk
+
+BUILD ?= build
+COMPILERS ?= gnu intel pgi
+SHELL = bash
+MINUS_S = -s
+MINUS_J = -j
+MPTH ?= $(dir $(firstword $(MAKEFILE_LIST)))
+RESULTS ?= results.ignore
+REGRESSIONS ?= ../regressions
+
+SYM_TAR_FILES = $(foreach c,$(COMPILERS),$(RESULTS)/symmetric_$(c).tar.gz)
+NON_SYM_TAR_FILES = $(foreach c,$(COMPILERS),$(RESULTS)/non_symmetric_$(c).tar.gz) $(RESULTS)/static_gnu.tar.gz
+TAR_FILES = $(SYM_TAR_FILES) $(NON_SYM_TAR_FILES) $(RESULTS)/restart_stats_gnu.tar.gz
+
+all:
+	time make -f $(MPTH)Makefile.tests $(SYM_TAR_FILES)
+	time make -f $(MPTH)Makefile.tests $(NON_SYM_TAR_FILES)
+	time make -f $(MPTH)Makefile.tests $(RESULTS)/restart_stats_gnu.tar.gz
+gnu: $(RESULTS)/non_symmetric_gnu.tar.gz $(RESULTS)/symmetric_gnu.tar.gz $(RESULTS)/static_gnu.tar.gz
+intel: $(RESULTS)/non_symmetric_intel.tar.gz $(RESULTS)/symmetric_intel.tar.gz
+pgi: $(RESULTS)/non_symmetric_pgi.tar.gz $(RESULTS)/symmetric_pgi.tar.gz
+
+# Runs model and tars up regression files
+# 1 - prefix, 2 - compiler, 3 - make args
+define collect-regressions
+$(RESULTS)/$(1)_$(2).tar.gz:
+	@echo -e "\e[0Ksection_start:`date +%s`:$$(@F)[collapsed=true]\r\e[0KRun target $$@"
+	make -f $(MPTH)Makefile.tests clean_$(2) $(MINUS_S)
+	@echo -n '$(1) $2 starting at ' && date
+	-time make -f tools/MRS/Makefile.run $(3) $(MINUS_S) $(MINUS_J)
+	time make -f tools/MRS/Makefile.run $(3) $(MINUS_S) $(MINUS_J)
+	@echo -n '$(1) $2 finished at ' && date
+	mkdir -p $$(@D)
+	tar zvcf $$@ `find [oilc]*/ -name ocean.stats.$(2)`
+	tar zvcf $$(@D)/params_$$(@F) `find [oilc]*/ -name "*_parameter_doc.*" -o -name "*available_diags*"`
+	@echo -e "\e[0Ksection_end:`date +%s`:$$(@F)\r\e[0K"
+endef
+$(foreach c,$(COMPILERS),$(eval $(call collect-regressions,non_symmetric,$(c),$(c)_all)))
+$(foreach c,$(COMPILERS),$(eval $(call collect-regressions,symmetric,$(c),$(c)_all MEMORY=dynamic_symmetric)))
+$(foreach c,$(COMPILERS),$(eval $(call collect-regressions,static,$(c),$c_static_ocean_only MEMORY=static)))
+
+clean_%:
+	find [oilc]*/ -name ocean.stats.$* | xargs -r rm
+clean:
+	rm -rf $(TAR_FILES) $(foreach c,$(COMPILERS),_$(c) $(c).md5)
+
+# Unpacks regressions from tar file and checks status
+# 1 - compiler, 2 - tar file prefix
+define check-regressions
+$(1)_$(2): $(RESULTS)/true_$(1).md5 $(RESULTS)/$(2)_$(1).tar.gz
+	@echo -e "\e[0Ksection_start:`date +%s`:$$@[collapsed=true]\r\e[0KUncache results $$@"
+	@mkdir -p $(RESULTS)/$$@
+	cd $(RESULTS)/$$@ ; tar zvxf ../$(2)_$(1).tar.gz
+	@echo -e "\e[0Ksection_end:`date +%s`:$$@\r\e[0K"
+	cd $(RESULTS)/$$@ ; md5sum -c ../true_$(1).md5
+endef
+$(foreach c,$(COMPILERS),$(eval $(call check-regressions,$(c),symmetric)))
+$(foreach c,$(COMPILERS),$(eval $(call check-regressions,$(c),non_symmetric)))
+
+# Unpacks static regressions from tar file and checks status
+# 1 - compiler, 2 - tar file prefix
+define check-static-regressions
+$(1)_$(2): $(RESULTS)/true_$(1).md5 $(RESULTS)/$(2)_$(1).tar.gz $(RESULTS)/symmetric_$(1).tar.gz
+	@echo -e "\e[0Ksection_start:`date +%s`:$$(@F)[collapsed=true]\r\e[0KUncache results $$@"
+	@mkdir -p $(RESULTS)/$$@
+	cd $(RESULTS)/$$@ ; tar zvxf ../symmetric_$(1).tar.gz
+	cd $(RESULTS)/$$@ ; tar zvxf ../$(2)_$(1).tar.gz
+	@echo -e "\e[0Ksection_end:`date +%s`:$$(@F)\r\e[0K"
+	cd $(RESULTS)/$$@ ; md5sum -c ../true_$(1).md5
+endef
+$(foreach c,$(COMPILERS),$(eval $(call check-static-regressions,$(c),static)))
+
+# Unpacks non-symmetric regressions and compares to symmetric regressions
+# 1 - compiler
+define check-memory-reproducibility
+$(1)_memory:
+	@echo -e "\e[0Ksection_start:`date +%s`:1$$@[collapsed=true]\r\e[0KUncache non-symmetric results $$@"
+	@mkdir -p $(RESULTS)/$$@
+	cd $(RESULTS)/$$@ ; tar zvxf ../non_symmetric_$(1).tar.gz
+	@echo -e "\e[0Ksection_end:`date +%s`:1$$@\r\e[0K"
+	cd $(RESULTS)/$$@ ; md5sum `find [oilc]* -name ocean.stats.$(1)` > $(1).md5
+	@echo -e "\e[0Ksection_start:`date +%s`:2$$@[collapsed=true]\r\e[0KUncache symmetric results $$@"
+	cd $(RESULTS)/$$@ ; tar zvxf ../symmetric_$(1).tar.gz
+	@echo -e "\e[0Ksection_end:`date +%s`:2$$@\r\e[0K"
+	cd $(RESULTS)/$$@ ; md5sum -c $(1).md5
+endef
+$(foreach c,$(COMPILERS),$(eval $(call check-memory-reproducibility,$(c))))
+
+$(RESULTS)/true_%.md5:
+	mkdir -p $(@D)
+	(cd $(REGRESSIONS) && md5sum `find [oilc]* -name ocean.stats.$*`) > $@
+
+# Runs restart tests
+# 1 - compiler
+define run-restart-tests
+$(1)_run_restart: $(RESULTS)/restart_stats_$(1).tar.gz
+$(RESULTS)/restart_stats_$(1).tar.gz:
+	@echo -e "\e[0Ksection_start:`date +%s`:$$(@F)[collapsed=true]\r\e[0KRun target $$@"
+	time make -f tools/MRS/Makefile.restart $(1)_ocean_only $(MINUS_S) $(MINUS_J) RESTART_STAGE=01
+	time make -f tools/MRS/Makefile.restart $(1)_ice_ocean_SIS2 $(MINUS_S) $(MINUS_J) RESTART_STAGE=01
+	time make -f tools/MRS/Makefile.restart $(1)_ocean_only $(MINUS_S) $(MINUS_J) RESTART_STAGE=02
+	time make -f tools/MRS/Makefile.restart $(1)_ice_ocean_SIS2 $(MINUS_S) $(MINUS_J) RESTART_STAGE=02
+	time make -f tools/MRS/Makefile.restart $(1)_ocean_only $(MINUS_S) $(MINUS_J) RESTART_STAGE=12
+	time make -f tools/MRS/Makefile.restart $(1)_ice_ocean_SIS2 $(MINUS_S) $(MINUS_J) RESTART_STAGE=12
+	mkdir -p $(RESULTS)
+	tar zvcf $$@ `find [oilc]*/ -path "*/??.ignore/*" -name ocean.stats.$(1)`
+	@echo -e "\e[0Ksection_end:`date +%s`:$$(@F)\r\e[0K"
+endef
+$(foreach c,$(COMPILERS),$(eval $(call run-restart-tests,$(c))))
+
+# Tests restart output
+# 1 - compiler
+define test-restarts
+$(1)_check_restarts:
+	@echo -e "\e[0Ksection_start:`date +%s`:$$@[collapsed=true]\r\e[0KUncache results $$@"
+	tar zvxf $(RESULTS)/restart_stats_$(1).tar.gz
+	@echo -e "\e[0Ksection_end:`date +%s`:$$@\r\e[0K"
+	make -f tools/MRS/Makefile.restart restart_$(1)_ocean_only restart_$(1)_ice_ocean_SIS2 $(MINUS_S) -k
+endef
+$(foreach c,$(COMPILERS),$(eval $(call test-restarts,$(c))))
+
+# Unpacks parameters from tar file and checks status
+# 1 - compiler, 2 - tar file prefix
+define check-params
+params_$(1)_$(2):
+	@echo -e "\e[0Ksection_start:`date +%s`:$$@[collapsed=true]\r\e[0KUncache params $$@"
+	tar zvxf $(RESULTS)/params_$(2)_$(1).tar.gz
+	@echo -e "\e[0Ksection_end:`date +%s`:$$@\r\e[0K"
+	git diff --exit-code [oicl]*
+endef
+$(foreach c,$(COMPILERS),$(eval $(call check-params,$(c),symmetric)))

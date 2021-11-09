@@ -17,6 +17,9 @@ CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! astronomy.
 DO_ICEBERGS = True              !   [Boolean] default = False
                                 ! If true, call the iceberg module.
+! ADD_DIURNAL_SW should only be true if the model is forced with a product that does not include SW forcing!
+ADD_DIURNAL_SW = False          !   [Boolean] default = False
+                                ! If true, add a synthetic diurnal cycle to the shortwave radiation.
 
 ! === module MOM_domains ===
 TRIPOLAR_N = True               !   [Boolean] default = False
