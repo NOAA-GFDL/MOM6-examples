@@ -88,12 +88,6 @@ MAXIMUM_DEPTH = 2000.0          !   [m]
 NK = 2                          !   [nondim]
                                 ! The number of model layers.
 
-! === module MOM_restart ===
-PARALLEL_RESTARTFILES = True    !   [Boolean] default = False
-                                ! If true, the IO layout is used to group processors that write to the same
-                                ! restart file or each processor writes its own (numbered) restart file. If
-                                ! false, a single restart file is generated combining output from all PEs.
-
 ! === module MOM_tracer_flow_control ===
 
 ! === module MOM_coord_initialization ===
@@ -263,8 +257,6 @@ WIND_CONFIG = "2gyre"           ! default = "zero"
                                 ! options include (file), (data_override), (2gyre), (1gyre), (gyres), (zero),
                                 ! (const), (Neverworld), (scurves), (ideal_hurr), (SCM_ideal_hurr),
                                 ! (SCM_CVmix_tests) and (USER).
-
-! === module MOM_restart ===
 
 ! === module MOM_main (MOM_driver) ===
 DT_FORCING = 2400.0             !   [s] default = 1200.0
