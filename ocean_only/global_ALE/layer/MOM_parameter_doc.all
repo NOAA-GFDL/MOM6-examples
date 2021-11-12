@@ -180,6 +180,11 @@ NJHALO = 4                      ! default = 4
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
 
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
+                                ! A reference value for geometric height fields, such as bathyT.
+
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
                                 ! The directory in which input files are found.
@@ -382,11 +387,6 @@ TRACERS_MAY_REINIT = False      !   [Boolean] default = False
                                 ! If true, tracers may go through the initialization code if they are not found
                                 ! in the restart files.  Otherwise it is a fatal error if the tracers are not
                                 ! found in the restart files of a restarted run.
-
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
-                                ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           ! default = "none"
