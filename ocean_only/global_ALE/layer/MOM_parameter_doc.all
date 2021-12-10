@@ -915,11 +915,6 @@ ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.15E-09
                                 ! total tolerance for SSH is 4 times this value.  The default is
                                 ! 0.5*NK*ANGSTROM, and this should not be set less than about
                                 ! 10^-15*MAXIMUM_DEPTH.
-ETA_TOLERANCE_AUX = 1.0E-06     !   [m] default = 1.0E-06
-                                ! The tolerance for free-surface height discrepancies between the barotropic
-                                ! solution and the sum of the layer thicknesses when calculating the auxiliary
-                                ! corrected velocities. By default, this is the same as ETA_TOLERANCE, but can
-                                ! be made larger for efficiency.
 VELOCITY_TOLERANCE = 1.0E-04    !   [m s-1] default = 3.0E+08
                                 ! The tolerance for barotropic velocity discrepancies between the barotropic
                                 ! solution and  the sum of the layer thicknesses.
@@ -1776,9 +1771,6 @@ USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
 BULKML_CONV_MOMENTUM_BUG = False !   [Boolean] default = False
                                 ! If true, use code with a bug that causes a loss of momentum conservation
                                 ! during mixedlayer convection.
-ALLOW_CLOCKS_IN_OMP_LOOPS = True !   [Boolean] default = True
-                                ! If true, clocks can be called from inside loops that can be threaded. To run
-                                ! with multiple threads, set to False.
 LIMIT_BUFFER_DET_DH_SFC = 0.5   !   [nondim] default = 0.5
                                 ! The fractional limit in the change between grid points of the surface region
                                 ! (mixed & buffer layer) thickness.
