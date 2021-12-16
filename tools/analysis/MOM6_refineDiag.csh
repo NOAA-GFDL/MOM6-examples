@@ -101,6 +101,9 @@ chmod +x $script_dir/*.py
 set ocean_static_file = $yr1.ocean_static.nc
 if ( -e $yr1.ocean_static_no_mask_table.nc ) set ocean_static_file = $yr1.ocean_static_no_mask_table.nc
 
+set basin_codes_file = basin_codes.nc
+if ( -e $yr1.basin_codes.nc ) set basin_codes_file = $yr1.basin_codes.nc
+
 set basin_codes_d2_file = ocean_static_d2.nc
 
 #echo '====annual mean Eddy Kinetic Energy======'
@@ -109,13 +112,13 @@ set basin_codes_d2_file = ocean_static_d2.nc
 
 echo '==== Offline Diagnostics ===='
 if ( -f $yr1.ocean_month.nc ) then
-  $script_dir/refineDiag_ocean_month.py -b basin_codes.nc -r $refineDiagDir $yr1.ocean_month.nc
+  $script_dir/refineDiag_ocean_month.py -b $basin_codes_file -r $refineDiagDir $yr1.ocean_month.nc
 endif
 if ( -f $yr1.ocean_month_z.nc ) then
-  $script_dir/refineDiag_ocean_month_z.py -b basin_codes.nc -r $refineDiagDir -s ./ $yr1.ocean_month_z.nc
+  $script_dir/refineDiag_ocean_month_z.py -b $basin_codes_file -r $refineDiagDir -s ./ $yr1.ocean_month_z.nc
 endif
 if ( -f $yr1.ocean_month_rho2.nc ) then
-  $script_dir/refineDiag_ocean_month_rho2.py -b basin_codes.nc -r $refineDiagDir $yr1.ocean_month_rho2.nc
+  $script_dir/refineDiag_ocean_month_rho2.py -b $basin_codes_file -r $refineDiagDir $yr1.ocean_month_rho2.nc
 endif
 
 echo '==== Offline Diagnostics downsampled ===='
