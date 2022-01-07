@@ -460,6 +460,13 @@ SCM_L2_DSDZ = 0.0               !   [PPT/m] default = 0.0
                                 ! Initial salinity stratification in layer 2
 SCM_L2_MINTEMP = 4.0            !   [C] default = 4.0
                                 ! Layer 2 minimum temperature
+DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
+                                ! If true,  depress the initial surface to avoid huge tsunamis when a large
+                                ! surface pressure is applied.
+TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
+                                ! If true, cuts way the top of the column for initial conditions at the depth
+                                ! where the hydrostatic pressure matches the imposed surface pressure which is
+                                ! read from file.
 VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 ! A string that determines how the initial velocities are specified for a new
                                 ! run:
@@ -475,13 +482,6 @@ CONVERT_THICKNESS_UNITS = False !   [Boolean] default = False
                                 ! If true,  convert the thickness initial conditions from units of m to kg m-2
                                 ! or vice versa, depending on whether BOUSSINESQ is defined. This does not apply
                                 ! if a restart file is read.
-DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
-                                ! If true,  depress the initial surface to avoid huge tsunamis when a large
-                                ! surface pressure is applied.
-TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
-                                ! If true, cuts way the top of the column for initial conditions at the depth
-                                ! where the hydrostatic pressure matches the imposed surface pressure which is
-                                ! read from file.
 ODA_INCUPD = False              !   [Boolean] default = False
                                 ! If true, oda incremental updates will be applied everywhere in the domain.
 SPONGE = False                  !   [Boolean] default = False

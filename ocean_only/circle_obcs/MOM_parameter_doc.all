@@ -477,6 +477,13 @@ DISK_X_OFFSET = 0.0             !   [kilometers] default = 0.0
 DISK_IC_AMPLITUDE = 5.0         !   [m] default = 5.0
                                 ! Initial amplitude of interface height displacements in the circle_obcs test
                                 ! case.
+DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
+                                ! If true,  depress the initial surface to avoid huge tsunamis when a large
+                                ! surface pressure is applied.
+TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
+                                ! If true, cuts way the top of the column for initial conditions at the depth
+                                ! where the hydrostatic pressure matches the imposed surface pressure which is
+                                ! read from file.
 VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 ! A string that determines how the initial velocities are specified for a new
                                 ! run:
@@ -492,13 +499,6 @@ CONVERT_THICKNESS_UNITS = False !   [Boolean] default = False
                                 ! If true,  convert the thickness initial conditions from units of m to kg m-2
                                 ! or vice versa, depending on whether BOUSSINESQ is defined. This does not apply
                                 ! if a restart file is read.
-DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
-                                ! If true,  depress the initial surface to avoid huge tsunamis when a large
-                                ! surface pressure is applied.
-TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
-                                ! If true, cuts way the top of the column for initial conditions at the depth
-                                ! where the hydrostatic pressure matches the imposed surface pressure which is
-                                ! read from file.
 ODA_INCUPD = False              !   [Boolean] default = False
                                 ! If true, oda incremental updates will be applied everywhere in the domain.
 OBC_SEGMENT_001_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !

@@ -550,6 +550,13 @@ DTDX = 0.02                     !   [C/kilometers] default = 0.0
 L_ZONE = 100.0                  !   [kilometers] default = 20.0
                                 ! Width of baroclinic zone
 %BCZIC
+DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
+                                ! If true,  depress the initial surface to avoid huge tsunamis when a large
+                                ! surface pressure is applied.
+TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
+                                ! If true, cuts way the top of the column for initial conditions at the depth
+                                ! where the hydrostatic pressure matches the imposed surface pressure which is
+                                ! read from file.
 VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 ! A string that determines how the initial velocities are specified for a new
                                 ! run:
@@ -565,13 +572,6 @@ CONVERT_THICKNESS_UNITS = False !   [Boolean] default = False
                                 ! If true,  convert the thickness initial conditions from units of m to kg m-2
                                 ! or vice versa, depending on whether BOUSSINESQ is defined. This does not apply
                                 ! if a restart file is read.
-DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
-                                ! If true,  depress the initial surface to avoid huge tsunamis when a large
-                                ! surface pressure is applied.
-TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
-                                ! If true, cuts way the top of the column for initial conditions at the depth
-                                ! where the hydrostatic pressure matches the imposed surface pressure which is
-                                ! read from file.
 REGRID_ACCELERATE_INIT = False  !   [Boolean] default = False
                                 ! If true, runs REGRID_ACCELERATE_ITERATIONS iterations of the regridding
                                 ! algorithm to push the initial grid to be consistent with the initial
