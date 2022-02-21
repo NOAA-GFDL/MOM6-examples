@@ -442,6 +442,9 @@ THICKNESS_FILE = "GOLD_IC.2010.11.15.nc" !
 ADJUST_THICKNESS = True         !   [Boolean] default = False
                                 ! If true, all mass below the bottom removed if the topography is shallower than
                                 ! the thickness input file would indicate.
+THICKNESS_TOLERANCE = 0.1       !   [m] default = 0.1
+                                ! A parameter that controls the tolerance when adjusting the thickness to fit
+                                ! the bathymetry. Used when ADJUST_THICKNESS=True.
 TS_CONFIG = "file"              !
                                 ! A string that determines how the initial tempertures and salinities are
                                 ! specified for a new run:
