@@ -40,7 +40,10 @@ def run():
 
 def heat_trans_by_basin(x,mask=None,lat=None,minlat=None):
     if mask is not None:
-        if not (x.shape[0] == 1+mask.shape[0]): #symmetric case
+        assert len(mask.shape) == 2, 'mask should be 2 dimensions'
+        assert len(x.shape) == 2 or len(x.shape) == 3, 'data should be 2 or 3 dimensions'
+        # symmetric case
+        if x.shape[-2:][1] == 1+mask.shape[1] and x.shape[-2:][0] == 1+mask.shape[0]:
             mask=np.append(mask,np.zeros((1,mask.shape[1])),axis=0)
         varmask = np.sum(mask,axis=-1)
         varmask = np.expand_dims(varmask,0)

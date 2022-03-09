@@ -230,11 +230,6 @@ ETA_TOLERANCE = 1.0E-06         !   [m] default = 2.0E-08
                                 ! total tolerance for SSH is 4 times this value.  The default is
                                 ! 0.5*NK*ANGSTROM, and this should not be set less than about
                                 ! 10^-15*MAXIMUM_DEPTH.
-ETA_TOLERANCE_AUX = 0.001       !   [m] default = 1.0E-06
-                                ! The tolerance for free-surface height discrepancies between the barotropic
-                                ! solution and the sum of the layer thicknesses when calculating the auxiliary
-                                ! corrected velocities. By default, this is the same as ETA_TOLERANCE, but can
-                                ! be made larger for efficiency.
 
 ! === module MOM_CoriolisAdv ===
 CORIOLIS_EN_DIS = True          !   [Boolean] default = False
@@ -317,6 +312,8 @@ DATE_STAMPED_STDOUT = False     !   [Boolean] default = True
 ENERGYSAVEDAYS = 0.25           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the energies of the run and
                                 ! other globally summed diagnostics.
+
+! === module ocean_stochastics_init ===
 
 ! === module MOM_surface_forcing ===
 VARIABLE_WINDS = False          !   [Boolean] default = True

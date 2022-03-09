@@ -276,10 +276,6 @@ HBBL = 10.0                     !   [m]
                                 ! BOTTOMDRAGLAW is not defined, or the thickness over which near-bottom
                                 ! velocities are averaged for the drag law if BOTTOMDRAGLAW is defined but
                                 ! LINEAR_DRAG is not.
-BBL_USE_EOS = True              !   [Boolean] default = False
-                                ! If true, use the equation of state in determining the properties of the bottom
-                                ! boundary layer.  Otherwise use the layer target potential densities.  The
-                                ! default of this is determined by USE_REGRIDDING.
 BBL_THICK_MIN = 2.0             !   [m] default = 0.0
                                 ! The minimum bottom boundary layer thickness that can be used with
                                 ! BOTTOMDRAGLAW. This might be Kv/(cdrag*drag_bg_vel) to give Kv as the minimum
@@ -421,6 +417,8 @@ DATE_STAMPED_STDOUT = False     !   [Boolean] default = True
 ENERGYSAVEDAYS = 0.125          !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the energies of the run and
                                 ! other globally summed diagnostics.
+
+! === module ocean_stochastics_init ===
 
 ! === module MOM_surface_forcing ===
 VARIABLE_WINDS = False          !   [Boolean] default = True

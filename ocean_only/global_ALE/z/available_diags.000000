@@ -740,6 +740,30 @@
     ! units: m2 s-2
     ! cell_methods: xh:mean yq:point zl:mean
     ! variants: {h_dv_dt_visc,h_dv_dt_visc_xyave}
+"h_du_dt_str"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Zonal Acceleration from Surface Wind Stresses
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {h_du_dt_str,h_du_dt_str_xyave}
+"h_dv_dt_str"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Thickness Multiplied Meridional Acceleration from Surface Wind Stresses
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {h_dv_dt_str,h_dv_dt_str_xyave}
+"du_dt_str_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Zonal Acceleration from Surface Wind Stresses multiplied by viscous remnant
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {du_dt_str_visc_rem,du_dt_str_visc_rem_xyave}
+"dv_dt_str_visc_rem"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Meridional Acceleration from Surface Wind Stresses multiplied by viscous remnant
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {dv_dt_str_visc_rem,dv_dt_str_visc_rem_xyave}
 "PFuBT"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Zonal Anomalous Barotropic Pressure Force Force Acceleration
@@ -1037,6 +1061,18 @@
     ! units: m s-2
     ! cell_methods: xh:mean yq:point zl:mean
     ! variants: {PFv,PFv_xyave}
+"ueffA"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Effective U-Face Area
+    ! units: m^2
+    ! cell_methods: xq:point yh:sum zl:sum
+    ! variants: {ueffA,ueffA_xyave}
+"veffA"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Effective V-Face Area
+    ! units: m^2
+    ! cell_methods: xh:sum yq:point zl:sum
+    ! variants: {veffA,veffA_xyave}
 "hf_PFu_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-sum Fractional Thickness-weighted Zonal Pressure Force Acceleration
@@ -2707,7 +2743,7 @@
     ! variants: {age_dfx,age_dfx_xyave}
 "age_dfy"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Ideal Age Tracer diffusive zonal flux
+    ! long_name: Ideal Age Tracer diffusive meridional flux
     ! units: yr m3 s-1
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {age_dfy,age_dfy_xyave}
@@ -2902,6 +2938,21 @@
     ! units: m s-1
     ! cell_methods: xh:mean yh:mean zl:sum area:mean
     ! variants: {vert_remap_h_tendency,vert_remap_h_tendency_xyave}
+"sppt_pattern"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: random pattern for sppt
+    ! units: None
+    ! cell_methods: xh:mean yh:mean area:mean
+"epbl1_wts"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: random pattern for KE generation
+    ! units: None
+    ! cell_methods: xh:mean yh:mean area:mean
+"epbl2_wts"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: random pattern for KE dissipation
+    ! units: None
+    ! cell_methods: xh:mean yh:mean area:mean
 "taux"  [Used] (CMOR equivalent is "tauuo")
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Zonal surface stress from ocean interactions with atmos and ice

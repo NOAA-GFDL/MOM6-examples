@@ -93,7 +93,7 @@ MINIMUM_DEPTH = 9.5             !   [m] default = 0.0
                                 ! MASKING_DEPTH are rounded to MINIMUM_DEPTH.
 MASKING_DEPTH = 0.0             !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all fluxes are
-                                ! zeroed out. MASKING_DEPTH needs to be smaller than MINIMUM_DEPTH
+                                ! zeroed out. MASKING_DEPTH is ignored if it has the special default value.
 MAXIMUM_DEPTH = 6500.0          !   [m]
                                 ! The maximum depth of the ocean.
 CHANNEL_CONFIG = "list"         ! default = "none"
@@ -323,6 +323,8 @@ DEPTH_LIST_MIN_INC = 1.0E-06    !   [m] default = 1.0E-10
 ENERGYSAVEDAYS = 0.25           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the energies of the run and
                                 ! other globally summed diagnostics.
+
+! === module ocean_stochastics_init ===
 
 ! === module MOM_surface_forcing ===
 VARIABLE_WINDS = False          !   [Boolean] default = True

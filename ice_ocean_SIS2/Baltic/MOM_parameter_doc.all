@@ -107,6 +107,11 @@ FIRST_DIRECTION = 0             ! default = 0
                                 ! An integer that indicates which direction goes first in parts of the code that
                                 ! use directionally split updates, with even numbers (or 0) used for x- first
                                 ! and odd numbers used for y-first.
+ALTERNATE_FIRST_DIRECTION = False !   [Boolean] default = False
+                                ! If true, after every dynamic timestep alternate whether the x- or y- direction
+                                ! updates occur first in directionally split parts of the calculation. If this
+                                ! is true, FIRST_DIRECTION applies at the start of a new run or if the next
+                                ! first direction can not be found in the restart file.
 CHECK_BAD_SURFACE_VALS = False  !   [Boolean] default = False
                                 ! If true, check the surface state for ridiculous values.
 DEFAULT_2018_ANSWERS = False    !   [Boolean] default = False
@@ -126,11 +131,15 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =0, never write the geometry and vertical grid files. If =1, write the
                                 ! geometry and vertical grid files only for a new simulation. If =2, always
                                 ! write the geometry and vertical grid files. Other values are invalid.
+USE_PARTICLES = False           !   [Boolean] default = False
+                                ! If true, use the particles package.
 ENSEMBLE_OCEAN = False          !   [Boolean] default = False
                                 ! If False, The model is being run in serial mode as a single realization. If
                                 ! True, The current model realization is part of a larger ensemble and at the
                                 ! end of step MOM, we will perform a gather of the ensemble members for
                                 ! statistical evaluation and/or data assimilation.
+HOMOGENIZE_FORCINGS = False     !   [Boolean] default = False
+                                ! If True, homogenize the forces and fluxes.
 
 ! === module MOM_domains ===
 REENTRANT_X = False             !   [Boolean] default = True
@@ -155,6 +164,11 @@ NJHALO = 4                      ! default = 4
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
+
+! === module MOM_grid ===
+! Parameters providing information about the lateral grid.
+REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
+                                ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_fixed_initialization ===
 INPUTDIR = "INPUT"              ! default = "."
@@ -216,7 +230,7 @@ MINIMUM_DEPTH = 0.5             !   [m] default = 0.0
                                 ! MASKING_DEPTH are rounded to MINIMUM_DEPTH.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all fluxes are
-                                ! zeroed out. MASKING_DEPTH needs to be smaller than MINIMUM_DEPTH
+                                ! zeroed out. MASKING_DEPTH is ignored if it has the special default value.
 MAXIMUM_DEPTH = 6000.0          !   [m]
                                 ! The maximum depth of the ocean.
 
@@ -291,13 +305,11 @@ DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
 
 ! === module MOM_restart ===
 PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
-                                ! If true, each processor writes its own restart file, otherwise a single
-                                ! restart file is generated
+                                ! If true, the IO layout is used to group processors that write to the same
+                                ! restart file or each processor writes its own (numbered) restart file. If
+                                ! false, a single restart file is generated combining output from all PEs.
 RESTARTFILE = "MOM.res"         ! default = "MOM.res"
                                 ! The name-root of the restart file.
-LARGE_FILE_SUPPORT = True       !   [Boolean] default = True
-                                ! If true, use the file-size limits with NetCDF large file support (4Gb),
-                                ! otherwise the limit is 2Gb.
 MAX_FIELDS = 100                ! default = 100
                                 ! The maximum number of restart fields that can be used.
 RESTART_CHECKSUMS_REQUIRED = True !   [Boolean] default = True
@@ -412,11 +424,6 @@ CFC12_E2 = 0.091015             !   [PSU-1 hK-1] default = 0.091015
 CFC12_E3 = -0.0153924           !   [PSU-1 hK-2] default = -0.0153924
                                 ! A coefficient in the solubility of CFC12.
 
-! === module MOM_grid ===
-! Parameters providing information about the lateral grid.
-REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
-                                ! A reference value for geometric height fields, such as bathyT.
-
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "file"           ! default = "none"
                                 ! This specifies how layers are to be defined:
@@ -444,6 +451,10 @@ COORD_VAR = "Layer"             ! default = "Layer"
                                 ! The variable in COORD_FILE that is to be used for the coordinate densities.
 
 ! === module MOM_state_initialization ===
+FATAL_INCONSISTENT_RESTART_TIME = False !   [Boolean] default = False
+                                ! If true and a time_in value is provided to MOM_initialize_state, verify that
+                                ! the time read from a restart file is the same as time_in, and issue a fatal
+                                ! error if it is not.  Otherwise, simply set the time to time_in if present.
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
                                 ! If true, initialize the layer thicknesses, temperatures, and salinities from a
                                 ! Z-space file on a latitude-longitude grid.
@@ -502,6 +513,13 @@ LAYER_Z_INIT_IC_EXTRAP_BUG = True !   [Boolean] default = True
                                 ! If true use an expression with a vertical indexing bug for extrapolating the
                                 ! densities at the bottom of unstable profiles from data when finding the
                                 ! initial interface locations in layered mode from a dataset of T and S.
+DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
+                                ! If true,  depress the initial surface to avoid huge tsunamis when a large
+                                ! surface pressure is applied.
+TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
+                                ! If true, cuts way the top of the column for initial conditions at the depth
+                                ! where the hydrostatic pressure matches the imposed surface pressure which is
+                                ! read from file.
 VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 ! A string that determines how the initial velocities are specified for a new
                                 ! run:
@@ -517,13 +535,6 @@ CONVERT_THICKNESS_UNITS = False !   [Boolean] default = False
                                 ! If true,  convert the thickness initial conditions from units of m to kg m-2
                                 ! or vice versa, depending on whether BOUSSINESQ is defined. This does not apply
                                 ! if a restart file is read.
-DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
-                                ! If true,  depress the initial surface to avoid huge tsunamis when a large
-                                ! surface pressure is applied.
-TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
-                                ! If true, cuts way the top of the column for initial conditions at the depth
-                                ! where the hydrostatic pressure matches the imposed surface pressure which is
-                                ! read from file.
 ODA_INCUPD = False              !   [Boolean] default = False
                                 ! If true, oda incremental updates will be applied everywhere in the domain.
 SPONGE = False                  !   [Boolean] default = False
@@ -651,7 +662,7 @@ INTERNAL_WAVE_SPEED_TOL = 0.001 !   [nondim] default = 0.001
                                 ! The fractional tolerance for finding the wave speeds.
 INTERNAL_WAVE_SPEED_MIN = 0.0   !   [m s-1] default = 0.0
                                 ! A floor in the first mode speed below which 0 used instead.
-INTERNAL_WAVE_SPEED_BETTER_EST = False !   [Boolean] default = False
+INTERNAL_WAVE_SPEED_BETTER_EST = False !   [Boolean] default = True
                                 ! If true, use a more robust estimate of the first mode wave speed as the
                                 ! starting point for iterations.
 USE_QG_LEITH_GM = False         !   [Boolean] default = False
@@ -706,10 +717,10 @@ DRAG_BG_VEL = 0.1               !   [m s-1] default = 0.0
                                 ! unresolved  velocity that is combined with the resolved velocity to estimate
                                 ! the velocity magnitude.  DRAG_BG_VEL is only used when BOTTOMDRAGLAW is
                                 ! defined.
-BBL_USE_EOS = False             !   [Boolean] default = False
+BBL_USE_EOS = False             !   [Boolean] default = True
                                 ! If true, use the equation of state in determining the properties of the bottom
                                 ! boundary layer.  Otherwise use the layer target potential densities.  The
-                                ! default of this is determined by USE_REGRIDDING.
+                                ! default of this parameter is the value of USE_EOS.
 BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! The minimum bottom boundary layer thickness that can be used with
                                 ! BOTTOMDRAGLAW. This might be Kv/(cdrag*drag_bg_vel) to give Kv as the minimum
@@ -828,11 +839,6 @@ ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.15E-09
                                 ! total tolerance for SSH is 4 times this value.  The default is
                                 ! 0.5*NK*ANGSTROM, and this should not be set less than about
                                 ! 10^-15*MAXIMUM_DEPTH.
-ETA_TOLERANCE_AUX = 1.0E-06     !   [m] default = 1.0E-06
-                                ! The tolerance for free-surface height discrepancies between the barotropic
-                                ! solution and the sum of the layer thicknesses when calculating the auxiliary
-                                ! corrected velocities. By default, this is the same as ETA_TOLERANCE, but can
-                                ! be made larger for efficiency.
 VELOCITY_TOLERANCE = 1.0E-04    !   [m s-1] default = 3.0E+08
                                 ! The tolerance for barotropic velocity discrepancies between the barotropic
                                 ! solution and  the sum of the layer thicknesses.
@@ -945,9 +951,6 @@ LEITH_KH = False                !   [Boolean] default = False
 MODIFIED_LEITH = False          !   [Boolean] default = False
                                 ! If true, add a term to Leith viscosity which is proportional to the gradient
                                 ! of divergence.
-RES_SCALE_MEKE_VISC = False     !   [Boolean] default = False
-                                ! If true, the viscosity contribution from MEKE is scaled by the resolution
-                                ! function.
 BOUND_KH = True                 !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited to be stable.
 BETTER_BOUND_KH = True          !   [Boolean] default = True
@@ -996,7 +999,7 @@ BOUND_CORIOLIS_VEL = 6.0        !   [m s-1] default = 6.0
                                 ! to have comparable magnitude to the Coriolis acceleration.  The default is set
                                 ! by MAXVEL.
 USE_LAND_MASK_FOR_HVISC = True  !   [Boolean] default = True
-                                ! If true, use Use the land mask for the computation of thicknesses at velocity
+                                ! If true, use the land mask for the computation of thicknesses at velocity
                                 ! locations. This eliminates the dependence on arbitrary values over land or
                                 ! outside of the domain.
 HORVISC_BOUND_COEF = 0.8        !   [nondim] default = 0.8
@@ -1635,9 +1638,6 @@ USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
 BULKML_CONV_MOMENTUM_BUG = False !   [Boolean] default = False
                                 ! If true, use code with a bug that causes a loss of momentum conservation
                                 ! during mixedlayer convection.
-ALLOW_CLOCKS_IN_OMP_LOOPS = True !   [Boolean] default = True
-                                ! If true, clocks can be called from inside loops that can be threaded. To run
-                                ! with multiple threads, set to False.
 LIMIT_BUFFER_DET_DH_SFC = 0.5   !   [nondim] default = 0.5
                                 ! The fractional limit in the change between grid points of the surface region
                                 ! (mixed & buffer layer) thickness.
@@ -1777,6 +1777,16 @@ ENERGYSAVEDAYS_GEOMETRIC = 0.0  !   [days] default = 0.0
                                 ! The starting interval in units of TIMEUNIT for the first call to save the
                                 ! energies of the run and other globally summed diagnostics. The interval
                                 ! increases by a factor of 2. after each call to write_energy.
+
+! === module ocean_stochastics_init ===
+DO_SPPT = False                 !   [Boolean] default = False
+                                ! If true, then stochastically perturb the thermodynamic tendemcies of T,S, amd
+                                ! h.  Amplitude and correlations are controlled by the nam_stoch namelist in the
+                                ! UFS model only.
+PERT_EPBL = False               !   [Boolean] default = False
+                                ! If true, then stochastically perturb the kinetic energy production and
+                                ! dissipation terms.  Amplitude and correlations are controlled by the nam_stoch
+                                ! namelist in the UFS model only.
 
 ! === module ocean_model_init ===
 SINGLE_STEPPING_CALL = True     !   [Boolean] default = True

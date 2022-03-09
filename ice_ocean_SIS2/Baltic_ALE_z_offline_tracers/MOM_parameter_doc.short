@@ -255,6 +255,9 @@ USE_STORED_SLOPES = True        !   [Boolean] default = False
                                 ! If true, the isopycnal slopes are calculated once and stored for re-use. This
                                 ! uses more memory but avoids calling the equation of state more times than
                                 ! should be necessary.
+INTERNAL_WAVE_SPEED_BETTER_EST = False !   [Boolean] default = True
+                                ! If true, use a more robust estimate of the first mode wave speed as the
+                                ! starting point for iterations.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False
@@ -507,6 +510,8 @@ MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
 ENERGYSAVEDAYS = 0.5            !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the energies of the run and
                                 ! other globally summed diagnostics.
+
+! === module ocean_stochastics_init ===
 
 ! === module ocean_model_init ===
 RESTART_CONTROL = 3             ! default = 1
