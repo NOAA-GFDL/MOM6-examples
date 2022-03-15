@@ -760,6 +760,15 @@ KHTH_MAX_CFL = 0.8              !   [nondimensional] default = 0.8
                                 ! thickness diffusivity. 1.0 is the marginally unstable value in a pure layered
                                 ! model, but much smaller numbers (e.g. 0.1) seem to work better for ALE-based
                                 ! models.
+KH_ETA_CONST = 0.0              !   [m2 s-1] default = 0.0
+                                ! The background horizontal diffusivity of the interface heights (without
+                                ! considering the layer density structure).  If diffusive CFL limits are
+                                ! encountered, the diffusivities of the isopycnals and the interfaces heights
+                                ! are scaled back proportionately.
+KH_ETA_VEL_SCALE = 0.0          !   [m s-1] default = 0.0
+                                ! A velocity scale that is multiplied by the grid spacing to give a contribution
+                                ! to the horizontal diffusivity of the interface heights (without considering
+                                ! the layer density structure).
 DETANGLE_INTERFACES = False     !   [Boolean] default = False
                                 ! If defined add 3-d structured enhanced interface height diffusivities to
                                 ! horizontally smooth jagged layers.
