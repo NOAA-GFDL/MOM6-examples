@@ -586,7 +586,7 @@ CONVERT_THICKNESS_UNITS = False !   [Boolean] default = False
                                 ! if a restart file is read.
 SURFACE_PRESSURE_FILE = "Ocean1_3D.nc" !
                                 ! The initial condition file for the surface pressure exerted by ice.
-SURFACE_PRESSURE_VAR = "thick"  !   [Pa] default = ""
+SURFACE_PRESSURE_VAR = "thick"  ! default = ""
                                 ! The initial condition variable for the surface pressure exerted by ice.
 SURFACE_PRESSURE_SCALE = 8820.0 !   [file dependent] default = 1.0
                                 ! A scaling factor to convert SURFACE_PRESSURE_VAR from file
@@ -763,6 +763,15 @@ KHTH_MAX_CFL = 0.8              !   [nondimensional] default = 0.8
                                 ! thickness diffusivity. 1.0 is the marginally unstable value in a pure layered
                                 ! model, but much smaller numbers (e.g. 0.1) seem to work better for ALE-based
                                 ! models.
+KH_ETA_CONST = 0.0              !   [m2 s-1] default = 0.0
+                                ! The background horizontal diffusivity of the interface heights (without
+                                ! considering the layer density structure).  If diffusive CFL limits are
+                                ! encountered, the diffusivities of the isopycnals and the interfaces heights
+                                ! are scaled back proportionately.
+KH_ETA_VEL_SCALE = 0.0          !   [m s-1] default = 0.0
+                                ! A velocity scale that is multiplied by the grid spacing to give a contribution
+                                ! to the horizontal diffusivity of the interface heights (without considering
+                                ! the layer density structure).
 DETANGLE_INTERFACES = False     !   [Boolean] default = False
                                 ! If defined add 3-d structured enhanced interface height diffusivities to
                                 ! horizontally smooth jagged layers.

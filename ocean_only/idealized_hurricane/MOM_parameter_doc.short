@@ -104,6 +104,7 @@ REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 !  SIGMA - terrain following coordinates
                                 !  RHO   - continuous isopycnal
                                 !  HYCOM1 - HyCOM-like hybrid coordinate
+                                !  HYBGEN - Hybrid coordinate from the Hycom hybgen code
                                 !  SLIGHT - stretched coordinates above continuous isopycnal
                                 !  ADAPTIVE - optimize for smooth neutral density surfaces
 ALE_COORDINATE_CONFIG = "FILE:vgrid.nc,dz" ! default = "UNIFORM"
@@ -308,7 +309,7 @@ IDL_HURR_X0 = 3.432E+06         !   [m] default = 0.0
                                 ! Idealized Hurricane initial X position
 IDL_HURR_Y0 = 9.0E+05           !   [m] default = 0.0
                                 ! Idealized Hurricane initial Y position
-IDL_HURR_SCM_BR_BENCH = True    ! default = False
+IDL_HURR_SCM_BR_BENCH = True    !   [Boolean] default = False
                                 ! Single column mode benchmark case switch, which is invoking a modification
                                 ! (bug) in the wind profile meant to reproduce a previous implementation.
 
