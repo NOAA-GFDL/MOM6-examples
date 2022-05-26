@@ -18,9 +18,9 @@
 CONFIGS ?= ./
 
 # Local relative paths to with source whose version is usually determined by sub-modules in MOM6-examples
-FMS_DIR_NAME ?= FMS1
 SRC_DIR ?= $(CONFIGS)/src
-FMS_SRC ?= $(SRC_DIR)/$(FMS_DIR_NAME)
+FMS1_SRC ?= $(SRC_DIR)/FMS1
+FMS2_SRC ?= $(SRC_DIR)/FMS2
 MOM6_SRC ?= $(SRC_DIR)/MOM6
 SIS2_SRC ?= $(SRC_DIR)/SIS2
 COUPLER_SRC ?= $(SRC_DIR)/coupler
@@ -47,7 +47,7 @@ AM2_REPOS=$(AM2)/atmos_drivers $(AM2)/atmos_fv_dynamics $(AM2)/atmos_shared_am3
 SIS1_SRC=$(SRC_DIR)/sis1
 
 SHELL = bash
-COMPONENT_SRC ?= fms coupler icebergs atmos_null land_null sis1 ice_param lm3 am2
+COMPONENT_SRC ?= fms1 fms coupler icebergs atmos_null land_null sis1 ice_param lm3 am2
 COMPILERS ?= gnu intel pgi cray
 MODES = repro debug coverage openmp
 LOG = > log
@@ -65,6 +65,7 @@ all: repro_gnu repro_intel repro_pgi
 # Environments (env files are source before compilation)
 # make-env-dep: $(1) = compiler, $(2) = mode
 define make-env-dep
+$(BUILD)/$(1)/$(2)/fms1/libfms.a: $(BUILD)/$(1)/env
 $(BUILD)/$(1)/$(2)/fms/libfms.a: $(BUILD)/$(1)/env
 endef
 $(foreach c, $(COMPILERS),$(foreach m,$(MODES),$(eval $(call make-env-dep,$c,$m))))
@@ -133,10 +134,17 @@ $(BUILD)/%/$(1)$(2): $(BUILD)/%/$(1)Makefile $(foreach l,$(4),$(BUILD)/%/$(l))
 	@test -f $$@ || exit 11
 endef
 
+# build/compiler/mode/fms1/libfms.a
+#$(BUILD)/%/fms1/path_names: LIST_PATHS_ARGS = $(FMS1_SRC)/{platform,include,memutils,mpp,fms,constants,time_manager,diag_manager,coupler,field_manager,time_interp,axis_utils,horiz_interp,data_override,astronomy,exchange,mosaic,tracer_manager,sat_vapor_pres,random_numbers}
+$(BUILD)/%/fms1/path_names: LIST_PATHS_ARGS = $(FMS1_SRC)/
+$(foreach c, $(COMPILERS),$(foreach m,$(MODES),$(BUILD)/$(c)/$(m)/fms1/path_names)): $(FMS1_SRC)/*/*
+$(BUILD)/%/fms1/Makefile: MKMF_OPTS = -p libfms.a -c '-Duse_netCDF -Duse_libMPI'
+$(eval $(call compile,fms1/,libfms.a,../../env))
+
 # build/compiler/mode/fms/libfms.a
-#$(BUILD)/%/fms/path_names: LIST_PATHS_ARGS = $(FMS_SRC)/{platform,include,memutils,mpp,fms,constants,time_manager,diag_manager,coupler,field_manager,time_interp,axis_utils,horiz_interp,data_override,astronomy,exchange,mosaic,tracer_manager,sat_vapor_pres,random_numbers}
-$(BUILD)/%/fms/path_names: LIST_PATHS_ARGS = $(FMS_SRC)/
-$(foreach c, $(COMPILERS),$(foreach m,$(MODES),$(BUILD)/$(c)/$(m)/fms/path_names)): $(FMS_SRC)/*/*
+#$(BUILD)/%/fms/path_names: LIST_PATHS_ARGS = $(FMS2_SRC)/{platform,include,memutils,mpp,fms,constants,time_manager,diag_manager,coupler,field_manager,time_interp,axis_utils,horiz_interp,data_override,astronomy,exchange,mosaic,tracer_manager,sat_vapor_pres,random_numbers}
+$(BUILD)/%/fms/path_names: LIST_PATHS_ARGS = $(FMS2_SRC)/
+$(foreach c, $(COMPILERS),$(foreach m,$(MODES),$(BUILD)/$(c)/$(m)/fms/path_names)): $(FMS2_SRC)/*/*
 $(BUILD)/%/fms/Makefile: MKMF_OPTS = -p libfms.a -c '-Duse_netCDF -Duse_libMPI'
 $(eval $(call compile,fms/,libfms.a,../../env))
 
@@ -179,7 +187,7 @@ $(BUILD)/%/ice_param/Makefile: MKMF_OPTS = -p libice_param.a -o '-I../fms'
 $(eval $(call compile,ice_param/,libice_param.a,../../env,fms/libfms.a))
 
 # build/compiler/mode/am2/libam2.a
-$(BUILD)/%/am2/path_names: LIST_PATHS_ARGS = $(AM2_SRC)/ $(AM2_SRC)/*/ $(AM2_SRC)/*/*/ $(FMS_SRC)/include/fms_platform.h
+$(BUILD)/%/am2/path_names: LIST_PATHS_ARGS = $(AM2_SRC)/ $(AM2_SRC)/*/ $(AM2_SRC)/*/*/ $(FMS2_SRC)/include/fms_platform.h
 $(foreach c, $(COMPILERS),$(foreach m,$(MODES),$(BUILD)/$(c)/$(m)/am2/path_names)): $(AM2_SRC)/*/* $(AM2_SRC)/*/*/*
 $(BUILD)/%/am2/Makefile: MKMF_OPTS = -p libam2.a -o '-I../fms' -c '$(CPP_DEFS)'
 $(BUILD)/%/am2/Makefile: CPP_DEFS += -DSPMD -Duse_AM3_physics
@@ -200,7 +208,7 @@ $(BUILD)/%/mom6/libmom6.a: MKMF_OPTS = -p libmom6.a -o '-I../../fms' -c '$(CPP_D
 $(eval $(call compile,mom6/,libmom6.a,../../../env,))
 
 # build/compiler/mode/mom6_memory/mom6_configuration/MOM6
-$(BUILD)/%/ocean_only/path_names: LIST_PATHS_ARGS = $(MOM6_SRC)/config_src/drivers/solo_driver/ $(wildcard $(MOM6_SRC)/config_src/ext*/*/) $(MOM6_SRC)/config_src/infra/$(FMS_DIR_NAME)/
+$(BUILD)/%/ocean_only/path_names: LIST_PATHS_ARGS = $(MOM6_SRC)/config_src/drivers/solo_driver/ $(wildcard $(MOM6_SRC)/config_src/ext*/*/) $(MOM6_SRC)/config_src/infra/FMS2/
 $(eval $(call compile,,MOM6,$$(ENV_SCRIPT),))
 
 # Generate lists of variables and dependencies for SIS2 libraries
@@ -221,8 +229,8 @@ $(foreach c,$(COMPILERS),$(foreach m,$(MODES),$(foreach d,$(MEMORY_MODES),$(fore
 # Generate lists of variables and dependencies for MOM6 libraries
 # $(1) = compiler, $(2) = mode, $(3) = memory style
 define libmom6-variables
-$(BUILD)/$(1)/$(2)/$(3)/mom6/path_names: LIST_PATHS_ARGS = $(MOM6_SRC)/src/*/ $(MOM6_SRC)/src/*/*/ $(MOM6_SRC)/config_src/memory/$(3)/ $(MOM6_SRC)/config_src/drivers/FMS_cap/ $(wildcard $(MOM6_SRC)/config_src/ext*/*/) $(MOM6_SRC)/config_src/infra/$(FMS_DIR_NAME)/
-$(BUILD)/$(1)/$(2)/$(3)/mom6/path_names: $(MOM6_SRC)/src/*/* $(MOM6_SRC)/src/*/*/* $(MOM6_SRC)/config_src/memory/$(3)/* $(MOM6_SRC)/config_src/drivers/FMS_cap/* $(wildcard $(MOM6_SRC)/config_src/ext*/*/*) $(MOM6_SRC)/config_src/infra/$(FMS_DIR_NAME)/*
+$(BUILD)/$(1)/$(2)/$(3)/mom6/path_names: LIST_PATHS_ARGS = $(MOM6_SRC)/src/*/ $(MOM6_SRC)/src/*/*/ $(MOM6_SRC)/config_src/memory/$(3)/ $(MOM6_SRC)/config_src/drivers/FMS_cap/ $(wildcard $(MOM6_SRC)/config_src/ext*/*/) $(MOM6_SRC)/config_src/infra/FMS2/
+$(BUILD)/$(1)/$(2)/$(3)/mom6/path_names: $(MOM6_SRC)/src/*/* $(MOM6_SRC)/src/*/*/* $(MOM6_SRC)/config_src/memory/$(3)/* $(MOM6_SRC)/config_src/drivers/FMS_cap/* $(wildcard $(MOM6_SRC)/config_src/ext*/*/*) $(MOM6_SRC)/config_src/infra/FMS2/*
 $(BUILD)/$(1)/$(2)/$(3)/mom6/Makefile: CPP_DEFS += -D_FILE_VERSION="`$(GIT_VERSION_SCRIPT) $$$$<`" -DSTATSLABEL=\"$(STATS_PLATFORM)$(1)$(STATS_COMPILER_VER)\"
 $(BUILD)/$(1)/$(2)/$(3)/mom6/libmom6.a: $(BUILD)/$(1)/$(2)/fms/libfms.a
 .SECONDARY: $(BUILD)/$(1)/$(2)/$(3)/mom6/path_names
@@ -234,8 +242,8 @@ $(foreach c,$(COMPILERS),$(foreach m,$(MODES),$(foreach d,$(MEMORY_MODES),$(eval
 # Generate lists of variables and dependencies for MOM6 executables
 # $(1) = compiler, $(2) = mode, $(3) = memory style, $(4) = mom6 configuration
 define mom6-ocean-only-variables
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: LIST_PATHS_ARGS += $(MOM6_SRC)/src/*/ $(MOM6_SRC)/src/*/*/ $(MOM6_SRC)/config_src/memory/$(3)/ $(MOM6_SRC)/config_src/infra/$(FMS_DIR_NAME)/
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: $(MOM6_SRC)/src/*/* $(MOM6_SRC)/src/*/*/* $(MOM6_SRC)/config_src/memory/$(3)/* $(MOM6_SRC)/config_src/drivers/solo_driver/* $(wildcard $(MOM6_SRC)/config_src/ext*/*/*) $(MOM6_SRC)/config_src/infra/$(FMS_DIR_NAME)/*
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: LIST_PATHS_ARGS += $(MOM6_SRC)/src/*/ $(MOM6_SRC)/src/*/*/ $(MOM6_SRC)/config_src/memory/$(3)/ $(MOM6_SRC)/config_src/infra/FMS2/
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: $(MOM6_SRC)/src/*/* $(MOM6_SRC)/src/*/*/* $(MOM6_SRC)/config_src/memory/$(3)/* $(MOM6_SRC)/config_src/drivers/solo_driver/* $(wildcard $(MOM6_SRC)/config_src/ext*/*/*) $(MOM6_SRC)/config_src/infra/FMS2/*
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms' -l '$$(LIBS)' -c '$$(CPP_DEFS)'
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS += -D_FILE_VERSION="`$(GIT_VERSION_SCRIPT) $$$$<`"
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS += -DSTATSLABEL=\"$(STATS_PLATFORM)$(1)$(STATS_COMPILER_VER)\"
@@ -251,8 +259,8 @@ define mom6-static-mom-memory
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/$(word 3,$(call slash_to_list,$(5)))/path_names: LIST_PATHS_ARGS += $(5)/
 endef
 define mom6-static-variables
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/%/path_names: LIST_PATHS_ARGS += $(MOM6_SRC)/src/*/ $(MOM6_SRC)/src/*/*/ $(MOM6_SRC)/config_src/infra/$(FMS_DIR_NAME)/
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/%/path_names: $(MOM6_SRC)/src/*/* $(MOM6_SRC)/src/*/*/* $(MOM6_SRC)/config_src/infra/$(FMS_DIR_NAME)/*
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/%/path_names: LIST_PATHS_ARGS += $(MOM6_SRC)/src/*/ $(MOM6_SRC)/src/*/*/ $(MOM6_SRC)/config_src/infra/FMS2/
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/%/path_names: $(MOM6_SRC)/src/*/* $(MOM6_SRC)/src/*/*/* $(MOM6_SRC)/config_src/infra/FMS2/*
 $(BUILD)/$(1)/$(2)/$(3)/ocean_only/%/path_names: $(MOM6_SRC)/config_src/drivers/solo_driver/* $(wildcard $(MOM6_SRC)/config_src/ext*/*/*)
 $(BUILD)/$(1)/$(2)/$(3)/ocean_only/%/path_names: LIST_PATHS_ARGS += $(MOM6_SRC)/config_src/drivers/solo_driver/ $(wildcard $(MOM6_SRC)/config_src/ext*/*/)
 $(foreach e,$(wildcard $(CONFIGS)/$(4)/*),$(eval $(call mom6-static-mom-memory,$(1),$(2),$(3),$(4),$(e))))
@@ -269,7 +277,7 @@ define mom6-sis2-variables
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,coupler atmos_null land_null ice_param icebergs fms,-L../../$(l))
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,sis2 mom6,-L../$(l))
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,coupler atmos_null land_null sis2 ice_param icebergs mom6 fms,-l$(l))
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms -I $(FMS_SRC)/include' -l '$$(LIBS)' -c '$$(CPP_DEFS)'
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms -I $(FMS2_SRC)/include' -l '$$(LIBS)' -c '$$(CPP_DEFS)'
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/fms/libfms.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/icebergs/libicebergs.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/$(3)/sis2/libsis2.a
@@ -322,22 +330,21 @@ endef
 $(foreach c,$(COMPILERS),$(foreach m,$(MODES),$(foreach d,$(MEMORY_MODES),$(foreach o,coupled_AM2_LM3_SIS,$(eval $(call mom6-am2-lm3_sis1-variables,$(c),$(m),$(d),$(o)))))))
 
 define mom6-am2-lm3_sis2-variables
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: LIST_PATHS_ARGS = $(COUPLER_SRC)/
-$(foreach c, $(COMPILERS),$(foreach m,$(MODES),$(BUILD)/$(1)/$(2)/$(3)/$(4)/coupler/path_names)): $(COUPLER_SRC)/*
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,am2 lm3 ice_param icebergs fms,-L../../$(l))
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,sis2 mom6,-L../$(l))
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,am2 lm3 sis2 ice_param icebergs mom6 fms,-l$(l))
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms -I../../am2 -I../../lm3 -I../mom6 -I../sis2 -I../../icebergs -I../../ice_param' -l '$$(LIBS)' -c '$$(CPP_DEFS)'
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: LIST_PATHS_ARGS = $(MOM6_SRC)/src/*/ $(MOM6_SRC)/src/*/*/ $(MOM6_SRC)/config_src/memory/$(3)/ $(MOM6_SRC)/config_src/drivers/FMS_cap/ $(wildcard $(MOM6_SRC)/config_src/ext*/*/) $(MOM6_SRC)/config_src/infra/FMS1/
+$(BUILD)/$(1)/$(2)/dynamic_nonsymmetric/$(4)/path_names: LIST_PATHS_ARGS += $(SIS2_SRC)/config_src/dynamic/ $(SIS2_SRC)/config_src/external/* $(SIS2_SRC)/src/ $(MOM6_SRC)/src/framework/MOM_memory_macros.h
+$(BUILD)/$(1)/$(2)/dynamic_symmetric/$(4)/path_names: LIST_PATHS_ARGS += $(SIS2_SRC)/config_src/dynamic_symmetric/ $(SIS2_SRC)/config_src/external/* $(SIS2_SRC)/src/ $(MOM6_SRC)/src/framework/MOM_memory_macros.h
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: LIST_PATHS_ARGS += $(COUPLER_SRC)/
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: LIST_PATHS_ARGS += $(ICE_PARAM_SRC)/
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: LIST_PATHS_ARGS += $(ICEBERGS_SRC)/
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: LIST_PATHS_ARGS += $(LM3_SRC)/
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: LIST_PATHS_ARGS += $(AM2_SRC)/
+$(foreach c, $(COMPILERS),$(foreach m,$(MODES),$(BUILD)/$(1)/$(2)/$(3)/$(4)/coupler/path_names)): $(ICEBERGS_SRC)/* $(SIS2_SRC)/* $(MOM6_SRC)/* $(COUPLER_SRC)/* $(ICE_PARAM_SRC)/* $(LM3_SRC)/* $(AM2_SRC)/*
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += -L../../fms1 -lfms
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms1 -I../../../../../$(FMS1_SRC)/include' -l '$$(LIBS)' -c '$$(CPP_DEFS)'
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS = -DSPMD
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS += -Duse_AM3_physics
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS += -D_USE_LEGACY_LAND_
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/fms/libfms.a
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/icebergs/libicebergs.a
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/$(3)/sis2/libsis2.a
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/$(3)/mom6/libmom6.a
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/coupler/libcoupler.a
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/ice_param/libice_param.a
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/lm3/liblm3.a
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/am2/libam2.a
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/fms1/libfms.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: ENV_SCRIPT = ../../../env
 .SECONDARY: $(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names
 .SECONDARY: $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile
@@ -346,7 +353,7 @@ $(foreach c,$(COMPILERS),$(foreach m,$(MODES),$(foreach d,$(MEMORY_MODES),$(fore
 
 # Special rule for land pre-processing
 $(SRC_DIR)/LM3/land_lad2_cpp: $(SRC_DIR)/LM3/land_lad2
-	find $(LM3)/land_lad2 -type f -name \*.F90 -exec cpp -Duse_libMPI -Duse_netCDF -nostdinc -C -v -I $(FMS_SRC)/include -o '{}'.cpp {} \;
+	find $(LM3)/land_lad2 -type f -name \*.F90 -exec cpp -Duse_libMPI -Duse_netCDF -nostdinc -C -v -I $(FMS1_SRC)/include -o '{}'.cpp {} \;
 	find $(LM3)/land_lad2 -type f -name \*.F90.cpp -exec rename .F90.cpp .f90 {} \;
 	mkdir -p $(LM3)/land_lad2_cpp
 	find $(LM3)/land_lad2 -type f -name \*.f90 -exec mv {} $(LM3)/land_lad2_cpp/ \;
