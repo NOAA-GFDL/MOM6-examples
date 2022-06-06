@@ -95,6 +95,11 @@ BOUND_SALINITY = True           !   [Boolean] default = False
                                 ! salt than is available and drive the salinity negative otherwise.)
 MIN_SALINITY = 0.0              !   [PPT] default = 0.0
                                 ! The minimum value of salinity when BOUND_SALINITY=True.
+SALINITY_UNDERFLOW = 0.0        !   [PPT] default = 0.0
+                                ! A tiny value of salinity below which the it is set to 0.  For reference, one
+                                ! molecule of salt per square meter of ocean is of order 1e-29 ppt.
+TEMPERATURE_UNDERFLOW = 0.0     !   [degC] default = 0.0
+                                ! A tiny magnitude of temperatures below which they are set to 0.
 C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
                                 ! The heat capacity of sea water, approximated as a constant. This is only used
                                 ! if ENABLE_THERMODYNAMICS is true. The default value is from the TEOS-10
