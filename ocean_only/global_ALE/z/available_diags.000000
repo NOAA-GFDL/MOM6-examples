@@ -428,6 +428,18 @@
     ! units: m s-2
     ! cell_methods: xq:point yh:mean zl:mean
     ! variants: {rvxv,rvxv_xyave}
+"CAu_Stokes"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Zonal Acceleration from Stokes Vorticity
+    ! units: m-1 s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {CAu_Stokes,CAu_Stokes_xyave}
+"CAv_Stokes"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Meridional Acceleration from Stokes Vorticity
+    ! units: m-1 s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {CAv_Stokes,CAv_Stokes_xyave}
 "hf_gKEu_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Depth-sum Fractional Thickness-weighted Zonal Acceleration from Grad. Kinetic Energy
@@ -1323,6 +1335,20 @@
     ! units: psu
     ! standard_name: sea_water_salinity_at_sea_floor
     ! cell_methods: xh:mean yh:mean area:mean
+"tosq"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Square of Potential Temperature
+    ! units: degc2
+    ! standard_name: Potential Temperature Squared
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {tosq,tosq_xyave}
+"sosq"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Square of Salinity
+    ! units: psu2
+    ! standard_name: Salinity Squared
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {sosq,sosq_xyave}
 "temp_layer_ave"  [Used]
     ! modules: ocean_model
     ! long_name: Layer Average Ocean Temperature
@@ -3183,11 +3209,6 @@
     ! long_name: Heat content (relative to 0degC) of frozen prec entering ocean
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
-"heat_content_icemelt"  [Unused]
-    ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Heat content (relative to 0degC) of water flux due to sea ice melting/freezing
-    ! units: W m-2
-    ! cell_methods: xh:mean yh:mean area:mean
 "heat_content_vprec"  [Used]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Heat content (relative to 0degC) of virtual precip entering ocean
@@ -3196,6 +3217,11 @@
 "heat_content_cond"  [Used]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Heat content (relative to 0degC) of water condensing into ocean
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"heat_content_evap"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Heat content (relative to 0degC) of water evaporating from ocean
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "hfrainds"  [Used]
@@ -3321,10 +3347,6 @@
     ! modules: ocean_model
     ! long_name: Area integrated heat content (relative to 0C) of frozen precip
     ! units: W
-"total_heat_content_icemelt"  [Unused]
-    ! modules: ocean_model
-    ! long_name: Area integrated heat content (relative to 0C) of water flux due sea ice melting/freezing
-    ! units: W
 "total_heat_content_vprec"  [Used]
     ! modules: ocean_model
     ! long_name: Area integrated heat content (relative to 0C) of virtual precip
@@ -3332,6 +3354,10 @@
 "total_heat_content_cond"  [Used]
     ! modules: ocean_model
     ! long_name: Area integrated heat content (relative to 0C) of condensate
+    ! units: W
+"total_heat_content_evap"  [Unused]
+    ! modules: ocean_model
+    ! long_name: Area integrated heat content (relative to 0C) of evaporation
     ! units: W
 "total_heat_content_surfwater"  [Used]
     ! modules: ocean_model

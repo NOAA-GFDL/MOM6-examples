@@ -690,6 +690,9 @@ USE_STORED_SLOPES = False       !   [Boolean] default = False
 VERY_SMALL_FREQUENCY = 1.0E-17  !   [s-1] default = 1.0E-17
                                 ! A miniscule frequency that is used to avoid division by 0.  The default value
                                 ! is roughly (pi / (the age of the universe)).
+USE_STANLEY_ISO = False         !   [Boolean] default = False
+                                ! If true, turn on Stanley SGS T variance parameterization in isopycnal slope
+                                ! code.
 USE_QG_LEITH_GM = False         !   [Boolean] default = False
                                 ! If true, use the QG Leith viscosity as the GM coefficient.
 
@@ -791,10 +794,8 @@ KD_SMOOTH = 1.0E-06             !   [m2 s-1] default = 1.0E-06
 KHTH_USE_FGNV_STREAMFUNCTION = False !   [Boolean] default = False
                                 ! If true, use the streamfunction formulation of Ferrari et al., 2010, which
                                 ! effectively emphasizes graver vertical modes by smoothing in the vertical.
-STANLEY_PRM_DET_COEFF = -1.0    !   [nondim] default = -1.0
-                                ! The coefficient correlating SGS temperature variance with the mean temperature
-                                ! gradient in the deterministic part of the Stanley parameterization. Negative
-                                ! values disable the scheme.
+USE_STANLEY_GM = False          !   [Boolean] default = False
+                                ! If true, turn on Stanley SGS T variance parameterization in GM code.
 MEKE_GM_SRC_ALT = False         !   [Boolean] default = False
                                 ! If true, use the GM energy conversion form S^2*N^2*kappa rather than the
                                 ! streamfunction for the GM source term.
@@ -809,6 +810,13 @@ USE_GME = False                 !   [Boolean] default = False
 USE_GM_WORK_BUG = False         !   [Boolean] default = False
                                 ! If true, compute the top-layer work tendency on the u-grid with the incorrect
                                 ! sign, for legacy reproducibility.
+STOCH_EOS = False               !   [Boolean] default = False
+                                ! If true, stochastic perturbations are applied to the EOS in the PGF.
+STANLEY_COEFF = -1.0            !   [not defined] default = -1.0
+                                ! Coefficient correlating the temperature gradient and SGS T variance.
+STANLEY_A = 1.0                 !   [not defined] default = 1.0
+                                ! Coefficient a which scales chi in stochastic perturbation of the SGS T
+                                ! variance.
 
 ! === module MOM_dynamics_split_RK2 ===
 TIDES = False                   !   [Boolean] default = False
@@ -940,10 +948,8 @@ BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! If true, the reconstruction of T & S for pressure in boundary cells is
                                 ! extrapolated, rather than using PCM in these cells. If true, the same order
                                 ! polynomial is used as is used for the interior cells.
-PGF_STANLEY_T2_DET_COEFF = -1.0 !   [nondim] default = -1.0
-                                ! The coefficient correlating SGS temperature variance with the mean temperature
-                                ! gradient in the deterministic part of the Stanley form of the Brankart
-                                ! correction. Negative values disable the scheme.
+USE_STANLEY_PGF = False         !   [Boolean] default = False
+                                ! If true, turn on Stanley SGS T variance parameterization in PGF code.
 
 ! === module MOM_hor_visc ===
 HOR_VISC_2018_ANSWERS = False   !   [Boolean] default = False
