@@ -464,6 +464,9 @@ HOR_REGRID_2018_ANSWERS = False !   [Boolean] default = False
 ADJUST_THICKNESS = True         !   [Boolean] default = False
                                 ! If true, all mass below the bottom removed if the topography is shallower than
                                 ! the thickness input file would indicate.
+THICKNESS_TOLERANCE = 0.1       !   [m] default = 0.1
+                                ! A parameter that controls the tolerance when adjusting the thickness to fit
+                                ! the bathymetry. Used when ADJUST_THICKNESS=True.
 FIT_TO_TARGET_DENSITY_IC = True !   [Boolean] default = True
                                 ! If true, all the interior layers are adjusted to their target densities using
                                 ! mostly temperature This approach can be problematic, particularly in the high
@@ -716,6 +719,9 @@ USE_STORED_SLOPES = False       !   [Boolean] default = False
 VERY_SMALL_FREQUENCY = 1.0E-17  !   [s-1] default = 1.0E-17
                                 ! A miniscule frequency that is used to avoid division by 0.  The default value
                                 ! is roughly (pi / (the age of the universe)).
+USE_STANLEY_ISO = False         !   [Boolean] default = False
+                                ! If true, turn on Stanley SGS T variance parameterization in isopycnal slope
+                                ! code.
 USE_SIMPLER_EADY_GROWTH_RATE = False !   [Boolean] default = False
                                 ! If true, use a simpler method to calculate the Eady growth rate that avoids
                                 ! division by layer thickness. Recommended.
@@ -834,6 +840,15 @@ KHTH_MAX_CFL = 0.8              !   [nondimensional] default = 0.8
                                 ! thickness diffusivity. 1.0 is the marginally unstable value in a pure layered
                                 ! model, but much smaller numbers (e.g. 0.1) seem to work better for ALE-based
                                 ! models.
+KH_ETA_CONST = 0.0              !   [m2 s-1] default = 0.0
+                                ! The background horizontal diffusivity of the interface heights (without
+                                ! considering the layer density structure).  If diffusive CFL limits are
+                                ! encountered, the diffusivities of the isopycnals and the interfaces heights
+                                ! are scaled back proportionately.
+KH_ETA_VEL_SCALE = 0.0          !   [m s-1] default = 0.0
+                                ! A velocity scale that is multiplied by the grid spacing to give a contribution
+                                ! to the horizontal diffusivity of the interface heights (without considering
+                                ! the layer density structure).
 DETANGLE_INTERFACES = False     !   [Boolean] default = False
                                 ! If defined add 3-d structured enhanced interface height diffusivities to
                                 ! horizontally smooth jagged layers.
@@ -856,10 +871,8 @@ FGNV_STRAT_FLOOR = 1.0E-15      !   [nondim] default = 1.0E-15
                                 ! A floor for Brunt-Vasaila frequency in the Ferrari et al., 2010,
                                 ! streamfunction formulation, expressed as a fraction of planetary rotation,
                                 ! OMEGA. This should be tiny but non-zero to avoid degeneracy.
-STANLEY_PRM_DET_COEFF = -1.0    !   [nondim] default = -1.0
-                                ! The coefficient correlating SGS temperature variance with the mean temperature
-                                ! gradient in the deterministic part of the Stanley parameterization. Negative
-                                ! values disable the scheme.
+USE_STANLEY_GM = False          !   [Boolean] default = False
+                                ! If true, turn on Stanley SGS T variance parameterization in GM code.
 USE_KH_IN_MEKE = False          !   [Boolean] default = False
                                 ! If true, uses the thickness diffusivity calculated here to diffuse MEKE.
 USE_GME = False                 !   [Boolean] default = False
@@ -868,6 +881,13 @@ USE_GME = False                 !   [Boolean] default = False
 USE_GM_WORK_BUG = False         !   [Boolean] default = False
                                 ! If true, compute the top-layer work tendency on the u-grid with the incorrect
                                 ! sign, for legacy reproducibility.
+STOCH_EOS = False               !   [Boolean] default = False
+                                ! If true, stochastic perturbations are applied to the EOS in the PGF.
+STANLEY_COEFF = -1.0            !   [not defined] default = -1.0
+                                ! Coefficient correlating the temperature gradient and SGS T variance.
+STANLEY_A = 1.0                 !   [not defined] default = 1.0
+                                ! Coefficient a which scales chi in stochastic perturbation of the SGS T
+                                ! variance.
 
 ! === module MOM_dynamics_split_RK2 ===
 TIDES = True                    !   [Boolean] default = False
@@ -1059,10 +1079,8 @@ BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! If true, the reconstruction of T & S for pressure in boundary cells is
                                 ! extrapolated, rather than using PCM in these cells. If true, the same order
                                 ! polynomial is used as is used for the interior cells.
-PGF_STANLEY_T2_DET_COEFF = -1.0 !   [nondim] default = -1.0
-                                ! The coefficient correlating SGS temperature variance with the mean temperature
-                                ! gradient in the deterministic part of the Stanley form of the Brankart
-                                ! correction. Negative values disable the scheme.
+USE_STANLEY_PGF = False         !   [Boolean] default = False
+                                ! If true, turn on Stanley SGS T variance parameterization in PGF code.
 
 ! === module MOM_hor_visc ===
 HOR_VISC_2018_ANSWERS = False   !   [Boolean] default = False
@@ -1086,9 +1104,6 @@ SMAGORINSKY_KH = False          !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
 LEITH_KH = False                !   [Boolean] default = False
                                 ! If true, use a Leith nonlinear eddy viscosity.
-MODIFIED_LEITH = False          !   [Boolean] default = False
-                                ! If true, add a term to Leith viscosity which is proportional to the gradient
-                                ! of divergence.
 RES_SCALE_MEKE_VISC = False     !   [Boolean] default = False
                                 ! If true, the viscosity contribution from MEKE is scaled by the resolution
                                 ! function.
@@ -1312,6 +1327,8 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! energy to the large-scale geostrophic kinetic energy or 1 plus the square of
                                 ! the grid spacing over the deformation radius, as detailed by Fox-Kemper et al.
                                 ! (2010)
+USE_STANLEY_ML = False          !   [Boolean] default = False
+                                ! If true, turn on Stanley SGS T variance parameterization in ML restrat code.
 
 ! === module MOM_diagnostics ===
 DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0

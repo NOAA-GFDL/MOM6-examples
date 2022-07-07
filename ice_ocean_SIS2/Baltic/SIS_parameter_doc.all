@@ -183,6 +183,12 @@ MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! zeroed out. MASKING_DEPTH is ignored if it has the special default value.
 !MAXIMUM_DEPTH = 608.4598627866924 !   [m]
                                 ! The (diagnosed) maximum depth of the ocean.
+
+! === module SIS_open_boundary ===
+! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
+! if any.
+OBC_NUMBER_OF_SEGMENTS = 0      ! default = 0
+                                ! The number of open boundary segments.
 CHANNEL_CONFIG = "none"         ! default = "none"
                                 ! A parameter that determines which set of channels are restricted to specific
                                 ! widths.  Options are:
@@ -261,6 +267,10 @@ NJHALO_FAST = 0                 ! default = 0
 ! === module SIS_initialize_fixed ===
 
 ! === module MOM_grid_init ===
+
+! === module SIS_open_boundary ===
+! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
+! if any.
 
 ! === module hor_grid ===
 ! Parameters providing information about the lateral grid.
