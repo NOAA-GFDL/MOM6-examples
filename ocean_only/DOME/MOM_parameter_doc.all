@@ -214,6 +214,16 @@ TOPO_CONFIG = "DOME"            !
 ! === module DOME_initialize_topography ===
 MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
+DOME_TOPOG_SLOPE = 0.01         !   [nondim] default = 0.01
+                                ! The slope of the bottom topography in the DOME configuration.
+DOME_SHELF_DEPTH = 600.0        !   [m] default = 600.0
+                                ! The bottom depth in the shelf inflow region in the DOME configuration.
+DOME_SHELF_EDGE_LAT = 600.0     !   [km] default = 600.0
+                                ! The latitude of the shelf edge in the DOME configuration.
+DOME_INFLOW_LON = 1000.0        !   [km] default = 1000.0
+                                ! The edge longitude of the DOME inflow.
+DOME_INFLOW_WIDTH = 100.0       !   [km] default = 100.0
+                                ! The longitudinal width of the DOME inflow channel.
 MAXIMUM_DEPTH = 3600.0          !   [m]
                                 ! The maximum depth of the ocean.
 
@@ -484,6 +494,10 @@ SPONGE_CONFIG = "DOME"          ! default = "file"
                                 !     BFB - Sponge at the southern boundary of the domain
                                 !       for buoyancy-forced basin case.
                                 !     USER - call a user modified routine.
+DOME_SPONGE_DAMP_RATE = 10.0    !   [day-1] default = 10.0
+                                ! The largest damping rate in the DOME sponges.
+DOME_SPONGE_WIDTH = 200.0       !   [km] default = 200.0
+                                ! The width of the the DOME sponges.
 !Total sponge columns = 2400    !
                                 ! The total number of columns where sponges are applied.
 OBC_USER_CONFIG = "DOME"        ! default = "none"
@@ -496,6 +510,14 @@ OBC_USER_CONFIG = "DOME"        ! default = "none"
                                 !    supercritical - now only needed here for the allocations
                                 !    tidal_bay - Flather with tidal forcing on eastern boundary
                                 !    USER - user specified
+DOME_INFLOW_THICKNESS = 300.0   !   [m] default = 300.0
+                                ! The thickness of the dense DOME inflow at the inner edge.
+DOME_INFLOW_RI_TRANS = 0.3333333333333333 !   [nondim] default = 0.3333333333333333
+                                ! The shear Richardson number in the transition region of the specified DOME
+                                ! inflow shear profile.
+DOME_INFLOW_F = 1.0E-04         !   [s-1] default = 1.0E-04
+                                ! The value of the Coriolis parameter that is used to determine the DOME inflow
+                                ! properties.
 
 ! === module MOM_diag_mediator ===
 NUM_DIAG_COORDS = 1             ! default = 1
