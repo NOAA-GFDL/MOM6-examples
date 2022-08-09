@@ -162,6 +162,9 @@ WRITE_GEOM = 0                  ! default = 1
                                 ! If =0, never write the geometry and vertical grid files. If =1, write the
                                 ! geometry and vertical grid files only for a new simulation. If =2, always
                                 ! write the geometry and vertical grid files. Other values are invalid.
+USE_DBCLIENT = False            !   [Boolean] default = False
+                                ! If true, initialize a client to a remote database that can be used for online
+                                ! analysis and machine-learning inference.
 USE_PARTICLES = False           !   [Boolean] default = False
                                 ! If true, use the particles package.
 ENSEMBLE_OCEAN = False          !   [Boolean] default = False
@@ -729,6 +732,14 @@ DIAG_COORD_DEF_RHO2 = "FILE:diag_rho2.nc,interfaces=rho2" ! default = "WOA09"
 USE_MEKE = True                 !   [Boolean] default = False
                                 ! If true, turns on the MEKE scheme which calculates a sub-grid mesoscale eddy
                                 ! kinetic energy budget.
+MEKE_IN_DYNAMICS = True         !   [Boolean] default = True
+                                ! If true, step MEKE forward with the dynamicsotherwise with the tracer
+                                ! timestep.
+EKE_SOURCE = "prog"             ! default = "prog"
+                                ! Determine the where EKE comes from:
+                                !   'prog': Calculated solving EKE equation
+                                !   'file': Read in from a file
+                                !   'dbclient': Retrieved from ML-database
 MEKE_DAMPING = 0.0              !   [s-1] default = 0.0
                                 ! The local depth-independent MEKE dissipation rate.
 MEKE_CD_SCALE = 0.0             !   [nondim] default = 0.0
