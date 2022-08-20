@@ -147,6 +147,8 @@ WRITE_GEOM = 1                  ! default = 1
 USE_DBCLIENT = False            !   [Boolean] default = False
                                 ! If true, initialize a client to a remote database that can be used for online
                                 ! analysis and machine-learning inference.
+ICE_SHELF = False               !   [Boolean] default = False
+                                ! If true, enables the ice shelf model.
 USE_PARTICLES = False           !   [Boolean] default = False
                                 ! If true, use the particles package.
 ENSEMBLE_OCEAN = False          !   [Boolean] default = False
@@ -1903,8 +1905,6 @@ OCEAN_SURFACE_STAGGER = "C"     ! default = "C"
                                 ! A case-insensitive character string to indicate the staggering of the surface
                                 ! velocity field that is returned to the coupler.  Valid values include 'A',
                                 ! 'B', or 'C'.
-ICE_SHELF = False               !   [Boolean] default = False
-                                ! If true, enables the ice shelf model.
 ICEBERGS_APPLY_RIGID_BOUNDARY = False !   [Boolean] default = False
                                 ! If true, allows icebergs to change boundary condition felt by ocean
 
