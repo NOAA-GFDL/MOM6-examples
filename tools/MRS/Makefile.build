@@ -74,7 +74,7 @@ $(BUILD)/gnu/env:
 	echo 'source /opt/modules/default/etc/modules.sh' > $@
 	echo 'module use -a /ncrc/home2/fms/local/modulefiles' >> $@
 	echo 'MODULEPATH=/usw/eslogin/modulefiles-c4:/sw/eslogin-c4/modulefiles:/opt/cray/pe/ari/modulefiles:/opt/cray/ari/modulefiles:/opt/cray/pe/modulefiles:/opt/cray/modulefiles:/opt/modulefiles:/sw/common/modulefiles' >> $@
-	echo 'module unload PrgEnv-pgi PrgEnv-intel PrgEnv-gnu darshan; module load PrgEnv-gnu; module unload netcdf gcc; module load $(shell jq -r '.gnu.version' labels.json 2> /dev/null || echo gcc/7.3.0) cray-hdf5 cray-netcdf' >> $@
+	echo 'module unload PrgEnv-pgi PrgEnv-intel PrgEnv-gnu darshan; module load PrgEnv-gnu; module unload netcdf gcc; module load $(shell jq -r '.gnu.version' labels.json 2> /dev/null || echo gcc/9.3.0) cray-hdf5 cray-netcdf' >> $@
 $(BUILD)/intel/env:
 	mkdir -p $(@D)
 	echo 'source /opt/modules/default/etc/modules.sh' > $@

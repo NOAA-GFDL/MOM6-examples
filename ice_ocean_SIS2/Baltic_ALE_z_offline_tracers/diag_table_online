@@ -4,6 +4,7 @@ GOLD_SIS
 
 "off_snap_1day",    1, "days", 1, "days", "time"
 "off_sum_1day",	    1, "days", 1, "days", "time"
+"off_avg_1day",	    1, "days", 1, "days", "time"
 
 # One day resolution
 "ocean_model","ea","ea_sum","off_sum_1day","all",sum,"none",1
@@ -18,3 +19,7 @@ GOLD_SIS
 "ocean_model","h","h_end","off_snap_1day","all",.false.,"none",1
 "ocean_model","temp","temp","off_snap_1day","all",.false.,"none",1
 "ocean_model","salt","salt","off_snap_1day","all",.false.,"none",1
+
+"ocean_model","salt","salt","off_avg_1day","all",.true.,"none",1
+"ocean_model","temp","temp","off_avg_1day","all",.true.,"none",1
+"ocean_model","Kd_interface","Kd_interface","off_avg_1day","all",.true.,"none",1

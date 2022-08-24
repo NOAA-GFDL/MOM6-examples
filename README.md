@@ -1,6 +1,6 @@
 | MOM6 source repo | MOM6 documentation | MOM6 coverage |
 |:----------------:|:------------------:|:-------------:|
-| [![MOM6 status](https://travis-ci.org/NOAA-GFDL/MOM6.svg?branch=dev%2Fgfdl)](https://travis-ci.com/NOAA-GFDL/MOM6) | [![Read The Docs Status](https://readthedocs.org/projects/mom6/badge/?badge=latest)](http://mom6.readthedocs.io/) | [![codecov](https://codecov.io/gh/NOAA-GFDL/MOM6/branch/dev%2Fmaster/graph/badge.svg)](https://codecov.io/gh/NOAA-GFDL/MOM6) |
+| [![Regression](https://github.com/NOAA-GFDL/MOM6/actions/workflows/regression.yml/badge.svg)](https://github.com/NOAA-GFDL/MOM6/actions/workflows/regression.yml) | [![Read The Docs Status](https://readthedocs.org/projects/mom6/badge/?version=main)](https://mom6.readthedocs.io/en/main/?badge=main) | [![codecov](https://codecov.io/gh/NOAA-GFDL/MOM6/branch/dev/gfdl/graph/badge.svg?token=uF8SVydCdp)](https://codecov.io/gh/NOAA-GFDL/MOM6) |
 
 # MOM6-examples
 

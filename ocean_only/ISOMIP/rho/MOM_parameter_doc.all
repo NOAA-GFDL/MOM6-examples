@@ -399,6 +399,7 @@ REGRIDDING_COORDINATE_MODE = "RHO" ! default = "LAYER"
                                 !  SIGMA - terrain following coordinates
                                 !  RHO   - continuous isopycnal
                                 !  HYCOM1 - HyCOM-like hybrid coordinate
+                                !  HYBGEN - Hybrid coordinate from the Hycom hybgen code
                                 !  SLIGHT - stretched coordinates above continuous isopycnal
                                 !  ADAPTIVE - optimize for smooth neutral density surfaces
 REGRIDDING_COORDINATE_UNITS = "kg m^-3" ! default = "kg m^-3"
@@ -475,8 +476,23 @@ REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! variables. It can be one of the following schemes: PCM         (1st-order
                                 ! accurate)
                                 ! PLM         (2nd-order accurate)
+                                ! PLM_HYBGEN  (2nd-order accurate)
                                 ! PPM_H4      (3rd-order accurate)
                                 ! PPM_IH4     (3rd-order accurate)
+                                ! PPM_HYBGEN  (3rd-order accurate)
+                                ! WENO_HYBGEN (3rd-order accurate)
+                                ! PQM_IH4IH3  (4th-order accurate)
+                                ! PQM_IH6IH5  (5th-order accurate)
+VELOCITY_REMAPPING_SCHEME = "PPM_H4" ! default = "PPM_H4"
+                                ! This sets the reconstruction scheme used for vertical remapping of velocities.
+                                ! By default it is the same as REMAPPING_SCHEME. It can be one of the following
+                                ! schemes: PCM         (1st-order accurate)
+                                ! PLM         (2nd-order accurate)
+                                ! PLM_HYBGEN  (2nd-order accurate)
+                                ! PPM_H4      (3rd-order accurate)
+                                ! PPM_IH4     (3rd-order accurate)
+                                ! PPM_HYBGEN  (3rd-order accurate)
+                                ! WENO_HYBGEN (3rd-order accurate)
                                 ! PQM_IH4IH3  (4th-order accurate)
                                 ! PQM_IH6IH5  (5th-order accurate)
 FATAL_CHECK_RECONSTRUCTIONS = False !   [Boolean] default = False
@@ -491,6 +507,10 @@ REMAP_BOUND_INTERMEDIATE_VALUES = False !   [Boolean] default = False
 REMAP_BOUNDARY_EXTRAP = False   !   [Boolean] default = False
                                 ! If true, values at the interfaces of boundary cells are extrapolated instead
                                 ! of piecewise constant
+PARTIAL_CELL_VELOCITY_REMAP = False !   [Boolean] default = False
+                                ! If true, use partial cell thicknesses at velocity points that are masked out
+                                ! where they extend below the shallower of the neighboring bathymetry for
+                                ! remapping velocity.
 REMAP_AFTER_INITIALIZATION = False !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after initialization so
                                 ! that the state is ALE consistent. This is a legacy step and should not be
@@ -507,6 +527,10 @@ REGRID_FILTER_DEEP_DEPTH = 0.0  !   [m] default = 0.0
                                 ! The depth below which full time-filtering is applied with time-scale
                                 ! REGRID_TIME_SCALE. Between depths REGRID_FILTER_SHALLOW_DEPTH and
                                 ! REGRID_FILTER_SHALLOW_DEPTH the filter weights adopt a cubic profile.
+REMAP_VEL_MASK_BBL_THICK = -0.001 !   [m] default = -0.001
+                                ! A thickness of a bottom boundary layer below which velocities in thin layers
+                                ! are zeroed out after remapping, following practice with Hybgen remapping, or a
+                                ! negative value to avoid such filtering altogether.
 
 ! === module MOM_domains min_halo ===
 
@@ -702,7 +726,7 @@ CONVERT_THICKNESS_UNITS = False !   [Boolean] default = False
                                 ! if a restart file is read.
 SURFACE_PRESSURE_FILE = "Ocean1_3D.nc" !
                                 ! The initial condition file for the surface pressure exerted by ice.
-SURFACE_PRESSURE_VAR = "thick"  !   [Pa] default = ""
+SURFACE_PRESSURE_VAR = "thick"  ! default = ""
                                 ! The initial condition variable for the surface pressure exerted by ice.
 SURFACE_PRESSURE_SCALE = 8820.0 !   [file dependent] default = 1.0
                                 ! A scaling factor to convert SURFACE_PRESSURE_VAR from file
@@ -879,6 +903,15 @@ KHTH_MAX_CFL = 0.8              !   [nondimensional] default = 0.8
                                 ! thickness diffusivity. 1.0 is the marginally unstable value in a pure layered
                                 ! model, but much smaller numbers (e.g. 0.1) seem to work better for ALE-based
                                 ! models.
+KH_ETA_CONST = 0.0              !   [m2 s-1] default = 0.0
+                                ! The background horizontal diffusivity of the interface heights (without
+                                ! considering the layer density structure).  If diffusive CFL limits are
+                                ! encountered, the diffusivities of the isopycnals and the interfaces heights
+                                ! are scaled back proportionately.
+KH_ETA_VEL_SCALE = 0.0          !   [m s-1] default = 0.0
+                                ! A velocity scale that is multiplied by the grid spacing to give a contribution
+                                ! to the horizontal diffusivity of the interface heights (without considering
+                                ! the layer density structure).
 DETANGLE_INTERFACES = False     !   [Boolean] default = False
                                 ! If defined add 3-d structured enhanced interface height diffusivities to
                                 ! horizontally smooth jagged layers.
@@ -1067,9 +1100,6 @@ SMAGORINSKY_KH = False          !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
 LEITH_KH = False                !   [Boolean] default = False
                                 ! If true, use a Leith nonlinear eddy viscosity.
-MODIFIED_LEITH = False          !   [Boolean] default = False
-                                ! If true, add a term to Leith viscosity which is proportional to the gradient
-                                ! of divergence.
 BOUND_KH = True                 !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited to be stable.
 BETTER_BOUND_KH = True          !   [Boolean] default = True

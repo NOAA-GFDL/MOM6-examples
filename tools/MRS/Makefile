@@ -2,11 +2,18 @@
 # - Some targets update the working directory so be careful
 # - These targets contain the commands that were in the .gitlab-ci.yml for various repositories. Putting them here allows us to develop and debug them at the command line.
 
+# To test the pipelines by hand, use this Makefile and set CACHE_DIR and CI_PIPELINE_ID to something useful. e.g.
+#   export CACHE_DIR=/lustre/f2/scratch/$USER/tmp
+#   export CI_PIPELINE_ID=0000
+# then
+#   make -f tools/MRS/Makefile ...
+
 # Path to this and other make files
 MPTH ?= $(dir $(firstword $(MAKEFILE_LIST)))
 # Path to configuration working directory (MOM6-examples)
 CONFIGS ?= .
 MOM6_SRC ?= src/MOM6
+SIS2_SRC ?= src/SIS2
 
 all:
 
@@ -121,6 +128,93 @@ mom6-pipeline-test-pgi_memory:
 	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
 	make -f tools/MRS/Makefile.tests pgi_memory
 
+# SIS2 gitlab pipelines (to be run from above MOM6-examples)
+# Note: multiple targets for each job.
+# These commands are run before each job stage
+# - git clone https://gitlab.gfdl.noaa.gov/ogrp/Gaea-stats-MOM6-examples.git tests
+# - cd tests && git submodule init && git submodule update
+# - cd MOM6-examples
+sis2-pipeline-run:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching executables"
+	tar vzxf $(CACHE_DIR)/build-repro-gnu-$(CI_PIPELINE_ID).tgz
+	#tar vzxf $(CACHE_DIR)/build-static-gnu-$(CI_PIPELINE_ID).tgz
+	tar vzxf $(CACHE_DIR)/build-repro-intel-$(CI_PIPELINE_ID).tgz
+	tar vzxf $(CACHE_DIR)/build-repro-pgi-$(CI_PIPELINE_ID).tgz
+	bash tools/MRS/generate_manifest.sh . tools/MRS/excluded-expts.txt > manifest.mk
+	time make -f tools/MRS/Makefile.clone .datasets
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	(echo '#!/bin/tcsh';echo 'time make -f tools/MRS/Makefile sis2-pipeline-run-steps') > job.sh
+	sbatch --clusters=c3,c4 --nodes=30 --time=1:00:00 --account=gfdl_o --qos=debug --job-name=mom6_examples_tests --output=log.$$CI_PIPELINE_ID --wait job.sh && ( egrep -v '.*: *$$|pagefaults|HiWaterMark=' log.$$CI_PIPELINE_ID ; echo Job returned normally ) || ( cat log.$$CI_PIPELINE_ID ; echo Job failed ; exit 911 )
+	test -f results.ignore/restart_stats_gnu.tar.gz || ( echo Batch job did not complete ; exit 911 )
+	@echo -e "\e[0Ksection_start:`date +%s`:cache[collapsed=true]\r\e[0KCaching results"
+	time tar zvcf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz results.*
+	@echo -e "\e[0Ksection_end:`date +%s`:cache\r\e[0K"
+#&& ( echo -e "\e[0Ksection_start:`date +%s`:joblog[collapsed=true]\r\e[0KJob output" ; cat log.$$CI_PIPELINE_ID ; echo -e "\e[0Ksection_end:`date +%s`:joblog\r\e[0K" )
+#|| ( echo -e "\e[0Ksection_start:`date +%s`:joblog[collapsed=true]\r\e[0KJob output" ; cat log.$$CI_PIPELINE_ID ; echo -e "\e[0Ksection_end:`date +%s`:joblog\r\e[0K" ; echo Job failed ; exit 911 )
+sis2-pipeline-run-steps:
+	time make -f tools/MRS/Makefile.sis2_tests all
+
+sis2-pipeline-test-gnu_non_symmetric:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.sis2_tests gnu_non_symmetric
+sis2-pipeline-test-gnu_symmetric:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.sis2_tests gnu_symmetric
+sis2-pipeline-test-gnu_memory:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.sis2_tests gnu_memory
+#sis2-pipeline-test-gnu_static:
+#	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+#	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+#	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+#	make -f tools/MRS/Makefile.sis2_tests gnu_static
+sis2-pipeline-test-gnu_restarts:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+	bash tools/MRS/generate_manifest.sh . tools/MRS/excluded-expts.txt > manifest.mk
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.sis2_tests gnu_check_restarts
+sis2-pipeline-test-params_gnu_symmetric:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.sis2_tests params_gnu_symmetric
+sis2-pipeline-test-intel_non_symmetric:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.sis2_tests intel_non_symmetric
+sis2-pipeline-test-intel_symmetric:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.sis2_tests intel_symmetric
+sis2-pipeline-test-intel_memory:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.sis2_tests intel_memory
+sis2-pipeline-test-pgi_non_symmetric:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.sis2_tests pgi_non_symmetric
+sis2-pipeline-test-pgi_symmetric:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.sis2_tests pgi_symmetric
+sis2-pipeline-test-pgi_memory:
+	@echo -e "\e[0Ksection_start:`date +%s`:uncache[collapsed=true]\r\e[0KUncaching results"
+	time tar vzxf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz
+	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
+	make -f tools/MRS/Makefile.sis2_tests pgi_memory
 
 # Build for all pipelines
 # - always invoked from MOM6-examples
@@ -147,7 +241,7 @@ pipeline-build-gnu-oceanonly-nolibs:
 	@echo -e "\e[0Ksection_end:`date +%s`:clone-$*\r\e[0K"
 	@echo -e "\e[0Ksection_start:`date +%s`:build-$*[collapsed=true]\r\e[0KCompiling executables for $*"
 	make -f tools/MRS/Makefile.build build/gnu/env
-	cd build/gnu && ../../src/mkmf/bin/list_paths -l ../../../../config_src/{drivers/solo_driver,memory/dynamic_symmetric,infra/FMS1,ext*} ../../../../src ../../src/FMS
+	cd build/gnu && ../../src/mkmf/bin/list_paths -l ../../$(MOM6_SRC)/config_src/{drivers/solo_driver,memory/dynamic_symmetric,infra/FMS1,ext*} ../../$(MOM6_SRC)/src ../../src/FMS
 	cd build/gnu && sed -i '/FMS\/.*\/test_/d' path_names
 	cd build/gnu && ../../src/mkmf/bin/mkmf -t ../../src/mkmf/templates/ncrc-gnu.mk -p MOM6 -c"-Duse_libMPI -Duse_netCDF" path_names
 	cd build/gnu && time (source ./env ; make NETCDF=3 REPRO=1 MOM6 -s -j)
@@ -159,7 +253,7 @@ pipeline-build-gnu-iceocean-nolibs:
 	@echo -e "\e[0Ksection_end:`date +%s`:clone-$*\r\e[0K"
 	@echo -e "\e[0Ksection_start:`date +%s`:build-$*[collapsed=true]\r\e[0KCompiling executables for $*"
 	make -f tools/MRS/Makefile.build build/gnu/env
-	cd build/gnu && ../../src/mkmf/bin/list_paths -l ../../../../config_src/{drivers/FMS_cap,memory/dynamic_nonsymmetric,infra/FMS1,ext*} ../../../../src ../../src/{FMS,coupler,SIS2,icebergs,ice_param,land_null,atmos_null}
+	cd build/gnu && ../../src/mkmf/bin/list_paths -l ../../$(MOM6_SRC)/config_src/{drivers/FMS_cap,memory/dynamic_nonsymmetric,infra/FMS1,ext*} ../../$(MOM6_SRC)/src ../../$(SIS2_SRC)/*src ../../src/{FMS,coupler,icebergs,ice_param,land_null,atmos_null}
 	cd build/gnu && sed -i '/FMS\/.*\/test_/d' path_names
 	cd build/gnu && ../../src/mkmf/bin/mkmf -t ../../src/mkmf/templates/ncrc-gnu.mk -p MOM6 -c"-Duse_libMPI -Duse_netCDF -D_USE_LEGACY_LAND_ -Duse_AM3_physics" path_names
 	cd build/gnu && time (source ./env ; make NETCDF=3 REPRO=1 MOM6 -s -j)
