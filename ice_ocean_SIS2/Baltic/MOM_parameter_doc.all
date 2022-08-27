@@ -45,6 +45,9 @@ THICKNESSDIFFUSE = True         !   [Boolean] default = False
 THICKNESSDIFFUSE_FIRST = True   !   [Boolean] default = False
                                 ! If true, do thickness diffusion before dynamics. This is only used if
                                 ! THICKNESSDIFFUSE is true.
+USE_POROUS_BARRIER = True       !   [Boolean] default = True
+                                ! If true, use porous barrier to constrain the widths and face areas at the
+                                ! edges of the grid cells.
 BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
                                 ! If true, there are separate values for the basin depths at velocity points.
                                 ! Otherwise the effects of topography are entirely determined from thickness
@@ -270,6 +273,8 @@ CHANNEL_CONFIG = "global_1deg"  ! default = "none"
                                 !       test case.
                                 !     file - Read open face widths everywhere from a
                                 !       NetCDF file on the model grid.
+SUBGRID_TOPO_AT_VEL = False     !   [Boolean] default = False
+                                ! If true, use variables from TOPO_AT_VEL_FILE as parameters for porous barrier.
 ROTATION = "2omegasinlat"       ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -859,6 +864,23 @@ STANLEY_COEFF = -1.0            !   [not defined] default = -1.0
 STANLEY_A = 1.0                 !   [not defined] default = 1.0
                                 ! Coefficient a which scales chi in stochastic perturbation of the SGS T
                                 ! variance.
+
+! === module MOM_porous_barriers ===
+PORBAR_ANSWER_DATE = 99991231   ! default = 99991231
+                                ! The vintage of the porous barrier weight function calculations.  Values below
+                                ! 20220806 recover the old answers in which the layer averaged weights are not
+                                ! strictly limited by an upper-bound of 1.0 .
+PORBAR_MASKING_DEPTH = 0.0      !   [m] default = 0.0
+                                ! If the effective average depth at the velocity cell is shallower than this
+                                ! number, then porous barrier is not applied at that location.
+                                ! PORBAR_MASKING_DEPTH is assumed to be positive below the sea surface.
+PORBAR_ETA_INTERP = "MAX"       ! default = "MAX"
+                                ! A string describing the method that decicdes how the interface heights at the
+                                ! velocity points are calculated. Valid values are:
+                                !    MAX (the default) - maximum of the adjacent cells
+                                !    MIN - minimum of the adjacent cells
+                                !    ARITHMETIC - arithmetic mean of the adjacent cells
+                                !    HARMOINIC - harmonic mean of the adjacent cells
 
 ! === module MOM_dynamics_split_RK2 ===
 TIDES = False                   !   [Boolean] default = False
