@@ -466,6 +466,10 @@ VERTEX_SHEAR = True             !   [Boolean] default = False
 MAX_RINO_IT = 25                !   [nondim] default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
+KAPPA_SHEAR_VERTEX_PSURF_BUG = False !   [Boolean] default = True
+                                ! If true, do a simple average of the cell surface pressures to get a pressure
+                                ! at the corner if VERTEX_SHEAR=True.  Otherwise mask out any land points in the
+                                ! average.
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
