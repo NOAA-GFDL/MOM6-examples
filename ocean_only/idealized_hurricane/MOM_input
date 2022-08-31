@@ -281,6 +281,10 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 VERTEX_SHEAR = True             !   [Boolean] default = False
                                 ! If true, do the calculations of the shear-driven mixing at the cell vertices
                                 ! (i.e., the vorticity points).
+KAPPA_SHEAR_VERTEX_PSURF_BUG = False !   [Boolean] default = True
+                                ! If true, do a simple average of the cell surface pressures to get a pressure
+                                ! at the corner if VERTEX_SHEAR=True.  Otherwise mask out any land points in the
+                                ! average.
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
