@@ -216,10 +216,10 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
                                 ! The minimum bottom boundary layer thickness that can be used with
                                 ! BOTTOMDRAGLAW. This might be Kv/(cdrag*drag_bg_vel) to give Kv as the minimum
                                 ! near-bottom viscosity.
-KV = 1.0E-04                    !   [m2 s-1]
+KV = 0.0                        !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior. The molecular value, ~1e-6
                                 ! m2 s-1, may be used.
-KV_BBL_MIN = 1.0E-06            !   [m2 s-1] default = 1.0E-04
+KV_BBL_MIN = 0.0                !   [m2 s-1] default = 0.0
                                 ! The minimum viscosities in the bottom boundary layer.
 
 ! === module MOM_thickness_diffuse ===
@@ -260,7 +260,7 @@ BIHARMONIC = False              !   [Boolean] default = True
 HMIX_FIXED = 1.0E-10            !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
-KVBBL = 0.0                     !   [m2 s-1] default = 1.0E-04
+KVBBL = 0.0                     !   [m2 s-1] default = 0.0
                                 ! The kinematic viscosity in the benthic boundary layer. A typical value is
                                 ! ~1e-2 m2 s-1. KVBBL is not used if BOTTOMDRAGLAW is true.  The default is set
                                 ! by KV.
