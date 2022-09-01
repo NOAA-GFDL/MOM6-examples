@@ -420,6 +420,13 @@ ICE_DEL_SH_MIN_SCALE = 2.0      !   [nondim] default = 2.0
 PROJECT_ICE_CONCENTRATION = True !   [Boolean] default = True
                                 ! If true, project the evolution of the ice concentration due to the convergence
                                 ! or divergence of the ice flow.
+VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
+                                ! A negligibly small velocity magnitude below which velocity components are set
+                                ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
+                                ! divided by the age of the universe.
+STRESS_UNDERFLOW = 0.0          !   [Pa m] default = 0.0
+                                ! A negligibly small magnitude below which ice stress tensor components are set
+                                ! to 0.  A reasonable value might be 1e-15 kg m-1 s-1 times vel_underflow.
 CFL_TRUNCATE = 0.5              !   [nondim] default = 0.5
                                 ! The value of the CFL number that will cause ice velocity components to be
                                 ! truncated; instability can occur past 0.5.
