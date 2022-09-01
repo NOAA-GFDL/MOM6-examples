@@ -394,6 +394,16 @@ ICE_STRENGTH_CSTAR = 20.0       !   [nondim] default = 20.0
                                 ! & Dukowicz 1997.
 ICE_CDRAG_WATER = 0.00324       !   [nondim] default = 0.00324
                                 ! The drag coefficient between the sea ice and water.
+B_DYNAMICS_MIN_MASS = 1.0       !   [kg m-2] default = 1.0
+                                ! The minimum ice mass per unit area where the dynamics calculations are carried
+                                ! out with the B-grid sea-ice spatial discretization.
+VEL_UNDERFLOW = 0.0             !   [m s-1] default = 0.0
+                                ! A negligibly small velocity magnitude below which velocity components are set
+                                ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
+                                ! divided by the age of the universe.
+STRESS_UNDERFLOW = 0.0          !   [Pa m] default = 0.0
+                                ! A negligibly small magnitude below which ice stress tensor components are set
+                                ! to 0.  A reasonable value might be 1e-15 kg m-1 s-1 times vel_underflow.
 AIR_WATER_STRESS_TURN_ANGLE = 0.0 !   [degrees] default = 0.0
                                 ! An angle by which to rotate the velocities at the air-water boundary in
                                 ! calculating stresses.
