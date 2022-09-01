@@ -31,3 +31,6 @@ Z_INIT_REMAP_GENERAL = True
 Z_INIT_REMAP_FULL_COLUMN = True
 REMAP_AFTER_INITIALIZATION = False
 REGRID_TIME_SCALE = 86400.0
+KVML = 0.0                      !   [m2 s-1] default = 1.0E-04
+                                ! The kinematic viscosity in the mixed layer.  A typical value is ~1e-2 m2 s-1.
+                                ! KVML is not used if BULKMIXEDLAYER is true.  The default is set by KV.

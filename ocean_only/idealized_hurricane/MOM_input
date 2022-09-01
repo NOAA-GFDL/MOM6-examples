@@ -239,6 +239,9 @@ SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
 HMIX_FIXED = 0.01               !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
+KVML = 0.0                      !   [m2 s-1] default = 1.0E-06
+                                ! The kinematic viscosity in the mixed layer.  A typical value is ~1e-2 m2 s-1.
+                                ! KVML is not used if BULKMIXEDLAYER is true.  The default is set by KV.
 
 ! === module MOM_barotropic ===
 DTBT = 30.0                     !   [s or nondim] default = -0.98
