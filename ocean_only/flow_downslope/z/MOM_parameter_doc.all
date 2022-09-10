@@ -20,9 +20,9 @@ USE_CONTEMP_ABSSAL = False      !   [Boolean] default = False
                                 ! practical salinity before exchanging them with the coupler and/or reporting
                                 ! T&S diagnostics.
 ADIABATIC = False               !   [Boolean] default = False
-                                ! There are no diapycnal mass fluxes if ADIABATIC is true. This assumes that KD
-                                ! = KDML = 0.0 and that there is no buoyancy forcing, but makes the model faster
-                                ! by eliminating subroutine calls.
+                                ! There are no diapycnal mass fluxes if ADIABATIC is true.  This assumes that KD
+                                ! = 0.0 and that there is no buoyancy forcing, but makes the model faster by
+                                ! eliminating subroutine calls.
 DO_DYNAMICS = True              !   [Boolean] default = True
                                 ! If False, skips the dynamics calls that update u & v, as well as the gravity
                                 ! wave adjustment to h. This may be a fragile feature, but can be useful during
@@ -750,10 +750,10 @@ DYNAMIC_VISCOUS_ML = False      !   [Boolean] default = False
 OMEGA = 7.2921E-05              !   [s-1] default = 7.2921E-05
                                 ! The rotation rate of the earth.
 HBBL = 10.0                     !   [m]
-                                ! The thickness of a bottom boundary layer with a viscosity of KVBBL if
-                                ! BOTTOMDRAGLAW is not defined, or the thickness over which near-bottom
-                                ! velocities are averaged for the drag law if BOTTOMDRAGLAW is defined but
-                                ! LINEAR_DRAG is not.
+                                ! The thickness of a bottom boundary layer with a viscosity increased by
+                                ! KV_EXTRA_BBL if BOTTOMDRAGLAW is not defined, or the thickness over which
+                                ! near-bottom velocities are averaged for the drag law if BOTTOMDRAGLAW is
+                                ! defined but LINEAR_DRAG is not.
 CDRAG = 0.0                     !   [nondim] default = 0.003
                                 ! CDRAG is the drag coefficient relating the magnitude of the velocity field to
                                 ! the bottom stress. CDRAG is only used if BOTTOMDRAGLAW is defined.
@@ -859,12 +859,12 @@ PORBAR_MASKING_DEPTH = 0.0      !   [m] default = 0.0
                                 ! number, then porous barrier is not applied at that location.
                                 ! PORBAR_MASKING_DEPTH is assumed to be positive below the sea surface.
 PORBAR_ETA_INTERP = "MAX"       ! default = "MAX"
-                                ! A string describing the method that decicdes how the interface heights at the
+                                ! A string describing the method that decides how the interface heights at the
                                 ! velocity points are calculated. Valid values are:
                                 !    MAX (the default) - maximum of the adjacent cells
                                 !    MIN - minimum of the adjacent cells
                                 !    ARITHMETIC - arithmetic mean of the adjacent cells
-                                !    HARMOINIC - harmonic mean of the adjacent cells
+                                !    HARMONIC - harmonic mean of the adjacent cells
 
 ! === module MOM_dynamics_split_RK2 ===
 TIDES = False                   !   [Boolean] default = False
@@ -1065,7 +1065,20 @@ VERT_FRICTION_ANSWER_DATE = 99991231 ! default = 99991231
                                 ! latter takes precedence.
 DIRECT_STRESS = True            !   [Boolean] default = False
                                 ! If true, the wind stress is distributed over the topmost HMIX_STRESS of fluid
-                                ! (like in HYCOM), and KVML may be set to a very small value.
+                                ! (like in HYCOM), and an added mixed layer viscosity or a physically based
+                                ! boundary layer turbulence parameterization is not needed for stability.
+FIXED_DEPTH_LOTW_ML = False     !   [Boolean] default = False
+                                ! If true, use a Law-of-the-wall prescription for the mixed layer viscosity
+                                ! within a boundary layer that is the lesser of HMIX_FIXED and the total depth
+                                ! of the ocean in a column.
+LOTW_VISCOUS_ML_FLOOR = False   !   [Boolean] default = False
+                                ! If true, use a Law-of-the-wall prescription to set a lower bound on the
+                                ! viscous coupling between layers within the surface boundary layer, based the
+                                ! distance of interfaces from the surface.  This only acts when there are large
+                                ! changes in the thicknesses of successive layers or when the viscosity is set
+                                ! externally and the wind stress has subsequently increased.
+VON_KARMAN_CONST = 0.41         !   [nondim] default = 0.41
+                                ! The value the von Karman constant as used for mixed layer viscosity.
 HARMONIC_VISC = False           !   [Boolean] default = False
                                 ! If true, use the harmonic mean thicknesses for calculating the vertical
                                 ! viscosity.
@@ -1078,9 +1091,12 @@ HMIX_FIXED = 20.0               !   [m]
                                 ! elevated when the bulk mixed layer is not used.
 HMIX_STRESS = 20.0              !   [m] default = 20.0
                                 ! The depth over which the wind stress is applied if DIRECT_STRESS is true.
-KVML = 0.0                      !   [m2 s-1] default = 1.0E-04
-                                ! The kinematic viscosity in the mixed layer.  A typical value is ~1e-2 m2 s-1.
-                                ! KVML is not used if BULKMIXEDLAYER is true.  The default is set by KV.
+KV_ML_INVZ2 = 0.0               !   [m2 s-1] default = 1.0E-04
+                                ! An extra kinematic viscosity in a mixed layer of thickness HMIX_FIXED, with
+                                ! the actual viscosity scaling as 1/(z*HMIX_FIXED)^2, where z is the distance
+                                ! from the surface, to allow for finite wind stresses to be transmitted through
+                                ! infinitesimally thin surface layers.  This is an older option for numerical
+                                ! convenience without a strong physical basis, and its use is now discouraged.
 MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 CFL_BASED_TRUNCATIONS = True    !   [Boolean] default = True
@@ -1364,9 +1380,10 @@ KD = 0.0                        !   [m2 s-1] default = 0.0
                                 ! molecular value, ~1e-7 m2 s-1, may be used.
 KD_MIN = 0.0                    !   [m2 s-1] default = 0.0
                                 ! The minimum diapycnal diffusivity.
-KDML = 0.0                      !   [m2 s-1] default = 0.0
-                                ! If BULKMIXEDLAYER is false, KDML is the elevated diapycnal diffusivity in the
-                                ! topmost HMIX of fluid. KDML is only used if BULKMIXEDLAYER is false.
+KD_ML_TOT = 0.0                 !   [m2 s-1] default = 0.0
+                                ! The total diapcynal diffusivity in the surface mixed layer when there is not a
+                                ! physically based parameterization of mixing in the mixed layer, such as bulk
+                                ! mixed layer or KPP or ePBL.
 BRYAN_LEWIS_DIFFUSIVITY = False !   [Boolean] default = False
                                 ! If true, use a Bryan & Lewis (JGR 1979) like tanh profile of background
                                 ! diapycnal diffusivity with depth. This is done via CVMix.

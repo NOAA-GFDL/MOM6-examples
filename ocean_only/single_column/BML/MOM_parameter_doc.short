@@ -157,10 +157,10 @@ LAYER_Z_INIT_IC_EXTRAP_BUG = False !   [Boolean] default = True
 PRANDTL_TURB = 0.0              !   [nondim] default = 1.0
                                 ! The turbulent Prandtl number applied to shear instability.
 HBBL = 10.0                     !   [m]
-                                ! The thickness of a bottom boundary layer with a viscosity of KVBBL if
-                                ! BOTTOMDRAGLAW is not defined, or the thickness over which near-bottom
-                                ! velocities are averaged for the drag law if BOTTOMDRAGLAW is defined but
-                                ! LINEAR_DRAG is not.
+                                ! The thickness of a bottom boundary layer with a viscosity increased by
+                                ! KV_EXTRA_BBL if BOTTOMDRAGLAW is not defined, or the thickness over which
+                                ! near-bottom velocities are averaged for the drag law if BOTTOMDRAGLAW is
+                                ! defined but LINEAR_DRAG is not.
 CDRAG = 0.0                     !   [nondim] default = 0.003
                                 ! CDRAG is the drag coefficient relating the magnitude of the velocity field to
                                 ! the bottom stress. CDRAG is only used if BOTTOMDRAGLAW is defined.

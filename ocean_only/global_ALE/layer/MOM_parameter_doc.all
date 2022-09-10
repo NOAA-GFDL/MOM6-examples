@@ -20,9 +20,9 @@ USE_CONTEMP_ABSSAL = False      !   [Boolean] default = False
                                 ! practical salinity before exchanging them with the coupler and/or reporting
                                 ! T&S diagnostics.
 ADIABATIC = False               !   [Boolean] default = False
-                                ! There are no diapycnal mass fluxes if ADIABATIC is true. This assumes that KD
-                                ! = KDML = 0.0 and that there is no buoyancy forcing, but makes the model faster
-                                ! by eliminating subroutine calls.
+                                ! There are no diapycnal mass fluxes if ADIABATIC is true.  This assumes that KD
+                                ! = 0.0 and that there is no buoyancy forcing, but makes the model faster by
+                                ! eliminating subroutine calls.
 DO_DYNAMICS = True              !   [Boolean] default = True
                                 ! If False, skips the dynamics calls that update u & v, as well as the gravity
                                 ! wave adjustment to h. This may be a fragile feature, but can be useful during
@@ -842,10 +842,10 @@ DYNAMIC_VISCOUS_ML = False      !   [Boolean] default = False
                                 ! If true, use a bulk Richardson number criterion to determine the mixed layer
                                 ! thickness for viscosity.
 HBBL = 10.0                     !   [m]
-                                ! The thickness of a bottom boundary layer with a viscosity of KVBBL if
-                                ! BOTTOMDRAGLAW is not defined, or the thickness over which near-bottom
-                                ! velocities are averaged for the drag law if BOTTOMDRAGLAW is defined but
-                                ! LINEAR_DRAG is not.
+                                ! The thickness of a bottom boundary layer with a viscosity increased by
+                                ! KV_EXTRA_BBL if BOTTOMDRAGLAW is not defined, or the thickness over which
+                                ! near-bottom velocities are averaged for the drag law if BOTTOMDRAGLAW is
+                                ! defined but LINEAR_DRAG is not.
 BBL_USE_TIDAL_BG = False        !   [Boolean] default = False
                                 ! Flag to use the tidal RMS amplitude in place of constant background velocity
                                 ! for computing u* in the BBL. This flag is only used when BOTTOMDRAGLAW is true
@@ -962,12 +962,12 @@ PORBAR_MASKING_DEPTH = 0.0      !   [m] default = 0.0
                                 ! number, then porous barrier is not applied at that location.
                                 ! PORBAR_MASKING_DEPTH is assumed to be positive below the sea surface.
 PORBAR_ETA_INTERP = "MAX"       ! default = "MAX"
-                                ! A string describing the method that decicdes how the interface heights at the
+                                ! A string describing the method that decides how the interface heights at the
                                 ! velocity points are calculated. Valid values are:
                                 !    MAX (the default) - maximum of the adjacent cells
                                 !    MIN - minimum of the adjacent cells
                                 !    ARITHMETIC - arithmetic mean of the adjacent cells
-                                !    HARMOINIC - harmonic mean of the adjacent cells
+                                !    HARMONIC - harmonic mean of the adjacent cells
 
 ! === module MOM_dynamics_split_RK2 ===
 TIDES = True                    !   [Boolean] default = False
@@ -1265,7 +1265,20 @@ VERT_FRICTION_ANSWER_DATE = 99991231 ! default = 99991231
                                 ! latter takes precedence.
 DIRECT_STRESS = False           !   [Boolean] default = False
                                 ! If true, the wind stress is distributed over the topmost HMIX_STRESS of fluid
-                                ! (like in HYCOM), and KVML may be set to a very small value.
+                                ! (like in HYCOM), and an added mixed layer viscosity or a physically based
+                                ! boundary layer turbulence parameterization is not needed for stability.
+FIXED_DEPTH_LOTW_ML = False     !   [Boolean] default = False
+                                ! If true, use a Law-of-the-wall prescription for the mixed layer viscosity
+                                ! within a boundary layer that is the lesser of HMIX_FIXED and the total depth
+                                ! of the ocean in a column.
+LOTW_VISCOUS_ML_FLOOR = False   !   [Boolean] default = False
+                                ! If true, use a Law-of-the-wall prescription to set a lower bound on the
+                                ! viscous coupling between layers within the surface boundary layer, based the
+                                ! distance of interfaces from the surface.  This only acts when there are large
+                                ! changes in the thicknesses of successive layers or when the viscosity is set
+                                ! externally and the wind stress has subsequently increased.
+VON_KARMAN_CONST = 0.41         !   [nondim] default = 0.41
+                                ! The value the von Karman constant as used for mixed layer viscosity.
 HARMONIC_VISC = False           !   [Boolean] default = False
                                 ! If true, use the harmonic mean thicknesses for calculating the vertical
                                 ! viscosity.
@@ -1635,6 +1648,8 @@ USE_LOTW_BBL_DIFFUSIVITY = True !   [Boolean] default = False
 LOTW_BBL_USE_OMEGA = True       !   [Boolean] default = True
                                 ! If true, use the maximum of Omega and N for the TKE to diffusion calculation.
                                 ! Otherwise, N is N.
+VON_KARMAN_BBL = 0.41           !   [nondim] default = 0.41
+                                ! The value the von Karman constant as used in calculating the BBL diffusivity.
 SIMPLE_TKE_TO_KD = False        !   [Boolean] default = False
                                 ! If true, uses a simple estimate of Kd/TKE that will work for arbitrary
                                 ! vertical coordinates. If false, calculates Kd/TKE and bounds based on exact
