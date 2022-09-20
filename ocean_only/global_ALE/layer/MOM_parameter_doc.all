@@ -507,7 +507,7 @@ Z_INIT_SEPARATE_MIXED_LAYER = False !   [Boolean] default = False
                                 ! If true, distribute the topmost Z_INIT_HMIX_DEPTH of water over NKML layers,
                                 ! and do not correct the density of the topmost NKML+NKBL layers.  Otherwise all
                                 ! layers are initialized based on the depths of their target densities.
-LAYER_Z_INIT_IC_EXTRAP_BUG = False !   [Boolean] default = True
+LAYER_Z_INIT_IC_EXTRAP_BUG = False !   [Boolean] default = False
                                 ! If true use an expression with a vertical indexing bug for extrapolating the
                                 ! densities at the bottom of unstable profiles from data when finding the
                                 ! initial interface locations in layered mode from a dataset of T and S.
@@ -1362,7 +1362,7 @@ BAROTROPIC_ANSWER_DATE = 99991231 ! default = 99991231
                                 ! recover the answers from the end of 2018, while higher values uuse more
                                 ! efficient or general expressions.  If both BAROTROPIC_2018_ANSWERS and
                                 ! BAROTROPIC_ANSWER_DATE are specified, the latter takes precedence.
-BAROTROPIC_TIDAL_SAL_BUG = False !   [Boolean] default = True
+BAROTROPIC_TIDAL_SAL_BUG = False !   [Boolean] default = False
                                 ! If true, the tidal self-attraction and loading anomaly in the barotropic
                                 ! solver has the wrong sign, replicating a long-standing bug with a scalar
                                 ! self-attraction and loading term or the SAL term from a previous simulation.
@@ -1674,10 +1674,6 @@ PRANDTL_BKGND = 1.0             !   [nondim] default = 1.0
 HENYEY_IGW_BACKGROUND = True    !   [Boolean] default = False
                                 ! If true, use a latitude-dependent scaling for the near surface background
                                 ! diffusivity, as described in Harrison & Hallberg, JPO 2008.
-HENYEY_IGW_BACKGROUND_NEW = False !   [Boolean] default = False
-                                ! If true, use a better latitude-dependent scaling for the background
-                                ! diffusivity, as described in Harrison & Hallberg, JPO 2008. This option is
-                                ! obsolete.
 HENYEY_N0_2OMEGA = 20.0         !   [nondim] default = 20.0
                                 ! The ratio of the typical Buoyancy frequency to twice the Earth's rotation
                                 ! period, used with the Henyey scaling from the mixing.

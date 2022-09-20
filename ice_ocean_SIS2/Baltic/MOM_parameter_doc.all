@@ -546,7 +546,7 @@ Z_INIT_SEPARATE_MIXED_LAYER = True !   [Boolean] default = False
 Z_INIT_HMIX_DEPTH = 0.5         !   [m] default = 0.5
                                 ! The mixed layer depth in the initial conditions when
                                 ! Z_INIT_SEPARATE_MIXED_LAYER is set to true.
-LAYER_Z_INIT_IC_EXTRAP_BUG = False !   [Boolean] default = True
+LAYER_Z_INIT_IC_EXTRAP_BUG = False !   [Boolean] default = False
                                 ! If true use an expression with a vertical indexing bug for extrapolating the
                                 ! densities at the bottom of unstable profiles from data when finding the
                                 ! initial interface locations in layered mode from a dataset of T and S.
@@ -1540,10 +1540,6 @@ PRANDTL_BKGND = 1.0             !   [nondim] default = 1.0
 HENYEY_IGW_BACKGROUND = True    !   [Boolean] default = False
                                 ! If true, use a latitude-dependent scaling for the near surface background
                                 ! diffusivity, as described in Harrison & Hallberg, JPO 2008.
-HENYEY_IGW_BACKGROUND_NEW = False !   [Boolean] default = False
-                                ! If true, use a better latitude-dependent scaling for the background
-                                ! diffusivity, as described in Harrison & Hallberg, JPO 2008. This option is
-                                ! obsolete.
 HENYEY_N0_2OMEGA = 20.0         !   [nondim] default = 20.0
                                 ! The ratio of the typical Buoyancy frequency to twice the Earth's rotation
                                 ! period, used with the Henyey scaling from the mixing.

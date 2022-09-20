@@ -371,12 +371,6 @@ SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
 HMIX_FIXED = 0.5                !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
-KV_ML_INVZ2 = 0.0               !   [m2 s-1] default = 1.0E-04
-                                ! An extra kinematic viscosity in a mixed layer of thickness HMIX_FIXED, with
-                                ! the actual viscosity scaling as 1/(z*HMIX_FIXED)^2, where z is the distance
-                                ! from the surface, to allow for finite wind stresses to be transmitted through
-                                ! infinitesimally thin surface layers.  This is an older option for numerical
-                                ! convenience without a strong physical basis, and its use is now discouraged.
 MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 CFL_TRUNCATE_RAMP_TIME = 7200.0 !   [s] default = 0.0
@@ -393,10 +387,6 @@ BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! use a predictor continuity step to find the pressure field, and then to do a
                                 ! corrector continuity step using a weighted average of the old and new
                                 ! velocities, with weights of (1-BEBT) and BEBT.
-BAROTROPIC_TIDAL_SAL_BUG = False !   [Boolean] default = True
-                                ! If true, the tidal self-attraction and loading anomaly in the barotropic
-                                ! solver has the wrong sign, replicating a long-standing bug with a scalar
-                                ! self-attraction and loading term or the SAL term from a previous simulation.
 BEBT = 0.2                      !   [nondim] default = 0.1
                                 ! BEBT determines whether the barotropic time stepping uses the forward-backward
                                 ! time-stepping scheme or a backward Euler scheme. BEBT is valid in the range
