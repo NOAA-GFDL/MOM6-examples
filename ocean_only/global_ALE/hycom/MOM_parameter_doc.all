@@ -1120,6 +1120,9 @@ SPLIT_BOTTOM_STRESS = False     !   [Boolean] default = False
 BT_USE_LAYER_FLUXES = True      !   [Boolean] default = True
                                 ! If true, use the summed layered fluxes plus an adjustment due to the change in
                                 ! the barotropic velocity in the barotropic continuity equation.
+STORE_CORIOLIS_ACCEL = True     !   [Boolean] default = True
+                                ! If true, calculate the Coriolis accelerations at the end of each timestep for
+                                ! use in the predictor step of the next split RK2 timestep.
 
 ! === module MOM_continuity ===
 CONTINUITY_SCHEME = "PPM"       ! default = "PPM"
