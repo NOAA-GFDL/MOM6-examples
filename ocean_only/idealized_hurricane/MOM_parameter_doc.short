@@ -191,10 +191,10 @@ SCM_L2_DTDZ = 0.04              !   [C/m] default = 0.0
 
 ! === module MOM_set_visc ===
 HBBL = 10.0                     !   [m]
-                                ! The thickness of a bottom boundary layer with a viscosity of KVBBL if
-                                ! BOTTOMDRAGLAW is not defined, or the thickness over which near-bottom
-                                ! velocities are averaged for the drag law if BOTTOMDRAGLAW is defined but
-                                ! LINEAR_DRAG is not.
+                                ! The thickness of a bottom boundary layer with a viscosity increased by
+                                ! KV_EXTRA_BBL if BOTTOMDRAGLAW is not defined, or the thickness over which
+                                ! near-bottom velocities are averaged for the drag law if BOTTOMDRAGLAW is
+                                ! defined but LINEAR_DRAG is not.
 KV = 1.0E-06                    !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior. The molecular value, ~1e-6
                                 ! m2 s-1, may be used.
@@ -231,9 +231,6 @@ SMAG_BI_CONST = 0.06            !   [nondim] default = 0.0
 HMIX_FIXED = 0.01               !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
-KVML = 0.0                      !   [m2 s-1] default = 1.0E-06
-                                ! The kinematic viscosity in the mixed layer.  A typical value is ~1e-2 m2 s-1.
-                                ! KVML is not used if BULKMIXEDLAYER is true.  The default is set by KV.
 
 ! === module MOM_barotropic ===
 DTBT = 30.0                     !   [s or nondim] default = -0.98
@@ -276,10 +273,6 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 VERTEX_SHEAR = True             !   [Boolean] default = False
                                 ! If true, do the calculations of the shear-driven mixing at the cell vertices
                                 ! (i.e., the vorticity points).
-KAPPA_SHEAR_VERTEX_PSURF_BUG = False !   [Boolean] default = True
-                                ! If true, do a simple average of the cell surface pressures to get a pressure
-                                ! at the corner if VERTEX_SHEAR=True.  Otherwise mask out any land points in the
-                                ! average.
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.

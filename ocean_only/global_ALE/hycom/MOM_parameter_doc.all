@@ -1249,6 +1249,9 @@ TIDE_SAL_SCALAR_VALUE = 0.094   !   [m m-1]
                                 ! The constant of proportionality between sea surface height (really it should
                                 ! be bottom pressure) anomalies and bottom geopotential anomalies. This is only
                                 ! used if TIDES and TIDE_USE_SAL_SCALAR are true.
+TIDAL_SAL_SHT = False           !   [Boolean] default = False
+                                ! If true, use the online spherical harmonics method to calculate
+                                ! self-attraction and loading term in tides.
 TIDE_REF_DATE = 0, 0, 0         ! default = 0
                                 ! Year,month,day to use as reference date for tidal forcing. If not specified,
                                 ! defaults to 0.
