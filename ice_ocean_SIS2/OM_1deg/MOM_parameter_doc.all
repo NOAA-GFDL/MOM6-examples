@@ -641,7 +641,7 @@ TEMP_SALT_INIT_VERTICAL_REMAP_ONLY = False !   [Boolean] default = False
                                 ! over missing ocean values is done using an ICE-9 procedure with vertical ALE
                                 ! remapping .
 HOR_REGRID_2018_ANSWERS = True  !   [Boolean] default = True
-                                ! If true, use the order of arithmetic for horizonal regridding that recovers
+                                ! If true, use the order of arithmetic for horizontal regridding that recovers
                                 ! the answers from the end of 2018.  Otherwise, use rotationally symmetric forms
                                 ! of the same expressions.
 HOR_REGRID_ANSWER_DATE = 20181231 ! default = 20181231
@@ -1342,6 +1342,8 @@ KH_BG_2D_BUG = False            !   [Boolean] default = False
                                 ! corner-point viscosities when USE_KH_BG_2D=True. This isnot recommended.
 KH_BG_2D_FILENAME = "KH_background_2d.nc" ! default = "KH_background_2d.nc"
                                 ! The filename containing a 2d map of "Kh".
+KH_BG_2D_VARNAME = "Kh"         ! default = "Kh"
+                                ! The name in the input file of the horizontal viscosity variable.
 
 ! === module MOM_vert_friction ===
 VERT_FRICTION_2018_ANSWERS = True !   [Boolean] default = True
@@ -1746,9 +1748,14 @@ READ_TIDEAMP = True             !   [Boolean] default = False
 TIDEAMP_FILE = "tidal_amplitude.nc" ! default = "tideamp.nc"
                                 ! The path to the file containing the spatially varying tidal amplitudes with
                                 ! INT_TIDE_DISSIPATION.
+TIDEAMP_VARNAME = "tideamp"     ! default = "tideamp"
+                                ! The name of the tidal amplitude variable in the input file.
 H2_FILE = "topog.nc"            !
                                 ! The path to the file containing the sub-grid-scale topographic roughness
                                 ! amplitude with INT_TIDE_DISSIPATION.
+ROUGHNESS_VARNAME = "h2"        ! default = "h2"
+                                ! The name in the input file of the squared sub-grid-scale topographic roughness
+                                ! amplitude variable.
 FRACTIONAL_ROUGHNESS_MAX = 0.1  !   [nondim] default = 0.1
                                 ! The maximum topographic roughness amplitude as a fraction of the mean depth,
                                 ! or a negative value for no limitations on roughness.

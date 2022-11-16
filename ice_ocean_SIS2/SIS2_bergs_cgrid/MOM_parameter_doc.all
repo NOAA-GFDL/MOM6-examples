@@ -521,8 +521,14 @@ ADJUST_THICKNESS = True         !   [Boolean] default = False
 THICKNESS_TOLERANCE = 0.1       !   [m] default = 0.1
                                 ! A parameter that controls the tolerance when adjusting the thickness to fit
                                 ! the bathymetry. Used when ADJUST_THICKNESS=True.
+INTERFACE_IC_VAR = "eta"        ! default = "eta"
+                                ! The variable name for initial conditions for interface heights relative to
+                                ! mean sea level, positive upward unless otherwise rescaled.
+INTERFACE_IC_RESCALE = 1.0      !   [various] default = 1.0
+                                ! A factor by which to rescale the initial interface heights to convert them to
+                                ! units of m or correct sign conventions to positive upward.
 TS_CONFIG = "file"              !
-                                ! A string that determines how the initial tempertures and salinities are
+                                ! A string that determines how the initial temperatures and salinities are
                                 ! specified for a new run:
                                 !     file - read velocities from the file specified
                                 !       by (TS_FILE).
@@ -1472,9 +1478,14 @@ READ_TIDEAMP = True             !   [Boolean] default = False
 TIDEAMP_FILE = "tideamp.nc"     ! default = "tideamp.nc"
                                 ! The path to the file containing the spatially varying tidal amplitudes with
                                 ! INT_TIDE_DISSIPATION.
+TIDEAMP_VARNAME = "tideamp"     ! default = "tideamp"
+                                ! The name of the tidal amplitude variable in the input file.
 H2_FILE = "sgs_h2.nc"           !
                                 ! The path to the file containing the sub-grid-scale topographic roughness
                                 ! amplitude with INT_TIDE_DISSIPATION.
+ROUGHNESS_VARNAME = "h2"        ! default = "h2"
+                                ! The name in the input file of the squared sub-grid-scale topographic roughness
+                                ! amplitude variable.
 FRACTIONAL_ROUGHNESS_MAX = 0.1  !   [nondim] default = 0.1
                                 ! The maximum topographic roughness amplitude as a fraction of the mean depth,
                                 ! or a negative value for no limitations on roughness.
