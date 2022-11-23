@@ -894,6 +894,9 @@ CHANNEL_DRAG_MAX_BBL_THICK = 5.0 !   [m] default = 5.0
 ! === module MOM_thickness_diffuse ===
 KHTH = 600.0                    !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
+READ_KHTH = False               !   [Boolean] default = False
+                                ! If true, read a file (given by KHTH_FILE) containing the spatially varying
+                                ! horizontal isopycnal height diffusivity.
 KHTH_MIN = 0.0                  !   [m2 s-1] default = 0.0
                                 ! The minimum horizontal thickness diffusivity.
 KHTH_MAX = 900.0                !   [m2 s-1] default = 0.0
