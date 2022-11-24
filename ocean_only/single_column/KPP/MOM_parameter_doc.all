@@ -1216,11 +1216,11 @@ CVMix_ZERO_H_WORK_AROUND = 0.0  !   [m] default = 0.0
                                 ! A minimum thickness used to avoid division by small numbers in the vicinity of
                                 ! vanished layers. This is independent of MIN_THICKNESS used in other parts of
                                 ! MOM.
-USE_KPP_LT_K = False            ! default = False
+USE_KPP_LT_K = False            !   [Boolean] default = False
                                 ! Flag for Langmuir turbulence enhancement of turbulentmixing coefficient.
-STOKES_MIXING = False           ! default = False
+STOKES_MIXING = False           !   [Boolean] default = False
                                 ! Flag for Langmuir turbulence enhancement of turbulentmixing coefficient.
-USE_KPP_LT_VT2 = False          ! default = False
+USE_KPP_LT_VT2 = False          !   [Boolean] default = False
                                 ! Flag for Langmuir turbulence enhancement of Vt2in Bulk Richardson Number.
 %KPP
 
@@ -1363,7 +1363,7 @@ RINO_CRIT = 0.25                !   [nondim] default = 0.25
 SHEARMIX_RATE = 0.089           !   [nondim] default = 0.089
                                 ! A nondimensional rate scale for shear-driven entrainment. Jackson et al find
                                 ! values in the range of 0.085-0.089.
-MAX_RINO_IT = 25                !   [nondim] default = 50
+MAX_RINO_IT = 25                ! default = 50
                                 ! The maximum number of iterations that may be used to estimate the Richardson
                                 ! number driven mixing.
 KD_KAPPA_SHEAR_0 = 2.0E-05      !   [m2 s-1] default = 2.0E-05
@@ -1401,7 +1401,7 @@ KAPPA_SHEAR_ELIM_MASSLESS = True !   [Boolean] default = True
                                 ! If true, massless layers are merged with neighboring massive layers in this
                                 ! calculation.  The default is true and I can think of no good reason why it
                                 ! should be false. This is only used if USE_JACKSON_PARAM is true.
-MAX_KAPPA_SHEAR_IT = 13         !   [nondim] default = 13
+MAX_KAPPA_SHEAR_IT = 13         ! default = 13
                                 ! The maximum number of iterations that may be used to estimate the
                                 ! time-averaged diffusivity.
 KAPPA_SHEAR_MAX_KAP_SRC_CHG = 10.0 !   [nondim] default = 10.0
