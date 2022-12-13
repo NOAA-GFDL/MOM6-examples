@@ -183,17 +183,17 @@ GRID_CONFIG = "cartesian"       !
 AXIS_UNITS = "k"                ! default = "degrees"
                                 ! The units for the Cartesian axes. Valid entries are:
                                 !     degrees - degrees of latitude and longitude
-                                !     m - meters
-                                !     k - kilometers
-SOUTHLAT = 0.0                  !   [k]
+                                !     m or meter(s) - meters
+                                !     k or km or kilometer(s) - kilometers
+SOUTHLAT = 0.0                  !   [km]
                                 ! The southern latitude of the domain or the equivalent starting value for the
                                 ! y-axis.
-LENLAT = 100.0                  !   [k]
+LENLAT = 100.0                  !   [km]
                                 ! The latitudinal or y-direction length of the domain.
-WESTLON = 0.0                   !   [k] default = 0.0
+WESTLON = 0.0                   !   [km] default = 0.0
                                 ! The western longitude of the domain or the equivalent starting value for the
                                 ! x-axis.
-LENLON = 100.0                  !   [k]
+LENLON = 100.0                  !   [km]
                                 ! The longitudinal or x-direction length of the domain.
 RAD_EARTH = 6.378E+06           !   [m] default = 6.378E+06
                                 ! The radius of the Earth.
@@ -493,9 +493,9 @@ THICKNESS_CONFIG = "circle_obcs" ! default = "uniform"
                                 !     USER - call a user modified routine.
 
 ! === module circle_obcs_initialization ===
-DISK_RADIUS = 24.0              !   [kilometers]
+DISK_RADIUS = 24.0              !   [km]
                                 ! The radius of the initially elevated disk in the circle_obcs test case.
-DISK_X_OFFSET = 0.0             !   [kilometers] default = 0.0
+DISK_X_OFFSET = 0.0             !   [km] default = 0.0
                                 ! The x-offset of the initially elevated disk in the circle_obcs test case.
 DISK_IC_AMPLITUDE = 5.0         !   [m] default = 5.0
                                 ! Initial amplitude of interface height displacements in the circle_obcs test
