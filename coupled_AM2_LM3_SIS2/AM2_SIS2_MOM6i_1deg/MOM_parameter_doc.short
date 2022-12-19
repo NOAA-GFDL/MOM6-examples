@@ -204,8 +204,9 @@ KHTR_SLOPE_CFF = 0.25           !   [nondim] default = 0.0
 VARMIX_KTOP = 6                 !   [nondim] default = 2
                                 ! The layer number at which to start vertical integration of S*N for purposes of
                                 ! finding the Eady growth rate.
-VISBECK_L_SCALE = 3.0E+04       !   [m] default = 0.0
-                                ! The fixed length scale in the Visbeck formula.
+VISBECK_L_SCALE = 3.0E+04       !   [m or nondim] default = 0.0
+                                ! The fixed length scale in the Visbeck formula, or if negative a nondimensional
+                                ! scaling factor relating this length scale squared to the cell areas.
 INTERPOLATE_RES_FN = True       !   [Boolean] default = False
                                 ! If true, interpolate the resolution function to the velocity points from the
                                 ! thickness points; otherwise interpolate the wave speed and calculate the
