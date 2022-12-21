@@ -742,6 +742,13 @@ DIAG_COORD_DEF_RHO2 = "RFNC1:35,999.5,1028,1028.5,8.,1038.,0.0078125" ! default 
                                 !                the filename and two variable names, separated
                                 !                by a comma or space, for sigma-2 and dz. e.g.
                                 !                HYBRID:vgrid.nc,sigma2,dz
+DIAG_COORD_P_REF_RHO2 = 2.0E+07 !   [Pa] default = 2.0E+07
+                                ! The pressure that is used for calculating the diagnostic coordinate density.
+                                ! (1 Pa = 1e4 dbar, so 2e7 is commonly used.) This is only used for the RHO
+                                ! coordinate.
+DIAG_COORD_REGRID_COMPRESSIBILITY_FRACTION_RHO2 = 0.0 !   [nondim] default = 0.0
+                                ! When interpolating potential density profiles we can add some artificial
+                                ! compressibility solely to make homogeneous regions appear stratified.
 
 ! === module MOM_MEKE ===
 USE_MEKE = True                 !   [Boolean] default = False
