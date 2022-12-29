@@ -2337,6 +2337,18 @@ USE_WAVES = False               !   [Boolean] default = False
 LA_DEPTH_RATIO = 0.04           !   [nondim] default = 0.04
                                 ! The depth (normalized by BLD) to average Stokes drift over in Langmuir number
                                 ! calculation, where La = sqrt(ust/Stokes).
+LA_DEPTH_MIN = 0.1              !   [m] default = 0.1
+                                ! The minimum depth over which to average the Stokes drift in the Langmuir
+                                ! number calculation.
+VISCOSITY_AIR = 1.0E-06         !   [m2 s-1] default = 1.0E-06
+                                ! A typical viscosity of air at sea level, as used in wave calculations
+VON_KARMAN_WAVES = 0.4          !   [nondim] default = 0.4
+                                ! The value the von Karman constant as used for surface wave calculations.
+RHO_AIR = 1.225                 !   [kg m-3] default = 1.225
+                                ! A typical density of air at sea level, as used in wave calculations
+WAVE_HEIGHT_SCALE_FACTOR = 0.0246 !   [s m-2] default = 0.0246
+                                ! A factor relating the square of the 10 m wind speed to the significant wave
+                                ! height, with a default value based on the Pierson-Moskowitz spectrum.
 
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False
