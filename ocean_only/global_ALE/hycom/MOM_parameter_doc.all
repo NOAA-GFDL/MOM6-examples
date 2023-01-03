@@ -654,6 +654,18 @@ HOR_REGRID_ANSWER_DATE = 99991231 ! default = 99991231
                                 ! later versions add parentheses for rotational symmetry.  If both
                                 ! HOR_REGRID_2018_ANSWERS and HOR_REGRID_ANSWER_DATE are specified, the latter
                                 ! takes precedence.
+LAND_FILL_TEMP = 0.0            !   [degC] default = 0.0
+                                ! A value to use to fill in ocean temperatures on land points.
+LAND_FILL_SALIN = 35.0          !   [1e-3] default = 35.0
+                                ! A value to use to fill in ocean salinities on land points.
+HORIZ_INTERP_TOL_TEMP = 0.001   !   [degC] default = 0.001
+                                ! The tolerance in temperature changes between iterations when interpolating
+                                ! ifrom an nput dataset using horiz_interp_and_extrap_tracer.  This routine
+                                ! converges slowly, so an overly small tolerance can get expensive.
+HORIZ_INTERP_TOL_SALIN = 0.001  !   [1e-3] default = 0.001
+                                ! The tolerance in salinity changes between iterations when interpolating ifrom
+                                ! an nput dataset using horiz_interp_and_extrap_tracer.  This routine converges
+                                ! slowly, so an overly small tolerance can get expensive.
 DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
                                 ! If true,  depress the initial surface to avoid huge tsunamis when a large
                                 ! surface pressure is applied.
