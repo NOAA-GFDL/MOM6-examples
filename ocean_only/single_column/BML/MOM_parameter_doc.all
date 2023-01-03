@@ -465,10 +465,51 @@ Z_INIT_SEPARATE_MIXED_LAYER = False !   [Boolean] default = False
                                 ! If true, distribute the topmost Z_INIT_HMIX_DEPTH of water over NKML layers,
                                 ! and do not correct the density of the topmost NKML+NKBL layers.  Otherwise all
                                 ! layers are initialized based on the depths of their target densities.
+DENSITY_INTERP_TOLERANCE = 1.0E-10 !   [kg m-3] default = 1.0E-10
+                                ! A small density tolerance used when finding depths in a density profile.
 LAYER_Z_INIT_IC_EXTRAP_BUG = False !   [Boolean] default = False
                                 ! If true use an expression with a vertical indexing bug for extrapolating the
                                 ! densities at the bottom of unstable profiles from data when finding the
                                 ! initial interface locations in layered mode from a dataset of T and S.
+LAND_FILL_TEMP = 0.0            !   [degC] default = 0.0
+                                ! A value to use to fill in ocean temperatures on land points.
+LAND_FILL_SALIN = 35.0          !   [1e-3] default = 35.0
+                                ! A value to use to fill in ocean salinities on land points.
+HORIZ_INTERP_TOL_TEMP = 0.001   !   [degC] default = 0.001
+                                ! The tolerance in temperature changes between iterations when interpolating
+                                ! ifrom an nput dataset using horiz_interp_and_extrap_tracer.  This routine
+                                ! converges slowly, so an overly small tolerance can get expensive.
+HORIZ_INTERP_TOL_SALIN = 0.001  !   [1e-3] default = 0.001
+                                ! The tolerance in salinity changes between iterations when interpolating ifrom
+                                ! an nput dataset using horiz_interp_and_extrap_tracer.  This routine converges
+                                ! slowly, so an overly small tolerance can get expensive.
+
+! === module determine_temperature ===
+DETERMINE_TEMP_ADJUST_T_AND_S = False !   [Boolean] default = False
+                                ! If true, simltaneously adjust the estimates of the temperature and salinity
+                                ! based on the ratio of the thermal and haline coefficients.  Otherwise try to
+                                ! match the density by only adjusting temperatures within a maximum range before
+                                ! revising estimates of the salinity.
+DETERMINE_TEMP_T_MIN = -2.0     !   [degC] default = -2.0
+                                ! The minimum temperature that can be found by determine_temperature.
+DETERMINE_TEMP_T_MAX = 31.0     !   [degC] default = 31.0
+                                ! The maximum temperature that can be found by determine_temperature.
+DETERMINE_TEMP_S_MIN = 0.5      !   [1e-3] default = 0.5
+                                ! The minimum salinity that can be found by determine_temperature.
+DETERMINE_TEMP_S_MAX = 65.0     !   [1e-3] default = 65.0
+                                ! The maximum salinity that can be found by determine_temperature.
+DETERMINE_TEMP_T_TOLERANCE = 1.0E-04 !   [degC] default = 1.0E-04
+                                ! The convergence tolerance for temperature in determine_temperature.
+DETERMINE_TEMP_S_TOLERANCE = 1.0E-04 !   [1e-3] default = 1.0E-04
+                                ! The convergence tolerance for temperature in determine_temperature.
+DETERMINE_TEMP_RHO_TOLERANCE = 1.0E-04 !   [kg m-3] default = 1.0E-04
+                                ! The convergence tolerance for density in determine_temperature.
+DETERMINE_TEMP_T_ADJ_RANGE = 1.0 !   [degC] default = 1.0
+                                ! The maximum amount by which the initial layer temperatures can be modified in
+                                ! determine_temperature.
+DETERMINE_TEMP_S_ADJ_RANGE = 0.5 !   [1e-3] default = 0.5
+                                ! The maximum amount by which the initial layer salinities can be modified in
+                                ! determine_temperature.
 DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
                                 ! If true,  depress the initial surface to avoid huge tsunamis when a large
                                 ! surface pressure is applied.
