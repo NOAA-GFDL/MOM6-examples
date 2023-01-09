@@ -686,6 +686,18 @@
     ! units: m2 s-1
     ! cell_methods: xh:mean yq:point zl:mean
     ! variants: {Kv_v,Kv_v_xyave}
+"Kv_gl90_u"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: GL90 vertical viscosity at u-points
+    ! units: m2 s-1
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {Kv_gl90_u,Kv_gl90_u_xyave}
+"Kv_gl90_v"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: GL90 vertical viscosity at v-points
+    ! units: m2 s-1
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {Kv_gl90_v,Kv_gl90_v_xyave}
 "au_visc"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Zonal Viscous Vertical Coupling Coefficient
@@ -698,6 +710,18 @@
     ! units: m s-1
     ! cell_methods: xh:mean yq:point zi:point
     ! variants: {av_visc,av_visc_xyave}
+"au_gl90_visc"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Zonal Viscous Vertical GL90 Coupling Coefficient
+    ! units: m s-1
+    ! cell_methods: xq:point yh:mean zi:point
+    ! variants: {au_gl90_visc,au_gl90_visc_xyave}
+"av_gl90_visc"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Meridional Viscous Vertical GL90 Coupling Coefficient
+    ! units: m s-1
+    ! cell_methods: xh:mean yq:point zi:point
+    ! variants: {av_gl90_visc,av_gl90_visc_xyave}
 "Hu_visc"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Thickness at Zonal Velocity Points for Viscosity
@@ -732,6 +756,24 @@
     ! units: m s-2
     ! cell_methods: xh:mean yq:point zl:mean
     ! variants: {dv_dt_visc,dv_dt_visc_xyave}
+"GLwork"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Kinetic Energy Source from GL90 Vertical Viscosity
+    ! units: m3 s-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {GLwork,GLwork_xyave}
+"du_dt_visc_gl90"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Zonal Acceleration from GL90 Vertical Viscosity
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {du_dt_visc_gl90,du_dt_visc_gl90_xyave}
+"dv_dt_visc_gl90"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Meridional Acceleration from GL90 Vertical Viscosity
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {dv_dt_visc_gl90,dv_dt_visc_gl90_xyave}
 "du_dt_str"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Zonal Acceleration from Surface Wind Stresses
