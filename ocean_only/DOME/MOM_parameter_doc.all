@@ -408,6 +408,16 @@ USE_NW2_TRACERS = False         !   [Boolean] default = False
 DOME_TRACER_IC_FILE = ""        ! default = ""
                                 ! The name of a file from which to read the initial conditions for the DOME
                                 ! tracers, or blank to initialize them internally.
+DOME_TRACER_STRIPE_WIDTH = 50.0 !   [km] default = 50.0
+                                ! The meridional width of the vertical stripes in the initial condition for the
+                                ! DOME tracers.
+DOME_TRACER_STRIPE_LAT = 350.0  !   [km] default = 350.0
+                                ! The southern latitude of the first vertical stripe in the initial condition
+                                ! for the DOME tracers.
+DOME_TRACER_SHEET_SPACING = 600.0 !   [m] default = 600.0
+                                ! The vertical spacing between successive horizontal sheets of tracer in the
+                                ! initial conditions for the DOME tracers, and twice the thickness of these
+                                ! tracer sheets.
 SPONGE = True                   !   [Boolean] default = False
                                 ! If true, sponges may be applied anywhere in the domain. The exact location and
                                 ! properties of those sponges are specified from MOM_initialization.F90.
