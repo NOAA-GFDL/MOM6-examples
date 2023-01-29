@@ -448,9 +448,9 @@ HOR_REGRID_2018_ANSWERS = False !   [Boolean] default = False
 HOR_REGRID_ANSWER_DATE = 99991231 ! default = 99991231
                                 ! The vintage of the order of arithmetic for horizontal regridding.  Dates
                                 ! before 20190101 give the same answers as the code did in late 2018, while
-                                ! later versions add parentheses for rotational symmetry.  If both
-                                ! HOR_REGRID_2018_ANSWERS and HOR_REGRID_ANSWER_DATE are specified, the latter
-                                ! takes precedence.
+                                ! later versions add parentheses for rotational symmetry.  Dates after 20230101
+                                ! use reproducing sums for global averages.  If both HOR_REGRID_2018_ANSWERS and
+                                ! HOR_REGRID_ANSWER_DATE are specified, the latter takes precedence.
 ADJUST_THICKNESS = True         !   [Boolean] default = False
                                 ! If true, all mass below the bottom removed if the topography is shallower than
                                 ! the thickness input file would indicate.
