@@ -30,8 +30,12 @@ m6e-pipeline:
 	test -f src/MOM6/README.md || (git submodule sync --recursive && git submodule update --init --recursive)
 	test -d src/LM3 || make -f tools/MRS/Makefile.clone clone_gfdl -s
 	@echo -e "\e[0Ksection_end:`date +%s`:clone\r\e[0K"
+	@echo -e "\e[0Ksection_start:`date +%s`:environ[collapsed=true]\r\e[0KFetching environ"
+	echo "Temporarily cloning stats repo to obtain environ/ directory"
+	git clone --depth 1 https://gitlab.gfdl.noaa.gov/ogrp/Gaea-stats-MOM6-examples.git stats-tmp && mv stats-tmp/environ environ && rm -rf stats-tmp
+	@echo -e "\e[0Ksection_end:`date +%s`:environ\r\e[0K"
 	@echo -e "\e[0Ksection_start:`date +%s`:build[collapsed=true]\r\e[0KCompiling executables"
-	time make -f tools/MRS/Makefile.build repro_gnu -s -j
+	time make -f tools/MRS/Makefile.build repro_gnu ENVIRON=environ -s -j
 	@echo -e "\e[0Ksection_end:`date +%s`:build\r\e[0K"
 	@echo -e "\e[0Ksection_start:`date +%s`:run[collapsed=true]\r\e[0KSubmit batch job"
 	bash tools/MRS/generate_manifest.sh . tools/MRS/excluded-expts.txt > manifest.mk
