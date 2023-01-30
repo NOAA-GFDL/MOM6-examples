@@ -34,6 +34,7 @@ GIT_VERSION_SCRIPT = $(realpath $(MKMF_SRC)/bin/git-version-string)
 BUILD ?= build
 SITE ?= ncrc
 MEMORY_MODES ?= dynamic_symmetric dynamic_nonsymmetric
+ENVIRON ?= ../environ
 
 # Local relative paths to source available behind GFDL firewall
 ICE_PARAM_SRC=$(SRC_DIR)/ice_param
@@ -69,30 +70,9 @@ $(BUILD)/$(1)/$(2)/fms/libfms.a: $(BUILD)/$(1)/env
 endef
 $(foreach c, $(COMPILERS),$(foreach m,$(MODES),$(eval $(call make-env-dep,$c,$m))))
 ifeq ($(SITE),ncrc)
-$(BUILD)/gnu/env:
+$(BUILD)/%/env: $(ENVIRON)/%.env
 	mkdir -p $(@D)
-	echo 'source /opt/modules/default/etc/modules.sh' > $@
-	echo 'module use -a /ncrc/home2/fms/local/modulefiles' >> $@
-	echo 'MODULEPATH=/usw/eslogin/modulefiles-c4:/sw/eslogin-c4/modulefiles:/opt/cray/pe/ari/modulefiles:/opt/cray/ari/modulefiles:/opt/cray/pe/modulefiles:/opt/cray/modulefiles:/opt/modulefiles:/sw/common/modulefiles' >> $@
-	echo 'module unload PrgEnv-pgi PrgEnv-intel PrgEnv-gnu darshan; module load PrgEnv-gnu; module unload netcdf gcc; module load $(shell jq -r '.gnu.version' labels.json 2> /dev/null || echo gcc/9.3.0) cray-hdf5 cray-netcdf' >> $@
-$(BUILD)/intel/env:
-	mkdir -p $(@D)
-	echo 'source /opt/modules/default/etc/modules.sh' > $@
-	echo 'module use -a /ncrc/home2/fms/local/modulefiles' >> $@
-	echo 'MODULEPATH=/usw/eslogin/modulefiles-c4:/sw/eslogin-c4/modulefiles:/opt/cray/pe/ari/modulefiles:/opt/cray/ari/modulefiles:/opt/cray/pe/modulefiles:/opt/cray/modulefiles:/opt/modulefiles:/sw/common/modulefiles' >> $@
-	echo 'module unload PrgEnv-pgi PrgEnv-intel PrgEnv-gnu darshan; module load PrgEnv-intel; module unload netcdf intel; module load $(shell jq -r '.intel.version' labels.json 2> /dev/null || echo intel/18.0.6.288) cray-hdf5 cray-netcdf' >> $@
-$(BUILD)/pgi/env:
-	mkdir -p $(@D)
-	echo 'source /opt/modules/default/etc/modules.sh' > $@
-	echo 'module use -a /ncrc/home2/fms/local/modulefiles' >> $@
-	echo 'MODULEPATH=/usw/eslogin/modulefiles-c4:/sw/eslogin-c4/modulefiles:/opt/cray/pe/ari/modulefiles:/opt/cray/ari/modulefiles:/opt/cray/pe/modulefiles:/opt/cray/modulefiles:/opt/modulefiles:/sw/common/modulefiles' >> $@
-	echo 'module unload PrgEnv-intel ; module load PrgEnv-pgi darshan; module unload netcdf pgi; module load $(shell jq -r '.pgi.version' labels.json 2> /dev/null || echo pgi/19.10.0) cray-hdf5 cray-netcdf' >> $@
-$(BUILD)/cray/env:
-	mkdir -p $(@D)
-	echo 'source /opt/modules/default/etc/modules.sh' > $@
-	echo 'module use -a /ncrc/home2/fms/local/modulefiles' >> $@
-	echo 'MODULEPATH=/usw/eslogin/modulefiles-c4:/sw/eslogin-c4/modulefiles:/opt/cray/pe/ari/modulefiles:/opt/cray/ari/modulefiles:/opt/cray/pe/modulefiles:/opt/cray/modulefiles:/opt/modulefiles:/sw/common/modulefiles' >> $@
-	echo 'module unload PrgEnv-intel ; module load PrgEnv-cray darshan; module unload netcdf pgi; module load cray-hdf5 cray-netcdf' >> $@
+	cp $< $@
 else
 $(BUILD)/gnu/env:
 	mkdir -p $(@D)
