@@ -208,17 +208,17 @@ GRID_CONFIG = "cartesian"       !
 AXIS_UNITS = "k"                ! default = "degrees"
                                 ! The units for the Cartesian axes. Valid entries are:
                                 !     degrees - degrees of latitude and longitude
-                                !     m - meters
-                                !     k - kilometers
-SOUTHLAT = 0.0                  !   [k]
+                                !     m or meter(s) - meters
+                                !     k or km or kilometer(s) - kilometers
+SOUTHLAT = 0.0                  !   [km]
                                 ! The southern latitude of the domain or the equivalent starting value for the
                                 ! y-axis.
-LENLAT = 80.0                   !   [k]
+LENLAT = 80.0                   !   [km]
                                 ! The latitudinal or y-direction length of the domain.
-WESTLON = 320.0                 !   [k] default = 0.0
+WESTLON = 320.0                 !   [km] default = 0.0
                                 ! The western longitude of the domain or the equivalent starting value for the
                                 ! x-axis.
-LENLON = 480.0                  !   [k]
+LENLON = 480.0                  !   [km]
                                 ! The longitudinal or x-direction length of the domain.
 RAD_EARTH = 6.378E+06           !   [m] default = 6.378E+06
                                 ! The radius of the Earth.
@@ -255,6 +255,20 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! The minimum depth of the ocean.
 ISOMIP_2D = False               !   [Boolean] default = False
                                 ! If true, use a 2D setup.
+ISOMIP_MAX_BEDROCK = 720.0      !   [m] default = 720.0
+                                ! Maximum depth of bedrock topography in the ISOMIP configuration.
+ISOMIP_TROUGH_DEPTH = 500.0     !   [m] default = 500.0
+                                ! Depth of the trough compared with side walls in the ISOMIP configuration.
+ISOMIP_BEDROCK_LENGTH = 3.0E+05 !   [m] default = 3.0E+05
+                                ! Characteristic along-flow length scale of the bedrock in the ISOMIP
+                                ! configuration.
+ISOMIP_TROUGH_WIDTH = 2.4E+04   !   [m] default = 2.4E+04
+                                ! Half-width of the trough in the ISOMIP configuration.
+ISOMIP_DOMAIN_WIDTH = 8.0E+04   !   [m] default = 8.0E+04
+                                ! Domain width (across ice flow) in the ISOMIP configuration.
+ISOMIP_SIDE_WIDTH = 4000.0      !   [m] default = 4000.0
+                                ! Characteristic width of the side walls of the channel in the ISOMIP
+                                ! configuration.
 MAXIMUM_DEPTH = 720.0           !   [m]
                                 ! The maximum depth of the ocean.
 
@@ -437,7 +451,7 @@ SHELF_THREE_EQN = False         !   [Boolean] default = True
                                 ! If true, use the three equation expression of consistency to calculate the
                                 ! fluxes at the ice-ocean interface.
 SHELF_INSULATOR = False         !   [Boolean] default = False
-                                ! If true, the ice shelf is a perfect insulatior (no conduction).
+                                ! If true, the ice shelf is a perfect insulator (no conduction).
 MELTING_CUTOFF_DEPTH = 0.0      !   [m] default = 0.0
                                 ! Depth above which the melt is set to zero (it must be >= 0) Default value
                                 ! won't affect the solution.
@@ -462,7 +476,7 @@ ICE_SHELF_FLUX_FACTOR = 0.0     !   [none] default = 1.0
 KV_ICE = 1.0E+10                !   [m2 s-1] default = 1.0E+10
                                 ! The viscosity of the ice.
 KV_MOLECULAR = 1.95E-06         !   [m2 s-1] default = 1.95E-06
-                                ! The molecular kinimatic viscosity of sea water at the freezing temperature.
+                                ! The molecular kinematic viscosity of sea water at the freezing temperature.
 ICE_SHELF_SALINITY = 0.0        !   [psu] default = 0.0
                                 ! The salinity of the ice inside the ice shelf.
 ICE_SHELF_TEMPERATURE = -20.0   !   [degC] default = -15.0
@@ -557,7 +571,7 @@ ISOMIP_T_BOT = -1.9             !   [degC] default = -1.9
 ISOMIP_S_BOT = 34.55            !   [ppt] default = 34.55
                                 ! Salinity at the bottom (interface)
 TS_CONFIG = "fit"               !
-                                ! A string that determines how the initial tempertures and salinities are
+                                ! A string that determines how the initial temperatures and salinities are
                                 ! specified for a new run:
                                 !     file - read velocities from the file specified
                                 !       by (TS_FILE).
@@ -612,6 +626,9 @@ SURFACE_PRESSURE_VAR = "thick"  ! default = ""
 SURFACE_PRESSURE_SCALE = 8820.0 !   [file dependent] default = 1.0
                                 ! A scaling factor to convert SURFACE_PRESSURE_VAR from file
                                 ! SURFACE_PRESSURE_FILE into a surface pressure.
+TRIM_IC_Z_TOLERANCE = 1.0E-05   !   [m] default = 1.0E-05
+                                ! The tolerance with which to find the depth matching the specified surface
+                                ! pressure with TRIM_IC_FOR_P_SURF.
 TRIMMING_USES_REMAPPING = False !   [Boolean] default = False
                                 ! When trimming the column, also remap T and S.
 ODA_INCUPD = False              !   [Boolean] default = False
@@ -641,7 +658,7 @@ DIAG_COORDS = "z Z ZSTAR"       ! default = "z Z ZSTAR"
                                 ! A list of string tuples associating diag_table modules to a coordinate
                                 ! definition used for diagnostics. Each string is of the form "MODULE_SUFFIX
                                 ! PARAMETER_SUFFIX COORDINATE_NAME".
-DIAG_MISVAL = 1.0E+20           !   [not defined] default = 1.0E+20
+DIAG_MISVAL = 1.0E+20           !   [various] default = 1.0E+20
                                 ! Set the default missing value to use for diagnostics.
 DIAG_AS_CHKSUM = False          !   [Boolean] default = False
                                 ! Instead of writing diagnostics to the diag manager, write a text file
@@ -698,6 +715,9 @@ RESOLN_USE_EBT = False          !   [Boolean] default = False
 KHTH_USE_EBT_STRUCT = False     !   [Boolean] default = False
                                 ! If true, uses the equivalent barotropic structure as the vertical structure of
                                 ! thickness diffusivity.
+KD_GL90_USE_EBT_STRUCT = False  !   [Boolean] default = False
+                                ! If true, uses the equivalent barotropic structure as the vertical structure of
+                                ! diffusivity in the GL90 scheme.
 KHTH_SLOPE_CFF = 0.0            !   [nondim] default = 0.0
                                 ! The nondimensional coefficient in the Visbeck formula for the interface depth
                                 ! diffusivity
@@ -796,6 +816,9 @@ CORRECT_BBL_BOUNDS = False      !   [Boolean] default = False
 ! === module MOM_thickness_diffuse ===
 KHTH = 0.0                      !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
+READ_KHTH = False               !   [Boolean] default = False
+                                ! If true, read a file (given by KHTH_FILE) containing the spatially varying
+                                ! horizontal isopycnal height diffusivity.
 KHTH_MIN = 0.0                  !   [m2 s-1] default = 0.0
                                 ! The minimum horizontal thickness diffusivity.
 KHTH_MAX = 0.0                  !   [m2 s-1] default = 0.0
@@ -844,11 +867,8 @@ USE_GM_WORK_BUG = False         !   [Boolean] default = False
                                 ! sign, for legacy reproducibility.
 STOCH_EOS = False               !   [Boolean] default = False
                                 ! If true, stochastic perturbations are applied to the EOS in the PGF.
-STANLEY_COEFF = -1.0            !   [not defined] default = -1.0
+STANLEY_COEFF = -1.0            !   [nondim] default = -1.0
                                 ! Coefficient correlating the temperature gradient and SGS T variance.
-STANLEY_A = 1.0                 !   [not defined] default = 1.0
-                                ! Coefficient a which scales chi in stochastic perturbation of the SGS T
-                                ! variance.
 
 ! === module MOM_porous_barriers ===
 PORBAR_ANSWER_DATE = 99991231   ! default = 99991231
@@ -1127,6 +1147,9 @@ HARMONIC_BL_SCALE = 1.0         !   [nondim] default = 0.0
 HMIX_FIXED = 20.0               !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
+USE_GL90_IN_SSW = False         !   [Boolean] default = False
+                                ! If true, use simpler method to calculate 1/N^2 in GL90 vertical viscosity
+                                ! coefficient. This method is valid in stacked shallow water mode.
 KV_ML_INVZ2 = 0.0               !   [m2 s-1] default = 0.0
                                 ! An extra kinematic viscosity in a mixed layer of thickness HMIX_FIXED, with
                                 ! the actual viscosity scaling as 1/(z*HMIX_FIXED)^2, where z is the distance
@@ -1479,6 +1502,10 @@ DOUBLE_DIFFUSION = False        !   [Boolean] default = False
 USE_JACKSON_PARAM = False       !   [Boolean] default = False
                                 ! If true, use the Jackson-Hallberg-Legg (JPO 2008) shear mixing
                                 ! parameterization.
+KD_SEED_KAPPA_SHEAR = 1.0       !   [m2 s-1] default = 1.0
+                                ! A moderately large seed value of diapycnal diffusivity that is used as a
+                                ! starting turbulent diffusivity in the iterations to find an energetically
+                                ! constrained solution for the shear-driven diffusivity.
 TKE_BACKGROUND = 0.0            !   [m2 s-2] default = 0.0
                                 ! A background level of TKE used in the first iteration of the kappa equation.
                                 ! TKE_BACKGROUND could be 0.
@@ -1505,6 +1532,9 @@ RECLAIM_FRAZIL = True           !   [Boolean] default = True
                                 ! If true, try to use any frazil heat deficit to cool any overlying layers down
                                 ! to the freezing point, thereby avoiding the creation of thin ice when the SST
                                 ! is above the freezing point.
+SALT_EXTRACTION_LIMIT = 0.9999  !   [nondim] default = 0.9999
+                                ! An upper limit on the fraction of the salt in a layer that can be lost to the
+                                ! net surface salt fluxes within a timestep.
 PRESSURE_DEPENDENT_FRAZIL = False !   [Boolean] default = False
                                 ! If true, use a pressure dependent freezing temperature when making frazil. The
                                 ! default is false, which will be faster but is inappropriate with ice-shelf

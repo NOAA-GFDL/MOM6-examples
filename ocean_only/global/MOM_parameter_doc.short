@@ -179,7 +179,7 @@ ADJUST_THICKNESS = True         !   [Boolean] default = False
                                 ! If true, all mass below the bottom removed if the topography is shallower than
                                 ! the thickness input file would indicate.
 TS_CONFIG = "file"              !
-                                ! A string that determines how the initial tempertures and salinities are
+                                ! A string that determines how the initial temperatures and salinities are
                                 ! specified for a new run:
                                 !     file - read velocities from the file specified
                                 !       by (TS_FILE).
@@ -233,8 +233,9 @@ KHTR_SLOPE_CFF = 0.25           !   [nondim] default = 0.0
 VARMIX_KTOP = 6                 !   [nondim] default = 2
                                 ! The layer number at which to start vertical integration of S*N for purposes of
                                 ! finding the Eady growth rate.
-VISBECK_L_SCALE = 3.0E+04       !   [m] default = 0.0
-                                ! The fixed length scale in the Visbeck formula.
+VISBECK_L_SCALE = 3.0E+04       !   [m or nondim] default = 0.0
+                                ! The fixed length scale in the Visbeck formula, or if negative a nondimensional
+                                ! scaling factor relating this length scale squared to the cell areas.
 
 ! === module MOM_set_visc ===
 CHANNEL_DRAG = True             !   [Boolean] default = False

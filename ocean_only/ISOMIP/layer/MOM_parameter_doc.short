@@ -52,17 +52,17 @@ GRID_CONFIG = "cartesian"       !
 AXIS_UNITS = "k"                ! default = "degrees"
                                 ! The units for the Cartesian axes. Valid entries are:
                                 !     degrees - degrees of latitude and longitude
-                                !     m - meters
-                                !     k - kilometers
-SOUTHLAT = 0.0                  !   [k]
+                                !     m or meter(s) - meters
+                                !     k or km or kilometer(s) - kilometers
+SOUTHLAT = 0.0                  !   [km]
                                 ! The southern latitude of the domain or the equivalent starting value for the
                                 ! y-axis.
-LENLAT = 80.0                   !   [k]
+LENLAT = 80.0                   !   [km]
                                 ! The latitudinal or y-direction length of the domain.
-WESTLON = 320.0                 !   [k] default = 0.0
+WESTLON = 320.0                 !   [km] default = 0.0
                                 ! The western longitude of the domain or the equivalent starting value for the
                                 ! x-axis.
-LENLON = 480.0                  !   [k]
+LENLON = 480.0                  !   [km]
                                 ! The longitudinal or x-direction length of the domain.
 TOPO_CONFIG = "ISOMIP"          !
                                 ! This specifies how bathymetry is specified:
@@ -230,7 +230,7 @@ THICKNESS_CONFIG = "ISOMIP"     ! default = "uniform"
 MIN_THICKNESS = 1.0E-12         !   [m] default = 0.001
                                 ! Minimum layer thickness
 TS_CONFIG = "fit"               !
-                                ! A string that determines how the initial tempertures and salinities are
+                                ! A string that determines how the initial temperatures and salinities are
                                 ! specified for a new run:
                                 !     file - read velocities from the file specified
                                 !       by (TS_FILE).
