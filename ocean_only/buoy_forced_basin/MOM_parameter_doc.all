@@ -180,13 +180,13 @@ GRID_CONFIG = "mercator"        !
                                 !     cartesian - use a (flat) Cartesian grid.
                                 !     spherical - use a simple spherical grid.
                                 !     mercator - use a Mercator spherical grid.
-SOUTHLAT = 10.0                 !   [degrees]
+SOUTHLAT = 10.0                 !   [degrees_N]
                                 ! The southern latitude of the domain.
-LENLAT = 50.0                   !   [degrees]
+LENLAT = 50.0                   !   [degrees_N]
                                 ! The latitudinal length of the domain.
-WESTLON = -25.0                 !   [degrees] default = 0.0
+WESTLON = -25.0                 !   [degrees_E] default = 0.0
                                 ! The western longitude of the domain.
-LENLON = 25.0                   !   [degrees]
+LENLON = 25.0                   !   [degrees_E]
                                 ! The longitudinal length of the domain.
 RAD_EARTH = 6.378E+06           !   [m] default = 6.378E+06
                                 ! The radius of the Earth.
@@ -202,7 +202,7 @@ EQUATOR_REFERENCE = True        !   [Boolean] default = True
 LAT_ENHANCE_FACTOR = 1.0        !   [nondim] default = 1.0
                                 ! The amount by which the meridional resolution is enhanced within
                                 ! LAT_EQ_ENHANCE of the equator.
-LAT_EQ_ENHANCE = 0.0            !   [degrees] default = 0.0
+LAT_EQ_ENHANCE = 0.0            !   [degrees_N] default = 0.0
                                 ! The latitude range to the north and south of the equator over which the
                                 ! resolution is enhanced.
 TOPO_CONFIG = "flat"            !
@@ -357,12 +357,14 @@ COORD_CONFIG = "BFB"            ! default = "none"
                                 !     ts_profile - use temperature and salinity profiles
                                 !       (read from COORD_FILE) to set layer densities.
                                 !     USER - call a user modified routine.
+
+! === module BFB_initialization ===
 DRHO_DT = -0.2                  !   [kg m-3 K-1] default = -0.2
                                 ! Rate of change of density with temperature.
-SST_S = 20.0                    !   [C] default = 20.0
-                                ! SST at the suothern edge of the domain.
-T_BOT = 7.0                     !   [C] default = 5.0
-                                ! Bottom Temp
+SST_S = 20.0                    !   [degC] default = 20.0
+                                ! SST at the southern edge of the domain.
+T_BOT = 7.0                     !   [degC] default = 5.0
+                                ! Bottom temperature
 
 ! === module MOM_state_initialization ===
 FATAL_INCONSISTENT_RESTART_TIME = False !   [Boolean] default = False
@@ -461,7 +463,7 @@ DIAG_COORDS = "z Z ZSTAR"       ! default = "z Z ZSTAR"
                                 ! A list of string tuples associating diag_table modules to a coordinate
                                 ! definition used for diagnostics. Each string is of the form "MODULE_SUFFIX
                                 ! PARAMETER_SUFFIX COORDINATE_NAME".
-DIAG_MISVAL = 1.0E+20           !   [not defined] default = 1.0E+20
+DIAG_MISVAL = 1.0E+20           !   [various] default = 1.0E+20
                                 ! Set the default missing value to use for diagnostics.
 DIAG_AS_CHKSUM = False          !   [Boolean] default = False
                                 ! Instead of writing diagnostics to the diag manager, write a text file
@@ -518,6 +520,9 @@ RESOLN_USE_EBT = False          !   [Boolean] default = False
 KHTH_USE_EBT_STRUCT = False     !   [Boolean] default = False
                                 ! If true, uses the equivalent barotropic structure as the vertical structure of
                                 ! thickness diffusivity.
+KD_GL90_USE_EBT_STRUCT = False  !   [Boolean] default = False
+                                ! If true, uses the equivalent barotropic structure as the vertical structure of
+                                ! diffusivity in the GL90 scheme.
 KHTH_SLOPE_CFF = 0.0            !   [nondim] default = 0.0
                                 ! The nondimensional coefficient in the Visbeck formula for the interface depth
                                 ! diffusivity
@@ -593,6 +598,9 @@ CORRECT_BBL_BOUNDS = False      !   [Boolean] default = False
 ! === module MOM_thickness_diffuse ===
 KHTH = 0.0                      !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
+READ_KHTH = False               !   [Boolean] default = False
+                                ! If true, read a file (given by KHTH_FILE) containing the spatially varying
+                                ! horizontal isopycnal height diffusivity.
 KHTH_MIN = 0.0                  !   [m2 s-1] default = 0.0
                                 ! The minimum horizontal thickness diffusivity.
 KHTH_MAX = 0.0                  !   [m2 s-1] default = 0.0
@@ -639,13 +647,6 @@ USE_GME = False                 !   [Boolean] default = False
 USE_GM_WORK_BUG = False         !   [Boolean] default = False
                                 ! If true, compute the top-layer work tendency on the u-grid with the incorrect
                                 ! sign, for legacy reproducibility.
-STOCH_EOS = False               !   [Boolean] default = False
-                                ! If true, stochastic perturbations are applied to the EOS in the PGF.
-STANLEY_COEFF = -1.0            !   [not defined] default = -1.0
-                                ! Coefficient correlating the temperature gradient and SGS T variance.
-STANLEY_A = 1.0                 !   [not defined] default = 1.0
-                                ! Coefficient a which scales chi in stochastic perturbation of the SGS T
-                                ! variance.
 
 ! === module MOM_porous_barriers ===
 PORBAR_ANSWER_DATE = 99991231   ! default = 99991231
@@ -920,6 +921,9 @@ HARMONIC_BL_SCALE = 0.0         !   [nondim] default = 0.0
 HMIX_FIXED = 20.0               !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
+USE_GL90_IN_SSW = False         !   [Boolean] default = False
+                                ! If true, use simpler method to calculate 1/N^2 in GL90 vertical viscosity
+                                ! coefficient. This method is valid in stacked shallow water mode.
 KV_ML_INVZ2 = 0.0               !   [m2 s-1] default = 0.0
                                 ! An extra kinematic viscosity in a mixed layer of thickness HMIX_FIXED, with
                                 ! the actual viscosity scaling as 1/(z*HMIX_FIXED)^2, where z is the distance
@@ -1240,6 +1244,10 @@ DOUBLE_DIFFUSION = False        !   [Boolean] default = False
 USE_JACKSON_PARAM = False       !   [Boolean] default = False
                                 ! If true, use the Jackson-Hallberg-Legg (JPO 2008) shear mixing
                                 ! parameterization.
+KD_SEED_KAPPA_SHEAR = 1.0       !   [m2 s-1] default = 1.0
+                                ! A moderately large seed value of diapycnal diffusivity that is used as a
+                                ! starting turbulent diffusivity in the iterations to find an energetically
+                                ! constrained solution for the shear-driven diffusivity.
 TKE_BACKGROUND = 0.0            !   [m2 s-2] default = 0.0
                                 ! A background level of TKE used in the first iteration of the kappa equation.
                                 ! TKE_BACKGROUND could be 0.
@@ -1262,20 +1270,6 @@ USE_CVMIX_DDIFF = False         !   [Boolean] default = False
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
-RECLAIM_FRAZIL = True           !   [Boolean] default = True
-                                ! If true, try to use any frazil heat deficit to cool any overlying layers down
-                                ! to the freezing point, thereby avoiding the creation of thin ice when the SST
-                                ! is above the freezing point.
-PRESSURE_DEPENDENT_FRAZIL = False !   [Boolean] default = False
-                                ! If true, use a pressure dependent freezing temperature when making frazil. The
-                                ! default is false, which will be faster but is inappropriate with ice-shelf
-                                ! cavities.
-USE_RIVER_HEAT_CONTENT = False  !   [Boolean] default = False
-                                ! If true, use the fluxes%runoff_Hflx field to set the heat carried by runoff,
-                                ! instead of using SST*CP*liq_runoff.
-USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
-                                ! If true, use the fluxes%calving_Hflx field to set the heat carried by runoff,
-                                ! instead of using SST*CP*froz_runoff.
 
 ! === module MOM_regularize_layers ===
 REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False
@@ -1411,11 +1405,11 @@ READ_GUST_2D = False            !   [Boolean] default = False
                                 ! If true, use a 2-dimensional gustiness supplied from an input file
 
 ! === module BFB_surface_forcing ===
-LFR_SLAT = 20.0                 !   [degrees] default = 20.0
+LFR_SLAT = 20.0                 !   [degrees_N] default = 20.0
                                 ! Southern latitude where the linear forcing ramp begins.
-LFR_NLAT = 40.0                 !   [degrees] default = 40.0
+LFR_NLAT = 40.0                 !   [degrees_N] default = 40.0
                                 ! Northern latitude where the linear forcing ramp ends.
-SST_N = 10.0                    !   [C] default = 10.0
+SST_N = 10.0                    !   [degC] default = 10.0
                                 ! SST at the northern edge of the linear forcing ramp.
 
 ! === module MOM_restart ===
