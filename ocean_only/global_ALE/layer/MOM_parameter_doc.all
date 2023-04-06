@@ -396,16 +396,22 @@ USE_NW2_TRACERS = False         !   [Boolean] default = False
 
 ! === module ideal_age_example ===
 DO_IDEAL_AGE = True             !   [Boolean] default = True
-                                ! If true, use an ideal age tracer that is set to 0 age in the mixed layer and
-                                ! ages at unit rate in the interior.
+                                ! If true, use an ideal age tracer that is set to 0 age in the boundary layer
+                                ! and ages at unit rate in the interior.
 DO_IDEAL_VINTAGE = False        !   [Boolean] default = False
                                 ! If true, use an ideal vintage tracer that is set to an exponentially
-                                ! increasing value in the mixed layer and is conserved thereafter.
+                                ! increasing value in the boundary layer and is conserved thereafter.
 DO_IDEAL_AGE_DATED = False      !   [Boolean] default = False
                                 ! If true, use an ideal age tracer that is everywhere 0 before
                                 ! IDEAL_AGE_DATED_START_YEAR, but the behaves like the standard ideal age tracer
-                                ! - i.e. is set to 0 age in the mixed layer and ages at unit rate in the
+                                ! - i.e. is set to 0 age in the boundary layer and ages at unit rate in the
                                 ! interior.
+DO_BL_RESIDENCE = False         !   [Boolean] default = False
+                                ! If true, use a residence tracer that is set to 0 age in the interior and ages
+                                ! at unit rate in the boundary layer.
+USE_REAL_BL_DEPTH = False       !   [Boolean] default = False
+                                ! If true, the ideal age tracers will use the boundary layer depth diagnosed
+                                ! from the BL or bulkmixedlayer scheme.
 AGE_IC_FILE = ""                ! default = ""
                                 ! The file in which the age-tracer initial values can be found, or an empty
                                 ! string for internal initialization.
