@@ -642,6 +642,10 @@ TRIM_IC_FOR_P_SURF = False      !   [Boolean] default = False
                                 ! If true, cuts way the top of the column for initial conditions at the depth
                                 ! where the hydrostatic pressure matches the imposed surface pressure which is
                                 ! read from file.
+REGRID_ACCELERATE_INIT = False  !   [Boolean] default = False
+                                ! If true, runs REGRID_ACCELERATE_ITERATIONS iterations of the regridding
+                                ! algorithm to push the initial grid to be consistent with the initial
+                                ! condition. Useful only for state-based and iterative coordinates.
 VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 ! A string that determines how the initial velocities are specified for a new
                                 ! run:
@@ -653,14 +657,6 @@ VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     soliton - Equatorial Rossby soliton.
                                 !     USER - call a user modified routine.
-CONVERT_THICKNESS_UNITS = False !   [Boolean] default = False
-                                ! If true,  convert the thickness initial conditions from units of m to kg m-2
-                                ! or vice versa, depending on whether BOUSSINESQ is defined. This does not apply
-                                ! if a restart file is read.
-REGRID_ACCELERATE_INIT = False  !   [Boolean] default = False
-                                ! If true, runs REGRID_ACCELERATE_ITERATIONS iterations of the regridding
-                                ! algorithm to push the initial grid to be consistent with the initial
-                                ! condition. Useful only for state-based and iterative coordinates.
 ODA_INCUPD = False              !   [Boolean] default = False
                                 ! If true, oda incremental updates will be applied everywhere in the domain.
 SPONGE = False                  !   [Boolean] default = False
