@@ -1584,6 +1584,11 @@ MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
                                 ! If true, a density-gradient dependent re-stratifying flow is imposed in the
                                 ! mixed layer. Can be used in ALE mode without restriction but in layer mode can
                                 ! only be used if BULKMIXEDLAYER is true.
+MLE%
+USE_BODNER23 = False            !   [Boolean] default = False
+                                ! If true, use the Bodner et al., 2023, formulation of the re-stratifying
+                                ! mixed-layer restratification parameterization. This only works in ALE mode.
+%MLE
 FOX_KEMPER_ML_RESTRAT_COEF = 1.0 !   [nondim] default = 0.0
                                 ! A nondimensional coefficient that is proportional to the ratio of the
                                 ! deformation radius to the dominant lengthscale of the submesoscale mixed layer
