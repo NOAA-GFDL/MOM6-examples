@@ -301,6 +301,13 @@ RHO_0 = 1035.0                  !   [kg m-3] default = 1035.0
                                 ! some parameters from vertical units of m to kg m-2.
 BOUSSINESQ = False              !   [Boolean] default = True
                                 ! If true, make the Boussinesq approximation.
+SEMI_BOUSSINESQ = True          !   [Boolean] default = True
+                                ! If true, do non-Boussinesq pressure force calculations and use mass-based
+                                ! thicknesses, but use RHO_0 to convert layer thicknesses into certain height
+                                ! changes.  This only applies if BOUSSINESQ is false.
+RHO_KV_CONVERT = 1035.0         !   [kg m-3] default = 1035.0
+                                ! The density used to convert input kinematic viscosities into dynamic
+                                ! viscosities in non-BOUSSINESQ mode, and similarly for vertical diffusivities.
 ANGSTROM = 1.0E-10              !   [m] default = 1.0E-10
                                 ! The minimum layer thickness, usually one-Angstrom.
 H_TO_KG_M2 = 1.0                !   [kg m-2 H-1] default = 1.0
