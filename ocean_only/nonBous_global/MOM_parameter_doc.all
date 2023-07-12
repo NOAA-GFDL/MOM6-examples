@@ -295,7 +295,7 @@ GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
 ! Parameters providing information about the vertical grid.
 G_EARTH = 9.8                   !   [m s-2] default = 9.8
                                 ! The gravitational acceleration of the Earth.
-RHO_0 = 1035.0                  !   [kg m-3] default = 1035.0
+RHO_0 = 1024.0                  !   [kg m-3] default = 1035.0
                                 ! The mean ocean density used with BOUSSINESQ true to calculate accelerations
                                 ! and the mass for conservation properties, or with BOUSSINSEQ false to convert
                                 ! some parameters from vertical units of m to kg m-2.
@@ -305,7 +305,7 @@ SEMI_BOUSSINESQ = True          !   [Boolean] default = True
                                 ! If true, do non-Boussinesq pressure force calculations and use mass-based
                                 ! thicknesses, but use RHO_0 to convert layer thicknesses into certain height
                                 ! changes.  This only applies if BOUSSINESQ is false.
-RHO_KV_CONVERT = 1035.0         !   [kg m-3] default = 1035.0
+RHO_KV_CONVERT = 1024.0         !   [kg m-3] default = 1024.0
                                 ! The density used to convert input vertical distances into thickesses in
                                 ! non-BOUSSINESQ mode, and to convert kinematic viscosities into dynamic
                                 ! viscosities and similarly for vertical diffusivities.  GV%m_to_H is set using
