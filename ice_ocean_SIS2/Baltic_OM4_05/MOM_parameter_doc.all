@@ -64,7 +64,7 @@ DT = 1800.0                     !   [s]
                                 ! The (baroclinic) dynamics time step.  The time-step that is actually used will
                                 ! be an integer fraction of the forcing time-step (DT_FORCING in ocean-only mode
                                 ! or the coupling timestep in coupled mode.)
-DT_THERM = 1.08E+04             !   [s] default = 1800.0
+DT_THERM = 7200.0               !   [s] default = 1800.0
                                 ! The thermodynamic and tracer advection time step. Ideally DT_THERM should be
                                 ! an integer multiple of DT and less than the forcing or coupling time-step,
                                 ! unless THERMO_SPANS_COUPLING is true, in which case DT_THERM can be an integer
@@ -90,7 +90,7 @@ HFREEZE = -1.0                  !   [m] default = -1.0
 INTERPOLATE_P_SURF = False      !   [Boolean] default = False
                                 ! If true, linearly interpolate the surface pressure over the coupling time
                                 ! step, using the specified value at the end of the step.
-DTBT_RESET_PERIOD = 1.08E+04    !   [s] default = 1.08E+04
+DTBT_RESET_PERIOD = 7200.0      !   [s] default = 7200.0
                                 ! The period between recalculations of DTBT (if DTBT <= 0). If DTBT_RESET_PERIOD
                                 ! is negative, DTBT is set based only on information available at
                                 ! initialization.  If 0, DTBT will be set every dynamics time step. The default
@@ -614,7 +614,7 @@ PARTIAL_CELL_VELOCITY_REMAP = False !   [Boolean] default = False
                                 ! If true, use partial cell thicknesses at velocity points that are masked out
                                 ! where they extend below the shallower of the neighboring bathymetry for
                                 ! remapping velocity.
-REMAP_AFTER_INITIALIZATION = False !   [Boolean] default = True
+REMAP_AFTER_INITIALIZATION = True !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after initialization so
                                 ! that the state is ALE consistent. This is a legacy step and should not be
                                 ! needed if the initialization is consistent with the coordinate mode.
@@ -663,10 +663,10 @@ Z_INIT_ALE_REMAPPING = True     !   [Boolean] default = False
                                 ! If True, then remap straight to model coordinate from file.
 Z_INIT_REMAPPING_SCHEME = "PPM_IH4" ! default = "PPM_IH4"
                                 ! The remapping scheme to use if using Z_INIT_ALE_REMAPPING is True.
-Z_INIT_REMAP_GENERAL = True     !   [Boolean] default = False
+Z_INIT_REMAP_GENERAL = False    !   [Boolean] default = False
                                 ! If false, only initializes to z* coordinates. If true, allows initialization
                                 ! directly to general coordinates.
-Z_INIT_REMAP_FULL_COLUMN = True !   [Boolean] default = True
+Z_INIT_REMAP_FULL_COLUMN = False !   [Boolean] default = False
                                 ! If false, only reconstructs profiles for valid data points. If true, inserts
                                 ! vanished layers below the valid data.
 Z_INIT_REMAP_OLD_ALG = True     !   [Boolean] default = False
@@ -851,9 +851,9 @@ MEKE_GM_SRC_ALT = False         !   [Boolean] default = False
                                 ! streamfunction for the MEKE GM source term.
 MEKE_VISC_DRAG = True           !   [Boolean] default = True
                                 ! If true, use the vertvisc_type to calculate the bottom drag acting on MEKE.
-MEKE_KHTH_FAC = 1.0             !   [nondim] default = 0.0
+MEKE_KHTH_FAC = 0.5             !   [nondim] default = 0.0
                                 ! A factor that maps MEKE%Kh to KhTh.
-MEKE_KHTR_FAC = 0.0             !   [nondim] default = 0.0
+MEKE_KHTR_FAC = 0.5             !   [nondim] default = 0.0
                                 ! A factor that maps MEKE%Kh to KhTr.
 MEKE_KHMEKE_FAC = 1.0           !   [nondim] default = 0.0
                                 ! A factor that maps MEKE%Kh to Kh for MEKE itself.
@@ -866,7 +866,7 @@ MEKE_MIN_LSCALE = False         !   [Boolean] default = False
 MEKE_RD_MAX_SCALE = False       !   [Boolean] default = False
                                 ! If true, the length scale used by MEKE is the minimum of the deformation
                                 ! radius or grid-spacing. Only used if MEKE_OLD_LSCALE=True
-MEKE_VISCOSITY_COEFF_KU = 0.0   !   [nondim] default = 0.0
+MEKE_VISCOSITY_COEFF_KU = 1.0   !   [nondim] default = 0.0
                                 ! If non-zero, is the scaling coefficient in the expression forviscosity used to
                                 ! parameterize harmonic lateral momentum mixing byunresolved eddies represented
                                 ! by MEKE. Can be negative torepresent backscatter from the unresolved eddies.
@@ -1341,11 +1341,16 @@ KH_VEL_SCALE = 0.01             !   [m s-1] default = 0.0
                                 ! The velocity scale which is multiplied by the grid spacing to calculate the
                                 ! Laplacian viscosity. The final viscosity is the largest of this scaled
                                 ! viscosity, the Smagorinsky and Leith viscosities, and KH.
-KH_SIN_LAT = 0.0                !   [m2 s-1] default = 0.0
+KH_SIN_LAT = 2000.0             !   [m2 s-1] default = 0.0
                                 ! The amplitude of a latitudinally-dependent background viscosity of the form
                                 ! KH_SIN_LAT*(SIN(LAT)**KH_PWR_OF_SINE).
-SMAGORINSKY_KH = False          !   [Boolean] default = False
+KH_PWR_OF_SINE = 4.0            !   [nondim] default = 4.0
+                                ! The power used to raise SIN(LAT) when using a latitudinally dependent
+                                ! background viscosity.
+SMAGORINSKY_KH = True           !   [Boolean] default = False
                                 ! If true, use a Smagorinsky nonlinear eddy viscosity.
+SMAG_LAP_CONST = 0.15           !   [nondim] default = 0.0
+                                ! The nondimensional Laplacian Smagorinsky constant, often 0.15.
 LEITH_KH = False                !   [Boolean] default = False
                                 ! If true, use a Leith nonlinear eddy viscosity.
 RES_SCALE_MEKE_VISC = False     !   [Boolean] default = False
@@ -2054,10 +2059,10 @@ IGNORE_FLUXES_OVER_LAND = False !   [Boolean] default = False
 DO_RIVERMIX = False             !   [Boolean] default = False
                                 ! If true, apply additional mixing wherever there is runoff, so that it is mixed
                                 ! down to RIVERMIX_DEPTH if the ocean is that deep.
-USE_RIVER_HEAT_CONTENT = True   !   [Boolean] default = False
+USE_RIVER_HEAT_CONTENT = False  !   [Boolean] default = False
                                 ! If true, use the fluxes%runoff_Hflx field to set the heat carried by runoff,
                                 ! instead of using SST*CP*liq_runoff.
-USE_CALVING_HEAT_CONTENT = True !   [Boolean] default = False
+USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
                                 ! If true, use the fluxes%calving_Hflx field to set the heat carried by runoff,
                                 ! instead of using SST*CP*froz_runoff.
 VAR_PEN_SW = True               !   [Boolean] default = False
@@ -2243,7 +2248,7 @@ TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "PLM"
                                 !   PPM    - Piecewise Parabolic Method (Colella-Woodward)
 
 ! === module MOM_tracer_hor_diff ===
-KHTR = 200.0                    !   [m2 s-1] default = 0.0
+KHTR = 50.0                     !   [m2 s-1] default = 0.0
                                 ! The background along-isopycnal tracer diffusivity.
 KHTR_MIN = 0.0                  !   [m2 s-1] default = 0.0
                                 ! The minimum along-isopycnal tracer diffusivity.
@@ -2388,7 +2393,7 @@ ADJUST_NET_SRESTORE_BY_SCALING = False !   [Boolean] default = False
 ADJUST_NET_FRESH_WATER_TO_ZERO = True !   [Boolean] default = False
                                 ! If true, adjusts the net fresh-water forcing seen by the ocean (including
                                 ! restoring) to zero.
-USE_NET_FW_ADJUSTMENT_SIGN_BUG = True !   [Boolean] default = False
+USE_NET_FW_ADJUSTMENT_SIGN_BUG = False !   [Boolean] default = False
                                 ! If true, use the wrong sign for the adjustment to the net fresh-water.
 ADJUST_NET_FRESH_WATER_BY_SCALING = False !   [Boolean] default = False
                                 ! If true, adjustments to net fresh water to achieve zero net are made by
