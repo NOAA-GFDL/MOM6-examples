@@ -992,6 +992,10 @@ ANALYTIC_FV_PGF = True          !   [Boolean] default = True
                                 ! al., O. Mod. (2008).
 
 ! === module MOM_PressureForce_FV ===
+RHO_PGF_REF = 1035.0            !   [kg m-3] default = 1035.0
+                                ! The reference density that is subtracted off when calculating pressure
+                                ! gradient forces.  Its inverse is subtracted off of specific volumes when in
+                                ! non-Boussinesq mode.  The default is RHO_0.
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = False !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
                                 ! bathymetry in FV pressure gradient calculations.
