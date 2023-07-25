@@ -74,7 +74,7 @@ DO_RIDGING = False              !   [Boolean] default = False
                                 ! If true, call the ridging routines.
 RESTARTFILE = "ice_model.res.nc" ! default = "ice_model.res.nc"
                                 ! The name of the restart file.
-FAST_ICE_RESTARTFILE = "ice_model.res.nc" ! default = "ice_model.res.nc"
+FAST_ICE_RESTARTFILE = "ice_model_fast.res.nc" ! default = "ice_model.res.nc"
                                 ! The name of the restart file for those elements of the the sea ice that are
                                 ! handled by the fast ice PEs.
 APPLY_MASKS_AFTER_RESTART = True !   [Boolean] default = True
@@ -86,7 +86,7 @@ WRITE_GEOM = 1                  ! default = 1
 INTERPOLATE_FLUXES = True       !   [Boolean] default = True
                                 ! If true, interpolate a linearized version of the fast fluxes into arealess
                                 ! categories.
-REDO_FAST_ICE_UPDATE = False    !   [Boolean] default = False
+REDO_FAST_ICE_UPDATE = True     !   [Boolean] default = True
                                 ! If true, recalculate the thermal updates from the fast dynamics on the slowly
                                 ! evolving ice state, rather than copying over the slow ice state to the fast
                                 ! ice state.
@@ -96,7 +96,7 @@ NK_ICE = 4                      !   [nondim] default = 4
                                 ! The number of layers within the sea ice.
 NK_SNOW = 1                     !   [nondim] default = 1
                                 ! The number of layers within the snow atop the sea ice.
-MIN_OCEAN_PARTSIZE = 0.0        !   [nondim] default = 0.0
+MIN_OCEAN_PARTSIZE = 1.0E-40    !   [nondim] default = 1.0E-40
                                 ! The minimum value for the fractional open-ocean area. This can be 0, but for
                                 ! some purposes it may be useful to set this to a miniscule value (like 1e-40)
                                 ! that will be lost to roundoff during any sums so that the open ocean fluxes
@@ -256,56 +256,14 @@ SUBLIMATION_BUG = False         !   [Boolean] default = False
 ! === module SIS_tracer_flow_control ===
 USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
                                 ! If true, use the concentration based age tracer package.
+
+! === module SIS_restart ===
 SIS_FAST_AVAILABLE_DIAGS_FILE = "SIS_fast.available_diags" ! default = "SIS_fast.available_diags"
                                 ! A file into which to write a list of all available sea ice diagnostics that
                                 ! can be included in a diag_table.
-CONCENTRATION_INIT_CONFIG = "data_override" ! default = "data_override"
-                                ! A string that determines how the initial total sea ice concentration is
-                                ! initialized for a new run:
-                                !     file - read sea ice concentrations from a specified file
-                                !     data_override - use the data_override capability or zero everywhere
-                                !     zero - there is no sea ice anywhere
-                                !     latitudes - initial sea ice concentration is a function of latitude.
-ICE_THICKNESS_INIT_CONFIG = "data_override" ! default = "data_override"
-                                ! A string that determines how the initial sea ice thickness is initialized for
-                                ! a new run:
-                                !     file - read sea ice thickesses from a specified file
-                                !     data_override - use the data_override capability or zero everywhere
-                                !     uniform - sea ice has uniform thickness where the concentration is
-                                !       nonzero.
-SNOW_THICKNESS_INIT_CONFIG = "data_override" ! default = "data_override"
-                                ! A string that determines how the initial total snow thickness is initialized
-                                ! for a new run:
-                                !     file - read sea ice concentrations from a specified file
-                                !     data_override - use the data_override capability or zero everywhere
-                                !     uniform - snow has uniform thickness where the concentration is nonzero.
-ICE_SALINITY_INIT_CONFIG = "uniform" ! default = "uniform"
-                                ! A string that determines how the sea ice salinity is initialized for a new
-                                ! run:
-                                !     uniform -  Use a constant ice salinity initial condition
-                                !     file - Read sea ice salinities from a specified file
-                                !     data_override - use the data_override capability or zero everywhere.
-ICE_ENTHALPY_INIT_CONFIG = "uniform_temp" ! default = "uniform_temp"
-                                ! A string that determines how the sea ice enthalpy is initialized for a new
-                                ! run:
-                                !     uniform_temp - Use a constant ice temperature initial condition
-                                !     relative_temp - Use an ice temperature initial condition with a
-                                !       specified depression below the bulk ice freezing point
-                                !     file - Read sea ice temperatures or enthalpies from a specified file
-                                !     data_override - use the data_override capability or freezing enthalpy
-                                !       everywhere.
-SNOW_ENTHALPY_INIT_CONFIG = "uniform_temp" ! default = "uniform_temp"
-                                ! A string that determines how the snow enthalpy is initialized for a new run:
-                                !     uniform_temp - Use a constant ice temperature initial condition
-                                !     relative_temp - Use an ice temperature initial condition with a
-                                !       specified depression below the bulk ice freezing point
-                                !     file - Read sea ice temperatures or enthalpies from a specified file
-                                !     data_override - use the data_override capability or freezing enthalpy
-                                !       everywhere.
-ICE_SALINITY_IC = 0.0           !   [g kg-1] default = 0.0
-                                ! The uniform sea ice salinity used for the initial condition
-ICE_TEMPERATURE_IC = -4.0       !   [degC] default = -4.0
-                                ! The uniform sea ice and snow temperature used for the initial condition
+
+! === module SIS2_ice_thm (thermo) ===
+! This sub-module calculates ice thermodynamic quantities.
 
 ! === module SIS_slow_thermo ===
 ! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
@@ -366,20 +324,20 @@ DT_ICE_DYNAMICS = 1200.0        !   [seconds] default = -1.0
                                 ! The time step used for the slow ice dynamics, including stepping the
                                 ! continuity equation and interactions between the ice mass field and
                                 ! velocities.  If 0 or negative the coupling time step will be used.
-MERGED_CONTINUITY = False       !   [Boolean] default = False
+MERGED_CONTINUITY = True        !   [Boolean] default = False
                                 ! If true, update the continuity equations for the ice, snow, and melt pond
                                 ! water together summed across categories, with proportionate fluxes for each
                                 ! part. Otherwise the media are updated separately.
+DT_ICE_ADVECT = -1.0            !   [seconds] default = -1.0
+                                ! The time step used for the advecting tracers and masses as partitioned by
+                                ! thickness categories when merged_cont it true. If 0 or negative, the coupling
+                                ! time step will be used.
 NSTEPS_ADV = 1                  ! default = 1
                                 ! The number of advective iterations for each slow dynamics time step.
 ICEBERG_WINDSTRESS_BUG = True   !   [Boolean] default = False
                                 ! If true, use older code that applied an old ice-ocean stress to the icebergs
                                 ! in place of the current air-ocean stress.  This option is here for backward
                                 ! compatibility, but should be avoided.
-WARSAW_SUM_ORDER = True         !   [Boolean] default = True
-                                ! If true, use the order of sums in the Warsaw version of SIS2. The default is
-                                ! the opposite of MERGED_CONTINUITY. This option exists for backward
-                                ! compatibilty but may eventually be obsoleted.
 TIMEUNIT = 8.64E+04             !   [s] default = 8.64E+04
                                 ! The time unit for ICE_STATS_INTERVAL.
 ICE_STATS_INTERVAL = 0.25       !   [days] default = 1.0
@@ -456,9 +414,6 @@ SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
                                 !   PCM    - Directionally split piecewise constant
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
-INCONSISTENT_COVER_BUG = True   !   [Boolean] default = False
-                                ! If true, omit a recalculation of the fractional ice-free areal coverage after
-                                ! the adjustment of the ice categories.
 SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme used in continuity:
                                 !   UPWIND_2D - Non-directionally split upwind
@@ -479,6 +434,15 @@ CONTINUITY_FRAC_NEGLECT = 0.0   !   [nondim] default = 0.0
                                 ! total mass contributes no flux.  Without MERGED_CONTINUITY, any snow or melt
                                 ! pond transport that is less than this fraction of the ice transport is zeroed
                                 ! out.  A suggested non-default value might be of order 1e-20.
+SIS_COVER_TRANSPORT_SCHEME = "UPWIND_2D" ! default = "UPWIND_2D"
+                                ! The horizontal transport scheme used for projections of ice cover:
+                                !   UPWIND_2D - Non-directionally split upwind
+                                !   PCM       - Directionally split piecewise constant
+                                !   PPM:C2PD  - Positive definite PPM with 2nd order edge values
+                                !   PPM:C2MO  - Monotonic PPM with 2nd order edge values
+COVER_PPM_VOLUME_BASED_CFL = False !   [Boolean] default = False
+                                ! If true, use the ratio of the open face lengths to the cell areas when
+                                ! estimating CFL numbers in ice cover transport.
 
 ! === module SIS_tracer_advect ===
 SIS_TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "UPWIND_2D"
@@ -543,6 +507,16 @@ ICE_DELTA_EDD_R_POND = 1.0      !   [nondimensional] default = 0.0
                                 ! A dreadfully documented tuning parameter for the radiative propeties of
                                 ! meltwater ponds on sea ice with the delta-Eddington radiative transfer
                                 ! calculation.
+
+! === module SIS_fast_thermo ===
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature
+! calculation.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
+
+! === module SIS_optics ===
+! This module calculates the albedo and absorption profiles for shortwave radiation.
 
 ! === module MOM_file_parser ===
 SEND_LOG_TO_STDOUT = False      !   [Boolean] default = False

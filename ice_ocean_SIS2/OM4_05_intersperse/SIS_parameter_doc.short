@@ -9,6 +9,9 @@ DO_ICEBERGS = True              !   [Boolean] default = False
                                 ! If true, call the iceberg module.
 ADD_DIURNAL_SW = True           !   [Boolean] default = False
                                 ! If true, add a synthetic diurnal cycle to the shortwave radiation.
+FAST_ICE_RESTARTFILE = "ice_model_fast.res.nc" ! default = "ice_model.res.nc"
+                                ! The name of the restart file for those elements of the the sea ice that are
+                                ! handled by the fast ice PEs.
 
 ! === module MOM_domains ===
 TRIPOLAR_N = True               !   [Boolean] default = False
@@ -62,6 +65,9 @@ CP_BRINE = 2100.0               !   [J kg-1 K-1] default = 4200.0
 
 ! === module SIS_tracer_flow_control ===
 
+! === module SIS2_ice_thm (thermo) ===
+! This sub-module calculates ice thermodynamic quantities.
+
 ! === module SIS_slow_thermo ===
 ! This module calculates the slow evolution of the ice mass, heat, and salt budgets.
 ICE_BULK_SALINITY = 0.0         !   [g/kg] default = 4.0
@@ -83,6 +89,10 @@ DT_ICE_DYNAMICS = 1200.0        !   [seconds] default = -1.0
                                 ! The time step used for the slow ice dynamics, including stepping the
                                 ! continuity equation and interactions between the ice mass field and
                                 ! velocities.  If 0 or negative the coupling time step will be used.
+MERGED_CONTINUITY = True        !   [Boolean] default = False
+                                ! If true, update the continuity equations for the ice, snow, and melt pond
+                                ! water together summed across categories, with proportionate fluxes for each
+                                ! part. Otherwise the media are updated separately.
 ICEBERG_WINDSTRESS_BUG = True   !   [Boolean] default = False
                                 ! If true, use older code that applied an old ice-ocean stress to the icebergs
                                 ! in place of the current air-ocean stress.  This option is here for backward
@@ -102,9 +112,6 @@ SIS_THICKNESS_ADVECTION_SCHEME = "PCM" ! default = "UPWIND_2D"
                                 !   PCM    - Directionally split piecewise constant
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
-INCONSISTENT_COVER_BUG = True   !   [Boolean] default = False
-                                ! If true, omit a recalculation of the fractional ice-free areal coverage after
-                                ! the adjustment of the ice categories.
 SIS_CONTINUITY_SCHEME = "PCM"   ! default = "UPWIND_2D"
                                 ! The horizontal transport scheme used in continuity:
                                 !   UPWIND_2D - Non-directionally split upwind
@@ -148,3 +155,13 @@ ICE_DELTA_EDD_R_POND = 1.0      !   [nondimensional] default = 0.0
                                 ! A dreadfully documented tuning parameter for the radiative propeties of
                                 ! meltwater ponds on sea ice with the delta-Eddington radiative transfer
                                 ! calculation.
+
+! === module SIS_fast_thermo ===
+! This module applies rapidly varying heat fluxes to the ice and does an implicit surface temperature
+! calculation.
+
+! === module SIS2_ice_thm (updates) ===
+! This sub-module does updates of the sea-ice due to thermodynamic changes.
+
+! === module SIS_optics ===
+! This module calculates the albedo and absorption profiles for shortwave radiation.
