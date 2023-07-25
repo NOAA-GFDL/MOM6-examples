@@ -44,7 +44,7 @@ DT = 900.0                      !   [s]
                                 ! The (baroclinic) dynamics time step.  The time-step that is actually used will
                                 ! be an integer fraction of the forcing time-step (DT_FORCING in ocean-only mode
                                 ! or the coupling timestep in coupled mode.)
-DT_THERM = 3600.0               !   [s] default = 900.0
+DT_THERM = 7200.0               !   [s] default = 900.0
                                 ! The thermodynamic and tracer advection time step. Ideally DT_THERM should be
                                 ! an integer multiple of DT and less than the forcing or coupling time-step,
                                 ! unless THERMO_SPANS_COUPLING is true, in which case DT_THERM can be an integer
@@ -318,7 +318,7 @@ DIAG_COORDS = "z Z ZSTAR", "rho2 RHO2 RHO" !
                                 ! A list of string tuples associating diag_table modules to a coordinate
                                 ! definition used for diagnostics. Each string is of the form
                                 ! "MODULE_SUFFIX,PARAMETER_SUFFIX,COORDINATE_NAME".
-DIAG_COORD_DEF_RHO2 = "RFNC1:35,999.5,1028,1028.5,8.,1038.,0.0078125" ! default = "WOA09"
+DIAG_COORD_DEF_RHO2 = "FILE:diag_rho2.nc,interfaces=rho2" ! default = "WOA09"
                                 ! Determines how to specify the coordinate resolution. Valid options are:
                                 !  PARAM       - use the vector-parameter DIAG_COORD_RES_RHO2
                                 !  UNIFORM[:N] - uniformly distributed
@@ -484,9 +484,10 @@ USE_LAND_MASK_FOR_HVISC = False !   [Boolean] default = False
 HMIX_FIXED = 0.5                !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
-KVML = 1.0E-04                  !   [m2 s-1] default = 1.0E-04
-                                ! The kinematic viscosity in the mixed layer.  A typical value is ~1e-2 m2 s-1.
-                                ! KVML is not used if BULKMIXEDLAYER is true.  The default is set by KV.
+KV_ML_INVZ2 = 1.0E-04           !   [m2 s-1] default = 0.0
+                                ! An extra kinematic viscosity in a mixed layer of thickness HMIX_FIXED, with
+                                ! the actual viscosity scaling as 1/(z*HMIX_FIXED)^2, where z is the distance
+                                ! from the surface, to allow for finite wind stresses to be transmitted through.
 MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 

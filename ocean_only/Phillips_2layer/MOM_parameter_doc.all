@@ -360,6 +360,8 @@ GFS = 9.8                       !   [m s-2] default = 9.8
                                 ! The reduced gravity at the free surface.
 GINT = 0.0196                   !   [m s-2]
                                 ! The reduced gravity across internal interfaces.
+LIGHTEST_DENSITY = 1031.0       !   [kg m-3] default = 1031.0
+                                ! The reference potential density used for layer 1.
 
 ! === module MOM_state_initialization ===
 FATAL_INCONSISTENT_RESTART_TIME = False !   [Boolean] default = False
@@ -834,6 +836,11 @@ ANALYTIC_FV_PGF = False         !   [Boolean] default = True
 
 ! === module MOM_PressureForce_Mont ===
 
+! === module MOM_Zanna_Bolton ===
+USE_ZB2020 = False              !   [Boolean] default = False
+                                ! If true, turns on Zanna-Bolton-2020 (ZB) subgrid momentum parameterization of
+                                ! mesoscale eddies.
+
 ! === module MOM_hor_visc ===
 HOR_VISC_2018_ANSWERS = False   !   [Boolean] default = False
                                 ! If true, use the order of arithmetic and expressions that recover the answers
@@ -1295,6 +1302,8 @@ USE_CVMIX_DDIFF = False         !   [Boolean] default = False
 
 ! === module MOM_diabatic_aux ===
 ! The following parameters are used for auxiliary diabatic processes.
+DO_BRINE_PLUME = False          !   [Boolean] default = False
+                                ! If true, use a brine plume parameterization from Nguyen et al., 2009.
 
 ! === module MOM_regularize_layers ===
 REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False

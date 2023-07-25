@@ -295,7 +295,7 @@ GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
 ! Parameters providing information about the vertical grid.
 G_EARTH = 9.8                   !   [m s-2] default = 9.8
                                 ! The gravitational acceleration of the Earth.
-RHO_0 = 1035.0                  !   [kg m-3] default = 1035.0
+RHO_0 = 1024.0                  !   [kg m-3] default = 1035.0
                                 ! The mean ocean density used with BOUSSINESQ true to calculate accelerations
                                 ! and the mass for conservation properties, or with BOUSSINSEQ false to convert
                                 ! some parameters from vertical units of m to kg m-2.
@@ -305,9 +305,13 @@ SEMI_BOUSSINESQ = True          !   [Boolean] default = True
                                 ! If true, do non-Boussinesq pressure force calculations and use mass-based
                                 ! thicknesses, but use RHO_0 to convert layer thicknesses into certain height
                                 ! changes.  This only applies if BOUSSINESQ is false.
-RHO_KV_CONVERT = 1035.0         !   [kg m-3] default = 1035.0
-                                ! The density used to convert input kinematic viscosities into dynamic
-                                ! viscosities in non-BOUSSINESQ mode, and similarly for vertical diffusivities.
+RHO_KV_CONVERT = 1024.0         !   [kg m-3] default = 1024.0
+                                ! The density used to convert input vertical distances into thickesses in
+                                ! non-BOUSSINESQ mode, and to convert kinematic viscosities into dynamic
+                                ! viscosities and similarly for vertical diffusivities.  GV%m_to_H is set using
+                                ! this value, whereas GV%Z_to_H is set using RHO_0.  The default is RHO_0, but
+                                ! this can be set separately to demonstrate the independence of the
+                                ! non-Boussinesq solutions of the value of RHO_0.
 ANGSTROM = 1.0E-10              !   [m] default = 1.0E-10
                                 ! The minimum layer thickness, usually one-Angstrom.
 H_TO_KG_M2 = 1.0                !   [kg m-2 H-1] default = 1.0
@@ -1041,6 +1045,10 @@ ANALYTIC_FV_PGF = True          !   [Boolean] default = True
                                 ! al., O. Mod. (2008).
 
 ! === module MOM_PressureForce_FV ===
+RHO_PGF_REF = 1024.0            !   [kg m-3] default = 1024.0
+                                ! The reference density that is subtracted off when calculating pressure
+                                ! gradient forces.  Its inverse is subtracted off of specific volumes when in
+                                ! non-Boussinesq mode.  The default is RHO_0.
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = False !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
                                 ! bathymetry in FV pressure gradient calculations.
@@ -1063,6 +1071,11 @@ BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! polynomial is used as is used for the interior cells.
 USE_STANLEY_PGF = False         !   [Boolean] default = False
                                 ! If true, turn on Stanley SGS T variance parameterization in PGF code.
+
+! === module MOM_Zanna_Bolton ===
+USE_ZB2020 = False              !   [Boolean] default = False
+                                ! If true, turns on Zanna-Bolton-2020 (ZB) subgrid momentum parameterization of
+                                ! mesoscale eddies.
 
 ! === module MOM_hor_visc ===
 HOR_VISC_2018_ANSWERS = False   !   [Boolean] default = False
@@ -1752,6 +1765,8 @@ PRESSURE_DEPENDENT_FRAZIL = False !   [Boolean] default = False
                                 ! If true, use a pressure dependent freezing temperature when making frazil. The
                                 ! default is false, which will be faster but is inappropriate with ice-shelf
                                 ! cavities.
+DO_BRINE_PLUME = False          !   [Boolean] default = False
+                                ! If true, use a brine plume parameterization from Nguyen et al., 2009.
 VAR_PEN_SW = True               !   [Boolean] default = False
                                 ! If true, use one of the CHL_A schemes specified by OPACITY_SCHEME to determine
                                 ! the e-folding depth of incoming short wave radiation.

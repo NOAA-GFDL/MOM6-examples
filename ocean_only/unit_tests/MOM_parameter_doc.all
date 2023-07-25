@@ -348,6 +348,8 @@ COORD_CONFIG = "none"           ! default = "none"
                                 !     USER - call a user modified routine.
 GFS = 9.8                       !   [m s-2] default = 9.8
                                 ! The reduced gravity at the free surface.
+LIGHTEST_DENSITY = 1035.0       !   [kg m-3] default = 1035.0
+                                ! The reference potential density used for layer 1.
 
 ! === module MOM_state_initialization ===
 FATAL_INCONSISTENT_RESTART_TIME = False !   [Boolean] default = False
@@ -732,6 +734,10 @@ ANALYTIC_FV_PGF = True          !   [Boolean] default = True
                                 ! al., O. Mod. (2008).
 
 ! === module MOM_PressureForce_FV ===
+RHO_PGF_REF = 1035.0            !   [kg m-3] default = 1035.0
+                                ! The reference density that is subtracted off when calculating pressure
+                                ! gradient forces.  Its inverse is subtracted off of specific volumes when in
+                                ! non-Boussinesq mode.  The default is RHO_0.
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = False !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
                                 ! bathymetry in FV pressure gradient calculations.
@@ -754,6 +760,11 @@ BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! polynomial is used as is used for the interior cells.
 USE_STANLEY_PGF = False         !   [Boolean] default = False
                                 ! If true, turn on Stanley SGS T variance parameterization in PGF code.
+
+! === module MOM_Zanna_Bolton ===
+USE_ZB2020 = False              !   [Boolean] default = False
+                                ! If true, turns on Zanna-Bolton-2020 (ZB) subgrid momentum parameterization of
+                                ! mesoscale eddies.
 
 ! === module MOM_hor_visc ===
 HOR_VISC_2018_ANSWERS = True    !   [Boolean] default = True
