@@ -749,6 +749,22 @@ DIAG_COORD_DEF_Z = "FILE:vgrid_75_2m.nc,dz" ! default = "WOA09"
                                 !                the filename and two variable names, separated
                                 !                by a comma or space, for sigma-2 and dz. e.g.
                                 !                HYBRID:vgrid.nc,sigma2,dz
+DIAG_COORD_INTERP_SCHEME_RHO2 = "PPM_H4" ! default = "PPM_H4"
+                                ! This sets the interpolation scheme to use to determine the new grid. These
+                                ! parameters are only relevant when REGRIDDING_COORDINATE_MODE is set to a
+                                ! function of state. Otherwise, it is not used. It can be one of the following
+                                ! schemes:
+                                !  P1M_H2     (2nd-order accurate)
+                                !  P1M_H4     (2nd-order accurate)
+                                !  P1M_IH4    (2nd-order accurate)
+                                !  PLM        (2nd-order accurate)
+                                !  PPM_CW     (3rd-order accurate)
+                                !  PPM_H4     (3rd-order accurate)
+                                !  PPM_IH4    (3rd-order accurate)
+                                !  P3M_IH4IH3 (4th-order accurate)
+                                !  P3M_IH6IH5 (4th-order accurate)
+                                !  PQM_IH4IH3 (4th-order accurate)
+                                !  PQM_IH6IH5 (5th-order accurate)
 DIAG_COORD_DEF_RHO2 = "RFNC1:35,999.5,1028,1028.5,8.,1038.,0.0078125" ! default = "WOA09"
                                 ! Determines how to specify the coordinate resolution. Valid options are:
                                 !  PARAM       - use the vector-parameter DIAG_COORD_RES_RHO2
@@ -1270,6 +1286,10 @@ ANALYTIC_FV_PGF = True          !   [Boolean] default = True
                                 ! al., O. Mod. (2008).
 
 ! === module MOM_PressureForce_FV ===
+RHO_PGF_REF = 1035.0            !   [kg m-3] default = 1035.0
+                                ! The reference density that is subtracted off when calculating pressure
+                                ! gradient forces.  Its inverse is subtracted off of specific volumes when in
+                                ! non-Boussinesq mode.  The default is RHO_0.
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
                                 ! bathymetry in FV pressure gradient calculations.
@@ -1292,6 +1312,11 @@ BOUNDARY_EXTRAPOLATION_PRESSURE = True !   [Boolean] default = True
                                 ! polynomial is used as is used for the interior cells.
 USE_STANLEY_PGF = False         !   [Boolean] default = False
                                 ! If true, turn on Stanley SGS T variance parameterization in PGF code.
+
+! === module MOM_Zanna_Bolton ===
+USE_ZB2020 = False              !   [Boolean] default = False
+                                ! If true, turns on Zanna-Bolton-2020 (ZB) subgrid momentum parameterization of
+                                ! mesoscale eddies.
 
 ! === module MOM_hor_visc ===
 HOR_VISC_2018_ANSWERS = True    !   [Boolean] default = True
@@ -2020,6 +2045,8 @@ USE_RIVER_HEAT_CONTENT = False  !   [Boolean] default = False
 USE_CALVING_HEAT_CONTENT = False !   [Boolean] default = False
                                 ! If true, use the fluxes%calving_Hflx field to set the heat carried by runoff,
                                 ! instead of using SST*CP*froz_runoff.
+DO_BRINE_PLUME = False          !   [Boolean] default = False
+                                ! If true, use a brine plume parameterization from Nguyen et al., 2009.
 VAR_PEN_SW = True               !   [Boolean] default = False
                                 ! If true, use one of the CHL_A schemes specified by OPACITY_SCHEME to determine
                                 ! the e-folding depth of incoming short wave radiation.
