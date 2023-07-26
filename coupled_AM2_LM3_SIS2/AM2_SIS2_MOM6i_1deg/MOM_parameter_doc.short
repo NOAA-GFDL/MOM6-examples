@@ -38,8 +38,8 @@ C_P = 3925.0                    !   [J kg-1 K-1] default = 3991.86795711963
 USE_PSURF_IN_EOS = False        !   [Boolean] default = True
                                 ! If true, always include the surface pressure contributions in equation of
                                 ! state calculations.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
-                                ! This sets the default value for the various _2018_ANSWERS parameters.
+DEFAULT_ANSWER_DATE = 20181231  ! default = 99991231
+                                ! This sets the default value for the various _ANSWER_DATE parameters.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "GOLD_IC"      ! default = "MOM_IC"
@@ -264,6 +264,10 @@ KHTH_MAX = 900.0                !   [m2 s-1] default = 0.0
                                 ! The maximum horizontal thickness diffusivity.
 
 ! === module MOM_porous_barriers ===
+PORBAR_ANSWER_DATE = 99991231   ! default = 20181231
+                                ! The vintage of the porous barrier weight function calculations.  Values below
+                                ! 20220806 recover the old answers in which the layer averaged weights are not
+                                ! strictly limited by an upper-bound of 1.0 .
 
 ! === module MOM_dynamics_split_RK2 ===
 
