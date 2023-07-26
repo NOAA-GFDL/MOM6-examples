@@ -3060,6 +3060,11 @@
     ! standard_name: surface_downward_y_stress
     ! cell_methods: xh:mean yq:point
     ! variants: {tauy,tauvo}
+"tau_mag"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Average magnitude of the wind stress including contributions from gustiness
+    ! units: Pa
+    ! cell_methods: xh:mean yh:mean area:mean
 "ustar"  [Used]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Surface friction velocity = [(gustiness + tau_magnitude)/rho0]^(1/2)
@@ -3536,6 +3541,11 @@
 "salt_flux_added"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Salt flux into ocean at surface due to restoring or flux adjustment
+    ! units: kg m-2 s-1
+    ! cell_methods: xh:mean yh:mean area:mean
+"salt_left_behind"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Salt left in ocean at surface due to ice formation
     ! units: kg m-2 s-1
     ! cell_methods: xh:mean yh:mean area:mean
 "salt_flux_global_restoring_adjustment"  [Unused]
