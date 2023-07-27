@@ -1267,18 +1267,15 @@ BT_NONLIN_STRESS = False        !   [Boolean] default = False
                                 ! If true, use the full depth of the ocean at the start of the barotropic step
                                 ! when calculating the surface stress contribution to the barotropic
                                 ! acclerations.  Otherwise use the depth based on bathyT.
+BT_RHO_LINEARIZED = 1024.0      !   [kg m-3] default = 1024.0
+                                ! A density that is used to convert total water column thicknesses into mass in
+                                ! non-Boussinesq mode with linearized options in the barotropic solver or when
+                                ! estimating the stable barotropic timestep without access to the full
+                                ! baroclinic model state.
 DYNAMIC_SURFACE_PRESSURE = False !   [Boolean] default = False
                                 ! If true, add a dynamic pressure due to a viscous ice shelf, for instance.
 BT_CORIOLIS_SCALE = 1.0         !   [nondim] default = 1.0
                                 ! A factor by which the barotropic Coriolis anomaly terms are scaled.
-BAROTROPIC_2018_ANSWERS = False !   [Boolean] default = False
-                                ! If true, use expressions for the barotropic solver that recover the answers
-                                ! from the end of 2018.  Otherwise, use more efficient or general expressions.
-BAROTROPIC_ANSWER_DATE = 99991231 ! default = 99991231
-                                ! The vintage of the expressions in the barotropic solver. Values below 20190101
-                                ! recover the answers from the end of 2018, while higher values uuse more
-                                ! efficient or general expressions.  If both BAROTROPIC_2018_ANSWERS and
-                                ! BAROTROPIC_ANSWER_DATE are specified, the latter takes precedence.
 BAROTROPIC_TIDAL_SAL_BUG = False !   [Boolean] default = False
                                 ! If true, the tidal self-attraction and loading anomaly in the barotropic
                                 ! solver has the wrong sign, replicating a long-standing bug with a scalar
