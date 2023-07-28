@@ -148,9 +148,9 @@ BAD_VAL_SST_MIN = -3.0          !   [deg C] default = -2.1
 BAD_VAL_COLUMN_THICKNESS = 0.0  !   [m] default = 0.0
                                 ! The value of column thickness below which a bad value message is triggered, if
                                 ! CHECK_BAD_SURFACE_VALS is true.
-DEFAULT_ANSWER_DATE = 99991231  ! default = 99991231
+DEFAULT_ANSWER_DATE = 20181231  ! default = 99991231
                                 ! This sets the default value for the various _ANSWER_DATE parameters.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = False
+DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
                                 ! This sets the default value for the various _2018_ANSWERS parameters.
 SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
                                 ! If true, use expressions for the surface properties that recover the answers
@@ -1166,7 +1166,7 @@ STANLEY_COEFF = -1.0            !   [nondim] default = -1.0
                                 ! Coefficient correlating the temperature gradient and SGS T variance.
 
 ! === module MOM_porous_barriers ===
-PORBAR_ANSWER_DATE = 99991231   ! default = 99991231
+PORBAR_ANSWER_DATE = 99991231   ! default = 20181231
                                 ! The vintage of the porous barrier weight function calculations.  Values below
                                 ! 20220806 recover the old answers in which the layer averaged weights are not
                                 ! strictly limited by an upper-bound of 1.0 .
