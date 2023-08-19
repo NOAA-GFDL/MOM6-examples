@@ -2409,6 +2409,9 @@ FLUXCONST_T = 0.5               !   [m day-1] default = 0.5
 FLUXCONST_S = 0.5               !   [m day-1] default = 0.5
                                 ! The constant that relates the restoring surface salinity flux to the relative
                                 ! surface anomaly (akin to a piston velocity).  Note the non-MKS units.
+RESTORE_FLUX_RHO = 1035.0       !   [kg m-3] default = 1035.0
+                                ! The density that is used to convert piston velocities into salt or heat fluxes
+                                ! with RESTORE_SALINITY or RESTORE_TEMPERATURE.
 GUST_CONST = 0.0                !   [Pa] default = 0.0
                                 ! The background gustiness in the winds.
 FIX_USTAR_GUSTLESS_BUG = True   !   [Boolean] default = True

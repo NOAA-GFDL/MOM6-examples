@@ -2379,6 +2379,9 @@ WIND_STRESS_MULTIPLIER = 1.0    !   [nondim] default = 1.0
                                 ! is used for testing and should be =1.0 for any production runs.
 CD_TIDES = 0.0018               !   [nondim] default = 1.0E-04
                                 ! The drag coefficient that applies to the tides.
+TKE_TIDAL_RHO = 1035.0          !   [kg m-3] default = 1035.0
+                                ! The constant bottom density used to translate tidal amplitudes into the tidal
+                                ! bottom TKE input used with INT_TIDE_DISSIPATION.
 READ_GUST_2D = False            !   [Boolean] default = False
                                 ! If true, use a 2-dimensional gustiness supplied from an input file
 GUST_CONST = 0.02               !   [Pa] default = 0.0
