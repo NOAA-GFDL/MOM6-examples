@@ -528,9 +528,24 @@
     ! long_name: Depth-integral of Fractional Thickness-weighted Zonal Acceleration from Relative Vorticity
     ! units: m2 s-2
     ! cell_methods: xq:point yh:mean
+"e_sal"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Self-attraction and loading height anomaly
+    ! units: meter
+    ! cell_methods: xh:mean yh:mean area:mean
 "e_tidal"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Tidal Forcing Astronomical and SAL Height Anomaly
+    ! units: meter
+    ! cell_methods: xh:mean yh:mean area:mean
+"e_tide_eq"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Equilibrium tides height anomaly
+    ! units: meter
+    ! cell_methods: xh:mean yh:mean area:mean
+"e_tide_sal"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Read-in tidal self-attraction and loading height anomaly
     ! units: meter
     ! cell_methods: xh:mean yh:mean area:mean
 "NoSt"  [Unused]
