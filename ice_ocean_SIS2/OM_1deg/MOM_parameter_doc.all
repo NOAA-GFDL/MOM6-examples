@@ -150,18 +150,10 @@ BAD_VAL_COLUMN_THICKNESS = 0.0  !   [m] default = 0.0
                                 ! CHECK_BAD_SURFACE_VALS is true.
 DEFAULT_ANSWER_DATE = 20181231  ! default = 99991231
                                 ! This sets the default value for the various _ANSWER_DATE parameters.
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
-                                ! This sets the default value for the various _2018_ANSWERS parameters.
-SURFACE_2018_ANSWERS = True     !   [Boolean] default = True
-                                ! If true, use expressions for the surface properties that recover the answers
-                                ! from the end of 2018. Otherwise, use more appropriate expressions that differ
-                                ! at roundoff for non-Boussinesq cases.
 SURFACE_ANSWER_DATE = 20181231  ! default = 20181231
                                 ! The vintage of the expressions for the surface properties.  Values below
                                 ! 20190101 recover the answers from the end of 2018, while higher values use
-                                ! updated and more robust forms of the same expressions.  If both
-                                ! SURFACE_2018_ANSWERS and SURFACE_ANSWER_DATE are specified, the latter takes
-                                ! precedence.
+                                ! updated and more robust forms of the same expressions.
 USE_DIABATIC_TIME_BUG = False   !   [Boolean] default = False
                                 ! If true, uses the wrong calendar time for diabatic processes, as was done in
                                 ! MOM6 versions prior to February 2018. This is not recommended.
@@ -492,17 +484,11 @@ INTERPOLATION_SCHEME = "P1M_H2" ! default = "P1M_H2"
                                 !  P3M_IH6IH5 (4th-order accurate)
                                 !  PQM_IH4IH3 (4th-order accurate)
                                 !  PQM_IH6IH5 (5th-order accurate)
-REMAPPING_2018_ANSWERS = True   !   [Boolean] default = True
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
-                                ! same expressions.
 REMAPPING_ANSWER_DATE = 20181231 ! default = 20181231
                                 ! The vintage of the expressions and order of arithmetic to use for remapping.
                                 ! Values below 20190101 result in the use of older, less accurate expressions
                                 ! that were in use at the end of 2018.  Higher values result in the use of more
-                                ! robust and accurate forms of mathematically equivalent expressions.  If both
-                                ! REMAPPING_2018_ANSWERS and REMAPPING_ANSWER_DATE are specified, the latter
-                                ! takes precedence.
+                                ! robust and accurate forms of mathematically equivalent expressions.
 REGRIDDING_ANSWER_DATE = 20181231 ! default = 20181231
                                 ! The vintage of the expressions and order of arithmetic to use for regridding.
                                 ! Values below 20190101 result in the use of older, less accurate expressions
@@ -667,16 +653,11 @@ TEMP_SALT_INIT_VERTICAL_REMAP_ONLY = False !   [Boolean] default = False
                                 ! If true, initial conditions are on the model horizontal grid. Extrapolation
                                 ! over missing ocean values is done using an ICE-9 procedure with vertical ALE
                                 ! remapping .
-HOR_REGRID_2018_ANSWERS = True  !   [Boolean] default = True
-                                ! If true, use the order of arithmetic for horizontal regridding that recovers
-                                ! the answers from the end of 2018.  Otherwise, use rotationally symmetric forms
-                                ! of the same expressions.
 HOR_REGRID_ANSWER_DATE = 20181231 ! default = 20181231
                                 ! The vintage of the order of arithmetic for horizontal regridding.  Dates
                                 ! before 20190101 give the same answers as the code did in late 2018, while
                                 ! later versions add parentheses for rotational symmetry.  Dates after 20230101
-                                ! use reproducing sums for global averages.  If both HOR_REGRID_2018_ANSWERS and
-                                ! HOR_REGRID_ANSWER_DATE are specified, the latter takes precedence.
+                                ! use reproducing sums for global averages.
 LAND_FILL_TEMP = 0.0            !   [degC] default = 0.0
                                 ! A value to use to fill in ocean temperatures on land points.
 LAND_FILL_SALIN = 35.0          !   [1e-3] default = 35.0
@@ -1028,16 +1009,10 @@ USE_QG_LEITH_GM = False         !   [Boolean] default = False
                                 ! If true, use the QG Leith viscosity as the GM coefficient.
 
 ! === module MOM_set_visc ===
-SET_VISC_2018_ANSWERS = True    !   [Boolean] default = True
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
-                                ! same expressions.
 SET_VISC_ANSWER_DATE = 20181231 ! default = 20181231
                                 ! The vintage of the order of arithmetic and expressions in the set viscosity
                                 ! calculations.  Values below 20190101 recover the answers from the end of 2018,
                                 ! while higher values use updated and more robust forms of the same expressions.
-                                ! If both SET_VISC_2018_ANSWERS and SET_VISC_ANSWER_DATE are specified, the
-                                ! latter takes precedence.
 BOTTOMDRAGLAW = True            !   [Boolean] default = True
                                 ! If true, the bottom stress is calculated with a drag law of the form
                                 ! c_drag*|u|*u. The velocity magnitude may be an assumed value or it may be
@@ -1321,16 +1296,11 @@ USE_ZB2020 = False              !   [Boolean] default = False
                                 ! mesoscale eddies.
 
 ! === module MOM_hor_visc ===
-HOR_VISC_2018_ANSWERS = True    !   [Boolean] default = True
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
-                                ! same expressions.
 HOR_VISC_ANSWER_DATE = 20181231 ! default = 20181231
                                 ! The vintage of the order of arithmetic and expressions in the horizontal
                                 ! viscosity calculations.  Values below 20190101 recover the answers from the
                                 ! end of 2018, while higher values use updated and more robust forms of the same
-                                ! expressions.  If both HOR_VISC_2018_ANSWERS and HOR_VISC_ANSWER_DATE are
-                                ! specified, the latter takes precedence.
+                                ! expressions.
 LAPLACIAN = True                !   [Boolean] default = False
                                 ! If true, use a Laplacian horizontal viscosity.
 KH = 0.0                        !   [m2 s-1] default = 0.0
@@ -1419,19 +1389,13 @@ KH_BG_2D_VARNAME = "Kh"         ! default = "Kh"
                                 ! The name in the input file of the horizontal viscosity variable.
 
 ! === module MOM_vert_friction ===
-VERT_FRICTION_2018_ANSWERS = True !   [Boolean] default = True
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use expressions that do not use an arbitrary
-                                ! hard-coded maximum viscous coupling coefficient between layers.
 VERT_FRICTION_ANSWER_DATE = 20181231 ! default = 20181231
                                 ! The vintage of the order of arithmetic and expressions in the viscous
                                 ! calculations.  Values below 20190101 recover the answers from the end of 2018,
                                 ! while higher values use expressions that do not use an arbitrary hard-coded
                                 ! maximum viscous coupling coefficient between layers.  Values below 20230601
                                 ! recover a form of the viscosity within the mixed layer that breaks up the
-                                ! magnitude of the wind stress in some non-Boussinesq cases.  If both
-                                ! VERT_FRICTION_2018_ANSWERS and VERT_FRICTION_ANSWER_DATE are specified, the
-                                ! latter takes precedence.
+                                ! magnitude of the wind stress in some non-Boussinesq cases.
 DIRECT_STRESS = False           !   [Boolean] default = False
                                 ! If true, the wind stress is distributed over the topmost HMIX_STRESS of fluid
                                 ! (like in HYCOM), and an added mixed layer viscosity or a physically based
@@ -1535,14 +1499,10 @@ DYNAMIC_SURFACE_PRESSURE = False !   [Boolean] default = False
                                 ! If true, add a dynamic pressure due to a viscous ice shelf, for instance.
 BT_CORIOLIS_SCALE = 1.0         !   [nondim] default = 1.0
                                 ! A factor by which the barotropic Coriolis anomaly terms are scaled.
-BAROTROPIC_2018_ANSWERS = True  !   [Boolean] default = True
-                                ! If true, use expressions for the barotropic solver that recover the answers
-                                ! from the end of 2018.  Otherwise, use more efficient or general expressions.
 BAROTROPIC_ANSWER_DATE = 20181231 ! default = 20181231
                                 ! The vintage of the expressions in the barotropic solver. Values below 20190101
                                 ! recover the answers from the end of 2018, while higher values uuse more
-                                ! efficient or general expressions.  If both BAROTROPIC_2018_ANSWERS and
-                                ! BAROTROPIC_ANSWER_DATE are specified, the latter takes precedence.
+                                ! efficient or general expressions.
 SADOURNY = True                 !   [Boolean] default = True
                                 ! If true, the Coriolis terms are discretized with the Sadourny (1975) energy
                                 ! conserving scheme, otherwise the Arakawa & Hsu scheme is used.  If the
@@ -1748,16 +1708,10 @@ FLUX_RI_MAX = 0.2               !   [nondim] default = 0.2
                                 ! The flux Richardson number where the stratification is large enough that N2 >
                                 ! omega2.  The full expression for the Flux Richardson number is usually
                                 ! FLUX_RI_MAX*N2/(N2+OMEGA2).
-SET_DIFF_2018_ANSWERS = True    !   [Boolean] default = True
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
-                                ! same expressions.
 SET_DIFF_ANSWER_DATE = 20181231 ! default = 20181231
                                 ! The vintage of the order of arithmetic and expressions in the set diffusivity
                                 ! calculations.  Values below 20190101 recover the answers from the end of 2018,
                                 ! while higher values use updated and more robust forms of the same expressions.
-                                ! If both SET_DIFF_2018_ANSWERS and SET_DIFF_ANSWER_DATE are specified, the
-                                ! latter takes precedence.
 
 ! === module MOM_tidal_mixing ===
 ! Vertical Tidal Mixing Parameterization
@@ -1766,16 +1720,10 @@ USE_CVMix_TIDAL = False         !   [Boolean] default = False
 INT_TIDE_DISSIPATION = True     !   [Boolean] default = False
                                 ! If true, use an internal tidal dissipation scheme to drive diapycnal mixing,
                                 ! along the lines of St. Laurent et al. (2002) and Simmons et al. (2004).
-TIDAL_MIXING_2018_ANSWERS = True !   [Boolean] default = True
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
-                                ! same expressions.
 TIDAL_MIXING_ANSWER_DATE = 20181231 ! default = 20181231
                                 ! The vintage of the order of arithmetic and expressions in the tidal mixing
                                 ! calculations.  Values below 20190101 recover the answers from the end of 2018,
                                 ! while higher values use updated and more robust forms of the same expressions.
-                                ! If both TIDAL_MIXING_2018_ANSWERS and TIDAL_MIXING_ANSWER_DATE are specified,
-                                ! the latter takes precedence.
 INT_TIDE_PROFILE = "POLZIN_09"  ! default = "STLAURENT_02"
                                 ! INT_TIDE_PROFILE selects the vertical profile of energy dissipation with
                                 ! INT_TIDE_DISSIPATION. Valid values are:
@@ -2071,16 +2019,10 @@ ML_OMEGA_FRAC = 0.001           !   [nondim] default = 0.0
 EKMAN_SCALE_COEF = 1.0          !   [nondim] default = 1.0
                                 ! A nondimensional scaling factor controlling the inhibition of the diffusive
                                 ! length scale by rotation. Making this larger decreases the PBL diffusivity.
-EPBL_2018_ANSWERS = True        !   [Boolean] default = True
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use updated and more robust forms of the
-                                ! same expressions.
 EPBL_ANSWER_DATE = 20181231     ! default = 20181231
                                 ! The vintage of the order of arithmetic and expressions in the energetic PBL
                                 ! calculations.  Values below 20190101 recover the answers from the end of 2018,
                                 ! while higher values use updated and more robust forms of the same expressions.
-                                ! If both EPBL_2018_ANSWERS and EPBL_ANSWER_DATE are specified, the latter takes
-                                ! precedence.
 EPBL_ORIGINAL_PE_CALC = True    !   [Boolean] default = True
                                 ! If true, the ePBL code uses the original form of the potential energy change
                                 ! code.  Otherwise, the newer version that can work with successive increments
@@ -2189,16 +2131,10 @@ BLUE_FRAC_SW = 0.5              !   [nondim] default = 0.5
                                 ! The fraction of the penetrating shortwave radiation that is in the blue band.
 PEN_SW_NBANDS = 3               ! default = 1
                                 ! The number of bands of penetrating shortwave radiation.
-OPTICS_2018_ANSWERS = True      !   [Boolean] default = True
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use updated expressions for handling the
-                                ! absorption of small remaining shortwave fluxes.
 OPTICS_ANSWER_DATE = 20181231   ! default = 20181231
                                 ! The vintage of the order of arithmetic and expressions in the optics
                                 ! calculations.  Values below 20190101 recover the answers from the end of 2018,
                                 ! while higher values use updated and more robust forms of the same expressions.
-                                ! If both OPTICS_2018_ANSWERS and OPTICS_ANSWER_DATE are specified, the latter
-                                ! takes precedence.
 PEN_SW_FLUX_ABSORB = 2.5E-11    !   [degC m s-1] default = 2.5E-11
                                 ! A minimum remaining shortwave heating rate that will be simply absorbed in the
                                 ! next sufficiently thick layers for computational efficiency, instead of
@@ -2388,16 +2324,10 @@ READ_GUST_2D = False            !   [Boolean] default = False
                                 ! If true, use a 2-dimensional gustiness supplied from an input file
 GUST_CONST = 0.02               !   [Pa] default = 0.0
                                 ! The background gustiness in the winds.
-SURFACE_FORCING_2018_ANSWERS = True !   [Boolean] default = True
-                                ! If true, use the order of arithmetic and expressions that recover the answers
-                                ! from the end of 2018.  Otherwise, use a simpler expression to calculate
-                                ! gustiness.
 SURFACE_FORCING_ANSWER_DATE = 20181231 ! default = 20181231
                                 ! The vintage of the order of arithmetic and expressions in the gustiness
                                 ! calculations.  Values below 20190101 recover the answers from the end of 2018,
-                                ! while higher values use a simpler expression to calculate gustiness.  If both
-                                ! SURFACE_FORCING_2018_ANSWERS and SURFACE_FORCING_ANSWER_DATE are specified,
-                                ! the latter takes precedence.
+                                ! while higher values use a simpler expression to calculate gustiness.
 FIX_USTAR_GUSTLESS_BUG = False  !   [Boolean] default = True
                                 ! If true correct a bug in the time-averaging of the gustless wind friction
                                 ! velocity
