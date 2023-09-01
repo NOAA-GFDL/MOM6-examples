@@ -127,18 +127,10 @@ CHECK_BAD_SURFACE_VALS = False  !   [Boolean] default = False
                                 ! If true, check the surface state for ridiculous values.
 DEFAULT_ANSWER_DATE = 99991231  ! default = 99991231
                                 ! This sets the default value for the various _ANSWER_DATE parameters.
-DEFAULT_2018_ANSWERS = False    !   [Boolean] default = False
-                                ! This sets the default value for the various _2018_ANSWERS parameters.
-SURFACE_2018_ANSWERS = False    !   [Boolean] default = False
-                                ! If true, use expressions for the surface properties that recover the answers
-                                ! from the end of 2018. Otherwise, use more appropriate expressions that differ
-                                ! at roundoff for non-Boussinesq cases.
 SURFACE_ANSWER_DATE = 99991231  ! default = 99991231
                                 ! The vintage of the expressions for the surface properties.  Values below
                                 ! 20190101 recover the answers from the end of 2018, while higher values use
-                                ! updated and more robust forms of the same expressions.  If both
-                                ! SURFACE_2018_ANSWERS and SURFACE_ANSWER_DATE are specified, the latter takes
-                                ! precedence.
+                                ! updated and more robust forms of the same expressions.
 USE_DIABATIC_TIME_BUG = False   !   [Boolean] default = False
                                 ! If true, uses the wrong calendar time for diabatic processes, as was done in
                                 ! MOM6 versions prior to February 2018. This is not recommended.
