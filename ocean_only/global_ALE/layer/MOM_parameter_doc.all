@@ -811,6 +811,12 @@ VARMIX_KTOP = 2                 !   [nondim] default = 2
 MIN_DZ_FOR_SLOPE_N2 = 1.0       !   [m] default = 1.0
                                 ! The minimum vertical distance to use in the denominator of the bouyancy
                                 ! frequency used in the slope calculation.
+FULL_DEPTH_EADY_GROWTH_RATE = False !   [Boolean] default = False
+                                ! If true, calculate the Eady growth rate based on average slope times
+                                ! stratification that includes contributions from sea-level changes in its
+                                ! denominator, rather than just the nominal depth of the bathymetry.  This only
+                                ! applies when using the model interface heights as a proxy for isopycnal
+                                ! slopes.
 KH_RES_SCALE_COEF = 1.0         !   [nondim] default = 1.0
                                 ! A coefficient that determines how KhTh is scaled away if RESOLN_SCALED_... is
                                 ! true, as F = 1 / (1 + (KH_RES_SCALE_COEF*Rd/dx)^KH_RES_FN_POWER).
