@@ -759,6 +759,47 @@
     ! long_name: Mixed Layer Thickness at Meridional Velocity Points for Viscosity
     ! units: m
     ! cell_methods: xh:mean yq:point
+"FPw2x"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Wind direction from x-axis
+    ! units: radians
+    ! cell_methods: xh:mean yh:mean area:mean
+"tauFP_u"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Stress Mag Profile  (u-points)
+    ! units: m2 s-2
+    ! cell_methods: xq:point yh:mean zi:point
+    ! variants: {tauFP_u,tauFP_u_xyave}
+"tauFP_v"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Stress Mag Profile  (v-points)
+    ! units: m2 s-2
+    ! cell_methods: xh:mean yq:point zi:point
+    ! variants: {tauFP_v,tauFP_v_xyave}
+"FPtau2s_u"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: stress from shear direction (u-points)
+    ! units: radians
+    ! cell_methods: xq:point yh:mean zi:point
+    ! variants: {FPtau2s_u,FPtau2s_u_xyave}
+"FPtau2s_v"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: stress from shear direction (v-points)
+    ! units: radians
+    ! cell_methods: xh:mean yq:point zi:point
+    ! variants: {FPtau2s_v,FPtau2s_v_xyave}
+"FPtau2w_u"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: stress from wind  direction (u-points)
+    ! units: radians
+    ! cell_methods: xq:point yh:mean zi:point
+    ! variants: {FPtau2w_u,FPtau2w_u_xyave}
+"FPtau2w_v"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: stress from wind  direction (v-points)
+    ! units: radians
+    ! cell_methods: xh:mean yq:point zi:point
+    ! variants: {FPtau2w_v,FPtau2w_v_xyave}
 "du_dt_visc"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Zonal Acceleration from Vertical Viscosity
@@ -2299,21 +2340,23 @@
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
     ! variants: {opac_3,opac_3_xyave}
 "KHTR_u"  [Used]
-    ! modules: {ocean_model,ocean_model_d2}
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Epipycnal tracer diffusivity at zonal faces of tracer cell
     ! units: m2 s-1
-    ! cell_methods: xq:point yh:mean
+    ! cell_methods: xq:point yh:mean zi:point
+    ! variants: {KHTR_u,KHTR_u_xyave}
 "KHTR_v"  [Used]
-    ! modules: {ocean_model,ocean_model_d2}
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Epipycnal tracer diffusivity at meridional faces of tracer cell
     ! units: m2 s-1
-    ! cell_methods: xh:mean yq:point
+    ! cell_methods: xh:mean yq:point zi:point
+    ! variants: {KHTR_v,KHTR_v_xyave}
 "KHTR_h"  [Used] (CMOR equivalent is "diftrelo")
-    ! modules: {ocean_model,ocean_model_d2}
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Epipycnal tracer diffusivity at tracer cell center
     ! units: m2 s-1
-    ! cell_methods: xh:mean yh:mean area:mean
-    ! variants: {KHTR_h,diftrelo}
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {KHTR_h,KHTR_h_xyave,diftrelo,diftrelo_xyave}
 "KHDT_x"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Epipycnal tracer diffusivity operator at zonal faces of tracer cell
@@ -2520,18 +2563,18 @@
     ! units: W
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {T_diffy,T_diffy_xyave}
-"T_lbd_diffx"  [Unused]
+"T_hbd_diffx"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Lateral Boundary Diffusive Zonal Flux of Heat
+    ! long_name: Horizontal Boundary Diffusive Zonal Flux of Heat
     ! units: W
     ! cell_methods: xq:point yh:sum zl:sum
-    ! variants: {T_lbd_diffx,T_lbd_diffx_xyave}
-"T_lbd_diffy"  [Unused]
+    ! variants: {T_hbd_diffx,T_hbd_diffx_xyave}
+"T_hbd_diffy"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Lateral Boundary Diffusive Meridional Flux of Heat
+    ! long_name: Horizontal Boundary Diffusive Meridional Flux of Heat
     ! units: W
     ! cell_methods: xh:sum yq:point zl:sum
-    ! variants: {T_lbd_diffy,T_lbd_diffy_xyave}
+    ! variants: {T_hbd_diffy,T_hbd_diffy_xyave}
 "T_adx_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Vertically Integrated Advective Zonal Flux of Heat
@@ -2552,24 +2595,14 @@
     ! long_name: Vertically Integrated Diffusive Meridional Flux of Heat
     ! units: W
     ! cell_methods: xh:sum yq:point
-"T_lbd_bulk_diffx"  [Unused]
+"T_hbd_diffx_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Total Bulk Diffusive Zonal Flux of Heat
+    ! long_name: Vertically-integrated zonal diffusive flux from the horizontal boundary diffusion scheme for Heat
     ! units: W
     ! cell_methods: xq:point yh:sum
-"T_lbd_bulk_diffy"  [Unused]
+"T_hbd_diffy_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Total Bulk Diffusive Meridional Flux of Heat
-    ! units: W
-    ! cell_methods: xh:sum yq:point
-"T_lbd_diffx_2d"  [Unused]
-    ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Vertically-integrated zonal diffusive flux from the lateral boundary diffusion scheme for Heat
-    ! units: W
-    ! cell_methods: xq:point yh:sum
-"T_lbd_diffy_2d"  [Unused]
-    ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Vertically-integrated meridional diffusive flux from the lateral boundary diffusion scheme for Heat
+    ! long_name: Vertically-integrated meridional diffusive flux from the horizontal boundary diffusion scheme for Heat
     ! units: W
     ! cell_methods: xh:sum yq:point
 "T_advection_xy"  [Used]
@@ -2601,15 +2634,15 @@
     ! units: W m-2
     ! cell_methods: xh:sum yh:sum area:sum
     ! variants: {T_dfxy_cont_tendency_2d,opottemppmdiff_2d}
-"T_lbdxy_cont_tendency"  [Unused]
+"T_hbdxy_cont_tendency"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Lateral diffusion tracer content tendency for T
+    ! long_name: Horizontal boundary diffusion tracer content tendency for T
     ! units: W m-2
     ! cell_methods: xh:sum yh:sum zl:sum area:sum
-    ! variants: {T_lbdxy_cont_tendency,T_lbdxy_cont_tendency_xyave}
-"T_lbdxy_cont_tendency_2d"  [Unused]
+    ! variants: {T_hbdxy_cont_tendency,T_hbdxy_cont_tendency_xyave}
+"T_hbdxy_cont_tendency_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Depth integrated lateral diffusion tracer content tendency for T
+    ! long_name: Depth integrated horizontal boundary diffusion of tracer content tendency for T
     ! units: W m-2
     ! cell_methods: xh:sum yh:sum area:sum
 "T_dfxy_conc_tendency"  [Unused]
@@ -2618,12 +2651,12 @@
     ! units: degC s-1
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
     ! variants: {T_dfxy_conc_tendency,T_dfxy_conc_tendency_xyave}
-"T_lbdxy_conc_tendency"  [Unused]
+"T_hbdxy_conc_tendency"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Lateral diffusion tracer concentration tendency for T
+    ! long_name: Horizontal diffusion tracer concentration tendency for T
     ! units: degC s-1
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
-    ! variants: {T_lbdxy_conc_tendency,T_lbdxy_conc_tendency_xyave}
+    ! variants: {T_hbdxy_conc_tendency,T_hbdxy_conc_tendency_xyave}
 "Th_tendency"  [Used] (CMOR equivalent is "opottemptend")
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Net time tendency for heat
@@ -2695,18 +2728,18 @@
     ! units: psu m3 s-1
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {S_diffy,S_diffy_xyave}
-"S_lbd_diffx"  [Unused]
+"S_hbd_diffx"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Lateral Boundary Diffusive Zonal Flux of Salt
+    ! long_name: Horizontal Boundary Diffusive Zonal Flux of Salt
     ! units: psu m3 s-1
     ! cell_methods: xq:point yh:sum zl:sum
-    ! variants: {S_lbd_diffx,S_lbd_diffx_xyave}
-"S_lbd_diffy"  [Unused]
+    ! variants: {S_hbd_diffx,S_hbd_diffx_xyave}
+"S_hbd_diffy"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Lateral Boundary Diffusive Meridional Flux of Salt
+    ! long_name: Horizontal Boundary Diffusive Meridional Flux of Salt
     ! units: psu m3 s-1
     ! cell_methods: xh:sum yq:point zl:sum
-    ! variants: {S_lbd_diffy,S_lbd_diffy_xyave}
+    ! variants: {S_hbd_diffy,S_hbd_diffy_xyave}
 "S_adx_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Vertically Integrated Advective Zonal Flux of Salt
@@ -2727,24 +2760,14 @@
     ! long_name: Vertically Integrated Diffusive Meridional Flux of Salt
     ! units: psu m3 s-1
     ! cell_methods: xh:sum yq:point
-"S_lbd_bulk_diffx"  [Unused]
+"S_hbd_diffx_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Total Bulk Diffusive Zonal Flux of Salt
+    ! long_name: Vertically-integrated zonal diffusive flux from the horizontal boundary diffusion scheme for Salt
     ! units: psu m3 s-1
     ! cell_methods: xq:point yh:sum
-"S_lbd_bulk_diffy"  [Unused]
+"S_hbd_diffy_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Total Bulk Diffusive Meridional Flux of Salt
-    ! units: psu m3 s-1
-    ! cell_methods: xh:sum yq:point
-"S_lbd_diffx_2d"  [Unused]
-    ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Vertically-integrated zonal diffusive flux from the lateral boundary diffusion scheme for Salt
-    ! units: psu m3 s-1
-    ! cell_methods: xq:point yh:sum
-"S_lbd_diffy_2d"  [Unused]
-    ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Vertically-integrated meridional diffusive flux from the lateral boundary diffusion scheme for Salt
+    ! long_name: Vertically-integrated meridional diffusive flux from the horizontal boundary diffusion scheme for Salt
     ! units: psu m3 s-1
     ! cell_methods: xh:sum yq:point
 "S_advection_xy"  [Used]
@@ -2776,15 +2799,15 @@
     ! units: kg m-2 s-1
     ! cell_methods: xh:sum yh:sum area:sum
     ! variants: {S_dfxy_cont_tendency_2d,osaltpmdiff_2d}
-"S_lbdxy_cont_tendency"  [Unused]
+"S_hbdxy_cont_tendency"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Lateral diffusion tracer content tendency for S
+    ! long_name: Horizontal boundary diffusion tracer content tendency for S
     ! units: kg m-2 s-1
     ! cell_methods: xh:sum yh:sum zl:sum area:sum
-    ! variants: {S_lbdxy_cont_tendency,S_lbdxy_cont_tendency_xyave}
-"S_lbdxy_cont_tendency_2d"  [Unused]
+    ! variants: {S_hbdxy_cont_tendency,S_hbdxy_cont_tendency_xyave}
+"S_hbdxy_cont_tendency_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Depth integrated lateral diffusion tracer content tendency for S
+    ! long_name: Depth integrated horizontal boundary diffusion of tracer content tendency for S
     ! units: kg m-2 s-1
     ! cell_methods: xh:sum yh:sum area:sum
 "S_dfxy_conc_tendency"  [Unused]
@@ -2793,12 +2816,12 @@
     ! units: psu s-1
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
     ! variants: {S_dfxy_conc_tendency,S_dfxy_conc_tendency_xyave}
-"S_lbdxy_conc_tendency"  [Unused]
+"S_hbdxy_conc_tendency"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Lateral diffusion tracer concentration tendency for S
+    ! long_name: Horizontal diffusion tracer concentration tendency for S
     ! units: psu s-1
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
-    ! variants: {S_lbdxy_conc_tendency,S_lbdxy_conc_tendency_xyave}
+    ! variants: {S_hbdxy_conc_tendency,S_hbdxy_conc_tendency_xyave}
 "Sh_tendency"  [Used] (CMOR equivalent is "osalttend")
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Net time tendency for salt
@@ -2870,18 +2893,18 @@
     ! units: yr m3 s-1
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {age_dfy,age_dfy_xyave}
-"age_lbd_diffx"  [Unused]
+"age_hbd_diffx"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Ideal Age Tracer diffusive zonal flux from the lateral boundary diffusion scheme
+    ! long_name: Ideal Age Tracer diffusive zonal flux from the horizontal boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: xq:point yh:sum zl:sum
-    ! variants: {age_lbd_diffx,age_lbd_diffx_xyave}
-"age_lbd_diffy"  [Unused]
+    ! variants: {age_hbd_diffx,age_hbd_diffx_xyave}
+"age_hbd_diffy"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Ideal Age Tracer diffusive meridional flux from the lateral boundary diffusion scheme
+    ! long_name: Ideal Age Tracer diffusive meridional flux from the horizontal boundary diffusion scheme
     ! units: yr m3 s-1
     ! cell_methods: xh:sum yq:point zl:sum
-    ! variants: {age_lbd_diffy,age_lbd_diffy_xyave}
+    ! variants: {age_hbd_diffy,age_hbd_diffy_xyave}
 "age_adx_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: Vertically Integrated Advective Zonal Flux of Ideal Age Tracer
@@ -2902,24 +2925,14 @@
     ! long_name: Vertically Integrated Diffusive Meridional Flux of Ideal Age Tracer
     ! units: yr m3 s-1
     ! cell_methods: xh:sum yq:point
-"age_lbd_bulk_diffx"  [Unused]
+"age_hbd_diffx_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Total Bulk Diffusive Zonal Flux of Ideal Age Tracer
+    ! long_name: Vertically-integrated zonal diffusive flux from the horizontal boundary diffusion scheme for Ideal Age Tracer
     ! units: yr m3 s-1
     ! cell_methods: xq:point yh:sum
-"age_lbd_bulk_diffy"  [Unused]
+"age_hbd_diffy_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Total Bulk Diffusive Meridional Flux of Ideal Age Tracer
-    ! units: yr m3 s-1
-    ! cell_methods: xh:sum yq:point
-"age_lbd_diffx_2d"  [Unused]
-    ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Vertically-integrated zonal diffusive flux from the lateral boundary diffusion scheme for Ideal Age Tracer
-    ! units: yr m3 s-1
-    ! cell_methods: xq:point yh:sum
-"age_lbd_diffy_2d"  [Unused]
-    ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Vertically-integrated meridional diffusive flux from the lateral boundary diffusion scheme for Ideal Age Tracer
+    ! long_name: Vertically-integrated meridional diffusive flux from the horizontal boundary diffusion scheme for Ideal Age Tracer
     ! units: yr m3 s-1
     ! cell_methods: xh:sum yq:point
 "age_advection_xy"  [Unused]
@@ -2950,15 +2963,15 @@
     ! long_name: Depth integrated neutral diffusion tracer content tendency for age
     ! units: yr m s-1
     ! cell_methods: xh:sum yh:sum area:sum
-"age_lbdxy_cont_tendency"  [Unused]
+"age_hbdxy_cont_tendency"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Lateral diffusion tracer content tendency for age
+    ! long_name: Horizontal boundary diffusion tracer content tendency for age
     ! units: yr m s-1
     ! cell_methods: xh:sum yh:sum zl:sum area:sum
-    ! variants: {age_lbdxy_cont_tendency,age_lbdxy_cont_tendency_xyave}
-"age_lbdxy_cont_tendency_2d"  [Unused]
+    ! variants: {age_hbdxy_cont_tendency,age_hbdxy_cont_tendency_xyave}
+"age_hbdxy_cont_tendency_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
-    ! long_name: Depth integrated lateral diffusion tracer content tendency for age
+    ! long_name: Depth integrated horizontal boundary diffusion tracer content tendency for age
     ! units: yr m s-1
     ! cell_methods: xh:sum yh:sum area:sum
 "age_dfxy_conc_tendency"  [Unused]
@@ -2967,12 +2980,12 @@
     ! units: yr s-1
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
     ! variants: {age_dfxy_conc_tendency,age_dfxy_conc_tendency_xyave}
-"age_lbdxy_conc_tendency"  [Unused]
+"age_hbdxy_conc_tendency"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! long_name: Lateral diffusion tracer concentration tendency for age
+    ! long_name: Horizontal diffusion tracer concentration tendency for age
     ! units: yr s-1
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
-    ! variants: {age_lbdxy_conc_tendency,age_lbdxy_conc_tendency_xyave}
+    ! variants: {age_hbdxy_conc_tendency,age_hbdxy_conc_tendency_xyave}
 "ageh_tendency"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Net time tendency for ideal age tracer
