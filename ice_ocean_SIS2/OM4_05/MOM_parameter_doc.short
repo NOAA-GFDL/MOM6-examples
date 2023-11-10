@@ -4,6 +4,10 @@
 USE_REGRIDDING = True           !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping). If False, use the
                                 ! layered isopycnal algorithm.
+REMAP_UV_USING_OLD_ALG = True   !   [Boolean] default = False
+                                ! If true, uses the old remapping-via-a-delta-z method for remapping u and v. If
+                                ! false, uses the new method that remaps between grids described by an old and
+                                ! new thickness.
 THICKNESSDIFFUSE = True         !   [Boolean] default = False
                                 ! If true, isopycnal surfaces are diffused with a Laplacian coefficient of KHTH.
 THICKNESSDIFFUSE_FIRST = True   !   [Boolean] default = False
@@ -180,10 +184,6 @@ COORD_CONFIG = "file"           ! default = "none"
                                 !     USER - call a user modified routine.
 COORD_FILE = "layer_coord.nc"   !
                                 ! The file from which the coordinate densities are read.
-REMAP_UV_USING_OLD_ALG = True   !   [Boolean] default = False
-                                ! If true, uses the old remapping-via-a-delta-z method for remapping u and v. If
-                                ! false, uses the new method that remaps between grids described by an old and
-                                ! new thickness.
 REGRIDDING_COORDINATE_MODE = "HYCOM1" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding. Choose among the following
                                 ! possibilities:  LAYER - Isopycnal or stacked shallow water layers
