@@ -37,6 +37,10 @@ OFFLINE_TRACER_MODE = False     !   [Boolean] default = False
 USE_REGRIDDING = True           !   [Boolean] default = False
                                 ! If True, use the ALE algorithm (regridding/remapping). If False, use the
                                 ! layered isopycnal algorithm.
+REMAP_UV_USING_OLD_ALG = False  !   [Boolean] default = False
+                                ! If true, uses the old remapping-via-a-delta-z method for remapping u and v. If
+                                ! false, uses the new method that remaps between grids described by an old and
+                                ! new thickness.
 REMAP_AUXILIARY_VARS = False    !   [Boolean] default = False
                                 ! If true, apply ALE remapping to all of the auxiliary 3-dimensional variables
                                 ! that are needed to reproduce across restarts, similarly to what is already
@@ -409,10 +413,6 @@ GFS = 9.81                      !   [m s-2] default = 9.81
                                 ! The reduced gravity at the free surface.
 LIGHTEST_DENSITY = 1027.0       !   [kg m-3] default = 1027.0
                                 ! The reference potential density used for layer 1.
-REMAP_UV_USING_OLD_ALG = False  !   [Boolean] default = False
-                                ! If true, uses the old remapping-via-a-delta-z method for remapping u and v. If
-                                ! false, uses the new method that remaps between grids described by an old and
-                                ! new thickness.
 REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding. Choose among the following
                                 ! possibilities:  LAYER - Isopycnal or stacked shallow water layers
