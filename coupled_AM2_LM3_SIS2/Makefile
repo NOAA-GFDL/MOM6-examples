@@ -4,11 +4,11 @@ MOM_MEMORY ?=
 SIS_MEMORY ?=
 
 # Dependencies
-FMS_BUILD ?= ../shared/fms/$(BUILD)
-AM2_BUILD ?= ../shared/AM2/$(BUILD)
-ICEBERGS_BUILD ?= ../shared/icebergs/$(BUILD)
-ICE_PARAM_BUILD ?= ../shared/ice_param/$(BUILD)
-LM3_BUILD ?= ../shared/LM3/$(BUILD)
+FMS_BUILD ?= ../shared/fms/build
+AM2_BUILD ?= ../shared/AM2/build
+ICEBERGS_BUILD ?= ../shared/icebergs/build
+ICE_PARAM_BUILD ?= ../shared/ice_param/build
+LM3_BUILD ?= ../shared/LM3/build
 
 # Autoconf configuration
 MOM_CODEBASE ?= ../src/MOM6
@@ -26,7 +26,6 @@ EXCLUDE ?=
 # Autoconf setup
 EXTRA_SRC_DIRS = \
   $(abspath ../src/SIS2/src) \
-  $(abspath ../src/SIS2/config_src/dynamic_symmetric) \
   $(abspath ../src/SIS2/config_src/external) \
   $(abspath ../src/coupler)
 
@@ -140,19 +139,28 @@ $(BUILD):
 # Dependencies
 
 $(FMS_BUILD)/libFMS.a:
-	$(MAKE) -C ../shared/fms BUILD=$(BUILD)
+	$(MAKE) -C ../shared/fms \
+	  BUILD=$(abspath $(FMS_BUILD))
 
 $(AM2_BUILD)/libAM2.a: $(FMS_BUILD)/libFMS.a
-	$(MAKE) -C ../shared/AM2 BUILD=$(BUILD)
+	$(MAKE) -C ../shared/AM2 \
+	  BUILD=$(abspath $(AM2_BUILD)) \
+	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(LM3_BUILD)/libLM3.a: $(FMS_BUILD)/libFMS.a
-	$(MAKE) -C ../shared/LM3 BUILD=$(BUILD)
+	$(MAKE) -C ../shared/LM3 \
+	  BUILD=$(abspath $(LM3_BUILD)) \
+	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(ICE_PARAM_BUILD)/libice_param.a: $(FMS_BUILD)/libFMS.a
-	$(MAKE) -C ../shared/ice_param BUILD=$(BUILD)
+	$(MAKE) -C ../shared/ice_param \
+	  BUILD=$(abspath $(ICE_PARAM_BUILD)) \
+	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(ICEBERGS_BUILD)/libicebergs.a: $(FMS_BUILD)/libFMS.a
-	$(MAKE) -C ../shared/icebergs BUILD=$(BUILD)
+	$(MAKE) -C ../shared/icebergs \
+	  BUILD=$(abspath $(ICEBERGS_BUILD)) \
+	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 
 #----
