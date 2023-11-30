@@ -3,7 +3,7 @@ BUILD ?= build
 MOM_MEMORY ?=
 
 # Dependencies
-FMS_BUILD ?= ../shared/fms/$(BUILD)
+FMS_BUILD ?= ../shared/fms/build
 
 # Autoconf configuration
 CODEBASE ?= ../src/MOM6
@@ -98,7 +98,7 @@ $(BUILD):
 # Dependencies
 
 $(FMS_BUILD)/libFMS.a:
-	$(MAKE) -C ../shared/fms BUILD=$(BUILD)
+	$(MAKE) -C ../shared/fms BUILD=$(abspath $(FMS_BUILD))
 
 
 #----

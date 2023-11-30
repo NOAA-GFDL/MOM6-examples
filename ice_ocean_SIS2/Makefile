@@ -4,11 +4,11 @@ MOM_MEMORY ?=
 SIS_MEMORY ?=
 
 # Dependencies
-FMS_BUILD ?= ../shared/fms/$(BUILD)
-ICEBERGS_BUILD ?= ../shared/icebergs/$(BUILD)
-ICE_PARAM_BUILD ?= ../shared/ice_param/$(BUILD)
-ATMOS_BUILD ?= ../shared/atmos_null/$(BUILD)
-LAND_BUILD ?= ../shared/land_null/$(BUILD)
+FMS_BUILD ?= ../shared/fms/build
+ICEBERGS_BUILD ?= ../shared/icebergs/build
+ICE_PARAM_BUILD ?= ../shared/ice_param/bould
+ATMOS_BUILD ?= ../shared/atmos_null/build
+LAND_BUILD ?= ../shared/land_null/build
 
 # Autoconf configuration
 MOM_CODEBASE ?= ../src/MOM6
@@ -142,19 +142,28 @@ $(BUILD):
 # Dependencies
 
 $(FMS_BUILD)/libFMS.a:
-	$(MAKE) -C ../shared/fms BUILD=$(BUILD)
+	$(MAKE) -C ../shared/fms \
+	  BUILD=$(abspath $(FMS_BUILD))
 
 $(ATMOS_BUILD)/libatmos_null.a: $(FMS_BUILD)/libFMS.a
-	$(MAKE) -C ../shared/atmos_null BUILD=$(BUILD)
+	$(MAKE) -C ../shared/atmos_null \
+	  BUILD=$(abspath $(ATMOS_BUILD)) \
+	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(LAND_BUILD)/libland_null.a: $(FMS_BUILD)/libFMS.a
-	$(MAKE) -C ../shared/land_null BUILD=$(BUILD)
+	$(MAKE) -C ../shared/land_null \
+	  BUILD=$(abspath $(LAND_BUILD)) \
+	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(ICE_PARAM_BUILD)/libice_param.a: $(FMS_BUILD)/libFMS.a
-	$(MAKE) -C ../shared/ice_param BUILD=$(BUILD)
+	$(MAKE) -C ../shared/ice_param \
+	  BUILD=$(abspath $(ICE_PARAM_BUILD)) \
+	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(ICEBERGS_BUILD)/libicebergs.a: $(FMS_BUILD)/libFMS.a
-	$(MAKE) -C ../shared/icebergs BUILD=$(BUILD)
+	$(MAKE) -C ../shared/icebergs \
+	  BUILD=$(abspath $(ICEBERGS_BUILD)) \
+	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 #----
 

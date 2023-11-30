@@ -1,6 +1,6 @@
 # Configuration
 BUILD ?= build
-FMS_BUILD ?= ../fms/$(BUILD)
+FMS_BUILD ?= ../fms/build
 
 TARGET = libland_null.a
 CODEBASE = ../../src/land_null

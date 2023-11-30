@@ -1,6 +1,6 @@
 # Configuration
 BUILD ?= build
-FMS_BUILD ?= ../fms/$(BUILD)
+FMS_BUILD ?= ../fms/build
 
 LM3_SRC ?= ../../src/LM3
 

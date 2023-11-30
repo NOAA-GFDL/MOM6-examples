@@ -1,6 +1,6 @@
 # Configuration
 BUILD ?= build
-FMS_BUILD ?= ../fms/$(BUILD)
+FMS_BUILD ?= ../fms/build
 
 TARGET = libatmos_null.a
 CODEBASE = ../../src/atmos_null
