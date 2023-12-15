@@ -114,7 +114,7 @@ EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
 DRHO_DT = 0.0                   !   [kg m-3 K-1] default = -0.2
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! temperature.
-DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
+DRHO_DS = 1.0                   !   [kg m-3 ppt-1] default = 0.8
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! salinity.
 
@@ -223,11 +223,11 @@ TS_CONFIG = "DOME2D"            !
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     SCM_CVMix_tests - used in the SCM CVMix tests.
                                 !     USER - call a user modified routine.
-S_REF = 34.0                    !   [1e-3] default = 35.0
+S_REF = 34.0                    !   [ppt] default = 35.0
                                 ! Reference salinity
 T_REF = 0.0                     !   [degC]
                                 ! Reference temperature
-S_RANGE = 1.0                   !   [1e-3] default = 2.0
+S_RANGE = 1.0                   !   [ppt] default = 2.0
                                 !  Initial salinity range
 
 ! === module MOM_diag_mediator ===

@@ -348,13 +348,13 @@ TFREEZE_FORM = "LINEAR"         ! default = "LINEAR"
                                 ! TFREEZE_FORM determines which expression should be used for the freezing
                                 ! point.  Currently, the valid choices are "LINEAR", "MILLERO_78", "TEOS_POLY",
                                 ! "TEOS10"
-TFREEZE_S0_P0 = 0.0             !   [deg C] default = 0.0
+TFREEZE_S0_P0 = 0.0             !   [degC] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR, this is the freezing potential temperature at S=0,
                                 ! P=0.
-DTFREEZE_DS = -0.054            !   [deg C PSU-1] default = -0.054
+DTFREEZE_DS = -0.054            !   [degC ppt-1] default = -0.054
                                 ! When TFREEZE_FORM=LINEAR, this is the derivative of the freezing potential
                                 ! temperature with salinity.
-DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
+DTFREEZE_DP = 0.0               !   [degC Pa-1] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR, this is the derivative of the freezing potential
                                 ! temperature with pressure.
 
@@ -624,13 +624,13 @@ HOR_REGRID_ANSWER_DATE = 99991231 ! default = 99991231
                                 ! use reproducing sums for global averages.
 LAND_FILL_TEMP = 0.0            !   [degC] default = 0.0
                                 ! A value to use to fill in ocean temperatures on land points.
-LAND_FILL_SALIN = 35.0          !   [1e-3] default = 35.0
+LAND_FILL_SALIN = 35.0          !   [ppt] default = 35.0
                                 ! A value to use to fill in ocean salinities on land points.
 HORIZ_INTERP_TOL_TEMP = 0.001   !   [degC] default = 0.001
                                 ! The tolerance in temperature changes between iterations when interpolating
                                 ! from an input dataset using horiz_interp_and_extrap_tracer.  This routine
                                 ! converges slowly, so an overly small tolerance can get expensive.
-HORIZ_INTERP_TOL_SALIN = 0.001  !   [1e-3] default = 0.001
+HORIZ_INTERP_TOL_SALIN = 0.001  !   [ppt] default = 0.001
                                 ! The tolerance in salinity changes between iterations when interpolating from
                                 ! an input dataset using horiz_interp_and_extrap_tracer.  This routine converges
                                 ! slowly, so an overly small tolerance can get expensive.

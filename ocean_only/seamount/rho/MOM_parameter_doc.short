@@ -113,7 +113,7 @@ EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
 DRHO_DT = 0.0                   !   [kg m-3 K-1] default = -0.2
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! temperature.
-DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
+DRHO_DS = 1.0                   !   [kg m-3 ppt-1] default = 0.8
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! salinity.
 
@@ -140,11 +140,11 @@ COORD_CONFIG = "ts_range"       ! default = "none"
                                 !     USER - call a user modified routine.
 T_REF = 0.0                     !   [degC] default = 10.0
                                 ! The default initial temperatures.
-S_REF = 34.0                    !   [PSU] default = 35.0
+S_REF = 34.0                    !   [ppt] default = 35.0
                                 ! The default initial salinities.
-TS_RANGE_S_LIGHT = 34.05        !   [PSU] default = 34.0
+TS_RANGE_S_LIGHT = 34.05        !   [ppt] default = 34.0
                                 ! The initial lightest salinities when COORD_CONFIG is set to ts_range.
-TS_RANGE_S_DENSE = 35.95        !   [PSU] default = 34.0
+TS_RANGE_S_DENSE = 35.95        !   [ppt] default = 34.0
                                 ! The initial densest salinities when COORD_CONFIG is set to ts_range.
 REGRIDDING_COORDINATE_MODE = "RHO" ! default = "LAYER"
                                 ! Coordinate mode for vertical regridding. Choose among the following
