@@ -35,8 +35,10 @@ MAKEFLAGS += -rR
 
 all: $(BUILD)/$(TARGET)
 
-$(BUILD)/$(TARGET): $(BUILD)/Makefile
+$(BUILD)/$(TARGET): FORCE $(BUILD)/Makefile
 	$(MAKE) -C $(BUILD) $(TARGET)
+
+FORCE:
 
 $(BUILD)/Makefile: $(BUILD)/Makefile.in $(BUILD)/configure
 	cd $(BUILD) && \
