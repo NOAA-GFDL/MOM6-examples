@@ -328,13 +328,13 @@ TFREEZE_FORM = "LINEAR"         ! default = "LINEAR"
                                 ! TFREEZE_FORM determines which expression should be used for the freezing
                                 ! point.  Currently, the valid choices are "LINEAR", "MILLERO_78", "TEOS_POLY",
                                 ! "TEOS10"
-TFREEZE_S0_P0 = 0.0             !   [deg C] default = 0.0
+TFREEZE_S0_P0 = 0.0             !   [degC] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR, this is the freezing potential temperature at S=0,
                                 ! P=0.
-DTFREEZE_DS = -0.054            !   [deg C PSU-1] default = -0.054
+DTFREEZE_DS = -0.054            !   [degC ppt-1] default = -0.054
                                 ! When TFREEZE_FORM=LINEAR, this is the derivative of the freezing potential
                                 ! temperature with salinity.
-DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
+DTFREEZE_DP = 0.0               !   [degC Pa-1] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR, this is the derivative of the freezing potential
                                 ! temperature with pressure.
 
@@ -441,11 +441,11 @@ TS_RANGE_T_LIGHT = 25.0         !   [degC] default = 10.0
 TS_RANGE_T_DENSE = 3.0          !   [degC] default = 10.0
                                 ! The initial temperature of the densest layer when COORD_CONFIG is set to
                                 ! ts_range.
-S_REF = 35.0                    !   [PSU] default = 35.0
+S_REF = 35.0                    !   [ppt] default = 35.0
                                 ! The default initial salinities.
-TS_RANGE_S_LIGHT = 35.0         !   [PSU] default = 35.0
+TS_RANGE_S_LIGHT = 35.0         !   [ppt] default = 35.0
                                 ! The initial lightest salinities when COORD_CONFIG is set to ts_range.
-TS_RANGE_S_DENSE = 35.0         !   [PSU] default = 35.0
+TS_RANGE_S_DENSE = 35.0         !   [ppt] default = 35.0
                                 ! The initial densest salinities when COORD_CONFIG is set to ts_range.
 TS_RANGE_RESOLN_RATIO = 5.0     !   [nondim] default = 1.0
                                 ! The ratio of density space resolution in the densest part of the range to that
@@ -1574,10 +1574,10 @@ LIMIT_BUFFER_DETRAIN = True     !   [Boolean] default = False
 ALLOWED_DETRAIN_TEMP_CHG = 0.5  !   [K] default = 0.5
                                 ! The amount by which temperature is allowed to exceed previous values during
                                 ! detrainment.
-ALLOWED_DETRAIN_SALT_CHG = 0.1  !   [PSU] default = 0.1
+ALLOWED_DETRAIN_SALT_CHG = 0.1  !   [ppt] default = 0.1
                                 ! The amount by which salinity is allowed to exceed previous values during
                                 ! detrainment.
-ML_DT_DS_WEIGHT = 6.0           !   [degC PSU-1] default = 6.0
+ML_DT_DS_WEIGHT = 6.0           !   [degC ppt-1] default = 6.0
                                 ! When forced to extrapolate T & S to match the layer densities, this factor (in
                                 ! deg C / PSU) is combined with the derivatives of density with T & S to
                                 ! determine what direction is orthogonal to density contours. It should be a
@@ -1820,16 +1820,16 @@ FLUXCONST_T = 0.5               !   [m day-1] default = 0.5
 FLUXCONST_S = 0.5               !   [m day-1] default = 0.5
                                 ! The constant that relates the restoring surface salinity flux to the relative
                                 ! surface anomaly (akin to a piston velocity).  Note the non-MKS units.
-SST_NORTH = 27.0                !   [deg C] default = 0.0
+SST_NORTH = 27.0                !   [degC] default = 0.0
                                 ! With buoy_config linear, the sea surface temperature at the northern end of
                                 ! the domain toward which to to restore.
-SST_SOUTH = 3.0                 !   [deg C] default = 0.0
+SST_SOUTH = 3.0                 !   [degC] default = 0.0
                                 ! With buoy_config linear, the sea surface temperature at the southern end of
                                 ! the domain toward which to to restore.
-SSS_NORTH = 35.0                !   [PSU] default = 35.0
+SSS_NORTH = 35.0                !   [ppt] default = 35.0
                                 ! With buoy_config linear, the sea surface salinity at the northern end of the
                                 ! domain toward which to to restore.
-SSS_SOUTH = 35.0                !   [PSU] default = 35.0
+SSS_SOUTH = 35.0                !   [ppt] default = 35.0
                                 ! With buoy_config linear, the sea surface salinity at the southern end of the
                                 ! domain toward which to to restore.
 RESTORE_FLUX_RHO = 1035.0       !   [kg m-3] default = 1035.0

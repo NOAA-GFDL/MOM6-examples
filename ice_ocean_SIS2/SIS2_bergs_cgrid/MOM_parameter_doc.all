@@ -321,13 +321,13 @@ TFREEZE_FORM = "LINEAR"         ! default = "LINEAR"
                                 ! TFREEZE_FORM determines which expression should be used for the freezing
                                 ! point.  Currently, the valid choices are "LINEAR", "MILLERO_78", "TEOS_POLY",
                                 ! "TEOS10"
-TFREEZE_S0_P0 = 0.0             !   [deg C] default = 0.0
+TFREEZE_S0_P0 = 0.0             !   [degC] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR, this is the freezing potential temperature at S=0,
                                 ! P=0.
-DTFREEZE_DS = -0.054            !   [deg C PSU-1] default = -0.054
+DTFREEZE_DS = -0.054            !   [degC ppt-1] default = -0.054
                                 ! When TFREEZE_FORM=LINEAR, this is the derivative of the freezing potential
                                 ! temperature with salinity.
-DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
+DTFREEZE_DP = 0.0               !   [degC Pa-1] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR, this is the derivative of the freezing potential
                                 ! temperature with pressure.
 
@@ -1756,10 +1756,10 @@ LIMIT_BUFFER_DETRAIN = True     !   [Boolean] default = False
 ALLOWED_DETRAIN_TEMP_CHG = 0.5  !   [K] default = 0.5
                                 ! The amount by which temperature is allowed to exceed previous values during
                                 ! detrainment.
-ALLOWED_DETRAIN_SALT_CHG = 0.1  !   [PSU] default = 0.1
+ALLOWED_DETRAIN_SALT_CHG = 0.1  !   [ppt] default = 0.1
                                 ! The amount by which salinity is allowed to exceed previous values during
                                 ! detrainment.
-ML_DT_DS_WEIGHT = 6.0           !   [degC PSU-1] default = 6.0
+ML_DT_DS_WEIGHT = 6.0           !   [degC ppt-1] default = 6.0
                                 ! When forced to extrapolate T & S to match the layer densities, this factor (in
                                 ! deg C / PSU) is combined with the derivatives of density with T & S to
                                 ! determine what direction is orthogonal to density contours. It should be a

@@ -322,7 +322,7 @@ RHO_T0_S0 = 1000.0              !   [kg m-3] default = 1000.0
 DRHO_DT = -0.255                !   [kg m-3 K-1] default = -0.2
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! temperature.
-DRHO_DS = 0.764                 !   [kg m-3 PSU-1] default = 0.8
+DRHO_DS = 0.764                 !   [kg m-3 ppt-1] default = 0.8
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! salinity.
 EOS_QUADRATURE = False          !   [Boolean] default = False
@@ -332,13 +332,13 @@ TFREEZE_FORM = "LINEAR"         ! default = "LINEAR"
                                 ! TFREEZE_FORM determines which expression should be used for the freezing
                                 ! point.  Currently, the valid choices are "LINEAR", "MILLERO_78", "TEOS_POLY",
                                 ! "TEOS10"
-TFREEZE_S0_P0 = 0.0             !   [deg C] default = 0.0
+TFREEZE_S0_P0 = 0.0             !   [degC] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR, this is the freezing potential temperature at S=0,
                                 ! P=0.
-DTFREEZE_DS = -0.054            !   [deg C PSU-1] default = -0.054
+DTFREEZE_DS = -0.054            !   [degC ppt-1] default = -0.054
                                 ! When TFREEZE_FORM=LINEAR, this is the derivative of the freezing potential
                                 ! temperature with salinity.
-DTFREEZE_DP = 0.0               !   [deg C Pa-1] default = 0.0
+DTFREEZE_DP = 0.0               !   [degC Pa-1] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR, this is the derivative of the freezing potential
                                 ! temperature with pressure.
 
@@ -576,19 +576,19 @@ SCM_TEMP_MLD = 0.0              !   [m] default = 0.0
                                 ! Initial temp mixed layer depth
 SCM_SALT_MLD = 0.0              !   [m] default = 0.0
                                 ! Initial salt mixed layer depth
-SCM_L1_SALT = 35.0              !   [1e-3] default = 35.0
+SCM_L1_SALT = 35.0              !   [ppt] default = 35.0
                                 ! Layer 2 surface salinity
-SCM_L1_TEMP = 15.0              !   [C] default = 20.0
+SCM_L1_TEMP = 15.0              !   [degC] default = 20.0
                                 ! Layer 1 surface temperature
-SCM_L2_SALT = 35.0              !   [1e-3] default = 35.0
+SCM_L2_SALT = 35.0              !   [ppt] default = 35.0
                                 ! Layer 2 surface salinity
-SCM_L2_TEMP = 15.0              !   [C] default = 20.0
+SCM_L2_TEMP = 15.0              !   [degC] default = 20.0
                                 ! Layer 2 surface temperature
 SCM_L2_DTDZ = 0.01              !   [C/m] default = 0.0
                                 ! Initial temperature stratification in layer 2
 SCM_L2_DSDZ = 0.0               !   [PPT/m] default = 0.0
                                 ! Initial salinity stratification in layer 2
-SCM_L2_MINTEMP = 4.0            !   [C] default = 4.0
+SCM_L2_MINTEMP = 4.0            !   [degC] default = 4.0
                                 ! Layer 2 minimum temperature
 DEPRESS_INITIAL_SURFACE = False !   [Boolean] default = False
                                 ! If true,  depress the initial surface to avoid huge tsunamis when a large

@@ -119,7 +119,7 @@ EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
 DRHO_DT = 0.0                   !   [kg m-3 K-1] default = -0.2
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! temperature.
-DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
+DRHO_DS = 1.0                   !   [kg m-3 ppt-1] default = 0.8
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! salinity.
 
@@ -232,13 +232,13 @@ THICKNESS_CONFIG = "adjustment2d" ! default = "uniform"
                                 !     USER - call a user modified routine.
 
 ! === module adjustment_initialization ===
-S_REF = 0.0                     !   [1e-3] default = 35.0
+S_REF = 0.0                     !   [ppt] default = 35.0
                                 ! Reference salinity
 ADJUSTMENT_WIDTH = 0.01         !   [km]
                                 ! Width of frontal zone
-DELTA_S_STRAT = 0.0             !   [1e-3]
+DELTA_S_STRAT = 0.0             !   [ppt]
                                 ! Top-to-bottom salinity difference of stratification
-ADJUSTMENT_DELTAS = 5.0         !   [1e-3]
+ADJUSTMENT_DELTAS = 5.0         !   [ppt]
                                 ! Salinity difference across front
 TS_CONFIG = "adjustment2d"      !
                                 ! A string that determines how the initial temperatures and salinities are
@@ -260,9 +260,9 @@ TS_CONFIG = "adjustment2d"      !
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     SCM_CVMix_tests - used in the SCM CVMix tests.
                                 !     USER - call a user modified routine.
-T_REF = 0.0                     !   [C]
+T_REF = 0.0                     !   [degC]
                                 ! Reference temperature
-S_RANGE = 5.0                   !   [1e-3] default = 2.0
+S_RANGE = 5.0                   !   [ppt] default = 2.0
                                 ! Initial salinity range
 
 ! === module MOM_diag_mediator ===
