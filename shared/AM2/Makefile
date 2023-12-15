@@ -12,8 +12,6 @@ SRCDIRS = $(addprefix $(abspath $(CODEBASE))/, \
   atmos_shared_am3 \
   atmos_param_am3)
 
-CPPFLAGS += -Duse_AM3_physics -DSPMD
-
 FCFLAGS += -I$(abspath $(FMS_BUILD))
 FCFLAGS += -I$(abspath ../../src/FMS/include)
 

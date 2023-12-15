@@ -32,4 +32,4 @@ SRCDIRS = @SRCDIRS@
 .PHONY: depend
 depend: Makefile.dep
 Makefile.dep:
-	$(PYTHON) $(MAKEDEP) -o Makefile.dep -e -x $(LIBTARGET) $(SRCDIRS)
+	$(PYTHON) $(MAKEDEP) $(DEFS) -o Makefile.dep -e -x $(LIBTARGET) $(SRCDIRS)

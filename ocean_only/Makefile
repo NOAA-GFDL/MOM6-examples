@@ -32,13 +32,14 @@ ifdef MOM_MEMORY
   CONFIG_FLAGS += MOM_MEMORY=$(abspath $(MOM_MEMORY))
 endif
 
-# NOTE: `export FCFLAGS` overwrites the autoconf default.  We restore it here.
+# `export` disables autoconf defaults; this restores them
+CFLAGS ?= -g -O2
 FCFLAGS ?= -g -O2
 
 FCFLAGS += -I$(abspath $(FMS_BUILD))
 LDFLAGS += -L$(abspath $(FMS_BUILD))
 
-# Autoconf variables
+# Pass autoconf environment variables to submakes
 export CPPFLAGS
 export CC
 export MPICC
@@ -65,18 +66,23 @@ MAKEFLAGS += -rR
 
 #----
 
-TARGET := MOM6
+.PHONY: all
+all: $(BUILD)/MOM6
 
-all: $(BUILD)/$(TARGET)
+# NOTE: If libFMS has changed, then we completely rebuild MOM6
+$(BUILD)/MOM6: FORCE $(BUILD)/Makefile $(FMS_BUILD)/libFMS.a
+	if test $(FMS_BUILD)/libFMS.a -nt $@ ; then \
+	  $(MAKE) -C $(BUILD) clean ; \
+	fi
+	$(MAKE) -C $(BUILD) MOM6
 
-$(BUILD)/$(TARGET): $(BUILD)/Makefile
-	$(MAKE) -C $(BUILD) $(TARGET)
+$(BUILD)/Makefile: $(BUILD)/config.status $(BUILD)/Makefile.in
+	cd $(BUILD) && ./config.status
 
-$(BUILD)/Makefile: $(FMS_BUILD)/libFMS.a
-$(BUILD)/Makefile: $(BUILD)/Makefile.in $(BUILD)/configure
+$(BUILD)/config.status: $(BUILD)/configure $(FMS_BUILD)/libFMS.a
 	cd $(BUILD) && \
 	PATH="${PATH}:$(dir $(abspath $(MAKEDEP)))" \
-	./configure $(CONFIG_FLAGS)
+	./configure -n $(CONFIG_FLAGS)
 
 $(BUILD)/Makefile.in: $(MAKEFILE_IN) | $(BUILD)
 	cp $(MAKEFILE_IN) $(BUILD)/Makefile.in
@@ -91,15 +97,16 @@ $(BUILD)/m4: $(M4DIR) | $(BUILD)
 	cp -r $(M4DIR) $(BUILD)
 
 $(BUILD):
-	mkdir -p $(BUILD)
+	mkdir -p $@
 
 
 #----
 # Dependencies
 
-$(FMS_BUILD)/libFMS.a:
+$(FMS_BUILD)/libFMS.a: FORCE
 	$(MAKE) -C ../shared/fms BUILD=$(abspath $(FMS_BUILD))
 
+FORCE:
 
 #----
 # Experiments
@@ -144,9 +151,9 @@ run: $(OUTPUT)/ocean.stats
 run.%:
 	$(MAKE) EXPT=$* run
 
-%/ocean.stats: $(BUILD)/$(TARGET) $(foreach f,$(MANIFEST),%/$f) | %
+%/ocean.stats: $(BUILD)/MOM6 $(foreach f,$(MANIFEST),%/$f) | %
 	mkdir -p $(@D)/RESTART
-	cd $(@D) && $(LAUNCHER) -np $$($(GET_NPROCS) $(abspath $(@D))) $(abspath $(BUILD)/$(TARGET))
+	cd $(@D) && $(LAUNCHER) -np $$($(GET_NPROCS) $(abspath $(@D))) $(abspath $(BUILD)/MOM6)
 
 ifneq ($(realpath $(EXPT)), $(realpath $(OUTPUT)))
 define copy
@@ -195,9 +202,9 @@ $(OUTPUT):
 #.PHONY: run.$(1)
 #run.$(1): $(RUNDIR)/$(1)/ocean.stats | $(RUNDIR)/$(1)
 #
-#$(RUNDIR)/$(1)/ocean.stats: $(BUILD)/$(TARGET) $(RUNDIR)/$(1)/input.nml
+#$(RUNDIR)/$(1)/ocean.stats: $(BUILD)/MOM6 $(RUNDIR)/$(1)/input.nml
 #	mkdir -p $(RUNDIR)/$(1)/RESTART
-#	cd $(RUNDIR)/$(1) && $(LAUNCHER) -n $(NPROCS) $(abspath $(BUILD)/$(TARGET))
+#	cd $(RUNDIR)/$(1) && $(LAUNCHER) -n $(NPROCS) $(abspath $(BUILD)/MOM6)
 #
 #$(RUNDIR)/$(1)/input.nml: | $(RUNDIR)/$(1)
 #	cp -r $(1)/* $(RUNDIR)/$(1)/
@@ -223,6 +230,7 @@ $(OUTPUT):
 .PHONY: clean
 clean:
 	rm -rf $(BUILD)
+	$(MAKE) -C ../shared/fms clean
 
 .PHONY: clean.runs
 clean.runs: $(foreach e,$(EXPTS),clean.$(e))

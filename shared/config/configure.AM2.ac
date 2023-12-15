@@ -138,6 +138,9 @@ AS_IF([test -n "${MAKEDEP}"], [
   AC_MSG_ERROR(["Could not find makedep."])
 ])
 
+AC_DEFINE([SPMD])
+AC_DEFINE([use_AM3_physics])
+
 # Autoconf does not configure the archiver (ar), as it is handled by Automake.
 # TODO: Properly configure this tool.  For now, we hard-set this to `ar`.
 AR=ar
