@@ -619,11 +619,11 @@ PORBAR_ETA_INTERP = "MAX"       ! default = "MAX"
                                 !    HARMONIC - harmonic mean of the adjacent cells
 
 ! === module MOM_dynamics_unsplit ===
-FIX_UNSPLIT_DT_VISC_BUG = True  !   [Boolean] default = True
-                                ! If true, use the correct timestep in the viscous terms applied in the first
+UNSPLIT_DT_VISC_BUG = False     !   [Boolean] default = False
+                                ! If false, use the correct timestep in the viscous terms applied in the first
                                 ! predictor step with the unsplit time stepping scheme, and in the calculation
                                 ! of the turbulent mixed layer properties for viscosity with unsplit or
-                                ! unsplit_RK2.
+                                ! unsplit_RK2.  If true, an older incorrect value is used.
 TIDES = False                   !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 CALCULATE_SAL = False           !   [Boolean] default = False
