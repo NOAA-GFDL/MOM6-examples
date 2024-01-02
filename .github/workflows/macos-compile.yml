@@ -1,0 +1,24 @@
+name: MacOS Compilation Test
+
+on: [push, pull_request]
+
+jobs:
+  compile:
+
+    runs-on: macOS-latest
+
+    env:
+      CC: gcc
+      FC: gfortran
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - uses: ./.github/actions/macos-setup
+
+    - name: Compile models
+      run: make -j
+
+    # TODO: Run a few of the models and compare parameter.doc files?

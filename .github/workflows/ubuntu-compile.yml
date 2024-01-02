@@ -1,0 +1,21 @@
+name: Compile test
+
+on: [push, pull_request]
+
+jobs:
+  compile:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - uses: ./.github/actions/ubuntu-setup
+
+    # TODO: Split ocean-only and ice-ocean?
+    - name: Compile models
+      run: make -j
+
+    # TODO: Run a few of the models and compare parameter.doc files?
