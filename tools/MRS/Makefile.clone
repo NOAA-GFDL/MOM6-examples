@@ -45,7 +45,7 @@ clone: $(CONFIGS)
 clone_gfdl: $(CONFIGS) $(ICE_PARAM_SRC) $(ATMOS_PARAM_SRC) $(SIS1_SRC) $(LM3_SRC) $(AM2_REPOS) $(CONFIGS)/.datasets
 $(CONFIGS) $(SRC_DIR):
 	test -d $(CONFIGS) && (cd $(CONFIGS) git fetch) || git clone --recursive $(URL) $(CONFIGS)
-$(CONFIGS)/.datasets: /lustre/f2/pdata/gfdl/gfdl_O/datasets | $(CONFIGS)
+$(CONFIGS)/.datasets: /gpfs/f5/gfdl_o/world-shared/datasets | $(CONFIGS)
 	cd $(@D); ln -s $< $(@F)
 $(SRC_DIR)/AM2/atmos_shared_am3: URL = http://gitlab.gfdl.noaa.gov/fms/atmos_shared_am3.git
 $(SRC_DIR)/AM2/atmos_shared_am3: TAG = warsaw_201803
