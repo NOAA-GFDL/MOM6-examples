@@ -292,6 +292,13 @@ RECLAIM_FRAZIL = False          !   [Boolean] default = True
                                 ! is above the freezing point.
 
 ! === module MOM_energetic_PBL ===
+EPBL_ANSWER_DATE = 20231231     ! default = 99991231
+                                ! The vintage of the order of arithmetic and expressions in the energetic PBL
+                                ! calculations.  Values below 20190101 recover the answers from the end of 2018,
+                                ! while higher values use updated and more robust forms of the same expressions.
+                                ! Values below 20240101 use A**(1./3.) to estimate the cube root of A in several
+                                ! expressions, while higher values use the integer root function cuberoot(A) and
+                                ! therefore can work with scaled variables.
 USE_MLD_ITERATION = False       !   [Boolean] default = True
                                 ! A logical that specifies whether or not to use the distance to the bottom of
                                 ! the actively turbulent boundary layer to help set the EPBL length scale.
