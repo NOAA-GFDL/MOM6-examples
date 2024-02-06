@@ -1476,6 +1476,9 @@ EPBL_ANSWER_DATE = 99991231     ! default = 99991231
                                 ! The vintage of the order of arithmetic and expressions in the energetic PBL
                                 ! calculations.  Values below 20190101 recover the answers from the end of 2018,
                                 ! while higher values use updated and more robust forms of the same expressions.
+                                ! Values below 20240101 use A**(1./3.) to estimate the cube root of A in several
+                                ! expressions, while higher values use the integer root function cuberoot(A) and
+                                ! therefore can work with scaled variables.
 EPBL_ORIGINAL_PE_CALC = True    !   [Boolean] default = True
                                 ! If true, the ePBL code uses the original form of the potential energy change
                                 ! code.  Otherwise, the newer version that can work with successive increments
