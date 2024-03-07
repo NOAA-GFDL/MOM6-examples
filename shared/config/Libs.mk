@@ -10,6 +10,10 @@ MAKEPATH = $(realpath $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 M4DIR ?= $(MAKEPATH)/../../src/MOM6/ac/m4
 MAKEDEP = $(MAKEPATH)/../../src/MOM6/ac/makedep
 
+# `export` disables autoconf defaults; this restores them
+CFLAGS ?= -g -O2
+FCFLAGS ?= -g -O2
+
 # Autoconf configuration
 export CPPFLAGS
 export CC

@@ -3,6 +3,7 @@ BUILD ?= build
 MOM_MEMORY ?=
 
 # Dependencies
+FMS_CODEBASE ?= ../src/FMS2
 FMS_BUILD ?= ../shared/fms/build
 
 # Autoconf configuration
@@ -104,7 +105,9 @@ $(BUILD):
 # Dependencies
 
 $(FMS_BUILD)/libFMS.a: FORCE
-	$(MAKE) -C ../shared/fms BUILD=$(abspath $(FMS_BUILD))
+	$(MAKE) -C ../shared/fms \
+	  BUILD=$(abspath $(FMS_BUILD)) \
+	  CODEBASE=$(abspath $(FMS_CODEBASE))
 
 FORCE:
 

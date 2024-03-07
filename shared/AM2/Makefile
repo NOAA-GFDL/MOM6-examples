@@ -1,6 +1,7 @@
 # Configuration
 BUILD ?= build
 FMS_BUILD ?= ../fms/build
+FMS_CODEBASE ?= ../../src/FMS1
 
 TARGET = libAM2.a
 CODEBASE = ../../src/AM2
@@ -13,7 +14,7 @@ SRCDIRS = $(addprefix $(abspath $(CODEBASE))/, \
   atmos_param_am3)
 
 FCFLAGS += -I$(abspath $(FMS_BUILD))
-FCFLAGS += -I$(abspath ../../src/FMS/include)
+FCFLAGS += -I$(abspath $(FMS_CODEBASE)/include)
 
 LDFLAGS += -L$(abspath $(FMS_BUILD))
 
