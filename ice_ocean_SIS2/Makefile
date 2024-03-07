@@ -4,6 +4,7 @@ MOM_MEMORY ?=
 SIS_MEMORY ?=
 
 # Dependencies
+FMS_CODEBASE ?= ../src/FMS2
 FMS_BUILD ?= ../shared/fms/build
 ICEBERGS_BUILD ?= ../shared/icebergs/build
 ICE_PARAM_BUILD ?= ../shared/ice_param/build
@@ -172,7 +173,8 @@ $(ICEBERGS_BUILD)/libicebergs.a: FORCE $(FMS_BUILD)/libFMS.a
 
 $(FMS_BUILD)/libFMS.a: FORCE
 	$(MAKE) -C ../shared/fms \
-	  BUILD=$(abspath $(FMS_BUILD))
+	  BUILD=$(abspath $(FMS_BUILD)) \
+	  CODEBASE=$(abspath $(FMS_CODEBASE))
 
 FORCE:
 

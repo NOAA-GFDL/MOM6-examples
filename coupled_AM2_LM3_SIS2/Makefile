@@ -4,10 +4,11 @@ MOM_MEMORY ?=
 SIS_MEMORY ?=
 
 # Dependencies
-FMS_BUILD ?= ../shared/fms/build
+FMS_CODEBASE ?= ../src/FMS1
+FMS_BUILD ?= ../shared/fms/build_fms1
 AM2_BUILD ?= ../shared/AM2/build
-ICEBERGS_BUILD ?= ../shared/icebergs/build
-ICE_PARAM_BUILD ?= ../shared/ice_param/build
+ICEBERGS_BUILD ?= ../shared/icebergs/build_fms1
+ICE_PARAM_BUILD ?= ../shared/ice_param/build_fms1
 LM3_BUILD ?= ../shared/LM3/build
 
 # Autoconf configuration
@@ -32,6 +33,7 @@ EXTRA_SRC_DIRS = \
 CONFIG_FLAGS := --config-cache
 CONFIG_FLAGS += --srcdir=$(abspath $(MOM_CODEBASE))
 CONFIG_FLAGS += --with-driver=FMS_cap
+CONFIG_FLAGS += --with-framework=fms1
 ifdef MOM_MEMORY
   CONFIG_FLAGS += MOM_MEMORY=$(abspath $(MOM_MEMORY))
 endif
@@ -46,7 +48,7 @@ FCFLAGS ?= -g -O2
 # Path to fms_platform.h
 # NOTE: Most libraries need an explicit path to this file.  Someday, this could
 #   be handled by library-specific autoconf tests.
-FCFLAGS += -I$(abspath ../src/FMS/include)
+FCFLAGS += -I$(abspath $(FMS_CODEBASE)/include)
 
 MOM_FCFLAGS = $(FCFLAGS) \
   -I$(abspath $(FMS_BUILD)) \
@@ -170,7 +172,8 @@ $(ICEBERGS_BUILD)/libicebergs.a: FORCE $(FMS_BUILD)/libFMS.a
 
 $(FMS_BUILD)/libFMS.a: FORCE
 	$(MAKE) -C ../shared/fms \
-	  BUILD=$(abspath $(FMS_BUILD))
+	  BUILD=$(abspath $(FMS_BUILD)) \
+	  CODEBASE=$(abspath $(FMS_CODEBASE))
 
 FORCE:
 
@@ -230,11 +233,16 @@ $(foreach expt,$(EXPTS),$(eval $(call EXPT_RULE,$(expt))))
 .PHONY: clean
 clean:
 	rm -rf $(BUILD)
-	$(MAKE) -C ../shared/AM2 clean
+	$(MAKE) -C ../shared/AM2 clean \
+	  BUILD=$(abspath $(AM2_BUILD))
 	$(MAKE) -C ../shared/LM3 clean
-	$(MAKE) -C ../shared/ice_param clean
-	$(MAKE) -C ../shared/icebergs clean
-	$(MAKE) -C ../shared/fms clean
+	  BUILD=$(abspath $(LM3_BUILD))
+	$(MAKE) -C ../shared/ice_param clean \
+	  BUILD=$(abspath $(ICE_PARAM_BUILD))
+	$(MAKE) -C ../shared/icebergs clean \
+	  BUILD=$(abspath $(ICEBERGS_BUILD))
+	$(MAKE) -C ../shared/fms clean \
+	  BUILD=$(abspath $(FMS_BUILD))
 
 .PHONY: clean.runs
 clean.runs: $(foreach e,$(EXPTS),clean.$(e))

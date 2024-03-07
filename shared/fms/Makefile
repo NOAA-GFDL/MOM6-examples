@@ -1,7 +1,7 @@
 # Configuration
 BUILD ?= build
+CODEBASE ?= ../../src/FMS2
 
-CODEBASE = ../../src/FMS
 TARGET = libFMS.a
 MAKEFILE_IN = ../../src/MOM6/ac/deps/Makefile.fms.in
 CONFIGURE_AC = ../../src/MOM6/ac/deps/configure.fms.ac
