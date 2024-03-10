@@ -1,0 +1,10 @@
+28c28
+< NETCDFPATH = /usr/local/x64/netcdf-4.2
+---
+> NETCDFPATH = `nc-config --prefix`
+32a33
+> FFLAGS += -I`nf-config --includedir`
+35c36
+< CFLAGS := -D__IFC  -fPIC -O2 -fast -I$(TOOLSHAREDIR) -I$(COREDIR) -I$(SHAREDIR) -I${NETCDFPATH}/include -I${HDF5PATH}/include 
+---
+> CFLAGS := -D__IFC  -fPIC -O2 -fast -I$(TOOLSHAREDIR) -I$(COREDIR) -I$(SHAREDIR) -I`nc-config --includedir` -I${HDF5PATH}/include 
