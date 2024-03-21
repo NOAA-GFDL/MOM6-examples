@@ -2222,6 +2222,11 @@ NDIFF_USE_UNMASKED_TRANSPORT_BUG = False !   [Boolean] default = False
                                 ! If true, use an older form for the accumulation of neutral-diffusion
                                 ! transports that were unmasked, as used prior to Jan 2018. This is not
                                 ! recommended.
+NDIFF_ANSWER_DATE = 20240101    ! default = 20240101
+                                ! The vintage of the order of arithmetic to use for the neutral diffusion.
+                                ! Values of 20240330 or below recover the answers from the original form of the
+                                ! neutral diffusion code, while higher values use mathematically equivalent
+                                ! expressions that recover rotational symmetry.
 
 ! === module MOM_hor_bnd_diffusion ===
 ! This module implements horizontal diffusion of tracers near boundaries
