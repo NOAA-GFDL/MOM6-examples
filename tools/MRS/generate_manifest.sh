@@ -30,7 +30,7 @@ do
   test -f $layout_file && \
     npi=$(egrep "^NIPROC = " $layout_file | awk '{print $3}') &&
     npj=$(egrep "^NJPROC = " $layout_file | awk '{print $3}') &&
-    masktable=($(grep MASKTABLE $layout_file | grep -v 'MASKTABLE = "MOM_mask_table"' | sed 's/MASKTABLE = "[a-zA-Z_]*\.//;s/".*//;s/[\.x]/ /g'))
+    masktable=($(grep "^ *MASKTABLE" $layout_file | grep -v 'MASKTABLE = "MOM_mask_table"' | sed 's/MASKTABLE = "[a-zA-Z_]*\.//;s/".*//;s/[\.x]/ /g'))
     if [[ "${#masktable}" -gt "0" ]]; then
       npes=$((${masktable[1]}*${masktable[2]}-${masktable[0]}))
     else
