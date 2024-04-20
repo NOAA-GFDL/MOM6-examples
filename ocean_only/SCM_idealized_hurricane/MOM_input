@@ -317,6 +317,11 @@ WIND_CONFIG = "SCM_ideal_hurr"  ! default = "zero"
                                 ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
 
 ! === module idealized_hurricane ===
+IDL_HURR_SCM_BR_BENCH = True    ! default = False
+                                ! Single column mode benchmark case switch, which is invoking a modification
+                                ! (bug) in the wind profile meant to reproduce a previous implementation.
+IDL_HURR_SCM = True             !   [Boolean] default = False
+                                ! Single Column mode switch used in the SCM idealized hurricane wind profile.
 
 ! === module MOM_main (MOM_driver) ===
 DAYMAX = 3.0                    !   [days]

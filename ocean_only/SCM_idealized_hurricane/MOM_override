@@ -1,1 +1,24 @@
 ! Blank file in which we can put "overrides" for parameters
+
+! These parameters give a configuration that is mathematically equivalent to the SCM test case.
+! #override WIND_CONFIG = "ideal_hurr"      ! default = "zero"
+!                                 ! The character string that indicates how wind forcing is specified. Valid
+!                                 ! options include (file), (2gyre), (1gyre), (gyres), (zero), and (USER).
+! IDL_HURR_SCM_BR_BENCH = True    ! default = False
+!                                 ! Single column mode benchmark case switch, which is invoking a modification
+!                                 ! (bug) in the wind profile meant to reproduce a previous implementation.
+! IDL_HURR_SCM = True             !   [Boolean] default = False
+!                                 ! Single Column mode switch used in the SCM idealized hurricane wind profile.
+! IDL_HURR_X0 = 6.48E+05          !   [m] default = 0.0
+!                                 ! Idealized Hurricane initial X position
+! IDL_HURR_SCM_EDGE_TAPER_BUG = True !   [Boolean] default = False
+!                                 ! If true and IDL_HURR_SCM is true, use a bug that does all of the tapering and
+!                                 ! inflow angle calculations for radii between RAD_EDGE and RAD_AMBIENT as though
+!                                 ! they were at RAD_EDGE.
+! IDL_HURR_RAD_AMBIENT = 12.0     !   [nondim] default = 12.0
+!                                 ! Radius at which the winds are at their ambient background values, normalized
+!                                 ! by the radius of maximum winds.
+! IDL_HURR_ANSWER_DATE = 99991231 ! default = 99991231
+!                                 ! The vintage of the expressions in the idealized hurricane test case.  Values
+!                                 ! below 20190101 recover the answers from the end of 2018, while higher values
+!                                 ! use expressions that are rescalable and respect rotational symmetry.
