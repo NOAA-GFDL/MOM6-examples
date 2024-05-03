@@ -1214,6 +1214,10 @@ STOKES_MIXING = False           !   [Boolean] default = False
                                 ! Flag for Langmuir turbulence enhancement of turbulentmixing coefficient.
 USE_KPP_LT_VT2 = False          !   [Boolean] default = False
                                 ! Flag for Langmuir turbulence enhancement of Vt2in Bulk Richardson Number.
+ANSWER_DATE = 20240101          ! default = 20240101
+                                ! The vintage of the order of arithmetic in the CVMix KPP calculations.  Values
+                                ! below 20240501 recover the answers from early in 2024, while higher values use
+                                ! expressions that have been refactored for rotational symmetry.
 %KPP
 
 ! === module MOM_CVMix_conv ===
