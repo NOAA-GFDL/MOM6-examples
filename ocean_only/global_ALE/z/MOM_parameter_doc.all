@@ -1917,6 +1917,10 @@ KAPPA_N_OVER_S_SCALE_COEF2 = 0.0 !   [nondim] default = 0.0
                                 ! The square of the ratio of the coefficients of the buoyancy and shear scales
                                 ! in the diffusivity equation, Set this to 0 (the default) to eliminate the
                                 ! shear scale. This is only used if USE_JACKSON_PARAM is true.
+LZ_RESCALE = 1.0                !   [nondim] default = 1.0
+                                ! A coefficient to rescale the distance to the nearest solid boundary. This
+                                ! adjustment is to account for regions where 3 dimensional turbulence prevents
+                                ! the growth of shear instabilies [nondim].
 KAPPA_SHEAR_TOL_ERR = 0.1       !   [nondim] default = 0.1
                                 ! The fractional error in kappa that is tolerated. Iteration stops when changes
                                 ! between subsequent iterations are smaller than this everywhere in a column.
