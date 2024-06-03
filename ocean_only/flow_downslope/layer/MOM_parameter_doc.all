@@ -1336,6 +1336,10 @@ KD_SEED_KAPPA_SHEAR = 1.0       !   [m2 s-1] default = 1.0
                                 ! A moderately large seed value of diapycnal diffusivity that is used as a
                                 ! starting turbulent diffusivity in the iterations to find an energetically
                                 ! constrained solution for the shear-driven diffusivity.
+LZ_RESCALE = 1.0                !   [nondim] default = 1.0
+                                ! A coefficient to rescale the distance to the nearest solid boundary. This
+                                ! adjustment is to account for regions where 3 dimensional turbulence prevents
+                                ! the growth of shear instabilies [nondim].
 TKE_BACKGROUND = 0.0            !   [m2 s-2] default = 0.0
                                 ! A background level of TKE used in the first iteration of the kappa equation.
                                 ! TKE_BACKGROUND could be 0.
