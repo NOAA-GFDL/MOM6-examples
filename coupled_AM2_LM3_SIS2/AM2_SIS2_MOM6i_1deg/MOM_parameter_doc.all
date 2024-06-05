@@ -576,6 +576,12 @@ DETERMINE_TEMP_ADJUST_T_AND_S = False !   [Boolean] default = False
                                 ! based on the ratio of the thermal and haline coefficients.  Otherwise try to
                                 ! match the density by only adjusting temperatures within a maximum range before
                                 ! revising estimates of the salinity.
+DETERMINE_TEMP_CONVERGENCE_BUG = True !   [Boolean] default = True
+                                ! If true, use layout-dependent tests on the changes in temperature and salinity
+                                ! to determine when the iterations have converged when
+                                ! DETERMINE_TEMP_ADJUST_T_AND_S is false.  For realistic equations of state and
+                                ! the default values of the various tolerances, this bug does not impact the
+                                ! solutions.
 DETERMINE_TEMP_T_MIN = -2.0     !   [degC] default = -2.0
                                 ! The minimum temperature that can be found by determine_temperature.
 DETERMINE_TEMP_T_MAX = 31.0     !   [degC] default = 31.0
