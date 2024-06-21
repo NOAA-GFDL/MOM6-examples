@@ -983,6 +983,10 @@ HORVISC_BOUND_COEF = 0.8        !   [nondim] default = 0.8
 USE_KH_BG_2D = False            !   [Boolean] default = False
                                 ! If true, read a file containing 2-d background harmonic viscosities. The final
                                 ! viscosity is the maximum of the other terms and this background value.
+FRICTWORK_BUG = True            !   [Boolean] default = True
+                                ! If true, retain an answer-changing bug in calculating the FrictWork, which
+                                ! cancels the h in thickness flux and the h at velocity point. This isnot
+                                ! recommended.
 
 ! === module MOM_vert_friction ===
 VERT_FRICTION_ANSWER_DATE = 99991231 ! default = 99991231
