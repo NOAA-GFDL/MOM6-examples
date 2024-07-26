@@ -1208,6 +1208,23 @@ TIDE_M2_AMP = 0.242334          !   [m] default = 0.242334
 TIDE_M2_PHASE_T0 = 0.0          !   [radians] default = 0.0
                                 ! Phase of the M2 tidal constituent at time 0. This is only used if TIDES and
                                 ! TIDE_M2 are true.
+HA_START_TIME = 0.0             !   [days] default = 0.0
+                                ! Start time of harmonic analysis, in units of days after the start of the
+                                ! current run segment. Must be smaller than HA_END_TIME, otherwise harmonic
+                                ! analysis will not be performed. If negative, |HA_START_TIME| determines the
+                                ! length of harmonic analysis, and harmonic analysis will start |HA_START_TIME|
+                                ! days before HA_END_TIME, or at the beginning of the run segment, whichever
+                                ! occurs later.
+HA_END_TIME = 0.0               !   [days] default = 0.0
+                                ! End time of harmonic analysis, in units of days after the start of the current
+                                ! run segment. Must be positive and smaller than the length of the currnet run
+                                ! segment, otherwise harmonic analysis will not be performed.
+HA_SSH = False                  !   [Boolean] default = False
+                                ! If true, perform harmonic analysis of sea serface height.
+HA_UBT = False                  !   [Boolean] default = False
+                                ! If true, perform harmonic analysis of zonal barotropic velocity.
+HA_VBT = False                  !   [Boolean] default = False
+                                ! If true, perform harmonic analysis of meridional barotropic velocity.
 
 ! === module MOM_PressureForce ===
 ANALYTIC_FV_PGF = True          !   [Boolean] default = True
