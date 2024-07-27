@@ -548,6 +548,18 @@
     ! long_name: Read-in tidal self-attraction and loading height anomaly
     ! units: meter
     ! cell_methods: xh:mean yh:mean area:mean
+"MassWt_u"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: The fractional mass weighting at u-point PGF calculations
+    ! units: nondim
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {MassWt_u,MassWt_u_xyave}
+"MassWt_v"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: The fractional mass weighting at v-point PGF calculations
+    ! units: nondim
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {MassWt_v,MassWt_v_xyave}
 "NoSt"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Normal Stress
