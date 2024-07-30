@@ -24,7 +24,7 @@ FMS_SRC ?= $(SRC_DIR)/$(FMS_DIR_NAME)
 MOM6_SRC ?= $(SRC_DIR)/MOM6
 SIS2_SRC ?= $(SRC_DIR)/SIS2
 COUPLER_SRC ?= $(SRC_DIR)/coupler
-ICEBERGS_SRC ?= $(SRC_DIR)/icebergs
+ICEBERGS_SRC ?= $(SRC_DIR)/icebergs/src
 ATMOS_NULL_SRC ?= $(SRC_DIR)/atmos_null
 LAND_NULL_SRC ?= $(SRC_DIR)/land_null
 MKMF_SRC ?= $(SRC_DIR)/mkmf
@@ -32,8 +32,9 @@ LIST_PATHS = $(MKMF_SRC)/bin/list_paths -l
 MKMF = $(MKMF_SRC)/bin/mkmf
 GIT_VERSION_SCRIPT = $(realpath $(MKMF_SRC)/bin/git-version-string)
 BUILD ?= build
-SITE ?= ncrc
+SITE ?= ncrc5
 MEMORY_MODES ?= dynamic_symmetric dynamic_nonsymmetric
+ENVIRON ?= ../environ
 
 # Local relative paths to source available behind GFDL firewall
 ICE_PARAM_SRC=$(SRC_DIR)/ice_param
@@ -68,31 +69,10 @@ define make-env-dep
 $(BUILD)/$(1)/$(2)/fms/libfms.a: $(BUILD)/$(1)/env
 endef
 $(foreach c, $(COMPILERS),$(foreach m,$(MODES),$(eval $(call make-env-dep,$c,$m))))
-ifeq ($(SITE),ncrc)
-$(BUILD)/gnu/env:
+ifeq ($(SITE),ncrc5)
+$(BUILD)/%/env: $(ENVIRON)/%.env
 	mkdir -p $(@D)
-	echo 'source /opt/modules/default/etc/modules.sh' > $@
-	echo 'module use -a /ncrc/home2/fms/local/modulefiles' >> $@
-	echo 'MODULEPATH=/usw/eslogin/modulefiles-c4:/sw/eslogin-c4/modulefiles:/opt/cray/pe/ari/modulefiles:/opt/cray/ari/modulefiles:/opt/cray/pe/modulefiles:/opt/cray/modulefiles:/opt/modulefiles:/sw/common/modulefiles' >> $@
-	echo 'module unload PrgEnv-pgi PrgEnv-intel PrgEnv-gnu darshan; module load PrgEnv-gnu; module unload netcdf gcc; module load $(shell jq -r '.gnu.version' labels.json 2> /dev/null || echo gcc/9.3.0) cray-hdf5 cray-netcdf' >> $@
-$(BUILD)/intel/env:
-	mkdir -p $(@D)
-	echo 'source /opt/modules/default/etc/modules.sh' > $@
-	echo 'module use -a /ncrc/home2/fms/local/modulefiles' >> $@
-	echo 'MODULEPATH=/usw/eslogin/modulefiles-c4:/sw/eslogin-c4/modulefiles:/opt/cray/pe/ari/modulefiles:/opt/cray/ari/modulefiles:/opt/cray/pe/modulefiles:/opt/cray/modulefiles:/opt/modulefiles:/sw/common/modulefiles' >> $@
-	echo 'module unload PrgEnv-pgi PrgEnv-intel PrgEnv-gnu darshan; module load PrgEnv-intel; module unload netcdf intel; module load $(shell jq -r '.intel.version' labels.json 2> /dev/null || echo intel/18.0.6.288) cray-hdf5 cray-netcdf' >> $@
-$(BUILD)/pgi/env:
-	mkdir -p $(@D)
-	echo 'source /opt/modules/default/etc/modules.sh' > $@
-	echo 'module use -a /ncrc/home2/fms/local/modulefiles' >> $@
-	echo 'MODULEPATH=/usw/eslogin/modulefiles-c4:/sw/eslogin-c4/modulefiles:/opt/cray/pe/ari/modulefiles:/opt/cray/ari/modulefiles:/opt/cray/pe/modulefiles:/opt/cray/modulefiles:/opt/modulefiles:/sw/common/modulefiles' >> $@
-	echo 'module unload PrgEnv-intel ; module load PrgEnv-pgi darshan; module unload netcdf pgi; module load $(shell jq -r '.pgi.version' labels.json 2> /dev/null || echo pgi/19.10.0) cray-hdf5 cray-netcdf' >> $@
-$(BUILD)/cray/env:
-	mkdir -p $(@D)
-	echo 'source /opt/modules/default/etc/modules.sh' > $@
-	echo 'module use -a /ncrc/home2/fms/local/modulefiles' >> $@
-	echo 'MODULEPATH=/usw/eslogin/modulefiles-c4:/sw/eslogin-c4/modulefiles:/opt/cray/pe/ari/modulefiles:/opt/cray/ari/modulefiles:/opt/cray/pe/modulefiles:/opt/cray/modulefiles:/opt/modulefiles:/sw/common/modulefiles' >> $@
-	echo 'module unload PrgEnv-intel ; module load PrgEnv-cray darshan; module unload netcdf pgi; module load cray-hdf5 cray-netcdf' >> $@
+	cp $< $@
 else
 $(BUILD)/gnu/env:
 	mkdir -p $(@D)
@@ -129,7 +109,7 @@ define compile
 $(BUILD)/%/$(1)$(2): $(BUILD)/%/$(1)Makefile $(foreach l,$(4),$(BUILD)/%/$(l))
 	rm -f $$@
 	@echo Building $$@
-	cd $$(@D); (source $(3) && make NETCDF=3 $$(call make_args, $$(call fms_mode, $$@)) $(EXTRA_MAKE_ARGS) $$(@F) $(LOG)) 2>&1 | grep -v "#10121:" | sed 's,^,$$@: ,'
+	cd $$(@D); (source $(3) && $(MAKE) NETCDF=3 $$(call make_args, $$(call fms_mode, $$@)) $(EXTRA_MAKE_ARGS) $$(@F) $(LOG)) 2>&1 | grep -v "#10121:" | sed 's,^,$$@: ,'
 	@test -f $$@ || exit 11
 endef
 
@@ -266,15 +246,17 @@ endef
 $(foreach c,$(COMPILERS),$(foreach m,$(MODES),$(foreach o,ocean_only,$(eval $(call mom6-static-variables,$(c),$(m),static,$(o))))))
 
 define mom6-sis2-variables
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,coupler atmos_null land_null ice_param icebergs fms,-L../../$(l))
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names: LIST_PATHS_ARGS = $(COUPLER_SRC)/
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,atmos_null land_null ice_param icebergs fms,-L../../$(l))
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,sis2 mom6,-L../$(l))
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,coupler atmos_null land_null sis2 ice_param icebergs mom6 fms,-l$(l))
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms -I $(FMS_SRC)/include' -l '$$(LIBS)' -c '$$(CPP_DEFS)'
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: LIBS += $(foreach l,atmos_null land_null sis2 ice_param icebergs mom6 fms,-l$(l))
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: MKMF_OPTS = -p MOM6 -o '-I../../fms -I../../atmos_null -I../../land_null -I../../icebergs -I../../ice_param -I../sis2 -I../mom6 -I $(FMS_SRC)/include' -l '$$(LIBS)' -c '$$(CPP_DEFS)'
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS += -Duse_AM3_physics
+$(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS += -D_USE_LEGACY_LAND_
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/fms/libfms.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/icebergs/libicebergs.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/$(3)/sis2/libsis2.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/$(3)/mom6/libmom6.a
-$(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: $(BUILD)/$(1)/$(2)/coupler/libcoupler.a
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/MOM6: ENV_SCRIPT = ../../../env
 .SECONDARY: $(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names
 .SECONDARY: $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile

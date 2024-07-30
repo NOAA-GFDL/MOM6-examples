@@ -50,14 +50,14 @@ GRID_CONFIG = "cartesian"       !
 AXIS_UNITS = "k"                ! default = "degrees"
                                 ! The units for the Cartesian axes. Valid entries are:
                                 !     degrees - degrees of latitude and longitude
-                                !     m - meters
-                                !     k - kilometers
-SOUTHLAT = 0.0                  !   [k]
+                                !     m or meter(s) - meters
+                                !     k or km or kilometer(s) - kilometers
+SOUTHLAT = 0.0                  !   [km]
                                 ! The southern latitude of the domain or the equivalent starting value for the
                                 ! y-axis.
-LENLAT = 172.8                  !   [k]
+LENLAT = 172.8                  !   [km]
                                 ! The latitudinal or y-direction length of the domain.
-LENLON = 172.8                  !   [k]
+LENLON = 172.8                  !   [km]
                                 ! The longitudinal or x-direction length of the domain.
 TOPO_CONFIG = "flat"            !
                                 ! This specifies how bathymetry is specified:
@@ -111,21 +111,22 @@ NK = 5                          !   [nondim]
 ! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
-                                ! Currently, the valid choices are "LINEAR", "UNESCO", "WRIGHT", "NEMO" and
-                                ! "TEOS10". This is only used if USE_EOS is true.
+                                ! Currently, the valid choices are "LINEAR", "UNESCO", "JACKETT_MCD", "WRIGHT",
+                                ! "WRIGHT_REDUCED", "WRIGHT_FULL", "NEMO", "ROQUET_RHO", "ROQUET_SPV" and
+                                ! "TEOS10".  This is only used if USE_EOS is true.
 
 ! === module MOM_tracer_flow_control ===
 USE_ADVECTION_TEST_TRACER = True !   [Boolean] default = False
                                 ! If true, use the advection_test_tracer tracer package.
 
 ! === module advection_test_tracer ===
-ADVECTION_TEST_X_ORIGIN = 43.2  !   [same as geoLon] default = 0.0
+ADVECTION_TEST_X_ORIGIN = 43.2  !   [km] default = 0.0
                                 ! The x-coordinate of the center of the test-functions.
-ADVECTION_TEST_Y_ORIGIN = 86.4  !   [same as geoLat] default = 0.0
+ADVECTION_TEST_Y_ORIGIN = 86.4  !   [km] default = 0.0
                                 ! The y-coordinate of the center of the test-functions.
-ADVECTION_TEST_X_WIDTH = 21.6   !   [same as geoLon] default = 0.0
+ADVECTION_TEST_X_WIDTH = 21.6   !   [km] default = 0.0
                                 ! The x-width of the test-functions.
-ADVECTION_TEST_Y_WIDTH = 21.6   !   [same as geoLat] default = 0.0
+ADVECTION_TEST_Y_WIDTH = 21.6   !   [km] default = 0.0
                                 ! The y-width of the test-functions.
 
 ! === module MOM_coord_initialization ===
@@ -154,7 +155,7 @@ GINT = 7.89E-04                 !   [m s-2]
 
 ! === module MOM_state_initialization ===
 TS_CONFIG = "fit"               !
-                                ! A string that determines how the initial tempertures and salinities are
+                                ! A string that determines how the initial temperatures and salinities are
                                 ! specified for a new run:
                                 !     file - read velocities from the file specified
                                 !       by (TS_FILE).
@@ -217,8 +218,6 @@ KV = 0.0                        !   [m2 s-1]
 
 ! === module MOM_dynamics_split_RK2 ===
 
-! === module MOM_continuity ===
-
 ! === module MOM_continuity_PPM ===
 
 ! === module MOM_CoriolisAdv ===
@@ -235,6 +234,8 @@ KE_SCHEME = "KE_GUDONOV"        ! default = "KE_ARAKAWA"
 ! === module MOM_PressureForce ===
 
 ! === module MOM_PressureForce_FV ===
+
+! === module MOM_Zanna_Bolton ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False

@@ -48,8 +48,8 @@ DT = 8.64E+04                   !   [s]
                                 ! The (baroclinic) dynamics time step.  The time-step that is actually used will
                                 ! be an integer fraction of the forcing time-step (DT_FORCING in ocean-only mode
                                 ! or the coupling timestep in coupled mode.)
-DEFAULT_2018_ANSWERS = True     !   [Boolean] default = True
-                                ! This sets the default value for the various _2018_ANSWERS parameters.
+DEFAULT_ANSWER_DATE = 20181231  ! default = 99991231
+                                ! This sets the default value for the various _ANSWER_DATE parameters.
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
@@ -190,6 +190,12 @@ KV = 1.0                        !   [m2 s-1]
 
 ! === module MOM_thickness_diffuse ===
 
+! === module MOM_porous_barriers ===
+PORBAR_ANSWER_DATE = 99991231   ! default = 20181231
+                                ! The vintage of the porous barrier weight function calculations.  Values below
+                                ! 20220806 recover the old answers in which the layer averaged weights are not
+                                ! strictly limited by an upper-bound of 1.0 .
+
 ! === module MOM_continuity ===
 
 ! === module MOM_continuity_PPM ===
@@ -212,9 +218,6 @@ SIMPLE_2ND_PPM_CONTINUITY = True !   [Boolean] default = False
 HMIX_FIXED = 1.0                !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
-KVML = 0.0                      !   [m2 s-1] default = 1.0
-                                ! The kinematic viscosity in the mixed layer.  A typical value is ~1e-2 m2 s-1.
-                                ! KVML is not used if BULKMIXEDLAYER is true.  The default is set by KV.
 
 ! === module MOM_mixed_layer_restrat ===
 

@@ -174,6 +174,8 @@ ADJUST_THICKNESS = True         !   [Boolean] default = False
                                 ! If true, all mass below the bottom removed if the topography is shallower than
                                 ! the thickness input file would indicate.
 
+! === module determine_temperature ===
+
 ! === module MOM_diag_mediator ===
 
 ! === module MOM_MEKE ===
@@ -241,8 +243,6 @@ FGNV_C_MIN = 0.01               !   [m s-1] default = 0.0
 TIDES = True                    !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 
-! === module MOM_continuity ===
-
 ! === module MOM_continuity_PPM ===
 ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.15E-09
                                 ! The tolerance for the differences between the barotropic and baroclinic
@@ -261,18 +261,18 @@ BOUND_CORIOLIS = True           !   [Boolean] default = False
                                 ! option would have no effect on the SADOURNY Coriolis scheme if it were
                                 ! possible to use centered difference thickness fluxes.
 
+! === module MOM_self_attr_load ===
+
 ! === module MOM_tidal_forcing ===
 TIDE_M2 = True                  !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing at the M2 frequency. This is only used
                                 ! if TIDES is true.
-TIDE_SAL_SCALAR_VALUE = 0.094   !   [m m-1]
-                                ! The constant of proportionality between sea surface height (really it should
-                                ! be bottom pressure) anomalies and bottom geopotential anomalies. This is only
-                                ! used if TIDES and TIDE_USE_SAL_SCALAR are true.
 
 ! === module MOM_PressureForce ===
 
 ! === module MOM_PressureForce_FV ===
+
+! === module MOM_Zanna_Bolton ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -322,6 +322,8 @@ MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
                                 ! If true, a density-gradient dependent re-stratifying flow is imposed in the
                                 ! mixed layer. Can be used in ALE mode without restriction but in layer mode can
                                 ! only be used if BULKMIXEDLAYER is true.
+MLE%
+%MLE
 FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! A nondimensional coefficient that is proportional to the ratio of the
                                 ! deformation radius to the dominant lengthscale of the submesoscale mixed layer

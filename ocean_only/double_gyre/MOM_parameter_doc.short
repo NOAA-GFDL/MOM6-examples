@@ -45,11 +45,11 @@ GRID_CONFIG = "spherical"       !
                                 !     cartesian - use a (flat) Cartesian grid.
                                 !     spherical - use a simple spherical grid.
                                 !     mercator - use a Mercator spherical grid.
-SOUTHLAT = 30.0                 !   [degrees]
+SOUTHLAT = 30.0                 !   [degrees_N]
                                 ! The southern latitude of the domain.
-LENLAT = 20.0                   !   [degrees]
+LENLAT = 20.0                   !   [degrees_N]
                                 ! The latitudinal length of the domain.
-LENLON = 22.0                   !   [degrees]
+LENLON = 22.0                   !   [degrees_E]
                                 ! The longitudinal length of the domain.
 TOPO_CONFIG = "spoon"           !
                                 ! This specifies how bathymetry is specified:
@@ -148,8 +148,6 @@ KV = 1.0E-04                    !   [m2 s-1]
 
 ! === module MOM_dynamics_split_RK2 ===
 
-! === module MOM_continuity ===
-
 ! === module MOM_continuity_PPM ===
 ETA_TOLERANCE = 1.0E-12         !   [m] default = 1.0E-10
                                 ! The tolerance for the differences between the barotropic and baroclinic
@@ -168,6 +166,8 @@ BOUND_CORIOLIS = True           !   [Boolean] default = False
 ! === module MOM_PressureForce ===
 
 ! === module MOM_PressureForce_FV ===
+
+! === module MOM_Zanna_Bolton ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False

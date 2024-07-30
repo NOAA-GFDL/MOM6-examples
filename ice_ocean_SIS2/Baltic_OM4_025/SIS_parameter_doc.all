@@ -37,7 +37,7 @@ CONSTANT_COSZEN_IC = 0.0        !   [nondim] default = -1.0
                                 ! A constant value to use to initialize the cosine of the solar zenith angle for
                                 ! the first radiation step, or a negative number to use the current time and
                                 ! astronomy.
-DT_RADIATION = 1800.0           !   [s] default = 1800.0
+DT_RADIATION = 3600.0           !   [s] default = 3600.0
                                 ! The time step with which the shortwave radiation and fields like albedos are
                                 ! updated.  Currently this is only used to initialize albedos when there is no
                                 ! restart file.
@@ -88,6 +88,8 @@ REDO_FAST_ICE_UPDATE = False    !   [Boolean] default = False
                                 ! If true, recalculate the thermal updates from the fast dynamics on the slowly
                                 ! evolving ice state, rather than copying over the slow ice state to the fast
                                 ! ice state.
+READ_HLIM_VALS = False          !   [Boolean] default = False
+                                ! If true, read the lower limits on the ice thicknesscategories.
 NCAT_ICE = 5                    !   [nondim] default = 5
                                 ! The number of sea ice thickness categories.
 NK_ICE = 4                      !   [nondim] default = 4

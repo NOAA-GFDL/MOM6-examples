@@ -35,8 +35,8 @@ GRID_CONFIG = "cartesian"       !
 AXIS_UNITS = "km"               ! default = "degrees"
                                 ! The units for the Cartesian axes. Valid entries are:
                                 !     degrees - degrees of latitude and longitude
-                                !     m - meters
-                                !     k - kilometers
+                                !     m or meter(s) - meters
+                                !     k or km or kilometer(s) - kilometers
 SOUTHLAT = 0.0                  !   [km]
                                 ! The southern latitude of the domain or the equivalent starting value for the
                                 ! y-axis.
@@ -90,8 +90,9 @@ NK = 80                         !   [nondim]
 ! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
-                                ! Currently, the valid choices are "LINEAR", "UNESCO", "WRIGHT", "NEMO" and
-                                ! "TEOS10". This is only used if USE_EOS is true.
+                                ! Currently, the valid choices are "LINEAR", "UNESCO", "JACKETT_MCD", "WRIGHT",
+                                ! "WRIGHT_REDUCED", "WRIGHT_FULL", "NEMO", "ROQUET_RHO", "ROQUET_SPV" and
+                                ! "TEOS10".  This is only used if USE_EOS is true.
 
 ! === module MOM_tracer_flow_control ===
 
@@ -105,7 +106,6 @@ REGRIDDING_COORDINATE_MODE = "Z*" ! default = "LAYER"
                                 !  RHO   - continuous isopycnal
                                 !  HYCOM1 - HyCOM-like hybrid coordinate
                                 !  HYBGEN - Hybrid coordinate from the Hycom hybgen code
-                                !  SLIGHT - stretched coordinates above continuous isopycnal
                                 !  ADAPTIVE - optimize for smooth neutral density surfaces
 ALE_COORDINATE_CONFIG = "FILE:vgrid.nc,dz" ! default = "UNIFORM"
                                 ! Determines how to specify the coordinate resolution. Valid options are:
@@ -133,8 +133,11 @@ THICKNESS_CONFIG = "coord"      ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:
                                 !     file - read interface heights from the file specified
+                                !       by (THICKNESS_FILE).
                                 !     thickness_file - read thicknesses from the file specified
                                 !       by (THICKNESS_FILE).
+                                !     mass_file - read thicknesses in units of mass per unit area from the file
+                                !       specified by (THICKNESS_FILE).
                                 !     coord - determined by ALE coordinate.
                                 !     uniform - uniform thickness layers evenly distributed
                                 !       between the surface and MAXIMUM_DEPTH.
@@ -157,7 +160,7 @@ THICKNESS_CONFIG = "coord"      ! default = "uniform"
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     USER - call a user modified routine.
 TS_CONFIG = "SCM_CVMix_tests"   !
-                                ! A string that determines how the initial tempertures and salinities are
+                                ! A string that determines how the initial temperatures and salinities are
                                 ! specified for a new run:
                                 !     file - read velocities from the file specified
                                 !       by (TS_FILE).
@@ -178,9 +181,9 @@ TS_CONFIG = "SCM_CVMix_tests"   !
                                 !     USER - call a user modified routine.
 SCM_TEMP_MLD = 32.0             !   [m] default = 0.0
                                 ! Initial temp mixed layer depth
-SCM_L1_TEMP = 30.0              !   [C] default = 20.0
+SCM_L1_TEMP = 30.0              !   [degC] default = 20.0
                                 ! Layer 1 surface temperature
-SCM_L2_TEMP = 30.0              !   [C] default = 20.0
+SCM_L2_TEMP = 30.0              !   [degC] default = 20.0
                                 ! Layer 2 surface temperature
 SCM_L2_DTDZ = 0.04              !   [C/m] default = 0.0
                                 ! Initial temperature stratification in layer 2
@@ -205,8 +208,6 @@ KV = 1.0E-06                    !   [m2 s-1]
 
 ! === module MOM_dynamics_split_RK2 ===
 
-! === module MOM_continuity ===
-
 ! === module MOM_continuity_PPM ===
 
 ! === module MOM_CoriolisAdv ===
@@ -214,6 +215,8 @@ KV = 1.0E-06                    !   [m2 s-1]
 ! === module MOM_PressureForce ===
 
 ! === module MOM_PressureForce_FV ===
+
+! === module MOM_Zanna_Bolton ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False
@@ -311,9 +314,6 @@ IDL_HURR_X0 = 3.432E+06         !   [m] default = 0.0
                                 ! Idealized Hurricane initial X position
 IDL_HURR_Y0 = 9.0E+05           !   [m] default = 0.0
                                 ! Idealized Hurricane initial Y position
-IDL_HURR_SCM_BR_BENCH = True    !   [Boolean] default = False
-                                ! Single column mode benchmark case switch, which is invoking a modification
-                                ! (bug) in the wind profile meant to reproduce a previous implementation.
 
 ! === module MOM_main (MOM_driver) ===
 DAYMAX = 0.05                   !   [days]

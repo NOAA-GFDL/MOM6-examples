@@ -52,14 +52,14 @@ GRID_CONFIG = "cartesian"       !
 AXIS_UNITS = "k"                ! default = "degrees"
                                 ! The units for the Cartesian axes. Valid entries are:
                                 !     degrees - degrees of latitude and longitude
-                                !     m - meters
-                                !     k - kilometers
-SOUTHLAT = 30.0                 !   [k]
+                                !     m or meter(s) - meters
+                                !     k or km or kilometer(s) - kilometers
+SOUTHLAT = 30.0                 !   [km]
                                 ! The southern latitude of the domain or the equivalent starting value for the
                                 ! y-axis.
-LENLAT = 40.0                   !   [k]
+LENLAT = 40.0                   !   [km]
                                 ! The latitudinal or y-direction length of the domain.
-LENLON = 64.0                   !   [k]
+LENLON = 64.0                   !   [km]
                                 ! The longitudinal or x-direction length of the domain.
 TOPO_CONFIG = "flat"            !
                                 ! This specifies how bathymetry is specified:
@@ -115,12 +115,13 @@ NK = 25                         !   [nondim]
 ! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
-                                ! Currently, the valid choices are "LINEAR", "UNESCO", "WRIGHT", "NEMO" and
-                                ! "TEOS10". This is only used if USE_EOS is true.
+                                ! Currently, the valid choices are "LINEAR", "UNESCO", "JACKETT_MCD", "WRIGHT",
+                                ! "WRIGHT_REDUCED", "WRIGHT_FULL", "NEMO", "ROQUET_RHO", "ROQUET_SPV" and
+                                ! "TEOS10".  This is only used if USE_EOS is true.
 DRHO_DT = 0.0                   !   [kg m-3 K-1] default = -0.2
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! temperature.
-DRHO_DS = 1.0                   !   [kg m-3 PSU-1] default = 0.8
+DRHO_DS = 1.0                   !   [kg m-3 ppt-1] default = 0.8
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! salinity.
 
@@ -153,8 +154,11 @@ THICKNESS_CONFIG = "adjustment2d" ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:
                                 !     file - read interface heights from the file specified
+                                !       by (THICKNESS_FILE).
                                 !     thickness_file - read thicknesses from the file specified
                                 !       by (THICKNESS_FILE).
+                                !     mass_file - read thicknesses in units of mass per unit area from the file
+                                !       specified by (THICKNESS_FILE).
                                 !     coord - determined by ALE coordinate.
                                 !     uniform - uniform thickness layers evenly distributed
                                 !       between the surface and MAXIMUM_DEPTH.
@@ -178,18 +182,18 @@ THICKNESS_CONFIG = "adjustment2d" ! default = "uniform"
                                 !     USER - call a user modified routine.
 
 ! === module adjustment_initialization ===
-S_REF = 0.0                     !   [1e-3] default = 35.0
+S_REF = 0.0                     !   [ppt] default = 35.0
                                 ! Reference salinity
 MIN_THICKNESS = 1.0E-04         !   [m] default = 0.001
                                 ! Minimum layer thickness
-ADJUSTMENT_WIDTH = 0.01         !   [same as x,y]
+ADJUSTMENT_WIDTH = 0.01         !   [km]
                                 ! Width of frontal zone
-DELTA_S_STRAT = 0.0             !   [1e-3]
+DELTA_S_STRAT = 0.0             !   [ppt]
                                 ! Top-to-bottom salinity difference of stratification
-ADJUSTMENT_DELTAS = 5.0         !   [1e-3]
+ADJUSTMENT_DELTAS = 5.0         !   [ppt]
                                 ! Salinity difference across front
 TS_CONFIG = "adjustment2d"      !
-                                ! A string that determines how the initial tempertures and salinities are
+                                ! A string that determines how the initial temperatures and salinities are
                                 ! specified for a new run:
                                 !     file - read velocities from the file specified
                                 !       by (TS_FILE).
@@ -208,9 +212,9 @@ TS_CONFIG = "adjustment2d"      !
                                 !     rossby_front - a mixed layer front in thermal wind balance.
                                 !     SCM_CVMix_tests - used in the SCM CVMix tests.
                                 !     USER - call a user modified routine.
-T_REF = 0.0                     !   [C]
+T_REF = 0.0                     !   [degC]
                                 ! Reference temperature
-S_RANGE = 5.0                   !   [1e-3] default = 2.0
+S_RANGE = 5.0                   !   [ppt] default = 2.0
                                 ! Initial salinity range
 
 ! === module MOM_diag_mediator ===
@@ -242,8 +246,6 @@ KHTH = 1.0E-04                  !   [m2 s-1] default = 0.0
 
 ! === module MOM_dynamics_split_RK2 ===
 
-! === module MOM_continuity ===
-
 ! === module MOM_continuity_PPM ===
 ETA_TOLERANCE = 1.0E-12         !   [m] default = 1.25E-14
                                 ! The tolerance for the differences between the barotropic and baroclinic
@@ -266,6 +268,8 @@ KE_SCHEME = "KE_GUDONOV"        ! default = "KE_ARAKAWA"
 ! === module MOM_PressureForce ===
 
 ! === module MOM_PressureForce_FV ===
+
+! === module MOM_Zanna_Bolton ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False

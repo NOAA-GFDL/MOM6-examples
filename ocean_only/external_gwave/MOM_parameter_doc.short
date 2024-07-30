@@ -52,17 +52,17 @@ GRID_CONFIG = "cartesian"       !
 AXIS_UNITS = "k"                ! default = "degrees"
                                 ! The units for the Cartesian axes. Valid entries are:
                                 !     degrees - degrees of latitude and longitude
-                                !     m - meters
-                                !     k - kilometers
-SOUTHLAT = 0.0                  !   [k]
+                                !     m or meter(s) - meters
+                                !     k or km or kilometer(s) - kilometers
+SOUTHLAT = 0.0                  !   [km]
                                 ! The southern latitude of the domain or the equivalent starting value for the
                                 ! y-axis.
-LENLAT = 4.0                    !   [k]
+LENLAT = 4.0                    !   [km]
                                 ! The latitudinal or y-direction length of the domain.
-WESTLON = -32.0                 !   [k] default = 0.0
+WESTLON = -32.0                 !   [km] default = 0.0
                                 ! The western longitude of the domain or the equivalent starting value for the
                                 ! x-axis.
-LENLON = 64.0                   !   [k]
+LENLON = 64.0                   !   [km]
                                 ! The longitudinal or x-direction length of the domain.
 TOPO_CONFIG = "flat"            !
                                 ! This specifies how bathymetry is specified:
@@ -116,8 +116,9 @@ NK = 21                         !   [nondim]
 ! === module MOM_EOS ===
 EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
-                                ! Currently, the valid choices are "LINEAR", "UNESCO", "WRIGHT", "NEMO" and
-                                ! "TEOS10". This is only used if USE_EOS is true.
+                                ! Currently, the valid choices are "LINEAR", "UNESCO", "JACKETT_MCD", "WRIGHT",
+                                ! "WRIGHT_REDUCED", "WRIGHT_FULL", "NEMO", "ROQUET_RHO", "ROQUET_SPV" and
+                                ! "TEOS10".  This is only used if USE_EOS is true.
 
 ! === module MOM_tracer_flow_control ===
 
@@ -150,8 +151,11 @@ THICKNESS_CONFIG = "external_gwave" ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:
                                 !     file - read interface heights from the file specified
+                                !       by (THICKNESS_FILE).
                                 !     thickness_file - read thicknesses from the file specified
                                 !       by (THICKNESS_FILE).
+                                !     mass_file - read thicknesses in units of mass per unit area from the file
+                                !       specified by (THICKNESS_FILE).
                                 !     coord - determined by ALE coordinate.
                                 !     uniform - uniform thickness layers evenly distributed
                                 !       between the surface and MAXIMUM_DEPTH.
@@ -177,10 +181,10 @@ THICKNESS_CONFIG = "external_gwave" ! default = "uniform"
 ! === module external_gwave_initialize_thickness ===
 SSH_ANOMALY_HEIGHT = 1.0        !   [m]
                                 ! The vertical displacement of the SSH anomaly.
-SSH_ANOMALY_WIDTH = 5.0         !   [coordinate]
+SSH_ANOMALY_WIDTH = 5.0         !   [km]
                                 ! The lateral width of the SSH anomaly.
 TS_CONFIG = "fit"               !
-                                ! A string that determines how the initial tempertures and salinities are
+                                ! A string that determines how the initial temperatures and salinities are
                                 ! specified for a new run:
                                 !     file - read velocities from the file specified
                                 !       by (TS_FILE).
@@ -236,8 +240,6 @@ KV_BBL_MIN = 1.0E-06            !   [m2 s-1] default = 1.0E-04
 
 ! === module MOM_dynamics_split_RK2 ===
 
-! === module MOM_continuity ===
-
 ! === module MOM_continuity_PPM ===
 
 ! === module MOM_CoriolisAdv ===
@@ -254,6 +256,8 @@ KE_SCHEME = "KE_GUDONOV"        ! default = "KE_ARAKAWA"
 ! === module MOM_PressureForce ===
 
 ! === module MOM_PressureForce_FV ===
+
+! === module MOM_Zanna_Bolton ===
 
 ! === module MOM_hor_visc ===
 LAPLACIAN = True                !   [Boolean] default = False

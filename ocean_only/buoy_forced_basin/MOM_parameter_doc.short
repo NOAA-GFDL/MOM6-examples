@@ -36,13 +36,13 @@ GRID_CONFIG = "mercator"        !
                                 !     cartesian - use a (flat) Cartesian grid.
                                 !     spherical - use a simple spherical grid.
                                 !     mercator - use a Mercator spherical grid.
-SOUTHLAT = 10.0                 !   [degrees]
+SOUTHLAT = 10.0                 !   [degrees_N]
                                 ! The southern latitude of the domain.
-LENLAT = 50.0                   !   [degrees]
+LENLAT = 50.0                   !   [degrees_N]
                                 ! The latitudinal length of the domain.
-WESTLON = -25.0                 !   [degrees] default = 0.0
+WESTLON = -25.0                 !   [degrees_E] default = 0.0
                                 ! The western longitude of the domain.
-LENLON = 25.0                   !   [degrees]
+LENLON = 25.0                   !   [degrees_E]
                                 ! The longitudinal length of the domain.
 TOPO_CONFIG = "flat"            !
                                 ! This specifies how bathymetry is specified:
@@ -106,8 +106,10 @@ COORD_CONFIG = "BFB"            ! default = "none"
                                 !     ts_profile - use temperature and salinity profiles
                                 !       (read from COORD_FILE) to set layer densities.
                                 !     USER - call a user modified routine.
-T_BOT = 7.0                     !   [C] default = 5.0
-                                ! Bottom Temp
+
+! === module BFB_initialization ===
+T_BOT = 7.0                     !   [degC] default = 5.0
+                                ! Bottom temperature
 
 ! === module MOM_state_initialization ===
 SPONGE = True                   !   [Boolean] default = False

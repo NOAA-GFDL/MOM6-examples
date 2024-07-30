@@ -47,11 +47,11 @@ GRID_CONFIG = "mercator"        !
                                 !     cartesian - use a (flat) Cartesian grid.
                                 !     spherical - use a simple spherical grid.
                                 !     mercator - use a Mercator spherical grid.
-SOUTHLAT = -74.2                !   [degrees]
+SOUTHLAT = -74.2                !   [degrees_N]
                                 ! The southern latitude of the domain.
-LENLAT = 74.2                   !   [degrees]
+LENLAT = 74.2                   !   [degrees_N]
                                 ! The latitudinal length of the domain.
-LENLON = 360.0                  !   [degrees]
+LENLON = 360.0                  !   [degrees_E]
                                 ! The longitudinal length of the domain.
 ISOTROPIC = True                !   [Boolean] default = False
                                 ! If true, an isotropic grid on a sphere (also known as a Mercator grid) is
@@ -163,7 +163,7 @@ ADJUST_THICKNESS = True         !   [Boolean] default = False
                                 ! If true, all mass below the bottom removed if the topography is shallower than
                                 ! the thickness input file would indicate.
 TS_CONFIG = "file"              !
-                                ! A string that determines how the initial tempertures and salinities are
+                                ! A string that determines how the initial temperatures and salinities are
                                 ! specified for a new run:
                                 !     file - read velocities from the file specified
                                 !       by (TS_FILE).

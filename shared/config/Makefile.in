@@ -1,0 +1,35 @@
+# Makefile template for FMS
+#
+# Compiler flags are configured by autoconf's configure script.
+#
+# Source code dependencies are configured by makedep and saved to Makefile.dep.
+
+# Autoconf / Makedep configuration
+DEFS = @DEFS@
+CPPFLAGS = @CPPFLAGS@
+CC = @CC@
+CFLAGS = @CFLAGS@
+FC = @FC@
+FCFLAGS = @FCFLAGS@
+LD = @FC@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+AR = @AR@
+ARFLAGS = @ARFLAGS@
+
+# Makedep support
+PYTHON = @PYTHON@
+MAKEDEP = @MAKEDEP@
+
+# Target library, to be configured by the user
+LIBTARGET = @LIBTARGET@
+
+# Directories used to generate Makefile.dep
+SRCDIRS = @SRCDIRS@
+
+-include Makefile.dep
+
+.PHONY: depend
+depend: Makefile.dep
+Makefile.dep:
+	$(PYTHON) $(MAKEDEP) $(DEFS) -o Makefile.dep -e -x $(LIBTARGET) $(SRCDIRS)

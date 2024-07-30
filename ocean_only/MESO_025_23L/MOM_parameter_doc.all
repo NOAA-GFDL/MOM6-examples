@@ -202,13 +202,13 @@ GRID_CONFIG = "mercator"        !
                                 !     cartesian - use a (flat) Cartesian grid.
                                 !     spherical - use a simple spherical grid.
                                 !     mercator - use a Mercator spherical grid.
-SOUTHLAT = -74.2                !   [degrees]
+SOUTHLAT = -74.2                !   [degrees_N]
                                 ! The southern latitude of the domain.
-LENLAT = 74.2                   !   [degrees]
+LENLAT = 74.2                   !   [degrees_N]
                                 ! The latitudinal length of the domain.
-WESTLON = 0.0                   !   [degrees] default = 0.0
+WESTLON = 0.0                   !   [degrees_E] default = 0.0
                                 ! The western longitude of the domain.
-LENLON = 360.0                  !   [degrees]
+LENLON = 360.0                  !   [degrees_E]
                                 ! The longitudinal length of the domain.
 RAD_EARTH = 6.378E+06           !   [m] default = 6.378E+06
                                 ! The radius of the Earth.
@@ -224,7 +224,7 @@ EQUATOR_REFERENCE = True        !   [Boolean] default = True
 LAT_ENHANCE_FACTOR = 1.0        !   [nondim] default = 1.0
                                 ! The amount by which the meridional resolution is enhanced within
                                 ! LAT_EQ_ENHANCE of the equator.
-LAT_EQ_ENHANCE = 0.0            !   [degrees] default = 0.0
+LAT_EQ_ENHANCE = 0.0            !   [degrees_N] default = 0.0
                                 ! The latitude range to the north and south of the equator over which the
                                 ! resolution is enhanced.
 TOPO_CONFIG = "file"            !
@@ -461,8 +461,14 @@ ADJUST_THICKNESS = True         !   [Boolean] default = False
 THICKNESS_TOLERANCE = 0.1       !   [m] default = 0.1
                                 ! A parameter that controls the tolerance when adjusting the thickness to fit
                                 ! the bathymetry. Used when ADJUST_THICKNESS=True.
+INTERFACE_IC_VAR = "eta"        ! default = "eta"
+                                ! The variable name for initial conditions for interface heights relative to
+                                ! mean sea level, positive upward unless otherwise rescaled.
+INTERFACE_IC_RESCALE = 1.0      !   [various] default = 1.0
+                                ! A factor by which to rescale the initial interface heights to convert them to
+                                ! units of m or correct sign conventions to positive upward.
 TS_CONFIG = "file"              !
-                                ! A string that determines how the initial tempertures and salinities are
+                                ! A string that determines how the initial temperatures and salinities are
                                 ! specified for a new run:
                                 !     file - read velocities from the file specified
                                 !       by (TS_FILE).
@@ -568,7 +574,7 @@ DIAG_COORDS = "z Z ZSTAR"       ! default = "z Z ZSTAR"
                                 ! A list of string tuples associating diag_table modules to a coordinate
                                 ! definition used for diagnostics. Each string is of the form "MODULE_SUFFIX
                                 ! PARAMETER_SUFFIX COORDINATE_NAME".
-DIAG_MISVAL = 1.0E+20           !   [not defined] default = 1.0E+20
+DIAG_MISVAL = 1.0E+20           !   [various] default = 1.0E+20
                                 ! Set the default missing value to use for diagnostics.
 DIAG_AS_CHKSUM = False          !   [Boolean] default = False
                                 ! Instead of writing diagnostics to the diag manager, write a text file
@@ -625,6 +631,9 @@ RESOLN_USE_EBT = False          !   [Boolean] default = False
 KHTH_USE_EBT_STRUCT = False     !   [Boolean] default = False
                                 ! If true, uses the equivalent barotropic structure as the vertical structure of
                                 ! thickness diffusivity.
+KD_GL90_USE_EBT_STRUCT = False  !   [Boolean] default = False
+                                ! If true, uses the equivalent barotropic structure as the vertical structure of
+                                ! diffusivity in the GL90 scheme.
 KHTH_SLOPE_CFF = 0.0            !   [nondim] default = 0.0
                                 ! The nondimensional coefficient in the Visbeck formula for the interface depth
                                 ! diffusivity
@@ -721,6 +730,9 @@ CORRECT_BBL_BOUNDS = False      !   [Boolean] default = False
 ! === module MOM_thickness_diffuse ===
 KHTH = 600.0                    !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
+READ_KHTH = False               !   [Boolean] default = False
+                                ! If true, read a file (given by KHTH_FILE) containing the spatially varying
+                                ! horizontal isopycnal height diffusivity.
 KHTH_MIN = 0.0                  !   [m2 s-1] default = 0.0
                                 ! The minimum horizontal thickness diffusivity.
 KHTH_MAX = 0.0                  !   [m2 s-1] default = 0.0
@@ -769,11 +781,8 @@ USE_GM_WORK_BUG = False         !   [Boolean] default = False
                                 ! sign, for legacy reproducibility.
 STOCH_EOS = False               !   [Boolean] default = False
                                 ! If true, stochastic perturbations are applied to the EOS in the PGF.
-STANLEY_COEFF = -1.0            !   [not defined] default = -1.0
+STANLEY_COEFF = -1.0            !   [nondim] default = -1.0
                                 ! Coefficient correlating the temperature gradient and SGS T variance.
-STANLEY_A = 1.0                 !   [not defined] default = 1.0
-                                ! Coefficient a which scales chi in stochastic perturbation of the SGS T
-                                ! variance.
 
 ! === module MOM_porous_barriers ===
 PORBAR_ANSWER_DATE = 99991231   ! default = 99991231
@@ -1021,6 +1030,9 @@ HARMONIC_BL_SCALE = 0.0         !   [nondim] default = 0.0
                                 ! A scale to determine when water is in the boundary layers based solely on
                                 ! harmonic mean thicknesses for the purpose of determining the extent to which
                                 ! the thicknesses used in the viscosities are upwinded.
+USE_GL90_IN_SSW = False         !   [Boolean] default = False
+                                ! If true, use simpler method to calculate 1/N^2 in GL90 vertical viscosity
+                                ! coefficient. This method is valid in stacked shallow water mode.
 MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
                                 ! The maximum velocity allowed before the velocity components are truncated.
 CFL_BASED_TRUNCATIONS = True    !   [Boolean] default = True
@@ -1171,6 +1183,14 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! (2010)
 USE_STANLEY_ML = False          !   [Boolean] default = False
                                 ! If true, turn on Stanley SGS T variance parameterization in ML restrat code.
+KV_RESTRAT = 0.0                !   [m2 s-1] default = 0.0
+                                ! A small viscosity that sets a floor on the momentum mixing rate during
+                                ! restratification.  If this is positive, it will prevent some possible
+                                ! divisions by zero even if ustar, RESTRAT_USTAR_MIN, and f are all 0.
+RESTRAT_USTAR_MIN = 1.45842E-18 !   [m s-1] default = 1.45842E-18
+                                ! The minimum value of ustar that will be used by the mixed layer
+                                ! restratification module.  This can be tiny, but if this is greater than 0, it
+                                ! will prevent divisions by zero when f and KV_RESTRAT are zero.
 
 ! === module MOM_diagnostics ===
 DIAG_EBT_MONO_N2_COLUMN_FRACTION = 0.0 !   [nondim] default = 0.0
@@ -1266,6 +1286,9 @@ MAX_ENT_IT = 20                 ! default = 5
                                 ! diapycnal entrainment.
 TOLERANCE_ENT = 1.0E-05         !   [m] default = 7.745966692414833E-06
                                 ! The tolerance with which to solve for entrainment values.
+ENTRAIN_DIFFUSIVE_MAX_ENT = 1.0E+04 !   [m] default = 1.0E+04
+                                ! A large ceiling on the maximum permitted amount of entrainment across each
+                                ! interface between the mixed and buffer layers within a timestep.
 
 ! === module MOM_set_diffusivity ===
 FLUX_RI_MAX = 0.2               !   [nondim] default = 0.2
@@ -1380,6 +1403,10 @@ KD_KAPPA_SHEAR_0 = 1.0E-05      !   [m2 s-1] default = 1.0E-05
                                 ! The background diffusivity that is used to smooth the density and shear
                                 ! profiles before solving for the diffusivities.  The default is the greater of
                                 ! KD and 1e-7 m2 s-1.
+KD_SEED_KAPPA_SHEAR = 1.0       !   [m2 s-1] default = 1.0
+                                ! A moderately large seed value of diapycnal diffusivity that is used as a
+                                ! starting turbulent diffusivity in the iterations to find an energetically
+                                ! constrained solution for the shear-driven diffusivity.
 KD_TRUNC_KAPPA_SHEAR = 1.0E-07  !   [m2 s-1] default = 1.0E-07
                                 ! The value of shear-driven diffusivity that is considered negligible and is
                                 ! rounded down to 0. The default is 1% of KD_KAPPA_SHEAR_0.
@@ -1411,7 +1438,7 @@ KAPPA_SHEAR_ELIM_MASSLESS = True !   [Boolean] default = True
                                 ! If true, massless layers are merged with neighboring massive layers in this
                                 ! calculation.  The default is true and I can think of no good reason why it
                                 ! should be false. This is only used if USE_JACKSON_PARAM is true.
-MAX_KAPPA_SHEAR_IT = 13         !   [nondim] default = 13
+MAX_KAPPA_SHEAR_IT = 13         ! default = 13
                                 ! The maximum number of iterations that may be used to estimate the
                                 ! time-averaged diffusivity.
 KAPPA_SHEAR_MAX_KAP_SRC_CHG = 10.0 !   [nondim] default = 10.0
@@ -1457,6 +1484,9 @@ RECLAIM_FRAZIL = False          !   [Boolean] default = True
                                 ! If true, try to use any frazil heat deficit to cool any overlying layers down
                                 ! to the freezing point, thereby avoiding the creation of thin ice when the SST
                                 ! is above the freezing point.
+SALT_EXTRACTION_LIMIT = 0.9999  !   [nondim] default = 0.9999
+                                ! An upper limit on the fraction of the salt in a layer that can be lost to the
+                                ! net surface salt fluxes within a timestep.
 PRESSURE_DEPENDENT_FRAZIL = False !   [Boolean] default = False
                                 ! If true, use a pressure dependent freezing temperature when making frazil. The
                                 ! default is false, which will be faster but is inappropriate with ice-shelf
@@ -1492,6 +1522,10 @@ BULK_RI_CONVECTIVE = 0.1        !   [nondim] default = 0.25
 HMIX_MIN = 10.0                 !   [m] default = 0.0
                                 ! The minimum mixed layer depth if the mixed layer depth is determined
                                 ! dynamically.
+MECH_TKE_FLOOR = 1.0E-150       !   [m3 s-2] default = 1.0E-150
+                                ! A tiny floor on the amount of turbulent kinetic energy that is used when the
+                                ! mixed layer does not yet contain HMIX_MIN fluid.  The default is so small that
+                                ! its actual value is irrelevant, so long as it is greater than 0.
 LIMIT_BUFFER_DETRAIN = False    !   [Boolean] default = False
                                 ! If true, limit the detrainment from the buffer layers to not be too different
                                 ! from the neighbors.
@@ -1718,7 +1752,7 @@ WIND_STAGGER = "C"              ! default = "C"
                                 ! WIND_FILE.  This may be A or C for now.
 WINDSTRESS_SCALE = 0.1          !   [nondim] default = 1.0
                                 ! A value by which the wind stresses in WIND_FILE are rescaled.
-USTAR_FORCING_VAR = ""          !   [nondim] default = ""
+USTAR_FORCING_VAR = ""          ! default = ""
                                 ! The name of the friction velocity variable in WIND_FILE or blank to get ustar
                                 ! from the wind stresses plus the gustiness.
 RESTOREBUOY = True              !   [Boolean] default = False

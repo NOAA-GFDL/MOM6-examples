@@ -21,6 +21,8 @@ THIN_HALO_UPDATES = True        !   [Boolean] default = True
                                 ! statically determined at compile time.  Otherwise the sizes are not determined
                                 ! until run time. The STATIC option is substantially faster, but does not allow
                                 ! the PE count to be changed at run time.  This can only be set at compile time.
+AUTO_MASKTABLE = False          !   [Boolean] default = False
+                                ! Turn on automatic mask table generation to eliminate land blocks.
 MASKTABLE = "MOM_mask_table"    ! default = "MOM_mask_table"
                                 ! A text file to specify n_mask, layout and mask_list. This feature masks out
                                 ! processors that contain only land points. The first line of mask_table is the
@@ -37,10 +39,10 @@ MASKTABLE = "MOM_mask_table"    ! default = "MOM_mask_table"
 NIPROC = 4                      !
                                 ! The number of processors in the x-direction. With STATIC_MEMORY_ this is set
                                 ! in SIS2_memory.h at compile time.
-NJPROC = 4                      !
+NJPROC = 8                      !
                                 ! The number of processors in the y-direction. With STATIC_MEMORY_ this is set
                                 ! in SIS2_memory.h at compile time.
-LAYOUT = 4, 4                   !
+LAYOUT = 4, 8                   !
                                 ! The processor layout that was actually used.
 IO_LAYOUT = 1, 1                ! default = 1
                                 ! The processor layout to be used, or 0,0 to automatically set the io_layout to

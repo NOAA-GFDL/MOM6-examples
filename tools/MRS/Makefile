@@ -30,13 +30,17 @@ m6e-pipeline:
 	test -f src/MOM6/README.md || (git submodule sync --recursive && git submodule update --init --recursive)
 	test -d src/LM3 || make -f tools/MRS/Makefile.clone clone_gfdl -s
 	@echo -e "\e[0Ksection_end:`date +%s`:clone\r\e[0K"
+	@echo -e "\e[0Ksection_start:`date +%s`:environ[collapsed=true]\r\e[0KFetching environ"
+	echo "Temporarily cloning stats repo to obtain environ/ directory"
+	git clone --depth 1 https://gitlab.gfdl.noaa.gov/ogrp/Gaea-stats-MOM6-examples.git stats-tmp && mv stats-tmp/environ environ && rm -rf stats-tmp
+	@echo -e "\e[0Ksection_end:`date +%s`:environ\r\e[0K"
 	@echo -e "\e[0Ksection_start:`date +%s`:build[collapsed=true]\r\e[0KCompiling executables"
-	time make -f tools/MRS/Makefile.build repro_gnu -s -j
+	time make -f tools/MRS/Makefile.build repro_gnu ENVIRON=environ -s -j
 	@echo -e "\e[0Ksection_end:`date +%s`:build\r\e[0K"
 	@echo -e "\e[0Ksection_start:`date +%s`:run[collapsed=true]\r\e[0KSubmit batch job"
 	bash tools/MRS/generate_manifest.sh . tools/MRS/excluded-expts.txt > manifest.mk
 	(echo '#!/bin/tcsh';echo 'time make -f tools/MRS/Makefile.run gnu_all MEMORY=dynamic_symmetric -s -j') > job.sh
-	sbatch --clusters=c3,c4 --nodes=25 --time=0:08:00 --account=gfdl_o --qos=debug --job-name=mom6_examples_tests --output=log.$$CI_PIPELINE_ID --wait job.sh && ( echo -e "\e[0Ksection_end:`date +%s`:run\r\e[0K" ; echo -e "\e[0Ksection_start:`date +%s`:joblog[collapsed=true]\r\e[0KJob output" ; cat log.$$CI_PIPELINE_ID ; echo -e "\e[0Ksection_end:`date +%s`:joblog\r\e[0K" ) || ( echo -e "\e[0Ksection_end:`date +%s`:run\r\e[0K" ; echo -e "\e[0Ksection_start:`date +%s`:joblog[collapsed=true]\r\e[0KJob output" ; cat log.$$CI_PIPELINE_ID ; echo -e "\e[0Ksection_end:`date +%s`:joblog\r\e[0K" ; echo Job failed ; exit 911 )
+	sbatch --clusters=c5 --nodes=8 --time=0:15:00 --account=gfdl_o --qos=debug --job-name=mom6_examples_tests --output=log.$$CI_PIPELINE_ID --wait job.sh && ( echo -e "\e[0Ksection_end:`date +%s`:run\r\e[0K" ; echo -e "\e[0Ksection_start:`date +%s`:joblog[collapsed=true]\r\e[0KJob output" ; cat log.$$CI_PIPELINE_ID ; echo -e "\e[0Ksection_end:`date +%s`:joblog\r\e[0K" ) || ( echo -e "\e[0Ksection_end:`date +%s`:run\r\e[0K" ; echo -e "\e[0Ksection_start:`date +%s`:joblog[collapsed=true]\r\e[0KJob output" ; cat log.$$CI_PIPELINE_ID ; echo -e "\e[0Ksection_end:`date +%s`:joblog\r\e[0K" ; echo Job failed ; exit 911 )
 	git status
 	git diff --exit-code
 
@@ -56,7 +60,7 @@ mom6-pipeline-run:
 	time make -f tools/MRS/Makefile.clone .datasets
 	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
 	(echo '#!/bin/tcsh';echo 'time make -f tools/MRS/Makefile mom6-pipeline-run-steps') > job.sh
-	sbatch --clusters=c3,c4 --nodes=30 --time=1:00:00 --account=gfdl_o --qos=debug --job-name=mom6_examples_tests --output=log.$$CI_PIPELINE_ID --wait job.sh && ( egrep -v '.*: *$$|pagefaults|HiWaterMark=' log.$$CI_PIPELINE_ID ; echo Job returned normally ) || ( cat log.$$CI_PIPELINE_ID ; echo Job failed ; exit 911 )
+	sbatch --clusters=c5 --nodes=12 --time=1:00:00 --account=gfdl_o --qos=debug --job-name=mom6_examples_tests --output=log.$$CI_PIPELINE_ID --wait job.sh && ( egrep -v '.*: *$$|pagefaults|HiWaterMark=' log.$$CI_PIPELINE_ID ; echo Job returned normally ) || ( cat log.$$CI_PIPELINE_ID ; echo Job failed ; exit 911 )
 	test -f results.ignore/restart_stats_gnu.tar.gz || ( echo Batch job did not complete ; exit 911 )
 	@echo -e "\e[0Ksection_start:`date +%s`:cache[collapsed=true]\r\e[0KCaching results"
 	time tar zvcf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz results.*
@@ -144,7 +148,7 @@ sis2-pipeline-run:
 	time make -f tools/MRS/Makefile.clone .datasets
 	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
 	(echo '#!/bin/tcsh';echo 'time make -f tools/MRS/Makefile sis2-pipeline-run-steps') > job.sh
-	sbatch --clusters=c3,c4 --nodes=30 --time=1:00:00 --account=gfdl_o --qos=debug --job-name=mom6_examples_tests --output=log.$$CI_PIPELINE_ID --wait job.sh && ( egrep -v '.*: *$$|pagefaults|HiWaterMark=' log.$$CI_PIPELINE_ID ; echo Job returned normally ) || ( cat log.$$CI_PIPELINE_ID ; echo Job failed ; exit 911 )
+	sbatch --clusters=c5 --nodes=12 --time=1:00:00 --account=gfdl_o --qos=debug --job-name=mom6_examples_tests --output=log.$$CI_PIPELINE_ID --wait job.sh && ( egrep -v '.*: *$$|pagefaults|HiWaterMark=' log.$$CI_PIPELINE_ID ; echo Job returned normally ) || ( cat log.$$CI_PIPELINE_ID ; echo Job failed ; exit 911 )
 	test -f results.ignore/restart_stats_gnu.tar.gz || ( echo Batch job did not complete ; exit 911 )
 	@echo -e "\e[0Ksection_start:`date +%s`:cache[collapsed=true]\r\e[0KCaching results"
 	time tar zvcf $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz results.*
@@ -286,7 +290,7 @@ $(CACHE_DIR)/results-$(CI_PIPELINE_ID).tgz:
 	@echo -e "\e[0Ksection_end:`date +%s`:uncache\r\e[0K"
 	@echo -e "\e[0Ksection_start:`date +%s`:run[collapsed=true]\r\e[0KRunning models"
 	(echo '#!/bin/tcsh';echo 'time make -f tools/MRS/Makefile.run all -s -j') > job.sh
-	sbatch --clusters=c3,c4 --nodes=30 --time=0:12:00 --account=gfdl_o --qos=debug --job-name=mom6_full_regression --output=log.$(CI_PIPELINE_ID) --wait job.sh && ( echo -e "\e[0Ksection_start:`date +%s`:job-log[collapsed=true]\r\e[0KJob log" ; cat log.$(CI_PIPELINE_ID) ; echo -e "\e[0Ksection_end:`date +%s`:job-log\r\e[0K" ; echo Job returned normally ) || ( echo -e "\e[0Ksection_start:`date +%s`:job-log[collapsed=true]\r\e[0KJob log" ; cat log.$(CI_PIPELINE_ID) ; echo -e "\e[0Ksection_end:`date +%s`:job-log\r\e[0K" ; echo Job failed ; exit 911 )
+	sbatch --clusters=c5 --nodes=12 --time=0:25:00 --account=gfdl_o --qos=debug --job-name=mom6_full_regression --output=log.$(CI_PIPELINE_ID) --wait job.sh && ( echo -e "\e[0Ksection_start:`date +%s`:job-log[collapsed=true]\r\e[0KJob log" ; cat log.$(CI_PIPELINE_ID) ; echo -e "\e[0Ksection_end:`date +%s`:job-log\r\e[0K" ; echo Job returned normally ) || ( echo -e "\e[0Ksection_start:`date +%s`:job-log[collapsed=true]\r\e[0KJob log" ; cat log.$(CI_PIPELINE_ID) ; echo -e "\e[0Ksection_end:`date +%s`:job-log\r\e[0K" ; echo Job failed ; exit 911 )
 	@echo -e "\e[0Ksection_end:`date +%s`:run\r\e[0K"
 	@echo -e "\e[0Ksection_start:`date +%s`:cache[collapsed=true]\r\e[0KCaching results"
 	time tar zvcf $@ `find . -name *.stats.*[a-z][a-z][a-z]` log.$(CI_PIPELINE_ID)
