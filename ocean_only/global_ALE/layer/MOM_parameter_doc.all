@@ -2123,6 +2123,10 @@ TRACER_ADVECTION_SCHEME = "PPM:H3" ! default = "PLM"
                                 !   PLM    - Piecewise Linear Method
                                 !   PPM:H3 - Piecewise Parabolic Method (Huyhn 3rd order)
                                 !   PPM    - Piecewise Parabolic Method (Colella-Woodward)
+USE_HUYNH_STENCIL_BUG = False   !   [Boolean] default = False
+                                ! If true, use a stencil width of 2 in PPM:H3 tracer advection. This is
+                                ! incorrect and will produce regressions in certain configurations, but may be
+                                ! required to reproduce results in legacy simulations.
 
 ! === module MOM_tracer_hor_diff ===
 KHTR = 600.0                    !   [m2 s-1] default = 0.0
