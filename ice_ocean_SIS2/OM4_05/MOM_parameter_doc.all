@@ -384,6 +384,12 @@ RESTART_CHECKSUMS_REQUIRED = True !   [Boolean] default = True
                                 ! may want to avoid this comparison if for example the restarts are made from a
                                 ! run with a different mask_table than the current run, in which case the
                                 ! checksums will not match and cause crash.
+STREAMING_FILTER_M2 = False     !   [Boolean] default = False
+                                ! If true, turn on streaming band-pass filter for detecting instantaneous tidal
+                                ! signals.
+STREAMING_FILTER_K1 = False     !   [Boolean] default = False
+                                ! If true, turn on streaming band-pass filter for detecting instantaneous tidal
+                                ! signals.
 
 ! === module MOM_tracer_flow_control ===
 USE_USER_TRACER_EXAMPLE = False !   [Boolean] default = False
