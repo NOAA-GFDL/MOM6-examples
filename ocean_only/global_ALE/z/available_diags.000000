@@ -178,6 +178,36 @@
     ! long_name: MEKE energy source
     ! units: m2 s-3
     ! cell_methods: xh:mean yh:mean area:mean
+"MEKE_src_adv"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: MEKE energy source from the horizontal advection of MEKE
+    ! units: m2 s-3
+    ! cell_methods: xh:mean yh:mean area:mean
+"MEKE_src_mom_K4"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: MEKE energy source from the biharmonic of MEKE
+    ! units: m2 s-3
+    ! cell_methods: xh:mean yh:mean area:mean
+"MEKE_src_btm_drag"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: MEKE energy source from the bottom drag acting on MEKE
+    ! units: m2 s-3
+    ! cell_methods: xh:mean yh:mean area:mean
+"MEKE_src_GM"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: MEKE energy source from the thickness mixing (GM scheme)
+    ! units: m2 s-3
+    ! cell_methods: xh:mean yh:mean area:mean
+"MEKE_src_mom_lp"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: MEKE energy source from the Laplacian of resolved flows
+    ! units: m2 s-3
+    ! cell_methods: xh:mean yh:mean area:mean
+"MEKE_src_mom_bh"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: MEKE energy source from the biharmonic of resolved flows
+    ! units: m2 s-3
+    ! cell_methods: xh:mean yh:mean area:mean
 "MEKE_decay"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: MEKE decay rate
@@ -191,6 +221,11 @@
 "MEKE_mom_src"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! long_name: MEKE energy available from momentum
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"MEKE_mom_src_bh"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: MEKE energy available from the biharmonic dissipation of momentum
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
 "MEKE_GME_snk"  [Unused]
@@ -644,6 +679,39 @@
     ! units: nondim
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
     ! variants: {grid_Re_Ah,grid_Re_Ah_xyave}
+"visc_limit_h_flag"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Locations where the biharmonic viscosity reached the better_bound limiter at h points
+    ! units: nondim
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {visc_limit_h_flag,visc_limit_h_flag_xyave}
+"visc_limit_q_flag"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Locations where the biharmonic viscosity reached the better_bound limiter at q points
+    ! units: nondim
+    ! cell_methods: xq:point yq:point zl:mean
+"visc_limit_h"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Value of the biharmonic viscosity limiter at h points
+    ! units: nondim
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {visc_limit_h,visc_limit_h_xyave}
+"visc_limit_q"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Value of the biharmonic viscosity limiter at q points
+    ! units: nondim
+    ! cell_methods: xq:point yq:point zl:mean
+"visc_limit_h_frac"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Value of the biharmonic viscosity limiter at h points
+    ! units: nondim
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {visc_limit_h_frac,visc_limit_h_frac_xyave}
+"visc_limit_q_frac"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Value of the biharmonic viscosity limiter at q points
+    ! units: nondim
+    ! cell_methods: xq:point yq:point zl:mean
 "Khh"  [Used] (CMOR equivalent is "difmxylo")
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Laplacian Horizontal Viscosity at h Points
@@ -695,6 +763,17 @@
     ! units: W m-2
     ! cell_methods: xh:mean yh:mean area:mean
     ! variants: {FrictWorkIntz,dispkexyfo}
+"FrictWork_bh"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! long_name: Integral work done by the biharmonic lateral friction terms.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {FrictWork_bh,FrictWork_bh_xyave}
+"FrictWorkIntz_bh"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! long_name: Depth integrated work done by the biharmonic lateral friction
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
 "Kv_slow"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Slow varying vertical viscosity
