@@ -856,6 +856,10 @@ MEKE_EQUILIBRIUM_RESTORING = False !   [Boolean] default = False
 MEKE_FRCOEFF = -1.0             !   [nondim] default = -1.0
                                 ! The efficiency of the conversion of mean energy into MEKE.  If MEKE_FRCOEFF is
                                 ! negative, this conversion is not used or calculated.
+MEKE_BHFRCOEFF = -1.0           !   [nondim] default = -1.0
+                                ! The efficiency of the conversion of mean energy into MEKE by the biharmonic
+                                ! dissipation.  If MEKE_bhFRCOEFF is negative, this conversion is not used or
+                                ! calculated.
 MEKE_GMECOEFF = -1.0            !   [nondim] default = -1.0
                                 ! The efficiency of the conversion of MEKE into mean energy by GME.  If
                                 ! MEKE_GMECOEFF is negative, this conversion is not used or calculated.
@@ -978,6 +982,9 @@ RESOLN_SCALED_KHTR = False      !   [Boolean] default = False
 RESOLN_USE_EBT = False          !   [Boolean] default = False
                                 ! If true, uses the equivalent barotropic wave speed instead of first baroclinic
                                 ! wave for calculating the resolution fn.
+BACKSCAT_EBT_POWER = 0.0        !   [nondim] default = 0.0
+                                ! Power to raise EBT vertical structure to when backscatter has vertical
+                                ! structure.
 KHTH_USE_EBT_STRUCT = False     !   [Boolean] default = False
                                 ! If true, uses the equivalent barotropic structure as the vertical structure of
                                 ! thickness diffusivity.
@@ -1402,6 +1409,9 @@ BOUND_KH = True                 !   [Boolean] default = True
 BETTER_BOUND_KH = True          !   [Boolean] default = True
                                 ! If true, the Laplacian coefficient is locally limited to be stable with a
                                 ! better bounding than just BOUND_KH.
+EY24_EBT_BS = False             !   [Boolean] default = False
+                                ! If true, use the the backscatter scheme (EBT mode with kill switch)developed
+                                ! by Yankovsky et al. (2024).
 ANISOTROPIC_VISCOSITY = False   !   [Boolean] default = False
                                 ! If true, allow anistropic viscosity in the Laplacian horizontal viscosity.
 ADD_LES_VISCOSITY = False       !   [Boolean] default = False
