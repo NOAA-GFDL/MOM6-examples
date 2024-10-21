@@ -234,7 +234,7 @@ $(CACHE_DIR)/build-%-$(CI_PIPELINE_ID).tgz:
 	make -f tools/MRS/Makefile.clone clone_gfdl -s
 	@echo -e "\e[0Ksection_end:`date +%s`:clone-$*\r\e[0K"
 	@echo -e "\e[0Ksection_start:`date +%s`:build-$*[collapsed=true]\r\e[0KCompiling executables for $*"
-	time make -f tools/MRS/Makefile.build $(subst -,_,$*) -s -j
+	time make -f tools/MRS/Makefile.build $(subst -,_,$*) -j LOG=
 	@echo -e "\e[0Ksection_end:`date +%s`:build-$*\r\e[0K"
 	(test -w $(@D)/ && time tar zvcf $@ `find build/$(lastword $(subst -, ,$*)) -name MOM6`) || echo Not tarring
 pipeline-build-gnu-oceanonly-nolibs:
