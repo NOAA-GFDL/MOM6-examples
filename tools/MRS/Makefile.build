@@ -109,6 +109,7 @@ define compile
 $(BUILD)/%/$(1)$(2): $(BUILD)/%/$(1)Makefile $(foreach l,$(4),$(BUILD)/%/$(l))
 	rm -f $$@
 	@echo Building $$@
+	(source $(3) && module list)
 	cd $$(@D); (source $(3) && $(MAKE) NETCDF=3 $$(call make_args, $$(call fms_mode, $$@)) $(EXTRA_MAKE_ARGS) $$(@F) $(LOG)) 2>&1 | grep -v "#10121:" | sed 's,^,$$@: ,'
 	@test -f $$@ || exit 11
 endef
