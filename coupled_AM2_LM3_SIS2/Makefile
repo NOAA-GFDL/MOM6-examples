@@ -1,3 +1,6 @@
+# User-defined configuration
+-include config.mk
+
 # Configuration
 BUILD ?= build
 MOM_MEMORY ?=
@@ -20,9 +23,15 @@ MAKEDEP ?= $(MOM_CODEBASE)/ac/makedep
 
 # Run configuration
 EXPT ?=
-OUTPUT ?= ./$(EXPT)
+RUNDIR ?= ./$(EXPT)
 LAUNCHER ?= mpirun
-EXCLUDE ?=
+LAUNCHER_NP_FLAG ?= -np
+LAUNCHER_FLAGS ?=
+
+# Test suite
+TESTDIR ?= scratch
+EXCLUDE ?= \
+  AM2_SIS2B_MOM6i_1deg
 
 # Autoconf setup
 EXTRA_SRC_DIRS = \
@@ -178,53 +187,101 @@ $(FMS_BUILD)/libFMS.a: FORCE
 FORCE:
 
 
-#----
-# Experiments
+#------------
+# `make run`
 
-EXPTS = $(patsubst ./%/,%,$(dir $(shell find . -name MOM_parameter_doc.all)))
-GET_NPROCS = $(abspath ../shared/tools/get_nprocs.sh)
+GET_NPROCS = $(abspath ../shared/tools/get_nprocs.py)
 
-REG_EXPTS = $(filter-out $(EXCLUDE),$(EXPTS))
+.PHONY: run
+run: $(RUNDIR)/ocean.stats
 
-RUNDIR = $(if $(OUTPUT),$(OUTPUT)/$(1),$(1))
+# `make run` directs user to select an experiment.
+.PHONY: ./ocean.stats
+./ocean.stats:
+	@echo "Please specify the experiment to run.  For example:"
+	@echo "  make run EXPT=double_gyre"
+	@echo "  make run.double_gyre"
+	@exit 1
 
-.PHONY: run.all
-run.all: $(foreach e,$(REG_EXPTS),run.$(e))
+# NOTE: This alias rule can only be used on single directories, not full paths.
+.PHONY: run.%
+run.%:
+	$(MAKE) EXPT=$* run
 
-define EXPT_RULE
-.PHONY: run.$(1)
-run.$(1): $(RUNDIR)/ocean.stats | $(RUNDIR)
+ifdef EXPT
+INPUT_MANIFEST = $(shell ../shared/tools/gen_input_manifest.py $(EXPT))
 
-$(RUNDIR)/ocean.stats: $(BUILD)/coupler_main $(RUNDIR)/input.nml
-	mkdir -p $(RUNDIR)/RESTART
-	cd $(RUNDIR) && srun -mblock --exclusive -n $$$$($(GET_NPROCS) .) \
+$(RUNDIR)/ocean.stats: \
+  $(BUILD)/coupler_main $(foreach f,$(INPUT_MANIFEST),$(RUNDIR)/$f) | $(RUNDIR)
+	cd $(@D) \
+	&& $(LAUNCHER) \
+	  $(LAUNCHER_NP_FLAG) $$($(GET_NPROCS) $(abspath $(EXPT))) \
+	  $(LAUNCHER_FLAGS) \
 	  $(abspath $(BUILD)/coupler_main)
+endif
 
-# TODO: Whitelist the files/dirs to copy?
-# TODO: What about symbolic links?
-$(RUNDIR)/input.nml: | $(RUNDIR)
-	cp -r $(1)/* $(RUNDIR)/
+# Define rules for moving data
+ifneq ($(realpath $(EXPT)), $(realpath $(RUNDIR)))
+
+define copy
+$(RUNDIR)/$(1): $(EXPT)/$(1) | $(RUNDIR)
+	cp -p $$^ $$@
+endef
+$(foreach f,$(filter-out INPUT,$(INPUT_MANIFEST)),$(eval $(call copy,$f)))
+
+# TODO: Symlink will cause issues with restart runs
+$(RUNDIR)/INPUT: $(EXPT)/INPUT | $(RUNDIR)
+	if [ -e $< ]; then ln -s $(abspath $^) $@ ; fi
 
 $(RUNDIR):
-	mkdir -p $(RUNDIR)
+	mkdir -p $@
 
-clean.$(1):
-	rm -f $(RUNDIR)/CPU_stats
-	rm -f $(RUNDIR)/Depth_list.nc
-	rm -rf $(RUNDIR)/RESTART
-	rm -f $(RUNDIR)/Vertical_coordinate.nc
-	rm -f $(RUNDIR)/available_diags.??????
-	rm -f $(RUNDIR)/ave_prog__*.nc
-	rm -f $(RUNDIR)/cont__*.nc
-	rm -f $(RUNDIR)/exitcode
-	rm -f $(RUNDIR)/logfile.??????.out
-	rm -f $(RUNDIR)/ocean.stats
-	rm -f $(RUNDIR)/ocean.stats.nc
-	rm -f $(RUNDIR)/ocean_geometry.nc
-	rm -f $(RUNDIR)/prog__*.nc
-	rm -f $(RUNDIR)/time_stamp.out
-endef
-$(foreach expt,$(EXPTS),$(eval $(call EXPT_RULE,$(expt))))
+endif
+
+
+#-------------
+# `make test`
+
+# This testing validates the parameter and diagnostic logs.
+
+.PHONY: test.%
+test.%:
+	$(MAKE) EXPT=$* test
+
+.PHONY: test
+ifneq ($(realpath $(EXPT)), $(realpath $(RUNDIR)))
+test: FORCE $(RUNDIR)/ocean.stats
+	diff --color --to-file=$(RUNDIR) \
+	  $(wildcard $(EXPT)/*_parameter_doc.* $(EXPT)/available_diags*)
+else
+test: FORCE $(RUNDIR)/ocean.stats
+	git diff --exit-code $(EXPT)
+endif
+
+
+#------------
+# Test suite
+
+ALL_EXPTS := $(patsubst ./%/,%,\
+  $(dir $(shell find . -name MOM_parameter_doc.all)))
+
+EXPT_MANIFEST := $(filter-out $(EXCLUDE) $(TESTDIR)/%,$(ALL_EXPTS))
+
+.PHONY: run.all
+run.all: $(foreach e,$(EXPT_MANIFEST),$(TESTDIR)/$(e)/run)
+
+# This is a dummy rule used to avoid recursive ocean.stats rules.
+.PHONY: $(TESTDIR)/%/run
+$(TESTDIR)/%/run: $(BUILD)/coupler_main
+	$(MAKE) run EXPT=$* RUNDIR=$(TESTDIR)/$* TESTDIR=$(TESTDIR)
+
+.PHONY: test.all
+test.all: $(foreach e,$(EXPT_MANIFEST),$(TESTDIR)/$(e)/test)
+
+# Another dummy rule
+.PHONY: $(TESTDIR)/%/test
+$(TESTDIR)/%/test: $(BUILD)/coupler_main
+	$(MAKE) test EXPT=$* RUNDIR=$(TESTDIR)/$* TESTDIR=$(TESTDIR)
 
 
 #----
