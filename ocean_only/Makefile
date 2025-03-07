@@ -1,3 +1,40 @@
+# MOM6 experiment Makefile
+#
+# make
+#   Build MOM6 and dependencies.  Target is in build/ directory.
+#
+# make BUILD=target
+#   Build MOM6 in the target/ directory.
+#
+# make run EXPT=path/to/expt
+#   Run EXPT in the EXPT directory.
+#   If RUNDIR is unset, then the experiment is run in-place within EXPT.
+#   Example:
+#   	make run EXPT=single_column/EPBL
+#
+# make run EXPT=path/to/expt RUNDIR=output_dir
+#	Run EXPT in the RUNDIR directory.
+#   Example:
+#   	make run EXPT=single_column/EPBL RUNDIR=target_dir
+#
+# make run.expt_name
+#   If EXPT is a single word then the shortened form can be used.
+#   Example:
+#   	make run.double_gyre
+#
+# make test EXPT=expt_name
+# make test.expt_name
+#	Run tests associated with EXPT.
+#   Currently only checks MOM_parameter_doc.* and available_diags* files.
+#
+# make clean
+# make clean BUILD=build_dir
+#   Clean up and delete the BUILD directory.
+
+
+# User-defined configuration
+-include config.mk
+
 # Build configuration
 BUILD ?= build
 MOM_MEMORY ?=
@@ -15,15 +52,22 @@ MAKEDEP ?= $(CODEBASE)/ac/makedep
 
 # Run configuration
 EXPT ?=
-OUTPUT ?= ./$(EXPT)
+RUNDIR ?= ./$(EXPT)
 LAUNCHER ?= mpirun
-# The following are either too large or appear to be broken.
+LAUNCHER_NP_FLAG ?= -np
+LAUNCHER_FLAGS ?=
+
+# Test suite
+TESTDIR ?= scratch
+INCLUDE ?=
 EXCLUDE ?= \
   tides_025 \
   ISOMIP/% \
   MESO_025_% \
   rotating_gravity_current/% \
-  buoy_forced_basin
+  buoy_forced_basin \
+  idealized_hurricane \
+  global
 
 
 # Autoconf setup
@@ -65,7 +109,9 @@ endif
 # Disable builtin rules and variables
 MAKEFLAGS += -rR
 
-#----
+
+#--------------
+# `make build`
 
 .PHONY: all
 all: $(BUILD)/MOM6
@@ -101,7 +147,6 @@ $(BUILD):
 	mkdir -p $@
 
 
-#----
 # Dependencies
 
 $(FMS_BUILD)/libFMS.a: FORCE
@@ -111,129 +156,134 @@ $(FMS_BUILD)/libFMS.a: FORCE
 
 FORCE:
 
-#----
-# Experiments
-#
-# Experiment configuration
-# (NOTE: This is probably going away)
 
-# NOTE: Static output may be produced alongside the configurations, so we
-#   assume the *.static format and exclude them from the manifests.
-EXPT_MANIFEST := $(patsubst ./%/,%,\
-  $(dir $(shell find . -name MOM_parameter_doc.all -not -path "*/*.static/*")))
-STATIC_EXPTS := $(patsubst ./%/,%,\
-  $(dir $(shell find . -name MOM_memory.h -not -path "*/*.static/*")))
+#-----------
+# `make run`
 
-# Filter out the undesired experiments
-EXPTS := $(filter-out $(EXCLUDE),$(EXPT_MANIFEST))
-
-GET_NPROCS := $(abspath ../shared/tools/get_nprocs.sh)
-
-# List of potential input files
-# TODO: Generate this from input.nml
-INPUT_FILESET = \
-  input.nml \
-  MOM_input \
-  MOM_override \
-  diag_table \
-  data_table \
-  field_table \
-  INPUT
-
-MANIFEST=$(notdir $(wildcard $(foreach f,$(INPUT_FILESET),$(EXPT)/$f)))
+GET_NPROCS = $(abspath ../shared/tools/get_nprocs.py)
 
 .PHONY: run
-run: $(OUTPUT)/ocean.stats
+run: $(RUNDIR)/ocean.stats
 
+# `make run` directs user to select an experiment.
 .PHONY: ./ocean.stats
 ./ocean.stats:
 	@echo "Please specify the experiment to run.  For example:"
 	@echo "  make run EXPT=double_gyre"
 	@echo "  make run.double_gyre"
+	@exit 1
 
+# NOTE: This alias rule can only be used on single directories, not full paths.
+.PHONY: run.%
 run.%:
 	$(MAKE) EXPT=$* run
 
-%/ocean.stats: $(BUILD)/MOM6 $(foreach f,$(MANIFEST),%/$f) | %
-	mkdir -p $(@D)/RESTART
-	cd $(@D) && $(LAUNCHER) -np $$($(GET_NPROCS) $(abspath $(@D))) $(abspath $(BUILD)/MOM6)
+ifdef EXPT
+INPUT_MANIFEST = $(shell ../shared/tools/gen_input_manifest.py $(EXPT))
 
-ifneq ($(realpath $(EXPT)), $(realpath $(OUTPUT)))
-define copy
-$(OUTPUT)/$(1): $(EXPT)/$(1) | $(OUTPUT)
-	cp -p $$^ $$@
-endef
-$(foreach f,$(MANIFEST),$(eval $(call copy,$f)))
+$(RUNDIR)/ocean.stats: NPROCS=$(shell $(PYTHON) $(GET_NPROCS) $(abspath $(EXPT)))
+$(RUNDIR)/ocean.stats: $(BUILD)/MOM6 $(foreach f,$(INPUT_MANIFEST),$(RUNDIR)/$f) | $(RUNDIR)
+	cd $(@D) \
+	&& $(LAUNCHER) $(LAUNCHER_NP_FLAG) $(NPROCS) $(LAUNCHER_FLAGS) $(abspath $(BUILD)/MOM6)
 endif
 
+# Define rules for moving data
+ifneq ($(realpath $(EXPT)), $(realpath $(RUNDIR)))
+
+define copy
+$(RUNDIR)/$(1): $(EXPT)/$(1) | $(RUNDIR)
+	cp -p $$^ $$@
+endef
+$(foreach f,$(filter-out INPUT,$(INPUT_MANIFEST)),$(eval $(call copy,$f)))
+
 # TODO: Symlink will cause issues with restart runs
-$(OUTPUT)/INPUT: $(EXPT)/INPUT | $(OUTPUT)
+$(RUNDIR)/INPUT: $(EXPT)/INPUT | $(RUNDIR)
 	if [ -e $< ]; then ln -s $(abspath $^) $@ ; fi
 
-$(OUTPUT):
+$(RUNDIR):
 	mkdir -p $@
 
-
-#.PHONY: run.all
-#run.all: $(foreach e,$(EXPTS),run.$(e))
-
-## Support macros
-#RUNDIR = $(if $(OUTPUT),$(OUTPUT),.)
-#
-## MOM6 output
-#MOM_OUTPUT = \
-#  available_diags.?????? \
-#  CPU_stats \
-#  Depth_list.nc \
-#  exitcode \
-#  Vertical_coordinate.nc \
-#  logfile.??????.out \
-#  ocean.stats \
-#  ocean.stats.nc \
-#  ocean_geometry.nc \
-#  time_stamp.out
-#
-## TODO: generate the diagnostic output files.  For now we just guess.
-#MOM_OUTPUT += \
-#  ave_prog__*.nc \
-#  cont__*.nc \
-#  prog__*.nc
-
-## $(1): Experiment directory / name
-#define EXPT_RULE
-#
-#.PHONY: run.$(1)
-#run.$(1): $(RUNDIR)/$(1)/ocean.stats | $(RUNDIR)/$(1)
-#
-#$(RUNDIR)/$(1)/ocean.stats: $(BUILD)/MOM6 $(RUNDIR)/$(1)/input.nml
-#	mkdir -p $(RUNDIR)/$(1)/RESTART
-#	cd $(RUNDIR)/$(1) && $(LAUNCHER) -n $(NPROCS) $(abspath $(BUILD)/MOM6)
-#
-#$(RUNDIR)/$(1)/input.nml: | $(RUNDIR)/$(1)
-#	cp -r $(1)/* $(RUNDIR)/$(1)/
-#
-#$(RUNDIR)/$(1):
-#	mkdir -p $(RUNDIR)/$(1)
-#
-#.PHONY: clean.$(1)
-#clean.$(1):
-#	if [ $(realpath $(RUNDIR)/$(1)) != $(realpath ./$(1)) ]; then \
-#	  rm -rf $(RUNDIR)/$(1); \
-#	else \
-#	  rm -f $(addprefix $(1)/,${MOM_OUTPUT}); \
-#	  rm -rf $(1)/RESTART; \
-#	fi
-#endef
-#$(foreach e,$(EXPTS),$(eval $(call EXPT_RULE,$(e))))
+endif
 
 
-#----
+#-------------
+# `make test`
+
+# This testing validates the parameter and diagnostic logs.
+
+.PHONY: test.%
+test.%:
+	$(MAKE) EXPT=$* test
+
+.PHONY: test
+ifneq ($(realpath $(EXPT)), $(realpath $(RUNDIR)))
+test: FORCE $(RUNDIR)/ocean.stats
+	diff --color --to-file=$(RUNDIR) \
+	  $(wildcard $(EXPT)/*_parameter_doc.* $(EXPT)/available_diags*)
+else
+test: FORCE $(RUNDIR)/ocean.stats
+	git diff --exit-code $(EXPT)
+endif
+
+
+#------------
+# Test suite
+
+ifdef INCLUDE
+EXPT_MANIFEST := $(INCLUDE)
+else
+ALL_EXPTS := $(patsubst ./%/,%,\
+  $(dir $(shell find . -name MOM_parameter_doc.all)))
+
+EXPT_MANIFEST := $(filter-out $(EXCLUDE) $(TESTDIR)/%,$(ALL_EXPTS))
+endif
+
+.PHONY: run.all
+run.all: $(foreach e,$(EXPT_MANIFEST),$(TESTDIR)/$(e)/run)
+
+# This is a dummy rule used to avoid recursive ocean.stats rules.
+.PHONY: $(TESTDIR)/%/run
+$(TESTDIR)/%/run: $(BUILD)/MOM6
+	$(MAKE) run EXPT=$* RUNDIR=$(TESTDIR)/$* TESTDIR=$(TESTDIR)
+
+.PHONY: test.all
+test.all: $(foreach e,$(EXPT_MANIFEST),$(TESTDIR)/$(e)/test)
+
+# Another dummy rule
+.PHONY: $(TESTDIR)/%/test
+$(TESTDIR)/%/test: $(BUILD)/MOM6
+	$(MAKE) test EXPT=$* RUNDIR=$(TESTDIR)/$* TESTDIR=$(TESTDIR)
+
+
+#---------
 # Cleanup
 
+# I probably need a rule in Makefile.in for all the autoconf stuff.
 .PHONY: clean
 clean:
-	rm -rf $(BUILD)
+	cd $(BUILD) && make distclean
+	rm -f $(BUILD)/aclocal.m4
+	rm -rf $(BUILD)/autom4te.cache
+	rm -rf $(BUILD)/config.cache
+	rm -f $(BUILD)/configure
+	rm -f $(BUILD)/configure.ac
+	rm -rf $(BUILD)/m4
+	rm -f $(BUILD)/Makefile.in
+	rmdir $(BUILD)
 	$(MAKE) -C ../shared/fms clean
 
-.PHONY: clean.runs
-clean.runs: $(foreach e,$(EXPTS),clean.$(e))
+#.PHONY: clean.run
+#ifneq ($(realpath $(EXPT)), $(realpath $(RUNDIR)))
+#clean.run:
+#	if [ ! -d "$(EXPT)" ]; then exit 1; fi
+#	echo rm -rf $(RUNDIR)
+#else
+## TODO: We need a better OUTPUT_MANIFEST
+#clean.run:
+#	if [ ! -d "$(EXPT)" ]; then exit 1; fi
+#	for f in $(INPUT_MANIFEST) MOM_parameter_doc.{all,short,layout,debugging}; do \
+#	  git checkout $(EXPT)/$$f; \
+#	done
+#	echo rm -f $(EXPT)/ocean.stats
+#	echo rm -f $(EXPT)/available_diags*
+#endif
