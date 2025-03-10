@@ -8,11 +8,6 @@ REMAP_UV_USING_OLD_ALG = True   !   [Boolean] default = False
                                 ! If true, uses the old remapping-via-a-delta-z method for remapping u and v. If
                                 ! false, uses the new method that remaps between grids described by an old and
                                 ! new thickness.
-THICKNESSDIFFUSE = True         !   [Boolean] default = False
-                                ! If true, isopycnal surfaces are diffused with a Laplacian coefficient of KHTH.
-THICKNESSDIFFUSE_FIRST = True   !   [Boolean] default = False
-                                ! If true, do thickness diffusion or interface height smoothing before dynamics.
-                                ! This is only used if THICKNESSDIFFUSE or APPLY_INTERFACE_FILTER is true.
 DT = 900.0                      !   [s]
                                 ! The (baroclinic) dynamics time step.  The time-step that is actually used will
                                 ! be an integer fraction of the forcing time-step (DT_FORCING in ocean-only mode
@@ -27,6 +22,11 @@ THERMO_SPANS_COUPLING = True    !   [Boolean] default = False
                                 ! coupling timestep. The actual thermodynamic timestep that is used in this case
                                 ! is the largest integer multiple of the coupling timestep that is less than or
                                 ! equal to DT_THERM.
+THICKNESSDIFFUSE = True         !   [Boolean] default = False
+                                ! If true, isopycnal surfaces are diffused with a Laplacian coefficient of KHTH.
+THICKNESSDIFFUSE_FIRST = True   !   [Boolean] default = False
+                                ! If true, do thickness diffusion or interface height smoothing before dynamics.
+                                ! This is only used if THICKNESSDIFFUSE or APPLY_INTERFACE_FILTER is true.
 FRAZIL = True                   !   [Boolean] default = False
                                 ! If true, water freezes if it gets too cold, and the accumulated heat deficit
                                 ! is returned in the surface state.  FRAZIL is only used if
