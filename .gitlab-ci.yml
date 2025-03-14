@@ -10,6 +10,7 @@ parameter_files:
     - module load cray-hdf5
     - module load cray-netcdf
     - module switch gcc-native/12.3
+    - module load python
 
     # Update source code
     - git submodule update --init --recursive
@@ -23,6 +24,7 @@ parameter_files:
     - echo "LAUNCHER = srun" >> config.mk
     - echo "LAUNCHER_NP_FLAG = -n" >> config.mk
     - echo "LAUNCHER_FLAGS = -mblock --exclusive" >> config.mk
+    - echo "PYTHON = python3" >> config.mk
 
     # Build models
     - make -j gfdl > build.out

@@ -27,6 +27,7 @@ RUNDIR ?= ./$(EXPT)
 LAUNCHER ?= mpirun
 LAUNCHER_NP_FLAG ?= -np
 LAUNCHER_FLAGS ?=
+PYTHON ?= python
 
 # Test suite
 TESTDIR ?= scratch
@@ -210,13 +211,14 @@ run.%:
 	$(MAKE) EXPT=$* run
 
 ifdef EXPT
-INPUT_MANIFEST = $(shell ../shared/tools/gen_input_manifest.py $(EXPT))
+INPUT_MANIFEST = \
+  $(shell $(PYTHON) ../shared/tools/gen_input_manifest.py $(EXPT))
 
 $(RUNDIR)/ocean.stats: \
   $(BUILD)/coupler_main $(foreach f,$(INPUT_MANIFEST),$(RUNDIR)/$f) | $(RUNDIR)
 	cd $(@D) \
 	&& $(LAUNCHER) \
-	  $(LAUNCHER_NP_FLAG) $$($(GET_NPROCS) $(abspath $(EXPT))) \
+	  $(LAUNCHER_NP_FLAG) $$($(PYTHON) $(GET_NPROCS) $(abspath $(EXPT))) \
 	  $(LAUNCHER_FLAGS) \
 	  $(abspath $(BUILD)/coupler_main)
 endif

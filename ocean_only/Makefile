@@ -56,6 +56,7 @@ RUNDIR ?= ./$(EXPT)
 LAUNCHER ?= mpirun
 LAUNCHER_NP_FLAG ?= -np
 LAUNCHER_FLAGS ?=
+PYTHON ?= python
 
 # Test suite
 TESTDIR ?= scratch
@@ -179,7 +180,8 @@ run.%:
 	$(MAKE) EXPT=$* run
 
 ifdef EXPT
-INPUT_MANIFEST = $(shell ../shared/tools/gen_input_manifest.py $(EXPT))
+INPUT_MANIFEST = \
+  $(shell $(PYTHON) ../shared/tools/gen_input_manifest.py $(EXPT))
 
 $(RUNDIR)/ocean.stats: NPROCS=$(shell $(PYTHON) $(GET_NPROCS) $(abspath $(EXPT)))
 $(RUNDIR)/ocean.stats: $(BUILD)/MOM6 $(foreach f,$(INPUT_MANIFEST),$(RUNDIR)/$f) | $(RUNDIR)
