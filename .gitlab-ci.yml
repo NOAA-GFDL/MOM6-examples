@@ -2,4 +2,46 @@ parameter_files:
   tags:
     - mom6-ci-c5
   script:
-    - make -f tools/MRS/Makefile m6e-pipeline -j
+    # Set up environment
+    - module unload PrgEnv-gnu
+    - module unload PrgEnv-intel
+    - module unload PrgEnv-nvhpc
+    - module load PrgEnv-gnu
+    - module load cray-hdf5
+    - module load cray-netcdf
+    - module switch gcc-native/12.3
+
+    # Update source code
+    - git submodule update --init --recursive
+
+    # Configure Makefile
+    - echo "CC = cc" >> config.mk
+    - echo "MPICC = cc" >> config.mk
+    - echo "FC = ftn" >> config.mk
+    - echo "MPIFC = ftn" >> config.mk
+    - echo "FCFLAGS = -g -O0 -fbacktrace" >> config.mk
+    - echo "LAUNCHER = srun" >> config.mk
+    - echo "LAUNCHER_NP_FLAG = -n" >> config.mk
+    - echo "LAUNCHER_FLAGS = -mblock --exclusive" >> config.mk
+
+    # Build models
+    - make -j gfdl > build.out
+
+    # Link input datasets
+    - ln -s /gpfs/f5/gfdl_o/world-shared/datasets .datasets
+
+    # Run models and test parameter output
+    - |
+      sbatch -M c5 -N 8 -t 15:00 -A gfdl_o -q debug -J mom6_examples_tests -o log.$CI_PIPELINE_ID -W << EOF
+      #!/bin/sh
+      module unload PrgEnv-gnu
+      module unload PrgEnv-intel
+      module unload PrgEnv-nvhpc
+      module load PrgEnv-gnu
+      module switch gcc-native/12.3
+      module load python
+      make -j run.all
+      EOF
+
+    # Validate parameter output
+    - make -j test.all > test.out
