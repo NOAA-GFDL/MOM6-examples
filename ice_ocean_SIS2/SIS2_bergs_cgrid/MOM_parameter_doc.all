@@ -2194,6 +2194,10 @@ SALT_RESTORE_FILE = "salt_restore.nc" ! default = "salt_restore.nc"
 SALT_RESTORE_VARIABLE = "salt"  ! default = "salt"
                                 ! The name of the surface salinity variable to read from SALT_RESTORE_FILE for
                                 ! restoring salinity.
+SALT_RESTORE_PRACTICAL_SALINITY = False !   [Boolean] default = False
+                                ! Specifies if the restoring surface salinity variable is practical salinity.
+                                ! If this flag is set to false it is assumed that the salinity is absolute
+                                ! salinity.
 SRESTORE_AS_SFLUX = False       !   [Boolean] default = False
                                 ! If true, the restoring of salinity is applied as a salt flux instead of as a
                                 ! freshwater flux.
