@@ -46,4 +46,4 @@ parameter_files:
       EOF
 
     # Validate parameter output
-    - make -j test.all > test.out
+    - make -k test.all | tee test.out

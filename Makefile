@@ -200,15 +200,15 @@ run.coupled_AM2_LM3_SIS2: coupled_AM2_LM3_SIS2
 test.all: test.ocean_only test.ice_ocean_SIS2 test.coupled_AM2_LM3_SIS2
 
 .PHONY: test.ocean_only
-test.ocean_only: ocean_only
+test.ocean_only: run.ocean_only
 	$(MAKE) -C ocean_only/ test.all $(OCEAN_ONLY_BUILDFLAGS)
 
 .PHONY: test.ice_ocean_SIS2
-test.ice_ocean_SIS2: ice_ocean_SIS2
+test.ice_ocean_SIS2: run.ice_ocean_SIS2
 	$(MAKE) -C ice_ocean_SIS2/ test.all $(ICE_OCEAN_BUILDFLAGS)
 
 .PHONY: test.coupled_AM2_LM3_SIS2
-test.coupled_AM2_LM3_SIS2: coupled_AM2_LM3_SIS2
+test.coupled_AM2_LM3_SIS2: run.coupled_AM2_LM3_SIS2
 	$(MAKE) -C coupled_AM2_LM3_SIS2/ test.all $(COUPLED_BUILDFLAGS)
 
 
