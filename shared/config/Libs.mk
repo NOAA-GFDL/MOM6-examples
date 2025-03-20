@@ -39,7 +39,7 @@ MAKEFLAGS += -rR
 
 all: $(BUILD)/$(TARGET)
 
-$(BUILD)/$(TARGET): FORCE $(BUILD)/Makefile
+$(BUILD)/$(TARGET): $(BUILD)/Makefile $(call rwildcard,$(CODEBASE),*.h *.c *.inc *.F90)
 	$(MAKE) -C $(BUILD) $(TARGET)
 
 FORCE:
@@ -63,6 +63,9 @@ $(BUILD)/configure.ac: $(CONFIGURE_AC) | $(BUILD)
 
 $(BUILD):
 	mkdir -p $@
+
+# Recursive wildcard (finds all files in $1 with suffixes in $2)
+rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
 .PHONY: clean
 clean:

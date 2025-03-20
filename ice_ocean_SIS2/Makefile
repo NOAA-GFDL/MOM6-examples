@@ -100,12 +100,13 @@ MAKEFLAGS += -rR
 #--------
 # `make`
 
+$(BUILD)/coupler_main: $(call rwildcard,$(CODEBASE)/src $(CODEBASE)/config_src/drivers/FMS_cap $(CODEBASE)/config_src/infra/ $(CODEBASE)/config_src/external,*.h *.c *.inc *.F90)
 $(BUILD)/coupler_main: $(FMS_BUILD)/libFMS.a
 $(BUILD)/coupler_main: $(ATMOS_BUILD)/libatmos_null.a
 $(BUILD)/coupler_main: $(LAND_BUILD)/libland_null.a
 $(BUILD)/coupler_main: $(ICE_PARAM_BUILD)/libice_param.a
 $(BUILD)/coupler_main: $(ICEBERGS_BUILD)/libicebergs.a
-$(BUILD)/coupler_main: FORCE $(BUILD)/Makefile
+$(BUILD)/coupler_main: $(BUILD)/Makefile
 	$(MAKE) -C $(BUILD) coupler_main
 
 $(BUILD)/Makefile: $(BUILD)/config.status $(BUILD)/Makefile.in
@@ -142,32 +143,39 @@ $(BUILD):
 #----
 # Dependencies
 
-$(ATMOS_BUILD)/libatmos_null.a: FORCE $(FMS_BUILD)/libFMS.a
+$(ATMOS_BUILD)/libatmos_null.a: $(call rwildcard,../src/atmos_null/,*.c *.h *.inc *.F90)
+$(ATMOS_BUILD)/libatmos_null.a: $(FMS_BUILD)/libFMS.a
 	$(MAKE) -C ../shared/atmos_null \
 	  BUILD=$(abspath $(ATMOS_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
-$(LAND_BUILD)/libland_null.a: FORCE $(FMS_BUILD)/libFMS.a
+$(LAND_BUILD)/libland_null.a: $(call rwildcard,../src/land_null/,*.c *.h *.inc *.F90)
+$(LAND_BUILD)/libland_null.a: $(FMS_BUILD)/libFMS.a
 	$(MAKE) -C ../shared/land_null \
 	  BUILD=$(abspath $(LAND_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
-$(ICE_PARAM_BUILD)/libice_param.a: FORCE $(FMS_BUILD)/libFMS.a
+$(ICE_PARAM_BUILD)/libice_param.a: $(call rwildcard,../src/ice_param/,*.c *.h *.inc *.F90)
+$(ICE_PARAM_BUILD)/libice_param.a: $(FMS_BUILD)/libFMS.a
 	$(MAKE) -C ../shared/ice_param \
 	  BUILD=$(abspath $(ICE_PARAM_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
-$(ICEBERGS_BUILD)/libicebergs.a: FORCE $(FMS_BUILD)/libFMS.a
+$(ICEBERGS_BUILD)/libicebergs.a: $(call rwildcard,../src/icebergs/src/,*.c *.h *.inc *.F90)
+$(ICEBERGS_BUILD)/libicebergs.a: $(FMS_BUILD)/libFMS.a
 	$(MAKE) -C ../shared/icebergs \
 	  BUILD=$(abspath $(ICEBERGS_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
-$(FMS_BUILD)/libFMS.a: FORCE
+$(FMS_BUILD)/libFMS.a: $(call rwildcard,$(FMS_CODEBASE)/,*.c *.h *.inc *.F90)
 	$(MAKE) -C ../shared/fms \
 	  BUILD=$(abspath $(FMS_BUILD)) \
 	  CODEBASE=$(abspath $(FMS_CODEBASE))
 
 FORCE:
+
+# Recursive wildcard (finds all files in $1 with suffixes in $2)
+rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
 
 #------------
