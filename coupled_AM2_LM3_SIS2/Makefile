@@ -105,13 +105,6 @@ MAKEFLAGS += -rR
 all: $(BUILD)/coupler_main
 
 $(BUILD)/coupler_main: FORCE $(BUILD)/Makefile
-	if test $(FMS_BUILD)/libFMS.a -nt $@ \
-	    -o $(AM2_BUILD)/libAM2.a -nt $@ \
-	    -o $(LM3_BUILD)/libLM3.a -nt $@ \
-	    -o $(ICE_PARAM_BUILD)/libice_param.a -nt $@ \
-	    -o $(ICEBERGS_BUILD)/libicebergs.a -nt $@ ; then \
-	  $(MAKE) -C $(@D) clean ; \
-	fi
 	$(MAKE) -C $(BUILD) coupler_main
 
 $(BUILD)/Makefile: $(BUILD)/config.status $(BUILD)/Makefile.in
@@ -149,33 +142,21 @@ $(BUILD):
 # Dependencies
 
 $(AM2_BUILD)/libAM2.a: FORCE $(FMS_BUILD)/libFMS.a
-	if test $(FMS_BUILD)/libFMS.a -nt $@ ; then \
-	  $(MAKE) -C ../shared/AM2 clean ; \
-	fi
 	$(MAKE) -C ../shared/AM2 \
 	  BUILD=$(abspath $(AM2_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(LM3_BUILD)/libLM3.a: FORCE $(FMS_BUILD)/libFMS.a
-	if test $(FMS_BUILD)/libFMS.a -nt $@ ; then \
-	  $(MAKE) -C ../shared/LM3 clean ; \
-	fi
 	$(MAKE) -C ../shared/LM3 \
 	  BUILD=$(abspath $(LM3_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(ICE_PARAM_BUILD)/libice_param.a: FORCE $(FMS_BUILD)/libFMS.a
-	if test $(FMS_BUILD)/libFMS.a -nt $@ ; then \
-	  $(MAKE) -C ../shared/ice_param clean ; \
-	fi
 	$(MAKE) -C ../shared/ice_param \
 	  BUILD=$(abspath $(ICE_PARAM_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(ICEBERGS_BUILD)/libicebergs.a: FORCE $(FMS_BUILD)/libFMS.a
-	if test $(FMS_BUILD)/libFMS.a -nt $@ ; then \
-	  $(MAKE) -C ../shared/icebergs clean ; \
-	fi
 	$(MAKE) -C ../shared/icebergs \
 	  BUILD=$(abspath $(ICEBERGS_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))

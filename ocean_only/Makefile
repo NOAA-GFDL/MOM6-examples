@@ -119,9 +119,6 @@ all: $(BUILD)/MOM6
 
 # NOTE: If libFMS has changed, then we completely rebuild MOM6
 $(BUILD)/MOM6: FORCE $(BUILD)/Makefile $(FMS_BUILD)/libFMS.a
-	if test $(FMS_BUILD)/libFMS.a -nt $@ ; then \
-	  $(MAKE) -C $(BUILD) clean ; \
-	fi
 	$(MAKE) -C $(BUILD) MOM6
 
 $(BUILD)/Makefile: $(BUILD)/config.status $(BUILD)/Makefile.in

@@ -106,13 +106,6 @@ $(BUILD)/coupler_main: $(LAND_BUILD)/libland_null.a
 $(BUILD)/coupler_main: $(ICE_PARAM_BUILD)/libice_param.a
 $(BUILD)/coupler_main: $(ICEBERGS_BUILD)/libicebergs.a
 $(BUILD)/coupler_main: FORCE $(BUILD)/Makefile
-	if test $(FMS_BUILD)/libFMS.a -nt $@ \
-	    -o $(ATMOS_BUILD)/libatmos_null.a -nt $@ \
-	    -o $(LAND_BUILD)/libland_null.a -nt $@ \
-	    -o $(ICE_PARAM_BUILD)/libice_param.a -nt $@ \
-	    -o $(ICEBERGS_BUILD)/libicebergs.a -nt $@ ; then \
-	  $(MAKE) -C $(@D) clean ; \
-	fi
 	$(MAKE) -C $(BUILD) coupler_main
 
 $(BUILD)/Makefile: $(BUILD)/config.status $(BUILD)/Makefile.in
@@ -150,33 +143,21 @@ $(BUILD):
 # Dependencies
 
 $(ATMOS_BUILD)/libatmos_null.a: FORCE $(FMS_BUILD)/libFMS.a
-	if test $(FMS_BUILD)/libFMS.a -nt $@ ; then \
-	  $(MAKE) -C ../shared/atmos_null clean ; \
-	fi
 	$(MAKE) -C ../shared/atmos_null \
 	  BUILD=$(abspath $(ATMOS_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(LAND_BUILD)/libland_null.a: FORCE $(FMS_BUILD)/libFMS.a
-	if test $(FMS_BUILD)/libFMS.a -nt $@ ; then \
-	  $(MAKE) -C ../shared/land_null clean ; \
-	fi
 	$(MAKE) -C ../shared/land_null \
 	  BUILD=$(abspath $(LAND_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(ICE_PARAM_BUILD)/libice_param.a: FORCE $(FMS_BUILD)/libFMS.a
-	if test $(FMS_BUILD)/libFMS.a -nt $@ ; then \
-	  $(MAKE) -C ../shared/ice_param clean ; \
-	fi
 	$(MAKE) -C ../shared/ice_param \
 	  BUILD=$(abspath $(ICE_PARAM_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
 $(ICEBERGS_BUILD)/libicebergs.a: FORCE $(FMS_BUILD)/libFMS.a
-	if test $(FMS_BUILD)/libFMS.a -nt $@ ; then \
-	  $(MAKE) -C ../shared/icebergs clean ; \
-	fi
 	$(MAKE) -C ../shared/icebergs \
 	  BUILD=$(abspath $(ICEBERGS_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
