@@ -1484,33 +1484,63 @@
     ! long_name: Layer Average Ocean Temperature
     ! units: degC
     ! cell_methods: zl:mean
+"contemp_layer_ave"  [Unused]
+    ! modules: ocean_model
+    ! long_name: Layer Average Ocean Conservative Temperature
+    ! units: Celsius
+    ! cell_methods: zl:mean
 "salt_layer_ave"  [Used]
     ! modules: ocean_model
     ! long_name: Layer Average Ocean Salinity
     ! units: psu
+    ! cell_methods: zl:mean
+"abssalt_layer_ave"  [Unused]
+    ! modules: ocean_model
+    ! long_name: Layer Average Ocean Absolute Salinity
+    ! units: g kg-1
     ! cell_methods: zl:mean
 "thetaoga"  [Used]
     ! modules: ocean_model
     ! long_name: Global Mean Ocean Potential Temperature
     ! units: degC
     ! standard_name: sea_water_potential_temperature
+"bigthetaoga"  [Unused]
+    ! modules: ocean_model
+    ! long_name: Global Mean Ocean Conservative Temperature
+    ! units: Celsius
+    ! standard_name: sea_water_conservative_temperature
 "soga"  [Used]
     ! modules: ocean_model
     ! long_name: Global Mean Ocean Salinity
     ! units: psu
     ! standard_name: sea_water_salinity
+"abssoga"  [Unused]
+    ! modules: ocean_model
+    ! long_name: Global Mean Ocean Absolute Salinity
+    ! units: g kg-1
+    ! standard_name: sea_water_absolute_salinity
 "sst_global"  [Unused]
     ! modules: ocean_model
     ! long_name: Global Area Average Sea Surface Temperature
     ! units: degC
     ! standard_name: sea_surface_temperature
     ! variants: {sst_global,tosga}
+"sscont_global"  [Unused]
+    ! modules: ocean_model
+    ! long_name: Global Area Average Sea Surface Conservative Temperature
+    ! units: Celsius
+    ! standard_name: sea_surface_temperature
 "sss_global"  [Unused]
     ! modules: ocean_model
     ! long_name: Global Area Average Sea Surface Salinity
     ! units: psu
     ! standard_name: sea_surface_salinity
     ! variants: {sss_global,sosga}
+"ssabss_global"  [Unused]
+    ! modules: ocean_model
+    ! long_name: Global Area Average Sea Surface Absolute Salinity
+    ! units: psu
+    ! standard_name: sea_surface_absolute_salinity
 "u"  [Used] (CMOR equivalent is "uo")
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! long_name: Zonal velocity
