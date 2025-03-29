@@ -44,7 +44,7 @@ IC_OUTPUT_FILE = "Initial_state" ! default = "MOM_IC"
                                 ! The file into which to write the initial conditions.
 
 ! === module MOM_fixed_initialization ===
-INPUTDIR = "INPUT"              ! default = "."
+INPUTDIR = "."              ! default = "."
                                 ! The directory in which input files are found.
 
 ! === module MOM_grid_init ===
@@ -210,6 +210,30 @@ S_RANGE = 1.0                   !   [1e-3] default = 2.0
                                 ! Initial salinity range
 
 ! === module MOM_diag_mediator ===
+NUM_DIAG_COORDS = 1             ! default = 1
+                                ! The number of diagnostic vertical coordinates to use. For each coordinate, an
+                                ! entry in DIAG_COORDS must be provided.
+DIAG_COORDS = "scalar SCALAR SCALAR" !
+                                ! A list of string tuples associating diag_table modules to a coordinate
+                                ! definition used for diagnostics. Each string is of the form
+                                ! "MODULE_SUFFIX,PARAMETER_SUFFIX,COORDINATE_NAME".
+DIAG_COORD_P_REF_RHO0 = 0.0
+DIAG_COORD_DEF_SCALAR = "FILE:targetlayers_scalar.nc,interfaces=interfaces" ! default = "WOA09"
+                                ! Determines how to specify the coordinate resolution. Valid options are:
+                                !  PARAM       - use the vector-parameter DIAG_COORD_RES_RHO2
+                                !  UNIFORM[:N] - uniformly distributed
+                                !  FILE:string - read from a file. The string specifies
+                                !                the filename and variable name, separated
+                                !                by a comma or space, e.g. FILE:lev.nc,dz
+                                !                or FILE:lev.nc,interfaces=zw
+                                !  WOA09[:N]   - the WOA09 vertical grid (approximately)
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
+                                !  HYBRID:string - read from a file. The string specifies
+                                !                the filename and two variable names, separated
+                                !                by a comma or space, for sigma-2 and dz. e.g.
+                                !                HYBRID:vgrid.nc,sigma2,dz
+
+DIAG_COORD_HISTOGRAM_EXTENSIVE_DIAGS_SCALAR = True
 
 ! === module MOM_lateral_mixing_coeffs ===
 
@@ -382,7 +406,7 @@ BUOY_CONFIG = "NONE"            ! default = "zero"
 DT_FORCING = 1800.0             !   [s] default = 300.0
                                 ! The time step for changing forcing, coupling with other components, or
                                 ! potentially writing certain diagnostics. The default value is given by DT.
-DAYMAX = 12.0                   !   [hours]
+DAYMAX = 96.0                   !   [hours]
                                 ! The final time of the whole simulation, in units of TIMEUNIT seconds.  This
                                 ! also sets the potential end time of the present run segment if the end time is
                                 ! not set via ocean_solo_nml in input.nml.

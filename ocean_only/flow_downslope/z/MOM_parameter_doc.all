@@ -211,7 +211,7 @@ REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
                                 ! A reference value for geometric height fields, such as bathyT.
 
 ! === module MOM_fixed_initialization ===
-INPUTDIR = "INPUT"              ! default = "."
+INPUTDIR = "."                  ! default = "."
                                 ! The directory in which input files are found.
 
 ! === module MOM_grid_init ===
@@ -671,7 +671,7 @@ SPONGE = False                  !   [Boolean] default = False
                                 ! properties of those sponges are specified via SPONGE_CONFIG.
 
 ! === module MOM_diag_mediator ===
-NUM_DIAG_COORDS = 1             ! default = 1
+NUM_DIAG_COORDS = 2             ! default = 1
                                 ! The number of diagnostic vertical coordinates to use. For each coordinate, an
                                 ! entry in DIAG_COORDS must be provided.
 DIAG_REMAPPING_USE_OM4_SUBCELLS = True !   [Boolean] default = True
@@ -680,10 +680,10 @@ DIAG_REMAPPING_USE_OM4_SUBCELLS = True !   [Boolean] default = True
                                 ! false.
 USE_INDEX_DIAGNOSTIC_AXES = False !   [Boolean] default = False
                                 ! If true, use a grid index coordinate convention for diagnostic axes.
-DIAG_COORDS = "z Z ZSTAR"       ! default = "z Z ZSTAR"
+DIAG_COORDS = "z Z ZSTAR", "rho0 RHO0 RHO" !
                                 ! A list of string tuples associating diag_table modules to a coordinate
-                                ! definition used for diagnostics. Each string is of the form "MODULE_SUFFIX
-                                ! PARAMETER_SUFFIX COORDINATE_NAME".
+                                ! definition used for diagnostics. Each string is of the form
+                                ! "MODULE_SUFFIX,PARAMETER_SUFFIX,COORDINATE_NAME".
 DIAG_MISVAL = 1.0E+20           !   [various] default = 1.0E+20
                                 ! Set the default missing value to use for diagnostics.
 DIAG_AS_CHKSUM = False          !   [Boolean] default = False
@@ -708,6 +708,47 @@ DIAG_COORD_DEF_Z = "WOA09"      ! default = "WOA09"
                                 !                the filename and two variable names, separated
                                 !                by a comma or space, for sigma-2 and dz. e.g.
                                 !                HYBRID:vgrid.nc,sigma2,dz
+INTERPOLATION_SCHEME = "PPM_H4" ! default = "PPM_H4"
+                                ! This sets the interpolation scheme to use to determine the new grid. These
+                                ! parameters are only relevant when REGRIDDING_COORDINATE_MODE is set to a
+                                ! function of state. Otherwise, it is not used. It can be one of the following
+                                ! schemes:
+                                !  P1M_H2     (2nd-order accurate)
+                                !  P1M_H4     (2nd-order accurate)
+                                !  P1M_IH4    (2nd-order accurate)
+                                !  PLM        (2nd-order accurate)
+                                !  PPM_CW     (3rd-order accurate)
+                                !  PPM_H4     (3rd-order accurate)
+                                !  PPM_IH4    (3rd-order accurate)
+                                !  P3M_IH4IH3 (4th-order accurate)
+                                !  P3M_IH6IH5 (4th-order accurate)
+                                !  PQM_IH4IH3 (4th-order accurate)
+                                !  PQM_IH6IH5 (5th-order accurate)
+DIAG_COORD_DEF_RHO0 = "FILE:targetlayers_rho0.nc,interfaces=interfaces" ! default = "WOA09"
+                                ! Determines how to specify the coordinate resolution. Valid options are:
+                                !  PARAM       - use the vector-parameter DIAG_COORD_RES_RHO0
+                                !  UNIFORM[:N] - uniformly distributed
+                                !  FILE:string - read from a file. The string specifies
+                                !                the filename and variable name, separated
+                                !                by a comma or space, e.g. FILE:lev.nc,dz
+                                !                or FILE:lev.nc,interfaces=zw
+                                !  WOA09[:N]   - the WOA09 vertical grid (approximately)
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
+                                !  HYBRID:string - read from a file. The string specifies
+                                !                the filename and two variable names, separated
+                                !                by a comma or space, for sigma-2 and dz. e.g.
+                                !                HYBRID:vgrid.nc,sigma2,dz
+DIAG_COORD_P_REF_RHO0 = 0.0     !   [Pa] default = 2.0E+07
+                                ! The pressure that is used for calculating the diagnostic coordinate density.
+                                ! (1 Pa = 1e4 dbar, so 2e7 is commonly used.) This is only used for the RHO
+                                ! coordinate.
+DIAG_COORD_REGRID_COMPRESSIBILITY_FRACTION_RHO0 = 0.0 !   [nondim] default = 0.0
+                                ! When interpolating potential density profiles we can add some artificial
+                                ! compressibility solely to make homogeneous regions appear stratified.
+DIAG_COORD_NEEDS_SORTING_RHO0 = True !   [Boolean] default = False
+                                ! Specifies whether the variable from which the coordinate is derived (e.g.
+                                ! density) should be vertically sorted (to be monotonically increasing) prior to
+                                ! regridding. The sorting is carried over to all remapped fields.
 
 ! === module MOM_MEKE ===
 USE_MEKE = False                !   [Boolean] default = False

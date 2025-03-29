@@ -33,8 +33,6 @@ NJGLOBAL = 4                    !
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
 
 ! === module MOM_fixed_initialization ===
-INPUTDIR = "INPUT"              ! default = "."
-                                ! The directory in which input files are found.
 
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
@@ -232,6 +230,35 @@ S_RANGE = 1.0                   !   [ppt] default = 2.0
                                 !  Initial salinity range
 
 ! === module MOM_diag_mediator ===
+NUM_DIAG_COORDS = 2             ! default = 1
+                                ! The number of diagnostic vertical coordinates to use. For each coordinate, an
+                                ! entry in DIAG_COORDS must be provided.
+DIAG_COORDS = "z Z ZSTAR", "rho0 RHO0 RHO" !
+                                ! A list of string tuples associating diag_table modules to a coordinate
+                                ! definition used for diagnostics. Each string is of the form
+                                ! "MODULE_SUFFIX,PARAMETER_SUFFIX,COORDINATE_NAME".
+DIAG_COORD_DEF_RHO0 = "FILE:targetlayers_rho0.nc,interfaces=interfaces" ! default = "WOA09"
+                                ! Determines how to specify the coordinate resolution. Valid options are:
+                                !  PARAM       - use the vector-parameter DIAG_COORD_RES_RHO0
+                                !  UNIFORM[:N] - uniformly distributed
+                                !  FILE:string - read from a file. The string specifies
+                                !                the filename and variable name, separated
+                                !                by a comma or space, e.g. FILE:lev.nc,dz
+                                !                or FILE:lev.nc,interfaces=zw
+                                !  WOA09[:N]   - the WOA09 vertical grid (approximately)
+                                !  FNC1:string - FNC1:dz_min,H_total,power,precision
+                                !  HYBRID:string - read from a file. The string specifies
+                                !                the filename and two variable names, separated
+                                !                by a comma or space, for sigma-2 and dz. e.g.
+                                !                HYBRID:vgrid.nc,sigma2,dz
+DIAG_COORD_P_REF_RHO0 = 0.0     !   [Pa] default = 2.0E+07
+                                ! The pressure that is used for calculating the diagnostic coordinate density.
+                                ! (1 Pa = 1e4 dbar, so 2e7 is commonly used.) This is only used for the RHO
+                                ! coordinate.
+DIAG_COORD_NEEDS_SORTING_RHO0 = True !   [Boolean] default = False
+                                ! Specifies whether the variable from which the coordinate is derived (e.g.
+                                ! density) should be vertically sorted (to be monotonically increasing) prior to
+                                ! regridding. The sorting is carried over to all remapped fields.
 
 ! === module MOM_lateral_mixing_coeffs ===
 

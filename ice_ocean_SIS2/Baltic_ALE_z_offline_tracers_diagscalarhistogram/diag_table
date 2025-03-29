@@ -1,0 +1,420 @@
+GOLD_SIS
+1 1 1 0 0 0
+
+#====================================================================================================
+# MOM6
+#====================================================================================================
+# MOM6 ocean diagnostics files
+
+# hourly
+"ocean_hourly_natv_surf%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_natv_xtra%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_natv_thck%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_natv_heat%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_natv_salt%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_natv_snap%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+
+"ocean_hourly_zstr_surf%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_zstr_xtra%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_zstr_thck%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_zstr_heat%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_zstr_salt%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_zstr_snap%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+
+"ocean_hourly_sclr_surf%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_sclr_xtra%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_sclr_thck%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_sclr_heat%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_sclr_salt%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+"ocean_hourly_sclr_snap%4yr_%2mo_%2dy",     1, "hours",   1, "minutes", "time", 1, "days"
+
+"ocean_static",          -1, "hours",   1, "days", "time" # ocean_static is a protected name. Do not change this line.
+
+# --------------------------- #
+# Static grid variables       #
+# --------------------------- #
+"ocean_model", "areacello",   "areacello",   "ocean_static", "all", "none", "none", 2
+"ocean_model", "geolon",      "geolon",      "ocean_static", "all", "none", "none", 2
+"ocean_model", "geolat",      "geolat",      "ocean_static", "all", "none", "none", 2
+"ocean_model", "geolon_c",    "geolon_c",    "ocean_static", "all", "none", "none", 2
+"ocean_model", "geolat_c",    "geolat_c",    "ocean_static", "all", "none", "none", 2
+"ocean_model", "geolon_u",    "geolon_u",    "ocean_static", "all", "none", "none", 2
+"ocean_model", "geolat_u",    "geolat_u",    "ocean_static", "all", "none", "none", 2
+"ocean_model", "geolon_v",    "geolon_v",    "ocean_static", "all", "none", "none", 2
+"ocean_model", "geolat_v",    "geolat_v",    "ocean_static", "all", "none", "none", 2
+"ocean_model", "area_t",      "area_t",      "ocean_static", "all", "none", "none", 2
+"ocean_model", "area_u",      "area_u",      "ocean_static", "all", "none", "none", 2
+"ocean_model", "area_v",      "area_v",      "ocean_static", "all", "none", "none", 2
+"ocean_model", "area_q",      "area_q",      "ocean_static", "all", "none", "none", 2
+"ocean_model", "depth_ocean", "depth_ocean", "ocean_static", "all", "none", "none", 2
+"ocean_model", "wet",         "wet",         "ocean_static", "all", "none", "none", 2
+"ocean_model", "wet_c",       "wet_c",       "ocean_static", "all", "none", "none", 2
+"ocean_model", "wet_u",       "wet_u",       "ocean_static", "all", "none", "none", 2
+"ocean_model", "wet_v",       "wet_v",       "ocean_static", "all", "none", "none", 2
+"ocean_model", "Coriolis",    "Coriolis",    "ocean_static", "all", "none", "none", 2
+"ocean_model", "dxt",         "dxt",         "ocean_static", "all", "none", "none", 2
+"ocean_model", "dyt",         "dyt",         "ocean_static", "all", "none", "none", 2
+"ocean_model", "dxCu",        "dxCu",        "ocean_static", "all", "none", "none", 2
+"ocean_model", "dyCu",        "dyCu",        "ocean_static", "all", "none", "none", 2
+"ocean_model", "dxCv",        "dxCv",        "ocean_static", "all", "none", "none", 2
+"ocean_model", "dyCv",        "dyCv",        "ocean_static", "all", "none", "none", 2
+"ocean_model", "dxCvo",       "dxCvo",       "ocean_static", "all", "none", "none", 2
+"ocean_model", "dyCuo",       "dyCuo",       "ocean_static", "all", "none", "none", 2
+
+#####################################################
+# TIMESTEP #
+#
+##############
+### NATIVE ###
+# ------------------------------------------------- #
+# Heat + budget terms [get from Andrew Shao github] #
+# ------------------------------------------------- #
+
+# MEAN
+"ocean_model",  "temp",                         "temp"                                  "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+"ocean_model",  "opottemptend",                 "opottemptend",                         "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "opottempdiff",                 "opottempdiff",                         "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "opottemppmdiff",               "opottemppmdiff",                       "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "boundary_forcing_heat_tendency","boundary_forcing_heat_tendency",      "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "frazil_heat_tendency",         "frazil_heat_tendency",                 "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "T_advection_xy",               "T_advection_xy",                       "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "Th_tendency_vert_remap",       "Th_tendency_vert_remap",               "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "internal_heat_heat_tendency",  "internal_heat_heat_tendency",          "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model",  "temp",                         "temp"                                  "ocean_hourly_natv_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ------------------- #
+# Salt + budget terms #
+# ------------------- #
+
+"ocean_model",  "salt",                         "salt",                                 "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+"ocean_model",  "osalttend",                    "osalttend",                            "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "osaltdiff",                    "osaltdiff",                            "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "osaltpmdiff",                  "osaltpmdiff",                          "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "boundary_forcing_salt_tendency","boundary_forcing_salt_tendency",      "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "S_advection_xy",               "S_advection_xy",                       "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "Sh_tendency_vert_remap",       "Sh_tendency_vert_remap",               "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model",  "salt",                         "salt"                                  "ocean_hourly_natv_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ------------------- #
+# Thickness + budget terms #
+# ------------------- #
+
+# MEAN
+"ocean_model",  "thkcello",                     "thkcello",                             "ocean_hourly_natv_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+"ocean_model",  "dhdt",                         "dhdt",                                 "ocean_hourly_natv_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "dynamics_h_tendency",          "dynamics_h_tendency",                  "ocean_hourly_natv_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "vert_remap_h_tendency",        "vert_remap_h_tendency",                "ocean_hourly_natv_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "boundary_forcing_h_tendency",  "boundary_forcing_h_tendency",          "ocean_hourly_natv_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "internal_heat_h_tendency",     "internal_heat_h_tendency",             "ocean_hourly_natv_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model",  "thkcello",                     "thkcello"                              "ocean_hourly_natv_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+#"ocean_model",  "e",                            "e"                                     "ocean_hourly_natv_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ----------------------------------------- #
+# Other terms necessary for WMT calculation #
+# ----------------------------------------- #
+
+# MEAN
+"ocean_model",  "rhoinsitu",                    "rhoinsitu",                            "ocean_hourly_natv_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "rhopot0",                      "rhopot0",                              "ocean_hourly_natv_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "rhopot2",                      "rhopot2",                              "ocean_hourly_natv_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "drho_dT",                      "drho_dT",                              "ocean_hourly_natv_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "drho_dS",                      "drho_dS",                              "ocean_hourly_natv_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+#"ocean_model",  "umo",                          "umo",                                  "ocean_hourly_natv_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+#"ocean_model",  "vmo",                          "vmo",                                  "ocean_hourly_natv_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+#"ocean_model",  "e",                            "e",                                    "ocean_hourly_natv_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model",  "rhopot2",                      "rhopot2"                               "ocean_hourly_natv_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ----------------------------------------- #
+# Surface fluxes                            #
+# ----------------------------------------- #
+# Surface scalars
+"ocean_model",  "tos",	                        "tos",	                                "ocean_hourly_natv_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "sos",	                        "sos",	                                "ocean_hourly_natv_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Mass
+"ocean_model",  "net_massin",                   "net_massin",                           "ocean_hourly_natv_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "net_massout",                  "net_massout",                          "ocean_hourly_natv_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "wfo",	                        "wfo",	                                "ocean_hourly_natv_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Salt
+"ocean_model",  "sfdsi",                        "sfdsi",                                "ocean_hourly_natv_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "salt_flux_added",              "salt_flux_added",                      "ocean_hourly_natv_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Heat
+"ocean_model",  "hfds",	                        "hfds",	                                "ocean_hourly_natv_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# ----------------------------------------- #
+# Lateral fluxes                            #
+# ----------------------------------------- #
+# Advective and diffusive fluxes
+# Heat
+# "ocean_model",  "T_adx",	                "T_adx",                                "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model",  "T_ady",	                "T_ady",                                "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model",  "T_diffx",	                "T_diffx",                              "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model",  "T_diffy",	                "T_diffy",                              "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Salt
+# "ocean_model",  "S_adx",	                "S_adx",                                "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model",  "S_ady",	                "S_ady",                                "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model",  "S_diffx",	                "S_diffx",                              "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model",  "S_diffy",	                "S_diffy",                              "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# Depth-integrated advective and diffusive fluxes
+# Heat
+"ocean_model",  "T_adx_2d",	                "T_adx_2d",                             "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "T_ady_2d",	                "T_ady_2d",                             "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "T_diffx_2d",	                "T_diffx_2d",                           "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "T_diffy_2d",	                "T_diffy_2d",                           "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Salt
+"ocean_model",  "S_adx_2d",	                "S_adx_2d",                             "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "S_ady_2d",	                "S_ady_2d",                             "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "S_diffx_2d",	                "S_diffx_2d",                           "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "S_diffy_2d",	                "S_diffy_2d",                           "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Depth-integrated tendencies due to advection and isoneutral diffusion
+"ocean_model",  "T_advection_xy_2d",            "T_advection_xy_2d",                    "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "opottemppmdiff_2d",            "opottemppmdiff_2d",                    "ocean_hourly_natv_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "S_advection_xy_2d",            "S_advection_xy_2d",                    "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model",  "osaltpmdiff_2d", 	        "osaltpmdiff_2d",	                "ocean_hourly_natv_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+############
+#### Z* ####
+# ------------------------------------------------- #
+# Heat + budget terms [get from Andrew Shao github] #
+# ------------------------------------------------- #
+
+# MEAN
+"ocean_model_z",  "temp",                         "temp"                                  "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+"ocean_model_z",  "opottemptend",                 "opottemptend",                         "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "opottempdiff",                 "opottempdiff",                         "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "opottemppmdiff",               "opottemppmdiff",                       "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "boundary_forcing_heat_tendency","boundary_forcing_heat_tendency",      "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "frazil_heat_tendency",         "frazil_heat_tendency",                 "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "T_advection_xy",               "T_advection_xy",                       "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "Th_tendency_vert_remap",       "Th_tendency_vert_remap",               "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "internal_heat_heat_tendency",  "internal_heat_heat_tendency",          "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model_z",  "temp",                         "temp"                                  "ocean_hourly_zstr_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ------------------- #
+# Salt + budget terms #
+# ------------------- #
+
+"ocean_model_z",  "salt",                         "salt",                                 "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+"ocean_model_z",  "osalttend",                    "osalttend",                            "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "osaltdiff",                    "osaltdiff",                            "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "osaltpmdiff",                  "osaltpmdiff",                          "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "boundary_forcing_salt_tendency","boundary_forcing_salt_tendency",      "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "S_advection_xy",               "S_advection_xy",                       "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "Sh_tendency_vert_remap",       "Sh_tendency_vert_remap",               "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model_z",  "salt",                         "salt"                                  "ocean_hourly_zstr_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ------------------------ #
+# Thickness + budget terms #
+# ------------------------ #
+
+# MEAN
+"ocean_model_z",  "thkcello",                     "thkcello",                             "ocean_hourly_zstr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+"ocean_model_z",  "dhdt",                         "dhdt",                                 "ocean_hourly_zstr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "dynamics_h_tendency",          "dynamics_h_tendency",                  "ocean_hourly_zstr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "vert_remap_h_tendency",        "vert_remap_h_tendency",                "ocean_hourly_zstr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "boundary_forcing_h_tendency",  "boundary_forcing_h_tendency",          "ocean_hourly_zstr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "internal_heat_h_tendency",     "internal_heat_h_tendency",             "ocean_hourly_zstr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model_z",  "thkcello",                     "thkcello"                              "ocean_hourly_zstr_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+#"ocean_model_z",  "e",                            "e"                                     "ocean_hourly_zstr_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ----------------------------------------- #
+# Other terms necessary for WMT calculation #
+# ----------------------------------------- #
+
+# MEAN
+"ocean_model_z",  "rhoinsitu",                    "rhoinsitu",                            "ocean_hourly_zstr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "rhopot0",                      "rhopot0",                              "ocean_hourly_zstr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "rhopot2",                      "rhopot2",                              "ocean_hourly_zstr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "drho_dT",                      "drho_dT",                              "ocean_hourly_zstr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "drho_dS",                      "drho_dS",                              "ocean_hourly_zstr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+#"ocean_model_z",  "umo",                          "umo",                                  "ocean_hourly_zstr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+#"ocean_model_z",  "vmo",                          "vmo",                                  "ocean_hourly_zstr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+#"ocean_model_z",  "e",                            "e",                                    "ocean_hourly_zstr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model_z",  "rhopot2",                      "rhopot2"                               "ocean_hourly_zstr_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ----------------------------------------- #
+# Surface fluxes                            #
+# ----------------------------------------- #
+# Surface scalars
+"ocean_model_z",  "tos",	                  "tos",	                          "ocean_hourly_zstr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "sos",	                  "sos",	                          "ocean_hourly_zstr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Mass
+"ocean_model_z",  "net_massin",                   "net_massin",                           "ocean_hourly_zstr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "net_massout",                  "net_massout",                          "ocean_hourly_zstr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "wfo",	                  "wfo",	                          "ocean_hourly_zstr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Salt
+"ocean_model_z",  "sfdsi",                        "sfdsi",                                "ocean_hourly_zstr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "salt_flux_added",              "salt_flux_added",                      "ocean_hourly_zstr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Heat
+"ocean_model_z",  "hfds",	                  "hfds",	                          "ocean_hourly_zstr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# ----------------------------------------- #
+# Lateral fluxes                            #
+# ----------------------------------------- #
+# Advective and diffusive fluxes
+# # Heat
+# "ocean_model_z",  "T_adx",	                "T_adx", 	            	          "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_z",  "T_ady",	                "T_ady",                                  "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_z",  "T_diffx",	                "T_diffx",                       	  "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_z",  "T_diffy",	                "T_diffy",                       	  "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# # Salt
+# "ocean_model_z",  "S_adx",	                "S_adx",                         	  "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_z",  "S_ady",	                "S_ady",                         	  "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_z",  "S_diffx",	                "S_diffx",                       	  "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_z",  "S_diffy",	                "S_diffy",                       	  "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Depth-integzd advective and diffusive fluxes
+# Heat
+"ocean_model_z",  "T_adx_2d",	        	"T_adx_2d",                 	   	  "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "T_ady_2d",	        	"T_ady_2d",                  	   	  "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "T_diffx_2d",	        	"T_diffx_2d",                 	    	  "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "T_diffy_2d",	        	"T_diffy_2d",                  	    	  "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Salt
+"ocean_model_z",  "S_adx_2d",	        	"S_adx_2d",                    	    	  "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "S_ady_2d",	        	"S_ady_2d",                    	    	  "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "S_diffx_2d",	        	"S_diffx_2d",                  	    	  "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "S_diffy_2d",	        	"S_diffy_2d",                  	    	  "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Depth-integzd tendencies due to advection and isoneutral diffusion
+"ocean_model_z",  "T_advection_xy_2d",       	"T_advection_xy_2d",           	    	  "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "opottemppmdiff_2d",       	"opottemppmdiff_2d",           	    	  "ocean_hourly_zstr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "S_advection_xy_2d",       	"S_advection_xy_2d",           	    	  "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_z",  "osaltpmdiff_2d", 	        "osaltpmdiff_2d",	         	  "ocean_hourly_zstr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+######################################
+### SCALAR (Potential Temperature) ###
+# ------------------------------------------------- #
+# Heat + budget terms [get from Andrew Shao github] #
+# ------------------------------------------------- #
+
+# MEAN
+"ocean_model_scalar",  "temp",                         "temp"                                  "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+"ocean_model_scalar",  "opottemptend",                 "opottemptend",                         "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "opottempdiff",                 "opottempdiff",                         "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "opottemppmdiff",               "opottemppmdiff",                       "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "boundary_forcing_heat_tendency","boundary_forcing_heat_tendency",      "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "frazil_heat_tendency",         "frazil_heat_tendency",                 "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "T_advection_xy",               "T_advection_xy",                       "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "Th_tendency_vert_remap",       "Th_tendency_vert_remap",               "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "internal_heat_heat_tendency",  "internal_heat_heat_tendency",          "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model_scalar",  "temp",                         "temp"                                  "ocean_hourly_sclr_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ------------------- #
+# Salt + budget terms #
+# ------------------- #
+
+"ocean_model_scalar",  "salt",                         "salt",                                 "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+"ocean_model_scalar",  "osalttend",                    "osalttend",                            "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "osaltdiff",                    "osaltdiff",                            "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "osaltpmdiff",                  "osaltpmdiff",                          "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "boundary_forcing_salt_tendency","boundary_forcing_salt_tendency",      "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "S_advection_xy",               "S_advection_xy",                       "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "Sh_tendency_vert_remap",       "Sh_tendency_vert_remap",               "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model_scalar",  "salt",                         "salt"                                  "ocean_hourly_sclr_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ------------------- #
+# Thickness + budget terms #
+# ------------------- #
+
+# MEAN
+"ocean_model_scalar",  "thkcello",                     "thkcello",                             "ocean_hourly_sclr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+"ocean_model_scalar",  "dhdt",                         "dhdt",                                 "ocean_hourly_sclr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "dynamics_h_tendency",          "dynamics_h_tendency",                  "ocean_hourly_sclr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "vert_remap_h_tendency",        "vert_remap_h_tendency",                "ocean_hourly_sclr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "boundary_forcing_h_tendency",  "boundary_forcing_h_tendency",          "ocean_hourly_sclr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "internal_heat_h_tendency",     "internal_heat_h_tendency",             "ocean_hourly_sclr_thck%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model_scalar",  "thkcello",                     "thkcello"                              "ocean_hourly_sclr_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+#"ocean_model_scalar",  "e",                            "e"                                     "ocean_hourly_sclr_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ----------------------------------------- #
+# Other terms necessary for WMT calculation #
+# ----------------------------------------- #
+
+# MEAN
+"ocean_model_scalar",  "rhoinsitu",                    "rhoinsitu",                            "ocean_hourly_sclr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "rhopot0",                      "rhopot0",                              "ocean_hourly_sclr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "rhopot2",                      "rhopot2",                              "ocean_hourly_sclr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "drho_dT",                      "drho_dT",                              "ocean_hourly_sclr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "drho_dS",                      "drho_dS",                              "ocean_hourly_sclr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_scalar",  "umo",                          "umo",                                  "ocean_hourly_sclr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_scalar",  "vmo",                          "vmo",                                  "ocean_hourly_sclr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_scalar",  "e",                            "e",                                    "ocean_hourly_sclr_xtra%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# SNAP
+"ocean_model_scalar",  "rhopot2",                      "rhopot2"                               "ocean_hourly_sclr_snap%4yr_%2mo_%2dy", "all", "none", "none", 2
+
+# ----------------------------------------- #
+# Surface fluxes                            #
+# ----------------------------------------- #
+# Surface scalars
+"ocean_model_scalar",  "tos",	                        "tos",	                                "ocean_hourly_sclr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "sos",	                        "sos",	                                "ocean_hourly_sclr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Mass
+"ocean_model_scalar",  "net_massin",                   "net_massin",                           "ocean_hourly_sclr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "net_massout",                  "net_massout",                          "ocean_hourly_sclr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "wfo",	                        "wfo",	                                "ocean_hourly_sclr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Salt
+"ocean_model_scalar",  "sfdsi",                        "sfdsi",                                "ocean_hourly_sclr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "salt_flux_added",              "salt_flux_added",                      "ocean_hourly_sclr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Heat
+"ocean_model_scalar",  "hfds",	                        "hfds",	                                "ocean_hourly_sclr_surf%4yr_%2mo_%2dy", "all", "mean", "none", 2
+
+# ----------------------------------------- #
+# Lateral fluxes                            #
+# ----------------------------------------- #
+# Advective and diffusive fluxes
+# # Heat
+# "ocean_model_scalar",  "T_adx",	                "T_adx",                                "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_scalar",  "T_ady",	                "T_ady",                                "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_scalar",  "T_diffx",	                "T_diffx",                              "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_scalar",  "T_diffy",	                "T_diffy",                              "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# # Salt
+# "ocean_model_scalar",  "S_adx",	                "S_adx",                                "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_scalar",  "S_ady",	                "S_ady",                                "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_scalar",  "S_diffx",	                "S_diffx",                              "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# "ocean_model_scalar",  "S_diffy",	                "S_diffy",                              "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Depth-integrated advective and diffusive fluxes
+# Heat
+"ocean_model_scalar",  "T_adx_2d",	                "T_adx_2d",                             "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "T_ady_2d",	                "T_ady_2d",                             "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "T_diffx_2d",	                "T_diffx_2d",                           "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "T_diffy_2d",	                "T_diffy_2d",                           "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Salt
+"ocean_model_scalar",  "S_adx_2d",	                "S_adx_2d",                             "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "S_ady_2d",	                "S_ady_2d",                             "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "S_diffx_2d",	                "S_diffx_2d",                           "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "S_diffy_2d",	                "S_diffy_2d",                           "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+# Depth-integrated tendencies due to advection and isoneutral diffusion
+"ocean_model_scalar",  "T_advection_xy_2d",            "T_advection_xy_2d",                    "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "opottemppmdiff_2d",            "opottemppmdiff_2d",                    "ocean_hourly_sclr_heat%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "S_advection_xy_2d",            "S_advection_xy_2d",                    "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2
+"ocean_model_scalar",  "osaltpmdiff_2d", 	        "osaltpmdiff_2d",	                "ocean_hourly_sclr_salt%4yr_%2mo_%2dy", "all", "mean", "none", 2

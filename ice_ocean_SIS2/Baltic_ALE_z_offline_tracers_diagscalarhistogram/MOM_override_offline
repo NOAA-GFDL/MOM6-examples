@@ -1,0 +1,20 @@
+! Blank file in which we can put "overrides" for parameters
+#override USE_REGRIDDING = True
+#override BULKMIXEDLAYER = False
+#override COORD_FILE = "Layer_coord50.nc"
+#override DIABATIC_FIRST = False
+#override PEN_SW_NBANDS = 0
+#override REGRID_TIME_SCALE = 0.0
+
+! Related to offline tracer transport
+OFFLINE_TRACER_MODE = True
+OFFLINEDIR = "ONLINE/"
+OFF_SUM_FILE = "00010101.off_sum_1day.nc"
+OFF_SNAP_FILE = "00010101.off_snap_1day.nc"
+OFF_SURF_FILE = "00010101.off_sum_1day.nc"
+OFF_MEAN_FILE = "00010101.off_avg_1day.nc"
+START_INDEX = 1
+DT_OFFLINE = 86400.0
+DT_OFFLINE_VERTICAL = 86400.0
+NUM_OFF_ITER = 30
+NUMTIME = 5
