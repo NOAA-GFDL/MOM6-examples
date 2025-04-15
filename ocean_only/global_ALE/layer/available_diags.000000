@@ -2283,6 +2283,27 @@
     ! units: psu m s-1
     ! cell_methods: xh:mean yh:mean zi:point area:mean
     ! variants: {Sflx_dia_adv,Sflx_dia_adv_xyave}
+"N2_diabatic"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Squared buoyancy frequency diagnosed after diffusion applied in thermodynamic timestep.
+    ! units: s-2
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {N2_diabatic,N2_diabatic_xyave}
+"N2_temp_diabatic"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Squared buoyancy frequency due to temperature stratification diagnosed after diffusion applied in thermodynamic timestep.
+    ! units: s-2
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {N2_temp_diabatic,N2_temp_diabatic_xyave}
+"N2_salt_diabatic"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Squared buoyancy frequency due to salinity stratification diagnosed after diffusion applied in thermodynamic timestep.
+    ! units: s-2
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {N2_salt_diabatic,N2_salt_diabatic_xyave}
 "MLD_003"  [Used] (CMOR equivalent is "mlotst")
     ! modules: {ocean_model,ocean_model_d2}
     ! dimensions: xh, yh
@@ -2345,6 +2366,431 @@
     ! long_name: Reference density for MLD (delta rho = 0.03)
     ! units: kg/m3
     ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff,Bflx_dia_diff_xyave}
+"Bflx_dia_diff_dz"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz,Bflx_dia_diff_dz_xyave}
+"Bflx_dia_diff_idz"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux.
+    ! units: W
+"Bflx_salt_dia_diff"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Salinity contribution to diffusive diapycnal buoyancy flux across interfaces
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_salt_dia_diff,Bflx_salt_dia_diff_xyave}
+"Bflx_salt_dia_diff_dz"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Salinity contribution to layer integral of diffusive diapycnal buoyancy flux.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_salt_dia_diff_dz,Bflx_salt_dia_diff_dz_xyave}
+"Bflx_salt_dia_diff_idz"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Salinity contribution to layer integrated diffusive diapycnal buoyancy flux.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_salt_dia_diff_idV"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Salinity contribution to global integrated diffusive diapycnal buoyancy flux.
+    ! units: W
+"Bflx_temp_dia_diff"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Temperature contribution to diffusive diapycnal buoyancy flux across interfaces
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_temp_dia_diff,Bflx_temp_dia_diff_xyave}
+"Bflx_temp_dia_diff_dz"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Temperature contribution to layer integral of diffusive diapycnal buoyancy flux.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_temp_dia_diff_dz,Bflx_temp_dia_diff_dz_xyave}
+"Bflx_temp_dia_diff_idz"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Temperature contribution to layer integrated diffusive diapycnal buoyancy flux.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_temp_dia_diff_idV"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Temperature contribution to global integrated diffusive diapycnal buoyancy flux.
+    ! units: W
+"Bflx_dia_diff_BBL"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to the BBL parameterization.
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_BBL,Bflx_dia_diff_BBL_xyave}
+"Bflx_dia_diff_dz_BBL"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to the BBL parameterization.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_BBL,Bflx_dia_diff_dz_BBL_xyave}
+"Bflx_dia_diff_idz_BBL"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to the BBL parameterization.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_BBL"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to BBL.
+    ! units: W
+"Bflx_dia_diff_ePBL"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to ePBL
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_ePBL,Bflx_dia_diff_ePBL_xyave}
+"Bflx_dia_diff_dz_ePBL"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to ePBL.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_ePBL,Bflx_dia_diff_dz_ePBL_xyave}
+"Bflx_dia_diff_idz_ePBL"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to ePBL.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_ePBL"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to ePBL.
+    ! units: W
+"Bflx_dia_diff_KS"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to Kappa Shear
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_KS,Bflx_dia_diff_KS_xyave}
+"Bflx_dia_diff_dz_KS"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to Kappa Shear.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_KS,Bflx_dia_diff_dz_KS_xyave}
+"Bflx_dia_diff_idz_KS"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to Kappa Shear.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_KS"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to Kappa Shear.
+    ! units: W
+"Bflx_dia_diff_bkgnd"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to bkgnd mixing
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_bkgnd,Bflx_dia_diff_bkgnd_xyave}
+"Bflx_dia_diff_dz_bkgnd"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_bkgnd,Bflx_dia_diff_dz_bkgnd_xyave}
+"Bflx_dia_diff_idz_bkgnd"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_bkgnd"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to Kd_bkgnd.
+    ! units: W
+"Bflx_dia_diff_ddiff_heat"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to double diffusion of heat
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_ddiff_heat,Bflx_dia_diff_ddiff_heat_xyave}
+"Bflx_dia_diff_dz_ddiff_heat"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to double diffusion of heat.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_ddiff_heat,Bflx_dia_diff_dz_ddiff_heat_xyave}
+"Bflx_dia_diff_idz_ddiff_heat"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to double diffusion of heat.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_ddiff_heat"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to double diffusion of heat.
+    ! units: W
+"Bflx_dia_diff_ddiff_salt"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to double diffusion of salt
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_ddiff_salt,Bflx_dia_diff_ddiff_salt_xyave}
+"Bflx_dia_diff_dz_ddiff_salt"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to double diffusion of salt.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_ddiff_salt,Bflx_dia_diff_dz_ddiff_salt_xyave}
+"Bflx_dia_diff_idz_ddiff_salt"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to double diffusion of salt.
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_ddiff_salt"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to double diffusion of salt.
+    ! units: W
+"Bflx_dia_diff_leak"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to Kd_leak mixing
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_leak,Bflx_dia_diff_leak_xyave}
+"Bflx_dia_diff_dz_leak"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_leak,Bflx_dia_diff_dz_leak_xyave}
+"Bflx_dia_diff_idz_leak"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_leak"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to Kd_leak.
+    ! units: W
+"Bflx_dia_diff_quad"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to Kd_quad mixing
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_quad,Bflx_dia_diff_quad_xyave}
+"Bflx_dia_diff_dz_quad"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_quad,Bflx_dia_diff_dz_quad_xyave}
+"Bflx_dia_diff_idz_quad"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_quad"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to Kd_quad.
+    ! units: W
+"Bflx_dia_diff_itidal"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to Kd_itidal mixing
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_itidal,Bflx_dia_diff_itidal_xyave}
+"Bflx_dia_diff_dz_itidal"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_itidal,Bflx_dia_diff_dz_itidal_xyave}
+"Bflx_dia_diff_idz_itidal"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_itidal"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to Kd_itidal.
+    ! units: W
+"Bflx_dia_diff_Froude"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to Kd_Froude mixing
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_Froude,Bflx_dia_diff_Froude_xyave}
+"Bflx_dia_diff_dz_Froude"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_Froude,Bflx_dia_diff_dz_Froude_xyave}
+"Bflx_dia_diff_idz_Froude"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_Froude"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to Kd_Froude.
+    ! units: W
+"Bflx_dia_diff_slope"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to Kd_slope mixing
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_slope,Bflx_dia_diff_slope_xyave}
+"Bflx_dia_diff_dz_slope"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_slope,Bflx_dia_diff_dz_slope_xyave}
+"Bflx_dia_diff_idz_slope"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_slope"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to Kd_slope.
+    ! units: W
+"Bflx_dia_diff_lowmode"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to Kd_lowmode mixing
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_lowmode,Bflx_dia_diff_lowmode_xyave}
+"Bflx_dia_diff_dz_lowmode"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_lowmode,Bflx_dia_diff_dz_lowmode_xyave}
+"Bflx_dia_diff_idz_lowmode"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_lowmode"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to Kd_lowmode.
+    ! units: W
+"Bflx_dia_diff_Niku"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to Kd_Niku mixing
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_Niku,Bflx_dia_diff_Niku_xyave}
+"Bflx_dia_diff_dz_Niku"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_Niku,Bflx_dia_diff_dz_Niku_xyave}
+"Bflx_dia_diff_idz_Niku"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_Niku"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to Kd_Niku.
+    ! units: W
+"Bflx_dia_diff_itides"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zi
+    ! long_name: Diffusive diapycnal buoyancy flux across interfaces due to Kd_itides mixing
+    ! units: W m-3
+    ! cell_methods: xh:mean yh:mean zi:point area:mean
+    ! variants: {Bflx_dia_diff_itides,Bflx_dia_diff_itides_xyave}
+"Bflx_dia_diff_dz_itides"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Layerwise integral of diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {Bflx_dia_diff_dz_itides,Bflx_dia_diff_dz_itides_xyave}
+"Bflx_dia_diff_idz_itides"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Layer integrated diffusive diapycnal buoyancy flux due to bkgnd mixing
+    ! units: W m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+"Bflx_dia_diff_idV_itides"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: scalar
+    ! long_name: Global integrated diffusive diapycnal buoyancy flux due to Kd_itides.
+    ! units: W
 "u_predia"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! dimensions: xq, yh, zl
