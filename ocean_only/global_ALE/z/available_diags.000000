@@ -639,6 +639,20 @@
     ! long_name: Self-attraction and loading height anomaly
     ! units: meter
     ! cell_methods: xh:mean yh:mean area:mean
+"SAL_u"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xq, yh, zl
+    ! long_name: Zonal Acceleration due to self-attraction and loading
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {SAL_u,SAL_u_xyave}
+"SAL_v"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yq, zl
+    ! long_name: Meridional Acceleration due to self-attraction and loading
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {SAL_v,SAL_v_xyave}
 "e_tidal"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! dimensions: xh, yh
@@ -657,6 +671,20 @@
     ! long_name: Read-in tidal self-attraction and loading height anomaly
     ! units: meter
     ! cell_methods: xh:mean yh:mean area:mean
+"tides_u"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xq, yh, zl
+    ! long_name: Zonal Acceleration due to tidal forcing
+    ! units: m s-2
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {tides_u,tides_u_xyave}
+"tides_v"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yq, zl
+    ! long_name: Meridional Acceleration due to tidal forcing
+    ! units: m s-2
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {tides_v,tides_v_xyave}
 "MassWt_u"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! dimensions: xq, yh, zl
@@ -2062,6 +2090,20 @@
     ! units: m3 s-3
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
     ! variants: {PE_to_KE,PE_to_KE_xyave}
+"KE_SAL"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Kinetic Energy Source from Self-Attraction and Loading
+    ! units: m3 s-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {KE_SAL,KE_SAL_xyave}
+"KE_tides"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Kinetic Energy Source from Astronomical Tidal Forcing
+    ! units: m3 s-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {KE_tides,KE_tides_xyave}
 "KE_BT"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! dimensions: xh, yh, zl
@@ -2069,6 +2111,41 @@
     ! units: m3 s-3
     ! cell_methods: xh:mean yh:mean zl:mean area:mean
     ! variants: {KE_BT,KE_BT_xyave}
+"PE_to_KE_btbc"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Potential to Kinetic Energy Conversion of Layer (including barotropic solver contribution)
+    ! units: m3 s-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {PE_to_KE_btbc,PE_to_KE_btbc_xyave}
+"KE_Coradv_btbc"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Kinetic Energy Source from Coriolis and Advection (including barotropic solver contribution)
+    ! units: m3 s-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {KE_Coradv_btbc,KE_Coradv_btbc_xyave}
+"KE_BTPF"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Kinetic Energy Source from Barotropic Pressure Gradient Force.
+    ! units: m3 s-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {KE_BTPF,KE_BTPF_xyave}
+"KE_BTCF"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Kinetic Energy Source from Barotropic Coriolis Force.
+    ! units: m3 s-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {KE_BTCF,KE_BTCF_xyave}
+"KE_BTWD"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Kinetic Energy Source from Barotropic Linear Wave Drag.
+    ! units: m3 s-3
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {KE_BTWD,KE_BTWD_xyave}
 "KE_Coradv"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! dimensions: xh, yh, zl
