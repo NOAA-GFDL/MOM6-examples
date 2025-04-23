@@ -157,6 +157,8 @@ WRITE_GEOM = 1                  ! default = 1
                                 ! If =0, never write the geometry and vertical grid files. If =1, write the
                                 ! geometry and vertical grid files only for a new simulation. If =2, always
                                 ! write the geometry and vertical grid files. Other values are invalid.
+GEOM_FILE = "ocean_geometry"    ! default = "ocean_geometry"
+                                ! The file into which to write the ocean geometry.
 USE_DBCLIENT = False            !   [Boolean] default = False
                                 ! If true, initialize a client to a remote database that can be used for online
                                 ! analysis and machine-learning inference.
@@ -394,6 +396,8 @@ USE_RGC_TRACER = False          !   [Boolean] default = False
                                 ! If true, use the RGC_tracer tracer package.
 USE_IDEAL_AGE_TRACER = True     !   [Boolean] default = False
                                 ! If true, use the ideal_age_example tracer package.
+USE_MARBL_TRACERS = False       !   [Boolean] default = False
+                                ! If true, use the MARBL tracer package.
 USE_REGIONAL_DYES = False       !   [Boolean] default = False
                                 ! If true, use the regional_dyes tracer package.
 USE_OIL_TRACER = False          !   [Boolean] default = False
@@ -876,8 +880,6 @@ MEKE_GM_SRC_ALT = False         !   [Boolean] default = False
 MEKE_GEOMETRIC = False          !   [Boolean] default = False
                                 ! If true, uses the GM coefficient formulation from the GEOMETRIC framework
                                 ! (Marshall et al., 2012).
-USE_KH_IN_MEKE = False          !   [Boolean] default = False
-                                ! If true, uses the thickness diffusivity calculated here to diffuse MEKE.
 USE_GME = False                 !   [Boolean] default = False
                                 ! If true, use the GM+E backscatter scheme in association with the Gent and
                                 ! McWilliams parameterization.
@@ -917,7 +919,8 @@ STORE_CORIOLIS_ACCEL = True     !   [Boolean] default = True
                                 ! If true, calculate the Coriolis accelerations at the end of each timestep for
                                 ! use in the predictor step of the next split RK2 timestep.
 FPMIX = False                   !   [Boolean] default = False
-                                ! If true, apply profiles of momentum flux magnitude and  direction
+                                ! If true, add non-local momentum flux increments and diffuse down the Eulerian
+                                ! gradient.
 VISC_REM_BUG = True             !   [Boolean] default = True
                                 ! If true, visc_rem_[uv] in split mode is incorrectly calculated or accounted
                                 ! for in two places. This parameter controls the defaults of two individual
@@ -1982,6 +1985,7 @@ OPACITY_SCHEME = "MANIZZA_05"   ! default = "MANIZZA_05"
                                 ! into opacities. Currently valid options include:
                                 !        MANIZZA_05 - Use Manizza et al., GRL, 2005.
                                 !        MOREL_88 - Use Morel, JGR, 1988.
+                                !        OHLMANN_03 - Use Ohlmann, J Clim, 2003. (only use if dz(1)>2.0m)
 BLUE_FRAC_SW = 0.5              !   [nondim] default = 0.5
                                 ! The fraction of the penetrating shortwave radiation that is in the blue band.
 PEN_SW_NBANDS = 3               ! default = 1
@@ -2022,6 +2026,10 @@ KHTR = 10.0                     !   [m2 s-1] default = 0.0
                                 ! The background along-isopycnal tracer diffusivity.
 KHTR_MIN = 50.0                 !   [m2 s-1] default = 0.0
                                 ! The minimum along-isopycnal tracer diffusivity.
+FULL_DEPTH_KHTR_MIN = False     !   [Boolean] default = False
+                                ! If true, KHTR_MIN is enforced throughout the whole water column. Otherwise,
+                                ! KHTR_MIN is only enforced at the surface. This parameter is only available
+                                ! when KHTR_USE_EBT_STRUCT=True and KHTR_MIN>0.
 KHTR_MAX = 900.0                !   [m2 s-1] default = 0.0
                                 ! The maximum along-isopycnal tracer diffusivity.
 KHTR_PASSIVITY_COEFF = 3.0      !   [nondim] default = 0.0
@@ -2109,9 +2117,12 @@ ENERGYSAVEDAYS_GEOMETRIC = 0.0  !   [days] default = 0.0
 
 ! === module ocean_stochastics_init ===
 DO_SPPT = False                 !   [Boolean] default = False
-                                ! If true, then stochastically perturb the thermodynamic tendemcies of T,S, amd
+                                ! If true, then stochastically perturb the thermodynamic tendencies of T,S, amd
                                 ! h.  Amplitude and correlations are controlled by the nam_stoch namelist in the
                                 ! UFS model only.
+DO_SKEB = False                 !   [Boolean] default = False
+                                ! If true, then stochastically perturb the currents using the stochastic kinetic
+                                ! energy backscatter scheme.
 PERT_EPBL = False               !   [Boolean] default = False
                                 ! If true, then stochastically perturb the kinetic energy production and
                                 ! dissipation terms.  Amplitude and correlations are controlled by the nam_stoch

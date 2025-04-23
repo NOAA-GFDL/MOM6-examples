@@ -934,54 +934,6 @@
     ! long_name: Mixed Layer Thickness at Meridional Velocity Points for Viscosity
     ! units: m
     ! cell_methods: xh:mean yq:point
-"FPw2x"  [Unused]
-    ! modules: {ocean_model,ocean_model_d2}
-    ! dimensions: xh, yh
-    ! long_name: Wind direction from x-axis
-    ! units: radians
-    ! cell_methods: xh:mean yh:mean area:mean
-"tauFP_u"  [Unused]
-    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! dimensions: xq, yh, zi
-    ! long_name: Stress Mag Profile  (u-points)
-    ! units: m2 s-2
-    ! cell_methods: xq:point yh:mean zi:point
-    ! variants: {tauFP_u,tauFP_u_xyave}
-"tauFP_v"  [Unused]
-    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! dimensions: xh, yq, zi
-    ! long_name: Stress Mag Profile  (v-points)
-    ! units: m2 s-2
-    ! cell_methods: xh:mean yq:point zi:point
-    ! variants: {tauFP_v,tauFP_v_xyave}
-"FPtau2s_u"  [Unused]
-    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! dimensions: xq, yh, zi
-    ! long_name: stress from shear direction (u-points)
-    ! units: radians
-    ! cell_methods: xq:point yh:mean zi:point
-    ! variants: {FPtau2s_u,FPtau2s_u_xyave}
-"FPtau2s_v"  [Unused]
-    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! dimensions: xh, yq, zi
-    ! long_name: stress from shear direction (v-points)
-    ! units: radians
-    ! cell_methods: xh:mean yq:point zi:point
-    ! variants: {FPtau2s_v,FPtau2s_v_xyave}
-"FPtau2w_u"  [Unused]
-    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! dimensions: xq, yh, zi
-    ! long_name: stress from wind  direction (u-points)
-    ! units: radians
-    ! cell_methods: xq:point yh:mean zi:point
-    ! variants: {FPtau2w_u,FPtau2w_u_xyave}
-"FPtau2w_v"  [Unused]
-    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
-    ! dimensions: xh, yq, zi
-    ! long_name: stress from wind  direction (v-points)
-    ! units: radians
-    ! cell_methods: xh:mean yq:point zi:point
-    ! variants: {FPtau2w_v,FPtau2w_v_xyave}
 "du_dt_visc"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! dimensions: xq, yh, zl
@@ -1723,6 +1675,12 @@
     ! long_name: Surface meridional velocity component of mixed layer restratification
     ! units: m s-1
     ! cell_methods: xh:mean yq:point
+"mle_fl"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Frontal length scale used in the mixed layer restratificiation parameterization
+    ! units: m
+    ! cell_methods: xh:mean yh:mean area:mean
 "masscello"  [Used]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! dimensions: xh, yh, zl
@@ -3615,6 +3573,24 @@
     ! units: W
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {T_hbd_diffy,T_hbd_diffy_xyave}
+"T_zint"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Thickness-weighted integral of Potential Temperature
+    ! units: degC m
+    ! cell_methods: xh:mean yh:mean area:mean
+"T_zint_100m"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Thickness-weighted integral of Potential Temperature over top 100m
+    ! units: degC m
+    ! cell_methods: xh:mean yh:mean area:mean
+"T_SURF"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Surface values of Potential Temperature
+    ! units: degC
+    ! cell_methods: xh:mean yh:mean area:mean
 "T_adx_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! dimensions: xq, yh
@@ -3782,6 +3758,24 @@
     ! units: psu m3 s-1
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {S_hbd_diffy,S_hbd_diffy_xyave}
+"S_zint"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Thickness-weighted integral of Salinity
+    ! units: psu m
+    ! cell_methods: xh:mean yh:mean area:mean
+"S_zint_100m"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Thickness-weighted integral of Salinity over top 100m
+    ! units: psu m
+    ! cell_methods: xh:mean yh:mean area:mean
+"S_SURF"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Surface values of Salinity
+    ! units: psu
+    ! cell_methods: xh:mean yh:mean area:mean
 "S_adx_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! dimensions: xq, yh
@@ -3949,6 +3943,24 @@
     ! units: yr m3 s-1
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {age_hbd_diffy,age_hbd_diffy_xyave}
+"age_zint"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Thickness-weighted integral of Ideal Age Tracer
+    ! units: yr m
+    ! cell_methods: xh:mean yh:mean area:mean
+"age_zint_100m"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Thickness-weighted integral of Ideal Age Tracer over top 100m
+    ! units: yr m
+    ! cell_methods: xh:mean yh:mean area:mean
+"age_SURF"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Surface values of Ideal Age Tracer
+    ! units: yr
+    ! cell_methods: xh:mean yh:mean area:mean
 "age_adx_2d"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! dimensions: xq, yh
@@ -4058,6 +4070,67 @@
     ! long_name: Vertical sum of net time tendency for ideal age tracer
     ! units: yr m s-1
     ! cell_methods: xh:mean yh:mean area:mean
+"sppt_pattern"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: random pattern for sppt
+    ! units: None
+    ! cell_methods: xh:mean yh:mean area:mean
+"skeb_pattern"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xq, yq
+    ! long_name: random pattern for skeb
+    ! units: None
+    ! cell_methods: xq:point yq:point
+"epbl1_wts"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: random pattern for KE generation
+    ! units: None
+    ! cell_methods: xh:mean yh:mean area:mean
+"epbl2_wts"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: random pattern for KE dissipation
+    ! units: None
+    ! cell_methods: xh:mean yh:mean area:mean
+"skebu"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xq, yh, zl
+    ! long_name: zonal current perts
+    ! units: None
+    ! cell_methods: xq:point yh:mean zl:mean
+    ! variants: {skebu,skebu_xyave}
+"skebv"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yq, zl
+    ! long_name: zonal current perts
+    ! units: None
+    ! cell_methods: xh:mean yq:point zl:mean
+    ! variants: {skebv,skebv_xyave}
+"skeb_amp"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: SKEB amplitude
+    ! units: m s-1
+    ! cell_methods: xh:mean yh:mean zl:mean area:mean
+    ! variants: {skeb_amp,skeb_amp_xyave}
+"psi"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xq, yq, zl
+    ! long_name: stream function
+    ! units: None
+    ! cell_methods: xq:point yq:point zl:mean
+"skeb_taper_u"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: xq, yh
+    ! long_name: SKEB taper u
+    ! units: None
+"skeb_taper_v"  [Unused]
+    ! modules: ocean_model
+    ! dimensions: xh, yq
+    ! long_name: SKEB taper v
+    ! units: None
 "taux"  [Used] (CMOR equivalent is "tauuo")
     ! modules: {ocean_model,ocean_model_d2}
     ! dimensions: xq, yh
@@ -4085,6 +4158,12 @@
     ! dimensions: xh, yh
     ! long_name: Surface friction velocity = [(gustiness + tau_magnitude)/rho0]^(1/2)
     ! units: m s-1
+    ! cell_methods: xh:mean yh:mean area:mean
+"omega_w2x"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Counter-clockwise angle of the wind stress from the horizontal axis.
+    ! units: rad
     ! cell_methods: xh:mean yh:mean area:mean
 "p_surf"  [Used] (CMOR equivalent is "pso")
     ! modules: {ocean_model,ocean_model_d2}
