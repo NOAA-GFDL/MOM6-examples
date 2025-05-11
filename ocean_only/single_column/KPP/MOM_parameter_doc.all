@@ -350,6 +350,13 @@ DTFREEZE_DS = -0.054            !   [degC ppt-1] default = -0.054
 DTFREEZE_DP = 0.0               !   [degC Pa-1] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR, this is the derivative of the freezing potential
                                 ! temperature with pressure.
+TFREEZE_S_IS_PRACS = True       !   [Boolean] default = True
+                                ! When True, the model will check if the model internal salinity is practical
+                                ! salinity.  If the model uses absolute salinity, a conversion will be applied.
+TFREEZE_T_IS_POTT = True        !   [Boolean] default = True
+                                ! When True, the model will check if the model internal temperature is potential
+                                ! temperature.  If the model uses conservative temperature, a conversion will be
+                                ! applied.
 
 ! === module MOM_restart ===
 PARALLEL_RESTARTFILES = False   !   [Boolean] default = False

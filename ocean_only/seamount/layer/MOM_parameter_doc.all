@@ -339,20 +339,28 @@ EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
                                 ! Currently, the valid choices are "LINEAR", "UNESCO", "JACKETT_MCD", "WRIGHT",
                                 ! "WRIGHT_REDUCED", "WRIGHT_FULL", "NEMO", "ROQUET_RHO", "ROQUET_SPV" and
                                 ! "TEOS10".  This is only used if USE_EOS is true.
-RHO_TREF_SREF = 1000.0          !   [kg m-3] default = 1000.0
-                                ! When EQN_OF_STATE=LINEAR, this is the density at T=TREF, S=SREF.
-TREF = 0.0                      !   [degC] default = 0.0
+RHO_REF_LINEAR_EOS = 1000.0     !   [kg m-3] default = 1000.0
+                                ! When EQN_OF_STATE=LINEAR, this is the density at T=T_REF_LINEAR_EOS,
+                                ! S=S_REF_LINEAR_EOS and p=P_REF_LINEAR_EOS
+T_REF_LINEAR_EOS = 0.0          !   [degC] default = 0.0
                                 ! When EQN_OF_STATE=LINEAR, this is the reference temperature.
-SREF = 0.0                      !   [psu] default = 0.0
+S_REF_LINEAR_EOS = 0.0          !   [psu] default = 0.0
                                 ! When EQN_OF_STATE=LINEAR, this is the reference salinity.
+P_REF_LINEAR_EOS = 0.0          !   [Pa] default = 0.0
+                                ! When EQN_OF_STATE=LINEAR, this is the reference pressure.
 DRHO_DT = 0.0                   !   [kg m-3 K-1] default = -0.2
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! temperature.
 DRHO_DS = 1.0                   !   [kg m-3 ppt-1] default = 0.8
                                 ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
                                 ! salinity.
+DRHO_DP = 0.0                   !   [s2 m-2] default = 0.0
+                                ! When EQN_OF_STATE=LINEAR, this is the partial derivative of density with
+                                ! pressure (the inverse of sound speed squared).
 RHO_T0_S0 = 1000.0              !   [kg m-3] default = 1000.0
-                                ! When EQN_OF_STATE=LINEAR, this is the density at T=0, S=0.
+                                ! When EQN_OF_STATE=LINEAR, this is the density at T=0, S=0 and p=0.  If
+                                ! RHO_TO_SO is specified, RHO_REF_LINEAR_EOS, T_REF_LINEAR_EOS, S_REF_LINEAR_EOS
+                                ! and P_REF_LINEAR_EOS are not used.
 EOS_QUADRATURE = False          !   [Boolean] default = False
                                 ! If true, always use the generic (quadrature) code code for the integrals of
                                 ! density.
@@ -369,6 +377,13 @@ DTFREEZE_DS = -0.054            !   [degC ppt-1] default = -0.054
 DTFREEZE_DP = 0.0               !   [degC Pa-1] default = 0.0
                                 ! When TFREEZE_FORM=LINEAR, this is the derivative of the freezing potential
                                 ! temperature with pressure.
+TFREEZE_S_IS_PRACS = True       !   [Boolean] default = True
+                                ! When True, the model will check if the model internal salinity is practical
+                                ! salinity.  If the model uses absolute salinity, a conversion will be applied.
+TFREEZE_T_IS_POTT = True        !   [Boolean] default = True
+                                ! When True, the model will check if the model internal temperature is potential
+                                ! temperature.  If the model uses conservative temperature, a conversion will be
+                                ! applied.
 
 ! === module MOM_restart ===
 PARALLEL_RESTARTFILES = False   !   [Boolean] default = False
