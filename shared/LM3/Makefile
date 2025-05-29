@@ -14,6 +14,9 @@ LDFLAGS += -L$(abspath $(FMS_BUILD))
 
 include ../config/Libs.mk
 
+$(BUILD)/$(TARGET): $(BUILD)/Makefile $(call find_src_files,$(CODEBASE))
+	$(MAKE) -C $(BUILD) $(TARGET)
+
 #----
 # External Codebase
 # NOTE: These are only visible within the GFDL firewall

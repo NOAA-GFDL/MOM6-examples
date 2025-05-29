@@ -125,8 +125,8 @@ $(BUILD)/config.status: $(ICEBERGS_BUILD)/libicebergs.a
 $(BUILD)/config.status: $(BUILD)/configure
 	cd $(BUILD) && \
 	PATH="${PATH}:$(dir $(abspath $(MAKEDEP)))" \
-	FCFLAGS="${MOM_FCFLAGS}" \
-	LDFLAGS="${MOM_LDFLAGS}" \
+	FCFLAGS="$(MOM_FCFLAGS)" \
+	LDFLAGS="$(MOM_LDFLAGS)" \
 	./configure -n $(CONFIG_FLAGS)
 
 $(BUILD)/Makefile.in: $(MAKEFILE_IN) | $(BUILD)
@@ -154,25 +154,25 @@ $(ATMOS_BUILD)/libatmos_null.a: $(FMS_BUILD)/libFMS.a
 	  BUILD=$(abspath $(ATMOS_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
-$(LAND_BUILD)/libland_null.a: $(wildcard,../src/land_null/*)
+$(LAND_BUILD)/libland_null.a: $(wildcard ../src/land_null/*)
 $(LAND_BUILD)/libland_null.a: $(FMS_BUILD)/libFMS.a
 	$(MAKE) -C ../shared/land_null \
 	  BUILD=$(abspath $(LAND_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
-$(ICE_PARAM_BUILD)/libice_param.a: $(wildcard,../src/ice_param/*)
+$(ICE_PARAM_BUILD)/libice_param.a: $(wildcard ../src/ice_param/*)
 $(ICE_PARAM_BUILD)/libice_param.a: $(FMS_BUILD)/libFMS.a
 	$(MAKE) -C ../shared/ice_param \
 	  BUILD=$(abspath $(ICE_PARAM_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
-$(ICEBERGS_BUILD)/libicebergs.a: $(wildcard,../src/icebergs/src/*)
+$(ICEBERGS_BUILD)/libicebergs.a: $(wildcard ../src/icebergs/src/*)
 $(ICEBERGS_BUILD)/libicebergs.a: $(FMS_BUILD)/libFMS.a
 	$(MAKE) -C ../shared/icebergs \
 	  BUILD=$(abspath $(ICEBERGS_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
-$(FMS_BUILD)/libFMS.a: $(wildcard,$(FMS_CODEBASE)/*/*)
+$(FMS_BUILD)/libFMS.a: $(wildcard $(FMS_CODEBASE)/*/*)
 	$(MAKE) -C ../shared/fms \
 	  BUILD=$(abspath $(FMS_BUILD)) \
 	  CODEBASE=$(abspath $(FMS_CODEBASE))

@@ -10,6 +10,7 @@ MAKEPATH = $(realpath $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 M4DIR ?= $(MAKEPATH)/../../src/MOM6/ac/m4
 MAKEDEP = $(MAKEPATH)/../../src/MOM6/ac/makedep
 
+
 # `export` disables autoconf defaults; this restores them
 CFLAGS ?= -g -O2
 FCFLAGS ?= -g -O2
@@ -39,9 +40,6 @@ MAKEFLAGS += -rR
 
 all: $(BUILD)/$(TARGET)
 
-$(BUILD)/$(TARGET): $(BUILD)/Makefile $(call rwildcard,$(CODEBASE),*.h *.c *.inc *.F90)
-	$(MAKE) -C $(BUILD) $(TARGET)
-
 FORCE:
 
 $(BUILD)/Makefile: $(BUILD)/Makefile.in $(BUILD)/configure
@@ -66,6 +64,7 @@ $(BUILD):
 
 # Recursive wildcard (finds all files in $1 with suffixes in $2)
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
+find_src_files=$(call rwildcard,$1,*.h *.c *.inc *.f90 *.F90)
 
 .PHONY: clean
 clean:
