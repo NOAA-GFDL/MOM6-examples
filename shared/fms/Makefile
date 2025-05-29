@@ -12,3 +12,6 @@ CPPFLAGS += -DAU_TEST_KIND_=r8_kind
 CPPFLAGS += -DTEST_SVP_KIND_=8
 
 include ../config/Libs.mk
+
+$(BUILD)/$(TARGET): $(BUILD)/Makefile $(call find_src_files,$(CODEBASE))
+	$(MAKE) -C $(BUILD) $(TARGET)
