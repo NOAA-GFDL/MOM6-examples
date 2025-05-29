@@ -78,14 +78,6 @@ AS_IF([test "x$with_driver" != "x"],
   [DRIVER_DIR=${srcdir}/config_src/drivers/${with_driver}])
 
 
-# Determine the FMS IO implementation.
-AX_FC_CHECK_MODULE([fms2_io_mod], [
-  MODEL_FRAMEWORK=${srcdir}/config_src/infra/FMS2
-],[
-  MODEL_FRAMEWORK=${srcdir}/config_src/infra/FMS1
-])
-
-
 # Explicitly assume free-form Fortran
 AC_LANG([Fortran])
 AC_FC_SRCEXT([f90])
