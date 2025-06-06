@@ -572,6 +572,10 @@ VELOCITY_CONFIG = "zero"        ! default = "zero"
                                 !     USER - call a user modified routine.
 ODA_INCUPD = False              !   [Boolean] default = False
                                 ! If true, oda incremental updates will be applied everywhere in the domain.
+OBC_RESERVOIR_INIT_BUG = True   !   [Boolean] default = True
+                                ! If true, set the OBC tracer reservoirs at the startup of a new run from the
+                                ! interior tracer concentrations regardless of properties that may be explicitly
+                                ! specified for the reservoir concentrations.
 OBC_SEGMENT_001_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
                                 ! OBC segment docs
 OBC_SEGMENT_002_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
@@ -704,6 +708,10 @@ VERY_SMALL_FREQUENCY = 1.0E-17  !   [s-1] default = 1.0E-17
 USE_STANLEY_ISO = False         !   [Boolean] default = False
                                 ! If true, turn on Stanley SGS T variance parameterization in isopycnal slope
                                 ! code.
+MIXING_COEFS_OBC_BUG = True     !   [Boolean] default = True
+                                ! If false, use only interior data for thickness weighting in lateral mixing
+                                ! coefficient calculations and to calculate stratification and other fields at
+                                ! open boundary condition faces.
 KD_SMOOTH = 1.0E-06             !   [m2 s-1] default = 1.0E-06
                                 ! A diapycnal diffusivity that is used to interpolate more sensible values of T
                                 ! & S into thin layers.
