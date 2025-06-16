@@ -51,6 +51,14 @@ BATHYMETRY_AT_VEL = False       !   [Boolean] default = False
                                 ! If true, there are separate values for the basin depths at velocity points.
                                 ! Otherwise the effects of topography are entirely determined from thickness
                                 ! points.
+ENABLE_BUGS_BY_DEFAULT = True   !   [Boolean] default = True
+                                ! If true, the defaults for certain recently added bug-fix flags are set to
+                                ! recreate the bugs so that the code can be moved forward without changing
+                                ! answers for existing configurations.  The defaults for groups of bug-fix flags
+                                ! are periodcially changed to correct the bugs, at which point this parameter
+                                ! will no longer be used to set their default.  Setting this to false means that
+                                ! bugs are only used if they are actively selected, but it also means that
+                                ! answers may change when code is updated due to newly found bugs.
 DT = 600.0                      !   [s]
                                 ! The (baroclinic) dynamics time step.  The time-step that is actually used will
                                 ! be an integer fraction of the forcing time-step (DT_FORCING in ocean-only mode
