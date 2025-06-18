@@ -63,6 +63,10 @@ BT_USE_WIDE_HALOS = True        !   [Boolean] default = True
                                 ! efficiency.
 BTHALO = 0                      ! default = 0
                                 ! The minimum halo size for the barotropic solver.
+BT_WIDE_HALO_MIN_STENCIL = 0    ! default = 0
+                                ! The minimum stencil width to use with the wide halo iterations. A nonzero
+                                ! value may be useful for debugging purposes, but at the cost of reducing the
+                                ! efficiency gain from BT_USE_WIDE_HALOS.
 !BT x-halo = 4                  !
                                 ! The barotropic x-halo size that is actually used.
 !BT y-halo = 4                  !
