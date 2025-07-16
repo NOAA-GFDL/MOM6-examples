@@ -393,6 +393,14 @@ H_TO_M = 1.0                    !   [m H-1] default = 1.0
                                 ! A constant that translates the model's internal units of thickness into m.
 NK = 10                         !   [nondim]
                                 ! The number of model layers.
+OBC_SEGMENT_001_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
+OBC_SEGMENT_002_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
+OBC_SEGMENT_003_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
+OBC_SEGMENT_004_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
 
 ! === module MOM_tracer_registry ===
 
@@ -584,14 +592,6 @@ OBC_RESERVOIR_INIT_BUG = True   !   [Boolean] default = True
                                 ! If true, set the OBC tracer reservoirs at the startup of a new run from the
                                 ! interior tracer concentrations regardless of properties that may be explicitly
                                 ! specified for the reservoir concentrations.
-OBC_SEGMENT_001_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
-OBC_SEGMENT_002_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
-OBC_SEGMENT_003_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
-OBC_SEGMENT_004_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
 OBC_USER_CONFIG = "none"        ! default = "none"
                                 ! A string that sets how the user code is invoked to set open boundary data:
                                 !    DOME - specified inflow on northern boundary
