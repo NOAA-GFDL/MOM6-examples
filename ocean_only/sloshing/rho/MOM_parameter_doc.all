@@ -1409,6 +1409,11 @@ DTBT = 10.0                     !   [s or nondim] default = -0.98
 BT_USE_OLD_CORIOLIS_BRACKET_BUG = False !   [Boolean] default = False
                                 ! If True, use an order of operations that is not bitwise rotationally symmetric
                                 ! in the meridional Coriolis term of the barotropic solver.
+MASK_COASTAL_PRESSURE_FORCE = False !   [Boolean] default = False
+                                ! If true, use the land masks to zero out the diagnosed barotropic pressure
+                                ! gradient accelerations at coastal or land points.  This changes diagnostics
+                                ! and improves the reproducibility of certain debugging checksums, but it does
+                                ! not alter the solutions themselves.
 
 ! === module MOM_mixed_layer_restrat ===
 MIXEDLAYER_RESTRAT = False      !   [Boolean] default = False
