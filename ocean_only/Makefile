@@ -265,7 +265,9 @@ $(TESTDIR)/%/test: $(BUILD)/MOM6
 # Cleanup
 
 # I probably need a rule in Makefile.in for all the autoconf stuff.
-.PHONY: clean
+.PHONY: clean clean.fms
+clean.fms: clean
+	$(MAKE) -C ../shared/fms BUILD=$(abspath $(FMS_BUILD)) clean
 clean:
 	rm -rf $(BUILD)
 
