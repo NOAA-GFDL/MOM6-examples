@@ -285,7 +285,9 @@ $(TESTDIR)/%/test: $(BUILD)/coupler_main
 #----
 # Cleanup
 
-.PHONY: clean
+.PHONY: clean clean.fms
+clean.fms: clean
+	$(MAKE) -C ../shared/fms BUILD=$(abspath $(FMS_BUILD)) clean
 clean:
 	$(MAKE) -C ../shared/AM2 BUILD=$(abspath $(AM2_BUILD)) clean
 	$(MAKE) -C ../shared/LM3 BUILD=$(abspath $(LM3_BUILD)) clean
