@@ -246,6 +246,11 @@ KHTH = 1.0E-04                  !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
 
 ! === module MOM_dynamics_split_RK2 ===
+VISC_REM_BUG = True             !   [Boolean] default = False
+                                ! If true, visc_rem_[uv] in split mode is incorrectly calculated or accounted
+                                ! for in two places. This parameter controls the defaults of two individual
+                                ! flags, VISC_REM_TIMESTEP_BUG in MOM_dynamics_split_RK2(b) and
+                                ! VISC_REM_BT_WEIGHT_BUG in MOM_barotropic.
 
 ! === module MOM_continuity_PPM ===
 
@@ -292,8 +297,6 @@ HARMONIC_VISC = True            !   [Boolean] default = False
 HMIX_FIXED = 20.0               !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
-MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
-                                ! The maximum velocity allowed before the velocity components are truncated.
 VEL_UNDERFLOW = 1.0E-30         !   [m s-1] default = 0.0
                                 ! A negligibly small velocity magnitude below which velocity components are set
                                 ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
@@ -335,6 +338,10 @@ TOLERANCE_ENT = 1.0E-05         !   [m] default = 3.464101615137755E-05
                                 ! The tolerance with which to solve for entrainment values.
 
 ! === module MOM_set_diffusivity ===
+DRAG_DIFFUSIVITY_ANSWER_DATE = 20250101 ! default = 99991231
+                                ! The vintage of the order of arithmetic in the drag diffusivity calculations.
+                                ! Values above 20250301 use less confusing expressions to set the bottom-drag
+                                ! generated diffusivity when USE_LOTW_BBL_DIFFUSIVITY is false.
 
 ! === module MOM_bkgnd_mixing ===
 ! Adding static vertical background mixing coefficients
@@ -361,6 +368,8 @@ PRANDTL_TURB = 0.0              !   [nondim] default = 1.0
 ! === module MOM_tracer_hor_diff ===
 
 ! === module MOM_sum_output ===
+MAXVEL = 10.0                   !   [m s-1] default = 3.0E+08
+                                ! The maximum velocity allowed before the velocity components are truncated.
 
 ! === module ocean_stochastics_init ===
 
