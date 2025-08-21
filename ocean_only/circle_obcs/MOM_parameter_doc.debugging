@@ -48,6 +48,10 @@ DEBUG_REDUNDANT = False         !   [Boolean] default = False
 OBC_DEBUGGING_TESTS = False     !   [Boolean] default = False
                                 ! If true, do additional calls resetting certain values to help verify the
                                 ! correctness of the open boundary condition code.
+OBC_REVERSE_SEGMENT_ORDER = False !   [Boolean] default = False
+                                ! If true, store the OBC segments internally and handle them in the reverse
+                                ! order from that with which they are specified via external parameters to test
+                                ! for dependencies on the order with which the OBC segments are applied.
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
