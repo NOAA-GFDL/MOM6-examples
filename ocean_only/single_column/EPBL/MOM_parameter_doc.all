@@ -154,9 +154,6 @@ SURFACE_ANSWER_DATE = 99991231  ! default = 99991231
                                 ! The vintage of the expressions for the surface properties.  Values below
                                 ! 20190101 recover the answers from the end of 2018, while higher values use
                                 ! updated and more robust forms of the same expressions.
-USE_DIABATIC_TIME_BUG = False   !   [Boolean] default = False
-                                ! If true, uses the wrong calendar time for diabatic processes, as was done in
-                                ! MOM6 versions prior to February 2018. This is not recommended.
 SAVE_INITIAL_CONDS = True       !   [Boolean] default = False
                                 ! If true, write the initial conditions to a file given by IC_OUTPUT_FILE.
 IC_OUTPUT_FILE = "MOM_IC"       ! default = "MOM_IC"
@@ -333,7 +330,7 @@ NK = 75                         !   [nondim]
 ! === module MOM_tracer_registry ===
 
 ! === module MOM_EOS ===
-EQN_OF_STATE = "WRIGHT"         ! default = "WRIGHT"
+EQN_OF_STATE = "WRIGHT"         ! default = "WRIGHT_FULL"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
                                 ! Currently, the valid choices are "LINEAR", "UNESCO", "JACKETT_MCD", "WRIGHT",
                                 ! "WRIGHT_REDUCED", "WRIGHT_FULL", "NEMO", "ROQUET_RHO", "ROQUET_SPV" and
@@ -1053,7 +1050,7 @@ USE_LAND_MASK_FOR_HVISC = True  !   [Boolean] default = True
                                 ! If true, use the land mask for the computation of thicknesses at velocity
                                 ! locations. This eliminates the dependence on arbitrary values over land or
                                 ! outside of the domain.
-FRICTWORK_BUG = True            !   [Boolean] default = True
+FRICTWORK_BUG = False           !   [Boolean] default = False
                                 ! If true, retain an answer-changing bug in calculating the FrictWork, which
                                 ! cancels the h in thickness flux and the h at velocity point. This isnot
                                 ! recommended.
@@ -1101,10 +1098,6 @@ KV_ML_INVZ2 = 0.0               !   [m2 s-1] default = 0.0
                                 ! from the surface, to allow for finite wind stresses to be transmitted through
                                 ! infinitesimally thin surface layers.  This is an older option for numerical
                                 ! convenience without a strong physical basis, and its use is now discouraged.
-MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
-                                ! The maximum velocity allowed before the velocity components are truncated.
-CFL_BASED_TRUNCATIONS = True    !   [Boolean] default = True
-                                ! If true, base truncations on the CFL number, and not an absolute speed.
 CFL_TRUNCATE = 0.5              !   [nondim] default = 0.5
                                 ! The value of the CFL number that will cause velocity components to be
                                 ! truncated; instability can occur past 0.5.
@@ -1310,7 +1303,7 @@ USE_KPP_LT_VT2 = False          !   [Boolean] default = False
                                 ! Flag for Langmuir turbulence enhancement of Vt2in Bulk Richardson Number.
 KPP_CVt2 = 1.6                  !   [nondim] default = 1.6
                                 ! Parameter for Stokes MOST convection entrainment
-ANSWER_DATE = 20240101          ! default = 20240101
+ANSWER_DATE = 99991231          ! default = 99991231
                                 ! The vintage of the order of arithmetic in the CVMix KPP calculations.  Values
                                 ! below 20240501 recover the answers from early in 2024, while higher values use
                                 ! expressions that have been refactored for rotational symmetry.
@@ -1386,7 +1379,7 @@ USE_LOTW_BBL_DIFFUSIVITY = False !   [Boolean] default = False
                                 ! If true, uses a simple, imprecise but non-coordinate dependent, model of BBL
                                 ! mixing diffusivity based on Law of the Wall. Otherwise, uses the original BBL
                                 ! scheme.
-DRAG_DIFFUSIVITY_ANSWER_DATE = 20250101 ! default = 20250101
+DRAG_DIFFUSIVITY_ANSWER_DATE = 99991231 ! default = 99991231
                                 ! The vintage of the order of arithmetic in the drag diffusivity calculations.
                                 ! Values above 20250301 use less confusing expressions to set the bottom-drag
                                 ! generated diffusivity when USE_LOTW_BBL_DIFFUSIVITY is false.
@@ -1788,6 +1781,8 @@ MAX_ENERGY = 0.0                !   [m2 s-2] default = 0.0
                                 ! The maximum permitted average energy per unit mass; the model will be stopped
                                 ! if there is more energy than this.  If zero or negative, this is set to
                                 ! 10*MAXVEL^2.
+MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
+                                ! The maximum velocity allowed before the velocity components are truncated.
 ENERGYFILE = "ocean.stats"      ! default = "ocean.stats"
                                 ! The file to use to write the energies and globally summed diagnostics.
 DATE_STAMPED_STDOUT = True      !   [Boolean] default = True

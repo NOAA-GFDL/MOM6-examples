@@ -107,7 +107,7 @@ NK = 600                        !   [nondim]
                                 ! The number of model layers.
 
 ! === module MOM_EOS ===
-EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT"
+EQN_OF_STATE = "LINEAR"         ! default = "WRIGHT_FULL"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
                                 ! Currently, the valid choices are "LINEAR", "UNESCO", "JACKETT_MCD", "WRIGHT",
                                 ! "WRIGHT_REDUCED", "WRIGHT_FULL", "NEMO", "ROQUET_RHO", "ROQUET_SPV" and
@@ -237,8 +237,6 @@ HARMONIC_VISC = True            !   [Boolean] default = False
 HMIX_FIXED = 0.01               !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
-MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
-                                ! The maximum velocity allowed before the velocity components are truncated.
 VEL_UNDERFLOW = 1.0E-30         !   [m s-1] default = 0.0
                                 ! A negligibly small velocity magnitude below which velocity components are set
                                 ! to 0.  A reasonable value might be 1e-30 m/s, which is less than an Angstrom
@@ -262,6 +260,10 @@ APPLY_NONLOCAL_TRANSPORT = False !   [Boolean] default = True
 INTERP_TYPE = "cubic"           ! default = "quadratic"
                                 ! Type of interpolation to determine the OBL depth.
                                 ! Allowed types are: linear, quadratic, cubic.
+ANSWER_DATE = 20240101          ! default = 99991231
+                                ! The vintage of the order of arithmetic in the CVMix KPP calculations.  Values
+                                ! below 20240501 recover the answers from early in 2024, while higher values use
+                                ! expressions that have been refactored for rotational symmetry.
 %KPP
 
 ! === module MOM_set_diffusivity ===
@@ -289,6 +291,8 @@ MAXTRUNC = 5000                 !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very large value if the velocity
                                 ! is truncated more than MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
                                 ! to stop if there is any truncation of velocities.
+MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
+                                ! The maximum velocity allowed before the velocity components are truncated.
 ENERGYSAVEDAYS = 0.25           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the energies of the run and
                                 ! other globally summed diagnostics.
@@ -316,6 +320,10 @@ IDL_HURR_SCM_BR_BENCH = True    !   [Boolean] default = False
                                 ! (bug) in the wind profile meant to reproduce a previous implementation.
 IDL_HURR_SCM = True             !   [Boolean] default = False
                                 ! Single Column mode switch used in the SCM idealized hurricane wind profile.
+IDL_HURR_SCM_EDGE_TAPER_BUG = True !   [Boolean] default = False
+                                ! If true and IDL_HURR_SCM is true, use a bug that does all of the tapering and
+                                ! inflow angle calculations for radii between RAD_EDGE and RAD_AMBIENT as though
+                                ! they were at RAD_EDGE.
 
 ! === module MOM_main (MOM_driver) ===
 DAYMAX = 3.0                    !   [days]

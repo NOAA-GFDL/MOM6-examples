@@ -155,7 +155,7 @@ NK = 75                         !   [nondim]
                                 ! The number of model layers.
 
 ! === module MOM_EOS ===
-EQN_OF_STATE = "ROQUET_RHO"     ! default = "WRIGHT"
+EQN_OF_STATE = "ROQUET_RHO"     ! default = "WRIGHT_FULL"
                                 ! EQN_OF_STATE determines which ocean equation of state should be used.
                                 ! Currently, the valid choices are "LINEAR", "UNESCO", "JACKETT_MCD", "WRIGHT",
                                 ! "WRIGHT_REDUCED", "WRIGHT_FULL", "NEMO", "ROQUET_RHO", "ROQUET_SPV" and
@@ -208,6 +208,11 @@ REGRIDDING_COORDINATE_MODE = "HYCOM1" ! default = "LAYER"
                                 !  HYCOM1 - HyCOM-like hybrid coordinate
                                 !  HYBGEN - Hybrid coordinate from the Hycom hybgen code
                                 !  ADAPTIVE - optimize for smooth neutral density surfaces
+REGRIDDING_ANSWER_DATE = 20181231 ! default = 20231231
+                                ! The vintage of the expressions and order of arithmetic to use for regridding.
+                                ! Values below 20190101 result in the use of older, less accurate expressions
+                                ! that were in use at the end of 2018.  Higher values result in the use of more
+                                ! robust and accurate forms of mathematically equivalent expressions.
 BOUNDARY_EXTRAPOLATION = True   !   [Boolean] default = False
                                 ! When defined, a proper high-order reconstruction scheme is used within
                                 ! boundary cells rather than PCM. E.g., if PPM is used for remapping, a PPM
@@ -391,6 +396,11 @@ KHTH_MAX_CFL = 0.1              !   [nondimensional] default = 0.8
                                 ! models.
 
 ! === module MOM_dynamics_split_RK2 ===
+VISC_REM_BUG = True             !   [Boolean] default = False
+                                ! If true, visc_rem_[uv] in split mode is incorrectly calculated or accounted
+                                ! for in two places. This parameter controls the defaults of two individual
+                                ! flags, VISC_REM_TIMESTEP_BUG in MOM_dynamics_split_RK2(b) and
+                                ! VISC_REM_BT_WEIGHT_BUG in MOM_barotropic.
 
 ! === module MOM_continuity_PPM ===
 ETA_TOLERANCE = 1.0E-06         !   [m] default = 3.75E-09
@@ -445,8 +455,6 @@ USE_LAND_MASK_FOR_HVISC = False !   [Boolean] default = True
 HMIX_FIXED = 0.5                !   [m]
                                 ! The prescribed depth over which the near-surface viscosity and diffusivity are
                                 ! elevated when the bulk mixed layer is not used.
-MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
-                                ! The maximum velocity allowed before the velocity components are truncated.
 
 ! === module MOM_barotropic ===
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
@@ -722,6 +730,8 @@ MAXTRUNC = 100000               !   [truncations save_interval-1] default = 0
                                 ! The run will be stopped, and the day set to a very large value if the velocity
                                 ! is truncated more than MAXTRUNC times between energy saves.  Set MAXTRUNC to 0
                                 ! to stop if there is any truncation of velocities.
+MAXVEL = 6.0                    !   [m s-1] default = 3.0E+08
+                                ! The maximum velocity allowed before the velocity components are truncated.
 ENERGYSAVEDAYS = 0.25           !   [days] default = 1.0
                                 ! The interval in units of TIMEUNIT between saves of the energies of the run and
                                 ! other globally summed diagnostics.
@@ -763,3 +773,11 @@ SEA_ICE_RIGID_MASS = 100.0      !   [kg m-2] default = 1000.0
                                 ! rigidity
 
 ! === module MOM_restart ===
+WAVE_INTERFACE_ANSWER_DATE = 20221231 ! default = 20231231
+                                ! The vintage of the order of arithmetic and expressions in the surface wave
+                                ! calculations.  Values below 20230101 recover the answers from the end of 2022,
+                                ! while higher values use updated and more robust forms of the same expressions:
+                                !    <  20230101 - Original answers for wave interface routines
+                                !    >= 20230101 - More robust expressions for Update_Stokes_Drift
+                                !    >= 20230102 - More robust expressions for get_StokesSL_LiFoxKemper
+                                !    >= 20230103 - More robust expressions for ust_2_u10_coare3p5
