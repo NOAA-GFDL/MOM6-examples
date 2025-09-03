@@ -341,6 +341,13 @@ OBC_REMAPPING_USE_OM4_SUBCELLS = True !   [Boolean] default = True
                                 ! If true, use the OM4 remapping-via-subcells algorithm for neutral diffusion.
                                 ! See REMAPPING_USE_OM4_SUBCELLS for more details. We recommend setting this
                                 ! option to false.
+OBC_PROJECTION_BUG = True       !   [Boolean] default = True
+                                ! If false, use only interior ocean points at OBCs to specify several
+                                ! calculations at OBC points, and it avoids applying a land mask at the bay-like
+                                ! intersection of orthogonal OBC segments.  Otherwise the calculation of terms
+                                ! like the potential vorticity used in the barotropic solver relies on
+                                ! bathymetry or other fields being projected outward across OBCs.  This option
+                                ! changes answers for some configurations that use OBCs.
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all fluxes are
                                 ! zeroed out. MASKING_DEPTH is ignored if it has the special default value.
@@ -390,14 +397,6 @@ H_TO_M = 1.0                    !   [m H-1] default = 1.0
                                 ! A constant that translates the model's internal units of thickness into m.
 NK = 10                         !   [nondim]
                                 ! The number of model layers.
-OBC_SEGMENT_001_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
-OBC_SEGMENT_002_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
-OBC_SEGMENT_003_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
-OBC_SEGMENT_004_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
-                                ! OBC segment docs
 
 ! === module MOM_tracer_registry ===
 
@@ -490,6 +489,14 @@ USE_SHELFWAVE_OBC = False       !   [Boolean] default = False
                                 ! If true, use the shelfwave open boundary.
 USE_DYED_CHANNEL_OBC = False    !   [Boolean] default = False
                                 ! If true, use the dyed channel open boundary.
+OBC_SEGMENT_001_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
+OBC_SEGMENT_002_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
+OBC_SEGMENT_003_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
+OBC_SEGMENT_004_DATA = "U=value:0.0,V=value:0.0,SSH=value:0.0" !
+                                ! OBC segment docs
 
 ! === module MOM_coord_initialization ===
 COORD_CONFIG = "layer_ref"      ! default = "none"
