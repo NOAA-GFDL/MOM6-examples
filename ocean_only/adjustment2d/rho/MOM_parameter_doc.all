@@ -529,15 +529,30 @@ ALE_COORDINATE_CONFIG = "UNIFORM" ! default = "UNIFORM"
                                 !  FNC1:string - FNC1:dz_min,H_total,power,precision
                                 !  HYBRID:string - read from a file. The string specifies
                                 !                the filename and two variable names, separated
-                                !                by a comma or space, for sigma-2 and dz. e.g.
-                                !                HYBRID:vgrid.nc,sigma2,dz
+                                !                by a comma or space, for sigma-2 and dz.
+                                !                e.g. HYBRID:vgrid.nc,sigma2,dz
+                                !  HYBRID_3D:string - read from a file. The string specifies
+                                !                the filename and two 3D variable names, separated
+                                !                by a comma or space, for sigma-2 and dz. The
+                                !                latter can be FNC1:string which is used everywhere.
+                                !                e.g. HYBRID_3D:vgrid.nc,sigma2,dz
+                                !  HYBRID_MAP:string - read from a file. The string specifies
+                                !                the filename and three variable names, separated
+                                !                by a comma or space, for map, sigma-2 and dz.
+                                !                Map is a spatial index array with, maxval(map)=N,
+                                !                and the others are 2D arrays containing N profiles.
+                                !                Map typically contains integer values, but it can
+                                !                contain real values, I+w, which imply using
+                                !                the weighted sum of profiles I and I+1.
+                                !                Dz can be FNC1:string which is used everywhere.
+                                !                e.g. HYBRID_MAP:vgrid.nc,map,sigma2,dz
 !ALE_RESOLUTION = 25*0.2        !   [kg m^-3]
                                 ! The distribution of vertical resolution for the target
                                 ! grid used for Eulerian-like coordinates. For example,
                                 ! in z-coordinate mode, the parameter is a list of level
                                 ! thicknesses (in m). In sigma-coordinate mode, the list
                                 ! is of non-dimensional fractions of the water column.
-!TARGET_DENSITIES = 1000.0, 1000.2, 1000.4000000000001, 1000.6000000000001, 1000.8000000000002, 1001.0000000000002, 1001.2000000000003, 1001.4000000000003, 1001.6000000000004, 1001.8000000000004, 1002.0000000000005, 1002.2000000000005, 1002.4000000000005, 1002.6000000000006, 1002.8000000000006, 1003.0000000000007, 1003.2000000000007, 1003.4000000000008, 1003.6000000000008, 1003.8000000000009, 1004.0000000000009, 1004.200000000001, 1004.400000000001, 1004.600000000001, 1004.8000000000011, 1005.0 !   [kg m^-3]
+!TARGET_DENSITIES = 1000.0, 1000.2, 1000.4000000000001, 1000.6000000000001, 1000.8000000000002, 1001.0000000000002, 1001.2000000000003, 1001.4000000000003, 1001.6000000000004, 1001.8000000000004, 1002.0000000000005, 1002.2000000000005, 1002.4000000000005, 1002.6000000000006, 1002.8000000000006, 1003.0000000000007, 1003.2000000000007, 1003.4000000000008, 1003.6000000000008, 1003.8000000000009, 1004.0000000000009, 1004.200000000001, 1004.400000000001, 1004.600000000001, 1004.8000000000011, 1005.0 !   [kg m-3]
                                 ! RHO target densities for interfaces
 REGRID_COMPRESSIBILITY_FRACTION = 0.0 !   [nondim] default = 0.0
                                 ! When interpolating potential density profiles we can add some artificial
@@ -781,8 +796,23 @@ DIAG_COORD_DEF_Z = "UNIFORM"    ! default = "UNIFORM"
                                 !  FNC1:string - FNC1:dz_min,H_total,power,precision
                                 !  HYBRID:string - read from a file. The string specifies
                                 !                the filename and two variable names, separated
-                                !                by a comma or space, for sigma-2 and dz. e.g.
-                                !                HYBRID:vgrid.nc,sigma2,dz
+                                !                by a comma or space, for sigma-2 and dz.
+                                !                e.g. HYBRID:vgrid.nc,sigma2,dz
+                                !  HYBRID_3D:string - read from a file. The string specifies
+                                !                the filename and two 3D variable names, separated
+                                !                by a comma or space, for sigma-2 and dz. The
+                                !                latter can be FNC1:string which is used everywhere.
+                                !                e.g. HYBRID_3D:vgrid.nc,sigma2,dz
+                                !  HYBRID_MAP:string - read from a file. The string specifies
+                                !                the filename and three variable names, separated
+                                !                by a comma or space, for map, sigma-2 and dz.
+                                !                Map is a spatial index array with, maxval(map)=N,
+                                !                and the others are 2D arrays containing N profiles.
+                                !                Map typically contains integer values, but it can
+                                !                contain real values, I+w, which imply using
+                                !                the weighted sum of profiles I and I+1.
+                                !                Dz can be FNC1:string which is used everywhere.
+                                !                e.g. HYBRID_MAP:vgrid.nc,map,sigma2,dz
 
 ! === module MOM_MEKE ===
 USE_MEKE = False                !   [Boolean] default = False

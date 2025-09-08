@@ -192,15 +192,30 @@ ALE_COORDINATE_CONFIG = "HYBRID:hycom1_50.nc,sigma2,dz" ! default = "UNIFORM"
                                 !  FNC1:string - FNC1:dz_min,H_total,power,precision
                                 !  HYBRID:string - read from a file. The string specifies
                                 !                the filename and two variable names, separated
-                                !                by a comma or space, for sigma-2 and dz. e.g.
-                                !                HYBRID:vgrid.nc,sigma2,dz
+                                !                by a comma or space, for sigma-2 and dz.
+                                !                e.g. HYBRID:vgrid.nc,sigma2,dz
+                                !  HYBRID_3D:string - read from a file. The string specifies
+                                !                the filename and two 3D variable names, separated
+                                !                by a comma or space, for sigma-2 and dz. The
+                                !                latter can be FNC1:string which is used everywhere.
+                                !                e.g. HYBRID_3D:vgrid.nc,sigma2,dz
+                                !  HYBRID_MAP:string - read from a file. The string specifies
+                                !                the filename and three variable names, separated
+                                !                by a comma or space, for map, sigma-2 and dz.
+                                !                Map is a spatial index array with, maxval(map)=N,
+                                !                and the others are 2D arrays containing N profiles.
+                                !                Map typically contains integer values, but it can
+                                !                contain real values, I+w, which imply using
+                                !                the weighted sum of profiles I and I+1.
+                                !                Dz can be FNC1:string which is used everywhere.
+                                !                e.g. HYBRID_MAP:vgrid.nc,map,sigma2,dz
 !ALE_RESOLUTION = 4*5.0, 5.1, 5.2, 5.3, 5.4, 5.5, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 17*30.0 !   [m]
                                 ! The distribution of vertical resolution for the target
                                 ! grid used for Eulerian-like coordinates. For example,
                                 ! in z-coordinate mode, the parameter is a list of level
                                 ! thicknesses (in m). In sigma-coordinate mode, the list
                                 ! is of non-dimensional fractions of the water column.
-!TARGET_DENSITIES = 1010.0, 1016.1289, 1020.843, 1024.821, 1027.0275, 1028.2911, 1029.2795, 1030.1194, 1030.8626, 1031.5364, 1032.1572, 1032.7358, 1033.2798, 1033.7948, 1034.2519, 1034.5828, 1034.8508, 1035.0821, 1035.2886, 1035.4769, 1035.6511, 1035.814, 1035.9675, 1036.1107, 1036.2411, 1036.3615, 1036.4739, 1036.5797, 1036.68, 1036.7755, 1036.8526, 1036.9024, 1036.9418, 1036.9754, 1037.0052, 1037.0323, 1037.0574, 1037.082, 1037.1066, 1037.1312, 1037.1558, 1037.1804, 1037.206, 1037.2337, 1037.2642, 1037.2986, 1037.3389, 1037.3901, 1037.475, 1037.7204, 1038.0 !   [m]
+!TARGET_DENSITIES = 1010.0, 1016.1289, 1020.843, 1024.821, 1027.0275, 1028.2911, 1029.2795, 1030.1194, 1030.8626, 1031.5364, 1032.1572, 1032.7358, 1033.2798, 1033.7948, 1034.2519, 1034.5828, 1034.8508, 1035.0821, 1035.2886, 1035.4769, 1035.6511, 1035.814, 1035.9675, 1036.1107, 1036.2411, 1036.3615, 1036.4739, 1036.5797, 1036.68, 1036.7755, 1036.8526, 1036.9024, 1036.9418, 1036.9754, 1037.0052, 1037.0323, 1037.0574, 1037.082, 1037.1066, 1037.1312, 1037.1558, 1037.1804, 1037.206, 1037.2337, 1037.2642, 1037.2986, 1037.3389, 1037.3901, 1037.475, 1037.7204, 1038.0 !   [kg m-3]
                                 ! HYBRID target densities for interfaces
 MAXIMUM_INT_DEPTH_CONFIG = "FNC1:5,12000,1.0,.125" ! default = "NONE"
                                 ! Determines how to specify the maximum interface depths.
