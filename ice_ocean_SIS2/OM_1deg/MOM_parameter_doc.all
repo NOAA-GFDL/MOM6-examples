@@ -1714,6 +1714,11 @@ BT_STRONG_DRAG = True           !   [Boolean] default = False
                                 ! If true, use a stronger estimate of the retarding effects of strong bottom
                                 ! drag, by making it implicit with the barotropic time-step instead of implicit
                                 ! with the baroclinic time-step and dividing by the number of barotropic steps.
+RESCALE_STRONG_DRAG = False     !   [Boolean] default = False
+                                ! If true, reduce the barotropic contribution to the layer accelerations to
+                                ! account for the difference between the forces that can be counteracted by the
+                                ! stronger drag with BT_STRONG_DRAG and the average of the layer viscous
+                                ! remnants after a baroclinic timestep.
 BT_LINEAR_WAVE_DRAG = False     !   [Boolean] default = False
                                 ! If true, apply a linear drag to the barotropic velocities, using rates set by
                                 ! lin_drag_u & _v divided by the depth of the ocean.  This was introduced to
