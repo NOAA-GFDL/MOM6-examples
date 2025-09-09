@@ -1061,6 +1061,12 @@
     ! long_name: Meridional Anomalous Barotropic Pressure Force Acceleration
     ! units: m s-2
     ! cell_methods: xh:mean yq:point
+"etaPF_anom"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Eta anomalies used for pressure forces averaged over a baroclinic timestep
+    ! units: m
+    ! cell_methods: xh:mean yh:mean area:mean
 "CoruBT"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! dimensions: xq, yh
@@ -1177,6 +1183,18 @@
     ! units: nondim
     ! cell_methods: xh:mean yq:point zl:mean
     ! variants: {visc_rem_v,visc_rem_v_xyave}
+"bt_rem_u"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xq, yh
+    ! long_name: Barotropic viscous remnant per barotropic step at u
+    ! units: nondim
+    ! cell_methods: xq:point yh:mean
+"bt_rem_v"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yq
+    ! long_name: Barotropic viscous remnant per barotropic step at v
+    ! units: nondim
+    ! cell_methods: xh:mean yq:point
 "gtot_n"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! dimensions: xh, yh
@@ -1223,6 +1241,12 @@
     ! modules: {ocean_model,ocean_model_d2}
     ! dimensions: xh, yh
     ! long_name: High Frequency Predictor Barotropic SSH
+    ! units: m
+    ! cell_methods: xh:mean yh:mean area:mean
+"etaPF_hifreq"  [Unused]
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: High Frequency Barotropic SSH anomalies used for pressure forces
     ! units: m
     ! cell_methods: xh:mean yh:mean area:mean
 "uhbt_hifreq"  [Unused]
