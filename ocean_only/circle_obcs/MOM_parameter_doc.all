@@ -318,6 +318,12 @@ OBC_TRACER_RESERVOIR_LENGTH_SCALE_OUT = 0.0 !   [m] default = 0.0
 OBC_TRACER_RESERVOIR_LENGTH_SCALE_IN = 0.0 !   [m] default = 0.0
                                 ! An effective length scale for restoring the tracer concentration at the
                                 ! boundaries to values from the interior when the flow is entering the domain.
+OBC_THICKNESS_RESERVOIR_LENGTH_SCALE_OUT = 0.0 !   [m] default = 0.0
+                                ! An effective length scale for restoring the layer thickness at the boundaries
+                                ! to externally imposed values when the flow is exiting the domain.
+OBC_THICKNESS_RESERVOIR_LENGTH_SCALE_IN = 0.0 !   [m] default = 0.0
+                                ! An effective length scale for restoring the layer thickness at the boundaries
+                                ! to values from the interior when the flow is entering the domain.
 OBC_REMAPPING_SCHEME = "PLM"    ! default = "PLM"
                                 ! This sets the reconstruction scheme used for OBC vertical remapping for all
                                 ! variables. It can be one of the following schemes:
@@ -859,6 +865,8 @@ TIDES = False                   !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 CALCULATE_SAL = False           !   [Boolean] default = False
                                 ! If true, calculate self-attraction and loading.
+USE_HA = False                  !   [Boolean] default = False
+                                ! If true, perform inline harmonic analysis.
 BE = 0.6                        !   [nondim] default = 0.6
                                 ! If SPLIT is true, BE determines the relative weighting of a  2nd-order
                                 ! Runga-Kutta baroclinic time stepping scheme (0.5) and a backward Euler scheme
