@@ -1236,6 +1236,8 @@ TIDES = True                    !   [Boolean] default = False
                                 ! If true, apply tidal momentum forcing.
 CALCULATE_SAL = True            !   [Boolean] default = True
                                 ! If true, calculate self-attraction and loading.
+USE_HA = False                  !   [Boolean] default = False
+                                ! If true, perform inline harmonic analysis.
 BE = 0.6                        !   [nondim] default = 0.6
                                 ! If SPLIT is true, BE determines the relative weighting of a  2nd-order
                                 ! Runga-Kutta baroclinic time stepping scheme (0.5) and a backward Euler scheme
@@ -1426,23 +1428,6 @@ TIDE_ADD_NODAL = False          !   [Boolean] default = False
 TIDE_NODAL_REF_DATE = 0, 0, 0   ! default = 0, 0, 0
                                 ! Fixed reference date to use for nodal modulation of astronomical tidal
                                 ! forcing.
-HA_START_TIME = 0.0             !   [days] default = 0.0
-                                ! Start time of harmonic analysis, in units of days after the start of the
-                                ! current run segment. Must be smaller than HA_END_TIME, otherwise harmonic
-                                ! analysis will not be performed. If negative, |HA_START_TIME| determines the
-                                ! length of harmonic analysis, and harmonic analysis will start |HA_START_TIME|
-                                ! days before HA_END_TIME, or at the beginning of the run segment, whichever
-                                ! occurs later.
-HA_END_TIME = 0.0               !   [days] default = 0.0
-                                ! End time of harmonic analysis, in units of days after the start of the current
-                                ! run segment. Must be positive and smaller than the length of the currnet run
-                                ! segment, otherwise harmonic analysis will not be performed.
-HA_SSH = False                  !   [Boolean] default = False
-                                ! If true, perform harmonic analysis of sea serface height.
-HA_UBT = False                  !   [Boolean] default = False
-                                ! If true, perform harmonic analysis of zonal barotropic velocity.
-HA_VBT = False                  !   [Boolean] default = False
-                                ! If true, perform harmonic analysis of meridional barotropic velocity.
 
 ! === module MOM_PressureForce ===
 ANALYTIC_FV_PGF = True          !   [Boolean] default = True
