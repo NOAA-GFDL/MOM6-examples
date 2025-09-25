@@ -280,6 +280,8 @@ NUDGE_SEA_ICE = False           !   [Boolean] default = False
 TRANSMUTE_SEA_ICE = False       !   [Boolean] default = False
                                 ! If true, allow ice to be transmuted directly into seawater with a spatially
                                 ! varying rate as a form of outflow open boundary condition.
+DO_BRINE_PLUME = False          !   [Boolean] default = False
+                                ! If true, split heat and salt fluxes to the ocean into brine plumes and other.
 SIS_SPONGE = False              !   [Boolean] default = False
                                 ! If true, SIS sponges may be applied anywhere in the domain. The exact location
                                 ! and properties of those sponges are specified via SIS_SPONGE_CONFIG.
@@ -395,6 +397,11 @@ LEMIEUX_LANDFAST = False        !   [Boolean] default = False
                                 ! If true, turn on Lemieux landfast ice parameterization.
 ITD_LANDFAST = False            !   [Boolean] default = False
                                 ! If true, turn on probabilistic landfast ice parameterization.
+NEGLECT_MASSLESS_ICE_SNOW_POND = False !   [Boolean] default = False
+                                ! If True, category ice, snow or pond mass per ocean cell area less than
+                                ! CONTINUITY_H_NEGLECT are not transported out of a cell. The default value is
+                                ! set to retain previous answers, but new experiments should set to True with a
+                                ! suitably small value of CONTINUITY_H_NEGLECT.
 RECATEGORIZE_ICE = True         !   [Boolean] default = True
                                 ! If true, readjust the distribution into ice thickness categories after
                                 ! advection.
