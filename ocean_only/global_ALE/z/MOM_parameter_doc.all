@@ -1065,6 +1065,9 @@ HBBL = 10.0                     !   [m]
                                 ! KV_EXTRA_BBL if BOTTOMDRAGLAW is not defined, or the thickness over which
                                 ! near-bottom velocities are averaged for the drag law if BOTTOMDRAGLAW is
                                 ! defined but LINEAR_DRAG is not.
+CDRAG_MAP = False               !   [Boolean] default = False
+                                ! If true, apply a spatially varying scaling factor to CDRAG, specified by
+                                ! CDRAG_VAR in CDRAG_FILE.
 BBL_USE_TIDAL_BG = False        !   [Boolean] default = False
                                 ! Flag to use the tidal RMS amplitude in place of constant background velocity
                                 ! for computing u* in the BBL. This flag is only used when BOTTOMDRAGLAW is true

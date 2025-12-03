@@ -827,6 +827,9 @@ HBBL = 10.0                     !   [m]
 CDRAG = 0.0                     !   [nondim] default = 0.003
                                 ! CDRAG is the drag coefficient relating the magnitude of the velocity field to
                                 ! the bottom stress. CDRAG is only used if BOTTOMDRAGLAW is defined.
+CDRAG_MAP = False               !   [Boolean] default = False
+                                ! If true, apply a spatially varying scaling factor to CDRAG, specified by
+                                ! CDRAG_VAR in CDRAG_FILE.
 BBL_USE_TIDAL_BG = False        !   [Boolean] default = False
                                 ! Flag to use the tidal RMS amplitude in place of constant background velocity
                                 ! for computing u* in the BBL. This flag is only used when BOTTOMDRAGLAW is true
