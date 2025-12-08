@@ -875,6 +875,9 @@ CONT_PPM_USE_VISC_REM_MAX = True !   [Boolean] default = True
 CONT_PPM_MARGINAL_FACE_AREAS = True !   [Boolean] default = True
                                 ! If true, use the marginal face areas from the continuity solver for use as the
                                 ! weights in the barotropic solver. Otherwise use the transport averaged areas.
+CONT_USE_H_MARG_MIN = False     !   [Boolean] default = False
+                                ! If true, the marginal thickness used and returned from continuity is bounded
+                                ! from below by a sub-roundoff value. Otherwise the minimum is 0.
 
 ! === module MOM_CoriolisAdv ===
 NOSLIP = False                  !   [Boolean] default = False
