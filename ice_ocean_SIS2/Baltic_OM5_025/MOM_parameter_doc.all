@@ -1172,6 +1172,13 @@ DRAG_AS_BODY_FORCE = False      !   [Boolean] default = False
 CHANNEL_DRAG = True             !   [Boolean] default = False
                                 ! If true, the bottom drag is exerted directly on each layer proportional to the
                                 ! fraction of the bottom it overlies.
+CHANNEL_DRAG_SHELFBREAK_DEPTH = 0.0 !   [m] default = 0.0
+                                ! When CHANNEL_DRAG is true, the bathymetric depth interpolated to the vorticity
+                                ! point is a combination of the harmonic mean of the adjacent velocity point
+                                ! depths below this depth and the arithmetic mean of the depths above it, to
+                                ! roughly mimic a continental shelf break profile.  Setting this to exceed
+                                ! MAXIMUM_DEPTH leads to linear interpolation of the topography between velocity
+                                ! points.
 LINEAR_DRAG = False             !   [Boolean] default = False
                                 ! If LINEAR_DRAG and BOTTOMDRAGLAW are defined the drag law is
                                 ! cdrag*DRAG_BG_VEL*u.
