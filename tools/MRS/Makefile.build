@@ -186,10 +186,30 @@ $(eval $(call compile,,MOM6,$$(ENV_SCRIPT),))
 # Generate lists of variables and dependencies for SIS2 libraries
 # $(1) = compiler, $(2) = mode, $(3) = memory style, $(4) = mom6 configuration
 define sis2-variables
-$(BUILD)/$(1)/$(2)/dynamic_nonsymmetric/$(4)/path_names: $(SIS2_SRC)/config_src/dynamic/* $(SIS2_SRC)/config_src/external/* $(SIS2_SRC)/src/* $(MOM6_SRC)/src/framework/MOM_memory_macros.h
-$(BUILD)/$(1)/$(2)/dynamic_nonsymmetric/$(4)/path_names: LIST_PATHS_ARGS =  $(SIS2_SRC)/config_src/dynamic/ $(SIS2_SRC)/config_src/external/* $(SIS2_SRC)/src/ $(MOM6_SRC)/src/framework/MOM_memory_macros.h
-$(BUILD)/$(1)/$(2)/dynamic_symmetric/$(4)/path_names: $(SIS2_SRC)/config_src/dynamic_symmetric/* $(SIS2_SRC)/config_src/external/* $(SIS2_SRC)/src/* $(MOM6_SRC)/src/framework/MOM_memory_macros.h
-$(BUILD)/$(1)/$(2)/dynamic_symmetric/$(4)/path_names: LIST_PATHS_ARGS =  $(SIS2_SRC)/config_src/dynamic_symmetric/ $(SIS2_SRC)/config_src/external/* $(SIS2_SRC)/src/ $(MOM6_SRC)/src/framework/MOM_memory_macros.h
+$(BUILD)/$(1)/$(2)/dynamic_nonsymmetric/$(4)/path_names: \
+  $(SIS2_SRC)/config_src/dynamic/* \
+  $(SIS2_SRC)/config_src/external/Icepack_interfaces/* \
+  $(SIS2_SRC)/src/* \
+  $(MOM6_SRC)/src/framework/MOM_memory_macros.h
+
+$(BUILD)/$(1)/$(2)/dynamic_nonsymmetric/$(4)/path_names: \
+  LIST_PATHS_ARGS = $(SIS2_SRC)/config_src/dynamic/ \
+  $(SIS2_SRC)/config_src/external/Icepack_interfaces/ \
+  $(SIS2_SRC)/src/ \
+  $(MOM6_SRC)/src/framework/MOM_memory_macros.h
+
+$(BUILD)/$(1)/$(2)/dynamic_symmetric/$(4)/path_names: \
+  $(SIS2_SRC)/config_src/dynamic_symmetric/* \
+  $(SIS2_SRC)/config_src/external/Icepack_interfaces/* \
+  $(SIS2_SRC)/src/* \
+  $(MOM6_SRC)/src/framework/MOM_memory_macros.h
+
+$(BUILD)/$(1)/$(2)/dynamic_symmetric/$(4)/path_names: \
+  LIST_PATHS_ARGS = $(SIS2_SRC)/config_src/dynamic_symmetric/ \
+  $(SIS2_SRC)/config_src/external/Icepack_interfaces/ \
+  $(SIS2_SRC)/src/ \
+  $(MOM6_SRC)/src/framework/MOM_memory_macros.h
+
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/Makefile: CPP_DEFS = -D_FILE_VERSION="`$(GIT_VERSION_SCRIPT) $$$$<`" -DSTATSLABEL=\"$(STATS_PLATFORM)$(1)$(STATS_COMPILER_VER)\"
 $(BUILD)/$(1)/$(2)/$(3)/$(4)/libsis2.a: $(BUILD)/$(1)/$(2)/icebergs/libicebergs.a $(BUILD)/$(1)/$(2)/ice_param/libice_param.a
 .SECONDARY: $(BUILD)/$(1)/$(2)/$(3)/$(4)/path_names

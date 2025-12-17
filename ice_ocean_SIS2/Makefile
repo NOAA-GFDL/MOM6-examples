@@ -38,7 +38,7 @@ EXCLUDE ?= \
 # Autoconf setup
 EXTRA_SRC_DIRS := \
   $(abspath ../src/SIS2/src) \
-  $(abspath ../src/SIS2/config_src/external) \
+  $(abspath ../src/SIS2/config_src/external/Icepack_interfaces) \
   $(abspath ../src/coupler)
 
 CONFIG_FLAGS := --config-cache
