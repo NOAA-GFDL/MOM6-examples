@@ -38,7 +38,7 @@ EXCLUDE ?= \
 # Autoconf setup
 EXTRA_SRC_DIRS := \
   $(abspath ../src/SIS2/src) \
-  $(abspath ../src/SIS2/config_src/external) \
+  $(abspath ../src/SIS2/config_src/external/Icepack_interfaces) \
   $(abspath $(dir $(wildcard ../src/coupler/full/ice_ocean_flux_exchange.F90)) \
             $(dir $(wildcard ../src/coupler/shared/surface_flux.F90)) \
             $(dir $(wildcard ../src/coupler/surface_flux.F90)) )
