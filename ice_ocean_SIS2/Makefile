@@ -39,7 +39,11 @@ EXCLUDE ?= \
 EXTRA_SRC_DIRS := \
   $(abspath ../src/SIS2/src) \
   $(abspath ../src/SIS2/config_src/external/Icepack_interfaces) \
-  $(abspath ../src/coupler)
+  $(abspath $(dir $(wildcard ../src/coupler/full/ice_ocean_flux_exchange.F90)) \
+            $(dir $(wildcard ../src/coupler/shared/surface_flux.F90)) \
+            $(dir $(wildcard ../src/coupler/surface_flux.F90)) )
+# The above $(or ...) covers the transition from FMS1-era to FMS2-era versions
+# of the coupler. The latter has multiple versions of the main coupler.
 
 CONFIG_FLAGS := --config-cache
 CONFIG_FLAGS += --srcdir=$(abspath $(MOM_CODEBASE))
@@ -281,7 +285,9 @@ $(TESTDIR)/%/test: $(BUILD)/coupler_main
 #----
 # Cleanup
 
-.PHONY: clean
+.PHONY: clean clean.fms
+clean.fms: clean
+	$(MAKE) -C ../shared/fms BUILD=$(abspath $(FMS_BUILD)) clean
 clean:
 	$(MAKE) -C ../shared/atmos_null BUILD=$(abspath $(ATMOS_BUILD)) clean
 	$(MAKE) -C ../shared/land_null BUILD=$(abspath $(LAND_BUILD)) clean
