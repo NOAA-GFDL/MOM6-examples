@@ -1838,6 +1838,60 @@
     ! long_name: Global Area Average Sea Surface Absolute Salinity
     ! units: psu
     ! standard_name: sea_surface_absolute_salinity
+"temp_int"  [Used] (CMOR equivalent is "opottempmint")
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Density weighted column integrated potential temperature
+    ! units: degC kg m-2
+    ! cell_methods: xh:mean yh:mean area:mean
+    ! variants: {temp_int,opottempmint}
+"salt_int"  [Used] (CMOR equivalent is "somint")
+    ! modules: {ocean_model,ocean_model_d2}
+    ! dimensions: xh, yh
+    ! long_name: Density weighted column integrated salinity
+    ! units: psu kg m-2
+    ! cell_methods: xh:mean yh:mean yh:sum area:mean
+    ! variants: {salt_int,somint}
+"absscint"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Integral wrt depth of seawater absolute salinity expressed as salt mass content
+    ! units: kg m-2
+    ! standard_name: integral_wrt_depth_of_sea_water_absolute_salinity_expressed_as_salt_mass_content
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+    ! variants: {absscint,absscint_xyave}
+"pfscint"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name:  Integral wrt depth of seawater preformed salinity expressed as salt mass content
+    ! units: kg m-2
+    ! standard_name: integral_wrt_depth_of_sea_water_preformed_salinity_expressed_as_salt_mass_content
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+    ! variants: {pfscint,pfscint_xyave}
+"scint"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Integral wrt depth of seawater practical salinity expressed as salt mass content
+    ! units: kg m-2
+    ! standard_name: integral_wrt_depth_of_sea_water_practical_salinity_expressed_as_salt_mass_content
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+    ! variants: {scint,scint_xyave}
+"chcint"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Depth Integrated Seawater Conservative Temperature Expressed As Heat Content
+    ! units: J m-2
+    ! standard_name: integral_wrt_depth_of_sea_water_conservative_temperature_expressed_as_heat_content
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+    ! variants: {chcint,chcint_xyave}
+"phcint"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Integrated Ocean Heat Content from Potential Temperature
+    ! units: J m-2
+    ! standard_name: integral_wrt_depth_of_sea_water_potential_temperature_expressed_as_heat_content
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+    ! variants: {phcint,phcint_xyave}
 "u"  [Used] (CMOR equivalent is "uo")
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! dimensions: xq, yh, zl
@@ -2206,20 +2260,6 @@
     ! long_name: The column mass for calculating mass-weighted average properties
     ! units: kg m-2
     ! cell_methods: xh:mean yh:mean area:mean
-"temp_int"  [Used] (CMOR equivalent is "opottempmint")
-    ! modules: {ocean_model,ocean_model_d2}
-    ! dimensions: xh, yh
-    ! long_name: Density weighted column integrated potential temperature
-    ! units: degC kg m-2
-    ! cell_methods: xh:mean yh:mean area:mean
-    ! variants: {temp_int,opottempmint}
-"salt_int"  [Used] (CMOR equivalent is "somint")
-    ! modules: {ocean_model,ocean_model_d2}
-    ! dimensions: xh, yh
-    ! long_name: Density weighted column integrated salinity
-    ! units: psu kg m-2
-    ! cell_methods: xh:mean yh:mean area:mean
-    ! variants: {salt_int,somint}
 "col_mass"  [Unused]
     ! modules: {ocean_model,ocean_model_d2}
     ! dimensions: xh, yh
