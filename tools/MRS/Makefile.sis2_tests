@@ -1,4 +1,5 @@
-# Runs model and stores resulting ocean.stats files in tar files (that can be cached)
+# Runs model and stores resulting ocean.stats and seaice.stats files in tar
+# files (that can be cached)
 
 # Include local configs if present
 -include config.mk
@@ -37,7 +38,7 @@ $(RESULTS)/$(1)_$(2).tar.gz:
 	time make -f tools/MRS/Makefile.run $(3) $(MINUS_S) $(MINUS_J)
 	@echo -n '$(1) $2 finished at ' && date
 	mkdir -p $$(@D)
-	tar zvcf $$@ `find *SIS2 -name ocean.stats.$(2)`
+	tar zvcf $$@ `find *SIS2 -name ocean.stats.$(2) -o -name seaice.stats.$(2)`
 	tar zvcf $$(@D)/params_$$(@F) `find *SIS2/ -name "*_parameter_doc.*" -o -name "*available_diags*"`
 	@echo -e "\e[0Ksection_end:`date +%s`:$$(@F)\r\e[0K"
 endef
@@ -84,7 +85,7 @@ $(1)_memory:
 	@mkdir -p $(RESULTS)/$$@
 	cd $(RESULTS)/$$@ ; tar zvxf ../non_symmetric_$(1).tar.gz
 	@echo -e "\e[0Ksection_end:`date +%s`:1$$@\r\e[0K"
-	cd $(RESULTS)/$$@ ; md5sum `find *SIS2/ -name ocean.stats.$(1)` > $(1).md5
+	cd $(RESULTS)/$$@ ; md5sum `find *SIS2/ -name ocean.stats.$(1) -o -name seaice.stats.$(1)` > $(1).md5
 	@echo -e "\e[0Ksection_start:`date +%s`:2$$@[collapsed=true]\r\e[0KUncache symmetric results $$@"
 	cd $(RESULTS)/$$@ ; tar zvxf ../symmetric_$(1).tar.gz
 	@echo -e "\e[0Ksection_end:`date +%s`:2$$@\r\e[0K"
@@ -94,7 +95,7 @@ $(foreach c,$(COMPILERS),$(eval $(call check-memory-reproducibility,$(c))))
 
 $(RESULTS)/true_%.md5:
 	mkdir -p $(@D)
-	(cd $(REGRESSIONS) && md5sum `find *SIS2 -name ocean.stats.$*`) > $@
+	(cd $(REGRESSIONS) && md5sum `find *SIS2 -name ocean.stats.$* -o -name seaice.stats.$*`) > $@
 
 # Runs restart tests
 # 1 - compiler
@@ -106,7 +107,7 @@ $(RESULTS)/restart_stats_$(1).tar.gz:
 	time make -f tools/MRS/Makefile.restart $(1)_ice_ocean_SIS2 $(MINUS_S) $(MINUS_J) RESTART_STAGE=02
 	time make -f tools/MRS/Makefile.restart $(1)_ice_ocean_SIS2 $(MINUS_S) $(MINUS_J) RESTART_STAGE=12
 	mkdir -p $(RESULTS)
-	tar zvcf $$@ `find *SIS2/ -path "*/??.ignore/*" -name ocean.stats.$(1)`
+	tar zvcf $$@ `find *SIS2/ -path "*/??.ignore/*" -name ocean.stats.$(1) -o -name seaice.stats.$(1)`
 	@echo -e "\e[0Ksection_end:`date +%s`:$$(@F)\r\e[0K"
 endef
 $(foreach c,$(COMPILERS),$(eval $(call run-restart-tests,$(c))))
