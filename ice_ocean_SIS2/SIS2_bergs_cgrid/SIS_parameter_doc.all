@@ -224,6 +224,15 @@ GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
 
 ! === module MOM_hor_index ===
 ! Sets the horizontal array index types.
+
+! === module SIS_diag_mediator ===
+USE_INDEX_DIAGNOSTIC_AXES = False !   [Boolean] default = False
+                                ! If true, use a grid index coordinate convention for diagnostic axes.
+DIAG_MISVAL = 1.0E+20           !   [various] default = 1.0E+20
+                                ! Set the default missing value to use for diagnostics.
+DIAG_AS_CHKSUM = False          !   [Boolean] default = False
+                                ! Instead of writing diagnostics to the diag manager, write a text file
+                                ! containing the checksum (bitcount) of the array.
 SIS_AVAILABLE_DIAGS_FILE = "SIS.available_diags" ! default = "SIS.available_diags"
                                 ! A file into which to write a list of all available sea ice diagnostics that
                                 ! can be included in a diag_table.
@@ -258,6 +267,8 @@ SUBLIMATION_BUG = False         !   [Boolean] default = False
 ! === module SIS_tracer_flow_control ===
 USE_ICE_AGE_TRACER = False      !   [Boolean] default = False
                                 ! If true, use the concentration based age tracer package.
+
+! === module SIS_diag_mediator ===
 SIS_FAST_AVAILABLE_DIAGS_FILE = "SIS_fast.available_diags" ! default = "SIS_fast.available_diags"
                                 ! A file into which to write a list of all available sea ice diagnostics that
                                 ! can be included in a diag_table.
