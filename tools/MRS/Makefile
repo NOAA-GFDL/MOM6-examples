@@ -257,7 +257,13 @@ pipeline-build-gnu-iceocean-nolibs:
 	@echo -e "\e[0Ksection_end:`date +%s`:clone-$*\r\e[0K"
 	@echo -e "\e[0Ksection_start:`date +%s`:build-$*[collapsed=true]\r\e[0KCompiling executables for $*"
 	make -f tools/MRS/Makefile.build build/gnu/env
-	cd build/gnu && ../../src/mkmf/bin/list_paths -l ../../$(MOM6_SRC)/config_src/{drivers/FMS_cap,memory/dynamic_nonsymmetric,infra/FMS1,ext*} ../../$(MOM6_SRC)/src ../../$(SIS2_SRC)/*src ../../src/{FMS,coupler,icebergs,ice_param,land_null,atmos_null}
+	cd build/gnu && ../../src/mkmf/bin/list_paths -l \
+	  ../../$(MOM6_SRC)/src \
+	  ../../$(MOM6_SRC)/config_src/{drivers/FMS_cap,memory/dynamic_nonsymmetric,infra/FMS1,ext*} \
+	  ../../$(SIS2_SRC)/src \
+	  ../../$(SIS2_SRC)/config_src/dynamic_symmetric \
+	  ../../$(SIS2_SRC)/config_src/external/Icepack_interfaces \
+	  ../../src/{FMS,coupler,icebergs,ice_param,land_null,atmos_null}
 	cd build/gnu && sed -i '/FMS\/.*\/test_/d' path_names
 	cd build/gnu && ../../src/mkmf/bin/mkmf -t ../../src/mkmf/templates/ncrc-gnu.mk -p MOM6 -c"-Duse_libMPI -Duse_netCDF -D_USE_LEGACY_LAND_ -Duse_AM3_physics" path_names
 	cd build/gnu && time (source ./env ; make NETCDF=3 REPRO=1 MOM6 -s -j)
