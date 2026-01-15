@@ -133,16 +133,16 @@
     ! units: W m-2
 "ice_model", "LSRC"  [Used]
     ! long_name: frozen water local source
-    ! units: kg/(m^2*yr)
+    ! units: kg m-2 yr-1
 "ice_model", "LSNK"  [Used]
     ! long_name: frozen water local sink
-    ! units: kg/(m^2*yr)
+    ! units: kg m-2 yr-1
 "ice_model", "BSNK"  [Used]
     ! long_name: frozen water local bottom sink
     ! units: kg m-2 yr-1
 "ice_model", "SN2IC"  [Used]
     ! long_name: rate of snow to ice conversion
-    ! units: kg/(m^2*s)
+    ! units: kg m-2 s-1
 "ice_model", "net_melt"  [Unused]
     ! long_name: net mass flux from ice & snow to ocean due to melting & freezing
     ! units: kg m-2 s-1
@@ -204,23 +204,23 @@
     ! long_name: air stress on ice - y component
     ! units: Pa
 "ice_model", "EXT"  [Used]
-    ! long_name: ice modeled
-    ! units: 0 or 1
+    ! long_name: ice extent, indicating cells with more than 15% sea ice cover
+    ! units: nondim
 "ice_model", "CN"  [Used]
     ! long_name: ice concentration
     ! units: nondim
 "ice_model", "HP"  [Unused]
     ! long_name: pond thickness
-    ! units: m-pond
+    ! units: m
 "ice_model", "HS"  [Used]
     ! long_name: snow thickness
-    ! units: m-snow
+    ! units: m
 "ice_model", "TSN"  [Unused]
     ! long_name: snow layer temperature
     ! units: degC
 "ice_model", "HI"  [Used]
     ! long_name: ice thickness
-    ! units: m-ice
+    ! units: m
 "ice_model", "sitimefrac"  [Unused]
     ! long_name: time fraction of ice cover
     ! units: nondim
@@ -233,10 +233,10 @@
     ! standard_name: SeaIceAreaFraction
 "ice_model", "sithick"  [Unused]
     ! long_name: ice thickness
-    ! units: m-ice
+    ! units: m
 "ice_model", "sivol"  [Unused]
     ! long_name: ice volume
-    ! units: m-ice
+    ! units: m
 "ice_model", "sisnconc"  [Unused]
     ! long_name: snow concentration
     ! units: nondim
@@ -246,7 +246,7 @@
     ! standard_name: SurfaceSnowAreaFraction
 "ice_model", "sisnthick"  [Unused]
     ! long_name: snow thickness
-    ! units: m-snow
+    ! units: m
 "ice_model", "T_bulkice"  [Unused]
     ! long_name: Volume-averaged ice temperature
     ! units: degC
@@ -288,7 +288,7 @@
     ! units: kg m-2
 "ice_model", "siitdthick"  [Unused]
     ! long_name: ice thickness in categories
-    ! units: m-ice
+    ! units: m
 "ice_model", "sisnmass"  [Unused]
     ! long_name: snow mass
     ! units: kg m-2
