@@ -1,438 +1,898 @@
-"ice_model", "SH"  [Used]
+"SINROT"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: -SINROT,COSROT points north
+    ! units: none
+"COSROT"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: COSROT,SINROT points east
+    ! units: none
+"GEOLON"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: longitude
+    ! units: degrees
+"GEOLAT"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: latitude
+    ! units: degrees
+"CELL_AREA"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: cell area
+    ! units: sphere
+"SH"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: sensible heat flux
     ! units: W m-2
-"ice_model", "LH"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"LH"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: latent heat flux
     ! units: W m-2
-"ice_model", "SW"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SW"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: shortwave heat flux
     ! units: W m-2
-"ice_model", "LW"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"LW"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: longwave heat flux over ice
     ! units: W m-2
-"ice_model", "SNOWFL"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SNOWFL"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: rate of snow fall
     ! units: kg m-2 s-1
-"ice_model", "RAIN"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"RAIN"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: rate of rain fall
     ! units: kg m-2 s-1
-"ice_model", "RUNOFF"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"RUNOFF"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: liquid runoff
     ! units: kg m-2 s-1
-"ice_model", "CALVING"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"CALVING"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: frozen runoff
     ! units: kg m-2 s-1
-"ice_model", "RUNOFF_HFLX"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"RUNOFF_HFLX"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: liquid runoff sensible heat flux
     ! units: W m-2
-"ice_model", "CALVING_HFLX"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"CALVING_HFLX"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: frozen runoff sensible heat flux
     ! units: W m-2
-"ice_model", "EVAP"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"EVAP"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: evaporation
     ! units: kg m-2 s-1
-"ice_model", "SALTF"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SALTF"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice to ocean salt flux
     ! units: kg m-2 s-1
-"ice_model", "TMELT"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"TMELT"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: upper surface melting energy flux
     ! units: W m-2
-"ice_model", "BMELT"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"BMELT"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: bottom surface melting energy flux
     ! units: W m-2
-"ice_model", "BHEAT"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"BHEAT"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ocean to ice heat flux
     ! units: W m-2
-"ice_model", "SWDN"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SWDN"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: Downward shortwave heat flux at the bottom of the atmosphere
     ! units: W m-2
-"ice_model", "ALB"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"ALB"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: Shortwave flux weighted surface albedo, or 1 if no SW
     ! units: nondim
-"ice_model", "SW_VIS"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SW_VIS"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: visible shortwave heat flux
     ! units: W m-2
-"ice_model", "SW_DIR"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SW_DIR"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: direct shortwave heat flux
     ! units: W m-2
-"ice_model", "SW_DIF"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SW_DIF"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: diffuse shortwave heat flux
     ! units: W m-2
-"ice_model", "SW_VIS_DIR"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SW_VIS_DIR"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: visible direct shortwave heat flux
     ! units: W m-2
-"ice_model", "SW_VIS_DIF"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SW_VIS_DIF"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: visible diffuse shortwave heat flux
     ! units: W m-2
-"ice_model", "SW_NIR_DIR"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SW_NIR_DIR"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: near IR direct shortwave heat flux
     ! units: W m-2
-"ice_model", "SW_NIR_DIF"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SW_NIR_DIF"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: near IR diffuse shortwave heat flux
     ! units: W m-2
-"ice_model", "EVAP_T0"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"EVAP_T0"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ctu
     ! long_name: evaporation at 0 degC
     ! units: kg m-2 s-1
-"ice_model", "LW_T0"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"LW_T0"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ctu
     ! long_name: net downward longwave heat flux over ice at 0 degC
     ! units: W m-2
-"ice_model", "SH_T0"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SH_T0"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ctu
     ! long_name: sensible heat flux at 0 degC
     ! units: W m-2
-"ice_model", "dEVAP_dT"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"dEVAP_dT"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ctu
     ! long_name: partial derivative of evaporation with ice skin temperature
     ! units: kg m-2 s-1 K-1
-"ice_model", "dLW_dT"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"dLW_dT"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ctu
     ! long_name: partial derivative of net downward longwave heat flux with ice skin temperature
     ! units: W m-2 K-1
-"ice_model", "dSH_dT"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"dSH_dT"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ctu
     ! long_name: partial derivative of sensible heat flux with ice skin temperature
     ! units: W m-2 K-1
-"ice_model", "TS_CAT"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"TS_CAT"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ctu
     ! long_name: surface temperature by category
     ! units: degC
-"ice_model", "EVAP_CAT"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"EVAP_CAT"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ctu
     ! long_name: evaporation by category
     ! units: kg m-2 s-1
-"ice_model", "LW_CAT"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"LW_CAT"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ctu
     ! long_name: longwave heat flux by category
     ! units: W m-2
-"ice_model", "SH_CAT"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SH_CAT"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ctu
     ! long_name: sensible heat flux by category
     ! units: W m-2
-"ice_model", "TS"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"TS"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: surface temperature
     ! units: degC
-"ice_model", "sitemptop"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sitemptop"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: surface temperature
     ! units: degC
-"ice_model", "sitemptop_CMOR"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sitemptop_CMOR"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: Surface Temperature of Sea ice
     ! units: Kelvin
     ! standard_name: SeaIceSurfaceTemperature
-"ice_model", "SLP"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SLP"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: sea level pressure
     ! units: Pa
-"ice_model", "SST"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SST"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: sea surface temperature
     ! units: degC
-"ice_model", "SSS"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SSS"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: sea surface salinity
     ! units: psu
-"ice_model", "SSH"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SSH"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: sea surface height
     ! units: m
-"ice_model", "UO"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"UO"  [Used]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: surface current - x component
     ! units: m s-1
-"ice_model", "VO"  [Used]
+    ! cell_methods: xB:point yT:mean
+"VO"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: surface current - y component
     ! units: m s-1
-"ice_model", "FRAZIL"  [Used]
+    ! cell_methods: xT:mean yB:point
+"FRAZIL"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: energy flux of frazil formation
     ! units: W m-2
-"ice_model", "LSRC"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"LSRC"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: frozen water local source
     ! units: kg m-2 yr-1
-"ice_model", "LSNK"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"LSNK"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: frozen water local sink
     ! units: kg m-2 yr-1
-"ice_model", "BSNK"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"BSNK"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: frozen water local bottom sink
     ! units: kg m-2 yr-1
-"ice_model", "SN2IC"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SN2IC"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: rate of snow to ice conversion
     ! units: kg m-2 s-1
-"ice_model", "net_melt"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"net_melt"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: net mass flux from ice & snow to ocean due to melting & freezing
     ! units: kg m-2 s-1
-"ice_model", "fsitherm"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"fsitherm"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: water_flux_into_sea_water_due_to_sea_ice_thermodynamics
     ! units: kg m-2 s-1
-"ice_model", "SIGI"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SIGI"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: first stress invariant
     ! units: nondim
-"ice_model", "SIGII"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"SIGII"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: second stress invariant
     ! units: nondim
-"ice_model", "STRENGTH"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"STRENGTH"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice strength
     ! units: Pa m
-"ice_model", "STREN_0"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"STREN_0"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice strength at start of rheology
     ! units: Pa m
-"ice_model", "FI_X"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"FI_X"  [Used]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: ice internal stress - x component
     ! units: Pa
-"ice_model", "FI_Y"  [Used]
+    ! cell_methods: xB:point yT:mean
+"FI_Y"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: ice internal stress - y component
     ! units: Pa
-"ice_model", "FC_X"  [Used]
+    ! cell_methods: xT:mean yB:point
+"FC_X"  [Used]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: Coriolis force - x component
     ! units: Pa
-"ice_model", "FC_Y"  [Used]
+    ! cell_methods: xB:point yT:mean
+"FC_Y"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: Coriolis force - y component
     ! units: Pa
-"ice_model", "Cor_ui"  [Unused]
+    ! cell_methods: xT:mean yB:point
+"Cor_ui"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: Coriolis ice acceleration - x component
     ! units: m s-2
-"ice_model", "Cor_vi"  [Unused]
+    ! cell_methods: xB:point yT:mean
+"Cor_vi"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: Coriolis ice acceleration - y component
     ! units: m s-2
-"ice_model", "FP_X"  [Used]
+    ! cell_methods: xT:mean yB:point
+"FP_X"  [Used]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: Pressure force - x component
     ! units: Pa
-"ice_model", "FP_Y"  [Used]
+    ! cell_methods: xB:point yT:mean
+"FP_Y"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: Pressure force - y component
     ! units: Pa
-"ice_model", "Pfa_ui"  [Unused]
+    ! cell_methods: xT:mean yB:point
+"Pfa_ui"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: Pressure-force ice acceleration - x component
     ! units: m s-2
-"ice_model", "Pfa_vi"  [Unused]
+    ! cell_methods: xB:point yT:mean
+"Pfa_vi"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: Pressure-force ice acceleration - y component
     ! units: m s-2
-"ice_model", "FW_X"  [Used]
+    ! cell_methods: xT:mean yB:point
+"FW_X"  [Used]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: water stress on ice - x component
     ! units: Pa
-"ice_model", "FW_Y"  [Used]
+    ! cell_methods: xB:point yT:mean
+"FW_Y"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: water stress on ice - y component
     ! units: Pa
-"ice_model", "FLF_X"  [Unused]
+    ! cell_methods: xT:mean yB:point
+"FLF_X"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: land-fast bottom stress on ice - x component
     ! units: Pa
-"ice_model", "FLF_Y"  [Unused]
+    ! cell_methods: xB:point yT:mean
+"FLF_Y"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: land-fast bottom stress on ice - y component
     ! units: Pa
-"ice_model", "UI"  [Used]
+    ! cell_methods: xT:mean yB:point
+"UI"  [Used]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: ice velocity - x component
     ! units: m s-1
-"ice_model", "VI"  [Used]
+    ! cell_methods: xB:point yT:mean
+"VI"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: ice velocity - y component
     ! units: m s-1
-"ice_model", "ui_east"  [Unused]
+    ! cell_methods: xT:mean yB:point
+"ui_east"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice velocity - east component
     ! units: m s-1
-"ice_model", "vi_north"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"vi_north"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice velocity - north component
     ! units: m s-1
-"ice_model", "MIS_tot"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"MIS_tot"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: Mass of ice and snow at t-points
     ! units: kg m-2
-"ice_model", "CI_tot"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"CI_tot"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: Initial summed concentration of ice at t-points
     ! units: nondim
-"ice_model", "CI_proj"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"CI_proj"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: Projected summed concentration of ice at t-points
     ! units: nondim
-"ice_model", "MI_U"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"MI_U"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: Mass of ice and snow at u-points
     ! units: kg m-2
-"ice_model", "MI_V"  [Unused]
+    ! cell_methods: xB:point yT:mean
+"MI_V"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: Mass of ice and snow at v-points
     ! units: kg m-2
-"ice_model", "FI_d_X"  [Unused]
+    ! cell_methods: xT:mean yB:point
+"FI_d_X"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: ice divergence internal stress - x component
     ! units: Pa
-"ice_model", "FI_d_Y"  [Unused]
+    ! cell_methods: xB:point yT:mean
+"FI_d_Y"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: ice divergence internal stress - y component
     ! units: Pa
-"ice_model", "FI_t_X"  [Unused]
+    ! cell_methods: xT:mean yB:point
+"FI_t_X"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: ice tension internal stress - x component
     ! units: Pa
-"ice_model", "FI_t_Y"  [Unused]
+    ! cell_methods: xB:point yT:mean
+"FI_t_Y"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: ice tension internal stress - y component
     ! units: Pa
-"ice_model", "FI_s_X"  [Unused]
+    ! cell_methods: xT:mean yB:point
+"FI_s_X"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: ice shearing internal stress - x component
     ! units: Pa
-"ice_model", "FI_s_Y"  [Unused]
+    ! cell_methods: xB:point yT:mean
+"FI_s_Y"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: ice shearing internal stress - y component
     ! units: Pa
-"ice_model", "str_d"  [Used]
+    ! cell_methods: xT:mean yB:point
+"str_d"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice divergence internal stress
     ! units: Pa m
-"ice_model", "str_t"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"str_t"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice tension internal stress
     ! units: Pa m
-"ice_model", "str_s"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"str_s"  [Used]
+    ! modules: ice_model
+    ! dimensions: xq, yq
     ! long_name: ice shearing internal stress
     ! units: Pa m
-"ice_model", "sh_d"  [Used]
+    ! cell_methods: xB:point yB:point
+"sh_d"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice divergence strain rate
     ! units: s-1
-"ice_model", "sh_t"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sh_t"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice tension strain rate
     ! units: s-1
-"ice_model", "sh_s"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sh_s"  [Used]
+    ! modules: ice_model
+    ! dimensions: xq, yq
     ! long_name: ice shearing strain rate
     ! units: s-1
-"ice_model", "del_sh"  [Used]
+    ! cell_methods: xB:point yB:point
+"del_sh"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice strain rate magnitude
     ! units: s-1
-"ice_model", "del_sh_min"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"del_sh_min"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: minimum ice strain rate magnitude
     ! units: s-1
-"ice_model", "itheta"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"itheta"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice atan(shear/divergence)
     ! units: radians
-"ice_model", "ui_hf"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"ui_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: ice velocity - x component
     ! units: m s-1
-"ice_model", "vi_hf"  [Unused]
+    ! cell_methods: xB:point yT:mean
+"vi_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: ice velocity - y component
     ! units: m s-1
-"ice_model", "str_d_hf"  [Unused]
+    ! cell_methods: xT:mean yB:point
+"str_d_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice divergence internal stress
     ! units: Pa m
-"ice_model", "str_t_hf"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"str_t_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice tension internal stress
     ! units: Pa m
-"ice_model", "str_s_hf"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"str_s_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xq, yq
     ! long_name: ice shearing internal stress
     ! units: Pa m
-"ice_model", "sh_d_hf"  [Unused]
+    ! cell_methods: xB:point yB:point
+"sh_d_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice divergence rate
     ! units: s-1
-"ice_model", "sh_t_hf"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sh_t_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice tension rate
     ! units: s-1
-"ice_model", "sh_s_hf"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sh_s_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xq, yq
     ! long_name: ice shearing rate
     ! units: s-1
-"ice_model", "sigI_hf"  [Unused]
+    ! cell_methods: xB:point yB:point
+"sigI_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: first stress invariant
     ! units: nondim
-"ice_model", "sigII_hf"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sigII_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: second stress invariant
     ! units: nondim
-"ice_model", "CI_hf"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"CI_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: Summed concentration of ice at t-points
     ! units: nondim
-"ice_model", "STRENGTH_hf"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"STRENGTH_hf"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice strength
     ! units: Pa m
-"ice_model", "siu"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"siu"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice velocity - x component
     ! units: m s-1
-"ice_model", "siv"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"siv"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice velocity - y component
     ! units: m s-1
-"ice_model", "sispeed"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sispeed"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice speed
     ! units: m s-1
-"ice_model", "IX_TRANS"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"IX_TRANS"  [Used]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: x-direction ice transport
     ! units: kg s-1
-"ice_model", "IY_TRANS"  [Used]
+    ! cell_methods: xB:point yT:mean
+"IY_TRANS"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: y-direction ice transport
     ! units: kg s-1
-"ice_model", "XPRT"  [Used]
+    ! cell_methods: xT:mean yB:point
+"XPRT"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: frozen water transport convergence
     ! units: kg m-2 yr-1
-"ice_model", "RDG_RATE"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"RDG_RATE"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice ridging rate
     ! units: s-1
-"ice_model", "RDG_HEIGHT"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"RDG_HEIGHT"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ct
     ! long_name: ice ridge height
     ! units: m
-"ice_model", "FA_X"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"FA_X"  [Used]
+    ! modules: ice_model
+    ! dimensions: xq, yh
     ! long_name: Air stress on ice on C-grid - x component
     ! units: Pa
-"ice_model", "FA_Y"  [Used]
+    ! cell_methods: xB:point yT:mean
+"FA_Y"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yq
     ! long_name: Air stress on ice on C-grid - y component
     ! units: Pa
-"ice_model", "EXT"  [Used]
+    ! cell_methods: xT:mean yB:point
+"EXT"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice extent, indicating cells with more than 15% sea ice cover
     ! units: nondim
-"ice_model", "CN"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"CN"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ct
     ! long_name: ice concentration
     ! units: nondim
-"ice_model", "HP"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"HP"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: pond thickness
     ! units: m
-"ice_model", "HS"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"HS"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: snow thickness
     ! units: m
-"ice_model", "TSN"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"TSN"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: snow layer temperature
     ! units: degC
-"ice_model", "HI"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"HI"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice thickness
     ! units: m
-"ice_model", "sitimefrac"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sitimefrac"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: time fraction of ice cover
     ! units: nondim
-"ice_model", "siconc"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"siconc"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice concentration
     ! units: nondim
-"ice_model", "siconc_CMOR"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"siconc_CMOR"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: Sea-Ice Area Percentage
     ! units: %
     ! standard_name: SeaIceAreaFraction
-"ice_model", "sithick"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sithick"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice thickness
     ! units: m
-"ice_model", "sivol"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sivol"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice volume
     ! units: m
-"ice_model", "sisnconc"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sisnconc"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: snow concentration
     ! units: nondim
-"ice_model", "sisnconc_CMOR"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sisnconc_CMOR"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: Snow Area Percentage
     ! units: %
     ! standard_name: SurfaceSnowAreaFraction
-"ice_model", "sisnthick"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sisnthick"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: snow thickness
     ! units: m
-"ice_model", "T_bulkice"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"T_bulkice"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: Volume-averaged ice temperature
     ! units: degC
-"ice_model", "S_bulkice"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"S_bulkice"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: Volume-averaged ice salinity
     ! units: g kg-1
-"ice_model", "T1"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"T1"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice layer 1 temperature
     ! units: degC
-"ice_model", "Sal1"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"Sal1"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice layer 1 salinity
     ! units: g kg-1
-"ice_model", "T2"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"T2"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice layer 2 temperature
     ! units: degC
-"ice_model", "Sal2"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"Sal2"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice layer 2 salinity
     ! units: g kg-1
-"ice_model", "T3"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"T3"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice layer 3 temperature
     ! units: degC
-"ice_model", "Sal3"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"Sal3"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice layer 3 salinity
     ! units: g kg-1
-"ice_model", "T4"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"T4"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice layer 4 temperature
     ! units: degC
-"ice_model", "Sal4"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"Sal4"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice layer 4 salinity
     ! units: g kg-1
-"ice_model", "MI"  [Used]
+    ! cell_methods: xT:mean yT:mean area:mean
+"MI"  [Used]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice + snow mass
     ! units: kg m-2
-"ice_model", "simass"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"simass"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice mass
     ! units: kg m-2
-"ice_model", "simass_n"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"simass_n"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ct
     ! long_name: ice mass in categories
     ! units: kg m-2
-"ice_model", "siitdthick"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"siitdthick"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh, ct
     ! long_name: ice thickness in categories
     ! units: m
-"ice_model", "sisnmass"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"sisnmass"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: snow mass
     ! units: kg m-2
-"ice_model", "MIB"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"MIB"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: ice + snow + bergs mass
     ! units: kg m-2
-"ice_model", "E2MELT"  [Unused]
+    ! cell_methods: xT:mean yT:mean area:mean
+"E2MELT"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
     ! long_name: heat needed to melt ice
     ! units: J m-2
+    ! cell_methods: xT:mean yT:mean area:mean
