@@ -53,12 +53,13 @@
     ! long_name: rate of snow fall
     ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
-"RAIN"  [Used]
+"RAIN"  [Used] (CMOR equivalent is "sipr")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: rate of rain fall
     ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {RAIN,sipr}
 "RUNOFF"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -89,12 +90,13 @@
     ! long_name: evaporation
     ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
-"SALTF"  [Used]
+"SALTF"  [Used] (CMOR equivalent is "siflsaltbot")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: ice to ocean salt flux
     ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {SALTF,siflsaltbot}
 "TMELT"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -107,18 +109,20 @@
     ! long_name: bottom surface melting energy flux
     ! units: W m-2
     ! cell_methods: xT:mean yT:mean area:mean
-"BHEAT"  [Used]
+"BHEAT"  [Used] (CMOR equivalent is "siflsensbot")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: ocean to ice heat flux
     ! units: W m-2
     ! cell_methods: xT:mean yT:mean area:mean
-"SWDN"  [Unused]
+    ! variants: {BHEAT,siflsensbot}
+"SWDN"  [Unused] (CMOR equivalent is "siflswdtop")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: Downward shortwave heat flux at the bottom of the atmosphere
     ! units: W m-2
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {SWDN,siflswdtop}
 "ALB"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -366,30 +370,34 @@
     ! long_name: ice strength at start of rheology
     ! units: Pa m
     ! cell_methods: xT:mean yT:mean area:mean
-"FI_X"  [Used]
+"FI_X"  [Used] (CMOR equivalent is "siforceintstrx")
     ! modules: ice_model
     ! dimensions: xq, yh
     ! long_name: ice internal stress - x component
     ! units: Pa
     ! cell_methods: xB:point yT:mean
-"FI_Y"  [Used]
+    ! variants: {FI_X,siforceintstrx}
+"FI_Y"  [Used] (CMOR equivalent is "siforceintstry")
     ! modules: ice_model
     ! dimensions: xh, yq
     ! long_name: ice internal stress - y component
     ! units: Pa
     ! cell_methods: xT:mean yB:point
-"FC_X"  [Unused]
+    ! variants: {FI_Y,siforceintstry}
+"FC_X"  [Unused] (CMOR equivalent is "siforcecoriolx")
     ! modules: ice_model
     ! dimensions: xq, yh
     ! long_name: Coriolis force - x component
     ! units: Pa
     ! cell_methods: xB:point yT:mean
-"FC_Y"  [Unused]
+    ! variants: {FC_X,siforcecoriolx}
+"FC_Y"  [Unused] (CMOR equivalent is "siforcecorioly")
     ! modules: ice_model
     ! dimensions: xh, yq
     ! long_name: Coriolis force - y component
     ! units: Pa
     ! cell_methods: xT:mean yB:point
+    ! variants: {FC_Y,siforcecorioly}
 "Cor_ui"  [Unused]
     ! modules: ice_model
     ! dimensions: xq, yh
@@ -402,18 +410,20 @@
     ! long_name: Coriolis ice acceleration - y component
     ! units: m s-2
     ! cell_methods: xT:mean yB:point
-"FP_X"  [Unused]
+"FP_X"  [Unused] (CMOR equivalent is "siforcetiltx")
     ! modules: ice_model
     ! dimensions: xq, yh
     ! long_name: Pressure force - x component
     ! units: Pa
     ! cell_methods: xB:point yT:mean
-"FP_Y"  [Unused]
+    ! variants: {FP_X,siforcetiltx}
+"FP_Y"  [Unused] (CMOR equivalent is "siforcetilty")
     ! modules: ice_model
     ! dimensions: xh, yq
     ! long_name: Pressure force - y component
     ! units: Pa
     ! cell_methods: xT:mean yB:point
+    ! variants: {FP_Y,siforcetilty}
 "Pfa_ui"  [Unused]
     ! modules: ice_model
     ! dimensions: xq, yh
@@ -426,18 +436,20 @@
     ! long_name: Pressure-force ice acceleration - y component
     ! units: m s-2
     ! cell_methods: xT:mean yB:point
-"FW_X"  [Unused]
+"FW_X"  [Unused] (CMOR equivalent is "sistrxubot")
     ! modules: ice_model
     ! dimensions: xq, yh
     ! long_name: water stress on ice - x component
     ! units: Pa
     ! cell_methods: xB:point yT:mean
-"FW_Y"  [Unused]
+    ! variants: {FW_X,sistrxubot}
+"FW_Y"  [Unused] (CMOR equivalent is "sistryubot")
     ! modules: ice_model
     ! dimensions: xh, yq
     ! long_name: water stress on ice - y component
     ! units: Pa
     ! cell_methods: xT:mean yB:point
+    ! variants: {FW_Y,sistryubot}
 "FLF_X"  [Unused]
     ! modules: ice_model
     ! dimensions: xq, yh
@@ -642,30 +654,33 @@
     ! long_name: ice shearing rate
     ! units: s-1
     ! cell_methods: xB:point yB:point
-"sigI_hf"  [Unused]
+"sigI_hf"  [Unused] (CMOR equivalent is "sistressave")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: first stress invariant
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
-"sigII_hf"  [Unused]
+    ! variants: {sigI_hf,sistressave}
+"sigII_hf"  [Unused] (CMOR equivalent is "sistressmax")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: second stress invariant
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {sigII_hf,sistressmax}
 "CI_hf"  [Unused]
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: Summed concentration of ice at t-points
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
-"STRENGTH_hf"  [Unused]
+"STRENGTH_hf"  [Unused] (CMOR equivalent is "sicompstren")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: ice strength
     ! units: Pa m
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {STRENGTH_hf,sicompstren}
 "siu"  [Unused]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -684,18 +699,20 @@
     ! long_name: ice speed
     ! units: m s-1
     ! cell_methods: xT:mean yT:mean area:mean
-"IX_TRANS"  [Used]
+"IX_TRANS"  [Used] (CMOR equivalent is "sidmasstranx")
     ! modules: ice_model
     ! dimensions: xq, yh
     ! long_name: x-direction ice transport
     ! units: kg s-1
     ! cell_methods: xB:point yT:mean
-"IY_TRANS"  [Used]
+    ! variants: {IX_TRANS,sidmasstranx}
+"IY_TRANS"  [Used] (CMOR equivalent is "sidmasstrany")
     ! modules: ice_model
     ! dimensions: xh, yq
     ! long_name: y-direction ice transport
     ! units: kg s-1
     ! cell_methods: xT:mean yB:point
+    ! variants: {IY_TRANS,sidmasstrany}
 "XPRT"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -714,30 +731,33 @@
     ! long_name: ice ridge height
     ! units: m
     ! cell_methods: xT:mean yT:mean area:mean
-"FA_X"  [Used]
+"FA_X"  [Used] (CMOR equivalent is "sistrxdtop")
     ! modules: ice_model
     ! dimensions: xq, yh
     ! long_name: Air stress on ice on C-grid - x component
     ! units: Pa
     ! cell_methods: xB:point yT:mean
-"FA_Y"  [Used]
+    ! variants: {FA_X,sistrxdtop}
+"FA_Y"  [Used] (CMOR equivalent is "sistrydtop")
     ! modules: ice_model
     ! dimensions: xh, yq
     ! long_name: Air stress on ice on C-grid - y component
     ! units: Pa
     ! cell_methods: xT:mean yB:point
+    ! variants: {FA_Y,sistrydtop}
 "EXT"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: ice extent, indicating cells with more than 15% sea ice cover
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
-"CN"  [Used]
+"CN"  [Used] (CMOR equivalent is "siitdconc")
     ! modules: ice_model
     ! dimensions: xh, yh, ct
     ! long_name: ice concentration
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {CN,siitdconc}
 "HP"  [Unused]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -818,12 +838,13 @@
     ! long_name: Volume-averaged ice temperature
     ! units: degC
     ! cell_methods: xT:mean yT:mean area:mean
-"S_bulkice"  [Unused]
+"S_bulkice"  [Unused] (CMOR equivalent is "sisali")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: Volume-averaged ice salinity
     ! units: g kg-1
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {S_bulkice,sisali}
 "T1"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh

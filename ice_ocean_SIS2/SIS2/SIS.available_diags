@@ -53,12 +53,13 @@
     ! long_name: rate of snow fall
     ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
-"RAIN"  [Used]
+"RAIN"  [Used] (CMOR equivalent is "sipr")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: rate of rain fall
     ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {RAIN,sipr}
 "RUNOFF"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -89,12 +90,13 @@
     ! long_name: evaporation
     ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
-"SALTF"  [Used]
+"SALTF"  [Used] (CMOR equivalent is "siflsaltbot")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: ice to ocean salt flux
     ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {SALTF,siflsaltbot}
 "TMELT"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -107,18 +109,20 @@
     ! long_name: bottom surface melting energy flux
     ! units: W m-2
     ! cell_methods: xT:mean yT:mean area:mean
-"BHEAT"  [Used]
+"BHEAT"  [Used] (CMOR equivalent is "siflsensbot")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: ocean to ice heat flux
     ! units: W m-2
     ! cell_methods: xT:mean yT:mean area:mean
-"SWDN"  [Unused]
+    ! variants: {BHEAT,siflsensbot}
+"SWDN"  [Unused] (CMOR equivalent is "siflswdtop")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: Downward shortwave heat flux at the bottom of the atmosphere
     ! units: W m-2
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {SWDN,siflswdtop}
 "ALB"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -390,18 +394,20 @@
     ! long_name: ice velocity - y component
     ! units: m s-1
     ! cell_methods: xB:point yB:point
-"IX_TRANS"  [Used]
+"IX_TRANS"  [Used] (CMOR equivalent is "sidmasstranx")
     ! modules: ice_model
     ! dimensions: xq, yh
     ! long_name: x-direction ice transport
     ! units: kg s-1
     ! cell_methods: xB:point yT:mean
-"IY_TRANS"  [Used]
+    ! variants: {IX_TRANS,sidmasstranx}
+"IY_TRANS"  [Used] (CMOR equivalent is "sidmasstrany")
     ! modules: ice_model
     ! dimensions: xh, yq
     ! long_name: y-direction ice transport
     ! units: kg s-1
     ! cell_methods: xT:mean yB:point
+    ! variants: {IY_TRANS,sidmasstrany}
 "XPRT"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -420,30 +426,33 @@
     ! long_name: ice ridge height
     ! units: m
     ! cell_methods: xT:mean yT:mean area:mean
-"FA_X"  [Used]
+"FA_X"  [Used] (CMOR equivalent is "sistrxdtop")
     ! modules: ice_model
     ! dimensions: xq, yq
     ! long_name: air stress on ice - x component
     ! units: Pa
     ! cell_methods: xB:point yB:point
-"FA_Y"  [Used]
+    ! variants: {FA_X,sistrxdtop}
+"FA_Y"  [Used] (CMOR equivalent is "sistrydtop")
     ! modules: ice_model
     ! dimensions: xq, yq
     ! long_name: air stress on ice - y component
     ! units: Pa
     ! cell_methods: xB:point yB:point
+    ! variants: {FA_Y,sistrydtop}
 "EXT"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: ice extent, indicating cells with more than 15% sea ice cover
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
-"CN"  [Used]
+"CN"  [Used] (CMOR equivalent is "siitdconc")
     ! modules: ice_model
     ! dimensions: xh, yh, ct
     ! long_name: ice concentration
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {CN,siitdconc}
 "HP"  [Unused]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -524,12 +533,13 @@
     ! long_name: Volume-averaged ice temperature
     ! units: degC
     ! cell_methods: xT:mean yT:mean area:mean
-"S_bulkice"  [Unused]
+"S_bulkice"  [Unused] (CMOR equivalent is "sisali")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: Volume-averaged ice salinity
     ! units: g kg-1
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {S_bulkice,sisali}
 "T1"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
