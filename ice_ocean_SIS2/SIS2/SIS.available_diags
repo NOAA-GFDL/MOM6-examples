@@ -90,6 +90,20 @@
     ! long_name: evaporation
     ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
+"EVAPi"  [Unused] (CMOR equivalent is "sidmassevapsubl")
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: evaporation and sublimation of ice (negative corresponds to ice loss)
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {EVAPi,sidmassevapsubl}
+"EVAPs"  [Unused] (CMOR equivalent is "sisndmasssubl")
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: evaporation and sublimation of snow (negative corresponds to snow loss)
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {EVAPs,sisndmasssubl}
 "SALTF"  [Used] (CMOR equivalent is "siflsaltbot")
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -292,6 +306,13 @@
     ! long_name: energy flux of frazil formation
     ! units: W m-2
     ! cell_methods: xT:mean yT:mean area:mean
+"FRAZILMASS"  [Unused] (CMOR equivalent is "sidmassgrowthwat")
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: mass flux of frazil formation
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {FRAZILMASS,sidmassgrowthwat}
 "LSRC"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
@@ -309,6 +330,97 @@
     ! dimensions: xh, yh
     ! long_name: frozen water local bottom sink
     ! units: kg m-2 yr-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"LSRCi"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: frozen water local source (of ice)
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"LSNKi"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: frozen water local sink (of ice)
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"BSNKi"  [Unused] (CMOR equivalent is "sidmassmeltbot")
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: frozen water local bottom sink (of ice)
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {BSNKi,sidmassmeltbot}
+"LSRCs"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: frozen water local source (of snow)
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"LSNKs"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: frozen water local sink (of snow)
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"BSNKs"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: frozen water local bottom sink (of snow)
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"LSRCc"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: frozen water area local source
+    ! units: s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"LSNKc"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: frozen water area local sink
+    ! units: s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"sidmassmelttop"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: Sea-Ice Mass Change Through Surface Melting
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"sidmassgrowthbot"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: Sea-Ice Mass Change Through Basal Growth
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"sidmassth"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: Sea-Ice Mass Change from Thermodynamics
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"sisndmassmelt"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: Snow Mass Rate of Change Through Melt
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"sidconcth"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: Sea-Ice Area Fraction Tendency Due to Thermodynamics
+    ! units: s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"sidmassgrowthsi"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: Sea-Ice Mass Change Through Snow-to-Ice Conversion
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+"sisndmasssi"  [Unused]
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: Snow Mass Rate of Change Through Snow-to-Ice Conversion
+    ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
 "SN2IC"  [Used]
     ! modules: ice_model
@@ -414,6 +526,27 @@
     ! long_name: frozen water transport convergence
     ! units: kg m-2 yr-1
     ! cell_methods: xT:mean yT:mean area:mean
+"XPRTi"  [Unused] (CMOR equivalent is "sidmassdyn")
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: frozen water transport convergence (of ice)
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {XPRTi,sidmassdyn}
+"XPRTs"  [Unused] (CMOR equivalent is "sisndmassdyn")
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: frozen water transport convergence (of snow)
+    ! units: kg m-2 s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {XPRTs,sisndmassdyn}
+"XPRTc"  [Unused] (CMOR equivalent is "sidconcdyn")
+    ! modules: ice_model
+    ! dimensions: xh, yh
+    ! long_name: frozen water fractional area transport convergence
+    ! units: s-1
+    ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {XPRTc,sidconcdyn}
 "RDG_RATE"  [Unused]
     ! modules: ice_model
     ! dimensions: xh, yh
