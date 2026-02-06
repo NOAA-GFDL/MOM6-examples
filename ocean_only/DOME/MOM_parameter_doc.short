@@ -30,10 +30,6 @@ NJGLOBAL = 70                   !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
 
-! === module MOM_fixed_initialization ===
-INPUTDIR = "INPUT"              ! default = "."
-                                ! The directory in which input files are found.
-
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
                                 ! A character string that determines the method for defining the horizontal
@@ -108,6 +104,8 @@ OBC_FREESLIP_STRAIN = False     !   [Boolean] default = True
                                 ! OBC_XXX_STRAIN option is True.
 OBC_SEGMENT_001 = "J=N,I=110:100,SIMPLE" !
                                 ! Documentation needs to be dynamic?????
+
+! === module MOM_fixed_initialization ===
 ROTATION = "beta"               ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -160,6 +158,8 @@ LIGHTEST_DENSITY = 1030.0       !   [kg m-3] default = 1031.0
                                 ! The reference potential density used for layer 1.
 
 ! === module MOM_state_initialization ===
+INPUTDIR = "INPUT"              ! default = "."
+                                ! The directory in which input files are found.
 THICKNESS_CONFIG = "DOME"       ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:

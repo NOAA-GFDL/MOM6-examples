@@ -33,10 +33,6 @@ NJHALO = 3                      ! default = 4
                                 ! The number of halo points on each side in the y-direction.  How this is set
                                 ! varies with the calling component and static or dynamic memory configuration.
 
-! === module MOM_fixed_initialization ===
-INPUTDIR = "INPUT/"             ! default = "."
-                                ! The directory in which input files are found.
-
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
                                 ! A character string that determines the method for defining the horizontal
@@ -92,6 +88,12 @@ MINIMUM_DEPTH = 1.0             !   [m] default = 0.0
                                 ! assumed to be land and all fluxes are masked out. If MASKING_DEPTH is
                                 ! specified, then all depths shallower than MINIMUM_DEPTH but deeper than
                                 ! MASKING_DEPTH are rounded to MINIMUM_DEPTH.
+
+! === module MOM_open_boundary ===
+! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
+! if any.
+
+! === module MOM_fixed_initialization ===
 ROTATION = "betaplane"          ! default = "2omegasinlat"
                                 ! This specifies how the Coriolis parameter is specified:
                                 !     2omegasinlat - Use twice the planetary rotation rate
@@ -205,6 +207,8 @@ REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! PQM_IH6IH5  (5th-order accurate)
 
 ! === module MOM_state_initialization ===
+INPUTDIR = "INPUT/"             ! default = "."
+                                ! The directory in which input files are found.
 THICKNESS_CONFIG = "seamount"   ! default = "uniform"
                                 ! A string that determines how the initial layer thicknesses are specified for a
                                 ! new run:
