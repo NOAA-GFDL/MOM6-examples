@@ -81,10 +81,6 @@ NJGLOBAL = 105                  !
                                 ! The total number of thickness grid points in the y-direction in the physical
                                 ! domain. With STATIC_MEMORY_ this is set in MOM_memory.h at compile time.
 
-! === module MOM_fixed_initialization ===
-INPUTDIR = "INPUT"              ! default = "."
-                                ! The directory in which input files are found.
-
 ! === module MOM_grid_init ===
 GRID_CONFIG = "mosaic"          !
                                 ! A character string that determines the method for defining the horizontal
@@ -135,6 +131,12 @@ MASKING_DEPTH = 0.0             !   [m] default = -9999.0
                                 ! zeroed out. MASKING_DEPTH is ignored if it has the special default value.
 MAXIMUM_DEPTH = 6500.0          !   [m]
                                 ! The maximum depth of the ocean.
+
+! === module MOM_open_boundary ===
+! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
+! if any.
+
+! === module MOM_fixed_initialization ===
 CHANNEL_CONFIG = "list"         ! default = "none"
                                 ! A parameter that determines which set of channels are
                                 ! restricted to specific  widths.  Options are:
@@ -295,6 +297,8 @@ REMAPPING_SCHEME = "PPM_H4"     ! default = "PLM"
                                 ! PQM_IH6IH5  (5th-order accurate)
 
 ! === module MOM_state_initialization ===
+INPUTDIR = "INPUT"              ! default = "."
+                                ! The directory in which input files are found.
 INIT_LAYERS_FROM_Z_FILE = True  !   [Boolean] default = False
                                 ! If true, initialize the layer thicknesses, temperatures, and salinities from a
                                 ! Z-space file on a latitude-longitude grid.

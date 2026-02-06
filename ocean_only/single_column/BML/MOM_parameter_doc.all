@@ -198,10 +198,6 @@ NJHALO = 2                      ! default = 4
 REFERENCE_HEIGHT = 0.0          !   [m] default = 0.0
                                 ! A reference value for geometric height fields, such as bathyT.
 
-! === module MOM_fixed_initialization ===
-INPUTDIR = "INPUT/BATS"         ! default = "."
-                                ! The directory in which input files are found.
-
 ! === module MOM_grid_init ===
 GRID_CONFIG = "cartesian"       !
                                 ! A character string that determines the method for defining the horizontal
@@ -271,6 +267,8 @@ OBC_NUMBER_OF_SEGMENTS = 0      ! default = 0
 MASKING_DEPTH = -9999.0         !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all fluxes are
                                 ! zeroed out. MASKING_DEPTH is ignored if it has the special default value.
+
+! === module MOM_fixed_initialization ===
 CHANNEL_CONFIG = "none"         ! default = "none"
                                 ! A parameter that determines which set of channels are
                                 ! restricted to specific  widths.  Options are:
@@ -438,6 +436,8 @@ COORD_VAR = "Layer"             ! default = "Layer"
                                 ! The variable in COORD_FILE that is to be used for the coordinate densities.
 
 ! === module MOM_state_initialization ===
+INPUTDIR = "INPUT/BATS"         ! default = "."
+                                ! The directory in which input files are found.
 FATAL_INCONSISTENT_RESTART_TIME = False !   [Boolean] default = False
                                 ! If true and a time_in value is provided to MOM_initialize_state, verify that
                                 ! the time read from a restart file is the same as time_in, and issue a fatal
