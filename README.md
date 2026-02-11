@@ -3,6 +3,7 @@
 | [![Linux verification](https://github.com/NOAA-GFDL/MOM6/actions/workflows/verify-linux.yml/badge.svg)](https://github.com/NOAA-GFDL/MOM6/actions) | [![Read The Docs Status](https://readthedocs.org/projects/mom6/badge/?version=main)](https://mom6.readthedocs.io/en/main/?badge=main) | [![codecov](https://codecov.io/gh/NOAA-GFDL/MOM6/branch/dev/gfdl/graph/badge.svg?token=uF8SVydCdp)](https://codecov.io/gh/NOAA-GFDL/MOM6) |
 
 # MOM6-examples
+[![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/NOAA-GFDL/MOM6-examples)
 
 This repository provides the configurations (input parameters and data) and their corresponding
 regression data (for testing), of models that involve [MOM6](https://github.com/NOAA-GFDL/MOM6)
