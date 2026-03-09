@@ -6,7 +6,7 @@ FMS_CODEBASE ?= ../../src/FMS1
 TARGET = libAM2.a
 CODEBASE = ../../src/AM2
 CONFIGURE_AC = ../config/configure.AM2.ac
-M4DIR = ../../src/MOM6/ac/deps/m4
+#M4DIR = ../../src/MOM6/ac/deps/m4
 SRCDIRS = $(addprefix $(abspath $(CODEBASE))/, \
   $(addprefix atmos_fv_dynamics/,driver/coupled model tools) \
   atmos_drivers/coupled \

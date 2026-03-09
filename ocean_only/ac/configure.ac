@@ -27,7 +27,7 @@ AS_VAR_IF([MOM_MEMORY], [],
 )
 
 # Confirm that MOM_MEMORY is named 'MOM_memory.h'
-AS_IF([test $(basename "${MOM_MEMORY}") == "MOM_memory.h"], [],
+AS_IF([test $(basename "${MOM_MEMORY}") = "MOM_memory.h"], [],
  [AC_MSG_ERROR([MOM_MEMORY header ${MOM_MEMORY} must be named 'MOM_memory.h'])]
 )
 
@@ -38,32 +38,6 @@ AC_CHECK_FILE(["$MOM_MEMORY"], [],
 
 MOM_MEMORY_DIR=$(AS_DIRNAME(["${MOM_MEMORY}"]))
 AC_SUBST([MOM_MEMORY_DIR])
-
-
-# SIS2 memory layout configuration
-
-AC_ARG_VAR([SIS_MEMORY],
-  [Path to SIS2_memory.h header, describing the field memory layout: dynamic
-   symmetric (default), dynamic asymmetric, or static.]
-)
-
-# For now, we assume that SIS2 source is in the same directory as MOM6
-AS_VAR_IF([SIS_MEMORY], [],
-  [SIS_MEMORY=${srcdir}/../SIS2/config_src/dynamic_symmetric/SIS2_memory.h]
-)
-
-# Confirm that SIS_MEMORY is named 'SIS2_memory.h'
-AS_IF([test $(basename "${SIS_MEMORY}") == "SIS2_memory.h"], [],
-  [AC_MSG_ERROR([SIS_MEMORY header ${SIS_MEMORY} must be named 'SIS2_memory.h'])]
-)
-
-# Confirm that the file exists
-AC_CHECK_FILE(["$SIS_MEMORY"], [],
-  [AC_MSG_ERROR([SIS_MEMORY header ${SIS_MEMORY} not found.])]
-)
-
-SIS_MEMORY_DIR=$(AS_DIRNAME(["${SIS_MEMORY}"]))
-AC_SUBST([SIS_MEMORY_DIR])
 
 
 # Driver configuration
@@ -136,38 +110,36 @@ AX_FC_CHECK_C_LIB([netcdf], [nc_create], [], [
 ])
 
 # Confirm that the Fortran compiler can link to the netCDF Fortran library.
-# NOTE:
-#   - We test nf_create, rather than nf90_create, since AX_FC_CHECK_LIB can
-#     not currently probe the Fortran 90 interfaces.
-#   - nf-config does not have --libdir, so we parse the --flibs output.
-AX_FC_CHECK_LIB([netcdff], [nf_create], [], [], [
-  AS_UNSET([ax_fc_cv_lib_netcdff_nf_create])
-  AC_PATH_PROG([NF_CONFIG], [nf-config])
-  AS_IF([test -n "$NF_CONFIG"], [
-    AC_SUBST([LDFLAGS],
-      ["$LDFLAGS $($NF_CONFIG --flibs | xargs -n1 | grep "^-L" | sort -u | xargs)"]
+# NOTE: nf-config does not have --libdir, so we parse the --flibs output.
+MOM6_FC_CHECK_LIB([netcdff], [nf90_create], [netcdf], [path,cmode,ncid], [rc], [
+        character :: path
+        integer :: cmode, ncid, rc],
+  [], [
+    AS_UNSET([mom6_fc_cv_lib_netcdff_nf90_create])
+    AC_PATH_PROG([NF_CONFIG], [nf-config])
+    AS_IF([test -n "$NF_CONFIG"], [
+      AC_SUBST([LDFLAGS],
+        ["$LDFLAGS $($NF_CONFIG --flibs | xargs -n1 | grep "^-L" | sort -u | xargs)"]
+      )
+    ], [
+      AC_MSG_ERROR([Could not find nf-config.])
+    ])
+    MOM6_FC_CHECK_LIB([netcdff], [nf90_create], [netcdf], [path,cmode,ncid], [rc], [
+        character :: path
+        integer :: cmode, ncid, rc],
+      [], [
+        AC_MSG_ERROR([Could not find netCDF Fortran library.])
+      ]
     )
-  ], [
-    AC_MSG_ERROR([Could not find nf-config.])
-  ])
-  AX_FC_CHECK_LIB([netcdff], [nf_create], [], [], [
-    AC_MSG_ERROR([Could not find netCDF Fortran library.])
-  ])
-])
+  ]
+)
 
 
 # Force 8-byte reals
 AX_FC_REAL8
 AS_IF(
   [test "$enable_real8" != no],
-  [FCFLAGS="$FCFLAGS $REAL8_FCFLAGS"])
-
-
-# Unlimited line length (2.67)
-# AC_FC_LINE_LENGTH was added in 2.67.
-m4_version_prereq([2.67],
-  [AC_FC_LINE_LENGTH([unlimited])],
-  [AX_FC_LINE_LENGTH([unlimited])]
+  [FCFLAGS="$FCFLAGS $REAL8_FCFLAGS"]
 )
 
 
@@ -198,22 +170,24 @@ AX_FC_CHECK_MODULE([fms_mod], [], [
   AX_FC_CHECK_MODULE([fms_mod],
     [AC_SUBST([FCFLAGS], ["-I${srcdir}/ac/deps/include $FCFLAGS"])],
     [AC_MSG_ERROR([Could not find fms_mod Fortran module.])],
-    [-I${srcdir}/ac/deps/include])
+    [-I${srcdir}/ac/deps/include]
+  )
 ])
 
 # Test for fms_init to verify FMS library linking
-AX_FC_CHECK_LIB([FMS], [fms_init], [fms_mod],
+MOM6_FC_CHECK_LIB([FMS], [fms_init], [fms_mod], [], [], [],
   [], [
-    AS_UNSET([ax_fc_cv_lib_FMS_fms_init])
-    AX_FC_CHECK_LIB([FMS], [fms_init], [fms_mod], [
-      AC_SUBST([LDFLAGS], ["-L${srcdir}/ac/deps/lib $LDFLAGS"])
-      AC_SUBST([LIBS], ["-lFMS $LIBS"])
-    ],
-    [AC_MSG_ERROR([Could not find FMS library.])],
-    [-L${srcdir}/ac/deps/lib])
+    AS_UNSET([mom6_fc_cv_lib_FMS_fms_init])
+    MOM6_FC_CHECK_LIB([FMS], [fms_init], [fms_mod], [], [], [],
+      [
+        AC_SUBST([LDFLAGS], ["-L${srcdir}/ac/deps/lib $LDFLAGS"])
+        AC_SUBST([LIBS], ["-lFMS $LIBS"])
+      ], [
+        AC_MSG_ERROR([Could not find FMS library.])
+      ], [-L${srcdir}/ac/deps/lib]
+    )
   ]
 )
-
 
 # Verify that FMS is at least 2019.01.02
 # NOTE: 2019.01.02 introduced two changes:
@@ -230,7 +204,6 @@ AC_COMPILE_IFELSE(
   ]
 )
 
-
 # Determine the FMS IO implementation.
 AX_FC_CHECK_MODULE([fms2_io_mod], [
   MODEL_FRAMEWORK=${srcdir}/config_src/infra/FMS2
@@ -239,45 +212,103 @@ AX_FC_CHECK_MODULE([fms2_io_mod], [
 ])
 
 
-# Verify that Python is available
-AC_PATH_PROGS([PYTHON], [python python3 python2], [
-  AC_MSG_ERROR([Could not find python.])
-])
+## GSW configuration
+#AX_FC_CHECK_MODULE([gsw_mod_toolbox], [], [
+#  AC_MSG_ERROR([Could not find module gsw_mod_toolbox.])
+#])
+#MOM6_FC_CHECK_LIB([gsw], [gsw_rho], [gsw_mod_toolbox], [sa,ct,p], [rho], [],
+#  [], [
+#    AC_MSG_ERROR([Could not find gsw_rho in gsw_mod_toolbox.])
+#  ]
+#)
+#
+#
+## CVMix configuration
+#AX_FC_CHECK_MODULE([cvmix_kpp], [], [
+#  AC_MSG_ERROR([Could not find module cvmix_kpp.])
+#])
+#MOM6_FC_CHECK_LIB([cvmix], [cvmix_init_kpp], [cvmix_kpp], [], [], [],
+#  [], [
+#    AC_MSG_ERROR([Could not find cvmix_update_wrap in cvmix_utils.])
+#  ]
+#)
+
+
+## Python configuration
+
+# Declare the Python interpreter variable
 AC_ARG_VAR([PYTHON], [Python interpreter command])
 
+# If PYTHON is set to an empty string, then unset it
+AS_VAR_IF([PYTHON], [], [AS_UNSET([PYTHON])], [])
 
-# Verify that makedep is available
+# Now attempt to find a Python interpreter if PYTHON is unset
+AS_VAR_SET_IF([PYTHON], [
+  AC_PATH_PROGS([PYTHON], ["$PYTHON"], [none])
+], [
+  AC_PATH_PROGS([PYTHON], [python python3 python2], [none])
+])
+AS_VAR_IF([PYTHON], [none], [
+  AC_MSG_ERROR([Python interpreter not found.])
+])
+
+
+# Makedep configuration
 AC_PATH_PROG([MAKEDEP], [makedep], [${srcdir}/ac/makedep])
 AC_SUBST([MAKEDEP])
 
 
-# Generate source list and configure dependency command
-AC_SUBST([SRC_DIRS], ["\\
+# Generate Makedep source list and configure dependency command
+MAKEDEP_FLAGS="-e"
+
+## NOTE: Some pattern rules for this multiline flag constructor.
+##   - Previous args have no line continuation, so the next arg leads with `\\`.
+##   - Flag lines precede with a space ` -s` for syntax clarity.
+#EXCLUDE_DIRS="\\
+#  -s ${srcdir}/src/equation_of_state/TEOS10 \\
+#  -s ${srcdir}/src/parameterizations/CVmix"
+EXCLUDE_DIRS=""
+
+# TODO: This may be optional in the future, so we use AS_IF.
+AS_IF([test -n "${EXCLUDE_DIRS}"], [
+  MAKEDEP_FLAGS="${MAKEDEP_FLAGS} ${EXCLUDE_DIRS}"
+])
+
+SRC_DIRS="\\
   ${srcdir}/src \\
   ${MODEL_FRAMEWORK} \\
   ${srcdir}/config_src/external \\
   ${DRIVER_DIR} \\
-  ${MOM_MEMORY_DIR} \\
-  ${SIS_MEMORY_DIR}"
-])
+  ${MOM_MEMORY_DIR}"
+MAKEDEP_FLAGS="${MAKEDEP_FLAGS} ${SRC_DIRS}"
+
+MAKEDEP_FLAGS="${MAKEDEP_FLAGS# }"
+AC_SUBST([MAKEDEP_FLAGS])
+
+# Add makedep to config.status
 AC_CONFIG_COMMANDS(Makefile.dep, [make depend])
-
-
-# Append user-defined source directories
-AC_ARG_VAR([EXTRA_SRC_DIRS], [Additional source code to include in build])
-AS_IF([test -n "${EXTRA_SRC_DIRS}"], [
-  SRC_DIRS="${SRC_DIRS} ${EXTRA_SRC_DIRS}"
-])
 
 
 # POSIX verification tests
 
-# These symbols may be defined as macros, making them inaccessible by Fortran.
-# These three exist in modern BSD and Linux libc, so we just confirm them.
-# But one day, we many need to handle them more carefully.
-AX_FC_CHECK_BIND_C([setjmp], [], [AC_MSG_ERROR([Could not find setjmp.])])
-AX_FC_CHECK_BIND_C([longjmp], [], [AC_MSG_ERROR([Could not find longjmp.])])
-AX_FC_CHECK_BIND_C([siglongjmp], [], [AC_MSG_ERROR([Could not find siglongjmp.])])
+# Symbols in <setjmp.h> may be defined as macros, making them inaccessible by
+# Fortran C bindings.  `sigsetjmp` is known to have an internal symbol in
+# glibc, so we check for this possibility.  For the others, we only check for
+# existence.
+
+# If the need arises, we may want to define these under a standalone macro.
+
+# Validate the setjmp symbol
+AX_FC_CHECK_BIND_C([setjmp],
+  [SETJMP="setjmp"], [SETJMP="setjmp_missing"]
+)
+AC_DEFINE_UNQUOTED([SETJMP_NAME], ["${SETJMP}"])
+
+# Validate the longjmp symbol
+AX_FC_CHECK_BIND_C([longjmp],
+  [LONGJMP="longjmp"], [LONGJMP="longjmp_missing"]
+)
+AC_DEFINE_UNQUOTED([LONGJMP_NAME], ["${LONGJMP}"])
 
 # Determine the sigsetjmp symbol.  If missing, then point to sigsetjmp_missing.
 #
@@ -293,6 +324,13 @@ for sigsetjmp_fn in sigsetjmp __sigsetjmp; do
 done
 AC_DEFINE_UNQUOTED([SIGSETJMP_NAME], ["${SIGSETJMP}"])
 
+# Validate the siglongjmp symbol
+AX_FC_CHECK_BIND_C([siglongjmp],
+  [SIGLONGJMP="siglongjmp"], [SETJMP="siglongjmp_missing"]
+)
+AC_DEFINE_UNQUOTED([SIGLONGJMP_NAME], ["${SIGLONGJMP}"])
+
+
 # Verify the size of nonlocal jump buffer structs
 # NOTE: This requires C compiler, but can it be done with a Fortran compiler?
 AC_LANG_PUSH([C])
@@ -306,19 +344,7 @@ AC_CHECK_SIZEOF([sigjmp_buf], [], [#include <setjmp.h>])
 AC_LANG_POP([C])
 
 
-# Coupler macros
-AC_DEFINE([use_AM3_physics])
-AC_DEFINE([_USE_LEGACY_LAND_])
-
-
-# TODO: We cannot currently provide tests for these libraries, and explicitly
-#   setting LIBS in the Makefile will append, rather than prepend, the flags,
-#   which would break the ordering.
-# For now, we explicitly prepend these libraries, but this needs to be fixed.
-LIBS="-licebergs -lice_param -lAM2 -lLM3 ${LIBS}"
-
-
 # Prepare output
 AC_SUBST([CPPFLAGS])
-AC_CONFIG_FILES([Makefile:Makefile.in])
+AC_CONFIG_FILES([Makefile:${srcdir}/ac/Makefile.in])
 AC_OUTPUT

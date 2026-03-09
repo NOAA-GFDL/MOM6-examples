@@ -44,11 +44,11 @@ FMS_CODEBASE ?= ../src/FMS2
 FMS_BUILD ?= ../shared/fms/build
 
 # Autoconf configuration
-CODEBASE ?= ../src/MOM6
-MAKEFILE_IN ?= $(CODEBASE)/ac/Makefile.in
-CONFIGURE_AC ?= $(CODEBASE)/ac/configure.ac
-M4DIR ?= $(CODEBASE)/ac/m4
-MAKEDEP ?= $(CODEBASE)/ac/makedep
+MOM_CODEBASE ?= ../src/MOM6
+MAKEFILE_IN ?= ac/Makefile.in
+CONFIGURE_AC ?= ac/configure.ac
+M4DIR ?= ../shared/config/m4
+MAKEDEP ?= ../shared/config/makedep
 
 # Run configuration
 EXPT ?=
@@ -73,7 +73,7 @@ EXCLUDE ?= \
 
 # Autoconf setup
 CONFIG_FLAGS := --config-cache
-CONFIG_FLAGS += --srcdir=$(abspath $(CODEBASE))/ac
+CONFIG_FLAGS += --srcdir=$(abspath $(MOM_CODEBASE))
 ifdef MOM_MEMORY
   CONFIG_FLAGS += MOM_MEMORY=$(abspath $(MOM_MEMORY))
 endif
@@ -118,12 +118,12 @@ MAKEFLAGS += -rR
 all: $(BUILD)/MOM6
 
 # NOTE: If libFMS has changed, then we completely rebuild MOM6
-$(BUILD)/MOM6: $(wildcard $(CODEBASE)/src/*)
-$(BUILD)/MOM6: $(wildcard $(CODEBASE)/src/*/*)
-$(BUILD)/MOM6: $(wildcard $(CODEBASE)/src/*/*/*)
-$(BUILD)/MOM6: $(wildcard $(CODEBASE)/config_src/drivers/solo_driver/*)
-$(BUILD)/MOM6: $(wildcard $(CODEBASE)/config_src/infra/*/*)
-$(BUILD)/MOM6: $(wildcard $(CODEBASE)/config_src/external/*/*)
+$(BUILD)/MOM6: $(wildcard $(MOM_CODEBASE)/src/*)
+$(BUILD)/MOM6: $(wildcard $(MOM_CODEBASE)/src/*/*)
+$(BUILD)/MOM6: $(wildcard $(MOM_CODEBASE)/src/*/*/*)
+$(BUILD)/MOM6: $(wildcard $(MOM_CODEBASE)/config_src/drivers/solo_driver/*)
+$(BUILD)/MOM6: $(wildcard $(MOM_CODEBASE)/config_src/infra/*/*)
+$(BUILD)/MOM6: $(wildcard $(MOM_CODEBASE)/config_src/external/*/*)
 $(BUILD)/MOM6: $(FMS_BUILD)/libFMS.a
 $(BUILD)/MOM6: $(BUILD)/Makefile
 	$(MAKE) -C $(BUILD) MOM6

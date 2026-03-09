@@ -7,8 +7,10 @@ CONFIGURE_AC ?=
 
 # Potentially configurabe, but not yet sure if we want to allow this.
 MAKEPATH = $(realpath $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-M4DIR ?= $(MAKEPATH)/../../src/MOM6/ac/m4
-MAKEDEP = $(MAKEPATH)/../../src/MOM6/ac/makedep
+#M4DIR ?= $(MAKEPATH)/../../src/MOM6/ac/m4
+#MAKEDEP = $(MAKEPATH)/../../src/MOM6/ac/makedep
+M4DIR ?= $(MAKEPATH)/../config/m4
+MAKEDEP = $(MAKEPATH)/../config/makedep
 
 
 # `export` disables autoconf defaults; this restores them

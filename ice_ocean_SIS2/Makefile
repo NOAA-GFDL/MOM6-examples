@@ -16,10 +16,10 @@ LAND_BUILD ?= ../shared/land_null/build
 
 # Autoconf configuration
 MOM_CODEBASE ?= ../src/MOM6
-MAKEFILE_IN ?= $(MOM_CODEBASE)/ac/Makefile.in
-CONFIGURE_AC ?= configure.ice_ocean.ac
-M4DIR ?= $(MOM_CODEBASE)/ac/m4
-MAKEDEP ?= $(MOM_CODEBASE)/ac/makedep
+MAKEFILE_IN ?= ac/Makefile.in
+CONFIGURE_AC ?= ac/configure.ac
+M4DIR ?= ../shared/config/m4
+MAKEDEP ?= ../shared/config/makedep
 
 # Run configuration
 EXPT ?=
