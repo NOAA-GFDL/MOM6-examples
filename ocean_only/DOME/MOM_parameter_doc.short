@@ -90,18 +90,26 @@ MAXIMUM_DEPTH = 3600.0          !   [m]
 ! if any.
 OBC_NUMBER_OF_SEGMENTS = 1      ! default = 0
                                 ! The number of open boundary segments.
-OBC_ZERO_VORTICITY = True       !   [Boolean] default = False
-                                ! If true, sets relative vorticity to zero on open boundaries.
-OBC_FREESLIP_VORTICITY = False  !   [Boolean] default = True
-                                ! If true, sets the normal gradient of tangential velocity to zero in the
-                                ! relative vorticity on open boundaries. This cannot be true if another
-                                ! OBC_XXX_VORTICITY option is True.
-OBC_ZERO_STRAIN = True          !   [Boolean] default = False
-                                ! If true, sets the strain used in the stress tensor to zero on open boundaries.
-OBC_FREESLIP_STRAIN = False     !   [Boolean] default = True
-                                ! If true, sets the normal gradient of tangential velocity to zero in the strain
-                                ! use in the stress tensor on open boundaries. This cannot be true if another
-                                ! OBC_XXX_STRAIN option is True.
+OBC_VORTICITY_CONFIG = "zero"   ! default = "freeslip"
+                                ! Configuration for relative vorticity in momentum advection at open boundaries.
+                                ! Options are:
+                                !     none      - No adjustment.
+                                !     zero      - Sets relative vorticity to zero.
+                                !     freeslip  - Sets the normal gradient of tangential velocity to zero.
+                                !     computed  - Computes the normal gradient of tangential velocity using
+                                !                 external values of tangential velocity.
+                                !     specified - Uses the external values of the normal gradient of
+                                !                 tangential velocity.
+OBC_STRAIN_CONFIG = "zero"      ! default = "freeslip"
+                                ! Configuration for strain in horizontal viscosity at open boundaries.  Options
+                                ! are:
+                                !     none      - No adjustment.
+                                !     zero      - Sets strain to zero.
+                                !     freeslip  - Sets the normal gradient of tangential velocity to zero.
+                                !     computed  - Computes the normal gradient of tangential velocity using
+                                !                 external values of tangential velocity.
+                                !     specified - Uses the external values of the normal gradient of
+                                !                 tangential velocity.
 OBC_SEGMENT_001 = "J=N,I=110:100,SIMPLE" !
                                 ! Documentation needs to be dynamic?????
 

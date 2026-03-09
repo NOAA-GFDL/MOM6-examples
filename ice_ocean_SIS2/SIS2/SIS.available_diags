@@ -140,7 +140,7 @@
 "ALB"  [Used]
     ! modules: ice_model
     ! dimensions: xh, yh
-    ! long_name: Shortwave flux weighted surface albedo, or 1 if no SW
+    ! long_name: Shortwave flux weighted surface albedo, or 1 if no SW [0,1]
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
 "SW_VIS"  [Unused]
@@ -410,22 +410,17 @@
     ! long_name: Sea-Ice Area Fraction Tendency Due to Thermodynamics
     ! units: s-1
     ! cell_methods: xT:mean yT:mean area:mean
-"sidmassgrowthsi"  [Unused]
+"SN2IC"  [Used] (CMOR equivalent is "sidmassgrowthsi")
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: Sea-Ice Mass Change Through Snow-to-Ice Conversion
     ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
+    ! variants: {SN2IC,sidmassgrowthsi}
 "sisndmasssi"  [Unused]
     ! modules: ice_model
     ! dimensions: xh, yh
     ! long_name: Snow Mass Rate of Change Through Snow-to-Ice Conversion
-    ! units: kg m-2 s-1
-    ! cell_methods: xT:mean yT:mean area:mean
-"SN2IC"  [Used]
-    ! modules: ice_model
-    ! dimensions: xh, yh
-    ! long_name: rate of snow to ice conversion
     ! units: kg m-2 s-1
     ! cell_methods: xT:mean yT:mean area:mean
 "net_melt"  [Unused]
@@ -582,7 +577,7 @@
 "CN"  [Used] (CMOR equivalent is "siitdconc")
     ! modules: ice_model
     ! dimensions: xh, yh, ct
-    ! long_name: ice concentration
+    ! long_name: ice concentration [0,1]
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
     ! variants: {CN,siitdconc}
@@ -613,13 +608,13 @@
 "sitimefrac"  [Unused]
     ! modules: ice_model
     ! dimensions: xh, yh
-    ! long_name: time fraction of ice cover
+    ! long_name: time fraction of ice cover [0,1]
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
 "siconc"  [Unused]
     ! modules: ice_model
     ! dimensions: xh, yh
-    ! long_name: ice concentration
+    ! long_name: ice concentration [0,1]
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
 "siconc_CMOR"  [Unused]
@@ -644,7 +639,7 @@
 "sisnconc"  [Unused]
     ! modules: ice_model
     ! dimensions: xh, yh
-    ! long_name: snow concentration
+    ! long_name: snow concentration [0,1]
     ! units: nondim
     ! cell_methods: xT:mean yT:mean area:mean
 "sisnconc_CMOR"  [Unused]
