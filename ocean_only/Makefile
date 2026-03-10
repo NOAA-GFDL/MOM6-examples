@@ -73,7 +73,7 @@ EXCLUDE ?= \
 
 # Autoconf setup
 CONFIG_FLAGS := --config-cache
-CONFIG_FLAGS += --srcdir=$(abspath $(CODEBASE))/ac
+CONFIG_FLAGS += --srcdir=$(abspath $(CODEBASE))
 ifdef MOM_MEMORY
   CONFIG_FLAGS += MOM_MEMORY=$(abspath $(MOM_MEMORY))
 endif
