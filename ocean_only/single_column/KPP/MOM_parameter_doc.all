@@ -62,7 +62,7 @@ ENABLE_BUGS_BY_DEFAULT = True   !   [Boolean] default = True
                                 ! If true, the defaults for certain recently added bug-fix flags are set to
                                 ! recreate the bugs so that the code can be moved forward without changing
                                 ! answers for existing configurations.  The defaults for groups of bug-fix flags
-                                ! are periodcially changed to correct the bugs, at which point this parameter
+                                ! are periodically changed to correct the bugs, at which point this parameter
                                 ! will no longer be used to set their default.  Setting this to false means that
                                 ! bugs are only used if they are actively selected, but it also means that
                                 ! answers may change when code is updated due to newly found bugs.
@@ -317,7 +317,7 @@ G_EARTH = 9.8                   !   [m s-2] default = 9.8
                                 ! The gravitational acceleration of the Earth.
 RHO_0 = 1035.0                  !   [kg m-3] default = 1035.0
                                 ! The mean ocean density used with BOUSSINESQ true to calculate accelerations
-                                ! and the mass for conservation properties, or with BOUSSINSEQ false to convert
+                                ! and the mass for conservation properties, or with BOUSSINESQ false to convert
                                 ! some parameters from vertical units of m to kg m-2.
 BOUSSINESQ = True               !   [Boolean] default = True
                                 ! If true, make the Boussinesq approximation.
@@ -534,7 +534,8 @@ REMAP_BOUNDARY_EXTRAP = False   !   [Boolean] default = False
                                 ! of piecewise constant
 INIT_BOUNDARY_EXTRAP = False    !   [Boolean] default = False
                                 ! If true, values at the interfaces of boundary cells are extrapolated instead
-                                ! of piecewise constant during initialization.Defaults to REMAP_BOUNDARY_EXTRAP.
+                                ! of piecewise constant during initialization.  Defaults to
+                                ! REMAP_BOUNDARY_EXTRAP.
 REMAPPING_USE_OM4_SUBCELLS = True !   [Boolean] default = True
                                 ! This selects the remapping algorithm used in OM4 that does not use the full
                                 ! reconstruction for the top- and lower-most sub-layers, but instead assumes
@@ -738,7 +739,7 @@ RESOLN_SCALED_KH = False        !   [Boolean] default = False
                                 ! If true, the Laplacian lateral viscosity is scaled away when the first
                                 ! baroclinic deformation radius is well resolved.
 DEPTH_SCALED_KHTH = False       !   [Boolean] default = False
-                                ! If true, KHTH is scaled away when the depth is shallowerthan a reference
+                                ! If true, KHTH is scaled away when the depth is shallower than a reference
                                 ! depth: KHTH = MIN(1,H/H0)**N * KHTH, where H0 is a reference depth, controlled
                                 ! via DEPTH_SCALED_KHTH_H0, and the exponent (N) is controlled via
                                 ! DEPTH_SCALED_KHTH_EXP.
@@ -750,7 +751,7 @@ RESOLN_SCALED_KHTR = False      !   [Boolean] default = False
                                 ! baroclinic deformation radius is well resolved.
 RESOLN_USE_EBT = False          !   [Boolean] default = False
                                 ! If true, uses the equivalent barotropic wave speed instead of first baroclinic
-                                ! wave for calculating the resolution fn.
+                                ! wave for calculating the resolution function.
 BACKSCAT_EBT_POWER = 0.0        !   [nondim] default = 0.0
                                 ! Power to raise EBT vertical structure to when backscatter has vertical
                                 ! structure.
@@ -1098,7 +1099,7 @@ USE_LAND_MASK_FOR_HVISC = True  !   [Boolean] default = True
                                 ! outside of the domain.
 FRICTWORK_BUG = False           !   [Boolean] default = False
                                 ! If true, retain an answer-changing bug in calculating the FrictWork, which
-                                ! cancels the h in thickness flux and the h at velocity point. This isnot
+                                ! cancels the h in thickness flux and the h at velocity point. This is not
                                 ! recommended.
 OBC_SPECIFIED_STRAIN_BUG = True !   [Boolean] default = True
                                 ! If true, recover a bug that specified shear strain option at open boundaries
@@ -1342,11 +1343,11 @@ CVMix_ZERO_H_WORK_AROUND = 0.0  !   [m] default = 0.0
                                 ! vanished layers. This is independent of MIN_THICKNESS used in other parts of
                                 ! MOM.
 USE_KPP_LT_K = False            !   [Boolean] default = False
-                                ! Flag for Langmuir turbulence enhancement of turbulentmixing coefficient.
+                                ! Flag for Langmuir turbulence enhancement of turbulent mixing coefficient.
 STOKES_MIXING = False           !   [Boolean] default = False
-                                ! Flag for Langmuir turbulence enhancement of turbulentmixing coefficient.
+                                ! Flag for Langmuir turbulence enhancement of turbulent mixing coefficient.
 USE_KPP_LT_VT2 = False          !   [Boolean] default = False
-                                ! Flag for Langmuir turbulence enhancement of Vt2in Bulk Richardson Number.
+                                ! Flag for Langmuir turbulence enhancement of Vt2 in Bulk Richardson Number.
 KPP_CVt2 = 1.6                  !   [nondim] default = 1.6
                                 ! Parameter for Stokes MOST convection entrainment
 ANSWER_DATE = 99991231          ! default = 99991231
@@ -1481,7 +1482,7 @@ DISSIPATION_N1 = 0.0            !   [J m-3] default = 0.0
 DISSIPATION_KD_MIN = 0.0        !   [m2 s-1] default = 0.0
                                 ! The minimum vertical diffusivity applied as a floor.
 DOUBLE_DIFFUSION = False        !   [Boolean] default = False
-                                ! If true, increase diffusivites for temperature or salinity based on the
+                                ! If true, increase diffusivities for temperature or salinity based on the
                                 ! double-diffusive parameterization described in Large et al. (1994).
 
 ! === module MOM_kappa_shear ===
@@ -1533,7 +1534,7 @@ KAPPA_N_OVER_S_SCALE_COEF2 = 0.0 !   [nondim] default = 0.0
 LZ_RESCALE = 1.0                !   [nondim] default = 1.0
                                 ! A coefficient to rescale the distance to the nearest solid boundary. This
                                 ! adjustment is to account for regions where 3 dimensional turbulence prevents
-                                ! the growth of shear instabilies [nondim].
+                                ! the growth of shear instabilities [nondim].
 KAPPA_SHEAR_TOL_ERR = 0.1       !   [nondim] default = 0.1
                                 ! The fractional error in kappa that is tolerated. Iteration stops when changes
                                 ! between subsequent iterations are smaller than this everywhere in a column.
@@ -1706,7 +1707,7 @@ USE_NEUTRAL_DIFFUSION = False   !   [Boolean] default = False
 ! === module MOM_hor_bnd_diffusion ===
 ! This module implements horizontal diffusion of tracers near boundaries
 USE_HORIZONTAL_BOUNDARY_DIFFUSION = False !   [Boolean] default = False
-                                ! If true, enables the horizonal boundary tracer's diffusion module.
+                                ! If true, enables the horizontal boundary tracer's diffusion module.
 OBSOLETE_DIAGNOSTIC_IS_FATAL = True !   [Boolean] default = True
                                 ! If an obsolete diagnostic variable appears in the diag_table, cause a FATAL
                                 ! error rather than issue a WARNING.
@@ -1752,7 +1753,7 @@ ENERGYSAVEDAYS_GEOMETRIC = 0.0  !   [days] default = 0.0
 
 ! === module ocean_stochastics_init ===
 DO_SPPT = False                 !   [Boolean] default = False
-                                ! If true, then stochastically perturb the thermodynamic tendencies of T,S, amd
+                                ! If true, then stochastically perturb the thermodynamic tendencies of T,S, and
                                 ! h.  Amplitude and correlations are controlled by the nam_stoch namelist in the
                                 ! UFS model only.
 DO_SKEB = False                 !   [Boolean] default = False
