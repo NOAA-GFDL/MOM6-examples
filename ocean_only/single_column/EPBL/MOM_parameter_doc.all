@@ -495,6 +495,9 @@ ALE_COORDINATE_CONFIG = "FILE:./INPUT/vgrid_cm4.nc,dz" ! default = "UNIFORM"
                                 ! is of non-dimensional fractions of the water column.
 MIN_THICKNESS = 0.001           !   [m] default = 0.001
                                 ! When regridding, this is the minimum layer thickness allowed.
+USE_ADJUST_INTERFACE_MOTION = True !   [Boolean] default = True
+                                ! When regridding, after the primary grid generation, call a function that
+                                ! ensures positive layer thicknesses. Historically, this was required.
 REMAPPING_SCHEME = "PLM"        ! default = "PLM"
                                 ! This sets the reconstruction scheme used for vertical remapping for all
                                 ! variables. It can be one of the following schemes:
@@ -554,6 +557,11 @@ REMAP_AFTER_INITIALIZATION = True !   [Boolean] default = True
                                 ! If true, applies regridding and remapping immediately after initialization so
                                 ! that the state is ALE consistent. This is a legacy step and should not be
                                 ! needed if the initialization is consistent with the coordinate mode.
+REGRID_USE_DEPTH_BASED_TIME_FILTER = True !   [Boolean] default = True
+                                ! If true, always uses depth-based time filtering code that updates the
+                                ! generated grid using REGRID_TIME_SCALE, REGRID_FILTER_SHALLOW_DEPTH,
+                                ! REGRID_FILTER_DEEP_DEPTH parameters. Setting to True always uses filtering but
+                                ! setting to False bypasses calculations when filter times = 0.
 REGRID_TIME_SCALE = 0.0         !   [s] default = 0.0
                                 ! The time-scale used in blending between the current (old) grid and the target
                                 ! (new) grid. A short time-scale favors the target grid (0. or anything less
@@ -565,7 +573,7 @@ REGRID_FILTER_SHALLOW_DEPTH = 0.0 !   [m] default = 0.0
 REGRID_FILTER_DEEP_DEPTH = 0.0  !   [m] default = 0.0
                                 ! The depth below which full time-filtering is applied with time-scale
                                 ! REGRID_TIME_SCALE. Between depths REGRID_FILTER_SHALLOW_DEPTH and
-                                ! REGRID_FILTER_SHALLOW_DEPTH the filter weights adopt a cubic profile.
+                                ! REGRID_FILTER_DEEP_DEPTH the filter weights adopt a cubic profile.
 REMAP_VEL_MASK_BBL_THICK = -0.001 !   [m] default = -0.001
                                 ! A thickness of a bottom boundary layer below which velocities in thin layers
                                 ! are zeroed out after remapping, following practice with Hybgen remapping, or a
