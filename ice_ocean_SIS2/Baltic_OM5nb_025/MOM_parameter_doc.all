@@ -1849,6 +1849,10 @@ INTWAVE_REMAPPING_USE_OM4_SUBCELLS = True !   [Boolean] default = True
                                 ! If true, use the OM4 remapping-via-subcells algorithm for calculating EBT
                                 ! structure. See REMAPPING_USE_OM4_SUBCELLS for details. We recommend setting
                                 ! this option to false.
+ACCURATE_NONBOUS_THICK_CELLO = False !   [Boolean] default = False
+                                ! If true, use the same careful integrals to find the diagnosed non-Boussinesq
+                                ! layer thicknesses as are used to find the free surface height, instead of
+                                ! using an approximate thickness based on division by the mid-layer density.
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
