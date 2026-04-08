@@ -479,6 +479,9 @@ SPONGE = False                  !   [Boolean] default = False
                                 ! properties of those sponges are specified from MOM_initialization.F90.
 
 ! === module MOM_boundary_update ===
+OBC_VALUE_UPDATE_BUG = True     !   [Boolean] default = True
+                                ! If true, recover a bug that OBC segment data does not update if all segments
+                                ! use 'value' and none uses 'file'.
 USE_FILE_OBC = False            !   [Boolean] default = False
                                 ! If true, use external files for the open boundary.
 USE_TIDAL_BAY_OBC = False       !   [Boolean] default = False
