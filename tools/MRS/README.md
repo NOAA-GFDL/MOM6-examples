@@ -74,7 +74,7 @@ make -f tools/MRS/Makefile.run pgi_all -s -j MODE=debug
 
 ## Copy results to regressions/
 ```bash
-make -f tools/MRS/Makefile.sync -s -k
+make -f MOM6-examples/tools/MRS/Makefile.sync -s -k
 ```
 will sync the newly generated ocean/seaice.stats files and report their status.
 
