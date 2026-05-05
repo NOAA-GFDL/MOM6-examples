@@ -368,6 +368,9 @@ GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
                                 ! If true, use an older algorithm to calculate the sine and cosines needed
                                 ! rotate between grid-oriented directions and true north and east.  Differences
                                 ! arise at the tripolar fold.
+DT_OBC_SEG_UPDATE_OBGC = 1200.0 !   [s] default = 1200.0
+                                ! The time between OBC segment data updates for OBGC tracers.  This must be an
+                                ! integer multiple of DT and DT_THERM.  The default is set to DT.
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
