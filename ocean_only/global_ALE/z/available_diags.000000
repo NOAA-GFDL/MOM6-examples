@@ -3324,6 +3324,13 @@
     ! long_name: The volume flux added to stop the ocean from drying out and becoming negative in depth
     ! units: m s-1
     ! cell_methods: xh:mean yh:mean area:mean
+"Brine_Salt_Increment"  [Unused]
+    ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
+    ! dimensions: xh, yh, zl
+    ! long_name: Salt rate of change due to brine plume
+    ! units: kg m-2 s-1
+    ! cell_methods: xh:mean yh:mean zl:sum area:mean
+    ! variants: {Brine_Salt_Increment,Brine_Salt_Increment_xyave}
 "rsdoabsorb"  [Unused]
     ! modules: {ocean_model,ocean_model_z,ocean_model_d2,ocean_model_z_d2}
     ! dimensions: xh, yh, zl
