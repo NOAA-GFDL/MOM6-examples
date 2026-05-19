@@ -1042,6 +1042,9 @@ CHANNEL_DRAG_MAX_BBL_THICK = 5.0 !   [m] default = 5.0
                                 ! proportional to HBBL if USE_JACKSON_PARAM or DRAG_AS_BODY_FORCE is true.
 
 ! === module MOM_thickness_diffuse ===
+USE_THICKNESS_DIFFUSE_ANN = False !   [Boolean] default = False
+                                ! If true, use the ANN to compute the mesoscale streamfunction for thickness
+                                ! diffusivity.
 KHTH = 600.0                    !   [m2 s-1] default = 0.0
                                 ! The background horizontal thickness diffusivity.
 READ_KHTH = False               !   [Boolean] default = False
