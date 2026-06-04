@@ -647,6 +647,9 @@ DIAG_MISVAL = 1.0E+20           !   [various] default = 1.0E+20
 DIAG_AS_CHKSUM = False          !   [Boolean] default = False
                                 ! Instead of writing diagnostics to the diag manager, write a text file
                                 ! containing the checksum (bitcount) of the array.
+NUM_DIAG_DOWNSAMP_LEV = 0       ! default = 0
+                                ! The number of diagnostic downsample levels to use. For each level, an entry in
+                                ! DIAG_DOWNSAMP_LEV must be provided.
 AVAILABLE_DIAGS_FILE = "available_diags.000000" ! default = "available_diags.000000"
                                 ! A file into which to write a list of all available ocean diagnostics that can
                                 ! be included in a diag_table.
