@@ -371,6 +371,10 @@ GRID_ROTATION_ANGLE_BUGS = False !   [Boolean] default = False
 DT_OBC_SEG_UPDATE_OBGC = 1200.0 !   [s] default = 1200.0
                                 ! The time between OBC segment data updates for OBGC tracers.  This must be an
                                 ! integer multiple of DT and DT_THERM.  The default is set to DT.
+OBC_BGC_TIME_REF_BUG = True     !   [Boolean] default = True
+                                ! If true, recover a bug that the BGC OBC segment update schedule is referenced
+                                ! to the start of the current run rather than the overall start time, which can
+                                ! lead to restart reproducibility failures.
 
 ! === module MOM_verticalGrid ===
 ! Parameters providing information about the vertical grid.
