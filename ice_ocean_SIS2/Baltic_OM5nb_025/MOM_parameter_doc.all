@@ -120,8 +120,9 @@ INTERPOLATE_P_SURF = False      !   [Boolean] default = False
 DTBT_RESET_PERIOD = 7200.0      !   [s] default = 7200.0
                                 ! The period between recalculations of DTBT (if DTBT <= 0). If DTBT_RESET_PERIOD
                                 ! is negative, DTBT is set based only on information available at
-                                ! initialization.  If 0, DTBT will be set every dynamics time step. The default
-                                ! is set by DT_THERM.  This is only used if SPLIT is true.
+                                ! initialization.  If 0, DTBT will be set every dynamics time step. Values
+                                ! between 0 and DT are treated as 0.  The default is set by DT_THERM. This is
+                                ! only used if SPLIT is true.
 FRAZIL = True                   !   [Boolean] default = False
                                 ! If true, water freezes if it gets too cold, and the accumulated heat deficit
                                 ! is returned in the surface state.  FRAZIL is only used if
@@ -1710,6 +1711,9 @@ VISC_REM_BT_WEIGHT_BUG = True   !   [Boolean] default = True
                                 ! If true, recover a bug in barotropic solver that uses an unnormalized weight
                                 ! function for vertical averages of baroclinic velocity and forcing. Default of
                                 ! this flag is set by VISC_REM_BUG.
+DTBT_RESTART_BUG = True         !   [Boolean] default = True
+                                ! If true, recover a bug where the barotropic timestep DTBT read from a restart
+                                ! file is immediately overridden by a recalculation on the first dynamics step.
 TIDAL_SAL_FLATHER = False       !   [Boolean] default = False
                                 ! If true, then apply adjustments to the external gravity wave speed used with
                                 ! the Flather OBC routine consistent with the barotropic solver. This applies to
