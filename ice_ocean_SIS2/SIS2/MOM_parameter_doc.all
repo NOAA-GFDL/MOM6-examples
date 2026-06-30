@@ -2271,8 +2271,16 @@ SALT_RESTORE_PRACTICAL_SALINITY = False !   [Boolean] default = False
 SRESTORE_AS_SFLUX = False       !   [Boolean] default = False
                                 ! If true, the restoring of salinity is applied as a salt flux instead of as a
                                 ! freshwater flux.
+MAX_DELTA_SRESTORE_FROM_FILE = False !   [Boolean] default = False
+                                ! If true, read a file MAX_DELTA_SRESTORE_FILE containing the field
+                                ! MAX_DELTA_SRESTORE_VARNAME for the maximum salinity difference used in
+                                ! restoring terms.  Where the field's value is negative turn off restoring when
+                                ! the salinity difference magnitude exceeds abs(value).
 MAX_DELTA_SRESTORE = 999.0      !   [PSU or g kg-1] default = 999.0
                                 ! The maximum salinity difference used in restoring terms.
+MIN_RATIO_SRESTORE = 0.0        !   [nondim] default = 0.0
+                                ! Turn off MAX_DELTA_SRESTORE where the ratio of SSS to restoring salinity is
+                                ! less than this value.
 MASK_SRESTORE_UNDER_ICE = False !   [Boolean] default = False
                                 ! If true, disables SSS restoring under sea-ice based on a frazil criteria
                                 ! (SST<=Tf). Only used when RESTORE_SALINITY is True.
