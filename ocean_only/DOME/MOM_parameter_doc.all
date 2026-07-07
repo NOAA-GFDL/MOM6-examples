@@ -303,6 +303,12 @@ OBC_HOR_INDEXING_BUG = True     !   [Boolean] default = True
 OBC_TEMP_SALT_NEEDED_BUG = True !   [Boolean] default = True
                                 ! If true, recover a bug that OBC temperature and salinity can be ignored even
                                 ! if they are registered tracers in the rest of the model.
+IGNORE_DT_OBC_SEG_UPDATE_OBGC = False !   [Boolean] default = False
+                                ! If true, DT_OBC_SEG_UPDATE_OBGC is ignored and all OBC segment tracer data
+                                ! (T/S and BGC) is updated every tracer advection step.  If false, T/S is
+                                ! updated every dynamic step, which is unnecessary, while BGC follows its own
+                                ! update schedule, which may not reproduce across restarts. Once
+                                ! DT_OBC_SEG_UPDATE_OBGC is deprecated, only the 'true' path will be needed.
 OBC_SEGMENT_001 = "J=N,I=110:100,SIMPLE" !
                                 ! Documentation needs to be dynamic?????
 OBC_REMAPPING_SCHEME = "PLM"    ! default = "PLM"
