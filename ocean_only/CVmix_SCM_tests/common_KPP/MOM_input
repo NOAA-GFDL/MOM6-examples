@@ -296,6 +296,11 @@ KPP%
 INTERP_TYPE = "cubic"           ! default = "quadratic"
                                 ! Type of interpolation to determine the OBL depth.
                                 ! Allowed types are: linear, quadratic, cubic.
+ANSWER_DATE = 20251231          ! default = 99991231
+                                ! The vintage of the order of arithmetic in the CVMix KPP calculations.  Values
+                                ! below 20240501 recover the answers from early in 2024, while higher values use
+                                ! expressions that have been refactored for rotational symmetry.  Values of
+                                ! 20260101 or higher replace some divisions with multiplication by reciprocals.
 %KPP
 
 ! === module MOM_set_diffusivity ===

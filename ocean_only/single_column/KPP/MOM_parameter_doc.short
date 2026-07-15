@@ -282,6 +282,10 @@ NLT_SHAPE = "PARABOLIC"         ! default = "CVMix"
                                 !    PARABOLIC - A parablic profile, (1-sigma)^2
                                 !    CUBIC     - A cubic profile, (1-sigma)^2(1+2*sigma)
                                 !    CUBIC_LMD - The original KPP profile
+ANSWER_DATE = 20251231          ! default = 99991231
+                                ! The vintage of the order of arithmetic in the CVMix KPP calculations.  Values
+                                ! below 20240501 recover the answers from early in 2024, while higher values use
+                                ! expressions that have been refactored for rotational symmetry.
 %KPP
 
 ! === module MOM_set_diffusivity ===
