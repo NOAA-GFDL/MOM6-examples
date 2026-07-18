@@ -404,6 +404,11 @@ RESTART_CHECKSUMS_REQUIRED = True !   [Boolean] default = True
                                 ! may want to avoid this comparison if for example the restarts are made from a
                                 ! run with a different mask_table than the current run, in which case the
                                 ! checksums will not match and cause crash.
+ENSEMBLE_APPENDIX_PREFIX = ""   ! default = ""
+                                ! If set to a non-empty string, this value specifies the substring after which
+                                ! the ensemble appendix is inserted in restart, initial conditions, and ocean
+                                ! geometry file names. If the specified substring is not found in any of those
+                                ! output file names, the model terminates with an error.
 RESTART_SYMMETRIC_CHECKSUMS = False !   [Boolean] default = False
                                 ! If true, do the restart checksums on all the edge points for a non-reentrant
                                 ! grid.  This requires that SYMMETRIC_MEMORY_ is defined at compile time.
@@ -1296,8 +1301,11 @@ USE_GME = False                 !   [Boolean] default = False
 USE_GM_WORK_BUG = False         !   [Boolean] default = False
                                 ! If true, compute the top-layer work tendency on the u-grid with the incorrect
                                 ! sign, for legacy reproducibility.
+
+! === module MOM_stoch_eos ===
 STOCH_EOS = False               !   [Boolean] default = False
-                                ! If true, stochastic perturbations are applied to the EOS in the PGF.
+                                ! If true, computes stochastic perturbations that can be applied to the EOS in
+                                ! various places.
 STANLEY_COEFF = -1.0            !   [nondim] default = -1.0
                                 ! Coefficient correlating the temperature gradient and SGS T variance.
 
@@ -1793,6 +1801,8 @@ MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
                                 ! If true, a density-gradient dependent re-stratifying flow is imposed in the
                                 ! mixed layer. Can be used in ALE mode without restriction but in layer mode can
                                 ! only be used if BULKMIXEDLAYER is true.
+USE_STANLEY_ML = False          !   [Boolean] default = False
+                                ! If true, turn on Stanley SGS T variance parameterization in ML restrat code.
 MLE%
 USE_BODNER23 = True             !   [Boolean] default = False
                                 ! If true, use the Bodner et al., 2023, formulation of the re-stratifying
@@ -1829,13 +1839,16 @@ MIN_WSTAR2 = 1.0E-09            !   [m2 s-2] default = 1.0E-24
                                 ! division-by-zero in the limit when u* and the buoyancy flux are zero.  The
                                 ! default is less than the molecular viscosity of water times the Coriolis
                                 ! parameter a micron away from the equator.
+WAVE_ENHANCED_USTAR = False     !   [Boolean] default = False
+                                ! If true, enhance ustar using surface waves, following Eq. 28 in Bodner23. Use
+                                ! a Langmuir number if provided. Otherwise, assumes equilibrium surface waves
+                                ! (La-2=11.).
 TAIL_DH = 0.0                   !   [nondim] default = 0.0
                                 ! Fraction by which to extend the mixed-layer restratification depth used for a
                                 ! smoother stream function at the base of the mixed-layer.
-USE_STANLEY_TVAR = False        !   [Boolean] default = False
-                                ! If true, turn on Stanley SGS T variance parameterization in ML restrat code.
 USE_CR_GRID = False             !   [Boolean] default = False
-                                ! If true, read in a spatially varying Cr field.
+                                ! If true, read in a spatially varying Cr field.If CR = 0 (default), this field
+                                ! is scaled by 1.0.If CR>0., this field works as a mask and is scaled by CR.
 USE_MLD_GRID = False            !   [Boolean] default = False
                                 ! If true, read in a spatially varying MLD_decaying_Tfilt field.
 %MLE
@@ -2583,6 +2596,10 @@ PERT_EPBL = False               !   [Boolean] default = False
                                 ! If true, then stochastically perturb the kinetic energy production and
                                 ! dissipation terms.  Amplitude and correlations are controlled by the nam_stoch
                                 ! namelist in the UFS model only.
+STOCHASTICS_ANSWER_DATE = 20250101 ! default = 20250101
+                                ! The vintage of the order of arithmetic in the stochastics calculations.
+                                ! Values below 20250701 recover the answers from early in 2025, while higher
+                                ! values use expressions that have been refactored for rotational symmetry.
 
 ! === module ocean_model_init ===
 SINGLE_STEPPING_CALL = True     !   [Boolean] default = True

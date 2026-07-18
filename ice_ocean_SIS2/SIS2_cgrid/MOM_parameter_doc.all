@@ -374,6 +374,11 @@ RESTART_CHECKSUMS_REQUIRED = True !   [Boolean] default = True
                                 ! may want to avoid this comparison if for example the restarts are made from a
                                 ! run with a different mask_table than the current run, in which case the
                                 ! checksums will not match and cause crash.
+ENSEMBLE_APPENDIX_PREFIX = ""   ! default = ""
+                                ! If set to a non-empty string, this value specifies the substring after which
+                                ! the ensemble appendix is inserted in restart, initial conditions, and ocean
+                                ! geometry file names. If the specified substring is not found in any of those
+                                ! output file names, the model terminates with an error.
 RESTART_SYMMETRIC_CHECKSUMS = False !   [Boolean] default = False
                                 ! If true, do the restart checksums on all the edge points for a non-reentrant
                                 ! grid.  This requires that SYMMETRIC_MEMORY_ is defined at compile time.
@@ -980,8 +985,11 @@ USE_GME = False                 !   [Boolean] default = False
 USE_GM_WORK_BUG = False         !   [Boolean] default = False
                                 ! If true, compute the top-layer work tendency on the u-grid with the incorrect
                                 ! sign, for legacy reproducibility.
+
+! === module MOM_stoch_eos ===
 STOCH_EOS = False               !   [Boolean] default = False
-                                ! If true, stochastic perturbations are applied to the EOS in the PGF.
+                                ! If true, computes stochastic perturbations that can be applied to the EOS in
+                                ! various places.
 STANLEY_COEFF = -1.0            !   [nondim] default = -1.0
                                 ! Coefficient correlating the temperature gradient and SGS T variance.
 
@@ -1462,6 +1470,8 @@ MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
                                 ! If true, a density-gradient dependent re-stratifying flow is imposed in the
                                 ! mixed layer. Can be used in ALE mode without restriction but in layer mode can
                                 ! only be used if BULKMIXEDLAYER is true.
+USE_STANLEY_ML = False          !   [Boolean] default = False
+                                ! If true, turn on Stanley SGS T variance parameterization in ML restrat code.
 MLE%
 %MLE
 FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
@@ -1471,8 +1481,6 @@ FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0
                                 ! energy to the large-scale geostrophic kinetic energy or 1 plus the square of
                                 ! the grid spacing over the deformation radius, as detailed by Fox-Kemper et al.
                                 ! (2011)
-USE_STANLEY_ML = False          !   [Boolean] default = False
-                                ! If true, turn on Stanley SGS T variance parameterization in ML restrat code.
 KV_RESTRAT = 0.0                !   [m2 s-1] default = 0.0
                                 ! A small viscosity that sets a floor on the momentum mixing rate during
                                 ! restratification.  If this is positive, it will prevent some possible
@@ -2189,6 +2197,10 @@ PERT_EPBL = False               !   [Boolean] default = False
                                 ! If true, then stochastically perturb the kinetic energy production and
                                 ! dissipation terms.  Amplitude and correlations are controlled by the nam_stoch
                                 ! namelist in the UFS model only.
+STOCHASTICS_ANSWER_DATE = 20250101 ! default = 20250101
+                                ! The vintage of the order of arithmetic in the stochastics calculations.
+                                ! Values below 20250701 recover the answers from early in 2025, while higher
+                                ! values use expressions that have been refactored for rotational symmetry.
 
 ! === module ocean_model_init ===
 SINGLE_STEPPING_CALL = True     !   [Boolean] default = True

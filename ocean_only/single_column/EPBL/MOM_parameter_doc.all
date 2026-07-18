@@ -376,6 +376,11 @@ RESTART_CHECKSUMS_REQUIRED = True !   [Boolean] default = True
                                 ! may want to avoid this comparison if for example the restarts are made from a
                                 ! run with a different mask_table than the current run, in which case the
                                 ! checksums will not match and cause crash.
+ENSEMBLE_APPENDIX_PREFIX = ""   ! default = ""
+                                ! If set to a non-empty string, this value specifies the substring after which
+                                ! the ensemble appendix is inserted in restart, initial conditions, and ocean
+                                ! geometry file names. If the specified substring is not found in any of those
+                                ! output file names, the model terminates with an error.
 RESTART_SYMMETRIC_CHECKSUMS = False !   [Boolean] default = False
                                 ! If true, do the restart checksums on all the edge points for a non-reentrant
                                 ! grid.  This requires that SYMMETRIC_MEMORY_ is defined at compile time.
@@ -932,8 +937,11 @@ USE_GME = False                 !   [Boolean] default = False
 USE_GM_WORK_BUG = False         !   [Boolean] default = False
                                 ! If true, compute the top-layer work tendency on the u-grid with the incorrect
                                 ! sign, for legacy reproducibility.
+
+! === module MOM_stoch_eos ===
 STOCH_EOS = False               !   [Boolean] default = False
-                                ! If true, stochastic perturbations are applied to the EOS in the PGF.
+                                ! If true, computes stochastic perturbations that can be applied to the EOS in
+                                ! various places.
 STANLEY_COEFF = -1.0            !   [nondim] default = -1.0
                                 ! Coefficient correlating the temperature gradient and SGS T variance.
 
@@ -1335,7 +1343,7 @@ NLT_SHAPE = "CVMix"             ! default = "CVMix"
                                 ! CVMix.  Allowed values are:
                                 !    CVMix     - Uses the profiles from CVMix specified by MATCH_TECHNIQUE
                                 !    LINEAR    - A linear profile, 1-sigma
-                                !    PARABOLIC - A parablic profile, (1-sigma)^2
+                                !    PARABOLIC - A parabolic profile, (1-sigma)^2
                                 !    CUBIC     - A cubic profile, (1-sigma)^2(1+2*sigma)
                                 !    CUBIC_LMD - The original KPP profile
 MATCH_TECHNIQUE = "SimpleShapes" ! default = "SimpleShapes"
@@ -1368,11 +1376,21 @@ STOKES_MIXING = False           !   [Boolean] default = False
 USE_KPP_LT_VT2 = False          !   [Boolean] default = False
                                 ! Flag for Langmuir turbulence enhancement of Vt2 in Bulk Richardson Number.
 KPP_CVt2 = 1.6                  !   [nondim] default = 1.6
-                                ! Parameter for Stokes MOST convection entrainment
+                                ! Parameter for Stokes MOST convection entrainment (unresolved shear)
+KPP_ER_Cb = 0.96                !   [nondim] default = 0.96
+                                ! Entrainment Rule TKE buoyancy production weight
+KPP_ER_Cs = 0.038               !   [nondim] default = 0.038
+                                ! Entrainment Rule TKE Stokes production weight
+KPP_ER_Cu = 0.023               !   [nondim] default = 0.023
+                                ! Entrainment Rule TKE shear production weight
+KPP_OBL_DEPTH_BOUNDS_BUG = False !   [Boolean] default = False
+                                ! If true, limit the KPP boundary layer depth relative to the top of the
+                                ! bottommost layer instead of the seafloor.
 ANSWER_DATE = 99991231          ! default = 99991231
                                 ! The vintage of the order of arithmetic in the CVMix KPP calculations.  Values
                                 ! below 20240501 recover the answers from early in 2024, while higher values use
-                                ! expressions that have been refactored for rotational symmetry.
+                                ! expressions that have been refactored for rotational symmetry.  Values of
+                                ! 20260101 or higher replace some divisions with multiplication by reciprocals.
 %KPP
 
 ! === module MOM_CVMix_conv ===
@@ -1882,6 +1900,10 @@ PERT_EPBL = False               !   [Boolean] default = False
                                 ! If true, then stochastically perturb the kinetic energy production and
                                 ! dissipation terms.  Amplitude and correlations are controlled by the nam_stoch
                                 ! namelist in the UFS model only.
+STOCHASTICS_ANSWER_DATE = 20250101 ! default = 20250101
+                                ! The vintage of the order of arithmetic in the stochastics calculations.
+                                ! Values below 20250701 recover the answers from early in 2025, while higher
+                                ! values use expressions that have been refactored for rotational symmetry.
 
 ! === module MOM_surface_forcing ===
 VARIABLE_WINDS = True           !   [Boolean] default = True
