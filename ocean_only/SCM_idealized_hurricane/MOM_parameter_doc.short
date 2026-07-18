@@ -198,6 +198,8 @@ KV = 1.0E-04                    !   [m2 s-1]
 
 ! === module MOM_thickness_diffuse ===
 
+! === module MOM_stoch_eos ===
+
 ! === module MOM_dynamics_unsplit ===
 
 ! === module MOM_continuity_PPM ===
@@ -267,7 +269,8 @@ INTERP_TYPE = "cubic"           ! default = "quadratic"
 ANSWER_DATE = 20240101          ! default = 99991231
                                 ! The vintage of the order of arithmetic in the CVMix KPP calculations.  Values
                                 ! below 20240501 recover the answers from early in 2024, while higher values use
-                                ! expressions that have been refactored for rotational symmetry.
+                                ! expressions that have been refactored for rotational symmetry.  Values of
+                                ! 20260101 or higher replace some divisions with multiplication by reciprocals.
 %KPP
 
 ! === module MOM_set_diffusivity ===

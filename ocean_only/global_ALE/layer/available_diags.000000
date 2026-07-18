@@ -3647,6 +3647,34 @@
     ! units: W
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {T_ady,T_ady_xyave}
+"T_adx_resolved"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xq, yh, zl
+    ! long_name: Advective (by resolved flow) Zonal Flux of Heat
+    ! units: W
+    ! cell_methods: xq:point yh:sum zl:sum
+    ! variants: {T_adx_resolved,T_adx_resolved_xyave}
+"T_ady_resolved"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xh, yq, zl
+    ! long_name: Advective (by resolved flow) Meridional Flux of Heat
+    ! units: W
+    ! cell_methods: xh:sum yq:point zl:sum
+    ! variants: {T_ady_resolved,T_ady_resolved_xyave}
+"T_adx_param"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xq, yh, zl
+    ! long_name: Advective (by parameterized flow) Zonal Flux of Heat
+    ! units: W
+    ! cell_methods: xq:point yh:sum zl:sum
+    ! variants: {T_adx_param,T_adx_param_xyave}
+"T_ady_param"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xh, yq, zl
+    ! long_name: Advective (by parameterized flow) Meridional Flux of Heat
+    ! units: W
+    ! cell_methods: xh:sum yq:point zl:sum
+    ! variants: {T_ady_param,T_ady_param_xyave}
 "T_diffx"  [Used]
     ! modules: {ocean_model,ocean_model_z}
     ! dimensions: xq, yh, zl
@@ -3832,6 +3860,34 @@
     ! units: psu m3 s-1
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {S_ady,S_ady_xyave}
+"S_adx_resolved"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xq, yh, zl
+    ! long_name: Advective (by resolved flow) Zonal Flux of Salt
+    ! units: psu m3 s-1
+    ! cell_methods: xq:point yh:sum zl:sum
+    ! variants: {S_adx_resolved,S_adx_resolved_xyave}
+"S_ady_resolved"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xh, yq, zl
+    ! long_name: Advective (by resolved flow) Meridional Flux of Salt
+    ! units: psu m3 s-1
+    ! cell_methods: xh:sum yq:point zl:sum
+    ! variants: {S_ady_resolved,S_ady_resolved_xyave}
+"S_adx_param"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xq, yh, zl
+    ! long_name: Advective (by parameterized flow) Zonal Flux of Salt
+    ! units: psu m3 s-1
+    ! cell_methods: xq:point yh:sum zl:sum
+    ! variants: {S_adx_param,S_adx_param_xyave}
+"S_ady_param"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xh, yq, zl
+    ! long_name: Advective (by parameterized flow) Meridional Flux of Salt
+    ! units: psu m3 s-1
+    ! cell_methods: xh:sum yq:point zl:sum
+    ! variants: {S_ady_param,S_ady_param_xyave}
 "S_diffx"  [Used]
     ! modules: {ocean_model,ocean_model_z}
     ! dimensions: xq, yh, zl
@@ -4017,6 +4073,34 @@
     ! units: yr m3 s-1
     ! cell_methods: xh:sum yq:point zl:sum
     ! variants: {age_ady,age_ady_xyave}
+"age_adx_resolved"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xq, yh, zl
+    ! long_name: Ideal Age Tracer resolved advective zonal flux
+    ! units: yr m3 s-1
+    ! cell_methods: xq:point yh:sum zl:sum
+    ! variants: {age_adx_resolved,age_adx_resolved_xyave}
+"age_ady_resolved"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xh, yq, zl
+    ! long_name: Ideal Age Tracer resolved advective meridional flux
+    ! units: yr m3 s-1
+    ! cell_methods: xh:sum yq:point zl:sum
+    ! variants: {age_ady_resolved,age_ady_resolved_xyave}
+"age_adx_param"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xq, yh, zl
+    ! long_name: Ideal Age Tracer parameterized advective zonal flux
+    ! units: yr m3 s-1
+    ! cell_methods: xq:point yh:sum zl:sum
+    ! variants: {age_adx_param,age_adx_param_xyave}
+"age_ady_param"  [Unused]
+    ! modules: {ocean_model,ocean_model_z}
+    ! dimensions: xh, yq, zl
+    ! long_name: Ideal Age Tracer resolved parameterized meridional flux
+    ! units: yr m3 s-1
+    ! cell_methods: xh:sum yq:point zl:sum
+    ! variants: {age_ady_param,age_ady_param_xyave}
 "age_dfx"  [Unused]
     ! modules: {ocean_model,ocean_model_z}
     ! dimensions: xq, yh, zl
@@ -4182,7 +4266,7 @@
     ! modules: ocean_model
     ! dimensions: xq, yq
     ! long_name: random pattern for skeb
-    ! units: None
+    ! units: m
     ! cell_methods: xq:point yq:point
 "epbl1_wts"  [Unused]
     ! modules: ocean_model
@@ -4200,14 +4284,14 @@
     ! modules: {ocean_model,ocean_model_z}
     ! dimensions: xq, yh, zl
     ! long_name: zonal current perts
-    ! units: None
+    ! units: m s-1
     ! cell_methods: xq:point yh:mean zl:mean
     ! variants: {skebu,skebu_xyave}
 "skebv"  [Unused]
     ! modules: {ocean_model,ocean_model_z}
     ! dimensions: xh, yq, zl
     ! long_name: zonal current perts
-    ! units: None
+    ! units: m s-1
     ! cell_methods: xh:mean yq:point zl:mean
     ! variants: {skebv,skebv_xyave}
 "skeb_amp"  [Unused]
@@ -4221,7 +4305,7 @@
     ! modules: ocean_model
     ! dimensions: xq, yq, zl
     ! long_name: stream function
-    ! units: None
+    ! units: m2 s-1
     ! cell_methods: xq:point yq:point zl:mean
 "skeb_taper_u"  [Unused]
     ! modules: ocean_model
