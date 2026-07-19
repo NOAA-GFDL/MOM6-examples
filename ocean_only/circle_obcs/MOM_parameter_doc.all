@@ -294,6 +294,10 @@ IGNORE_DT_OBC_SEG_UPDATE_OBGC = False !   [Boolean] default = False
                                 ! updated every dynamic step, which is unnecessary, while BGC follows its own
                                 ! update schedule, which may not reproduce across restarts. Once
                                 ! DT_OBC_SEG_UPDATE_OBGC is deprecated, only the 'true' path will be needed.
+OBC_TRACER_DZ_BUG = True        !   [Boolean] default = True
+                                ! If true, recover a bug that OBC tracer segment data is read without
+                                ! recomputing segment layer thicknesses from the current layer thicknesses and
+                                ! thermodynamic state.
 OBC_SEGMENT_001 = "J=N,I=N:0,FLATHER,ORLANSKI" !
                                 ! Documentation needs to be dynamic?????
 OBC_SEGMENT_002 = "J=0,I=0:N,FLATHER,ORLANSKI" !
