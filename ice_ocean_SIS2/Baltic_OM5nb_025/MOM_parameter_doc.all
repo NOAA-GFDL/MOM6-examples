@@ -1448,11 +1448,6 @@ RHO_PGF_REF = 1035.0            !   [kg m-3] default = 1035.0
                                 ! The reference density that is subtracted off when calculating pressure
                                 ! gradient forces.  Its inverse is subtracted off of specific volumes when in
                                 ! non-Boussinesq mode.  The default is RHO_0.
-RHO_PGF_REF_BUG = True          !   [Boolean] default = True
-                                ! If true, recover a bug that RHO_0 (the mean seawater density in Boussinesq
-                                ! mode) and RHO_PGF_REF (the subtracted reference density in finite volume
-                                ! pressure gradient forces) are incorrectly interchanged in several instances in
-                                ! Boussinesq mode.
 MASS_WEIGHT_IN_PRESSURE_GRADIENT = True !   [Boolean] default = False
                                 ! If true, use mass weighting when interpolating T/S for integrals near the
                                 ! bathymetry in FV pressure gradient calculations.
