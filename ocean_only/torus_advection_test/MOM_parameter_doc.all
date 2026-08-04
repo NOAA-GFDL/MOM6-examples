@@ -1191,9 +1191,6 @@ VISC_REM_BT_WEIGHT_BUG = False  !   [Boolean] default = False
                                 ! If true, recover a bug in barotropic solver that uses an unnormalized weight
                                 ! function for vertical averages of baroclinic velocity and forcing. Default of
                                 ! this flag is set by VISC_REM_BUG.
-DTBT_RESTART_BUG = True         !   [Boolean] default = True
-                                ! If true, recover a bug where the barotropic timestep DTBT read from a restart
-                                ! file is immediately overridden by a recalculation on the first dynamics step.
 TIDAL_SAL_FLATHER = False       !   [Boolean] default = False
                                 ! If true, then apply adjustments to the external gravity wave speed used with
                                 ! the Flather OBC routine consistent with the barotropic solver. This applies to
@@ -1259,6 +1256,9 @@ DTBT = -0.9                     !   [s or nondim] default = -0.98
                                 ! use 0, or a negative value gives the fraction of the stable value. Setting
                                 ! DTBT to 0 is the same as setting it to -0.98. The value of DTBT that will
                                 ! actually be used is an integer fraction of DT, rounding down.
+DTBT_RESTART_BUG = True         !   [Boolean] default = True
+                                ! If true, recover a bug where the barotropic timestep DTBT read from a restart
+                                ! file is immediately overridden by a recalculation on the first dynamics step.
 BT_USE_OLD_CORIOLIS_BRACKET_BUG = False !   [Boolean] default = False
                                 ! If True, use an order of operations that is not bitwise rotationally symmetric
                                 ! in the meridional Coriolis term of the barotropic solver.
