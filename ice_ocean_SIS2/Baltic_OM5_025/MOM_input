@@ -522,17 +522,34 @@ V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
                                 ! diagnostic is not needed.
 
 ! === module MOM_barotropic ===
+INTEGRAL_BT_CONTINUITY = False  !   [Boolean] default = False
+                                ! If true, use the time-integrated velocity over the barotropic steps to
+                                ! determine the integrated transports used to update the continuity equation.
+                                ! Otherwise the transports are the sum of the transports based on a series of
+                                ! instantaneous velocities and the BT_CONT_TYPE for transports.  This is only
+                                ! valid if USE_BT_CONT_TYPE = True.
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the barotropic solver are
                                 ! limited to values that require less than maxCFL_BT_cont to be accommodated.
+ADJUST_BT_CONT = False          !   [Boolean] default = False
+                                ! If true, adjust the curve fit to the BT_cont type that is used by the
+                                ! barotropic solver to match the transport about which the flow is being
+                                ! linearized.
 BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! If true, step the barotropic velocity first and project out the velocity
                                 ! tendency by 1+BEBT when calculating the transport.  The default (false) is to
                                 ! use a predictor continuity step to find the pressure field, and then to do a
                                 ! corrector continuity step using a weighted average of the old and new
                                 ! velocities, with weights of (1-BEBT) and BEBT.
+BT_NONLIN_STRESS = False        !   [Boolean] default = False
+                                ! If true, use the full depth of the ocean at the start of the barotropic step
+                                ! when calculating the surface stress contribution to the barotropic
+                                ! accelerations.  Otherwise use the depth based on bathyT.
 DYNAMIC_SURFACE_PRESSURE = True !   [Boolean] default = False
                                 ! If true, add a dynamic pressure due to a viscous ice shelf, for instance.
+LINEARIZED_BT_CORIOLIS = True   !   [Boolean] default = True
+                                ! If true use the bottom depth instead of the total water column thickness in
+                                ! the barotropic Coriolis term calculations.
 BEBT = 0.2                      !   [nondim] default = 0.1
                                 ! BEBT determines whether the barotropic time stepping uses the forward-backward
                                 ! time-stepping scheme or a backward Euler scheme. BEBT is valid in the range
@@ -577,6 +594,9 @@ MLE_USE_PBL_MLD = True          !   [Boolean] default = False
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
+USE_LEGACY_DIABATIC_DRIVER = True !   [Boolean] default = True
+                                ! If true, use a legacy version of the diabatic subroutine. This is temporary
+                                ! and is needed to avoid change in answers.
 USE_LEGACY_DIABATIC_DRIVER = False !   [Boolean] default = True
                                 ! If true, use a legacy version of the diabatic subroutine. This is temporary
                                 ! and is needed to avoid change in answers.
@@ -752,6 +772,9 @@ MSTAR_CONV_ADJ = 0.667          !   [nondim] default = 0.0
 USE_MLD_ITERATION = True        !   [Boolean] default = False
                                 ! A logical that specifies whether or not to use the distance to the bottom of
                                 ! the actively turbulent boundary layer to help set the EPBL length scale.
+EPBL_MLD_ITER_BUG = True        !   [Boolean] default = True
+                                ! If true, use buggy logic that gives the wrong bounds for the next iteration
+                                ! when successive guesses increase by exactly EPBL_MLD_TOLERANCE.
 EPBL_TRANSITION_SCALE = 0.01    !   [nondim] default = 0.1
                                 ! A scale for the mixing length in the transition layer at the edge of the
                                 ! boundary layer as a fraction of the boundary layer thickness.
