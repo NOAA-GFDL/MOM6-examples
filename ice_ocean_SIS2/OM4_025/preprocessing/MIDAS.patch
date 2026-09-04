@@ -1,0 +1,66 @@
+diff --git a/MOM6_ALE/build_ale/build_ale.csh b/MOM6_ALE/build_ale/build_ale.csh
+index e464452..34535b2 100755
+--- a/MOM6_ALE/build_ale/build_ale.csh
++++ b/MOM6_ALE/build_ale/build_ale.csh
+@@ -19,8 +19,8 @@ set LISTPATHS    = $root/fms/bin/list_paths
+ 
+ 
+ if ($platform == 'gfdl_hpcs') then
+-  module load netcdf/4.2
+-  module load intel_compilers
++  module load netcdf-fortran/4.5.3
++  module load intel-oneapi-compilers/2022.0.2
+ endif
+ 
+ 
+diff --git a/Makefile_GFDL b/Makefile_GFDL
+index 1054790..6ed2ea8 100644
+--- a/Makefile_GFDL
++++ b/Makefile_GFDL
+@@ -17,10 +17,12 @@ MIDAS:	fms_build/libfms.a MOM6_ALE/build_ale/libale.a
+ 	(python setup.py config_fc --f90flags="-nowarn -i4 -r8 -DPY_SOLO" --fcompiler=intelem build >& /dev/null)
+ 	(python setup.py install --home=$(INSTALL_PATH))
+ 
+-fms_build/libfms.a:
+-	(cd fms;tar xvf fms_env.tar)
+-	(cd fms;git clone https://github.com/NOAA-GFDL/FMS.git shared;cd shared;git checkout 34097d0)
+-	(cd fms_build;./build_fms.csh)
++fms_build/libfms.a: fms/site
++	cd fms_build;./build_fms.csh
++fms/site: | fms/fms_env.tar
++	cd fms;tar xvf fms_env.tar
++fms/shared:
++	cd fms;git clone https://github.com/NOAA-GFDL/FMS.git shared;cd shared;git checkout 34097d0
+ 
+ MOM6_ALE/build_ale/libale.a:
+ 	(cd MOM6_ALE/build_ale;./build_ale.csh)
+diff --git a/fms_build/build_fms.csh b/fms_build/build_fms.csh
+index 7b61a9b..a2c4c96 100755
+--- a/fms_build/build_fms.csh
++++ b/fms_build/build_fms.csh
+@@ -17,8 +17,8 @@ set LISTPATHS    = $root/fms/bin/list_paths
+ 
+ 
+ if ($platform == 'gfdl_hpcs') then
+-  module load netcdf/4.2
+-  module load intel_compilers
++  module load netcdf-fortran/4.5.3
++  module load intel-oneapi-compilers/2022.0.2
+ endif
+ 
+ cd $root
+diff --git a/setup.py b/setup.py
+index 231c81c..4fafb75 100644
+--- a/setup.py
++++ b/setup.py
+@@ -25,9 +25,8 @@ remap_sfc_fluxes = Extension(name = 'remap_sfc_fluxes',
+ 
+ hinterp = Extension(name = 'fms_hinterp',
+                 include_dirs = ['fms_build'],
+-                library_dirs = ['fms_build'],
++                library_dirs = ['fms_build','/app/spack/2022.01.01/linux-rhel7-x86_64/gcc-11.2.0/netcdf-fortran/4.5.3-m4arkb34bmowqtb4br3xgceig3x7tovf/lib'],
+                 libraries = ['fms','netcdf','netcdff'],
+-                extra_objects = ['fms_build/*.o'],
+                 sources = ['hinterp/hinterp.f90'])
+ 
+ 

@@ -126,11 +126,12 @@ PHC2_salx.2004_08_03.nc:
 
 MIDAS:
 	git clone https://github.com/mjharriso/MIDAS.git
-	(cd MIDAS; git checkout a067a11693d97d7993c2c6522e118490666eeae0)
+	(cd MIDAS; git checkout a067a11693d97d7993c2c6522e118490666eeae0; git apply ../MIDAS.patch)
 
 local: MIDAS
 	-rm -rf $</build/*
 	mkdir -p $@
+	cd $<; make -f Makefile_GFDL fms/shared ; make -f Makefile_GFDL fms/site ; patch fms/site/gfdl_hpcs/mkmf.template ../mkmf.patch
 	cd $<; make -f Makefile_GFDL INSTALL_PATH=../local
 	touch $@
 
