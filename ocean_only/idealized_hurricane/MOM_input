@@ -251,6 +251,29 @@ KVML = 0.0                      !   [m2 s-1] default = 1.0E-06
                                 ! KVML is not used if BULKMIXEDLAYER is true.  The default is set by KV.
 
 ! === module MOM_barotropic ===
+INTEGRAL_BT_CONTINUITY = False  !   [Boolean] default = False
+                                ! If true, use the time-integrated velocity over the barotropic steps to
+                                ! determine the integrated transports used to update the continuity equation.
+                                ! Otherwise the transports are the sum of the transports based on a series of
+                                ! instantaneous velocities and the BT_CONT_TYPE for transports.  This is only
+                                ! valid if USE_BT_CONT_TYPE = True.
+ADJUST_BT_CONT = False          !   [Boolean] default = False
+                                ! If true, adjust the curve fit to the BT_cont type that is used by the
+                                ! barotropic solver to match the transport about which the flow is being
+                                ! linearized.
+BT_PROJECT_VELOCITY = False     !   [Boolean] default = False
+                                ! If true, step the barotropic velocity first and project out the velocity
+                                ! tendency by 1+BEBT when calculating the transport.  The default (false) is to
+                                ! use a predictor continuity step to find the pressure field, and then to do a
+                                ! corrector continuity step using a weighted average of the old and new
+                                ! velocities, with weights of (1-BEBT) and BEBT.
+BT_NONLIN_STRESS = False        !   [Boolean] default = False
+                                ! If true, use the full depth of the ocean at the start of the barotropic step
+                                ! when calculating the surface stress contribution to the barotropic
+                                ! accelerations.  Otherwise use the depth based on bathyT.
+LINEARIZED_BT_CORIOLIS = True   !   [Boolean] default = True
+                                ! If true use the bottom depth instead of the total water column thickness in
+                                ! the barotropic Coriolis term calculations.
 DTBT = 30.0                     !   [s or nondim] default = -0.98
                                 ! The barotropic time step, in s. DTBT is only used with the split explicit time
                                 ! stepping. To set the time step automatically based the maximum stable value
@@ -262,6 +285,9 @@ DTBT = 30.0                     !   [s or nondim] default = -0.98
 
 ! === module MOM_diabatic_driver ===
 ! The following parameters are used for diabatic processes.
+USE_LEGACY_DIABATIC_DRIVER = True !   [Boolean] default = True
+                                ! If true, use a legacy version of the diabatic subroutine. This is temporary
+                                ! and is needed to avoid change in answers.
 
 ! === module MOM_CVMix_KPP ===
 ! This is the MOM wrapper to CVMix:KPP
@@ -294,6 +320,9 @@ USE_JACKSON_PARAM = True        !   [Boolean] default = False
 VERTEX_SHEAR = True             !   [Boolean] default = False
                                 ! If true, do the calculations of the shear-driven mixing at the cell vertices
                                 ! (i.e., the vorticity points).
+VERTEX_SHEAR_VISCOSITY_BUG = True !   [Boolean] default = True
+                                ! If true, use a bug in vertex shear that zeros out viscosities at vertices on
+                                ! coastlines.
 KAPPA_SHEAR_VERTEX_PSURF_BUG = False !   [Boolean] default = True
                                 ! If true, do a simple average of the cell surface pressures to get a pressure
                                 ! at the corner if VERTEX_SHEAR=True.  Otherwise mask out any land points in the

@@ -159,6 +159,15 @@ MINIMUM_DEPTH = 9.5             !   [m] default = 0.0
 ! === module MOM_open_boundary ===
 ! Controls where open boundaries are located, what kind of boundary condition to impose, and what data to apply,
 ! if any.
+OBC_PROJECTION_BUG = True       !   [Boolean] default = True
+                                ! If false, use only interior ocean points at OBCs to specify several
+                                ! calculations at OBC points, and it avoids applying a land mask at the bay-like
+                                ! intersection of orthogonal OBC segments.  Otherwise the calculation of terms
+                                ! like the potential vorticity used in the barotropic solver relies on
+                                ! bathymetry or other fields being projected outward across OBCs.  This option
+                                ! changes answers for some configurations that use OBCs.
+
+! === module MOM_fixed_initialization ===
 MASKING_DEPTH = 0.0             !   [m] default = -9999.0
                                 ! The depth below which to mask points as land points, for which all fluxes are
                                 ! zeroed out. MASKING_DEPTH is ignored if negative.
@@ -547,6 +556,16 @@ V_TRUNC_FILE = "V_velocity_truncations" ! default = ""
                                 ! diagnostic is not needed.
 
 ! === module MOM_barotropic ===
+INTEGRAL_BT_CONTINUITY = False  !   [Boolean] default = False
+                                ! If true, use the time-integrated velocity over the barotropic steps to
+                                ! determine the integrated transports used to update the continuity equation.
+                                ! Otherwise the transports are the sum of the transports based on a series of
+                                ! instantaneous velocities and the BT_CONT_TYPE for transports.  This is only
+                                ! valid if USE_BT_CONT_TYPE = True.
+ADJUST_BT_CONT = False          !   [Boolean] default = False
+                                ! If true, adjust the curve fit to the BT_cont type that is used by the
+                                ! barotropic solver to match the transport about which the flow is being
+                                ! linearized.
 BOUND_BT_CORRECTION = True      !   [Boolean] default = False
                                 ! If true, the corrective pseudo mass-fluxes into the barotropic solver are
                                 ! limited to values that require less than maxCFL_BT_cont to be accommodated.
@@ -558,6 +577,13 @@ BT_PROJECT_VELOCITY = True      !   [Boolean] default = False
                                 ! velocities, with weights of (1-BEBT) and BEBT.
 DYNAMIC_SURFACE_PRESSURE = True !   [Boolean] default = False
                                 ! If true, add a dynamic pressure due to a viscous ice shelf, for instance.
+BT_NONLIN_STRESS = False        !   [Boolean] default = False
+                                ! If true, use the full depth of the ocean at the start of the barotropic step
+                                ! when calculating the surface stress contribution to the barotropic
+                                ! accelerations.  Otherwise use the depth based on bathyT.
+LINEARIZED_BT_CORIOLIS = True   !   [Boolean] default = True
+                                ! If true use the bottom depth instead of the total water column thickness in
+                                ! the barotropic Coriolis term calculations.
 BEBT = 0.2                      !   [nondim] default = 0.1
                                 ! BEBT determines whether the barotropic time stepping uses the forward-backward
                                 ! time-stepping scheme or a backward Euler scheme. BEBT is valid in the range
