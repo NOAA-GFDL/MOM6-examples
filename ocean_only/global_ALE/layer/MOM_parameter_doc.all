@@ -1811,6 +1811,13 @@ GEOTHERMAL_FILE = "geothermal_heating_cm2g.nc" ! default = ""
                                 ! constant heating rate.
 GEOTHERMAL_THICKNESS = 0.1      !   [m] default = 0.1
                                 ! The thickness over which to apply geothermal heating.
+GEOTHERMAL_MIN_COLUMN_THICKNESS = 0.0 !   [m] default = 0.0
+                                ! The minimum total thickness of a water column for geothermal heating to be
+                                ! applied to it.  Where a column is thinner than GEOTHERMAL_THICKNESS the
+                                ! temperature increment from geothermal heating is independent of the column
+                                ! thickness, so a near-vanished column (such as one under grounded ice) warms
+                                ! without bound.  Setting this to a positive value omits the heating in such
+                                ! columns.  The default of 0 reproduces the previous behavior.
 GEOTHERMAL_DRHO_DT_INPLACE = -0.01 !   [kg m-3 K-1] default = -0.01
                                 ! The value of drho_dT above which geothermal heating simply heats water in
                                 ! place instead of moving it between isopycnal layers.  This must be negative.

@@ -1977,6 +1977,13 @@ GEOTHERMAL_FILE = "geothermal_davies2013_v1.nc" ! default = ""
                                 ! constant heating rate.
 GEOTHERMAL_THICKNESS = 0.1      !   [m] default = 0.1
                                 ! The thickness over which to apply geothermal heating.
+GEOTHERMAL_MIN_COLUMN_THICKNESS = 0.0 !   [m] default = 0.0
+                                ! The minimum total thickness of a water column for geothermal heating to be
+                                ! applied to it.  Where a column is thinner than GEOTHERMAL_THICKNESS the
+                                ! temperature increment from geothermal heating is independent of the column
+                                ! thickness, so a near-vanished column (such as one under grounded ice) warms
+                                ! without bound.  Setting this to a positive value omits the heating in such
+                                ! columns.  The default of 0 reproduces the previous behavior.
 GEOTHERMAL_VARNAME = "geothermal_hf" ! default = "geo_heat"
                                 ! The name of the geothermal heating variable in GEOTHERMAL_FILE.
 
