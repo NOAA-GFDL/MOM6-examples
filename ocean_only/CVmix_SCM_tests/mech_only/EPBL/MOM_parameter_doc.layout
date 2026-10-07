@@ -54,3 +54,18 @@ NIBLOCK = 1                     ! default = 1
                                 ! The number of blocks in the x-direction on each processor (for openmp).
 NJBLOCK = 1                     ! default = 1
                                 ! The number of blocks in the y-direction on each processor (for openmp).
+
+! === module MOM_continuity_PPM ===
+CONTINUITY_NIBLOCK = 0          ! default = 0
+                                ! The i-direction block size used in the mass and volume flux calculations. A
+                                ! value of 0 uses the full computational i-domain extent.
+CONTINUITY_NJBLOCK = 1          ! default = 1
+                                ! The j-direction block size used in the mass and volume flux calculations. A
+                                ! value of 0 uses the full computational j-domain extent.
+CONTINUITY_NKBLOCK = 1          ! default = 1
+                                ! The k-direction block size used in PPM reconstruction edge value calculations.
+                                ! A value of 0 uses the full vertical column.
+CORIOLIS_ADV_NKBLOCK = 1        ! default = 1
+                                ! advection calculations. A value of 0 uses the full vertical column.
+HORVISC_NKBLOCK = 1             ! default = 1
+                                ! advection calculations. A value of 0 uses the full vertical column.
