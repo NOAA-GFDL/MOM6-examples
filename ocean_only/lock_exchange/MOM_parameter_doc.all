@@ -1574,6 +1574,10 @@ OPACITY_LAND_VALUE = 10.0       !   [m-1] default = 10.0
                                 ! muddy water.
 
 ! === module MOM_tracer_advect ===
+TRACER_ADVECT_HALO_TRANSPORT_BUG = True !   [Boolean] default = True
+                                ! If true, recover a bug that meridional-first tracer advection can skip
+                                ! transports in halo columns, leaving inconsistent tracer fluxes at processor
+                                ! boundaries.
 TRACER_ADVECTION_SCHEME = "PLM" ! default = "PLM"
                                 ! The horizontal transport scheme for tracers:
                                 !   PLM    - Piecewise Linear Method
