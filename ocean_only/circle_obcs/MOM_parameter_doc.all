@@ -1691,6 +1691,10 @@ REGULARIZE_SURFACE_LAYERS = False !   [Boolean] default = False
                                 ! much lateral variations to allow for sensible lateral barotropic transports.
 
 ! === module MOM_tracer_advect ===
+TRACER_ADVECT_RESIDUAL_BUG = True !   [Boolean] default = True
+                                ! If true, recover a bug that online tracer advection can discard remaining
+                                ! transports and interpret tracer concentrations on inconsistent layer
+                                ! thicknesses.
 TRACER_ADVECT_HALO_TRANSPORT_BUG = True !   [Boolean] default = True
                                 ! If true, recover a bug that meridional-first tracer advection can skip
                                 ! transports in halo columns, leaving inconsistent tracer fluxes at processor
