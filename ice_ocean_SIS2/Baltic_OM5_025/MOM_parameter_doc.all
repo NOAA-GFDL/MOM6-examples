@@ -2696,6 +2696,11 @@ USE_NET_FW_ADJUSTMENT_SIGN_BUG = False !   [Boolean] default = False
 ADJUST_NET_FRESH_WATER_BY_SCALING = False !   [Boolean] default = False
                                 ! If true, adjustments to net fresh water to achieve zero net are made by
                                 ! scaling values without moving the zero contour.
+NET_FW_ADJUST_EXCLUDE_SHELF = False !   [Boolean] default = False
+                                ! If true, the adjustment of the net fresh-water forcing to zero is not applied
+                                ! to cells that are covered by ice shelves, which can be too thin to absorb it.
+                                ! The adjustment is spread uniformly over the remaining ocean cells.  This is
+                                ! not used with ADJUST_NET_FRESH_WATER_BY_SCALING.
 ICE_SALT_CONCENTRATION = 0.005  !   [kg/kg] default = 0.005
                                 ! The assumed sea-ice salinity needed to reverse engineer the melt flux (or
                                 ! ice-ocean fresh-water flux).

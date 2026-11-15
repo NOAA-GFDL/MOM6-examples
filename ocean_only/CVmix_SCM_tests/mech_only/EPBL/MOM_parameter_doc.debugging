@@ -73,6 +73,10 @@ DEBUG_FULL_COLUMN = False       !   [Boolean] default = False
 ! The following parameters are used for diabatic processes.
 DEBUG_CONSERVATION = False      !   [Boolean] default = False
                                 ! If true, monitor conservation and extrema.
+PRINT_GROUNDING_FLUXES = True   !   [Boolean] default = True
+                                ! If true, print all of the surface fluxes at each point where a warning about
+                                ! mass being created is issued because the fluxes could not be applied.  Setting
+                                ! this to false suppresses the long list of fluxes, but not the warning itself.
 CHECK_SALT_BRINE_PLUME = False  !   [Boolean] default = False
                                 ! If true, check for conservation in the brine plume scheme.
 WRITE_TRACER_MIN_MAX = False    !   [Boolean] default = False
