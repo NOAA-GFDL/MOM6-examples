@@ -594,6 +594,10 @@ MIN_THICKNESS = 0.001           !   [m] default = 0.001
 USE_ADJUST_INTERFACE_MOTION = True !   [Boolean] default = True
                                 ! When regridding, after the primary grid generation, call a function that
                                 ! ensures positive layer thicknesses. Historically, this was required.
+HYCOM1_REGRID_CONSERVATION_BUG = True !   [Boolean] default = True
+                                ! If true, recover a bug that HYCOM1 regridding can change column thickness
+                                ! through roundoff in boundary motion and clipping of negative layer
+                                ! thicknesses.
 HYCOM1_ONLY_IMPROVES = False    !   [Boolean] default = False
                                 ! When regridding, an interface is only moved if this improves the fit to the
                                 ! target density.
