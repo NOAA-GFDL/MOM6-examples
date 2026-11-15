@@ -73,6 +73,10 @@ DEBUG_CONSERVATION = False      !   [Boolean] default = False
 
 ! === module MOM_kappa_shear ===
 ! Parameterization of shear-driven turbulence following Jackson, Hallberg and Legg, JPO 2008
+PRINT_GROUNDING_FLUXES = True   !   [Boolean] default = True
+                                ! If true, print all of the surface fluxes at each point where a warning about
+                                ! mass being created is issued because the fluxes could not be applied.  Setting
+                                ! this to false suppresses the long list of fluxes, but not the warning itself.
 CHECK_SALT_BRINE_PLUME = False  !   [Boolean] default = False
                                 ! If true, check for conservation in the brine plume scheme.
 WRITE_TRACER_MIN_MAX = False    !   [Boolean] default = False
