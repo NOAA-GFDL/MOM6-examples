@@ -1494,6 +1494,11 @@ MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
                                 ! only be used if BULKMIXEDLAYER is true.
 USE_STANLEY_ML = False          !   [Boolean] default = False
                                 ! If true, turn on Stanley SGS T variance parameterization in ML restrat code.
+RESTRAT_SCHEME = "FOX-KEMPER"   ! default = "FOX-KEMPER"
+                                ! Mixed-layer restratification scheme:
+                                !    FOX-KEMPER - Fox-Kemper et al. (2008, 2011)
+                                !    BODNER23   - Bodner et al. (2023), ALE mode only
+                                !    ZHANG23    - Zhang et al. (2023), ALE mode only
 MLE%
 %MLE
 FOX_KEMPER_ML_RESTRAT_COEF = 20.0 !   [nondim] default = 0.0

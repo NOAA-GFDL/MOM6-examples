@@ -1817,10 +1817,12 @@ MIXEDLAYER_RESTRAT = True       !   [Boolean] default = False
                                 ! only be used if BULKMIXEDLAYER is true.
 USE_STANLEY_ML = False          !   [Boolean] default = False
                                 ! If true, turn on Stanley SGS T variance parameterization in ML restrat code.
+RESTRAT_SCHEME = "BODNER23"     ! default = "BODNER23"
+                                ! Mixed-layer restratification scheme:
+                                !    FOX-KEMPER - Fox-Kemper et al. (2008, 2011)
+                                !    BODNER23   - Bodner et al. (2023), ALE mode only
+                                !    ZHANG23    - Zhang et al. (2023), ALE mode only
 MLE%
-USE_BODNER23 = True             !   [Boolean] default = False
-                                ! If true, use the Bodner et al., 2023, formulation of the re-stratifying
-                                ! mixed-layer restratification parameterization. This only works in ALE mode.
 CR = 0.0175                     !   [nondim] default = 0.0
                                 ! The efficiency coefficient in eq 27 of Bodner et al., 2023.
 BODNER_NSTAR = 0.066            !   [nondim] default = 0.066
